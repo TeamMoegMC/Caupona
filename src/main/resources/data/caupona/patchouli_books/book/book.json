@@ -1,0 +1,10 @@
+{
+  "name": "item.caupona.book",
+  "landing_text": "book.caupona.landing_text",
+  "version": 1,
+  "book_texture": "caupona:textures/gui/book.png",
+  "model": "caupona:book",
+  "show_progress": false,
+  "filler_texture":"caupona:textures/gui/page_filler.png",
+  "creative_tab": "caupona"
+}

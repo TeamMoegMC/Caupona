@@ -1,0 +1,28 @@
+
+{
+  "name": "汤底",
+  "icon": "caupona:water_or_stock_based",
+  "category": "intro",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "text",
+      "text": "汤底对汤有额外的属性调节作用，使用不同的汤底有不同的功能。"
+    },
+    {
+      "type": "spotlight",
+      "item": "caupona:plain_water",
+      "text": "水平平无奇，没有任何特殊的属性。"
+    },
+    {
+      "type": "spotlight",
+      "item": "caupona:plain_milk",
+      "text": "牛奶会额外提供一些饱和度。"
+    },
+    {
+      "type": "spotlight",
+      "item": "caupona:stock",
+      "text": "高汤会额外提供一些饱和度和饱食度。"
+    }
+  ]
+}

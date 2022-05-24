@@ -1,0 +1,27 @@
+
+{
+  "name": "Kitchen Stove",
+  "icon": "caupona:kitchen_stove_t2",
+  "category": "intro",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Kitchen Stoves can be used to heat cooking devices."
+    },
+    {
+      "type": "text",
+      "text": "Kitchen Stoves would stop working after idling for a while. "
+    },
+    {
+      "type": "crafting",
+      "recipe": "caupona:kitchen_stove_t1",
+      "text": "Stone Stove is cheap and useful."
+    },
+    {
+      "type": "crafting",
+      "recipe": "caupona:kitchen_stove_t2",
+      "text": "Brick Stove is faster, but cost more fuel."
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.teammoeg.caupona.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "caupona.refmap.json",
+  "mixins": [
+  "DietApiImplMixin"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

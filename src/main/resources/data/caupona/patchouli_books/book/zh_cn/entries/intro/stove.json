@@ -1,0 +1,27 @@
+
+{
+  "name": "灶台",
+  "icon": "caupona:kitchen_stove_t2",
+  "category": "intro",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "text",
+      "text": "灶台可以用于加热各种锅，它需要消耗熔炉燃料进行燃烧。"
+    },
+    {
+      "type": "text",
+      "text": "灶台可以在没有工作一段时间之后自动关闭，需要的时候随时重新开始，无需手动操作。"
+    },
+    {
+      "type": "crafting",
+      "recipe": "caupona:kitchen_stove_t1",
+      "text": "普通灶台便宜耐用。"
+    },
+    {
+      "type": "crafting",
+      "recipe": "caupona:kitchen_stove_t2",
+      "text": "高级灶台速度更快，但是会更费燃料。"
+    }
+  ]
+}

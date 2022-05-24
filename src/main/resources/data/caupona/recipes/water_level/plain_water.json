@@ -1,0 +1,8 @@
+{
+  "type": "watersource:water_level_item",
+  "ingredient": {
+    "item": "caupona:plain_water"
+  },
+  "waterLevel": 4,
+  "waterSaturationLevel": 2
+}

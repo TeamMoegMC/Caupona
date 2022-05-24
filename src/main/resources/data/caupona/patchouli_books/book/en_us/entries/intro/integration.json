@@ -1,0 +1,17 @@
+{
+  "name": "Integrations",
+  "icon": "minecraft:grass_block",
+  "category": "intro",
+  "sortnum": 100,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Soup has a dynamic food value, which is not supported by some other hunger display mod, so don't trust their values."
+    },
+     {
+      "type": "text",
+      "text": "Soup has a food value of adding up all of its ingredients.",
+      "flag": "mod:diet"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "minecraft:blocks/coal_block"
+  },
+  "loader": "forge:obj",
+  "model": "caupona:models/block/kitchen_stove_charcoal.obj",
+  "detectCullableFaces": false,
+  "flip-v": true
+}

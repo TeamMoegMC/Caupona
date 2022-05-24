@@ -1,0 +1,20 @@
+{
+  "name": "Soup",
+  "icon": "caupona:acquacotta",
+  "category": "intro",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Soup is a kind of hot drink, its type depends on its ingrendients, and it inherits attributes from all of its ingredients. A bowl of soup contains 250 mb of fluid."
+    },
+     {
+      "type": "text",
+      "text": "Soup can be cooked with ediable raw ingredients, and they would become cooked ones after cooking."
+    },
+    {
+      "type": "text",
+      "text": "Potions can also be added to soups, but double duration and three different kind of potion at most."
+    }
+  ]
+}

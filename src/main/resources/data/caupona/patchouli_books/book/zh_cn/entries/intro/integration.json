@@ -1,0 +1,17 @@
+{
+  "name": "mod联动",
+  "icon": "minecraft:grass_block",
+  "category": "intro",
+  "sortnum": 100,
+  "pages": [
+    {
+      "type": "text",
+      "text": "不同的汤有着不同的饥饿值，所以饥饿显示的模组可能不能正确显示汤增加的饥饿值。"
+    },
+     {
+      "type": "text",
+      "text": "汤的营养值是所有原材料之和。",
+      "flag": "mod:diet"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+    "type": "watersource:thirst_item",
+    "ingredient": {
+        "item": "caupona:plain_water"
+    },
+	"duration": 1600,
+	"amplifier": 0,
+	"probability": 75
+}

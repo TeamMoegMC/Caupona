@@ -1,0 +1,91 @@
+/*
+ * Copyright (c) 2022 TeamMoeg
+ *
+ * This file is part of Caupona.
+ *
+ * Caupona is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * Caupona is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package com.teammoeg.caupona;
+
+import javax.annotation.Nonnull;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.teammoeg.caupona.Contents.CPBlocks;
+import com.teammoeg.caupona.client.Particles;
+import com.teammoeg.caupona.data.RecipeReloadListener;
+import com.teammoeg.caupona.network.PacketHandler;
+
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
+@Mod(Main.MODID)
+public class Main {
+
+	public static final String MODID = "caupona";
+	public static final String MODNAME = "Caupona";
+	public static final Logger logger = LogManager.getLogger(MODNAME);
+	public static final CreativeModeTab itemGroup = new CreativeModeTab(MODID) {
+		@Override
+		@Nonnull
+		public ItemStack makeIcon() {
+			return new ItemStack(CPBlocks.stew_pot);
+		}
+	};
+
+	public static ResourceLocation rl(String path) {
+		return new ResourceLocation(MODID, path);
+	}
+
+	public Main() {
+		IEventBus mod = FMLJavaModLoadingContext.get().getModEventBus();
+		
+		mod.addListener(this::setup);
+		mod.addListener(this::processIMC);
+		mod.addListener(this::enqueueIMC);
+		Config.register();
+		PacketHandler.register();
+		ForgeMod.enableMilkFluid();
+		Contents.CPItems.init();
+		Contents.CPBlocks.init();
+		CPFluids.init();
+		Contents.CPTileTypes.REGISTER.register(mod);
+		Contents.CPGui.CONTAINERS.register(mod);
+		Particles.REGISTER.register(mod);
+		MinecraftForge.EVENT_BUS.register(RecipeReloadListener.class);
+		CPFluids.FLUIDS.register(mod);
+		Contents.CPRecipes.RECIPE_SERIALIZERS.register(mod);
+		Contents.CPRecipes.registerRecipeTypes();
+	}
+
+	public void setup(final FMLCommonSetupEvent event) {
+	}
+
+	private void enqueueIMC(final InterModEnqueueEvent event) {
+	}
+
+	private void processIMC(final InterModProcessEvent event) {
+
+	}
+}

@@ -1,0 +1,31 @@
+name: Mod Support
+description: Any relavent mods you want us to support? Use this.
+title: "[Support] "
+labels: enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting a mod support, please search ensure that is not mentioned before. 
+  - type: textarea
+    id: mod
+    attributes:
+      label: Mod(s) to support
+      description: Which mod(s) do you want us to support?
+      placeholder: |
+        1. Mod name(download or description website url)
+        2. Another Mod name(download or description website url)
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: wanted
+    attributes:
+      label: What to support
+      description: Tell us what support do you want. Order should match mods above
+      placeholder: |
+        1. (tag/recipe/anything else)
+        2. (tag/recipe/anything else)
+        3. ...
+    validations:
+      required: true

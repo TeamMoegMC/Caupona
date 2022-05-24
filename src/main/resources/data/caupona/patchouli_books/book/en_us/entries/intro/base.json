@@ -1,0 +1,28 @@
+
+{
+  "name": "Soup fluids",
+  "icon": "caupona:water_or_stock_based",
+  "category": "intro",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "text",
+      "text": "The fluid ingredient of soup regulates effects of the soup."
+    },
+    {
+      "type": "spotlight",
+      "item": "caupona:plain_water",
+      "text": "Water is plain and has nothing special."
+    },
+    {
+      "type": "spotlight",
+      "item": "caupona:plain_milk",
+      "text": "Milk would provide extra saturation."
+    },
+    {
+      "type": "spotlight",
+      "item": "caupona:stock",
+      "text": "Stock would provide more hunger healing."
+    }
+  ]
+}
