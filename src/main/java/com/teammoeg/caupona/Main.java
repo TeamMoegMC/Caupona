@@ -76,7 +76,8 @@ public class Main {
 		MinecraftForge.EVENT_BUS.register(RecipeReloadListener.class);
 		CPFluids.FLUIDS.register(mod);
 		Contents.CPRecipes.RECIPE_SERIALIZERS.register(mod);
-		
+		Config.register();
+		PacketHandler.register();
 	}
 
 

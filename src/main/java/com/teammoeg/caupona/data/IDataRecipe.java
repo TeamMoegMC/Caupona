@@ -31,10 +31,7 @@ public abstract class IDataRecipe implements Recipe<Container> {
 	public ResourceLocation getId() {
 		return id;
 	}
-
-
 	ResourceLocation id;
-
 	public IDataRecipe(ResourceLocation id) {
 		this.id = id;
 	}

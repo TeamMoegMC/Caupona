@@ -18,6 +18,7 @@
 
 package com.teammoeg.caupona.client;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.KitchenStoveTileEntity;
@@ -25,6 +26,7 @@ import com.teammoeg.caupona.container.KitchenStoveContainer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
@@ -41,7 +43,9 @@ public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveCont
 	@Override
 	protected void renderBg(PoseStack matrixStack, float partialTicks, int x, int y) {
 		this.renderBackground(matrixStack);
-		Minecraft.getInstance().getTextureManager().bindForSetup(TEXTURE);
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, TEXTURE);
 
 		this.blit(matrixStack, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (te.processMax > 0 && te.process > 0) {

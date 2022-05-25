@@ -28,6 +28,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -75,17 +76,16 @@ public class RegistryEvents {
 			}
 		}
 	}
+
+
 	@SubscribeEvent
 	public void setup(final FMLCommonSetupEvent event) {
-		System.out.println("csu");
 		
 		
-		
-		Config.register();
-		PacketHandler.register();
-		
-		Contents.CPRecipes.registerRecipeTypes();
-		
+	}
+	@SubscribeEvent
+	public static void registerRecipeTypes(RegistryEvent.Register<?> event) {
+		CPRecipes.registerRecipeTypes();
 	}
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {

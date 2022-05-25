@@ -71,7 +71,7 @@ public class DietApiImplMixin extends DietApi {
 		}
 		result.setReturnValue(new DietResult(groups));
 	}
-	@Inject(at = @At("HEAD"), require = 1, method = "get(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/item/ItemStack;)Ltop/theillusivec4/diet/api/IDietResult;", cancellable = true, remap = false)
+	@Inject(at = @At("HEAD"), require = 1, method = "get(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/item/ItemStack;)Ltop/theillusivec4/diet/api/IDietResult;", cancellable = true, remap = false)
 	public void get(Player player, ItemStack input, CallbackInfoReturnable<IDietResult> result) {
 		CP$getResult(player,input,result);
 	}
@@ -80,10 +80,10 @@ public class DietApiImplMixin extends DietApi {
 	 * @param heal
 	 * @param sat
 	 */
-	@Inject(at = @At("HEAD"), require = 1, method = "get(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/item/ItemStack;IF)Ltop/theillusivec4/diet/api/IDietResult;", cancellable = true, remap = false)
+	/*@Inject(at = @At("HEAD"), require = 1, method = "get(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/item/ItemStack;IF)Ltop/theillusivec4/diet/api/IDietResult;", cancellable = true, remap = false)
 	public void get(Player player, ItemStack input, int heal, float sat,
 			CallbackInfoReturnable<IDietResult> result) {
 		CP$getResult(player,input,result);
-	}
+	}*/
 
 }

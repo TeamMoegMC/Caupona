@@ -24,6 +24,7 @@ import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.core.Registry;
+import net.minecraft.data.tags.FluidTagsProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -49,7 +50,8 @@ public class FluidTag implements StewBaseCondition {
 		Fluid f = ForgeRegistries.FLUIDS.getValue(t);
 		if (f == null)
 			return false;
-		return Registry.FLUID.createIntrusiveHolder(f).getTagKeys().anyMatch(i->i.location().equals(tag));
+		
+		return f.builtInRegistryHolder().getTagKeys().anyMatch(i->i.location().equals(tag));
 	}
 
 	public JsonObject serialize() {

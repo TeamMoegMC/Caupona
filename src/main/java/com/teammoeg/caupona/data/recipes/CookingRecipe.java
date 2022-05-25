@@ -31,11 +31,15 @@ import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -46,18 +50,18 @@ public class CookingRecipe extends IDataRecipe {
 	public static List<CookingRecipe> sorted;
 	public static RecipeType<?> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
-	public static final ResourceLocation cookable = new ResourceLocation(Main.MODID, "cookable");
-	public static final ResourceLocation boilable = new ResourceLocation(Main.MODID, "boilable");
+	public static final TagKey<Item> cookable = ItemTags.create(new ResourceLocation(Main.MODID, "cookable"));
+	public static final TagKey<Fluid> boilable = FluidTags.create(new ResourceLocation(Main.MODID, "boilable"));
 
 	public static boolean isCookable(ItemStack stack) {
 		FloatemTagStack s = new FloatemTagStack(stack);
-		return /*stack.getTags().contains(cookable) || */cookables.stream().anyMatch(e -> e.fits(s));
+		return stack.getItem().builtInRegistryHolder().containsTag(cookable) || cookables.stream().anyMatch(e -> e.fits(s));
 		//return true;
 	}
 
 	public static boolean isBoilable(FluidStack f) {
 		Fluid fd = f.getFluid();
-		return fd instanceof SoupFluid /*|| f.getTags().contains(boilable)*/ || recipes.keySet().contains(fd);
+		return fd instanceof SoupFluid || f.getFluid().builtInRegistryHolder().containsTag(boilable)|| recipes.keySet().contains(fd);
 	}
 
 	@Override

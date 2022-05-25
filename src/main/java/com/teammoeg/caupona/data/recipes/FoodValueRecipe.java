@@ -184,7 +184,7 @@ public class FoodValueRecipe extends IDataRecipe {
 	}
 	public Set<ResourceLocation> getTags() {
 		if (tags == null)
-			tags = processtimes.keySet().stream().flatMap(i->(Registry.ITEM.createIntrusiveHolder(i).getTagKeys().map(TagKey::location)))
+			tags = processtimes.keySet().stream().flatMap(i->(i.builtInRegistryHolder().getTagKeys().map(TagKey::location)))
 					.filter(CountingTags.tags::contains).collect(Collectors.toSet());
 		return tags;
 	}

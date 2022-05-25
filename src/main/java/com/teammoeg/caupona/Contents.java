@@ -172,6 +172,7 @@ public class Contents {
 							FoodValueRecipe::write));
 			FluidFoodValueRecipe.SERIALIZER=RECIPE_SERIALIZERS.register("fluid_food",() ->new CPRecipeSerializer<FluidFoodValueRecipe>(FluidFoodValueRecipe::new, FluidFoodValueRecipe::new,
 					FluidFoodValueRecipe::write));
+			
 		}
 
 		public static void registerRecipeTypes() {

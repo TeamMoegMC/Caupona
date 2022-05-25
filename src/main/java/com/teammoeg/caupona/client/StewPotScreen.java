@@ -31,6 +31,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.client.gui.GuiUtils;
@@ -184,7 +185,9 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 	@Override
 	protected void renderBg(PoseStack transform, float partial, int x, int y) {
 		this.renderBackground(transform);
-		Minecraft.getInstance().getTextureManager().bindForSetup(TEXTURE);
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, TEXTURE);
 
 		this.blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (te.processMax > 0 && te.process > 0) {
