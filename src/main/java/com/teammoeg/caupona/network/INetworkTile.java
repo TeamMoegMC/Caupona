@@ -39,6 +39,9 @@ public abstract class INetworkTile extends BlockEntity {
 	}
 
 	public void syncData() {
+		BlockState lvl=level.getBlockState(getBlockPos());
+		if(!this.getBlockState().equals(lvl))
+			this.setBlockState(lvl);
 		this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
 		this.setChanged();
 	}

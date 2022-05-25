@@ -88,7 +88,9 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 			if (this.isHoveredOrFocused()) {
 				i += this.width;
 			}
-			Minecraft.getInstance().getTextureManager().bindForSetup(TEXTURE);
+			RenderSystem.setShader(GameRenderer::getPositionTexShader);
+	        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+	        RenderSystem.setShaderTexture(0, TEXTURE);
 			RenderSystem.enableDepthTest();
 			blit(matrixStack, this.x, this.y, this.xTexStart + i, this.yTexStart + j, this.width, this.height,
 					this.textureWidth, this.textureHeight);
@@ -128,7 +130,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 		super.init();
 		
 		this.clearWidgets();
-		this.addWidget(btn1 = new ImageButton(leftPos + 7, topPos + 48, 20, 12, 176, 83, (b, s, x, y) -> {
+		this.addRenderableWidget(btn1 = new ImageButton(leftPos + 7, topPos + 48, 20, 12, 176, 83, (b, s, x, y) -> {
 			if (btn1.state == 0)
 				tooltip.add(start);
 			else
@@ -138,7 +140,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 				te.sendMessage((short) 0, 0);
 
 		}));
-		this.addWidget(btn2 = new ImageButton(leftPos + 7, topPos + 61, 20, 20, 176, 107, (b, s, x, y) -> {
+		this.addRenderableWidget(btn2 = new ImageButton(leftPos + 7, topPos + 61, 20, 20, 176, 107, (b, s, x, y) -> {
 			if (btn2.state == 1)
 				tooltip.add(nors);
 			else

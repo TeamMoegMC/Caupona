@@ -62,18 +62,22 @@ public class KitchenStoveTileEntity extends INetworkTile implements Container, M
 	public void readCustomNBT(CompoundTag nbt, boolean isClient) {
 		process=nbt.getInt("process");
 		processMax=nbt.getInt("processMax");
-		fuel.set(0,ItemStack.of(nbt.getCompound("fuel")));
-		if(!isClient)
+		
+		if(!isClient) {
 			cd=nbt.getInt("cd");
+			fuel.set(0,ItemStack.of(nbt.getCompound("fuel")));
+		}
 	}
 
 	@Override
 	public void writeCustomNBT(CompoundTag nbt, boolean isClient) {
 		nbt.putInt("process",process);
 		nbt.putInt("processMax",processMax);
-		nbt.put("fuel",fuel.get(0).serializeNBT());
-		if(!isClient)
+		
+		if(!isClient) {
 			nbt.putInt("cd",cd);
+			nbt.put("fuel",fuel.get(0).serializeNBT());
+		}
 	}
 
 	@Override
