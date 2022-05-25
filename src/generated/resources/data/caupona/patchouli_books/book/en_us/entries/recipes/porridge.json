@@ -1,0 +1,13 @@
+{
+  "name": "Porridge",
+  "icon": "caupona:porridge",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/porridge.png",
+      "result": "caupona:porridge",
+      "base": "caupona:milk_based"
+    }
+  ]
+}

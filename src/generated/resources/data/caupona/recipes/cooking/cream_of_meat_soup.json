@@ -1,0 +1,17 @@
+{
+  "type": "caupona:cooking",
+  "allow": [
+    {
+      "cond": "mainly",
+      "type": "caupona:meats/meat"
+    }
+  ],
+  "density": 0.75,
+  "time": 200,
+  "base": [
+    {
+      "fluid": "caupona:scalded_milk"
+    }
+  ],
+  "output": "caupona:cream_of_meat_soup"
+}

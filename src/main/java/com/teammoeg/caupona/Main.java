@@ -24,6 +24,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.teammoeg.caupona.Contents.CPBlocks;
+import com.teammoeg.caupona.Contents.CPGui;
+import com.teammoeg.caupona.Contents.CPItems;
+import com.teammoeg.caupona.Contents.CPTileTypes;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.network.PacketHandler;
@@ -52,6 +55,7 @@ public class Main {
 		public ItemStack makeIcon() {
 			return new ItemStack(CPBlocks.stew_pot);
 		}
+
 	};
 
 	public static ResourceLocation rl(String path) {
@@ -60,27 +64,22 @@ public class Main {
 
 	public Main() {
 		IEventBus mod = FMLJavaModLoadingContext.get().getModEventBus();
-		
-		mod.addListener(this::setup);
+		System.out.println("main");
 		mod.addListener(this::processIMC);
 		mod.addListener(this::enqueueIMC);
-		Config.register();
-		PacketHandler.register();
+		
 		ForgeMod.enableMilkFluid();
-		Contents.CPItems.init();
-		Contents.CPBlocks.init();
 		CPFluids.init();
-		Contents.CPTileTypes.REGISTER.register(mod);
-		Contents.CPGui.CONTAINERS.register(mod);
+		CPTileTypes.REGISTER.register(mod);
+		CPGui.CONTAINERS.register(mod);
 		Particles.REGISTER.register(mod);
 		MinecraftForge.EVENT_BUS.register(RecipeReloadListener.class);
 		CPFluids.FLUIDS.register(mod);
 		Contents.CPRecipes.RECIPE_SERIALIZERS.register(mod);
-		Contents.CPRecipes.registerRecipeTypes();
+		
 	}
 
-	public void setup(final FMLCommonSetupEvent event) {
-	}
+
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {
 	}

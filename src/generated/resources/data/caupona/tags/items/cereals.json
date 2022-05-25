@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "#caupona:cereals/rice",
+    "#forge:grain",
+    "#caupona:cereals/baked",
+    "minecraft:wheat",
+    "minecraft:wheat_seeds",
+    "#forge:bread"
+  ]
+}

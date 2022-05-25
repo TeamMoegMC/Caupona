@@ -1,0 +1,13 @@
+{
+  "name": "奶油罗宋汤",
+  "icon": "caupona:borscht_cream",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/borscht_cream.png",
+      "result": "caupona:borscht_cream",
+      "base": "caupona:milk_based"
+    }
+  ]
+}

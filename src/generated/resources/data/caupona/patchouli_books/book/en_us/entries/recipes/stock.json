@@ -1,0 +1,13 @@
+{
+  "name": "Stock",
+  "icon": "caupona:stock",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/stock.png",
+      "result": "caupona:stock",
+      "base": "caupona:any_based"
+    }
+  ]
+}

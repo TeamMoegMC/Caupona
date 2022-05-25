@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "farmersdelight:pumpkin_slice",
+      "required": false
+    },
+    "minecraft:pumpkin",
+    "minecraft:carved_pumpkin"
+  ]
+}

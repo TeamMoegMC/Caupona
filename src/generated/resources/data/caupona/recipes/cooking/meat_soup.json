@@ -1,0 +1,17 @@
+{
+  "type": "caupona:cooking",
+  "allow": [
+    {
+      "cond": "mainly",
+      "type": "caupona:meats/meat"
+    }
+  ],
+  "density": 0.75,
+  "time": 200,
+  "base": [
+    {
+      "tag": "caupona:water"
+    }
+  ],
+  "output": "caupona:meat_soup"
+}

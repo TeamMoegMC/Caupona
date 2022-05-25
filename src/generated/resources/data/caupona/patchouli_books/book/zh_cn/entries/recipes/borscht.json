@@ -1,0 +1,13 @@
+{
+  "name": "罗宋汤",
+  "icon": "caupona:borscht",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/borscht.png",
+      "result": "caupona:borscht",
+      "base": "caupona:water_or_stock_based"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "type": "caupona:cooking",
+  "allow": [
+    {
+      "cond": "mainly",
+      "type": [
+        "caupona:bone",
+        "caupona:meats/poultry"
+      ]
+    },
+    {
+      "cond": "contains",
+      "type": "caupona:bone"
+    },
+    {
+      "cond": "contains",
+      "type": "caupona:meats/poultry"
+    }
+  ],
+  "priority": 1024,
+  "density": 0.75,
+  "time": 200,
+  "base": [
+    {
+      "fluid": "caupona:nail_soup"
+    }
+  ],
+  "output": "caupona:stock"
+}

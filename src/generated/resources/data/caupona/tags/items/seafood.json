@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#caupona:seafood/fish",
+    "#caupona:seafood/crustaceans",
+    "minecraft:kelp",
+    "minecraft:dried_kelp"
+  ]
+}

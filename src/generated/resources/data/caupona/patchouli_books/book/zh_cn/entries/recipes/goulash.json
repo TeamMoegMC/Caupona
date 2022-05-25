@@ -1,0 +1,13 @@
+{
+  "name": "红烩牛肉",
+  "icon": "caupona:goulash",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/goulash.png",
+      "result": "caupona:goulash",
+      "base": "caupona:stock_based"
+    }
+  ]
+}

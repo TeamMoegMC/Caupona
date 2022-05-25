@@ -1,0 +1,13 @@
+{
+  "name": "肉汤",
+  "icon": "caupona:meat_soup",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/meat_soup.png",
+      "result": "caupona:meat_soup",
+      "base": "caupona:water_or_stock_based"
+    }
+  ]
+}

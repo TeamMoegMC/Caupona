@@ -1,0 +1,13 @@
+{
+  "name": "Walnut Soup",
+  "icon": "caupona:walnut_soup",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/walnut_soup.png",
+      "result": "caupona:walnut_soup",
+      "base": "caupona:any_based"
+    }
+  ]
+}

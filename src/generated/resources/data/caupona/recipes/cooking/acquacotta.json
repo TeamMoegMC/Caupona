@@ -1,0 +1,18 @@
+{
+  "type": "caupona:cooking",
+  "allow": [
+    {
+      "cond": "mainly",
+      "type": "caupona:cereals/baked"
+    }
+  ],
+  "priority": 128,
+  "density": 0.75,
+  "time": 200,
+  "base": [
+    {
+      "tag": "caupona:water"
+    }
+  ],
+  "output": "caupona:acquacotta"
+}

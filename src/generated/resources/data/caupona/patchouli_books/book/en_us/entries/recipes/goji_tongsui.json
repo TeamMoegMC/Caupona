@@ -1,0 +1,13 @@
+{
+  "name": "Goji Tongsui",
+  "icon": "caupona:goji_tongsui",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/goji_tongsui.png",
+      "result": "caupona:goji_tongsui",
+      "base": "caupona:any_based"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "Congee",
+  "icon": "caupona:congee",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/congee.png",
+      "result": "caupona:congee",
+      "base": "caupona:water_or_stock_based"
+    }
+  ]
+}

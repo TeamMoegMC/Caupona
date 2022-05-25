@@ -1,0 +1,13 @@
+{
+  "name": "奶油蔬菜汤",
+  "icon": "caupona:vegetable_chowder",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/vegetable_chowder.png",
+      "result": "caupona:vegetable_chowder",
+      "base": "caupona:milk_based"
+    }
+  ]
+}

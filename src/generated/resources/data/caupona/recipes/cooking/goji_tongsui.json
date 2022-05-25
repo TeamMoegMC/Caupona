@@ -1,0 +1,36 @@
+{
+  "type": "caupona:cooking",
+  "allow": [
+    {
+      "cond": "mainly",
+      "type": "caupona:sugar"
+    },
+    {
+      "cond": "contains",
+      "type": "caupona:wolfberries"
+    }
+  ],
+  "deny": [
+    {
+      "cond": "contains",
+      "type": "caupona:meats"
+    },
+    {
+      "cond": "contains",
+      "type": "caupona:seafood"
+    },
+    {
+      "cond": "contains",
+      "type": "caupona:vegetables"
+    }
+  ],
+  "priority": 1088,
+  "density": 0.75,
+  "time": 200,
+  "base": [
+    {
+      "fluid": "caupona:nail_soup"
+    }
+  ],
+  "output": "caupona:goji_tongsui"
+}

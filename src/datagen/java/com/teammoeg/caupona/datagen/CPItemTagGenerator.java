@@ -72,7 +72,7 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag(baked).add(Items.BREAD).addTag(ftag("pasta"))
 				.addOptional(rl(fd + ":pie_crust"));
 		tag(cereals).addTag(atag(rice)).addTag(ftag("grain")).addTag(atag(baked)).add(Items.WHEAT, Items.WHEAT_SEEDS)
-				.addTag(atag(frl("bread")));
+				.addTag(ftag("bread"));
 		tag(rice).addTag(ftag("grain/rice"));
 		tag(roots).add(Items.POTATO, Items.BAKED_POTATO).addTag(ftag("rootvegetables"));
 		tag(vegetables).add(Items.CARROT, Items.BEETROOT, Items.PUMPKIN).addTag(atag(mushrooms))
@@ -82,13 +82,13 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag(fish).addTag(atag(mcrl("fishes"))).addTag(ftag("raw_fishes"));
 		tag(seafood).add(Items.KELP, Items.DRIED_KELP);
 		tag(poultry).add(Items.CHICKEN, Items.RABBIT).addTag(ftag("raw_chicken")).addTag(ftag("raw_rabbit"))
-				.addOptional(rl(sa + "fowl_meat")).addTag(atag(frl("bread"))).addOptional(rl(sf+"raw_chicken_wings")).addOptional(rl(sf+"raw_sausage")).addOptional(rl(sf+"raw_horse_meat"));
+				.addOptional(rl(sa + "fowl_meat")).addTag(ftag("bread")).addOptional(rl(sf+"raw_chicken_wings")).addOptional(rl(sf+"raw_sausage")).addOptional(rl(sf+"raw_horse_meat"));
 		tag(meat).add(Items.BEEF, Items.MUTTON, Items.PORKCHOP, Items.ROTTEN_FLESH).addTag(ftag("bacon"))
 				.addTag(ftag("raw_pork")).addTag(ftag("raw_beef")).addTag(ftag("raw_mutton"))
 				.addOptional(rl(fd + ":ham")).addOptional(rl(sa + "venison")).addOptional(rl(sa + "auroch_meat"))
 				.addOptional(rl(sa + "mouflon_meat")).addOptional(rl(sa + "boar_meat"))
 				.addOptional(rl(sa + "mammoth_meat")).addOptional(rl(sa + "rhino_meat"))
-				.addOptional(rl(sa + "tiger_meat")).addTag(atag(frl("raw_bacon")));
+				.addOptional(rl(sa + "tiger_meat")).addTag(ftag("raw_bacon"));
 		tag(sugar).add(Items.SUGAR_CANE, Items.HONEYCOMB, Items.HONEY_BOTTLE);
 		tag("bone").add(Items.BONE);
 		tag("ice").add(Items.ICE, Items.BLUE_ICE, Items.PACKED_ICE);

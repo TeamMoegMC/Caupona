@@ -1,0 +1,13 @@
+{
+  "name": "Stracciatella",
+  "icon": "caupona:stracciatella",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/stracciatella.png",
+      "result": "caupona:stracciatella",
+      "base": "caupona:water_or_stock_based"
+    }
+  ]
+}

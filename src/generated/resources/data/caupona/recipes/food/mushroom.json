@@ -1,0 +1,16 @@
+{
+  "type": "caupona:food",
+  "heal": 3,
+  "sat": 3.6,
+  "items": [
+    {
+      "item": "minecraft:red_mushroom"
+    },
+    {
+      "item": "minecraft:brown_mushroom"
+    }
+  ],
+  "item": {
+    "item": "minecraft:red_mushroom"
+  }
+}

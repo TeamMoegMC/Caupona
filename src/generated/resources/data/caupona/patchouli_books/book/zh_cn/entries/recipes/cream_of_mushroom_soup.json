@@ -1,0 +1,13 @@
+{
+  "name": "奶油蘑菇汤",
+  "icon": "caupona:cream_of_mushroom_soup",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/cream_of_mushroom_soup.png",
+      "result": "caupona:cream_of_mushroom_soup",
+      "base": "caupona:milk_based"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "蘑菇汤",
+  "icon": "caupona:mushroom_soup",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/mushroom_soup.png",
+      "result": "caupona:mushroom_soup",
+      "base": "caupona:water_or_stock_based"
+    }
+  ]
+}

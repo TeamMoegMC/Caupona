@@ -1,0 +1,13 @@
+{
+  "name": "荨麻汤",
+  "icon": "caupona:nettle_soup",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/nettle_soup.png",
+      "result": "caupona:nettle_soup",
+      "base": "caupona:any_based"
+    }
+  ]
+}

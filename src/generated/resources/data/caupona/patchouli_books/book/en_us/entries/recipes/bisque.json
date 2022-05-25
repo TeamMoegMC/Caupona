@@ -1,0 +1,13 @@
+{
+  "name": "Bisque",
+  "icon": "caupona:bisque",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/bisque.png",
+      "result": "caupona:bisque",
+      "base": "caupona:water_or_stock_based"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "白汁炖肉",
+  "icon": "caupona:fricassee",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/fricassee.png",
+      "result": "caupona:fricassee",
+      "base": "caupona:milk_based"
+    }
+  ]
+}

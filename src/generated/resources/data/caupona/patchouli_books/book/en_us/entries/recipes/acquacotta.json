@@ -1,0 +1,13 @@
+{
+  "name": "Acquacotta",
+  "icon": "caupona:acquacotta",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/acquacotta.png",
+      "result": "caupona:acquacotta",
+      "base": "caupona:water_or_stock_based"
+    }
+  ]
+}

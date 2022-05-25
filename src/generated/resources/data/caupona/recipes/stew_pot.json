@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "caupona:clay_cistern"
+  },
+  "result": "caupona:stew_pot",
+  "experience": 0.35,
+  "cookingtime": 200
+}

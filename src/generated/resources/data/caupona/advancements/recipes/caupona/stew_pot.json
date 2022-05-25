@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "caupona:stew_pot"
+    ]
+  },
+  "criteria": {
+    "has_claypot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "caupona:clay_cistern"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "caupona:stew_pot"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_claypot",
+      "has_the_recipe"
+    ]
+  ]
+}

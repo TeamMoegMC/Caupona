@@ -1,0 +1,13 @@
+{
+  "name": "南瓜汤",
+  "icon": "caupona:pumpkin_soup",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/pumpkin_soup.png",
+      "result": "caupona:pumpkin_soup",
+      "base": "caupona:water_or_stock_based"
+    }
+  ]
+}

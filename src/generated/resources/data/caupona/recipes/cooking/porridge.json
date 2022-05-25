@@ -1,0 +1,17 @@
+{
+  "type": "caupona:cooking",
+  "allow": [
+    {
+      "cond": "half",
+      "type": "caupona:cereals"
+    }
+  ],
+  "density": 0.25,
+  "time": 200,
+  "base": [
+    {
+      "fluid": "caupona:scalded_milk"
+    }
+  ],
+  "output": "caupona:porridge"
+}

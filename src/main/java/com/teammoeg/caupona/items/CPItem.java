@@ -23,12 +23,10 @@ import com.teammoeg.caupona.Main;
 
 import net.minecraft.world.item.Item;
 
-import net.minecraft.world.item.Item.Properties;
-
 public class CPItem extends Item {
 
 	public CPItem(String name, Properties properties) {
-		super(properties);
+		super(properties.tab(Main.itemGroup));
 		setRegistryName(Main.MODID, name);
 		Contents.registeredItems.add(this);
 	}

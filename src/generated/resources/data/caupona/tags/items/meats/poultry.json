@@ -1,0 +1,26 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:chicken",
+    "minecraft:rabbit",
+    "#forge:raw_chicken",
+    "#forge:raw_rabbit",
+    {
+      "id": "stone_age:fowl_meat",
+      "required": false
+    },
+    "#forge:bread",
+    {
+      "id": "simplefarming:raw_chicken_wings",
+      "required": false
+    },
+    {
+      "id": "simplefarming:raw_sausage",
+      "required": false
+    },
+    {
+      "id": "simplefarming:raw_horse_meat",
+      "required": false
+    }
+  ]
+}

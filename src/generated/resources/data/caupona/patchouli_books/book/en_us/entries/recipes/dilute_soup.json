@@ -1,0 +1,13 @@
+{
+  "name": "Dilute Soup",
+  "icon": "caupona:dilute_soup",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/dilute_soup.png",
+      "result": "caupona:dilute_soup",
+      "base": "caupona:any_based"
+    }
+  ]
+}

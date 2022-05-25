@@ -1,0 +1,13 @@
+{
+  "name": "Cream of Pumpkin Soup",
+  "icon": "caupona:pumpkin_soup_cream",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/pumpkin_soup_cream.png",
+      "result": "caupona:pumpkin_soup_cream",
+      "base": "caupona:milk_based"
+    }
+  ]
+}

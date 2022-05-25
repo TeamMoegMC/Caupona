@@ -1,0 +1,13 @@
+{
+  "name": "海鲜杂烩汤",
+  "icon": "caupona:fish_chowder",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/fish_chowder.png",
+      "result": "caupona:fish_chowder",
+      "base": "caupona:milk_based"
+    }
+  ]
+}

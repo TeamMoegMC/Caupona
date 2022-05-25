@@ -1,0 +1,13 @@
+{
+  "name": "奶黄",
+  "icon": "caupona:custard",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/custard.png",
+      "result": "caupona:custard",
+      "base": "caupona:milk_based"
+    }
+  ]
+}

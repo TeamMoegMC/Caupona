@@ -35,11 +35,16 @@ import net.minecraft.core.Direction;
 
 import static com.teammoeg.caupona.Contents.*;
 
+import com.teammoeg.caupona.CPFluids;
+import com.teammoeg.caupona.Config;
+import com.teammoeg.caupona.Contents;
 import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.Contents.CPBlocks;
 import com.teammoeg.caupona.Contents.CPItems;
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.blocks.StewPotTileEntity;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
+import com.teammoeg.caupona.network.PacketHandler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -53,11 +58,14 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryEvents {
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
+		System.out.println("rb");
+		CPBlocks.init();
 		for (Block block : registeredBlocks) {
 			try {
 				event.getRegistry().register(block);
@@ -67,9 +75,22 @@ public class RegistryEvents {
 			}
 		}
 	}
-
+	@SubscribeEvent
+	public void setup(final FMLCommonSetupEvent event) {
+		System.out.println("csu");
+		
+		
+		
+		Config.register();
+		PacketHandler.register();
+		
+		Contents.CPRecipes.registerRecipeTypes();
+		
+	}
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
+		System.out.println("ri");
+		CPItems.init();
 		for (Item item : registeredItems) {
 			try {
 				event.getRegistry().register(item);
@@ -200,6 +221,7 @@ public class RegistryEvents {
 
 	@SubscribeEvent
 	public static void registerFluids(RegistryEvent.Register<Fluid> event) {
+		
 		for (Fluid fluid : registeredFluids) {
 			try {
 				event.getRegistry().register(fluid);

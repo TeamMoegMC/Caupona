@@ -1,0 +1,6 @@
+{
+  "type": "caupona:boiling",
+  "from": "minecraft:water",
+  "to": "caupona:nail_soup",
+  "time": 100
+}

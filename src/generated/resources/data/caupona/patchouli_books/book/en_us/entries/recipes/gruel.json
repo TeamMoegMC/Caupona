@@ -1,0 +1,13 @@
+{
+  "name": "Gruel",
+  "icon": "caupona:gruel",
+  "category": "recipes",
+  "pages": [
+    {
+      "type": "caupona:thprecipe",
+      "img": "caupona:textures/gui/recipes/gruel.png",
+      "result": "caupona:gruel",
+      "base": "caupona:water_or_stock_based"
+    }
+  ]
+}

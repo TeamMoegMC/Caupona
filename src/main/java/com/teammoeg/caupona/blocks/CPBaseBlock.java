@@ -55,6 +55,7 @@ public class CPBaseBlock<T extends BlockEntity> extends Block implements EntityB
 			item.setRegistryName(registryName);
 			Contents.registeredItems.add(item);
 		}
+		
 	}
 	@Override
 	public BlockEntity newBlockEntity(BlockPos p,BlockState s) {
