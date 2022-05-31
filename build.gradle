@@ -120,11 +120,6 @@ mixin {
 
 repositories {
     mavenLocal()
-    // IE & CT Files
-    maven {
-        name = "BlameJared"
-        url = "https://maven.blamejared.com/"
-    }
     // JEI and TC Files
     maven {
         name = "DVS1 Maven FS"
@@ -134,16 +129,6 @@ repositories {
     maven {
         name = "latvian maven"
         url = "https://maven.latmod.com/"
-    }
-    maven {
-        name = "teammoeg maven"
-        url = "http://server.teammoeg.com:8888/releases"
-        allowInsecureProtocol =true
-    }
-    maven {
-        // Location of the maven for Flywheel
-        name = "tterrag maven"
-        url = "https://maven.tterrag.com/"
     }
     // Needed for Curios API
     maven {
