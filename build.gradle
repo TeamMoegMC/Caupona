@@ -141,6 +141,8 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    //for patchouli books
+    maven { url 'https://maven.blamejared.com' }
     maven {
         url "https://maven.architectury.dev/"
     }
@@ -180,7 +182,7 @@ dependencies {
 	//implementation fg.deobf("curse.maven:simple-farming-327554:3400041")
 
 	
-	compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-67:api")
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-67:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-67")
     //runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.2")
     //compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.2:api")
