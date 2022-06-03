@@ -81,8 +81,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
     }
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void onRecipesUpdated(RecipesUpdatedEvent event) {
-		if (!Minecraft.getInstance().hasSingleplayerServer())
-			buildRecipeLists(event.getRecipeManager());
+		buildRecipeLists(event.getRecipeManager());
 	}
 
 	static int generated_fv = 0;

@@ -2,7 +2,7 @@
 	"book.caupona.landing_text": "Next generation cooking method!",
 	"container.caupona.stewpot.title": "Stew pot",
 	"container.caupona.kitchen_stove.title": "Stove",
-	"itemGroup.caupona": "caupona",
+	"itemGroup.caupona": "Caupona",
 	"tooltip.caupona.main_ingredient": "Main Ingredient: %s",
 	"gui.caupona.stewpot.noredstone": "Disable Restone",
 	"gui.caupona.stewpot.redstone": "Enable Restone",

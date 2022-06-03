@@ -2,7 +2,7 @@
 	"book.caupona.landing_text": "全新的烹饪方式",
 	"container.caupona.stewpot.title": "汤锅",
 	"container.caupona.kitchen_stove.title": "灶台",
-	"itemGroup.caupona": "汤饮铺",
+	"itemGroup.caupona": "餐馆",
 	"tooltip.caupona.main_ingredient": "主料: %s",
 	"gui.caupona.stewpot.noredstone": "关闭红石控制",
 	"gui.caupona.stewpot.redstone": "启用红石控制",
