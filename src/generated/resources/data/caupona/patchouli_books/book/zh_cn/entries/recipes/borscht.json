@@ -1,7 +1,7 @@
 {
   "name": "罗宋汤",
   "icon": "caupona:borscht",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

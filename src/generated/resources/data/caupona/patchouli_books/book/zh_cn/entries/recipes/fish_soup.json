@@ -1,7 +1,7 @@
 {
   "name": "鱼汤",
   "icon": "caupona:fish_soup",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

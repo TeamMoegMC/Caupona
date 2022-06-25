@@ -1,7 +1,7 @@
 {
   "name": "麦粥",
   "icon": "caupona:gruel",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

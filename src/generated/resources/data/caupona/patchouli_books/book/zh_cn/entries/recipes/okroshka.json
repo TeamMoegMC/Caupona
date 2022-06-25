@@ -1,7 +1,7 @@
 {
   "name": "蔬菜冻汤",
   "icon": "caupona:okroshka",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

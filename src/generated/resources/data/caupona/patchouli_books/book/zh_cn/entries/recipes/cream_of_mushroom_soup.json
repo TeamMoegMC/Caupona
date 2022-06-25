@@ -1,7 +1,7 @@
 {
   "name": "奶油蘑菇汤",
   "icon": "caupona:cream_of_mushroom_soup",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

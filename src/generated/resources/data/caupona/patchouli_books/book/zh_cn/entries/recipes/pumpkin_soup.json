@@ -1,7 +1,7 @@
 {
   "name": "南瓜汤",
   "icon": "caupona:pumpkin_soup",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

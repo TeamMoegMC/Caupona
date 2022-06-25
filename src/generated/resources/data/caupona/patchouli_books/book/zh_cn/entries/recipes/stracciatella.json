@@ -1,7 +1,7 @@
 {
   "name": "蔬菜蛋花汤",
   "icon": "caupona:stracciatella",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

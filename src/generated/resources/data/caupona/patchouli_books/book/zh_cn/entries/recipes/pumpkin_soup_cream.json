@@ -1,7 +1,7 @@
 {
   "name": "奶油南瓜汤",
   "icon": "caupona:pumpkin_soup_cream",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

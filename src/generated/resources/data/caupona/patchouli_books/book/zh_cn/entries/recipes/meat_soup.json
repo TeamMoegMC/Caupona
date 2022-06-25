@@ -1,7 +1,7 @@
 {
   "name": "肉汤",
   "icon": "caupona:meat_soup",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

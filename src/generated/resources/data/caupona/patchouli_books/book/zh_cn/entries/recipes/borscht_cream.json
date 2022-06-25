@@ -1,7 +1,7 @@
 {
   "name": "奶油罗宋汤",
   "icon": "caupona:borscht_cream",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",
