@@ -1,7 +1,7 @@
 {
   "name": "Cream of Pumpkin Soup",
   "icon": "caupona:pumpkin_soup_cream",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

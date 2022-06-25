@@ -2,7 +2,7 @@
 {
   "name": "灶台",
   "icon": "caupona:kitchen_stove_t2",
-  "category": "intro",
+  "category": "caupona:intro",
   "sortnum": 4,
   "pages": [
     {

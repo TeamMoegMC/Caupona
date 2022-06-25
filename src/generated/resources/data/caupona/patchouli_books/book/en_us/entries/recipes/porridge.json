@@ -1,7 +1,7 @@
 {
   "name": "Porridge",
   "icon": "caupona:porridge",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

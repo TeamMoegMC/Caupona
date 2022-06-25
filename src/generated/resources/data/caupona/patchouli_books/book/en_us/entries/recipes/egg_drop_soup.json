@@ -1,7 +1,7 @@
 {
   "name": "Egg Drop Soup",
   "icon": "caupona:egg_drop_soup",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

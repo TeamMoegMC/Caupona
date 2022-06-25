@@ -1,7 +1,7 @@
 {
   "name": "Hodge-Podge",
   "icon": "caupona:hodgepodge",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

@@ -1,7 +1,7 @@
 {
   "name": "Dilute Soup",
   "icon": "caupona:dilute_soup",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

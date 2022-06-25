@@ -1,7 +1,7 @@
 {
   "name": "Custard",
   "icon": "caupona:custard",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

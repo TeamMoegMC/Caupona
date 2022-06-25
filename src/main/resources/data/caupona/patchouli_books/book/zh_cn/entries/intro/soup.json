@@ -2,7 +2,7 @@
 {
   "name": "汤",
   "icon": "caupona:acquacotta",
-  "category": "intro",
+  "category": "caupona:intro",
   "sortnum": 0,
   "pages": [
     {

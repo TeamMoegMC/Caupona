@@ -1,7 +1,7 @@
 {
   "name": "Vegetable Chowder",
   "icon": "caupona:vegetable_chowder",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

@@ -1,7 +1,7 @@
 {
   "name": "Poultry Stew",
   "icon": "caupona:poultry_soup",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

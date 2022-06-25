@@ -1,7 +1,7 @@
 {
   "name": "Borscht",
   "icon": "caupona:borscht",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

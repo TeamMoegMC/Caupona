@@ -1,7 +1,7 @@
 {
   "name": "Seaweed Soup",
   "icon": "caupona:seaweed_soup",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

@@ -2,7 +2,7 @@
 {
   "name": "Stew pots",
   "icon": "caupona:stew_pot",
-  "category": "intro",
+  "category": "caupona:intro",
   "priority": true,
   "pages": [
     {

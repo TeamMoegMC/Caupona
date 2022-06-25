@@ -2,7 +2,7 @@
 {
   "name": "发射器改动",
   "icon": "minecraft:dispenser",
-  "category": "intro",
+  "category": "caupona:intro",
   "sortnum": 5,
   "pages": [
     {

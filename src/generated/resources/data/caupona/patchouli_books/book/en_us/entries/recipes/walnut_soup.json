@@ -1,7 +1,7 @@
 {
   "name": "Walnut Soup",
   "icon": "caupona:walnut_soup",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

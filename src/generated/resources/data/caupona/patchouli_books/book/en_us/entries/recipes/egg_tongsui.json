@@ -1,7 +1,7 @@
 {
   "name": "Egg Tongsui",
   "icon": "caupona:egg_tongsui",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

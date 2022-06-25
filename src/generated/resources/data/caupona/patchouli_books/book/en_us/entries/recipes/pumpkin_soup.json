@@ -1,7 +1,7 @@
 {
   "name": "Pumpkin Soup",
   "icon": "caupona:pumpkin_soup",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

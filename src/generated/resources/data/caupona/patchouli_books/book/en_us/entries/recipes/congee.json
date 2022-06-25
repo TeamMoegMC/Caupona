@@ -1,7 +1,7 @@
 {
   "name": "Congee",
   "icon": "caupona:congee",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

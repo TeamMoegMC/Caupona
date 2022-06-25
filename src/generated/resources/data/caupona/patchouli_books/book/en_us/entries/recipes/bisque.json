@@ -1,7 +1,7 @@
 {
   "name": "Bisque",
   "icon": "caupona:bisque",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

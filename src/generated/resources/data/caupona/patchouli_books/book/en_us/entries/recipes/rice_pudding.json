@@ -1,7 +1,7 @@
 {
   "name": "Rice Pudding",
   "icon": "caupona:rice_pudding",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

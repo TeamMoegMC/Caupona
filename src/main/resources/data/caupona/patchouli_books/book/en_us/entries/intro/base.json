@@ -2,7 +2,7 @@
 {
   "name": "Soup fluids",
   "icon": "caupona:water_or_stock_based",
-  "category": "intro",
+  "category": "caupona:intro",
   "sortnum": 3,
   "pages": [
     {

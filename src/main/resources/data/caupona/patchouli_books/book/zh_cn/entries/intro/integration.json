@@ -1,7 +1,7 @@
 {
   "name": "mod联动",
   "icon": "minecraft:grass_block",
-  "category": "intro",
+  "category": "caupona:intro",
   "sortnum": 100,
   "pages": [
     {

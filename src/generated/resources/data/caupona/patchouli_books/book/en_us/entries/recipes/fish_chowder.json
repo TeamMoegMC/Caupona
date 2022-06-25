@@ -1,7 +1,7 @@
 {
   "name": "Fish Chowder",
   "icon": "caupona:fish_chowder",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",

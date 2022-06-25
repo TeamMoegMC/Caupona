@@ -119,7 +119,7 @@ public class CPBookGenerator implements DataProvider {
 		JsonObject page=new JsonObject();
 		page.add("name",langs.get(locale).get("item.caupona."+name));
 		page.addProperty("icon",new ResourceLocation(Main.MODID,name).toString());
-		page.addProperty("category","recipes");
+		page.addProperty("category","caupona:recipes");
 		CookingRecipe r=recipes.get(name);
 		Item baseType=CPItems.any;
 		if(r.getBase()!=null&&!r.getBase().isEmpty()) {

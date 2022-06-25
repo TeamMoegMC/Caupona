@@ -1,7 +1,7 @@
 {
   "name": "Nettle Soup",
   "icon": "caupona:nettle_soup",
-  "category": "recipes",
+  "category": "caupona:recipes",
   "pages": [
     {
       "type": "caupona:thprecipe",
