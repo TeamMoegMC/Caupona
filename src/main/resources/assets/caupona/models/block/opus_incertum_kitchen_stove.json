@@ -1,0 +1,7 @@
+{
+    "parent": "block/template_kitchen_stove_standalone",
+    "textures": {
+        "stove": "block/opus_incertum_kitchen_stove",
+        "particle": "block/opus_incertum_0"
+    }
+}

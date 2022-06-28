@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "block/kitchen_stove_hot_ash",
-		"particle": "block/kitchen_stove_hot_ash"
+		"0": "block/kitchen_stove_ash",
+		"particle": "block/kitchen_stove_ash"
 	},
 	"elements": [
 		{

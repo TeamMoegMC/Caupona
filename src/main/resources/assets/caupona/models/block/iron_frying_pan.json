@@ -1,0 +1,7 @@
+{
+    "parent": "block/template_frying_pan",
+    "textures": {
+        "pan": "block/iron_frying_pan",
+        "particle": "block/iron_frying_pan"
+    }
+}
