@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "block/kitchen_stove_charcoal",
-		"particle": "block/kitchen_stove_charcoal"
+		"0": "minecraft:block/coal_block",
+		"particle": "minecraft:block/coal_block"
 	},
 	"elements": [
 		{

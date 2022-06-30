@@ -1,0 +1,7 @@
+{
+	"variants": {
+		"age=0": {"model": "block/wolfberry_fruits_stage_1"},
+		"age=1": {"model": "block/wolfberry_fruits_stage_2"},
+		"age=2": {"model": "block/wolfberry_fruits_stage_3"}
+	}
+}

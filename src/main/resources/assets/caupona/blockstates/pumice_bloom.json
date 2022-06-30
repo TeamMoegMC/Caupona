@@ -1,0 +1,9 @@
+{
+	"variants": {
+		"": [
+			{"model": "block/pumice_bloom", "y": "90"},
+			{"model": "block/pumice_bloom", "y": "180"},
+			{"model": "block/pumice_bloom", "y": "270"}
+		]
+	}
+}

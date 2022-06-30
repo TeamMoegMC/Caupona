@@ -1,0 +1,7 @@
+{
+    "parent": "block/template_counter_standalone",
+    "textures": {
+        "stove": "block/opus_latericium_kitchen_stove",
+        "particle": "block/opus_latericium_0"
+    }
+}

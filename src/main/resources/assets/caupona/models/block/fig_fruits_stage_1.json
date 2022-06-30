@@ -1,0 +1,59 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "block/fig_fruit_stage_1",
+		"particle": "block/fig_fruit_stage_1"
+	},
+	"elements": [
+		{
+			"name": "figFruitTop3",
+			"from": [7, 10, 4],
+			"to": [11, 14, 8],
+			"rotation": {"angle": -22.5, "axis": "y", "origin": [5, 0, 4]},
+			"faces": {
+				"north": {"uv": [0, 0, 4, 4], "texture": "#0"},
+				"east": {"uv": [4, 0, 8, 4], "texture": "#0"},
+				"south": {"uv": [0, 0, 4, 4], "texture": "#0"},
+				"west": {"uv": [4, 0, 8, 4], "texture": "#0"},
+				"up": {"uv": [4, 4, 8, 8], "texture": "#0"},
+				"down": {"uv": [0, 4, 4, 8], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"name": "figFruitTop2",
+			"from": [9, 14, 4],
+			"to": [9, 16, 8],
+			"rotation": {"angle": -22.5, "axis": "y", "origin": [5, 0, 4]},
+			"faces": {
+				"north": {"uv": [0, 0, 0, 3], "texture": "#missing"},
+				"east": {"uv": [0, 8, 4, 10], "texture": "#0"},
+				"south": {"uv": [0, 0, 0, 3], "texture": "#missing"},
+				"west": {"uv": [0, 8, 4, 10], "texture": "#0"},
+				"up": {"uv": [0, 0, 0, 4], "texture": "#missing"},
+				"down": {"uv": [0, 0, 0, 4], "texture": "#missing"}
+			}
+		},
+		{
+			"name": "figFruitTop1",
+			"from": [7, 14, 6],
+			"to": [11, 16, 6],
+			"rotation": {"angle": -22.5, "axis": "y", "origin": [5, 0, 4]},
+			"faces": {
+				"north": {"uv": [0, 8, 4, 10], "texture": "#0"},
+				"east": {"uv": [0, 0, 0, 3], "texture": "#missing"},
+				"south": {"uv": [0, 8, 4, 10], "texture": "#0"},
+				"west": {"uv": [0, 0, 0, 3], "texture": "#missing"},
+				"up": {"uv": [0, 0, 0, 4], "rotation": 270, "texture": "#missing"},
+				"down": {"uv": [0, 0, 0, 4], "rotation": 90, "texture": "#missing"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "FigFruitStage2",
+			"origin": [5, 0, 4],
+			"color": 0,
+			"children": [0, 1, 2]
+		}
+	]
+}

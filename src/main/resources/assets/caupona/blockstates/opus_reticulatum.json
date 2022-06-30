@@ -1,0 +1,9 @@
+{
+	"variants": {
+		"": [
+			{"model": "block/opus_reticulatum_0"},
+			{"model": "block/opus_reticulatum_1"},
+			{"model": "block/opus_reticulatum_2"}
+		]
+	}
+}

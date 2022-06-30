@@ -1,0 +1,9 @@
+{
+	"variants": {
+		"": [
+			{"model": "block/pumice_0"},
+			{"model": "block/pumice_1"},
+			{"model": "block/pumice_2"}
+		]
+	}
+}

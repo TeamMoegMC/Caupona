@@ -1,0 +1,9 @@
+{
+	"variants": {
+		"": [
+			{"model": "block/fumarole_boulder", "y": "90"},
+			{"model": "block/fumarole_boulder", "y": "180"},
+			{"model": "block/fumarole_boulder", "y": "270"}
+		]
+	}
+}

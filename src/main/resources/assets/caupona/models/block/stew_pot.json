@@ -1,0 +1,7 @@
+{
+    "parent": "block/template_stew_pot",
+    "textures": {
+        "pot": "block/stew_pot",
+        "particle": "block/stew_pot"
+    }
+}
