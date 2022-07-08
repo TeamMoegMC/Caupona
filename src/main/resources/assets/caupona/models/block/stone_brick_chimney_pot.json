@@ -1,0 +1,7 @@
+{
+    "parent": "block/template_chimney_pot",
+    "textures": {
+        "chimney": "block/stone_brick_chimney",
+        "particle": "minecraft:block/stone_bricks"
+    }
+}
