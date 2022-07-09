@@ -1,0 +1,9 @@
+{
+    "parent": "block/template_chimney_flue",
+    "textures": {
+        "outer": "block/opus_incertum_0",
+        "inner": "block/ash_concrete",
+        "polar": "block/opus_incertum_chimney_flue_polar",
+        "particle": "block/opus_incertum_chimney_flue_polar"
+    }
+}

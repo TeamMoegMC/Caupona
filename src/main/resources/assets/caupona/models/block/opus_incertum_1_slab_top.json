@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/slab_top",
+	"textures": {
+		"bottom": "block/opus_incertum_1",
+		"top": "block/opus_incertum_1",
+		"side": "block/opus_incertum_1"
+	}
+}

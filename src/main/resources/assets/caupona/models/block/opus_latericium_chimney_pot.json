@@ -1,0 +1,7 @@
+{
+    "parent": "block/template_chimney_pot",
+    "textures": {
+        "chimney": "block/opus_latericium_chimney",
+        "particle": "block/opus_latericium_0"
+    }
+}

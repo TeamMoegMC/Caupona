@@ -1,0 +1,52 @@
+{
+	"credit": "Made with Blockbench",
+	"elements": [
+		{
+			"name": "CD1",
+			"from": [0, 0, 0],
+			"to": [16, 3, 16],
+			"faces": {
+				"north": {"uv": [0, 13, 16, 16], "texture": "#caliduct"},
+				"east": {"uv": [0, 13, 16, 16], "texture": "#caliduct"},
+				"south": {"uv": [0, 13, 16, 16], "texture": "#caliduct"},
+				"west": {"uv": [0, 13, 16, 16], "texture": "#caliduct"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#caliduct"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#caliduct"}
+			}
+		},
+		{
+			"name": "CD2",
+			"from": [0, 13, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 3], "texture": "#caliduct"},
+				"east": {"uv": [0, 0, 16, 3], "texture": "#caliduct"},
+				"south": {"uv": [0, 0, 16, 3], "texture": "#caliduct"},
+				"west": {"uv": [0, 0, 16, 3], "texture": "#caliduct"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#caliduct"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#caliduct"}
+			}
+		},
+		{
+			"name": "CD3",
+			"from": [5, 3, 5],
+			"to": [11, 13, 11],
+			"faces": {
+				"north": {"uv": [6, 3, 12, 13], "texture": "#caliduct"},
+				"east": {"uv": [0, 3, 6, 13], "texture": "#caliduct"},
+				"south": {"uv": [6, 3, 12, 13], "texture": "#caliduct"},
+				"west": {"uv": [0, 3, 6, 13], "texture": "#caliduct"},
+				"up": {"uv": [0, 0, 6, 6], "texture": "#missing"},
+				"down": {"uv": [0, 0, 6, 6], "texture": "#missing"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "Caliduct",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [0, 1, 2]
+		}
+	]
+}
