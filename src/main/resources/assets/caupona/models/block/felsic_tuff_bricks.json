@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:block/cube_all",
 	"textures": {
-		"all": "block/opus_reticulatum_2"
+		"all": "block/felsic_tuff_bricks"
 	}
 }
