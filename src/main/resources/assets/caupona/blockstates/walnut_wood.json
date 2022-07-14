@@ -1,0 +1,16 @@
+{
+	"variants": {
+		"axis=x": {
+			"model": "block/walnut_wood",
+			"x": 90,
+			"y": 90
+		},
+		"axis=y": {
+			"model": "block/walnut_wood"
+		},
+		"axis=z": {
+			"model": "block/walnut_wood",
+			"x": 90
+		}
+	}
+}
