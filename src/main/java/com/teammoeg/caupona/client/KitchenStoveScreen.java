@@ -24,12 +24,11 @@ import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.KitchenStoveTileEntity;
 import com.teammoeg.caupona.container.KitchenStoveContainer;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 
 public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveContainer> {
 	KitchenStoveTileEntity te;

@@ -20,21 +20,19 @@ package com.teammoeg.caupona.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
+import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.blocks.StewPotTileEntity;
 
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.inventory.InventoryMenu;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
-import com.teammoeg.caupona.Contents;
-import com.teammoeg.caupona.blocks.StewPotTileEntity;
-
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
 
 public class StewPotRenderer implements BlockEntityRenderer<StewPotTileEntity> {
@@ -61,7 +59,7 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotTileEntity> {
 		if (!te.getLevel().hasChunkAt(te.getBlockPos()))
 			return;
 		BlockState state = te.getBlockState();
-		if (state.getBlock() != Contents.CPBlocks.stew_pot)
+		if (state.getBlock() != CPBlocks.stew_pot)
 			return;
 		matrixStack.pushPose();
 		FluidStack fs = te.getTank().getFluid();

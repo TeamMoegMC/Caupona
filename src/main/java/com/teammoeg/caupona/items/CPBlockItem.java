@@ -18,13 +18,12 @@
 
 package com.teammoeg.caupona.items;
 
-import net.minecraft.world.level.block.Block;
-
-import com.teammoeg.caupona.Contents;
 import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.event.RegistryEvents;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 
 public class CPBlockItem extends BlockItem {
 	public CPBlockItem(Block block, Item.Properties props) {
@@ -34,6 +33,6 @@ public class CPBlockItem extends BlockItem {
 	public CPBlockItem(Block block, Item.Properties props, String name) {
 		this(block, props.tab(Main.itemGroup));
 		this.setRegistryName(Main.MODID, name);
-		Contents.registeredItems.add(this);
+		RegistryEvents.registeredItems.add(this);
 	}
 }

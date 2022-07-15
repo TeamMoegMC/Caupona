@@ -48,8 +48,8 @@ import com.teammoeg.caupona.data.recipes.numbers.ItemType;
 import com.teammoeg.caupona.data.recipes.numbers.NopNumber;
 import com.teammoeg.caupona.util.CacheMap;
 
-import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 
 public class SerializeUtil {

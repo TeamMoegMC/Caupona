@@ -18,10 +18,6 @@
 
 package com.teammoeg.caupona.util;
 
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
-
 import java.util.stream.Stream;
 
 import net.minecraft.nbt.CompoundTag;
@@ -29,6 +25,9 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 
 public class FloatemStack {

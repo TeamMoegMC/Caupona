@@ -27,9 +27,9 @@ import java.util.stream.Stream;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.fluid.SoupFluid.SoupAttributes;
 
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

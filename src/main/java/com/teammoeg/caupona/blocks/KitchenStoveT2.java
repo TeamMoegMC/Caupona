@@ -18,7 +18,7 @@
 
 package com.teammoeg.caupona.blocks;
 
-import com.teammoeg.caupona.Contents.CPTileTypes;
+import com.teammoeg.caupona.CPTileTypes;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;

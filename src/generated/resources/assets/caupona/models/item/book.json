@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "caupona:item/book"
+    "layer0": "caupona:item/vade_mecum_for_innkeepers"
   }
 }

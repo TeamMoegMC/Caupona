@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "caupona:item/plain_milk"
+    "layer0": "caupona:item/aspics/meat_soup_aspic"
   }
 }

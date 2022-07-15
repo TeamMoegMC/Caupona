@@ -20,8 +20,8 @@ package com.teammoeg.caupona.blocks;
 
 import java.util.function.BiFunction;
 
-import com.teammoeg.caupona.Contents;
 import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.event.RegistryEvents;
 import com.teammoeg.caupona.network.INetworkTile;
 
 import net.minecraft.core.BlockPos;
@@ -49,11 +49,11 @@ public class CPBaseBlock<T extends BlockEntity> extends Block implements EntityB
 		ResourceLocation registryName = createRegistryName();
 		setRegistryName(registryName);
 
-		Contents.registeredBlocks.add(this);
+		RegistryEvents.registeredBlocks.add(this);
 		Item item = createItemBlock.apply(this, new Item.Properties().tab(Main.itemGroup));
 		if (item != null) {
 			item.setRegistryName(registryName);
-			Contents.registeredItems.add(item);
+			RegistryEvents.registeredItems.add(item);
 		}
 		
 	}

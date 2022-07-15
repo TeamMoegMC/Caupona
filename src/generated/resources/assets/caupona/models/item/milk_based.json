@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "caupona:item/milk_based"
+    "layer0": "caupona:item/bases/milk_based"
   }
 }

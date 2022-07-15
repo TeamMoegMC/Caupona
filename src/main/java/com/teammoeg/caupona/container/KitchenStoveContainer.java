@@ -18,16 +18,15 @@
 
 package com.teammoeg.caupona.container;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
-
-import com.teammoeg.caupona.Contents.CPGui;
+import com.teammoeg.caupona.CPGui;
 import com.teammoeg.caupona.blocks.KitchenStoveTileEntity;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeHooks;
 
 public class KitchenStoveContainer extends AbstractContainerMenu {

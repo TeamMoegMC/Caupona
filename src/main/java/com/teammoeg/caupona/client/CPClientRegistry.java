@@ -18,16 +18,17 @@
 
 package com.teammoeg.caupona.client;
 
-import com.teammoeg.caupona.Contents;
+import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPGui;
+import com.teammoeg.caupona.CPTileTypes;
 import com.teammoeg.caupona.Main;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -38,12 +39,12 @@ public class CPClientRegistry {
 	@SuppressWarnings("unused")
 	@SubscribeEvent
 	public static void onClientSetupEvent(FMLClientSetupEvent event) {
-		MenuScreens.register(Contents.CPGui.STEWPOT.get(), StewPotScreen::new);
-		MenuScreens.register(Contents.CPGui.STOVE.get(),KitchenStoveScreen::new);
-		ItemBlockRenderTypes.setRenderLayer(Contents.CPBlocks.stew_pot, RenderType.cutout());
-		ItemBlockRenderTypes.setRenderLayer(Contents.CPBlocks.stove1, RenderType.cutout());
-		ItemBlockRenderTypes.setRenderLayer(Contents.CPBlocks.stove2, RenderType.cutout());
-		BlockEntityRenderers.register(Contents.CPTileTypes.STEW_POT.get(), StewPotRenderer::new);
+		MenuScreens.register(CPGui.STEWPOT.get(), StewPotScreen::new);
+		MenuScreens.register(CPGui.STOVE.get(),KitchenStoveScreen::new);
+		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stew_pot, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove1, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove2, RenderType.cutout());
+		BlockEntityRenderers.register(CPTileTypes.STEW_POT.get(), StewPotRenderer::new);
 	}
 
 	@SuppressWarnings("unused")

@@ -27,9 +27,9 @@ import javax.annotation.Nonnull;
 
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPFluids;
-import com.teammoeg.caupona.Contents.CPBlocks;
-import com.teammoeg.caupona.Contents.CPItems;
+import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;

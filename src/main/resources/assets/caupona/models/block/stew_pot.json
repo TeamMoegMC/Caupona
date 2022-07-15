@@ -1,7 +1,7 @@
 {
-    "parent": "block/template_stew_pot",
+    "parent": "caupona:block/template_stew_pot",
     "textures": {
-        "pot": "block/stew_pot",
-        "particle": "block/stew_pot"
+        "pot": "caupona:block/stew_pot",
+        "particle": "caupona:block/stew_pot"
     }
 }

@@ -18,37 +18,33 @@
 
 package com.teammoeg.caupona.event;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DispenserBlock;
-import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
-import net.minecraft.core.BlockSource;
-import net.minecraft.core.dispenser.DispenseItemBehavior;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.level.block.entity.DispenserBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
+import java.util.ArrayList;
+import java.util.List;
 
-import static com.teammoeg.caupona.Contents.*;
-
-import com.teammoeg.caupona.CPFluids;
-import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.Contents;
+import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPItems;
+import com.teammoeg.caupona.CPRecipes;
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.Contents.CPBlocks;
-import com.teammoeg.caupona.Contents.CPItems;
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.blocks.StewPotTileEntity;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
-import com.teammoeg.caupona.network.PacketHandler;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.BlockSource;
+import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.core.dispenser.DispenseItemBehavior;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.DispenserBlockEntity;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -63,11 +59,13 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryEvents {
+	public static List<Block> registeredBlocks = new ArrayList<>();
+	public static List<Item> registeredItems = new ArrayList<>();
+	public static List<Fluid> registeredFluids = new ArrayList<>();
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
-		System.out.println("rb");
 		CPBlocks.init();
-		for (Block block : registeredBlocks) {
+		for (Block block : RegistryEvents.registeredBlocks) {
 			try {
 				event.getRegistry().register(block);
 			} catch (Throwable e) {
@@ -76,6 +74,8 @@ public class RegistryEvents {
 			}
 		}
 	}
+
+	
 
 
 	@SubscribeEvent
@@ -89,9 +89,8 @@ public class RegistryEvents {
 	}
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
-		System.out.println("ri");
 		CPItems.init();
-		for (Item item : registeredItems) {
+		for (Item item : RegistryEvents.registeredItems) {
 			try {
 				event.getRegistry().register(item);
 			} catch (Throwable e) {
@@ -222,7 +221,7 @@ public class RegistryEvents {
 	@SubscribeEvent
 	public static void registerFluids(RegistryEvent.Register<Fluid> event) {
 		
-		for (Fluid fluid : registeredFluids) {
+		for (Fluid fluid : RegistryEvents.registeredFluids) {
 			try {
 				event.getRegistry().register(fluid);
 			} catch (Throwable e) {

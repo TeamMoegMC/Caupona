@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "caupona:item/aspics/seaweed_soup_aspic"
+  }
+}

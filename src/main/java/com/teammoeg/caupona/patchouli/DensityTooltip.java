@@ -21,12 +21,13 @@ package com.teammoeg.caupona.patchouli;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.data.recipes.CookingRecipe;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.patchouli.api.IComponentRenderContext;
 import vazkii.patchouli.api.ICustomComponent;

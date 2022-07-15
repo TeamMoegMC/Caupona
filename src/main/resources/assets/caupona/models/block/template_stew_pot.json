@@ -1,6 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
+	"parent": "block/cube",
 	"texture_size": [32, 32],
 	"elements": [
 		{

@@ -27,10 +27,10 @@ import com.teammoeg.caupona.api.GameTranslation;
 import com.teammoeg.caupona.data.recipes.CookingRecipe;
 import com.teammoeg.caupona.data.recipes.StewCondition;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.patchouli.api.IComponentRenderContext;
 import vazkii.patchouli.api.ICustomComponent;
