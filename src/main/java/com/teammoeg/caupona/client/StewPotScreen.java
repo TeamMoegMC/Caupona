@@ -41,7 +41,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 	private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID,
-			"textures/gui/cistern_culinary.png");
+			"textures/gui/stew_pot.png");
 
 	public static class ImageButton extends Button {
 		int xTexStart;

@@ -38,7 +38,7 @@ public class KitchenStoveContainer extends AbstractContainerMenu {
 	public KitchenStoveContainer(int id, Inventory inv, KitchenStoveTileEntity te) {
 		super(CPGui.STOVE.get(), id);
 		tile = te;
-		this.addSlot(new Slot(tile,0,80,49) {
+		this.addSlot(new Slot(tile,0,80,55) {
 			@Override
 			public boolean mayPlace(ItemStack stack) {
 				return ForgeHooks.getBurnTime(stack, null) > 0;
