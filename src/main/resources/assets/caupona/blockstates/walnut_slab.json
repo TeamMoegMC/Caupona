@@ -1,13 +1,13 @@
 {
 	"variants": {
 		"type=bottom": {
-			"model": "block/walnut_slab"
+			"model": "caupona:block/walnut_slab"
 		},
 		"type=double": {
-			"model": "block/walnut_planks"
+			"model": "caupona:block/walnut_planks"
 		},
 		"type=top": {
-			"model": "block/walnut_slab_top"
+			"model": "caupona:block/walnut_slab_top"
 		}
 	}
 }

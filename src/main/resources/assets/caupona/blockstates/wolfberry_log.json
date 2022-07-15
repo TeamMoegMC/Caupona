@@ -2,7 +2,7 @@
 	"multipart": [
 		{
 			"apply": {
-				"model": "block/wolfberry_log"
+				"model": "caupona:block/wolfberry_log"
 			}
 		},
 		{
@@ -10,7 +10,7 @@
 				"fully_foliaged": "true"
 			},
 			"apply": {
-				"model": "block/wolfberry_branches"
+				"model": "caupona:block/wolfberry_branches"
 			}
 		}
 	]

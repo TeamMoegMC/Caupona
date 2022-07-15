@@ -1,9 +1,9 @@
 {
-    "parent": "block/template_chimney_flue",
+    "parent": "caupona:block/template_chimney_flue",
     "textures": {
-        "outer": "block/mud_chimney_flue_side",
-        "inner": "block/mud_chimney_flue_inner",
-        "polar": "block/mud_chimney_flue_polar",
-        "particle": "block/mud_chimney_flue_polar"
+        "outer": "caupona:block/mud_chimney_flue_side",
+        "inner": "caupona:block/mud_chimney_flue_inner",
+        "polar": "caupona:block/mud_chimney_flue_polar",
+        "particle": "caupona:block/mud_chimney_flue_polar"
     }
 }

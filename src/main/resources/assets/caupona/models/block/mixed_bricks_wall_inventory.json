@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:block/wall_inventory",
 	"textures": {
-		"wall": "block/mixed_bricks"
+		"wall": "caupona:block/mixed_bricks"
 	}
 }

@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:block/wall_inventory",
 	"textures": {
-		"wall": "block/opus_incertum_0"
+		"wall": "caupona:block/opus_incertum_0"
 	}
 }

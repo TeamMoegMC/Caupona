@@ -1,13 +1,13 @@
 {
 	"variants": {
 		"type=bottom": {
-			"model": "block/opus_reticulatum_0_slab"
+			"model": "caupona:block/opus_reticulatum_0_slab"
 		},
 		"type=double": {
-			"model": "block/opus_reticulatum_0"
+			"model": "caupona:block/opus_reticulatum_0"
 		},
 		"type=top": {
-			"model": "block/opus_reticulatum_0_slab_top"
+			"model": "caupona:block/opus_reticulatum_0_slab_top"
 		}
 	}
 }

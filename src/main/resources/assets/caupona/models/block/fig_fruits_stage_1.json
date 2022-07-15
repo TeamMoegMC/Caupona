@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "block/fig_fruit_stage_1",
-		"particle": "block/fig_fruit_stage_1"
+		"0": "caupona:block/fig_fruit_stage_1",
+		"particle": "caupona:block/fig_fruit_stage_1"
 	},
 	"elements": [
 		{

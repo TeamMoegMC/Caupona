@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "block/fig_log",
-		"1": "block/fig_branch_section",
-		"particle": "block/fig_log"
+		"0": "caupona:block/fig_log",
+		"1": "caupona:block/fig_branch_section",
+		"particle": "caupona:block/fig_log"
 	},
 	"elements": [
 		{

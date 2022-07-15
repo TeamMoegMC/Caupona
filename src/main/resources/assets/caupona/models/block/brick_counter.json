@@ -1,7 +1,7 @@
 {
-    "parent": "block/template_counter_standalone",
+    "parent": "caupona:block/template_counter_standalone",
     "textures": {
-        "stove": "block/brick_kitchen_stove",
+        "stove": "caupona:block/brick_kitchen_stove",
         "particle": "minecraft:block/bricks"
     }
 }

@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:block/template_orientable_trapdoor_top",
 	"textures": {
-		"texture": "block/walnut_trapdoor"
+		"texture": "caupona:block/walnut_trapdoor"
 	}
 }

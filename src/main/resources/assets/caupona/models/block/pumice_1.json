@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:block/cube_all",
     "textures": {
-        "all": "block/pumice_1"
+        "all": "caupona:block/pumice_1"
     }
 }

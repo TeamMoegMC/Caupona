@@ -3,7 +3,7 @@
 	"ambientocclusion": false,
 	"texture_size": [64, 32],
 	"textures": {
-		"dolium": "block/dolium"
+		"dolium": "caupona:block/dolium"
 	},
 	"elements": [
 		{

@@ -3,8 +3,8 @@
 	"ambientocclusion": false,
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "block/gravy_boat",
-		"particle": "block/gravy_boat"
+		"0": "caupona:block/gravy_boat",
+		"particle": "caupona:block/gravy_boat"
 	},
 	"elements": [
 		{

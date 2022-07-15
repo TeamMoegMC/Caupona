@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:block/template_wall_post",
 	"textures": {
-		"wall": "block/felsic_tuff"
+		"wall": "caupona:block/felsic_tuff"
 	}
 }

@@ -1,7 +1,7 @@
 {
-    "parent": "block/template_counter_with_dolium_standalone",
+    "parent": "caupona:block/template_counter_with_dolium_standalone",
     "textures": {
-        "stove": "block/mud_kitchen_stove",
-        "particle": "block/mud_kitchen_stove"
+        "stove": "caupona:block/mud_kitchen_stove",
+        "particle": "caupona:block/mud_kitchen_stove"
     }
 }

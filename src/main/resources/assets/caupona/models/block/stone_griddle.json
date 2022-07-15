@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "block/stone_griddle",
-		"particle": "block/stone_griddle"
+		"0": "caupona:block/stone_griddle",
+		"particle": "caupona:block/stone_griddle"
 	},
 	"elements": [
 		{

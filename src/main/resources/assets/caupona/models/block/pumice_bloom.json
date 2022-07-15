@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "block/pumice_0",
-		"particle": "block/pumice_0"
+		"0": "caupona:block/pumice_0",
+		"particle": "caupona:block/pumice_0"
 	},
 	"elements": [
 		{

@@ -1,7 +1,7 @@
 {
-    "parent": "block/template_frying_pan",
+    "parent": "caupona:block/template_frying_pan",
     "textures": {
-        "pan": "block/iron_frying_pan",
-        "particle": "block/iron_frying_pan"
+        "pan": "caupona:block/iron_frying_pan",
+        "particle": "caupona:block/iron_frying_pan"
     }
 }

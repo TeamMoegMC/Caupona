@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "block/bowl_with_liquid",
-		"particle": "block/bowl_with_liquid"
+		"0": "caupona:block/bowl_with_liquid",
+		"particle": "caupona:block/bowl_with_liquid"
 	},
 	"elements": [
 		{

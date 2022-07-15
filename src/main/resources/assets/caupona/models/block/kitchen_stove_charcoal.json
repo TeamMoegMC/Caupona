@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "block/kitchen_stove_charcoal",
-		"particle": "block/kitchen_stove_charcoal"
+		"0": "caupona:block/kitchen_stove_charcoal",
+		"particle": "caupona:block/kitchen_stove_charcoal"
 	},
 	"elements": [
 		{

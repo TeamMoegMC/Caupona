@@ -3,8 +3,8 @@
 	"ambientocclusion": false,
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "block/fumarole",
-		"particle": "block/fumarole"
+		"0": "caupona:block/fumarole",
+		"particle": "caupona:block/fumarole"
 	},
 	"elements": [
 		{

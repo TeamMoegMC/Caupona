@@ -1,16 +1,16 @@
 {
 	"variants": {
 		"age=0": [
-			{"model": "block/walnut_fruits_stage_1"},
-			{"model": "block/walnut_fruits_stage_1", "y": 90}
+			{"model": "caupona:block/walnut_fruits_stage_1"},
+			{"model": "caupona:block/walnut_fruits_stage_1", "y": 90}
 		], 
 		"age=1": [
-			{"model": "block/walnut_fruits_stage_2"},
-			{"model": "block/walnut_fruits_stage_2", "y": 90}
+			{"model": "caupona:block/walnut_fruits_stage_2"},
+			{"model": "caupona:block/walnut_fruits_stage_2", "y": 90}
 		],
 		"age=2": [
-			{"model": "block/walnut_fruits_stage_3"},
-			{"model": "block/walnut_fruits_stage_3", "y": 90}
+			{"model": "caupona:block/walnut_fruits_stage_3"},
+			{"model": "caupona:block/walnut_fruits_stage_3", "y": 90}
 		]
 	}
 }

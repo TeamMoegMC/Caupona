@@ -1,7 +1,7 @@
 {
 	"variants": {
 		"": {
-			"model": "block/felsic_tuff_bricks"
+			"model": "caupona:block/felsic_tuff_bricks"
 		}
 	}
 }

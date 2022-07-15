@@ -1,8 +1,8 @@
 {
 	"parent": "minecraft:block/slab_top",
 	"textures": {
-		"bottom": "block/felsic_tuff",
-		"top": "block/felsic_tuff",
-		"side": "block/felsic_tuff"
+		"bottom": "caupona:block/felsic_tuff",
+		"top": "caupona:block/felsic_tuff",
+		"side": "caupona:block/felsic_tuff"
 	}
 }

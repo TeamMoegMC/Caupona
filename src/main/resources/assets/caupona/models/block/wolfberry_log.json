@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "block/wolfberry_log",
-		"particle": "block/wolfberry_log"
+		"0": "caupona:block/wolfberry_log",
+		"particle": "caupona:block/wolfberry_log"
 	},
 	"elements": [
 		{

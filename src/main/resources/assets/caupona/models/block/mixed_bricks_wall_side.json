@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:block/template_wall_side",
 	"textures": {
-		"wall": "block/mixed_bricks"
+		"wall": "caupona:block/mixed_bricks"
 	}
 }

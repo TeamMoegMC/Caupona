@@ -3,8 +3,8 @@
 	"ambientocclusion": false,
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "block/gravy_boat_walnut_oil",
-		"particle": "block/gravy_boat_walnut_oil"
+		"0": "caupona:block/gravy_boat_walnut_oil",
+		"particle": "caupona:block/gravy_boat_walnut_oil"
 	},
 	"elements": [
 		{
