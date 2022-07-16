@@ -125,8 +125,8 @@ public class CPRecipeProvider extends RecipeProvider {
 		out.accept(new FoodValueRecipe(rl("food/pumpkin"),3,6f,new ItemStack(Items.PUMPKIN),Items.PUMPKIN,Items.CARVED_PUMPKIN));
 		out.accept(new FoodValueRecipe(rl("food/wheat"),3,5f,new ItemStack(Items.WHEAT),Items.WHEAT,Items.WHEAT_SEEDS));
 		out.accept(new FoodValueRecipe(rl("food/fern"),1,0.5f,new ItemStack(Items.FERN),Items.FERN,Items.LARGE_FERN));
-		System.out.println(CPBlocks.stove1.asItem());
-		System.out.println(CPBlocks.stove1.asItem().getItemCategory());
+		//System.out.println(CPBlocks.stove1.asItem());
+		//System.out.println(CPBlocks.stove1.asItem().getItemCategory());
 		ShapedRecipeBuilder.shaped(CPBlocks.stove1).define('D',Items.DIRT).define('S',Items.COBBLESTONE).pattern("DDD").pattern("SSS").pattern("S S").unlockedBy("has_cobblestone", has(Blocks.COBBLESTONE)).save(outx);
 		ShapedRecipeBuilder.shaped(CPBlocks.stove2).define('T',Items.BRICK_SLAB).define('B',Items.BRICKS).define('C',Items.CLAY).pattern("TTT").pattern("BCB").pattern("B B").unlockedBy("has_bricks", has(Blocks.BRICKS)).save(outx);
 		ShapedRecipeBuilder.shaped(CPItems.clay_pot).define('C',Items.CLAY_BALL).define('S',Items.STICK).pattern("CCC").pattern("CSC").pattern("CCC").unlockedBy("has_clay", has(Items.CLAY_BALL)).save(outx);

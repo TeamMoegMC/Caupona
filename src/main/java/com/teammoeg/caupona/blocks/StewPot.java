@@ -65,7 +65,7 @@ public class StewPot extends CPBaseBlock<StewPotTileEntity> implements LiquidBlo
 		super(name, blockProps, ste, createItemBlock);
 	}
 
-	static final VoxelShape shape = Block.box(1, 0, 1, 15, 14, 15);
+	static final VoxelShape shape = Block.box(1, 0, 1, 15, 12, 15);
 
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos,

@@ -63,7 +63,7 @@ public class CPStatesProvider extends BlockStateProvider {
 		stove(CPBlocks.stove1,"mud_kitchen_stove");
 		stove(CPBlocks.stove2,"brick_kitchen_stove");
 		itemModel(CPBlocks.stew_pot,bmf("stew_pot"));
-		
+		simpleBlock(CPBlocks.bowl,bmf("bowl_of_liquid"));
 	}
 	public void stove(Block block,String mainmodel) {
 		horizontalMultipart(horizontalMultipart(horizontalMultipart(this.getMultipartBuilder(block),bmf(mainmodel))
@@ -72,6 +72,7 @@ public class CPStatesProvider extends BlockStateProvider {
 				,bmf("kitchen_stove_charcoal"),i->i.condition(KitchenStove.FUELED,1))
 				,bmf("kitchen_stove_firewoods"),i->i.condition(KitchenStove.FUELED,2));
 		itemModel(block,bmf(mainmodel));
+		
 	}
     public ModelFile bmf(String name) {
     	return new ModelFile.ExistingModelFile(new ResourceLocation(this.modid,"block/"+name),existingFileHelper);

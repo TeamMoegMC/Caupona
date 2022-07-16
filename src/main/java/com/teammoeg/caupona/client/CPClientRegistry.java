@@ -44,7 +44,10 @@ public class CPClientRegistry {
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stew_pot, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove1, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove2, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(CPBlocks.bowl, RenderType.cutout());
 		BlockEntityRenderers.register(CPTileTypes.STEW_POT.get(), StewPotRenderer::new);
+		BlockEntityRenderers.register(CPTileTypes.BOWL.get(), BowlRenderer::new);
+		
 	}
 
 	@SuppressWarnings("unused")

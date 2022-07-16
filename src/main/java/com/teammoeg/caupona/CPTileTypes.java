@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.blocks.KitchenStoveT1;
 import com.teammoeg.caupona.blocks.KitchenStoveT2;
 import com.teammoeg.caupona.blocks.KitchenStoveTileEntity;
+import com.teammoeg.caupona.blocks.BowlTileEntity;
 import com.teammoeg.caupona.blocks.StewPotTileEntity;
 
 import net.minecraft.world.level.block.Block;
@@ -26,6 +27,9 @@ public class CPTileTypes {
 			makeType((p,s) -> new KitchenStoveT1(p,s), () -> CPBlocks.stove1));
 	public static final RegistryObject<BlockEntityType<KitchenStoveTileEntity>> STOVE2 = REGISTER.register("kitchen_stove_t2",
 			makeType((p,s) -> new KitchenStoveT2(p,s), () -> CPBlocks.stove2));
+	public static final RegistryObject<BlockEntityType<BowlTileEntity>> BOWL = REGISTER.register("bowl",
+			makeType((p,s) -> new BowlTileEntity(p,s), () -> CPBlocks.bowl));
+	
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntitySupplier<T> create,
 			Supplier<Block> valid) {
 		return () -> new BlockEntityType<>(create,ImmutableSet.of(valid.get()), null);

@@ -1,6 +1,7 @@
 package com.teammoeg.caupona;
 
 import com.teammoeg.caupona.blocks.KitchenStove;
+import com.teammoeg.caupona.blocks.BowlBlock;
 import com.teammoeg.caupona.blocks.StewPot;
 import com.teammoeg.caupona.items.CPBlockItem;
 
@@ -12,6 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 
 public class CPBlocks {
+	
 	public static void init() {
 	}
 
@@ -27,6 +29,10 @@ public class CPBlocks {
 	public static Block stove2 = new KitchenStove("brick_kitchen_stove",Block.Properties.of(Material.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops()
 			.strength(2, 10).noOcclusion().lightLevel(s->s.getValue(KitchenStove.LIT)?9:0).isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid),
 			CPTileTypes.STOVE2,
+			CPBlockItem::new);
+	public static Block bowl= new BowlBlock("bowl",Block.Properties.of(Material.WOOD).sound(SoundType.WOOD)
+			.strength(0,0).noOcclusion().isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid),
+			CPTileTypes.BOWL,
 			CPBlockItem::new);
 	   private static boolean isntSolid(BlockState state, BlockGetter reader, BlockPos pos) {
 		      return false;

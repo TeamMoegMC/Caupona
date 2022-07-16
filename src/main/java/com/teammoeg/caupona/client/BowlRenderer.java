@@ -23,7 +23,11 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.blocks.BowlTileEntity;
 import com.teammoeg.caupona.blocks.StewPotTileEntity;
+import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
+import com.teammoeg.caupona.fluid.SoupFluid;
+import com.teammoeg.caupona.items.StewItem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -35,9 +39,9 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
 
-public class StewPotRenderer implements BlockEntityRenderer<StewPotTileEntity> {
+public class BowlRenderer implements BlockEntityRenderer<BowlTileEntity> {
 
-	public StewPotRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
+	public BowlRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
 	}
 
 	private static Vector3f clr(int fromcol, int tocol, float proc) {
@@ -54,23 +58,22 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotTileEntity> {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void render(StewPotTileEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer,
+	public void render(BowlTileEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer,
 			int combinedLightIn, int combinedOverlayIn) {
 		if (!te.getLevel().hasChunkAt(te.getBlockPos()))
 			return;
 		BlockState state = te.getBlockState();
-		if (state.getBlock() != CPBlocks.stew_pot)
+		if (state.getBlock() != CPBlocks.bowl)
 			return;
+		
+		if(te.internal==null||!(te.internal.getItem() instanceof StewItem))return;
+		FluidStack fs = BowlContainingRecipe.extractFluid(te.internal);
 		matrixStack.pushPose();
-		FluidStack fs = te.getTank().getFluid();
 		if (fs != null && !fs.isEmpty() && fs.getFluid() != null) {
 			float rr=fs.getAmount();
-			if(te.proctype==2)//just animate fluid reduction
-				rr+=250f*(1-te.process*1f/te.processMax);
-			float yy = Math.min(1,rr / te.getTank().getCapacity()) * .5f + .1875f;
-			matrixStack.translate(0, yy, 0);
+			matrixStack.translate(0, .28125f, 0);
 			matrixStack.mulPose(new Quaternion(90, 0, 0, true));
-			matrixStack.pushPose();
+			
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
 			TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager()
 					.getAtlas(InventoryMenu.BLOCK_ATLAS)
@@ -81,28 +84,12 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotTileEntity> {
 			if (iW > 0 && iH > 0) {
 				Vector3f clr;
 				float alp = 1f;
-				if (te.become != null && te.processMax > 0) {
-					TextureAtlasSprite sprite2 = Minecraft.getInstance().getModelManager()
-							.getAtlas(InventoryMenu.BLOCK_ATLAS)
-							.getSprite(te.become.getAttributes().getStillTexture(fs));
-					float proc = te.process * 1f / te.processMax;
-					clr = clr(col, te.become.getAttributes().getColor(fs), proc);
-					if (sprite2.getWidth() > 0 && sprite2.getHeight() > 0) {
-						alp = 1 - proc;
-						RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(),
-								clr.y(), clr.z(), proc, sprite2.getU0(), sprite2.getU1(), sprite2.getV0(),
-								sprite2.getV1(), combinedLightIn, combinedOverlayIn);
-					}
-				} else {
-					clr = clr(col);
-
-				}
-				RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(),
+				clr = clr(col);
+				RenderUtils.drawTexturedColoredRect(builder, matrixStack, .28125f, .28125f, .4375f, .4375f, clr.x(),
 						clr.y(), clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(),
 						sprite.getV1(), combinedLightIn, combinedOverlayIn);
 
 			}
-			matrixStack.popPose();
 		}
 		
 		matrixStack.popPose();
