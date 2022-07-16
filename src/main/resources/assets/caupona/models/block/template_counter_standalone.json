@@ -1,18 +1,78 @@
 {
+	"parent": "minecraft:block/cube",
 	"credit": "Made with Blockbench",
-	"texture_size": [64, 32],
+	"texture_size": [
+		64,
+		32
+	],
 	"elements": [
 		{
 			"name": "counter",
-			"from": [0, 0, 0],
-			"to": [16, 16, 16],
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
 			"faces": {
-				"north": {"uv": [12, 0, 16, 8], "texture": "#stove"},
-				"east": {"uv": [8, 0, 12, 8], "texture": "#stove"},
-				"south": {"uv": [12, 0, 16, 8], "texture": "#stove"},
-				"west": {"uv": [0, 0, 4, 8], "texture": "#stove"},
-				"up": {"uv": [12, 8, 16, 16], "texture": "#stove"},
-				"down": {"uv": [4, 8, 8, 16], "texture": "#stove"}
+				"north": {
+					"uv": [
+						12,
+						0,
+						16,
+						8
+					],
+					"texture": "#stove"
+				},
+				"east": {
+					"uv": [
+						8,
+						0,
+						12,
+						8
+					],
+					"texture": "#stove"
+				},
+				"south": {
+					"uv": [
+						12,
+						0,
+						16,
+						8
+					],
+					"texture": "#stove"
+				},
+				"west": {
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					],
+					"texture": "#stove"
+				},
+				"up": {
+					"uv": [
+						12,
+						8,
+						16,
+						16
+					],
+					"texture": "#stove"
+				},
+				"down": {
+					"uv": [
+						4,
+						8,
+						8,
+						16
+					],
+					"texture": "#stove"
+				}
 			}
 		}
 	]

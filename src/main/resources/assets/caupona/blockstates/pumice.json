@@ -1,9 +1,9 @@
 {
 	"variants": {
 		"": [
-			{"model": "block/pumice_0"},
-			{"model": "block/pumice_1"},
-			{"model": "block/pumice_2"}
+			{"model": "caupona:block/pumice_0"},
+			{"model": "caupona:block/pumice_1"},
+			{"model": "caupona:block/pumice_2"}
 		]
 	}
 }

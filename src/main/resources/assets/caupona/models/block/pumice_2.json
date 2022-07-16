@@ -1,6 +1,6 @@
 {
-    "parent": "minecraft:block/cube_all",
-    "textures": {
-        "all": "block/pumice_2"
-    }
+	"parent": "minecraft:block/cube_all",
+	"textures": {
+		"all": "caupona:block/pumice_2"
+	}
 }

@@ -1,13 +1,13 @@
 {
 	"variants": {
 		"type=bottom": {
-			"model": "block/mixed_bricks_slab"
+			"model": "caupona:block/mixed_bricks_slab"
 		},
 		"type=double": {
-			"model": "block/mixed_bricks"
+			"model": "caupona:block/mixed_bricks"
 		},
 		"type=top": {
-			"model": "block/mixed_bricks_slab_top"
+			"model": "caupona:block/mixed_bricks_slab_top"
 		}
 	}
 }

@@ -1,7 +1,7 @@
 {
-    "parent": "block/template_counter_with_dolium_standalone",
-    "textures": {
-        "stove": "block/opus_incertum_kitchen_stove",
-        "particle": "block/opus_incertum_0"
-    }
+	"parent": "caupona:block/template_counter_with_dolium_standalone",
+	"textures": {
+		"stove": "caupona:block/opus_incertum_kitchen_stove",
+		"particle": "caupona:block/opus_incertum_0"
+	}
 }

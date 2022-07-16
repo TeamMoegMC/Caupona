@@ -1,165 +1,702 @@
 {
+	"parent": "minecraft:block/cube",
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
-	"texture_size": [64, 32],
+	"texture_size": [
+		64,
+		32
+	],
 	"textures": {
-		"dolium": "block/dolium"
+		"dolium": "caupona:block/dolium"
 	},
 	"elements": [
 		{
 			"name": "counterBase",
-			"from": [0, 0, 0],
-			"to": [16, 4, 16],
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				4,
+				16
+			],
 			"faces": {
-				"north": {"uv": [12, 6, 16, 8], "texture": "#stove"},
-				"east": {"uv": [8, 6, 12, 8], "texture": "#stove"},
-				"south": {"uv": [12, 6, 16, 8], "texture": "#stove"},
-				"west": {"uv": [0, 6, 4, 8], "texture": "#stove"},
-				"up": {"uv": [0, 0, 4, 8], "texture": "#dolium"},
-				"down": {"uv": [4, 8, 8, 16], "texture": "#stove"}
+				"north": {
+					"uv": [
+						12,
+						6,
+						16,
+						8
+					],
+					"texture": "#stove"
+				},
+				"east": {
+					"uv": [
+						8,
+						6,
+						12,
+						8
+					],
+					"texture": "#stove"
+				},
+				"south": {
+					"uv": [
+						12,
+						6,
+						16,
+						8
+					],
+					"texture": "#stove"
+				},
+				"west": {
+					"uv": [
+						0,
+						6,
+						4,
+						8
+					],
+					"texture": "#stove"
+				},
+				"up": {
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					],
+					"texture": "#dolium"
+				},
+				"down": {
+					"uv": [
+						4,
+						8,
+						8,
+						16
+					],
+					"texture": "#stove"
+				}
 			}
 		},
 		{
 			"name": "counterWall1",
-			"from": [0, 4, 0],
-			"to": [4, 16, 12],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				0,
+				4,
+				0
+			],
+			"to": [
+				4,
+				16,
+				12
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [15, 0, 16, 6], "texture": "#stove"},
-				"east": {"uv": [1, 2, 4, 8], "texture": "#dolium"},
-				"west": {"uv": [0, 0, 3, 6], "texture": "#stove"},
-				"up": {"uv": [8, 8, 9, 14], "texture": "#stove"}
+				"north": {
+					"uv": [
+						15,
+						0,
+						16,
+						6
+					],
+					"texture": "#stove"
+				},
+				"east": {
+					"uv": [
+						1,
+						2,
+						4,
+						8
+					],
+					"texture": "#dolium"
+				},
+				"west": {
+					"uv": [
+						0,
+						0,
+						3,
+						6
+					],
+					"texture": "#stove"
+				},
+				"up": {
+					"uv": [
+						8,
+						8,
+						9,
+						14
+					],
+					"texture": "#stove"
+				}
 			}
 		},
 		{
 			"name": "counterWall2",
-			"from": [0, 4, 12],
-			"to": [12, 16, 16],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				0,
+				4,
+				12
+			],
+			"to": [
+				12,
+				16,
+				16
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [1, 2, 4, 8], "texture": "#dolium"},
-				"south": {"uv": [12, 0, 15, 6], "texture": "#stove"},
-				"west": {"uv": [3, 0, 4, 6], "texture": "#stove"},
-				"up": {"uv": [8, 14, 11, 16], "texture": "#stove"}
+				"north": {
+					"uv": [
+						1,
+						2,
+						4,
+						8
+					],
+					"texture": "#dolium"
+				},
+				"south": {
+					"uv": [
+						12,
+						0,
+						15,
+						6
+					],
+					"texture": "#stove"
+				},
+				"west": {
+					"uv": [
+						3,
+						0,
+						4,
+						6
+					],
+					"texture": "#stove"
+				},
+				"up": {
+					"uv": [
+						8,
+						14,
+						11,
+						16
+					],
+					"texture": "#stove"
+				}
 			}
 		},
 		{
 			"name": "counterWall3",
-			"from": [12, 4, 4],
-			"to": [16, 16, 16],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				12,
+				4,
+				4
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"east": {"uv": [8, 0, 11, 6], "texture": "#stove"},
-				"south": {"uv": [15, 0, 16, 6], "texture": "#stove"},
-				"west": {"uv": [1, 2, 4, 8], "texture": "#dolium"},
-				"up": {"uv": [11, 10, 12, 16], "texture": "#stove"}
+				"east": {
+					"uv": [
+						8,
+						0,
+						11,
+						6
+					],
+					"texture": "#stove"
+				},
+				"south": {
+					"uv": [
+						15,
+						0,
+						16,
+						6
+					],
+					"texture": "#stove"
+				},
+				"west": {
+					"uv": [
+						1,
+						2,
+						4,
+						8
+					],
+					"texture": "#dolium"
+				},
+				"up": {
+					"uv": [
+						11,
+						10,
+						12,
+						16
+					],
+					"texture": "#stove"
+				}
 			}
 		},
 		{
 			"name": "counterWall4",
-			"from": [4, 4, 0],
-			"to": [16, 16, 4],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				4,
+				4,
+				0
+			],
+			"to": [
+				16,
+				16,
+				4
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [12, 0, 15, 6], "texture": "#stove"},
-				"east": {"uv": [11, 0, 12, 6], "texture": "#stove"},
-				"south": {"uv": [1, 2, 4, 8], "texture": "#dolium"},
-				"up": {"uv": [9, 8, 12, 10], "texture": "#stove"}
+				"north": {
+					"uv": [
+						12,
+						0,
+						15,
+						6
+					],
+					"texture": "#stove"
+				},
+				"east": {
+					"uv": [
+						11,
+						0,
+						12,
+						6
+					],
+					"texture": "#stove"
+				},
+				"south": {
+					"uv": [
+						1,
+						2,
+						4,
+						8
+					],
+					"texture": "#dolium"
+				},
+				"up": {
+					"uv": [
+						9,
+						8,
+						12,
+						10
+					],
+					"texture": "#stove"
+				}
 			}
 		},
 		{
 			"name": "doliumRim1",
-			"from": [11, 14.01, 5.5],
-			"to": [14, 16.01, 10.5],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				11,
+				14.01,
+				5.5
+			],
+			"to": [
+				14,
+				16.01,
+				10.5
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"west": {"uv": [4, 1.5, 5.25, 2.5], "texture": "#dolium"},
-				"up": {"uv": [4, 0, 5.25, 1.5], "rotation": 90, "texture": "#dolium"}
+				"west": {
+					"uv": [
+						4,
+						1.5,
+						5.25,
+						2.5
+					],
+					"texture": "#dolium"
+				},
+				"up": {
+					"uv": [
+						4,
+						0,
+						5.25,
+						1.5
+					],
+					"rotation": 90,
+					"texture": "#dolium"
+				}
 			}
 		},
 		{
 			"name": "doliumRim2",
-			"from": [11, 14.005, 5.5],
-			"to": [14, 16.005, 10.5],
-			"rotation": {"angle": -45, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				11,
+				14.005,
+				5.5
+			],
+			"to": [
+				14,
+				16.005,
+				10.5
+			],
+			"rotation": {
+				"angle": -45,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"west": {"uv": [4, 1.5, 5.25, 2.5], "texture": "#dolium"},
-				"up": {"uv": [5.25, 0, 6.5, 1.5], "rotation": 90, "texture": "#dolium"}
+				"west": {
+					"uv": [
+						4,
+						1.5,
+						5.25,
+						2.5
+					],
+					"texture": "#dolium"
+				},
+				"up": {
+					"uv": [
+						5.25,
+						0,
+						6.5,
+						1.5
+					],
+					"rotation": 90,
+					"texture": "#dolium"
+				}
 			}
 		},
 		{
 			"name": "doliumRim3",
-			"from": [5.5, 14.01, 11],
-			"to": [10.5, 16.01, 14],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				5.5,
+				14.01,
+				11
+			],
+			"to": [
+				10.5,
+				16.01,
+				14
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [4, 1.5, 5.25, 2.5], "texture": "#dolium"},
-				"up": {"uv": [4, 0, 5.25, 1.5], "rotation": 180, "texture": "#dolium"}
+				"north": {
+					"uv": [
+						4,
+						1.5,
+						5.25,
+						2.5
+					],
+					"texture": "#dolium"
+				},
+				"up": {
+					"uv": [
+						4,
+						0,
+						5.25,
+						1.5
+					],
+					"rotation": 180,
+					"texture": "#dolium"
+				}
 			}
 		},
 		{
 			"name": "doliumRim4",
-			"from": [5.5, 14.005, 11],
-			"to": [10.5, 16.005, 14],
-			"rotation": {"angle": -45, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				5.5,
+				14.005,
+				11
+			],
+			"to": [
+				10.5,
+				16.005,
+				14
+			],
+			"rotation": {
+				"angle": -45,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [4, 1.5, 5.25, 2.5], "texture": "#dolium"},
-				"up": {"uv": [5.25, 0, 6.5, 1.5], "rotation": 180, "texture": "#dolium"}
+				"north": {
+					"uv": [
+						4,
+						1.5,
+						5.25,
+						2.5
+					],
+					"texture": "#dolium"
+				},
+				"up": {
+					"uv": [
+						5.25,
+						0,
+						6.5,
+						1.5
+					],
+					"rotation": 180,
+					"texture": "#dolium"
+				}
 			}
 		},
 		{
 			"name": "doliumRim5",
-			"from": [2, 14.01, 5.5],
-			"to": [5, 16.01, 10.5],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				2,
+				14.01,
+				5.5
+			],
+			"to": [
+				5,
+				16.01,
+				10.5
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"east": {"uv": [4, 1.5, 5.25, 2.5], "texture": "#dolium"},
-				"up": {"uv": [4, 0, 5.25, 1.5], "rotation": 270, "texture": "#dolium"}
+				"east": {
+					"uv": [
+						4,
+						1.5,
+						5.25,
+						2.5
+					],
+					"texture": "#dolium"
+				},
+				"up": {
+					"uv": [
+						4,
+						0,
+						5.25,
+						1.5
+					],
+					"rotation": 270,
+					"texture": "#dolium"
+				}
 			}
 		},
 		{
 			"name": "doliumRim6",
-			"from": [5.5, 14.005, 2],
-			"to": [10.5, 16.005, 5],
-			"rotation": {"angle": 45, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				5.5,
+				14.005,
+				2
+			],
+			"to": [
+				10.5,
+				16.005,
+				5
+			],
+			"rotation": {
+				"angle": 45,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"south": {"uv": [4, 1.5, 5.25, 2.5], "texture": "#dolium"},
-				"up": {"uv": [5.25, 0, 6.5, 1.5], "texture": "#dolium"}
+				"south": {
+					"uv": [
+						4,
+						1.5,
+						5.25,
+						2.5
+					],
+					"texture": "#dolium"
+				},
+				"up": {
+					"uv": [
+						5.25,
+						0,
+						6.5,
+						1.5
+					],
+					"texture": "#dolium"
+				}
 			}
 		},
 		{
 			"name": "doliumRim7",
-			"from": [5.5, 14.01, 2],
-			"to": [10.5, 16.01, 5],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				5.5,
+				14.01,
+				2
+			],
+			"to": [
+				10.5,
+				16.01,
+				5
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"south": {"uv": [4, 1.5, 5.25, 2.5], "texture": "#dolium"},
-				"up": {"uv": [4, 0, 5.25, 1.5], "texture": "#dolium"}
+				"south": {
+					"uv": [
+						4,
+						1.5,
+						5.25,
+						2.5
+					],
+					"texture": "#dolium"
+				},
+				"up": {
+					"uv": [
+						4,
+						0,
+						5.25,
+						1.5
+					],
+					"texture": "#dolium"
+				}
 			}
 		},
 		{
 			"name": "doliumRim8",
-			"from": [11, 14.005, 5.5],
-			"to": [14, 16.005, 10.5],
-			"rotation": {"angle": 45, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				11,
+				14.005,
+				5.5
+			],
+			"to": [
+				14,
+				16.005,
+				10.5
+			],
+			"rotation": {
+				"angle": 45,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"west": {"uv": [4, 1.5, 5.25, 2.5], "texture": "#dolium"},
-				"up": {"uv": [5.25, 0, 6.5, 1.5], "rotation": 90, "texture": "#dolium"}
+				"west": {
+					"uv": [
+						4,
+						1.5,
+						5.25,
+						2.5
+					],
+					"texture": "#dolium"
+				},
+				"up": {
+					"uv": [
+						5.25,
+						0,
+						6.5,
+						1.5
+					],
+					"rotation": 90,
+					"texture": "#dolium"
+				}
 			}
 		}
 	],
 	"groups": [
 		{
 			"name": "CounterBody",
-			"origin": [0, 0, 0],
+			"origin": [
+				0,
+				0,
+				0
+			],
 			"color": 9,
-			"children": [0, 1, 2, 3, 4]
+			"children": [
+				0,
+				1,
+				2,
+				3,
+				4
+			]
 		},
 		{
 			"name": "doliumRim",
-			"origin": [8, 0, 8],
+			"origin": [
+				8,
+				0,
+				8
+			],
 			"color": 2,
-			"children": [5, 6, 7, 8, 9, 10, 11, 12]
+			"children": [
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12
+			]
 		}
 	]
 }

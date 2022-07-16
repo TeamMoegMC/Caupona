@@ -1,7 +1,7 @@
 {
 	"variants": {
 		"": {
-			"model": "block/fumarole_vent"
+			"model": "caupona:block/fumarole_vent"
 		}
 	}
 }

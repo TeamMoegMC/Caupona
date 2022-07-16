@@ -1,7 +1,7 @@
 {
 	"variants": {
 		"": {
-			"model": "block/walnut_sign"
+			"model": "caupona:block/walnut_sign"
 		}
 	}
 }

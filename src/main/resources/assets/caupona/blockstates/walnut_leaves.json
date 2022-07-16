@@ -1,7 +1,7 @@
 {
 	"variants": {
 		"": {
-			"model": "block/walnut_leaves"
+			"model": "caupona:block/walnut_leaves"
 		}
 	}
 }

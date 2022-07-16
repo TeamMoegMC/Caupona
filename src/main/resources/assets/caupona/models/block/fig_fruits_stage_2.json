@@ -1,59 +1,263 @@
 {
+	"parent": "minecraft:block/cube",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "block/fig_fruit_stage_2",
-		"particle": "block/fig_fruit_stage_2"
+		"0": "caupona:block/fig_fruit_stage_2",
+		"particle": "caupona:block/fig_fruit_stage_2"
 	},
 	"elements": [
 		{
 			"name": "figFruitTop3",
-			"from": [6.5, 8, 3.5],
-			"to": [11.5, 13, 8.5],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [5, 0, 4]},
+			"from": [
+				6.5,
+				8,
+				3.5
+			],
+			"to": [
+				11.5,
+				13,
+				8.5
+			],
+			"rotation": {
+				"angle": -22.5,
+				"axis": "y",
+				"origin": [
+					5,
+					0,
+					4
+				]
+			},
 			"faces": {
-				"north": {"uv": [0, 0, 5, 5], "texture": "#0"},
-				"east": {"uv": [5, 0, 10, 5], "texture": "#0"},
-				"south": {"uv": [0, 0, 5, 5], "texture": "#0"},
-				"west": {"uv": [5, 0, 10, 5], "texture": "#0"},
-				"up": {"uv": [5, 5, 10, 10], "texture": "#0"},
-				"down": {"uv": [0, 5, 5, 10], "rotation": 90, "texture": "#0"}
+				"north": {
+					"uv": [
+						0,
+						0,
+						5,
+						5
+					],
+					"texture": "#0"
+				},
+				"east": {
+					"uv": [
+						5,
+						0,
+						10,
+						5
+					],
+					"texture": "#0"
+				},
+				"south": {
+					"uv": [
+						0,
+						0,
+						5,
+						5
+					],
+					"texture": "#0"
+				},
+				"west": {
+					"uv": [
+						5,
+						0,
+						10,
+						5
+					],
+					"texture": "#0"
+				},
+				"up": {
+					"uv": [
+						5,
+						5,
+						10,
+						10
+					],
+					"texture": "#0"
+				},
+				"down": {
+					"uv": [
+						0,
+						5,
+						5,
+						10
+					],
+					"rotation": 90,
+					"texture": "#0"
+				}
 			}
 		},
 		{
 			"name": "figFruitTop2",
-			"from": [9, 13, 4],
-			"to": [9, 16, 8],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [5, 0, 4]},
+			"from": [
+				9,
+				13,
+				4
+			],
+			"to": [
+				9,
+				16,
+				8
+			],
+			"rotation": {
+				"angle": -22.5,
+				"axis": "y",
+				"origin": [
+					5,
+					0,
+					4
+				]
+			},
 			"faces": {
-				"north": {"uv": [0, 0, 0, 3], "texture": "#missing"},
-				"east": {"uv": [0, 10, 4, 13], "texture": "#0"},
-				"south": {"uv": [0, 0, 0, 3], "texture": "#missing"},
-				"west": {"uv": [0, 10, 4, 13], "texture": "#0"},
-				"up": {"uv": [0, 0, 0, 4], "texture": "#missing"},
-				"down": {"uv": [0, 0, 0, 4], "texture": "#missing"}
+				"north": {
+					"uv": [
+						0,
+						0,
+						0,
+						3
+					],
+					"texture": "#missing"
+				},
+				"east": {
+					"uv": [
+						0,
+						10,
+						4,
+						13
+					],
+					"texture": "#0"
+				},
+				"south": {
+					"uv": [
+						0,
+						0,
+						0,
+						3
+					],
+					"texture": "#missing"
+				},
+				"west": {
+					"uv": [
+						0,
+						10,
+						4,
+						13
+					],
+					"texture": "#0"
+				},
+				"up": {
+					"uv": [
+						0,
+						0,
+						0,
+						4
+					],
+					"texture": "#missing"
+				},
+				"down": {
+					"uv": [
+						0,
+						0,
+						0,
+						4
+					],
+					"texture": "#missing"
+				}
 			}
 		},
 		{
 			"name": "figFruitTop1",
-			"from": [7, 13, 6],
-			"to": [11, 16, 6],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [5, 0, 4]},
+			"from": [
+				7,
+				13,
+				6
+			],
+			"to": [
+				11,
+				16,
+				6
+			],
+			"rotation": {
+				"angle": -22.5,
+				"axis": "y",
+				"origin": [
+					5,
+					0,
+					4
+				]
+			},
 			"faces": {
-				"north": {"uv": [0, 10, 4, 13], "texture": "#0"},
-				"east": {"uv": [0, 0, 0, 3], "texture": "#missing"},
-				"south": {"uv": [0, 10, 4, 13], "texture": "#0"},
-				"west": {"uv": [0, 0, 0, 3], "texture": "#missing"},
-				"up": {"uv": [0, 0, 0, 4], "rotation": 270, "texture": "#missing"},
-				"down": {"uv": [0, 0, 0, 4], "rotation": 90, "texture": "#missing"}
+				"north": {
+					"uv": [
+						0,
+						10,
+						4,
+						13
+					],
+					"texture": "#0"
+				},
+				"east": {
+					"uv": [
+						0,
+						0,
+						0,
+						3
+					],
+					"texture": "#missing"
+				},
+				"south": {
+					"uv": [
+						0,
+						10,
+						4,
+						13
+					],
+					"texture": "#0"
+				},
+				"west": {
+					"uv": [
+						0,
+						0,
+						0,
+						3
+					],
+					"texture": "#missing"
+				},
+				"up": {
+					"uv": [
+						0,
+						0,
+						0,
+						4
+					],
+					"rotation": 270,
+					"texture": "#missing"
+				},
+				"down": {
+					"uv": [
+						0,
+						0,
+						0,
+						4
+					],
+					"rotation": 90,
+					"texture": "#missing"
+				}
 			}
 		}
 	],
 	"groups": [
 		{
 			"name": "FigFruitStage2",
-			"origin": [5, 0, 4],
+			"origin": [
+				5,
+				0,
+				4
+			],
 			"color": 0,
-			"children": [0, 1, 2]
+			"children": [
+				0,
+				1,
+				2
+			]
 		}
 	]
 }

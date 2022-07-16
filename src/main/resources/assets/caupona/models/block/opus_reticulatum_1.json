@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:block/cube_all",
 	"textures": {
-		"all": "block/opus_reticulatum_1"
+		"all": "caupona:block/opus_reticulatum_1"
 	}
 }

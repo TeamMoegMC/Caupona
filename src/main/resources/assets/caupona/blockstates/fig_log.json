@@ -2,7 +2,7 @@
 	"multipart": [
 		{
 			"apply": {
-				"model": "block/fig_log"
+				"model": "caupona:block/fig_log"
 			}
 		},
 		{
@@ -10,7 +10,7 @@
 				"fully_foliaged": "true"
 			},
 			"apply": {
-				"model": "block/fig_branches"
+				"model": "caupona:block/fig_branches"
 			}
 		}
 	]

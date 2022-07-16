@@ -1,65 +1,267 @@
 {
+	"parent": "minecraft:block/cube",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "block/walnut_fruit",
-		"particle": "block/walnut_leaves"
+		"1": "caupona:block/walnut_fruit",
+		"particle": "caupona:block/walnut_leaves"
 	},
 	"elements": [
 		{
 			"name": "walnutStem0",
-			"from": [5, 12, 8],
-			"to": [11, 16, 8],
-			"rotation": {"angle": -45, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				5,
+				12,
+				8
+			],
+			"to": [
+				11,
+				16,
+				8
+			],
+			"rotation": {
+				"angle": -45,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [0, 12, 6, 16], "texture": "#1"},
-				"south": {"uv": [0, 12, 6, 16], "texture": "#1"}
+				"north": {
+					"uv": [
+						0,
+						12,
+						6,
+						16
+					],
+					"texture": "#1"
+				},
+				"south": {
+					"uv": [
+						0,
+						12,
+						6,
+						16
+					],
+					"texture": "#1"
+				}
 			}
 		},
 		{
 			"name": "walnurStem1",
-			"from": [5, 12, 8],
-			"to": [11, 16, 8],
-			"rotation": {"angle": 45, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				5,
+				12,
+				8
+			],
+			"to": [
+				11,
+				16,
+				8
+			],
+			"rotation": {
+				"angle": 45,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [0, 12, 6, 16], "texture": "#1"},
-				"south": {"uv": [0, 12, 6, 16], "texture": "#1"}
+				"north": {
+					"uv": [
+						0,
+						12,
+						6,
+						16
+					],
+					"texture": "#1"
+				},
+				"south": {
+					"uv": [
+						0,
+						12,
+						6,
+						16
+					],
+					"texture": "#1"
+				}
 			}
 		},
 		{
 			"name": "walnut0",
-			"from": [8, 7, 3],
-			"to": [13, 12, 8],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [10, 7, 6]},
+			"from": [
+				8,
+				7,
+				3
+			],
+			"to": [
+				13,
+				12,
+				8
+			],
+			"rotation": {
+				"angle": -22.5,
+				"axis": "y",
+				"origin": [
+					10,
+					7,
+					6
+				]
+			},
 			"faces": {
-				"north": {"uv": [0, 0, 5, 5], "texture": "#1"},
-				"east": {"uv": [5, 0, 10, 5], "texture": "#1"},
-				"south": {"uv": [0, 0, 5, 5], "texture": "#1"},
-				"west": {"uv": [5, 0, 10, 5], "texture": "#1"},
-				"up": {"uv": [0, 0, 5, 5], "texture": "#1"},
-				"down": {"uv": [10, 0, 15, 5], "texture": "#1"}
+				"north": {
+					"uv": [
+						0,
+						0,
+						5,
+						5
+					],
+					"texture": "#1"
+				},
+				"east": {
+					"uv": [
+						5,
+						0,
+						10,
+						5
+					],
+					"texture": "#1"
+				},
+				"south": {
+					"uv": [
+						0,
+						0,
+						5,
+						5
+					],
+					"texture": "#1"
+				},
+				"west": {
+					"uv": [
+						5,
+						0,
+						10,
+						5
+					],
+					"texture": "#1"
+				},
+				"up": {
+					"uv": [
+						0,
+						0,
+						5,
+						5
+					],
+					"texture": "#1"
+				},
+				"down": {
+					"uv": [
+						10,
+						0,
+						15,
+						5
+					],
+					"texture": "#1"
+				}
 			}
 		},
 		{
 			"name": "walnut1",
-			"from": [3, 7, 8],
-			"to": [8, 12, 13],
-			"rotation": {"angle": -45, "axis": "y", "origin": [6, 7, 10]},
+			"from": [
+				3,
+				7,
+				8
+			],
+			"to": [
+				8,
+				12,
+				13
+			],
+			"rotation": {
+				"angle": -45,
+				"axis": "y",
+				"origin": [
+					6,
+					7,
+					10
+				]
+			},
 			"faces": {
-				"north": {"uv": [5, 0, 10, 5], "texture": "#1"},
-				"east": {"uv": [0, 0, 5, 5], "texture": "#1"},
-				"south": {"uv": [5, 0, 10, 5], "texture": "#1"},
-				"west": {"uv": [0, 0, 5, 5], "texture": "#1"},
-				"up": {"uv": [5, 0, 10, 5], "texture": "#1"},
-				"down": {"uv": [10, 0, 15, 5], "texture": "#1"}
+				"north": {
+					"uv": [
+						5,
+						0,
+						10,
+						5
+					],
+					"texture": "#1"
+				},
+				"east": {
+					"uv": [
+						0,
+						0,
+						5,
+						5
+					],
+					"texture": "#1"
+				},
+				"south": {
+					"uv": [
+						5,
+						0,
+						10,
+						5
+					],
+					"texture": "#1"
+				},
+				"west": {
+					"uv": [
+						0,
+						0,
+						5,
+						5
+					],
+					"texture": "#1"
+				},
+				"up": {
+					"uv": [
+						5,
+						0,
+						10,
+						5
+					],
+					"texture": "#1"
+				},
+				"down": {
+					"uv": [
+						10,
+						0,
+						15,
+						5
+					],
+					"texture": "#1"
+				}
 			}
 		}
 	],
 	"groups": [
 		{
 			"name": "WalnutFruitsStage3",
-			"origin": [6, 7, 10],
+			"origin": [
+				6,
+				7,
+				10
+			],
 			"color": 0,
-			"children": [0, 1, 2, 3]
+			"children": [
+				0,
+				1,
+				2,
+				3
+			]
 		}
 	]
 }

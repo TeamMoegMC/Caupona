@@ -1,13 +1,13 @@
 {
 	"variants": {
 		"type=bottom": {
-			"model": "block/felsic_tuff_bricks_slab"
+			"model": "caupona:block/felsic_tuff_bricks_slab"
 		},
 		"type=double": {
-			"model": "block/felsic_tuff_bricks"
+			"model": "caupona:block/felsic_tuff_bricks"
 		},
 		"type=top": {
-			"model": "block/felsic_tuff_bricks_slab_top"
+			"model": "caupona:block/felsic_tuff_bricks_slab_top"
 		}
 	}
 }

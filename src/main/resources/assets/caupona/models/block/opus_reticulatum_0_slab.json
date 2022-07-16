@@ -1,8 +1,8 @@
 {
 	"parent": "minecraft:block/slab",
 	"textures": {
-		"bottom": "block/opus_reticulatum_0",
-		"top": "block/opus_reticulatum_0",
-		"side": "block/opus_reticulatum_0"
+		"bottom": "caupona:block/opus_reticulatum_0",
+		"top": "caupona:block/opus_reticulatum_0",
+		"side": "caupona:block/opus_reticulatum_0"
 	}
 }

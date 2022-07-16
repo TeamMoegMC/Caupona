@@ -1,15 +1,15 @@
 {
 	"variants": {
 		"axis=x": {
-			"model": "block/walnut_log_horizontal",
+			"model": "caupona:block/walnut_log_horizontal",
 			"x": 90,
 			"y": 90
 		},
 		"axis=y": {
-			"model": "block/walnut_log"
+			"model": "caupona:block/walnut_log"
 		},
 		"axis=z": {
-			"model": "block/walnut_log_horizontal",
+			"model": "caupona:block/walnut_log_horizontal",
 			"x": 90
 		}
 	}

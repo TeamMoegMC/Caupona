@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:block/wall_inventory",
 	"textures": {
-		"wall": "block/felsic_tuff_bricks"
+		"wall": "caupona:block/felsic_tuff_bricks"
 	}
 }

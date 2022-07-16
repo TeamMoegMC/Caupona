@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:block/button_inventory",
 	"textures": {
-		"texture": "block/walnut_planks"
+		"texture": "caupona:block/walnut_planks"
 	}
 }

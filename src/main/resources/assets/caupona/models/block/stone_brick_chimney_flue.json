@@ -1,9 +1,9 @@
 {
-    "parent": "block/template_chimney_flue",
-    "textures": {
-        "outer": "minecraft:block/stone_bricks",
-        "inner": "minecraft:block/stone_bricks",
-        "polar": "minecraft:block/stone_bricks",
-        "particle": "minecraft:block/stone_bricks"
-    }
+	"parent": "caupona:block/template_chimney_flue",
+	"textures": {
+		"outer": "minecraft:block/stone_bricks",
+		"inner": "minecraft:block/stone_bricks",
+		"polar": "minecraft:block/stone_bricks",
+		"particle": "minecraft:block/stone_bricks"
+	}
 }
