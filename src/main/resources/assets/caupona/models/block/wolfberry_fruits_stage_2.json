@@ -1,4 +1,5 @@
 {
+	"parent": "minecraft:block/cube",
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "caupona:block/wolfberry_fruit_stage_2",
@@ -7,31 +8,102 @@
 	"elements": [
 		{
 			"name": "fruit1",
-			"from": [0, 0, 8],
-			"to": [16, 16, 8],
-			"rotation": {"angle": -45, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				0,
+				0,
+				8
+			],
+			"to": [
+				16,
+				16,
+				8
+			],
+			"rotation": {
+				"angle": -45,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [0, 0, 16, 16], "texture": "#0"},
-				"south": {"uv": [0, 0, 16, 16], "texture": "#0"}
+				"north": {
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"texture": "#0"
+				},
+				"south": {
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"texture": "#0"
+				}
 			}
 		},
 		{
 			"name": "fruit2",
-			"from": [8, 0, 0],
-			"to": [8, 16, 16],
-			"rotation": {"angle": -45, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				8,
+				0,
+				0
+			],
+			"to": [
+				8,
+				16,
+				16
+			],
+			"rotation": {
+				"angle": -45,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"east": {"uv": [0, 0, 16, 16], "texture": "#0"},
-				"west": {"uv": [0, 0, 16, 16], "texture": "#0"}
+				"east": {
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"texture": "#0"
+				},
+				"west": {
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"texture": "#0"
+				}
 			}
 		}
 	],
 	"groups": [
 		{
 			"name": "WolfberryFruitStage2",
-			"origin": [5, 0, 4],
+			"origin": [
+				5,
+				0,
+				4
+			],
 			"color": 0,
-			"children": [0, 1]
+			"children": [
+				0,
+				1
+			]
 		}
 	]
 }

@@ -1,7 +1,7 @@
 {
-    "parent": "caupona:block/template_counter_standalone",
-    "textures": {
-        "stove": "caupona:block/mud_kitchen_stove",
-        "particle": "caupona:block/mud_kitchen_stove"
-    }
+	"parent": "caupona:block/template_counter_standalone",
+	"textures": {
+		"stove": "caupona:block/mud_kitchen_stove",
+		"particle": "caupona:block/mud_kitchen_stove"
+	}
 }

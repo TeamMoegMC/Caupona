@@ -1,7 +1,7 @@
 {
-    "parent": "caupona:block/template_chimney_pot",
-    "textures": {
-        "chimney": "caupona:block/brick_chimney",
-        "particle": "minecraft:block/bricks"
-    }
+	"parent": "caupona:block/template_chimney_pot",
+	"textures": {
+		"chimney": "caupona:block/brick_chimney",
+		"particle": "minecraft:block/bricks"
+	}
 }

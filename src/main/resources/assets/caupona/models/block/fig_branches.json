@@ -1,4 +1,5 @@
 {
+	"parent": "minecraft:block/cube",
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "caupona:block/fig_log",
@@ -8,38 +9,172 @@
 	"elements": [
 		{
 			"name": "branchUpper",
-			"from": [0, 2, 6],
-			"to": [16, 6, 10],
+			"from": [
+				0,
+				2,
+				6
+			],
+			"to": [
+				16,
+				6,
+				10
+			],
 			"faces": {
-				"north": {"uv": [12, 0, 16, 16], "rotation": 270, "texture": "#0"},
-				"east": {"uv": [0, 8, 4, 12], "texture": "#1"},
-				"south": {"uv": [4, 0, 8, 16], "rotation": 90, "texture": "#0"},
-				"west": {"uv": [0, 8, 4, 12], "texture": "#1"},
-				"up": {"uv": [0, 0, 4, 16], "rotation": 90, "texture": "#0"},
-				"down": {"uv": [8, 0, 12, 16], "rotation": 90, "texture": "#0"}
+				"north": {
+					"uv": [
+						12,
+						0,
+						16,
+						16
+					],
+					"rotation": 270,
+					"texture": "#0"
+				},
+				"east": {
+					"uv": [
+						0,
+						8,
+						4,
+						12
+					],
+					"texture": "#1"
+				},
+				"south": {
+					"uv": [
+						4,
+						0,
+						8,
+						16
+					],
+					"rotation": 90,
+					"texture": "#0"
+				},
+				"west": {
+					"uv": [
+						0,
+						8,
+						4,
+						12
+					],
+					"texture": "#1"
+				},
+				"up": {
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					],
+					"rotation": 90,
+					"texture": "#0"
+				},
+				"down": {
+					"uv": [
+						8,
+						0,
+						12,
+						16
+					],
+					"rotation": 90,
+					"texture": "#0"
+				}
 			}
 		},
 		{
 			"name": "branchLower",
-			"from": [6, 10, 0],
-			"to": [10, 14, 16],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				6,
+				10,
+				0
+			],
+			"to": [
+				10,
+				14,
+				16
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [0, 8, 4, 12], "texture": "#1"},
-				"east": {"uv": [4, 0, 8, 16], "rotation": 90, "texture": "#0"},
-				"south": {"uv": [0, 8, 4, 12], "texture": "#1"},
-				"west": {"uv": [12, 0, 16, 16], "rotation": 270, "texture": "#0"},
-				"up": {"uv": [0, 0, 4, 16], "texture": "#0"},
-				"down": {"uv": [8, 0, 12, 16], "rotation": 180, "texture": "#0"}
+				"north": {
+					"uv": [
+						0,
+						8,
+						4,
+						12
+					],
+					"texture": "#1"
+				},
+				"east": {
+					"uv": [
+						4,
+						0,
+						8,
+						16
+					],
+					"rotation": 90,
+					"texture": "#0"
+				},
+				"south": {
+					"uv": [
+						0,
+						8,
+						4,
+						12
+					],
+					"texture": "#1"
+				},
+				"west": {
+					"uv": [
+						12,
+						0,
+						16,
+						16
+					],
+					"rotation": 270,
+					"texture": "#0"
+				},
+				"up": {
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					],
+					"texture": "#0"
+				},
+				"down": {
+					"uv": [
+						8,
+						0,
+						12,
+						16
+					],
+					"rotation": 180,
+					"texture": "#0"
+				}
 			}
 		}
 	],
 	"groups": [
 		{
 			"name": "FigBranches",
-			"origin": [8, 8, 8],
+			"origin": [
+				8,
+				8,
+				8
+			],
 			"color": 0,
-			"children": [0, 1]
+			"children": [
+				0,
+				1
+			]
 		}
 	]
 }

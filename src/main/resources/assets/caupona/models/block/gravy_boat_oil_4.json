@@ -1,7 +1,11 @@
 {
+	"parent": "minecraft:block/cube",
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
-	"texture_size": [32, 32],
+	"texture_size": [
+		32,
+		32
+	],
 	"textures": {
 		"0": "caupona:block/gravy_boat_walnut_oil",
 		"particle": "caupona:block/gravy_boat_walnut_oil"
@@ -9,24 +13,86 @@
 	"elements": [
 		{
 			"name": "gravyBody",
-			"from": [3.5, 2.5, 4.5],
-			"to": [12.5, 2.75, 11.5],
+			"from": [
+				3.5,
+				2.5,
+				4.5
+			],
+			"to": [
+				12.5,
+				2.75,
+				11.5
+			],
 			"faces": {
-				"north": {"uv": [9, 1, 13.5, 1.5], "texture": "#0"},
-				"east": {"uv": [9, 3, 12.5, 3.5], "texture": "#0"},
-				"south": {"uv": [9, 1, 13.5, 1.5], "texture": "#0"},
-				"west": {"uv": [9, 3, 12.5, 3.5], "texture": "#0"},
-				"up": {"uv": [0, 4, 4.5, 7.5], "texture": "#0"},
-				"down": {"uv": [0, 4, 4.5, 7.5], "texture": "#0"}
+				"north": {
+					"uv": [
+						9,
+						1,
+						13.5,
+						1.5
+					],
+					"texture": "#0"
+				},
+				"east": {
+					"uv": [
+						9,
+						3,
+						12.5,
+						3.5
+					],
+					"texture": "#0"
+				},
+				"south": {
+					"uv": [
+						9,
+						1,
+						13.5,
+						1.5
+					],
+					"texture": "#0"
+				},
+				"west": {
+					"uv": [
+						9,
+						3,
+						12.5,
+						3.5
+					],
+					"texture": "#0"
+				},
+				"up": {
+					"uv": [
+						0,
+						4,
+						4.5,
+						7.5
+					],
+					"texture": "#0"
+				},
+				"down": {
+					"uv": [
+						0,
+						4,
+						4.5,
+						7.5
+					],
+					"texture": "#0"
+				}
 			}
 		}
 	],
 	"groups": [
 		{
 			"name": "GravyBoatOil",
-			"origin": [8, 8, 8],
+			"origin": [
+				8,
+				8,
+				8
+			],
 			"color": 0,
-			"children": [0]
+			"children": [
+				0
+			]
 		}
 	]
 }

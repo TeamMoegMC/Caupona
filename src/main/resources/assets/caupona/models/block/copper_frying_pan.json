@@ -1,7 +1,7 @@
 {
-    "parent": "caupona:block/template_frying_pan",
-    "textures": {
-        "pan": "caupona:block/copper_frying_pan",
-        "particle": "caupona:block/copper_frying_pan"
-    }
+	"parent": "caupona:block/template_frying_pan",
+	"textures": {
+		"pan": "caupona:block/copper_frying_pan",
+		"particle": "caupona:block/copper_frying_pan"
+	}
 }

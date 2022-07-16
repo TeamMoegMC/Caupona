@@ -1,7 +1,7 @@
 {
-    "parent": "caupona:block/template_chimney_pot",
-    "textures": {
-        "chimney": "caupona:block/opus_latericium_chimney",
-        "particle": "caupona:block/opus_latericium_0"
-    }
+	"parent": "caupona:block/template_chimney_pot",
+	"textures": {
+		"chimney": "caupona:block/opus_latericium_chimney",
+		"particle": "caupona:block/opus_latericium_0"
+	}
 }

@@ -1,7 +1,7 @@
 {
-    "parent": "caupona:block/template_counter_standalone",
-    "textures": {
-        "stove": "caupona:block/opus_incertum_kitchen_stove",
-        "particle": "caupona:block/opus_incertum_0"
-    }
+	"parent": "caupona:block/template_counter_standalone",
+	"textures": {
+		"stove": "caupona:block/opus_incertum_kitchen_stove",
+		"particle": "caupona:block/opus_incertum_0"
+	}
 }

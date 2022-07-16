@@ -1,151 +1,784 @@
 {
+	"parent": "minecraft:block/cube",
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
-	"texture_size": [64, 32],
+	"texture_size": [
+		64,
+		32
+	],
 	"elements": [
 		{
 			"name": "stoveBackWall",
-			"from": [0, 0, 0],
-			"to": [16, 14, 6],
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				14,
+				6
+			],
 			"faces": {
-				"north": {"uv": [12, 1, 16, 8], "texture": "#stove"},
-				"east": {"uv": [10.5, 1, 12, 8], "texture": "#stove"},
-				"south": {"uv": [4, 7.5, 8, 14.5], "texture": "#stove"},
-				"west": {"uv": [0, 1, 1.5, 8], "texture": "#stove"},
-				"up": {"uv": [0, 8, 4, 11], "texture": "#stove"},
-				"down": {"uv": [4, 13, 8, 16], "texture": "#stove"}
+				"north": {
+					"uv": [
+						12,
+						1,
+						16,
+						8
+					],
+					"texture": "#stove"
+				},
+				"east": {
+					"uv": [
+						10.5,
+						1,
+						12,
+						8
+					],
+					"texture": "#stove"
+				},
+				"south": {
+					"uv": [
+						4,
+						7.5,
+						8,
+						14.5
+					],
+					"texture": "#stove"
+				},
+				"west": {
+					"uv": [
+						0,
+						1,
+						1.5,
+						8
+					],
+					"texture": "#stove"
+				},
+				"up": {
+					"uv": [
+						0,
+						8,
+						4,
+						11
+					],
+					"texture": "#stove"
+				},
+				"down": {
+					"uv": [
+						4,
+						13,
+						8,
+						16
+					],
+					"texture": "#stove"
+				}
 			}
 		},
 		{
 			"name": "stoveLeftWall",
-			"from": [0, 0, 6],
-			"to": [3, 8, 16],
+			"from": [
+				0,
+				0,
+				6
+			],
+			"to": [
+				3,
+				8,
+				16
+			],
 			"faces": {
-				"north": {"uv": [0, 0, 0.75, 4], "texture": "#stove"},
-				"east": {"uv": [4, 10.5, 6.5, 14.5], "texture": "#stove"},
-				"south": {"uv": [4, 4, 4.75, 8], "texture": "#stove"},
-				"west": {"uv": [1.5, 4, 4, 8], "texture": "#stove"},
-				"up": {"uv": [0, 0, 0.75, 5], "texture": "#stove"},
-				"down": {"uv": [4, 8, 4.75, 13], "texture": "#stove"}
+				"north": {
+					"uv": [
+						0,
+						0,
+						0.75,
+						4
+					],
+					"texture": "#stove"
+				},
+				"east": {
+					"uv": [
+						4,
+						10.5,
+						6.5,
+						14.5
+					],
+					"texture": "#stove"
+				},
+				"south": {
+					"uv": [
+						4,
+						4,
+						4.75,
+						8
+					],
+					"texture": "#stove"
+				},
+				"west": {
+					"uv": [
+						1.5,
+						4,
+						4,
+						8
+					],
+					"texture": "#stove"
+				},
+				"up": {
+					"uv": [
+						0,
+						0,
+						0.75,
+						5
+					],
+					"texture": "#stove"
+				},
+				"down": {
+					"uv": [
+						4,
+						8,
+						4.75,
+						13
+					],
+					"texture": "#stove"
+				}
 			}
 		},
 		{
 			"name": "stoveRightWall",
-			"from": [13, 0, 6],
-			"to": [16, 8, 16],
+			"from": [
+				13,
+				0,
+				6
+			],
+			"to": [
+				16,
+				8,
+				16
+			],
 			"faces": {
-				"north": {"uv": [0, 0, 0.75, 4], "texture": "#stove"},
-				"east": {"uv": [8, 4, 10.5, 8], "texture": "#stove"},
-				"south": {"uv": [7.25, 4, 8, 8], "texture": "#stove"},
-				"west": {"uv": [5.5, 10.5, 8, 14.5], "texture": "#stove"},
-				"up": {"uv": [0, 0, 0.75, 5], "texture": "#stove"},
-				"down": {"uv": [7.25, 8, 8, 13], "texture": "#stove"}
+				"north": {
+					"uv": [
+						0,
+						0,
+						0.75,
+						4
+					],
+					"texture": "#stove"
+				},
+				"east": {
+					"uv": [
+						8,
+						4,
+						10.5,
+						8
+					],
+					"texture": "#stove"
+				},
+				"south": {
+					"uv": [
+						7.25,
+						4,
+						8,
+						8
+					],
+					"texture": "#stove"
+				},
+				"west": {
+					"uv": [
+						5.5,
+						10.5,
+						8,
+						14.5
+					],
+					"texture": "#stove"
+				},
+				"up": {
+					"uv": [
+						0,
+						0,
+						0.75,
+						5
+					],
+					"texture": "#stove"
+				},
+				"down": {
+					"uv": [
+						7.25,
+						8,
+						8,
+						13
+					],
+					"texture": "#stove"
+				}
 			}
 		},
 		{
 			"name": "stoveFrontWall",
-			"from": [0, 8, 6],
-			"to": [16, 14, 16],
+			"from": [
+				0,
+				8,
+				6
+			],
+			"to": [
+				16,
+				14,
+				16
+			],
 			"faces": {
-				"north": {"uv": [0, 0, 4, 3], "texture": "#stove"},
-				"east": {"uv": [8, 1, 10.5, 4], "texture": "#stove"},
-				"south": {"uv": [4, 1, 8, 4], "texture": "#stove"},
-				"west": {"uv": [1.5, 1, 4, 4], "texture": "#stove"},
-				"up": {"uv": [0, 11, 4, 16], "texture": "#stove"},
-				"down": {"uv": [4, 9.5, 8, 14.5], "rotation": 180, "texture": "#stove"}
+				"north": {
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					],
+					"texture": "#stove"
+				},
+				"east": {
+					"uv": [
+						8,
+						1,
+						10.5,
+						4
+					],
+					"texture": "#stove"
+				},
+				"south": {
+					"uv": [
+						4,
+						1,
+						8,
+						4
+					],
+					"texture": "#stove"
+				},
+				"west": {
+					"uv": [
+						1.5,
+						1,
+						4,
+						4
+					],
+					"texture": "#stove"
+				},
+				"up": {
+					"uv": [
+						0,
+						11,
+						4,
+						16
+					],
+					"texture": "#stove"
+				},
+				"down": {
+					"uv": [
+						4,
+						9.5,
+						8,
+						14.5
+					],
+					"rotation": 180,
+					"texture": "#stove"
+				}
 			}
 		},
 		{
 			"name": "stoveRim1",
-			"from": [0, 14, 0],
-			"to": [14, 16, 2],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				0,
+				14,
+				0
+			],
+			"to": [
+				14,
+				16,
+				2
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [12.5, 0, 16, 1], "texture": "#stove"},
-				"east": {"uv": [0, 0, 0.5, 1], "texture": "#stove"},
-				"south": {"uv": [4, 0, 7.5, 1], "texture": "#stove"},
-				"west": {"uv": [0, 0, 0.5, 1], "texture": "#stove"},
-				"up": {"uv": [0, 8, 3.5, 9], "texture": "#stove"},
-				"down": {"uv": [0, 0, 3.5, 1], "texture": "#stove"}
+				"north": {
+					"uv": [
+						12.5,
+						0,
+						16,
+						1
+					],
+					"texture": "#stove"
+				},
+				"east": {
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					],
+					"texture": "#stove"
+				},
+				"south": {
+					"uv": [
+						4,
+						0,
+						7.5,
+						1
+					],
+					"texture": "#stove"
+				},
+				"west": {
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					],
+					"texture": "#stove"
+				},
+				"up": {
+					"uv": [
+						0,
+						8,
+						3.5,
+						9
+					],
+					"texture": "#stove"
+				},
+				"down": {
+					"uv": [
+						0,
+						0,
+						3.5,
+						1
+					],
+					"texture": "#stove"
+				}
 			}
 		},
 		{
 			"name": "stoveRim2",
-			"from": [14, 14, 0],
-			"to": [16, 16, 14],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				14,
+				14,
+				0
+			],
+			"to": [
+				16,
+				16,
+				14
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [12, 0, 12.5, 1], "texture": "#stove"},
-				"east": {"uv": [8.5, 0, 12, 1], "texture": "#stove"},
-				"south": {"uv": [0, 0, 0.5, 1], "texture": "#stove"},
-				"west": {"uv": [0, 0, 3.5, 1], "texture": "#stove"},
-				"up": {"uv": [3.5, 8, 4, 15], "texture": "#stove"},
-				"down": {"uv": [0, 0, 3.5, 1], "rotation": 270, "texture": "#stove"}
+				"north": {
+					"uv": [
+						12,
+						0,
+						12.5,
+						1
+					],
+					"texture": "#stove"
+				},
+				"east": {
+					"uv": [
+						8.5,
+						0,
+						12,
+						1
+					],
+					"texture": "#stove"
+				},
+				"south": {
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					],
+					"texture": "#stove"
+				},
+				"west": {
+					"uv": [
+						0,
+						0,
+						3.5,
+						1
+					],
+					"texture": "#stove"
+				},
+				"up": {
+					"uv": [
+						3.5,
+						8,
+						4,
+						15
+					],
+					"texture": "#stove"
+				},
+				"down": {
+					"uv": [
+						0,
+						0,
+						3.5,
+						1
+					],
+					"rotation": 270,
+					"texture": "#stove"
+				}
 			}
 		},
 		{
 			"name": "stoveRim3",
-			"from": [2, 14, 14],
-			"to": [16, 16, 16],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				2,
+				14,
+				14
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [12, 0, 15.5, 1], "texture": "#stove"},
-				"east": {"uv": [8, 0, 8.5, 1], "texture": "#stove"},
-				"south": {"uv": [4.5, 0, 8, 1], "texture": "#stove"},
-				"west": {"uv": [0, 0, 0.5, 1], "texture": "#stove"},
-				"up": {"uv": [0.5, 15, 4, 16], "texture": "#stove"},
-				"down": {"uv": [0, 0, 3.5, 1], "rotation": 180, "texture": "#stove"}
+				"north": {
+					"uv": [
+						12,
+						0,
+						15.5,
+						1
+					],
+					"texture": "#stove"
+				},
+				"east": {
+					"uv": [
+						8,
+						0,
+						8.5,
+						1
+					],
+					"texture": "#stove"
+				},
+				"south": {
+					"uv": [
+						4.5,
+						0,
+						8,
+						1
+					],
+					"texture": "#stove"
+				},
+				"west": {
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					],
+					"texture": "#stove"
+				},
+				"up": {
+					"uv": [
+						0.5,
+						15,
+						4,
+						16
+					],
+					"texture": "#stove"
+				},
+				"down": {
+					"uv": [
+						0,
+						0,
+						3.5,
+						1
+					],
+					"rotation": 180,
+					"texture": "#stove"
+				}
 			}
 		},
 		{
 			"name": "stoveRim4",
-			"from": [0, 14, 2],
-			"to": [2, 16, 16],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				0,
+				14,
+				2
+			],
+			"to": [
+				2,
+				16,
+				16
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [0, 0, 0.5, 1], "texture": "#stove"},
-				"east": {"uv": [8, 0, 11.5, 1], "texture": "#stove"},
-				"south": {"uv": [4, 0, 4.5, 1], "texture": "#stove"},
-				"west": {"uv": [0.5, 0, 4, 1], "texture": "#stove"},
-				"up": {"uv": [0, 9, 0.5, 16], "texture": "#stove"},
-				"down": {"uv": [0, 0, 3.5, 1], "rotation": 90, "texture": "#stove"}
+				"north": {
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					],
+					"texture": "#stove"
+				},
+				"east": {
+					"uv": [
+						8,
+						0,
+						11.5,
+						1
+					],
+					"texture": "#stove"
+				},
+				"south": {
+					"uv": [
+						4,
+						0,
+						4.5,
+						1
+					],
+					"texture": "#stove"
+				},
+				"west": {
+					"uv": [
+						0.5,
+						0,
+						4,
+						1
+					],
+					"texture": "#stove"
+				},
+				"up": {
+					"uv": [
+						0,
+						9,
+						0.5,
+						16
+					],
+					"texture": "#stove"
+				},
+				"down": {
+					"uv": [
+						0,
+						0,
+						3.5,
+						1
+					],
+					"rotation": 90,
+					"texture": "#stove"
+				}
 			}
 		},
 		{
 			"name": "cornerLeft",
-			"from": [3.01, 5.01, 6.01],
-			"to": [7.99, 7.99, 15.99],
-			"rotation": {"angle": 45, "axis": "z", "origin": [3, 5, 11]},
+			"from": [
+				3.01,
+				5.01,
+				6.01
+			],
+			"to": [
+				7.99,
+				7.99,
+				15.99
+			],
+			"rotation": {
+				"angle": 45,
+				"axis": "z",
+				"origin": [
+					3,
+					5,
+					11
+				]
+			},
 			"faces": {
-				"north": {"uv": [0, 0, 1.25, 1.5], "texture": "#stove"},
-				"east": {"uv": [0, 0, 2.5, 1.5], "texture": "#stove"},
-				"south": {"uv": [5.25, 2.5, 6.5, 4], "texture": "#stove"},
-				"west": {"uv": [0, 0, 2.5, 1.5], "texture": "#stove"},
-				"up": {"uv": [0, 0, 1.25, 5], "texture": "#stove"},
-				"down": {"uv": [4, 10, 6.5, 12.5], "rotation": 90, "texture": "#stove"}
+				"north": {
+					"uv": [
+						0,
+						0,
+						1.25,
+						1.5
+					],
+					"texture": "#stove"
+				},
+				"east": {
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.5
+					],
+					"texture": "#stove"
+				},
+				"south": {
+					"uv": [
+						5.25,
+						2.5,
+						6.5,
+						4
+					],
+					"texture": "#stove"
+				},
+				"west": {
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.5
+					],
+					"texture": "#stove"
+				},
+				"up": {
+					"uv": [
+						0,
+						0,
+						1.25,
+						5
+					],
+					"texture": "#stove"
+				},
+				"down": {
+					"uv": [
+						4,
+						10,
+						6.5,
+						12.5
+					],
+					"rotation": 90,
+					"texture": "#stove"
+				}
 			}
 		},
 		{
 			"name": "cornerRight",
-			"from": [8.01, 5.01, 6.01],
-			"to": [12.99, 7.99, 15.99],
-			"rotation": {"angle": -45, "axis": "z", "origin": [13, 5, 11]},
+			"from": [
+				8.01,
+				5.01,
+				6.01
+			],
+			"to": [
+				12.99,
+				7.99,
+				15.99
+			],
+			"rotation": {
+				"angle": -45,
+				"axis": "z",
+				"origin": [
+					13,
+					5,
+					11
+				]
+			},
 			"faces": {
-				"north": {"uv": [0, 0, 1.25, 1.5], "texture": "#stove"},
-				"east": {"uv": [0, 0, 2.5, 1.5], "texture": "#stove"},
-				"south": {"uv": [5.5, 2.5, 6.75, 4], "texture": "#stove"},
-				"west": {"uv": [0, 0, 2.5, 1.5], "texture": "#stove"},
-				"up": {"uv": [0, 0, 1.25, 5], "texture": "#stove"},
-				"down": {"uv": [5.5, 10, 8, 12.5], "rotation": 270, "texture": "#stove"}
+				"north": {
+					"uv": [
+						0,
+						0,
+						1.25,
+						1.5
+					],
+					"texture": "#stove"
+				},
+				"east": {
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.5
+					],
+					"texture": "#stove"
+				},
+				"south": {
+					"uv": [
+						5.5,
+						2.5,
+						6.75,
+						4
+					],
+					"texture": "#stove"
+				},
+				"west": {
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.5
+					],
+					"texture": "#stove"
+				},
+				"up": {
+					"uv": [
+						0,
+						0,
+						1.25,
+						5
+					],
+					"texture": "#stove"
+				},
+				"down": {
+					"uv": [
+						5.5,
+						10,
+						8,
+						12.5
+					],
+					"rotation": 270,
+					"texture": "#stove"
+				}
 			}
 		}
 	],
 	"groups": [
 		{
 			"name": "KitchenStove",
-			"origin": [8, 0, 8],
+			"origin": [
+				8,
+				0,
+				8
+			],
 			"color": 9,
-			"children": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+			"children": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9
+			]
 		}
 	]
 }

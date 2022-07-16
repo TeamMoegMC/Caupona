@@ -1,9 +1,9 @@
 {
-    "parent": "caupona:block/template_chimney_flue",
-    "textures": {
-        "outer": "caupona:block/opus_latericium_0",
-        "inner": "caupona:block/ash_concrete",
-        "polar": "caupona:block/opus_latericium_chimney_flue_polar",
-        "particle": "caupona:block/opus_latericium_chimney_flue_polar"
-    }
+	"parent": "caupona:block/template_chimney_flue",
+	"textures": {
+		"outer": "caupona:block/opus_latericium_0",
+		"inner": "caupona:block/ash_concrete",
+		"polar": "caupona:block/opus_latericium_chimney_flue_polar",
+		"particle": "caupona:block/opus_latericium_chimney_flue_polar"
+	}
 }

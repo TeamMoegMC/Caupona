@@ -1,253 +1,1159 @@
 {
+	"parent": "minecraft:block/cube",
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
-	"texture_size": [32, 32],
+	"texture_size": [
+		32,
+		32
+	],
 	"elements": [
 		{
 			"name": "WH1",
-			"from": [4, 9, 8],
-			"to": [6, 14, 12],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				4,
+				9,
+				8
+			],
+			"to": [
+				6,
+				14,
+				12
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [8, 6, 9, 8.5], "texture": "#chimney"},
-				"east": {"uv": [4, 6, 6, 8.5], "texture": "#chimney"},
-				"south": {"uv": [4, 6, 5, 8.5], "texture": "#chimney"},
-				"west": {"uv": [2, 6, 4, 8.5], "texture": "#chimney"}
+				"north": {
+					"uv": [
+						8,
+						6,
+						9,
+						8.5
+					],
+					"texture": "#chimney"
+				},
+				"east": {
+					"uv": [
+						4,
+						6,
+						6,
+						8.5
+					],
+					"texture": "#chimney"
+				},
+				"south": {
+					"uv": [
+						4,
+						6,
+						5,
+						8.5
+					],
+					"texture": "#chimney"
+				},
+				"west": {
+					"uv": [
+						2,
+						6,
+						4,
+						8.5
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "WH2",
-			"from": [10, 9, 4],
-			"to": [12, 14, 8],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				10,
+				9,
+				4
+			],
+			"to": [
+				12,
+				14,
+				8
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [4, 6, 5, 8.5], "texture": "#chimney"},
-				"east": {"uv": [2, 6, 4, 8.5], "texture": "#chimney"},
-				"south": {"uv": [8, 6, 9, 8.5], "texture": "#chimney"},
-				"west": {"uv": [4, 6, 6, 8.5], "texture": "#chimney"}
+				"north": {
+					"uv": [
+						4,
+						6,
+						5,
+						8.5
+					],
+					"texture": "#chimney"
+				},
+				"east": {
+					"uv": [
+						2,
+						6,
+						4,
+						8.5
+					],
+					"texture": "#chimney"
+				},
+				"south": {
+					"uv": [
+						8,
+						6,
+						9,
+						8.5
+					],
+					"texture": "#chimney"
+				},
+				"west": {
+					"uv": [
+						4,
+						6,
+						6,
+						8.5
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "WH3",
-			"from": [6, 9, 10],
-			"to": [8, 14, 12],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				6,
+				9,
+				10
+			],
+			"to": [
+				8,
+				14,
+				12
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [2, 6, 3, 8.5], "texture": "#chimney"},
-				"east": {"uv": [8, 6, 9, 8.5], "texture": "#chimney"},
-				"south": {"uv": [5, 6, 6, 8.5], "texture": "#chimney"}
+				"north": {
+					"uv": [
+						2,
+						6,
+						3,
+						8.5
+					],
+					"texture": "#chimney"
+				},
+				"east": {
+					"uv": [
+						8,
+						6,
+						9,
+						8.5
+					],
+					"texture": "#chimney"
+				},
+				"south": {
+					"uv": [
+						5,
+						6,
+						6,
+						8.5
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "WH4",
-			"from": [8, 9, 4],
-			"to": [10, 14, 6],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				8,
+				9,
+				4
+			],
+			"to": [
+				10,
+				14,
+				6
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [5, 6, 6, 8.5], "texture": "#chimney"},
-				"south": {"uv": [2, 6, 3, 8.5], "texture": "#chimney"},
-				"west": {"uv": [8, 6, 9, 8.5], "texture": "#chimney"}
+				"north": {
+					"uv": [
+						5,
+						6,
+						6,
+						8.5
+					],
+					"texture": "#chimney"
+				},
+				"south": {
+					"uv": [
+						2,
+						6,
+						3,
+						8.5
+					],
+					"texture": "#chimney"
+				},
+				"west": {
+					"uv": [
+						8,
+						6,
+						9,
+						8.5
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "WL1",
-			"from": [4, 2, 4],
-			"to": [8, 7, 6],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				4,
+				2,
+				4
+			],
+			"to": [
+				8,
+				7,
+				6
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [6, 9.5, 8, 12], "texture": "#chimney"},
-				"east": {"uv": [9, 6, 10, 8.5], "texture": "#chimney"},
-				"south": {"uv": [0, 9.5, 2, 12], "texture": "#chimney"},
-				"west": {"uv": [0, 9.5, 1, 12], "texture": "#chimney"}
+				"north": {
+					"uv": [
+						6,
+						9.5,
+						8,
+						12
+					],
+					"texture": "#chimney"
+				},
+				"east": {
+					"uv": [
+						9,
+						6,
+						10,
+						8.5
+					],
+					"texture": "#chimney"
+				},
+				"south": {
+					"uv": [
+						0,
+						9.5,
+						2,
+						12
+					],
+					"texture": "#chimney"
+				},
+				"west": {
+					"uv": [
+						0,
+						9.5,
+						1,
+						12
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "WL2",
-			"from": [8, 2, 10],
-			"to": [12, 7, 12],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				8,
+				2,
+				10
+			],
+			"to": [
+				12,
+				7,
+				12
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [0, 9.5, 2, 12], "texture": "#chimney"},
-				"east": {"uv": [0, 9.5, 1, 12], "texture": "#chimney"},
-				"south": {"uv": [6, 9.5, 8, 12], "texture": "#chimney"},
-				"west": {"uv": [9, 6, 10, 8.5], "texture": "#chimney"}
+				"north": {
+					"uv": [
+						0,
+						9.5,
+						2,
+						12
+					],
+					"texture": "#chimney"
+				},
+				"east": {
+					"uv": [
+						0,
+						9.5,
+						1,
+						12
+					],
+					"texture": "#chimney"
+				},
+				"south": {
+					"uv": [
+						6,
+						9.5,
+						8,
+						12
+					],
+					"texture": "#chimney"
+				},
+				"west": {
+					"uv": [
+						9,
+						6,
+						10,
+						8.5
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "WL3",
-			"from": [4, 2, 6],
-			"to": [6, 7, 8],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				4,
+				2,
+				6
+			],
+			"to": [
+				6,
+				7,
+				8
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"east": {"uv": [6, 9.5, 7, 12], "texture": "#chimney"},
-				"south": {"uv": [9, 6, 10, 8.5], "texture": "#chimney"},
-				"west": {"uv": [1, 9.5, 2, 12], "texture": "#chimney"}
+				"east": {
+					"uv": [
+						6,
+						9.5,
+						7,
+						12
+					],
+					"texture": "#chimney"
+				},
+				"south": {
+					"uv": [
+						9,
+						6,
+						10,
+						8.5
+					],
+					"texture": "#chimney"
+				},
+				"west": {
+					"uv": [
+						1,
+						9.5,
+						2,
+						12
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "WL4",
-			"from": [10, 2, 8],
-			"to": [12, 7, 10],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				10,
+				2,
+				8
+			],
+			"to": [
+				12,
+				7,
+				10
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [9, 6, 10, 8.5], "texture": "#chimney"},
-				"east": {"uv": [1, 9.5, 2, 12], "texture": "#chimney"},
-				"west": {"uv": [6, 9.5, 7, 12], "texture": "#chimney"}
+				"north": {
+					"uv": [
+						9,
+						6,
+						10,
+						8.5
+					],
+					"texture": "#chimney"
+				},
+				"east": {
+					"uv": [
+						1,
+						9.5,
+						2,
+						12
+					],
+					"texture": "#chimney"
+				},
+				"west": {
+					"uv": [
+						6,
+						9.5,
+						7,
+						12
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "PB1",
-			"from": [3, 0, 6],
-			"to": [6, 2, 13],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				3,
+				0,
+				6
+			],
+			"to": [
+				6,
+				2,
+				13
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"east": {"uv": [1.5, 5, 5, 6], "texture": "#chimney"},
-				"south": {"uv": [0, 5, 1.5, 6], "texture": "#chimney"},
-				"west": {"uv": [1.5, 5, 5, 6], "texture": "#chimney"},
-				"up": {"uv": [0, 1.5, 1.5, 5], "texture": "#chimney"},
-				"down": {"uv": [10, 0, 11.5, 3.5], "texture": "#chimney"}
+				"east": {
+					"uv": [
+						1.5,
+						5,
+						5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"south": {
+					"uv": [
+						0,
+						5,
+						1.5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"west": {
+					"uv": [
+						1.5,
+						5,
+						5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"up": {
+					"uv": [
+						0,
+						1.5,
+						1.5,
+						5
+					],
+					"texture": "#chimney"
+				},
+				"down": {
+					"uv": [
+						10,
+						0,
+						11.5,
+						3.5
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "PB2",
-			"from": [10, 0, 3],
-			"to": [13, 2, 10],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				10,
+				0,
+				3
+			],
+			"to": [
+				13,
+				2,
+				10
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [0, 5, 1.5, 6], "texture": "#chimney"},
-				"east": {"uv": [1.5, 5, 5, 6], "texture": "#chimney"},
-				"west": {"uv": [1.5, 5, 5, 6], "texture": "#chimney"},
-				"up": {"uv": [3.5, 0, 5, 3.5], "texture": "#chimney"},
-				"down": {"uv": [13.5, 1.5, 15, 5], "texture": "#chimney"}
+				"north": {
+					"uv": [
+						0,
+						5,
+						1.5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"east": {
+					"uv": [
+						1.5,
+						5,
+						5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"west": {
+					"uv": [
+						1.5,
+						5,
+						5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"up": {
+					"uv": [
+						3.5,
+						0,
+						5,
+						3.5
+					],
+					"texture": "#chimney"
+				},
+				"down": {
+					"uv": [
+						13.5,
+						1.5,
+						15,
+						5
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "PB3",
-			"from": [6, 0, 10],
-			"to": [13, 2, 13],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				6,
+				0,
+				10
+			],
+			"to": [
+				13,
+				2,
+				13
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [1.5, 5, 5, 6], "texture": "#chimney"},
-				"east": {"uv": [0, 5, 1.5, 6], "texture": "#chimney"},
-				"south": {"uv": [1.5, 5, 5, 6], "texture": "#chimney"},
-				"up": {"uv": [1.5, 3.5, 5, 5], "texture": "#chimney"},
-				"down": {"uv": [11.5, 0, 15, 1.5], "texture": "#chimney"}
+				"north": {
+					"uv": [
+						1.5,
+						5,
+						5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"east": {
+					"uv": [
+						0,
+						5,
+						1.5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"south": {
+					"uv": [
+						1.5,
+						5,
+						5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"up": {
+					"uv": [
+						1.5,
+						3.5,
+						5,
+						5
+					],
+					"texture": "#chimney"
+				},
+				"down": {
+					"uv": [
+						11.5,
+						0,
+						15,
+						1.5
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "PB4",
-			"from": [3, 0, 3],
-			"to": [10, 2, 6],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				3,
+				0,
+				3
+			],
+			"to": [
+				10,
+				2,
+				6
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [1.5, 5, 5, 6], "texture": "#chimney"},
-				"south": {"uv": [1.5, 5, 5, 6], "texture": "#chimney"},
-				"west": {"uv": [0, 5, 1.5, 6], "texture": "#chimney"},
-				"up": {"uv": [0, 0, 3.5, 1.5], "texture": "#chimney"},
-				"down": {"uv": [10, 3.5, 13.5, 5], "texture": "#chimney"}
+				"north": {
+					"uv": [
+						1.5,
+						5,
+						5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"south": {
+					"uv": [
+						1.5,
+						5,
+						5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"west": {
+					"uv": [
+						0,
+						5,
+						1.5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"up": {
+					"uv": [
+						0,
+						0,
+						3.5,
+						1.5
+					],
+					"texture": "#chimney"
+				},
+				"down": {
+					"uv": [
+						10,
+						3.5,
+						13.5,
+						5
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "PM1",
-			"from": [4, 7, 6],
-			"to": [6, 9, 12],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				4,
+				7,
+				6
+			],
+			"to": [
+				6,
+				9,
+				12
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"east": {"uv": [4, 8.5, 7, 9.5], "texture": "#chimney"},
-				"south": {"uv": [4, 8.5, 5, 9.5], "texture": "#chimney"},
-				"west": {"uv": [1, 8.5, 4, 9.5], "texture": "#chimney"},
-				"up": {"uv": [2, 10.5, 3, 13.5], "texture": "#chimney"},
-				"down": {"uv": [2, 9.5, 3, 12.5], "texture": "#chimney"}
+				"east": {
+					"uv": [
+						4,
+						8.5,
+						7,
+						9.5
+					],
+					"texture": "#chimney"
+				},
+				"south": {
+					"uv": [
+						4,
+						8.5,
+						5,
+						9.5
+					],
+					"texture": "#chimney"
+				},
+				"west": {
+					"uv": [
+						1,
+						8.5,
+						4,
+						9.5
+					],
+					"texture": "#chimney"
+				},
+				"up": {
+					"uv": [
+						2,
+						10.5,
+						3,
+						13.5
+					],
+					"texture": "#chimney"
+				},
+				"down": {
+					"uv": [
+						2,
+						9.5,
+						3,
+						12.5
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "PM2",
-			"from": [10, 7, 4],
-			"to": [12, 9, 10],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				10,
+				7,
+				4
+			],
+			"to": [
+				12,
+				9,
+				10
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [4, 8.5, 5, 9.5], "texture": "#chimney"},
-				"east": {"uv": [1, 8.5, 4, 9.5], "texture": "#chimney"},
-				"west": {"uv": [4, 8.5, 7, 9.5], "texture": "#chimney"},
-				"up": {"uv": [5, 9.5, 6, 12.5], "texture": "#chimney"},
-				"down": {"uv": [5, 10.5, 6, 13.5], "texture": "#chimney"}
+				"north": {
+					"uv": [
+						4,
+						8.5,
+						5,
+						9.5
+					],
+					"texture": "#chimney"
+				},
+				"east": {
+					"uv": [
+						1,
+						8.5,
+						4,
+						9.5
+					],
+					"texture": "#chimney"
+				},
+				"west": {
+					"uv": [
+						4,
+						8.5,
+						7,
+						9.5
+					],
+					"texture": "#chimney"
+				},
+				"up": {
+					"uv": [
+						5,
+						9.5,
+						6,
+						12.5
+					],
+					"texture": "#chimney"
+				},
+				"down": {
+					"uv": [
+						5,
+						10.5,
+						6,
+						13.5
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "PM3",
-			"from": [6, 7, 10],
-			"to": [12, 9, 12],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				6,
+				7,
+				10
+			],
+			"to": [
+				12,
+				9,
+				12
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [0, 8.5, 3, 9.5], "texture": "#chimney"},
-				"east": {"uv": [0, 8.5, 1, 9.5], "texture": "#chimney"},
-				"south": {"uv": [5, 8.5, 8, 9.5], "texture": "#chimney"},
-				"up": {"uv": [3, 12.5, 6, 13.5], "texture": "#chimney"},
-				"down": {"uv": [3, 9.5, 6, 10.5], "texture": "#chimney"}
+				"north": {
+					"uv": [
+						0,
+						8.5,
+						3,
+						9.5
+					],
+					"texture": "#chimney"
+				},
+				"east": {
+					"uv": [
+						0,
+						8.5,
+						1,
+						9.5
+					],
+					"texture": "#chimney"
+				},
+				"south": {
+					"uv": [
+						5,
+						8.5,
+						8,
+						9.5
+					],
+					"texture": "#chimney"
+				},
+				"up": {
+					"uv": [
+						3,
+						12.5,
+						6,
+						13.5
+					],
+					"texture": "#chimney"
+				},
+				"down": {
+					"uv": [
+						3,
+						9.5,
+						6,
+						10.5
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "PM4",
-			"from": [4, 7, 4],
-			"to": [10, 9, 6],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"from": [
+				4,
+				7,
+				4
+			],
+			"to": [
+				10,
+				9,
+				6
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					0,
+					8
+				]
+			},
 			"faces": {
-				"north": {"uv": [5, 8.5, 8, 9.5], "texture": "#chimney"},
-				"south": {"uv": [0, 8.5, 3, 9.5], "texture": "#chimney"},
-				"west": {"uv": [0, 8.5, 1, 9.5], "texture": "#chimney"},
-				"up": {"uv": [2, 9.5, 5, 10.5], "texture": "#chimney"},
-				"down": {"uv": [2, 12.5, 5, 13.5], "texture": "#chimney"}
+				"north": {
+					"uv": [
+						5,
+						8.5,
+						8,
+						9.5
+					],
+					"texture": "#chimney"
+				},
+				"south": {
+					"uv": [
+						0,
+						8.5,
+						3,
+						9.5
+					],
+					"texture": "#chimney"
+				},
+				"west": {
+					"uv": [
+						0,
+						8.5,
+						1,
+						9.5
+					],
+					"texture": "#chimney"
+				},
+				"up": {
+					"uv": [
+						2,
+						9.5,
+						5,
+						10.5
+					],
+					"texture": "#chimney"
+				},
+				"down": {
+					"uv": [
+						2,
+						12.5,
+						5,
+						13.5
+					],
+					"texture": "#chimney"
+				}
 			}
 		},
 		{
 			"name": "PT1",
-			"from": [3, 14, 3],
-			"to": [13, 16, 13],
+			"from": [
+				3,
+				14,
+				3
+			],
+			"to": [
+				13,
+				16,
+				13
+			],
 			"faces": {
-				"north": {"uv": [0, 5, 5, 6], "texture": "#chimney"},
-				"east": {"uv": [0, 5, 5, 6], "texture": "#chimney"},
-				"south": {"uv": [0, 5, 5, 6], "texture": "#chimney"},
-				"west": {"uv": [0, 5, 5, 6], "texture": "#chimney"},
-				"up": {"uv": [5, 0, 10, 5], "texture": "#chimney"},
-				"down": {"uv": [10, 0, 15, 5], "texture": "#chimney"}
+				"north": {
+					"uv": [
+						0,
+						5,
+						5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"east": {
+					"uv": [
+						0,
+						5,
+						5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"south": {
+					"uv": [
+						0,
+						5,
+						5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"west": {
+					"uv": [
+						0,
+						5,
+						5,
+						6
+					],
+					"texture": "#chimney"
+				},
+				"up": {
+					"uv": [
+						5,
+						0,
+						10,
+						5
+					],
+					"texture": "#chimney"
+				},
+				"down": {
+					"uv": [
+						10,
+						0,
+						15,
+						5
+					],
+					"texture": "#chimney"
+				}
 			}
 		}
 	],
 	"groups": [
 		{
 			"name": "Chimney",
-			"origin": [8, 8, 8],
+			"origin": [
+				8,
+				8,
+				8
+			],
 			"color": 9,
 			"children": [
 				{
 					"name": "WallHigher",
-					"origin": [8, 8, 8],
+					"origin": [
+						8,
+						8,
+						8
+					],
 					"color": 9,
-					"children": [0, 1, 2, 3]
+					"children": [
+						0,
+						1,
+						2,
+						3
+					]
 				},
 				{
 					"name": "WallLower",
-					"origin": [8, 8, 8],
+					"origin": [
+						8,
+						8,
+						8
+					],
 					"color": 9,
-					"children": [4, 5, 6, 7]
+					"children": [
+						4,
+						5,
+						6,
+						7
+					]
 				},
 				{
 					"name": "PotBase",
-					"origin": [8, 8, 8],
+					"origin": [
+						8,
+						8,
+						8
+					],
 					"color": 9,
-					"children": [8, 9, 10, 11]
+					"children": [
+						8,
+						9,
+						10,
+						11
+					]
 				},
 				{
 					"name": "PotMiddle",
-					"origin": [8, 8, 8],
+					"origin": [
+						8,
+						8,
+						8
+					],
 					"color": 9,
-					"children": [12, 13, 14, 15]
+					"children": [
+						12,
+						13,
+						14,
+						15
+					]
 				},
 				{
 					"name": "ChimneyPotTop",
-					"origin": [8, 0, 8],
+					"origin": [
+						8,
+						0,
+						8
+					],
 					"color": 9,
-					"children": [16]
+					"children": [
+						16
+					]
 				}
 			]
 		}
