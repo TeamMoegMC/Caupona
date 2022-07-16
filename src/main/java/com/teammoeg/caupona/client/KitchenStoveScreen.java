@@ -24,12 +24,11 @@ import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.KitchenStoveTileEntity;
 import com.teammoeg.caupona.container.KitchenStoveContainer;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 
 public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveContainer> {
 	KitchenStoveTileEntity te;
@@ -49,8 +48,9 @@ public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveCont
 
 		this.blit(matrixStack, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (te.processMax > 0 && te.process > 0) {
-			int h = (int) (20 * (1-te.process / (float) te.processMax));
-			this.blit(matrixStack, leftPos + 73, topPos + 7 + h, 176,h, 31,20 - h);
+			int h = (int) (26 * (1-te.process / (float) te.processMax));
+			this.blit(matrixStack, leftPos + 61, topPos + h, 176,h,54,26 - h);
+			this.blit(matrixStack, leftPos + 61, topPos +13, 176,26,54,16 );
 		}
 	}
 

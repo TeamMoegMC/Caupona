@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "caupona:item/bisque"
+    "layer0": "caupona:item/soups/bisque"
   }
 }

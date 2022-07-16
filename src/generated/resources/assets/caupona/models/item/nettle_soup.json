@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "caupona:item/nettle_soup"
+    "layer0": "caupona:item/soups/nettle_soup"
   }
 }

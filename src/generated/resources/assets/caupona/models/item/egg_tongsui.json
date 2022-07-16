@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "caupona:item/egg_tongsui"
+    "layer0": "caupona:item/soups/egg_tongsui"
   }
 }

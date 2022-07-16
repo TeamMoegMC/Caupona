@@ -19,6 +19,7 @@
 package com.teammoeg.caupona.data.recipes;
 
 import com.google.gson.JsonElement;
+
 import net.minecraft.network.FriendlyByteBuf;
 
 public interface Writeable {

@@ -20,15 +20,15 @@ package com.teammoeg.caupona.container;
 
 import java.util.function.Supplier;
 
-import com.teammoeg.caupona.Contents;
+import com.teammoeg.caupona.CPGui;
 import com.teammoeg.caupona.blocks.StewPotTileEntity;
 
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
@@ -76,7 +76,7 @@ public class StewPotContainer extends AbstractContainerMenu {
 	}
 
 	public StewPotContainer(int id, Inventory inv, StewPotTileEntity te) {
-		super(Contents.CPGui.STEWPOT.get(), id);
+		super(CPGui.STEWPOT.get(), id);
 		tile = te;
 		for (int i = 0; i < 9; i++)
 			this.addSlot(new HidableSlot(te.getInv(), i, 45 + (i % 3) * 18, 17 + (i / 3) * 18, () -> te.proctype != 2));

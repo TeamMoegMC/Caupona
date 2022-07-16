@@ -18,8 +18,8 @@
 
 package com.teammoeg.caupona.items;
 
-import com.teammoeg.caupona.Contents;
 import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.event.RegistryEvents;
 
 import net.minecraft.world.item.Item;
 
@@ -28,7 +28,7 @@ public class CPItem extends Item {
 	public CPItem(String name, Properties properties) {
 		super(properties.tab(Main.itemGroup));
 		setRegistryName(Main.MODID, name);
-		Contents.registeredItems.add(this);
+		RegistryEvents.registeredItems.add(this);
 	}
 
 }

@@ -23,22 +23,17 @@ import javax.annotation.Nonnull;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.teammoeg.caupona.Contents.CPBlocks;
-import com.teammoeg.caupona.Contents.CPGui;
-import com.teammoeg.caupona.Contents.CPItems;
-import com.teammoeg.caupona.Contents.CPTileTypes;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.network.PacketHandler;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -75,7 +70,7 @@ public class Main {
 		Particles.REGISTER.register(mod);
 		MinecraftForge.EVENT_BUS.register(RecipeReloadListener.class);
 		CPFluids.FLUIDS.register(mod);
-		Contents.CPRecipes.RECIPE_SERIALIZERS.register(mod);
+		CPRecipes.RECIPE_SERIALIZERS.register(mod);
 		Config.register();
 		PacketHandler.register();
 	}

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "caupona:kitchen_stove_t1",
-    "caupona:kitchen_stove_t2"
+    "caupona:mud_kitchen_stove",
+    "caupona:brick_kitchen_stove"
   ]
 }

@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "caupona:kitchen_stove_t1"
+          "name": "caupona:mud_kitchen_stove"
         }
       ],
       "conditions": [

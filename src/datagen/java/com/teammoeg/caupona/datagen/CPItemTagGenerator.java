@@ -21,8 +21,8 @@ package com.teammoeg.caupona.datagen;
 import java.nio.file.Path;
 
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.Contents.CPBlocks;
-import com.teammoeg.caupona.Contents.CPItems;
+import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPItems;
 
 import static com.teammoeg.caupona.datagen.CPRecipeProvider.*;
 

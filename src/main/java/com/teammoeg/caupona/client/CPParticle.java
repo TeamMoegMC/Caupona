@@ -20,10 +20,10 @@ package com.teammoeg.caupona.client;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.util.Mth;
 
 public class CPParticle extends TextureSheetParticle {

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "caupona:item/rice_pudding"
+    "layer0": "caupona:item/soups/rice_pudding"
   }
 }

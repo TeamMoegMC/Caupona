@@ -27,8 +27,8 @@ import com.teammoeg.caupona.items.StewItem;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.SoupInfo;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;

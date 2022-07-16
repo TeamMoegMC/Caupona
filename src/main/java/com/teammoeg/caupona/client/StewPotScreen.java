@@ -19,6 +19,8 @@
 package com.teammoeg.caupona.client;
 
 import java.util.ArrayList;
+
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.StewPotTileEntity;
@@ -27,22 +29,19 @@ import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.items.StewItem;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.SoupInfo;
-import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.client.gui.GuiUtils;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 
 public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 	private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID,
-			"textures/gui/cistern_culinary.png");
+			"textures/gui/stew_pot.png");
 
 	public static class ImageButton extends Button {
 		int xTexStart;

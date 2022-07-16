@@ -36,8 +36,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.Contents.CPItems;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.CookingRecipe;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
@@ -89,7 +89,7 @@ public class CPBookGenerator implements DataProvider {
 		recipes=CPRecipeProvider.recipes.stream().map(e->((CookingRecipe)e)).collect(Collectors.toMap(e->e.output.getRegistryName().getPath(),e->e));
 		loadLang("zh_cn");
 		loadLang("en_us");
-		for(String s:CPItems.items)
+		for(String s:CPItems.soups)
 			if(helper.exists(new ResourceLocation(Main.MODID,"textures/gui/recipes/"+s+".png"),PackType.CLIENT_RESOURCES))
 			defaultPage(cache,s);
 	}

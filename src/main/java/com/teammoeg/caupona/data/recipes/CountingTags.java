@@ -27,11 +27,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.teammoeg.caupona.data.IDataRecipe;
 
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.RegistryObject;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 
 public class CountingTags extends IDataRecipe {
 	public static Set<ResourceLocation> tags;

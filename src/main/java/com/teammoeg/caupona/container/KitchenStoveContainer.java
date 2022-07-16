@@ -18,16 +18,15 @@
 
 package com.teammoeg.caupona.container;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
-
-import com.teammoeg.caupona.Contents.CPGui;
+import com.teammoeg.caupona.CPGui;
 import com.teammoeg.caupona.blocks.KitchenStoveTileEntity;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeHooks;
 
 public class KitchenStoveContainer extends AbstractContainerMenu {
@@ -39,7 +38,7 @@ public class KitchenStoveContainer extends AbstractContainerMenu {
 	public KitchenStoveContainer(int id, Inventory inv, KitchenStoveTileEntity te) {
 		super(CPGui.STOVE.get(), id);
 		tile = te;
-		this.addSlot(new Slot(tile,0,80,49) {
+		this.addSlot(new Slot(tile,0,80,55) {
 			@Override
 			public boolean mayPlace(ItemStack stack) {
 				return ForgeHooks.getBurnTime(stack, null) > 0;

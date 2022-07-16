@@ -27,7 +27,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import com.mojang.datafixers.util.Pair;
-import com.teammoeg.caupona.Contents.CPBlocks;
+import com.teammoeg.caupona.CPBlocks;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.BlockLoot;

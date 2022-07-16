@@ -2,17 +2,17 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "caupona:kitchen_stove_t1"
+      "caupona:brick_kitchen_stove"
     ]
   },
   "criteria": {
-    "has_cobblestone": {
+    "has_bricks": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:cobblestone"
+              "minecraft:bricks"
             ]
           }
         ]
@@ -21,13 +21,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "caupona:kitchen_stove_t1"
+        "recipe": "caupona:brick_kitchen_stove"
       }
     }
   },
   "requirements": [
     [
-      "has_cobblestone",
+      "has_bricks",
       "has_the_recipe"
     ]
   ]

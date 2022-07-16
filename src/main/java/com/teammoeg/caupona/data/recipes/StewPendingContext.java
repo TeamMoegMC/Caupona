@@ -27,8 +27,8 @@ import com.teammoeg.caupona.util.FloatemTagStack;
 import com.teammoeg.caupona.util.ResultCachingMap;
 import com.teammoeg.caupona.util.SoupInfo;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * For caching data and reduce calculation

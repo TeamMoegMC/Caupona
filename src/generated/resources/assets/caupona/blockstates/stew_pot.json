@@ -1,13 +1,11 @@
 {
   "variants": {
     "axis=x": {
-      "model": "caupona:block/cistern",
-      "y": 90,
-      "uvlock": true
+      "model": "caupona:block/stew_pot",
+      "y": 90
     },
     "axis=z": {
-      "model": "caupona:block/cistern",
-      "uvlock": true
+      "model": "caupona:block/stew_pot"
     }
   }
 }

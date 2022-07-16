@@ -19,16 +19,17 @@
 package com.teammoeg.caupona.data.recipes;
 
 import java.util.List;
+
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.IDataRecipe;
 
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.RegistryObject;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 
 public class DissolveRecipe extends IDataRecipe {
 	public static List<DissolveRecipe> recipes;
