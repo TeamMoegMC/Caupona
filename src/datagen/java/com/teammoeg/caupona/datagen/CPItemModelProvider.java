@@ -47,6 +47,7 @@ public class CPItemModelProvider extends ItemModelProvider {
 		simpleTexture("water_or_stock_based","bases/");
 		texture("book","vade_mecum_for_innkeepers");
 		itemModel(CPItems.clay_pot,"clay_stew_pot");
+		
 		//super.withExistingParent("clay_cistern",new ResourceLocation(Main.MODID,"block/clay_cistern"));
 	}
 	public void itemModel(Item item,String name) {

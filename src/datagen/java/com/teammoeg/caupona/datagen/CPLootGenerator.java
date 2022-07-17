@@ -63,6 +63,9 @@ public class CPLootGenerator extends LootTableProvider {
         	dropSelf(CPBlocks.stew_pot);
         	dropSelf(CPBlocks.stove1);
         	dropSelf(CPBlocks.stove2);
+        	dropSelf(CPBlocks.stove3);
+        	dropSelf(CPBlocks.stove4);
+        	dropSelf(CPBlocks.stove5);
         }
 		ArrayList<Block> added=new ArrayList<>();
 		@Override

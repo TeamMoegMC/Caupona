@@ -28,6 +28,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -44,7 +45,12 @@ public class CPClientRegistry {
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stew_pot, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove1, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove2, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove3, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove4, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove5, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.bowl, RenderType.cutout());
+		for(Block bl:CPBlocks.transparentBlocks)
+			ItemBlockRenderTypes.setRenderLayer(bl, RenderType.cutout());
 		BlockEntityRenderers.register(CPTileTypes.STEW_POT.get(), StewPotRenderer::new);
 		BlockEntityRenderers.register(CPTileTypes.BOWL.get(), BowlRenderer::new);
 		

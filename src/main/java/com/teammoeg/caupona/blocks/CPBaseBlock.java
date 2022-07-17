@@ -38,13 +38,11 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class CPBaseBlock<T extends BlockEntity> extends Block implements EntityBlock{
 	public final String name;
-	protected int lightOpacity;
 	private final RegistryObject<BlockEntityType<T>> te;
 	public CPBaseBlock(String name,Properties blockProps,RegistryObject<BlockEntityType<T>> ste,
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {
 		super(blockProps);
 		this.name = name;
-		lightOpacity = 15;
 		te = ste;
 		ResourceLocation registryName = createRegistryName();
 		setRegistryName(registryName);

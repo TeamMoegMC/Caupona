@@ -23,10 +23,10 @@ public class CPTileTypes {
 
 	public static final RegistryObject<BlockEntityType<StewPotTileEntity>> STEW_POT = REGISTER.register("stew_pot",
 			makeType((p,s) -> new StewPotTileEntity(p,s), () -> CPBlocks.stew_pot));
-	public static final RegistryObject<BlockEntityType<KitchenStoveTileEntity>> STOVE1 = REGISTER.register("kitchen_stove_t1",
+	public static final RegistryObject<BlockEntityType<KitchenStoveTileEntity>> STOVE1 = REGISTER.register("kitchen_stove_basic",
 			makeType((p,s) -> new KitchenStoveT1(p,s), () -> CPBlocks.stove1));
-	public static final RegistryObject<BlockEntityType<KitchenStoveTileEntity>> STOVE2 = REGISTER.register("kitchen_stove_t2",
-			makeType((p,s) -> new KitchenStoveT2(p,s), () -> CPBlocks.stove2));
+	public static final RegistryObject<BlockEntityType<KitchenStoveTileEntity>> STOVE2 = REGISTER.register("kitchen_stove_fast",
+			makeTypes((p,s) -> new KitchenStoveT2(p,s), () -> new Block[]{CPBlocks.stove2,CPBlocks.stove3,CPBlocks.stove4,CPBlocks.stove5}));
 	public static final RegistryObject<BlockEntityType<BowlTileEntity>> BOWL = REGISTER.register("bowl",
 			makeType((p,s) -> new BowlTileEntity(p,s), () -> CPBlocks.bowl));
 	
@@ -34,5 +34,8 @@ public class CPTileTypes {
 			Supplier<Block> valid) {
 		return () -> new BlockEntityType<>(create,ImmutableSet.of(valid.get()), null);
 	}
-
+	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeTypes(BlockEntitySupplier<T> create,
+			Supplier<Block[]> valid) {
+		return () -> new BlockEntityType<>(create,ImmutableSet.copyOf(valid.get()), null);
+	}
 }

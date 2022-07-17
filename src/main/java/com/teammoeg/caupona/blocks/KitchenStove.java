@@ -63,16 +63,19 @@ public class KitchenStove extends CPBaseBlock<KitchenStoveTileEntity> {
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {
 		super(name, blockProps, ste, createItemBlock);
 	}
-	@Override
+	/*@Override
 	public VoxelShape getVisualShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext context) {
 		return Shapes.empty();
-	}
+	}*/
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
 		return 1.0F;
 	}
-
+	@Override
+	public boolean useShapeForLightOcclusion(BlockState state) {
+		return true;
+	}
 	@Override
 	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player,
 			InteractionHand handIn, BlockHitResult hit) {
@@ -112,15 +115,6 @@ public class KitchenStove extends CPBaseBlock<KitchenStoveTileEntity> {
 			}
 		}
 	}
-
-
-
-	/*@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
-	}*/
-
-
 
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
@@ -163,9 +157,6 @@ public class KitchenStove extends CPBaseBlock<KitchenStoveTileEntity> {
 		return shape;
 	}
 
-	@Override
-	public boolean useShapeForLightOcclusion(BlockState state) {
-		return true;
-	}
+
 
 }
