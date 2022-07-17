@@ -1,13 +1,19 @@
 {
 	"variants": {
-		"type=bottom": {
-			"model": "caupona:block/opus_reticulatum_0_slab"
-		},
-		"type=double": {
-			"model": "caupona:block/opus_reticulatum_0"
-		},
-		"type=top": {
-			"model": "caupona:block/opus_reticulatum_0_slab_top"
-		}
+		"type=bottom": [
+			{"model": "caupona:block/opus_reticulatum_0_slab"},
+			{"model": "caupona:block/opus_reticulatum_1_slab"},
+			{"model": "caupona:block/opus_reticulatum_2_slab"}
+		],
+		"type=double": [
+			{"model": "caupona:block/opus_reticulatum_0"},
+			{"model": "caupona:block/opus_reticulatum_1"},
+			{"model": "caupona:block/opus_reticulatum_2"}
+		],
+		"type=top": [
+			{"model": "caupona:block/opus_reticulatum_0_slab_top"},
+			{"model": "caupona:block/opus_reticulatum_1_slab_top"},
+			{"model": "caupona:block/opus_reticulatum_2_slab_top"}
+		]
 	}
 }
