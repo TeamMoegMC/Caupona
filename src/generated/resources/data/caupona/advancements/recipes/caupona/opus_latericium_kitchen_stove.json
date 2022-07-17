@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "caupona:brick_kitchen_stove"
+      "caupona:opus_latericium_kitchen_stove"
     ]
   },
   "criteria": {
@@ -12,7 +12,7 @@
         "items": [
           {
             "items": [
-              "minecraft:air"
+              "caupona:opus_latericium"
             ]
           }
         ]
@@ -21,7 +21,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "caupona:brick_kitchen_stove"
+        "recipe": "caupona:opus_latericium_kitchen_stove"
       }
     }
   },

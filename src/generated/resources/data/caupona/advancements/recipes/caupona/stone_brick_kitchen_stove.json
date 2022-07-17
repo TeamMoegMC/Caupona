@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "caupona:brick_kitchen_stove"
+      "caupona:stone_brick_kitchen_stove"
     ]
   },
   "criteria": {
@@ -21,7 +21,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "caupona:brick_kitchen_stove"
+        "recipe": "caupona:stone_brick_kitchen_stove"
       }
     }
   },

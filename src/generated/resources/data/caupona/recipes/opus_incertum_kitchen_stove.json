@@ -6,13 +6,17 @@
     "B B"
   ],
   "key": {
-    "T": [],
-    "B": [],
+    "T": {
+      "item": "caupona:opus_incertum_slab"
+    },
+    "B": {
+      "item": "caupona:opus_incertum"
+    },
     "C": {
       "item": "minecraft:clay"
     }
   },
   "result": {
-    "item": "caupona:brick_kitchen_stove"
+    "item": "caupona:opus_incertum_kitchen_stove"
   }
 }
