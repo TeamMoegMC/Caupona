@@ -1,13 +1,19 @@
 {
 	"variants": {
-		"type=bottom": {
-			"model": "caupona:block/opus_latericium_0_slab"
-		},
-		"type=double": {
-			"model": "caupona:block/opus_latericium_0"
-		},
-		"type=top": {
-			"model": "caupona:block/opus_latericium_0_slab_top"
-		}
+		"type=bottom": [
+			{"model": "caupona:block/opus_latericium_0_slab"},
+			{"model": "caupona:block/opus_latericium_1_slab"},
+			{"model": "caupona:block/opus_latericium_2_slab"}
+		],
+		"type=double": [
+			{"model": "caupona:block/opus_latericium_0"},
+			{"model": "caupona:block/opus_latericium_1"},
+			{"model": "caupona:block/opus_latericium_2"}
+		],
+		"type=top": [
+			{"model": "caupona:block/opus_latericium_0_slab_top"},
+			{"model": "caupona:block/opus_latericium_1_slab_top"},
+			{"model": "caupona:block/opus_latericium_2_slab_top"}
+		]
 	}
 }

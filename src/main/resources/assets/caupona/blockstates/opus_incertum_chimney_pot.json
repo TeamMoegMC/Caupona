@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"facing=south": {
+			"model": "caupona:block/opus_incertum_chimney_pot"
+		},
+		"facing=west": {
+			"model": "caupona:block/opus_incertum_chimney_pot",
+			"y": 90
+		},
+		"facing=north": {
+			"model": "caupona:block/opus_incertum_chimney_pot",
+			"y": 180
+		},
+		"facing=east": {
+			"model": "caupona:block/opus_incertum_chimney_pot",
+			"y": 270
+		}
+	}
+}

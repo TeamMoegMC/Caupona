@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"facing=south": {
+			"model": "caupona:block/brick_counter"
+		},
+		"facing=west": {
+			"model": "caupona:block/brick_counter",
+			"y": 90
+		},
+		"facing=north": {
+			"model": "caupona:block/brick_counter",
+			"y": 180
+		},
+		"facing=east": {
+			"model": "caupona:block/brick_counter",
+			"y": 270
+		}
+	}
+}
