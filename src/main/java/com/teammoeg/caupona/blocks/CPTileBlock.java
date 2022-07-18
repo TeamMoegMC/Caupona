@@ -36,10 +36,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.RegistryObject;
 
-public class CPBaseBlock<T extends BlockEntity> extends Block implements EntityBlock{
+public class CPTileBlock<T extends BlockEntity> extends Block implements EntityBlock{
 	public final String name;
 	private final RegistryObject<BlockEntityType<T>> te;
-	public CPBaseBlock(String name,Properties blockProps,RegistryObject<BlockEntityType<T>> ste,
+	public CPTileBlock(String name,Properties blockProps,RegistryObject<BlockEntityType<T>> ste,
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {
 		super(blockProps);
 		this.name = name;

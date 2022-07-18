@@ -37,6 +37,7 @@ public class CPDataGenerator {
 			gen.addProvider(new CPItemModelProvider(gen, Main.MODID, exHelper));
 			gen.addProvider(new CPRecipeProvider(gen));
 			gen.addProvider(new CPItemTagGenerator(gen, Main.MODID, exHelper));
+			gen.addProvider(new CPBlockTagGenerator(gen, Main.MODID, exHelper));
 			gen.addProvider(new CPFluidTagGenerator(gen, Main.MODID, exHelper));
 			gen.addProvider(new CPLootGenerator(gen));
 			gen.addProvider(new CPStatesProvider(gen, Main.MODID, exHelper));

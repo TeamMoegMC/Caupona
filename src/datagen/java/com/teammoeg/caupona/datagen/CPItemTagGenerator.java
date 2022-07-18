@@ -30,6 +30,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -97,6 +98,7 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag("wolfberries").addOptional(new ResourceLocation("frostedheart:wolfberries"));
 		tag("stews").add(CPItems.stews.toArray(new Item[0]));
 		tag("stoves").add(CPBlocks.stove1.asItem(),CPBlocks.stove2.asItem(),CPBlocks.stove3.asItem(),CPBlocks.stove4.asItem(),CPBlocks.stove5.asItem());
+		
 	}
 
 	private TagAppender<Item> tag(String s) {

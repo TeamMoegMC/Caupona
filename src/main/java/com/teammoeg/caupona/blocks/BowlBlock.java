@@ -24,7 +24,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.RegistryObject;
 
-public class BowlBlock extends CPBaseBlock<BowlTileEntity>{
+public class BowlBlock extends CPTileBlock<BowlTileEntity>{
 
 	public BowlBlock(String name, Properties blockProps, RegistryObject<BlockEntityType<BowlTileEntity>> ste,
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {

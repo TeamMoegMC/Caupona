@@ -51,7 +51,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
 
-public class KitchenStove extends CPBaseBlock<KitchenStoveTileEntity> {
+public class KitchenStove extends CPTileBlock<KitchenStoveTileEntity> {
 	
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;

@@ -91,6 +91,25 @@ public class CPStatesProvider extends BlockStateProvider {
 					"_counter_with_dolium"))
 				blockItemModel(mat+type);
 		}
+		for(String wood:CPBlocks.woods) {
+			for(String type:ImmutableSet.of(
+					
+					"_fence_gate",
+					"_leaves",
+					"_log",
+					"_planks",
+					"_pressure_plate",
+					"_sapling",
+					"_sign",
+					"_slab",
+					"_stairs",
+					"_wood"))
+				blockItemModel(wood+type);
+			blockItemModel(wood+"_fence","_inventory");
+			blockItemModel(wood+"_button","_inventory");
+			blockItemModel(wood+"_trapdoor","_top");
+
+		}
 	}
 	private Block cpblock(String name) {
 		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(this.modid,name));

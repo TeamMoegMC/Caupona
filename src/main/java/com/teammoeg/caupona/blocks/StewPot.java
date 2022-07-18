@@ -56,7 +56,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
 
-public class StewPot extends CPBaseBlock<StewPotTileEntity> implements LiquidBlockContainer {
+public class StewPot extends CPTileBlock<StewPotTileEntity> implements LiquidBlockContainer {
 	public static final EnumProperty<Axis> FACING = BlockStateProperties.HORIZONTAL_AXIS;
 
 

@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "caupona:mud_kitchen_stove",
+    "caupona:brick_kitchen_stove",
+    "caupona:opus_incertum_kitchen_stove",
+    "caupona:opus_latericium_kitchen_stove",
+    "caupona:stone_brick_kitchen_stove"
+  ]
+}

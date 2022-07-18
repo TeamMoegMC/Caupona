@@ -15,23 +15,24 @@ public class CounterDoliumBlock extends CPHorizontalBlock {
 	public CounterDoliumBlock(Properties p_54120_) {
 		super(p_54120_);
 	}
+
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
 		return 1.0F;
 	}
+
 	@Override
 	public boolean useShapeForLightOcclusion(BlockState state) {
 		return true;
 	}
-	static final VoxelShape shape = Shapes.or(
-			Shapes.or(Block.box(0, 0, 0, 16, 4, 16), Block.box(0, 4, 0, 4, 16, 16)),
-			Shapes.or(Block.box(0, 4, 0, 16, 16, 4), Shapes
-					.or(Block.box(12, 4, 0, 16, 16, 16), Block.box(0, 4, 12, 16, 16, 16))));
+
+	static final VoxelShape shape = Shapes.or(Shapes.or(Block.box(0, 0, 0, 16, 4, 16), Block.box(0, 4, 0, 4, 16, 16)),
+			Shapes.or(Block.box(0, 4, 0, 16, 16, 4),
+					Shapes.or(Block.box(12, 4, 0, 16, 16, 16), Block.box(0, 4, 12, 16, 16, 16))));
 
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos,
-			CollisionContext context) {
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return shape;
 	}
 
@@ -39,4 +40,9 @@ public class CounterDoliumBlock extends CPHorizontalBlock {
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return shape;
 	}
+
+	public VoxelShape getVisualShape(BlockState pState, BlockGetter pReader, BlockPos pPos, CollisionContext pContext) {
+		return Shapes.empty();
+	}
+
 }

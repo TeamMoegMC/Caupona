@@ -50,7 +50,7 @@ public class CPClientRegistry {
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove5, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.bowl, RenderType.cutout());
 		for(Block bl:CPBlocks.transparentBlocks)
-			ItemBlockRenderTypes.setRenderLayer(bl, RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(bl, RenderType.translucent());
 		BlockEntityRenderers.register(CPTileTypes.STEW_POT.get(), StewPotRenderer::new);
 		BlockEntityRenderers.register(CPTileTypes.BOWL.get(), BowlRenderer::new);
 		
