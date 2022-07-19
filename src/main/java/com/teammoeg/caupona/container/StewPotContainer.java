@@ -21,7 +21,7 @@ package com.teammoeg.caupona.container;
 import java.util.function.Supplier;
 
 import com.teammoeg.caupona.CPGui;
-import com.teammoeg.caupona.blocks.StewPotTileEntity;
+import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;

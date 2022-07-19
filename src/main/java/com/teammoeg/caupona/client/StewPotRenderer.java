@@ -23,7 +23,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.blocks.StewPotTileEntity;
+import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;

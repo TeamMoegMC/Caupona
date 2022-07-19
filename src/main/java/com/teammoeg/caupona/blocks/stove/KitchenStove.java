@@ -16,10 +16,12 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.blocks;
+package com.teammoeg.caupona.blocks.stove;
 
 import java.util.Random;
 import java.util.function.BiFunction;
+
+import com.teammoeg.caupona.blocks.CPTileBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -52,41 +54,49 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
 
 public class KitchenStove extends CPTileBlock<KitchenStoveTileEntity> {
-	
+
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
 	public static final BooleanProperty ASH = BooleanProperty.create("ash");
 	public static final IntegerProperty FUELED = IntegerProperty.create("fueled", 0, 2);
 
-
-	public KitchenStove(String name,Properties blockProps,RegistryObject<BlockEntityType<KitchenStoveTileEntity>> ste,
+	public KitchenStove(String name, Properties blockProps, RegistryObject<BlockEntityType<KitchenStoveTileEntity>> ste,
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {
 		super(name, blockProps, ste, createItemBlock);
 	}
-	/*@Override
-	public VoxelShape getVisualShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext context) {
-		return Shapes.empty();
-	}*/
+
+	/*
+	 * @Override
+	 * public VoxelShape getVisualShape(BlockState state, BlockGetter reader,
+	 * BlockPos pos, CollisionContext context) {
+	 * return Shapes.empty();
+	 * }
+	 */
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
 		return 1.0F;
 	}
+
 	@Override
 	public boolean useShapeForLightOcclusion(BlockState state) {
 		return true;
 	}
+
 	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player,
-			InteractionHand handIn, BlockHitResult hit) {
+	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
+			BlockHitResult hit) {
 		InteractionResult p = super.use(state, worldIn, pos, player, handIn, hit);
 		if (p.consumesAction())
 			return p;
 		KitchenStoveTileEntity tileEntity = (KitchenStoveTileEntity) worldIn.getBlockEntity(pos);
-		/*for(Item i:ForgeRegistries.ITEMS) {
-			if(CountingTags.tags.stream().anyMatch(i.getTags()::contains)&&!i.isFood()&&FoodValueRecipe.recipes.get(i)==null)
-				System.out.println(i.getRegistryName());
-		}*/
+		/*
+		 * for(Item i:ForgeRegistries.ITEMS) {
+		 * if(CountingTags.tags.stream().anyMatch(i.getTags()::contains)&&!i.isFood()&&
+		 * FoodValueRecipe.recipes.get(i)==null)
+		 * System.out.println(i.getRegistryName());
+		 * }
+		 */
 		if (handIn == InteractionHand.MAIN_HAND) {
 			if (tileEntity != null && !worldIn.isClientSide)
 				NetworkHooks.openGui((ServerPlayer) player, tileEntity, tileEntity.getBlockPos());
@@ -129,7 +139,8 @@ public class KitchenStove extends CPTileBlock<KitchenStoveTileEntity> {
 	}
 
 	@Override
-	protected void createBlockStateDefinition(net.minecraft.world.level.block.state.StateDefinition.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(
+			net.minecraft.world.level.block.state.StateDefinition.Builder<Block, BlockState> builder) {
 		super.createBlockStateDefinition(builder);
 		builder.add(FACING).add(LIT).add(FUELED).add(ASH);
 	}
@@ -141,14 +152,12 @@ public class KitchenStove extends CPTileBlock<KitchenStoveTileEntity> {
 
 	}
 
-	static final VoxelShape shape = Shapes.or(
-			Shapes.or(Block.box(0, 0, 0, 16, 14, 16), Block.box(0, 14, 0, 2, 16, 16)),
-			Shapes.or(Block.box(0, 14, 0, 16, 16, 2), Shapes
-					.or(Block.box(14, 14, 0, 16, 16, 16), Block.box(0, 14, 14, 16, 16, 16))));
+	static final VoxelShape shape = Shapes.or(Shapes.or(Block.box(0, 0, 0, 16, 14, 16), Block.box(0, 14, 0, 2, 16, 16)),
+			Shapes.or(Block.box(0, 14, 0, 16, 16, 2),
+					Shapes.or(Block.box(14, 14, 0, 16, 16, 16), Block.box(0, 14, 14, 16, 16, 16))));
 
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos,
-			CollisionContext context) {
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return shape;
 	}
 
@@ -156,7 +165,5 @@ public class KitchenStove extends CPTileBlock<KitchenStoveTileEntity> {
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return shape;
 	}
-
-
 
 }

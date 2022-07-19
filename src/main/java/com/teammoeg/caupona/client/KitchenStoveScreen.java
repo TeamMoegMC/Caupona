@@ -21,7 +21,7 @@ package com.teammoeg.caupona.client;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.blocks.KitchenStoveTileEntity;
+import com.teammoeg.caupona.blocks.stove.KitchenStoveTileEntity;
 import com.teammoeg.caupona.container.KitchenStoveContainer;
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;

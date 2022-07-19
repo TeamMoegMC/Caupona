@@ -27,7 +27,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
@@ -49,10 +51,14 @@ public class CPClientRegistry {
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove4, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove5, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.bowl, RenderType.cutout());
+		
 		for(Block bl:CPBlocks.transparentBlocks)
-			ItemBlockRenderTypes.setRenderLayer(bl, RenderType.translucent());
+			ItemBlockRenderTypes.setRenderLayer(bl, RenderType.cutout());
 		BlockEntityRenderers.register(CPTileTypes.STEW_POT.get(), StewPotRenderer::new);
 		BlockEntityRenderers.register(CPTileTypes.BOWL.get(), BowlRenderer::new);
+		BlockEntityRenderers.register(CPTileTypes.SIGN.get(), SignRenderer::new);
+		Sheets.addWoodType(CPBlocks.WALNUT);
+		
 		
 	}
 

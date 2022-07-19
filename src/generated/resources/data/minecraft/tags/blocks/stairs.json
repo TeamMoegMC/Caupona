@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "minecraft:air",
+    "caupona:walnut_stairs",
     "caupona:mixed_bricks_stairs",
     "caupona:opus_incertum_stairs",
     "caupona:opus_latericium_stairs",

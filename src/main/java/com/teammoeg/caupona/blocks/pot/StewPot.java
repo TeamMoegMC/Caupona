@@ -16,12 +16,13 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.blocks;
+package com.teammoeg.caupona.blocks.pot;
 
 import java.util.Random;
 import java.util.function.BiFunction;
 
 import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.blocks.CPTileBlock;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.items.StewItem;
@@ -59,8 +60,7 @@ import net.minecraftforge.registries.RegistryObject;
 public class StewPot extends CPTileBlock<StewPotTileEntity> implements LiquidBlockContainer {
 	public static final EnumProperty<Axis> FACING = BlockStateProperties.HORIZONTAL_AXIS;
 
-
-	public StewPot(String name,Properties blockProps,RegistryObject<BlockEntityType<StewPotTileEntity>> ste,
+	public StewPot(String name, Properties blockProps, RegistryObject<BlockEntityType<StewPotTileEntity>> ste,
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {
 		super(name, blockProps, ste, createItemBlock);
 	}
@@ -68,8 +68,7 @@ public class StewPot extends CPTileBlock<StewPotTileEntity> implements LiquidBlo
 	static final VoxelShape shape = Block.box(1, 0, 1, 15, 12, 15);
 
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos,
-			CollisionContext context) {
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return shape;
 	}
 
@@ -79,8 +78,8 @@ public class StewPot extends CPTileBlock<StewPotTileEntity> implements LiquidBlo
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player,
-			InteractionHand handIn, BlockHitResult hit) {
+	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
+			BlockHitResult hit) {
 		InteractionResult p = super.use(state, worldIn, pos, player, handIn, hit);
 		if (p.consumesAction())
 			return p;
@@ -166,29 +165,31 @@ public class StewPot extends CPTileBlock<StewPotTileEntity> implements LiquidBlo
 	}
 
 	@Override
-	protected void createBlockStateDefinition(net.minecraft.world.level.block.state.StateDefinition.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(
+			net.minecraft.world.level.block.state.StateDefinition.Builder<Block, BlockState> builder) {
 		super.createBlockStateDefinition(builder);
 		builder.add(FACING);
 	}
-	//TODO rain
-/*
-	@Override
-	public void handleRain(Level worldIn, BlockPos pos) {
-		if (worldIn.random.nextInt(25) == 1) {
-			float f = worldIn.getBiome(pos).getTemperature(pos);
-			if (!(f < 0.15F)) {
-				BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-				if (tileEntity instanceof StewPotTileEntity) {
-					StewPotTileEntity te = (StewPotTileEntity) tileEntity;
-					if (te.canAddFluid())
-						te.tryAddFluid(new FluidStack(Fluids.WATER, 250));
-				}
 
-			}
-		}
-
-	}
-*/
+	// TODO rain
+	/*
+	 * @Override
+	 * public void handleRain(Level worldIn, BlockPos pos) {
+	 * if (worldIn.random.nextInt(25) == 1) {
+	 * float f = worldIn.getBiome(pos).getTemperature(pos);
+	 * if (!(f < 0.15F)) {
+	 * BlockEntity tileEntity = worldIn.getBlockEntity(pos);
+	 * if (tileEntity instanceof StewPotTileEntity) {
+	 * StewPotTileEntity te = (StewPotTileEntity) tileEntity;
+	 * if (te.canAddFluid())
+	 * te.tryAddFluid(new FluidStack(Fluids.WATER, 250));
+	 * }
+	 * 
+	 * }
+	 * }
+	 * 
+	 * }
+	 */
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getAxis());

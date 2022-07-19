@@ -1,5 +1,5 @@
 {
   "type": "caupona:bowl",
-  "item": "caupona:plain_milk",
+  "item": "minecraft:air",
   "fluid": "minecraft:milk"
 }

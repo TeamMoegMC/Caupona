@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 
@@ -216,11 +217,16 @@ public class CPRecipeProvider extends RecipeProvider {
 				.of(cereals).and().then().finish(out);
 	}
 	private void stoneStove(String stone,Consumer<FinishedRecipe> outx) {
-	
-		ShapedRecipeBuilder.shaped(cpitem(stone+"_kitchen_stove")).define('T',cpitem(stone+"_slab")).define('B',cpitem(stone)).define('C',Items.CLAY).pattern("TTT").pattern("BCB").pattern("B B").unlockedBy("has_cor_stones", has(cpitem(stone))).save(outx);
+		Function<String,Item> stoneItem=this::cpitem;
+		if(cpitem(stone)==null)
+			stoneItem=this::mitem;
+		ShapedRecipeBuilder.shaped(cpitem(stone+"_kitchen_stove")).define('T',stoneItem.apply(stone+"_slab")).define('B',stoneItem.apply(stone)).define('C',Items.CLAY).pattern("TTT").pattern("BCB").pattern("B B").unlockedBy("has_cor_stones", has(cpitem(stone))).save(outx);
 	}
 	private Item cpitem(String name) {
 		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID,name));
+	}
+	private Item mitem(String name) {
+		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(name));
 	}
 	private void simpleFood(Consumer<IDataRecipe> out,int h,float s,Item i) {
 		out.accept(new FoodValueRecipe(rl("food/"+i.getRegistryName().getPath()),h,s,new ItemStack(i),i));

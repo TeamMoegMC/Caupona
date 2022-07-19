@@ -1,36 +1,36 @@
 package com.teammoeg.caupona;
 
-import com.teammoeg.caupona.blocks.KitchenStove;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import com.google.common.collect.ImmutableMap;
 import com.teammoeg.caupona.blocks.BowlBlock;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 import com.teammoeg.caupona.blocks.ChimneyPotBlock;
 import com.teammoeg.caupona.blocks.CounterDoliumBlock;
-import com.teammoeg.caupona.blocks.StewPot;
+import com.teammoeg.caupona.blocks.others.CPStandingSignBlock;
+import com.teammoeg.caupona.blocks.others.CPWallSignBlock;
+import com.teammoeg.caupona.blocks.pot.StewPot;
+import com.teammoeg.caupona.blocks.stove.KitchenStove;
 import com.teammoeg.caupona.event.RegistryEvents;
 import com.teammoeg.caupona.items.CPBlockItem;
+import com.teammoeg.caupona.worldgen.WalnutTreeGrower;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
@@ -38,12 +38,9 @@ import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
-import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.WoodButtonBlock;
-import net.minecraft.world.level.block.grower.OakTreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -65,17 +62,23 @@ public class CPBlocks {
 	public static Block stove5 = new KitchenStove("stone_brick_kitchen_stove", getStoveProps(), CPTileTypes.STOVE2,
 			CPBlockItem::new);
 	public static Block bowl = new BowlBlock("bowl",
-			Block.Properties.of(Material.WOOD).sound(SoundType.WOOD).strength(0, 0).noOcclusion()
+			Block.Properties.of(Material.WOOD).sound(SoundType.WOOD).instabreak().noOcclusion()
 					.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 					.isViewBlocking(CPBlocks::isntSolid),
-			CPTileTypes.BOWL, CPBlockItem::new);
+			CPTileTypes.BOWL, null);
 	public static final String[] materials_C = new String[] { "brick", "opus_incertum", "opus_latericium", "mud",
 			"stone_brick" };
 	public static final String[] stones = new String[] { "mixed_bricks", "opus_incertum", "opus_latericium",
 			"opus_reticulatum", "felsic_tuff_bricks", "felsic_tuff" };
 	public static final String[] woods = new String[] { "walnut" };
+	public static final List<Block> signs = new ArrayList<>();
+	public static Block WALNUT_LOG;
+	public static Block WALNUT_LEAVE;
+	public static Block WALNUT_PLANKS;
+	public static Block WALNUT_SAPLINGS;
 	public static Map<String, Block> stoneBlocks = ImmutableMap.of();
 	public static List<Block> transparentBlocks = new ArrayList<>();
+	public static WoodType WALNUT = WoodType.register(WoodType.create("caupona:walnut"));
 
 	public static void init() {
 		stoneBlocks = new HashMap<>();
@@ -93,44 +96,47 @@ public class CPBlocks {
 			transparentBlocks
 					.add(register(mat + "_counter_with_dolium", new CounterDoliumBlock(getTransparentProps())));
 		}
-		for (String wood : woods) {
-			Block planks = register(wood + "_planks", new Block(BlockBehaviour.Properties
-					.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
-			register(wood + "_button", new WoodButtonBlock(BlockBehaviour.Properties.of(Material.DECORATION)
-					.noCollission().strength(0.5F).sound(SoundType.WOOD)));
-			register(wood + "_door",
-					new DoorBlock(BlockBehaviour.Properties.of(Material.WOOD, planks.defaultMaterialColor())
-							.strength(3.0F).sound(SoundType.WOOD).noOcclusion()));
-			register(wood + "_fence", new FenceBlock(BlockBehaviour.Properties
-					.of(Material.WOOD, planks.defaultMaterialColor()).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
-			register(wood + "_fence_gate", new FenceGateBlock(BlockBehaviour.Properties
-					.of(Material.WOOD, planks.defaultMaterialColor()).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
-			register(wood + "_leaves", leaves(SoundType.GRASS));
-			register(wood + "_log", log(MaterialColor.WOOD, MaterialColor.PODZOL));
+		registerWood("walnut", WALNUT, l -> WALNUT_PLANKS = l, l -> WALNUT_LOG = l, l -> WALNUT_LEAVE = l, l -> WALNUT_SAPLINGS = l);
+	}
 
-			register(wood + "_pressure_plate",
-					new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING,
-							BlockBehaviour.Properties.of(Material.WOOD, planks.defaultMaterialColor()).noCollission()
-									.strength(0.5F).sound(SoundType.WOOD)));
-			register(wood + "_sapling", new SaplingBlock(new OakTreeGrower(), BlockBehaviour.Properties
-					.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
-			register(wood + "_sign",new SignItem((new Item.Properties()).stacksTo(16).tab(Main.itemGroup),
-			registerBlock(wood + "_sign", new StandingSignBlock(
-					BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD),
-					WoodType.OAK)),
-			registerBlock(wood + "_wall_sign", new WallSignBlock(
-					BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD),
-					WoodType.OAK))));
-			register(wood + "_slab", new SlabBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD)
-					.strength(2.0F, 3.0F).sound(SoundType.WOOD)));
-			register(wood + "_stairs",
-					new StairBlock(planks::defaultBlockState, BlockBehaviour.Properties.copy(planks)));
-			register(wood + "_trapdoor",
-					new TrapDoorBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(3.0F)
-							.sound(SoundType.WOOD).noOcclusion().isValidSpawn(CPBlocks::never)));
-			register(wood + "_wood", new RotatedPillarBlock(BlockBehaviour.Properties
-					.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD)));
-		}
+	private static void registerWood(String wood, WoodType wt, Consumer<Block> gplank, Consumer<Block> glog,
+			Consumer<Block> gleave, Consumer<Block> gsap) {
+		Block planks = register(wood + "_planks", new Block(BlockBehaviour.Properties
+				.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
+		gplank.accept(planks);
+		register(wood + "_button", new WoodButtonBlock(
+				BlockBehaviour.Properties.of(Material.DECORATION).noCollission().strength(0.5F).sound(SoundType.WOOD)));
+		register(wood + "_door", new DoorBlock(BlockBehaviour.Properties
+				.of(Material.WOOD, planks.defaultMaterialColor()).strength(3.0F).sound(SoundType.WOOD).noOcclusion()));
+		register(wood + "_fence", new FenceBlock(BlockBehaviour.Properties
+				.of(Material.WOOD, planks.defaultMaterialColor()).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
+		register(wood + "_fence_gate", new FenceGateBlock(BlockBehaviour.Properties
+				.of(Material.WOOD, planks.defaultMaterialColor()).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
+		gleave.accept(register(wood + "_leaves", leaves(SoundType.GRASS)));
+		glog.accept(register(wood + "_log", log(MaterialColor.WOOD, MaterialColor.PODZOL)));
+
+		register(wood + "_pressure_plate",
+				new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING,
+						BlockBehaviour.Properties.of(Material.WOOD, planks.defaultMaterialColor()).noCollission()
+								.strength(0.5F).sound(SoundType.WOOD)));
+		Block sapling = register(wood + "_sapling", new SaplingBlock(new WalnutTreeGrower(), BlockBehaviour.Properties
+				.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
+		transparentBlocks.add(sapling);
+		gsap.accept(sapling);
+		register(wood + "_sign", new SignItem((new Item.Properties()).stacksTo(16).tab(Main.itemGroup),
+				registerBlock(wood + "_sign",
+						new CPStandingSignBlock(BlockBehaviour.Properties.of(Material.WOOD).noCollission()
+								.strength(1.0F).sound(SoundType.WOOD), wt)),
+				registerBlock(wood + "_wall_sign", new CPWallSignBlock(
+						BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD),
+						wt))));
+		register(wood + "_slab", new SlabBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD)
+				.strength(2.0F, 3.0F).sound(SoundType.WOOD)));
+		register(wood + "_stairs", new StairBlock(planks::defaultBlockState, BlockBehaviour.Properties.copy(planks)));
+		register(wood + "_trapdoor", new TrapDoorBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD)
+				.strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(CPBlocks::never)));
+		register(wood + "_wood", new RotatedPillarBlock(
+				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD)));
 	}
 
 	private static LeavesBlock leaves(SoundType p_152615_) {
@@ -145,7 +151,7 @@ public class CPBlocks {
 		}).strength(2.0F).sound(SoundType.WOOD));
 	}
 
-	public static Item register(String name, Item item) {
+	public static <T extends Item> T register(String name,T item) {
 
 		ResourceLocation registryName = new ResourceLocation(Main.MODID, name);
 		item.setRegistryName(registryName);
@@ -154,7 +160,7 @@ public class CPBlocks {
 
 	}
 
-	public static Block register(String name, Block bl) {
+	public static <T extends Block> T register(String name, T bl) {
 		ResourceLocation registryName = new ResourceLocation(Main.MODID, name);
 		bl.setRegistryName(registryName);
 
@@ -165,7 +171,7 @@ public class CPBlocks {
 		return bl;
 	}
 
-	public static Block registerBlock(String name, Block bl) {
+	public static <T extends Block> T  registerBlock(String name, T bl) {
 		ResourceLocation registryName = new ResourceLocation(Main.MODID, name);
 		bl.setRegistryName(registryName);
 

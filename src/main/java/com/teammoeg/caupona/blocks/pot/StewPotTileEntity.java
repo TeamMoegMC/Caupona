@@ -16,13 +16,14 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.blocks;
+package com.teammoeg.caupona.blocks.pot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.teammoeg.caupona.CPTileTypes;
 import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.blocks.AbstractStove;
 import com.teammoeg.caupona.container.StewPotContainer;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
@@ -69,7 +70,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class StewPotTileEntity extends INetworkTile implements  MenuProvider {
+public class StewPotTileEntity extends INetworkTile implements MenuProvider {
 	private ItemStackHandler inv = new ItemStackHandler(11) {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
@@ -103,8 +104,8 @@ public class StewPotTileEntity extends INetworkTile implements  MenuProvider {
 		}
 	};
 
-	public StewPotTileEntity(BlockPos p,BlockState s) {
-		super(CPTileTypes.STEW_POT.get(),p,s);
+	public StewPotTileEntity(BlockPos p, BlockState s) {
+		super(CPTileTypes.STEW_POT.get(), p, s);
 	}
 
 	public FluidTank getTank() {
@@ -113,7 +114,7 @@ public class StewPotTileEntity extends INetworkTile implements  MenuProvider {
 
 	public int process;
 	public int processMax;
-	public boolean working=false;
+	public boolean working = false;
 	public boolean operate = false;
 	public short proctype = 0;
 	public boolean rsstate = false;
@@ -128,20 +129,21 @@ public class StewPotTileEntity extends INetworkTile implements  MenuProvider {
 	@Override
 	public void tick() {
 		if (!level.isClientSide) {
-			working=false;
+			working = false;
 			if (processMax > 0) {
-				BlockEntity te=level.getBlockEntity(worldPosition.below());
-				if(te instanceof AbstractStove) {
-					int rh=((AbstractStove) te).requestHeat();
-					process+=rh;
-					if(rh>0)
-						working=true;
+				BlockEntity te = level.getBlockEntity(worldPosition.below());
+				if (te instanceof AbstractStove) {
+					int rh = ((AbstractStove) te).requestHeat();
+					process += rh;
+					if (rh > 0)
+						working = true;
 					if (process >= processMax) {
 						process = 0;
 						processMax = 0;
 						doWork();
 					}
-				}else return;
+				} else
+					return;
 			} else {
 				prepareWork();
 				if (canAddFluid())
@@ -166,7 +168,7 @@ public class StewPotTileEntity extends INetworkTile implements  MenuProvider {
 				if (tryAddFluid(BowlContainingRecipe.extractFluid(is))) {
 					ItemStack ret = is.getContainerItem();
 					is.shrink(1);
-					inv.setStackInSlot(10,ret);
+					inv.setStackInSlot(10, ret);
 				}
 				return;
 			}
@@ -190,8 +192,8 @@ public class StewPotTileEntity extends INetworkTile implements  MenuProvider {
 		proctype = nbt.getShort("worktype");
 		rsstate = nbt.getBoolean("rsstate");
 		inv.deserializeNBT(nbt.getCompound("inv"));
-		if(isClient)
-			working=nbt.getBoolean("working");
+		if (isClient)
+			working = nbt.getBoolean("working");
 		tank.readFromNBT(nbt);
 		if (nbt.contains("result"))
 			become = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(nbt.getString("result")));
@@ -210,7 +212,7 @@ public class StewPotTileEntity extends INetworkTile implements  MenuProvider {
 		nbt.putShort("worktype", proctype);
 		nbt.putBoolean("rsstate", rsstate);
 		if (isClient)
-			nbt.putBoolean("working",working);
+			nbt.putBoolean("working", working);
 		nbt.put("inv", inv.serializeNBT());
 		tank.writeToNBT(nbt);
 		if (become != null)
@@ -226,11 +228,11 @@ public class StewPotTileEntity extends INetworkTile implements  MenuProvider {
 	private void prepareWork() {
 		if (rsstate && proctype == 0 && !operate && level.hasNeighborSignal(this.worldPosition))
 			operate = true;
-		
+
 		if (operate && proctype == 0) {
 			operate = false;
-			BlockEntity te=level.getBlockEntity(worldPosition.below());
-			if(!(te instanceof AbstractStove)||!((AbstractStove) te).canEmitHeat()) 
+			BlockEntity te = level.getBlockEntity(worldPosition.below());
+			if (!(te instanceof AbstractStove) || !((AbstractStove) te).canEmitHeat())
 				return;
 			if (doBoil())
 				proctype = 1;
@@ -266,7 +268,7 @@ public class StewPotTileEntity extends INetworkTile implements  MenuProvider {
 		if (recipe == null)
 			return false;
 		become = recipe.after;
-		this.processMax = (int) (recipe.time*(this.tank.getFluidAmount()/250f));
+		this.processMax = (int) (recipe.time * (this.tank.getFluidAmount() / 250f));
 		this.process = 0;
 		return true;
 	}
@@ -344,10 +346,10 @@ public class StewPotTileEntity extends INetworkTile implements  MenuProvider {
 				hasItem = true;
 			}
 		}
-		
+
 		if (!hasItem) {// just reduce water
 			current.completeEffects();
-			processMax = Math.max(100,decideSoup());
+			processMax = Math.max(100, decideSoup());
 			return true;
 		}
 		// List<SmokingRecipe> irs =
@@ -389,10 +391,10 @@ public class StewPotTileEntity extends INetworkTile implements  MenuProvider {
 				}
 				current.addItem(is, parts);
 			}
-			tpt +=iis[i];
+			tpt += iis[i];
 		}
 		current.completeAll();
-		tpt=Math.max(100,tpt);
+		tpt = Math.max(100, tpt);
 		interninv.clear();
 		processMax = Math.max(decideSoup(), tpt);
 		return true;
@@ -427,15 +429,15 @@ public class StewPotTileEntity extends INetworkTile implements  MenuProvider {
 	 */
 	private int decideSoup() {
 		become = tank.getFluid().getFluid();
-		
+
 		StewPendingContext ctx = new StewPendingContext(getCurrent(), become.getRegistryName());
 		nextbase = current.base;
-		if(ctx.getItems().isEmpty()) {
+		if (ctx.getItems().isEmpty()) {
 			return 0;
 		}
 		CookingRecipe cri = CookingRecipe.recipes.get(become);
 		if (cri == null || cri.getPriority() < 0 || cri.matches(ctx) == 0) {
-			
+
 			for (CookingRecipe cr : CookingRecipe.sorted) {
 
 				int mt = cr.matches(ctx);
@@ -478,8 +480,8 @@ public class StewPotTileEntity extends INetworkTile implements  MenuProvider {
 		}
 		if (tank.getCapacity() - tank.getFluidAmount() < fs.getAmount())
 			return false;
-		BlockEntity te=level.getBlockEntity(worldPosition.below());
-		if(!(te instanceof AbstractStove)||!((AbstractStove) te).canEmitHeat()) 
+		BlockEntity te = level.getBlockEntity(worldPosition.below());
+		if (!(te instanceof AbstractStove) || !((AbstractStove) te).canEmitHeat())
 			return false;
 		SoupInfo n = SoupFluid.getInfo(fs);
 		if (!getCurrent().base.equals(n.base)) {
@@ -503,26 +505,27 @@ public class StewPotTileEntity extends INetworkTile implements  MenuProvider {
 		}
 		if (tank.getCapacity() - tank.getFluidAmount() < fs.getAmount())
 			return false;
-		BlockEntity te=level.getBlockEntity(worldPosition.below());
-		if(!(te instanceof AbstractStove)||!((AbstractStove) te).canEmitHeat()) 
+		BlockEntity te = level.getBlockEntity(worldPosition.below());
+		if (!(te instanceof AbstractStove) || !((AbstractStove) te).canEmitHeat())
 			return false;
 		SoupInfo n = SoupFluid.getInfo(fs);
 		int pm = 0;
-		if (!getCurrent().base.equals(n.base)&&!current.base.equals(fs.getFluid().getRegistryName())&&!n.base.equals(tank.getFluid().getFluid().getRegistryName())) {
+		if (!getCurrent().base.equals(n.base) && !current.base.equals(fs.getFluid().getRegistryName())
+				&& !n.base.equals(tank.getFluid().getFluid().getRegistryName())) {
 			BoilingRecipe bnx = BoilingRecipe.recipes.get(fs.getFluid());
 			if (bnx == null)
 				return false;
 			if (!getCurrent().base.equals(bnx.after.getRegistryName()))
 				return false;
 			fs = bnx.handle(fs);
-			pm = (int) (bnx.time*(fs.getAmount()/250f));
+			pm = (int) (bnx.time * (fs.getAmount() / 250f));
 		}
 		if (current.merge(n, tank.getFluidAmount() / 250f, fs.getAmount() / 250f)) {
 			this.adjustParts(fs.getAmount() / 250);
-			int num=Math.max(decideSoup(),50);
+			int num = Math.max(decideSoup(), 50);
 			this.proctype = 3;
 			this.process = 0;
-			this.processMax = Math.max(pm,num);
+			this.processMax = Math.max(pm, num);
 			return true;
 		}
 		return false;

@@ -26,6 +26,8 @@ import org.apache.logging.log4j.Logger;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.network.PacketHandler;
+import com.teammoeg.caupona.worldgen.CPFeatures;
+import com.teammoeg.caupona.worldgen.CPPlacements;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -64,6 +66,9 @@ public class Main {
 		mod.addListener(this::enqueueIMC);
 		
 		ForgeMod.enableMilkFluid();
+		
+		
+		
 		CPFluids.init();
 		CPTileTypes.REGISTER.register(mod);
 		CPGui.CONTAINERS.register(mod);

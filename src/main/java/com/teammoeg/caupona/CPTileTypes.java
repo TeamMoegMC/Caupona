@@ -3,11 +3,12 @@ package com.teammoeg.caupona;
 import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableSet;
-import com.teammoeg.caupona.blocks.KitchenStoveT1;
-import com.teammoeg.caupona.blocks.KitchenStoveT2;
-import com.teammoeg.caupona.blocks.KitchenStoveTileEntity;
 import com.teammoeg.caupona.blocks.BowlTileEntity;
-import com.teammoeg.caupona.blocks.StewPotTileEntity;
+import com.teammoeg.caupona.blocks.others.CPSignTileEntity;
+import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
+import com.teammoeg.caupona.blocks.stove.KitchenStoveT1;
+import com.teammoeg.caupona.blocks.stove.KitchenStoveT2;
+import com.teammoeg.caupona.blocks.stove.KitchenStoveTileEntity;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,6 +30,8 @@ public class CPTileTypes {
 			makeTypes((p,s) -> new KitchenStoveT2(p,s), () -> new Block[]{CPBlocks.stove2,CPBlocks.stove3,CPBlocks.stove4,CPBlocks.stove5}));
 	public static final RegistryObject<BlockEntityType<BowlTileEntity>> BOWL = REGISTER.register("bowl",
 			makeType((p,s) -> new BowlTileEntity(p,s), () -> CPBlocks.bowl));
+	public static final RegistryObject<BlockEntityType<CPSignTileEntity>> SIGN = REGISTER.register("sign",
+			makeTypes((p,s) -> new CPSignTileEntity(p,s), () -> CPBlocks.signs.toArray(new Block[0])));
 	
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntitySupplier<T> create,
 			Supplier<Block> valid) {

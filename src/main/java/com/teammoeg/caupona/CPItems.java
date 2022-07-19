@@ -45,8 +45,8 @@ public class CPItems {
 	public static void init() {
 		for (String s : soups)
 			new StewItem(s, new ResourceLocation(Main.MODID, s), createSoupProps());
-		new StewItem("plain_milk", new ResourceLocation("milk"), createSoupProps());
-		new StewItem("plain_water", new ResourceLocation("water"), createSoupProps());
+		new StewItem("milk", new ResourceLocation("milk"), createSoupProps());
+		new StewItem("water", new ResourceLocation("water"), createSoupProps());
 		for(String s:aspics) 
 			new CPItem(s,createProps());
 	}

@@ -36,10 +36,11 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.RegistryObject;
 
-public class CPTileBlock<T extends BlockEntity> extends Block implements EntityBlock{
+public class CPTileBlock<T extends BlockEntity> extends Block implements EntityBlock {
 	public final String name;
 	private final RegistryObject<BlockEntityType<T>> te;
-	public CPTileBlock(String name,Properties blockProps,RegistryObject<BlockEntityType<T>> ste,
+
+	public CPTileBlock(String name, Properties blockProps, RegistryObject<BlockEntityType<T>> ste,
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {
 		super(blockProps);
 		this.name = name;
@@ -48,21 +49,25 @@ public class CPTileBlock<T extends BlockEntity> extends Block implements EntityB
 		setRegistryName(registryName);
 
 		RegistryEvents.registeredBlocks.add(this);
-		Item item = createItemBlock.apply(this, new Item.Properties().tab(Main.itemGroup));
-		if (item != null) {
-			item.setRegistryName(registryName);
-			RegistryEvents.registeredItems.add(item);
+		if(createItemBlock!=null) {
+			Item item = createItemBlock.apply(this, new Item.Properties().tab(Main.itemGroup));
+			if (item != null) {
+				item.setRegistryName(registryName);
+				RegistryEvents.registeredItems.add(item);
+			}
 		}
-		
+
 	}
+
 	@Override
-	public BlockEntity newBlockEntity(BlockPos p,BlockState s) {
+	public BlockEntity newBlockEntity(BlockPos p, BlockState s) {
 		return te.get().create(p, s);
 	}
-	
+
 	public ResourceLocation createRegistryName() {
 		return new ResourceLocation(Main.MODID, name);
 	}
+
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState,
 			BlockEntityType<T> pBlockEntityType) {
@@ -72,7 +77,7 @@ public class CPTileBlock<T extends BlockEntity> extends Block implements EntityB
 			public void tick(Level pLevel, BlockPos pPos, BlockState pState, BlockEntity pBlockEntity) {
 				if (!pBlockEntity.hasLevel())
 					pBlockEntity.setLevel(pLevel);
-				((INetworkTile)pBlockEntity).tick();
+				((INetworkTile) pBlockEntity).tick();
 			}
 		};
 	}

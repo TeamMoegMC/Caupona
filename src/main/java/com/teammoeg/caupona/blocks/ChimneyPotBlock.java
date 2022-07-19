@@ -12,11 +12,11 @@ public class ChimneyPotBlock extends CPHorizontalBlock {
 	public ChimneyPotBlock(Properties p_54120_) {
 		super(p_54120_);
 	}
-	static final VoxelShape shape =Block.box(3, 0, 3, 13, 16, 13);
+
+	static final VoxelShape shape = Block.box(3, 0, 3, 13, 16, 13);
 
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos,
-			CollisionContext context) {
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return shape;
 	}
 

@@ -31,7 +31,7 @@ import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
-import com.teammoeg.caupona.blocks.KitchenStove;
+import com.teammoeg.caupona.blocks.stove.KitchenStove;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -99,8 +99,6 @@ public class CPStatesProvider extends BlockStateProvider {
 					"_log",
 					"_planks",
 					"_pressure_plate",
-					"_sapling",
-					"_sign",
 					"_slab",
 					"_stairs",
 					"_wood"))

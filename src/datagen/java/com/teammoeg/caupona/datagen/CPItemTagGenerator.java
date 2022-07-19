@@ -21,6 +21,7 @@ package com.teammoeg.caupona.datagen;
 import java.nio.file.Path;
 
 import com.teammoeg.caupona.Main;
+import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 
@@ -35,7 +36,9 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CPItemTagGenerator extends TagsProvider<Item> {
@@ -63,6 +66,30 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		 * }
 		 * }
 		 */
+		for(String wood:CPBlocks.woods) {
+
+	
+			tag(ItemTags.LEAVES).add(cp(wood+"leaves"));
+			tag(ItemTags.SAPLINGS).add(cp(wood+"sapling"));
+			tag(ItemTags.DOORS).add(cp(wood+"_door"));
+			tag(ItemTags.WOODEN_DOORS).add(cp(wood+"_door"));
+			tag(ItemTags.FENCES).add(cp(wood+"_fence"));
+			tag(ItemTags.WOODEN_FENCES).add(cp(wood+"_fence"));
+			tag(ItemTags.TRAPDOORS).add(cp(wood+"_trapdoor"));
+			tag(ItemTags.WOODEN_PRESSURE_PLATES).add(cp(wood+"_pressure_plate"));
+			tag(ItemTags.LOGS).add(cp(wood+"_wood")).add(cp(wood+"_log"));
+			tag(ItemTags.SLABS).add(cp(wood+"_slab"));
+			tag(ItemTags.WOODEN_SLABS).add(cp(wood+"_slab"));
+			tag(ItemTags.PLANKS).add(cp(wood+"_planks"));
+			tag(ItemTags.STAIRS).add(cp(wood+"_stair"));
+			tag(ItemTags.WOODEN_STAIRS).add(cp(wood+"_stair"));
+			tag(ItemTags.SIGNS).add(cp(wood+"_sign"));
+		}
+		for (String stone : CPBlocks.stones) {
+			tag(ItemTags.SLABS).add(cp(stone + "_slab"));
+			tag(ItemTags.STAIRS).add(cp(stone + "_stairs"));
+			tag(ItemTags.WALLS).add(cp(stone + "_wall"));
+		}
 		tag(meats).addTag(atag(poultry)).addTag(atag(meat));
 		tag(seafood).addTag(atag(fish)).addTag(atag(crustaceans));
 		tag(pumpkin).addOptional(rl(fd + ":pumpkin_slice")).add(Items.PUMPKIN, Items.CARVED_PUMPKIN);
@@ -147,7 +174,10 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 	public String getName() {
 		return Main.MODID + " item tags";
 	}
-
+	private Item cp(String s) {
+		Item i=ForgeRegistries.ITEMS.getValue(mrl(s));
+		return i.asItem();//just going to cause trouble if not exists
+	}
 	@Override
 	protected Path getPath(ResourceLocation id) {
 		return this.generator.getOutputFolder()

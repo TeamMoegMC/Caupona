@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "caupona:walnut_log",
-    "caupona:walnut_wood"
+    "caupona:walnut_wood",
+    "minecraft:air"
   ]
 }

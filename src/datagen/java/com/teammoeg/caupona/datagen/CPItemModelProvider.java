@@ -39,6 +39,8 @@ public class CPItemModelProvider extends ItemModelProvider {
 	protected void registerModels() {
 		for (String s : CPItems.soups) 
 			simpleTexture(s,"soups/");
+		simpleTexture("water","soups/");
+		simpleTexture("milk","soups/");
 		for (String s : CPItems.aspics) 
 			simpleTexture(s,"aspics/");
 		simpleTexture("milk_based","bases/");
@@ -48,6 +50,7 @@ public class CPItemModelProvider extends ItemModelProvider {
 		texture("book","vade_mecum_for_innkeepers");
 		itemModel(CPItems.clay_pot,"clay_stew_pot");
 		
+		super.singleTexture("walnut_sapling",new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"block/walnut_sapling"));
 		//super.withExistingParent("clay_cistern",new ResourceLocation(Main.MODID,"block/clay_cistern"));
 	}
 	public void itemModel(Item item,String name) {

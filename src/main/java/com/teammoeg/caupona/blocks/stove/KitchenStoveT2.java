@@ -16,7 +16,7 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.blocks;
+package com.teammoeg.caupona.blocks.stove;
 
 import com.teammoeg.caupona.CPTileTypes;
 
@@ -25,9 +25,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class KitchenStoveT2 extends KitchenStoveTileEntity {
 
-	public KitchenStoveT2( BlockPos p, BlockState s) {
+	public KitchenStoveT2(BlockPos p, BlockState s) {
 		super(CPTileTypes.STOVE2.get(), p, s, 2);
 	}
-
 
 }

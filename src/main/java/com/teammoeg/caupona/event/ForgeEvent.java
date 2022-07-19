@@ -23,6 +23,7 @@ import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.fluid.SoupFluid;
+import com.teammoeg.caupona.worldgen.CPPlacements;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -34,8 +35,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ClipContext.Fluid;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
@@ -43,6 +47,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -131,6 +137,20 @@ public class ForgeEvent {
 				if(data.getFluidInTank(0).getFluid() instanceof SoupFluid)
 					CauponaApi.applyStew(event.getEntityLiving().level,event.getEntityLiving(),SoupFluid.getInfo(data.getFluidInTank(0)));
 			}
+		}
+	}
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public static void addFeatures(BiomeLoadingEvent event) {
+        if (event.getName() != null) {
+			BiomeCategory category = event.getCategory();
+			//WALNUT
+            if (category != BiomeCategory.NETHER && category != BiomeCategory.THEEND) {
+                if (category == BiomeCategory.FOREST) {
+                        event.getGeneration().addFeature(Decoration.VEGETAL_DECORATION, CPPlacements.TREES_WALNUT);
+                }
+            }
+            //Structures
+			
 		}
 	}
 }
