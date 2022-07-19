@@ -1,0 +1,41 @@
+{
+	"parent": "minecraft:block/cube",
+	"ambientocclusion": false,
+	"credit": "Made with Blockbench",
+	"elements": [
+		{
+			"name": "servings2",
+			"from": [5, 1, 4],
+			"to": [11, 2, 10],
+			"rotation": {"angle": 22.5, "axis": "y", "origin": [8, 0, 7]},
+			"faces": {
+				"north": {"uv": [0, 10, 6, 11], "texture": "#dish"},
+				"east": {"uv": [3, 9, 9, 10], "texture": "#dish"},
+				"south": {"uv": [0, 9, 6, 10], "texture": "#dish"},
+				"west": {"uv": [3, 10, 9, 11], "texture": "#dish"},
+				"up": {"uv": [2, 2, 8, 8], "texture": "#dish"}
+			}
+		},
+		{
+			"name": "servings1",
+			"from": [5, 1, 4],
+			"to": [11, 2.5, 10],
+			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 0, 7]},
+			"faces": {
+				"north": {"uv": [0, 10, 6, 11.5], "texture": "#dish"},
+				"east": {"uv": [3, 9, 9, 10.5], "texture": "#dish"},
+				"south": {"uv": [0, 9, 6, 10.5], "texture": "#dish"},
+				"west": {"uv": [3, 10, 9, 11.5], "texture": "#dish"},
+				"up": {"uv": [1, 1, 7, 7], "texture": "#dish"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "ServingsInPan",
+			"origin": [8, 0, 7],
+			"color": 0,
+			"children": [0, 1]
+		}
+	]
+}
