@@ -7,8 +7,8 @@
 		32
 	],
 	"textures": {
-		"0": "assets:block/mud_chimney",
-		"particle": "assets:block/mud_chimney"
+		"0": "caupona:block/mud_chimney",
+		"particle": "caupona:block/mud_chimney"
 	},
 	"elements": [
 		{
