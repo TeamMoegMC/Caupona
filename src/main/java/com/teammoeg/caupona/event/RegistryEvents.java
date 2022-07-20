@@ -22,12 +22,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPFluids;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPRecipes;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.api.CauponaApi;
-import com.teammoeg.caupona.blocks.StewPotTileEntity;
+import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
+import com.teammoeg.caupona.worldgen.CPFeatures;
+import com.teammoeg.caupona.worldgen.CPPlacements;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
@@ -43,6 +46,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.common.util.LazyOptional;
@@ -230,11 +234,15 @@ public class RegistryEvents {
 			}
 		}
 	}
-
+	@SubscribeEvent
+	public static void registerFeatures(RegistryEvent.Register<Feature<?>> event) {
+		CPFeatures.init();
+		CPPlacements.init();
+	}
 	@SuppressWarnings("unused")
 	@SubscribeEvent
 	public static void registerEffects(final RegistryEvent.Register<MobEffect> event) {
-
+	
 	}
 
 }

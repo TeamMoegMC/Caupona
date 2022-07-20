@@ -6,12 +6,8 @@
     "B B"
   ],
   "key": {
-    "T": {
-      "item": "minecraft:brick_slab"
-    },
-    "B": {
-      "item": "minecraft:bricks"
-    },
+    "T": [],
+    "B": [],
     "C": {
       "item": "minecraft:clay"
     }

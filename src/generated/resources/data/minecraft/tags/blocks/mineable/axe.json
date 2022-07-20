@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "caupona:walnut_button",
+    "caupona:walnut_door",
+    "caupona:walnut_fence",
+    "caupona:walnut_fence_gate",
+    "caupona:walnut_log",
+    "caupona:walnut_planks",
+    "caupona:walnut_pressure_plate",
+    "caupona:walnut_sapling",
+    "caupona:walnut_sign",
+    "caupona:walnut_wall_sign",
+    "caupona:walnut_slab",
+    "caupona:walnut_stairs",
+    "caupona:walnut_trapdoor",
+    "caupona:walnut_wood"
+  ]
+}

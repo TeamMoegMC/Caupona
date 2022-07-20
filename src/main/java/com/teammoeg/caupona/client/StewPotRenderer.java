@@ -23,7 +23,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.blocks.StewPotTileEntity;
+import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -67,7 +67,7 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotTileEntity> {
 			float rr=fs.getAmount();
 			if(te.proctype==2)//just animate fluid reduction
 				rr+=250f*(1-te.process*1f/te.processMax);
-			float yy = Math.min(1,rr / te.getTank().getCapacity()) * .5f + .3125f;
+			float yy = Math.min(1,rr / te.getTank().getCapacity()) * .5f + .1875f;
 			matrixStack.translate(0, yy, 0);
 			matrixStack.mulPose(new Quaternion(90, 0, 0, true));
 			matrixStack.pushPose();

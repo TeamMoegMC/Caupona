@@ -21,10 +21,14 @@ package com.teammoeg.caupona.items;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.annotation.Nullable;
+
 import java.util.Random;
 
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
+import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
@@ -41,6 +45,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -56,11 +61,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
-public class StewItem extends Item {
+public class StewItem extends CPBlockItem {
 	ItemStack capturedStack;
-	
+
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack) {
 		return super.getContainerItem(itemStack);
@@ -69,6 +76,13 @@ public class StewItem extends Item {
 	@Override
 	public int getItemStackLimit(ItemStack stack) {
 		return super.getItemStackLimit(stack);
+	}
+
+	/**
+	 * Returns the unlocalized name of this item.
+	 */
+	public String getDescriptionId() {
+		return this.getOrCreateDescriptionId();
 	}
 
 	public ItemStack finishUsingItem(ItemStack itemstack, Level worldIn, LivingEntity entityLiving) {
@@ -111,10 +125,12 @@ public class StewItem extends Item {
 
 	@Override
 	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		SoupInfo info=StewItem.getInfo(stack);
-		FloatemStack fs=info.stacks.stream().max((t1,t2)->t1.getCount()>t2.getCount()?1:(t1.getCount()==t2.getCount()?0:-1)).orElse(null);
-		if(fs!=null)
-			tooltip.add(new TranslatableComponent("tooltip.caupona.main_ingredient",fs.getStack().getDisplayName()));
+		SoupInfo info = StewItem.getInfo(stack);
+		FloatemStack fs = info.stacks.stream()
+				.max((t1, t2) -> t1.getCount() > t2.getCount() ? 1 : (t1.getCount() == t2.getCount() ? 0 : -1))
+				.orElse(null);
+		if (fs != null)
+			tooltip.add(new TranslatableComponent("tooltip.caupona.main_ingredient", fs.getStack().getDisplayName()));
 		addPotionTooltip(info.effects, tooltip, 1);
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
@@ -154,8 +170,7 @@ public class StewItem extends Item {
 
 				if (effectinstance.getDuration() > 20) {
 					iformattabletextcomponent = new TranslatableComponent("potion.withDuration",
-							iformattabletextcomponent,
-							MobEffectUtil.formatDuration(effectinstance, durationFactor));
+							iformattabletextcomponent, MobEffectUtil.formatDuration(effectinstance, durationFactor));
 				}
 
 				lores.add(iformattabletextcomponent.withStyle(effect.getCategory().getTooltipFormatting()));
@@ -209,6 +224,7 @@ public class StewItem extends Item {
 		}
 		return Lists.newArrayList();
 	}
+
 	public static ResourceLocation getBase(ItemStack stack) {
 		if (stack.hasTag()) {
 			CompoundTag nbt = stack.getTagElement("soup");
@@ -217,6 +233,7 @@ public class StewItem extends Item {
 		}
 		return BowlContainingRecipe.extractFluid(stack).getFluid().getRegistryName();
 	}
+
 	@Override
 	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
@@ -236,11 +253,27 @@ public class StewItem extends Item {
 			.meat().build();
 
 	public StewItem(String name, ResourceLocation fluid, Properties properties) {
-		super(properties.food(fakefood));
+		super(CPBlocks.bowl, properties.food(fakefood));
 		setRegistryName(Main.MODID, name);
 		RegistryEvents.registeredItems.add(this);
 		CPItems.stews.add(this);
 		this.fluid = fluid;
+	}
+
+	/**
+	 * Called when this item is used when targetting a Block
+	 */
+	public InteractionResult useOn(UseOnContext pContext) {
+		InteractionResult interactionresult = InteractionResult.PASS;
+		if (pContext.getPlayer().isShiftKeyDown())
+			interactionresult = this.place(new BlockPlaceContext(pContext));
+		if (!interactionresult.consumesAction() && this.isEdible()) {
+			InteractionResult interactionresult1 = this
+					.use(pContext.getLevel(), pContext.getPlayer(), pContext.getHand()).getResult();
+			return interactionresult1 == InteractionResult.CONSUME ? InteractionResult.CONSUME_PARTIAL
+					: interactionresult1;
+		}
+		return interactionresult;
 	}
 
 	@Override

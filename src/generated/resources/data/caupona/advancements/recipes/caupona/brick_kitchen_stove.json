@@ -6,13 +6,13 @@
     ]
   },
   "criteria": {
-    "has_bricks": {
+    "has_cor_stones": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:bricks"
+              "minecraft:air"
             ]
           }
         ]
@@ -27,7 +27,7 @@
   },
   "requirements": [
     [
-      "has_bricks",
+      "has_cor_stones",
       "has_the_recipe"
     ]
   ]

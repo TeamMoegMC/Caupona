@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "BCB",
+    "B B"
+  ],
+  "key": {
+    "T": {
+      "item": "caupona:opus_latericium_slab"
+    },
+    "B": {
+      "item": "caupona:opus_latericium"
+    },
+    "C": {
+      "item": "minecraft:clay"
+    }
+  },
+  "result": {
+    "item": "caupona:opus_latericium_kitchen_stove"
+  }
+}

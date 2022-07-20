@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "caupona:opus_latericium_kitchen_stove"
+    ]
+  },
+  "criteria": {
+    "has_cor_stones": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "caupona:opus_latericium"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "caupona:opus_latericium_kitchen_stove"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cor_stones",
+      "has_the_recipe"
+    ]
+  ]
+}

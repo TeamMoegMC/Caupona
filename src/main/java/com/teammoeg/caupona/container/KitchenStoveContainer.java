@@ -19,7 +19,7 @@
 package com.teammoeg.caupona.container;
 
 import com.teammoeg.caupona.CPGui;
-import com.teammoeg.caupona.blocks.KitchenStoveTileEntity;
+import com.teammoeg.caupona.blocks.stove.KitchenStoveTileEntity;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;

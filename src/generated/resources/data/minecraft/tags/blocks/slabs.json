@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "caupona:walnut_slab",
+    "caupona:mixed_bricks_slab",
+    "caupona:opus_incertum_slab",
+    "caupona:opus_latericium_slab",
+    "caupona:opus_reticulatum_slab",
+    "caupona:felsic_tuff_bricks_slab",
+    "caupona:felsic_tuff_slab"
+  ]
+}
