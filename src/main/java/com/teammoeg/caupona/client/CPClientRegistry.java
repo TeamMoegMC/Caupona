@@ -25,13 +25,17 @@ import com.teammoeg.caupona.Main;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -66,5 +70,11 @@ public class CPClientRegistry {
 	@SubscribeEvent
 	public static void registerParticleFactories(ParticleFactoryRegisterEvent event) {
 		Minecraft.getInstance().particleEngine.register(Particles.STEAM.get(), SteamParticle.Factory::new);
+	}
+	@SubscribeEvent
+	public static void onTint(ColorHandlerEvent.Block ev) {
+		ev.getBlockColors().register((p_92626_, p_92627_, p_92628_, p_92629_) -> {
+	         return p_92627_ != null && p_92628_ != null ? BiomeColors.getAverageFoliageColor(p_92627_, p_92628_) : FoliageColor.getDefaultColor();
+	      },CPBlocks.WALNUT_LEAVE);
 	}
 }

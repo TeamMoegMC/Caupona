@@ -108,6 +108,10 @@ public class CPStatesProvider extends BlockStateProvider {
 			blockItemModel(wood+"_trapdoor","_top");
 
 		}
+		blockItemModel("fumarole_boulder");
+		blockItemModel("fumarole_vent");
+		blockItemModel("pumice");
+		blockItemModel("pumice_bloom");
 	}
 	private Block cpblock(String name) {
 		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(this.modid,name));

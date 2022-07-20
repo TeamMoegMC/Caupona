@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableMap;
 import com.teammoeg.caupona.blocks.BowlBlock;
@@ -41,6 +42,7 @@ import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WoodButtonBlock;
+import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -49,6 +51,17 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
 public class CPBlocks {
+	//static data generation
+	public static final Map<String, Block> stoneBlocks = new HashMap<>();
+	public static final List<Block> transparentBlocks = new ArrayList<>();
+	public static final String[] materials_C = new String[] { "brick", "opus_incertum", "opus_latericium", "mud",
+			"stone_brick" };
+	public static final String[] stones = new String[] { "mixed_bricks", "opus_incertum", "opus_latericium",
+			"opus_reticulatum", "felsic_tuff_bricks", "felsic_tuff" };
+	public static final String[] woods = new String[] { "walnut" };
+	public static final List<Block> signs = new ArrayList<>();
+	
+	//useful blocks 
 	public static Block stew_pot = new StewPot("stew_pot", Block.Properties.of(Material.STONE).sound(SoundType.STONE)
 			.requiresCorrectToolForDrops().strength(2, 10).noOcclusion(), CPTileTypes.STEW_POT, CPBlockItem::new);
 	public static Block stove1 = new KitchenStove("mud_kitchen_stove", getStoveProps(), CPTileTypes.STOVE1,
@@ -66,22 +79,19 @@ public class CPBlocks {
 					.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 					.isViewBlocking(CPBlocks::isntSolid),
 			CPTileTypes.BOWL, null);
-	public static final String[] materials_C = new String[] { "brick", "opus_incertum", "opus_latericium", "mud",
-			"stone_brick" };
-	public static final String[] stones = new String[] { "mixed_bricks", "opus_incertum", "opus_latericium",
-			"opus_reticulatum", "felsic_tuff_bricks", "felsic_tuff" };
-	public static final String[] woods = new String[] { "walnut" };
-	public static final List<Block> signs = new ArrayList<>();
+
 	public static Block WALNUT_LOG;
 	public static Block WALNUT_LEAVE;
 	public static Block WALNUT_PLANKS;
 	public static Block WALNUT_SAPLINGS;
-	public static Map<String, Block> stoneBlocks = ImmutableMap.of();
-	public static List<Block> transparentBlocks = new ArrayList<>();
-	public static WoodType WALNUT = WoodType.register(WoodType.create("caupona:walnut"));
+	public static final Block FUMAROLE_BOULDER = register("fumarole_boulder", transparent(new Block(getStoneProps().noCollission().isViewBlocking(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid))));
+	public static final Block FUMAROLE_VENT = register("fumarole_vent", transparent(new Block(getStoneProps().noCollission().isViewBlocking(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid))));
+	public static final Block PUMICE = register("pumice", transparent(new Block(getStoneProps())));
+	public static final Block PUMICE_BLOOM = register("pumice_bloom", transparent(new Block(getStoneProps())));
+
+	public static final WoodType WALNUT = WoodType.register(WoodType.create("caupona:walnut"));
 
 	public static void init() {
-		stoneBlocks = new HashMap<>();
 		for (String stone : stones) {
 			Block base = register(stone, new Block(getStoneProps()));
 			stoneBlocks.put(stone, base);
@@ -96,11 +106,12 @@ public class CPBlocks {
 			transparentBlocks
 					.add(register(mat + "_counter_with_dolium", new CounterDoliumBlock(getTransparentProps())));
 		}
-		registerWood("walnut", WALNUT, l -> WALNUT_PLANKS = l, l -> WALNUT_LOG = l, l -> WALNUT_LEAVE = l, l -> WALNUT_SAPLINGS = l);
+		registerWood("walnut", WALNUT, WalnutTreeGrower::new, l -> WALNUT_PLANKS = l, l -> WALNUT_LOG = l,
+				l -> WALNUT_LEAVE = l, l -> WALNUT_SAPLINGS = l);
 	}
 
-	private static void registerWood(String wood, WoodType wt, Consumer<Block> gplank, Consumer<Block> glog,
-			Consumer<Block> gleave, Consumer<Block> gsap) {
+	private static void registerWood(String wood, WoodType wt, Supplier<AbstractTreeGrower> growth,
+			Consumer<Block> gplank, Consumer<Block> glog, Consumer<Block> gleave, Consumer<Block> gsap) {
 		Block planks = register(wood + "_planks", new Block(BlockBehaviour.Properties
 				.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
 		gplank.accept(planks);
@@ -119,7 +130,7 @@ public class CPBlocks {
 				new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING,
 						BlockBehaviour.Properties.of(Material.WOOD, planks.defaultMaterialColor()).noCollission()
 								.strength(0.5F).sound(SoundType.WOOD)));
-		Block sapling = register(wood + "_sapling", new SaplingBlock(new WalnutTreeGrower(), BlockBehaviour.Properties
+		Block sapling = register(wood + "_sapling", new SaplingBlock(growth.get(), BlockBehaviour.Properties
 				.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
 		transparentBlocks.add(sapling);
 		gsap.accept(sapling);
@@ -151,7 +162,7 @@ public class CPBlocks {
 		}).strength(2.0F).sound(SoundType.WOOD));
 	}
 
-	public static <T extends Item> T register(String name,T item) {
+	public static <T extends Item> T register(String name, T item) {
 
 		ResourceLocation registryName = new ResourceLocation(Main.MODID, name);
 		item.setRegistryName(registryName);
@@ -171,7 +182,12 @@ public class CPBlocks {
 		return bl;
 	}
 
-	public static <T extends Block> T  registerBlock(String name, T bl) {
+	public static <T extends Block> T transparent(T bl) {
+		transparentBlocks.add(bl);
+		return bl;
+	}
+
+	public static <T extends Block> T registerBlock(String name, T bl) {
 		ResourceLocation registryName = new ResourceLocation(Main.MODID, name);
 		bl.setRegistryName(registryName);
 
