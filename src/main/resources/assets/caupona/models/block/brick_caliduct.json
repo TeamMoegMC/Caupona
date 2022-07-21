@@ -1,0 +1,7 @@
+{
+	"parent": "caupona:block/template_caliduct",
+	"textures": {
+		"caliduct": "minecraft:block/bricks",
+		"particle": "minecraft:block/bricks"
+	}
+}

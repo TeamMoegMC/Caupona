@@ -1,0 +1,122 @@
+{
+	"parent": "minecraft:block/cube",
+	"ambientocclusion": false,
+	"credit": "Made with Blockbench",
+	"elements": [
+		{
+			"name": "HFB1",
+			"from": [0, 0, 0],
+			"to": [12, 3, 4],
+			"faces": {
+				"north": {"uv": [4, 13, 16, 16], "texture": "#sides"},
+				"south": {"uv": [0, 13, 12, 16], "texture": "#sides"},
+				"west": {"uv": [0, 13, 4, 16], "texture": "#sides"},
+				"up": {"uv": [0, 0, 12, 4], "texture": "#sides"},
+				"down": {"uv": [0, 12, 12, 16], "texture": "#sides"}
+			}
+		},
+		{
+			"name": "HFB2",
+			"from": [0, 0, 4],
+			"to": [4, 3, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"east": {"uv": [0, 13, 12, 16], "texture": "#sides"},
+				"south": {"uv": [0, 13, 4, 16], "texture": "#sides"},
+				"west": {"uv": [4, 13, 16, 16], "texture": "#sides"},
+				"up": {"uv": [0, 4, 4, 16], "rotation": 180, "texture": "#sides"},
+				"down": {"uv": [0, 0, 4, 12], "texture": "#sides"}
+			}
+		},
+		{
+			"name": "HFB3",
+			"from": [12, 0, 0],
+			"to": [16, 3, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [0, 13, 4, 16], "texture": "#sides"},
+				"east": {"uv": [4, 13, 16, 16], "texture": "#sides"},
+				"west": {"uv": [0, 13, 12, 16], "texture": "#sides"},
+				"up": {"uv": [12, 0, 16, 12], "texture": "#sides"},
+				"down": {"uv": [12, 4, 16, 16], "texture": "#sides"}
+			}
+		},
+		{
+			"name": "HFB4",
+			"from": [4, 0, 12],
+			"to": [16, 3, 16],
+			"faces": {
+				"north": {"uv": [0, 13, 12, 16], "texture": "#sides"},
+				"east": {"uv": [0, 13, 4, 16], "texture": "#sides"},
+				"south": {"uv": [4, 13, 16, 16], "texture": "#sides"},
+				"up": {"uv": [4, 12, 16, 16], "texture": "#sides"},
+				"down": {"uv": [4, 0, 16, 4], "texture": "#sides"}
+			}
+		},
+		{
+			"name": "HFBa",
+			"from": [1, 3, 1],
+			"to": [4, 13, 4],
+			"faces": {
+				"north": {"uv": [12, 3, 15, 13], "texture": "#sides"},
+				"east": {"uv": [12, 3, 15, 13], "texture": "#sides"},
+				"south": {"uv": [12, 3, 15, 13], "texture": "#sides"},
+				"west": {"uv": [1, 3, 4, 13], "texture": "#sides"}
+			}
+		},
+		{
+			"name": "HFBb",
+			"from": [1, 3, 12],
+			"to": [4, 13, 15],
+			"faces": {
+				"north": {"uv": [12, 3, 15, 13], "texture": "#sides"},
+				"east": {"uv": [12, 3, 15, 13], "texture": "#sides"},
+				"south": {"uv": [1, 3, 4, 13], "texture": "#sides"},
+				"west": {"uv": [12, 3, 15, 13], "texture": "#sides"}
+			}
+		},
+		{
+			"name": "HFBc",
+			"from": [12, 3, 1],
+			"to": [15, 13, 4],
+			"faces": {
+				"north": {"uv": [1, 3, 4, 13], "texture": "#sides"},
+				"east": {"uv": [12, 3, 15, 13], "texture": "#sides"},
+				"south": {"uv": [12, 3, 15, 13], "texture": "#sides"},
+				"west": {"uv": [12, 3, 15, 13], "texture": "#sides"}
+			}
+		},
+		{
+			"name": "HFBd",
+			"from": [12, 3, 12],
+			"to": [15, 13, 15],
+			"faces": {
+				"north": {"uv": [12, 3, 15, 13], "texture": "#sides"},
+				"east": {"uv": [1, 3, 4, 13], "texture": "#sides"},
+				"south": {"uv": [12, 3, 15, 13], "texture": "#sides"},
+				"west": {"uv": [12, 3, 15, 13], "texture": "#sides"}
+			}
+		},
+		{
+			"name": "HFB5",
+			"from": [0, 13, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 3], "texture": "#sides"},
+				"east": {"uv": [0, 0, 16, 3], "texture": "#sides"},
+				"south": {"uv": [0, 0, 16, 3], "texture": "#sides"},
+				"west": {"uv": [0, 0, 16, 3], "texture": "#sides"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#polar"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#sides"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "HypocaustFirebox",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+		}
+	]
+}
