@@ -1,0 +1,8 @@
+{
+	"parent": "caupona:block/template_caliduct",
+	"textures": {
+		"sides": "minecraft:block/stone_bricks",
+		"polar": "caupona:block/stone_brick_hypocaust_firebox_polar",
+		"particle": "minecraft:block/stone_bricks"
+	}
+}

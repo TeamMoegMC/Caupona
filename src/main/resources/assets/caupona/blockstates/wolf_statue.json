@@ -1,0 +1,49 @@
+{
+	"variants": {
+		"facing=north,heat=0": {
+			"model": "caupona:block/wolf_statue_0"
+		},
+		"facing=east,heat=0": {
+			"model": "caupona:block/wolf_statue_0",
+			"y": 90
+		},
+		"facing=south,heat=0": {
+			"model": "caupona:block/wolf_statue_0",
+			"y": 180
+		},
+		"facing=west,heat=0": {
+			"model": "caupona:block/wolf_statue_0",
+			"y": 270
+		},
+		"facing=north,heat=1": {
+			"model": "caupona:block/wolf_statue_1"
+		},
+		"facing=east,heat=1": {
+			"model": "caupona:block/wolf_statue_1",
+			"y": 90
+		},
+		"facing=south,heat=1": {
+			"model": "caupona:block/wolf_statue_1",
+			"y": 180
+		},
+		"facing=west,heat=1": {
+			"model": "caupona:block/wolf_statue_1",
+			"y": 270
+		},
+		"facing=north,heat=2": {
+			"model": "caupona:block/wolf_statue_2"
+		},
+		"facing=east,heat=2": {
+			"model": "caupona:block/wolf_statue_2",
+			"y": 90
+		},
+		"facing=south,heat=2": {
+			"model": "caupona:block/wolf_statue_2",
+			"y": 180
+		},
+		"facing=west,heat=2": {
+			"model": "caupona:block/wolf_statue_2",
+			"y": 270
+		}
+	}
+}

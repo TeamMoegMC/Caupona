@@ -1,0 +1,7 @@
+{
+	"parent": "caupona:block/template_caliduct",
+	"textures": {
+		"caliduct": "caupona:block/opus_latericium_0",
+		"particle": "caupona:block/opus_latericium_0"
+	}
+}
