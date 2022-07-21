@@ -90,6 +90,11 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 			tag(ItemTags.STAIRS).add(cp(stone + "_stairs"));
 			tag(ItemTags.WALLS).add(cp(stone + "_wall"));
 		}
+		tag("fuel/woods").addTags(ItemTags.LOGS,ItemTags.PLANKS,ItemTags.WOODEN_BUTTONS,ItemTags.WOODEN_DOORS,ItemTags.WOODEN_FENCES,
+				ItemTags.WOODEN_PRESSURE_PLATES,ItemTags.WOODEN_SLABS,ItemTags.WOODEN_STAIRS,ItemTags.WOODEN_TRAPDOORS,ItemTags.SAPLINGS);
+		tag("fuel/charcoals").add(Items.CHARCOAL);
+		tag("fuel/fossil").addTags(ItemTags.COALS);
+		tag("fuel/lava").add(Items.LAVA_BUCKET);
 		tag(meats).addTag(atag(poultry)).addTag(atag(meat));
 		tag(seafood).addTag(atag(fish)).addTag(atag(crustaceans));
 		tag(pumpkin).addOptional(rl(fd + ":pumpkin_slice")).add(Items.PUMPKIN, Items.CARVED_PUMPKIN);

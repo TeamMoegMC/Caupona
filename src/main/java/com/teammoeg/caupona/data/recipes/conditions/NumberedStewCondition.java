@@ -21,7 +21,7 @@ package com.teammoeg.caupona.data.recipes.conditions;
 import java.util.stream.Stream;
 
 import com.google.gson.JsonObject;
-import com.teammoeg.caupona.data.recipes.SerializeUtil;
+import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.recipes.StewCondition;
 import com.teammoeg.caupona.data.recipes.StewNumber;
 import com.teammoeg.caupona.data.recipes.StewPendingContext;

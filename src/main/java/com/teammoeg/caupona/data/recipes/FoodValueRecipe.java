@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.data.IDataRecipe;
+import com.teammoeg.caupona.data.SerializeUtil;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;

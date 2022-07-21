@@ -18,6 +18,7 @@
 
 package com.teammoeg.caupona.blocks.stove;
 
+import com.teammoeg.caupona.FuelType;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.AbstractStove;
 import com.teammoeg.caupona.container.KitchenStoveContainer;
@@ -128,8 +129,7 @@ public class KitchenStoveTileEntity extends INetworkTile implements Container, M
 	@Override
 	public boolean canPlaceItem(int index, ItemStack stack) {
 		ItemStack itemstack = fuel.get(0);
-		return ForgeHooks.getBurnTime(stack, null) > 0
-				|| stack.getItem() == Items.BUCKET && itemstack.getItem() != Items.BUCKET;
+		return ForgeHooks.getBurnTime(stack, null) > 0 &&itemstack.getContainerItem().isEmpty();
 	}
 
 	@Override
@@ -167,11 +167,16 @@ public class KitchenStoveTileEntity extends INetworkTile implements Container, M
 				bs = bs.setValue(KitchenStove.LIT, false).setValue(KitchenStove.ASH, false);
 				flag = true;
 			}
-			boolean ie = fuel.get(0).isEmpty();
 			int fs = bs.getValue(KitchenStove.FUELED);
-			if (ie != (fs == 0)) {
+			if (!fuel.get(0).isEmpty()) {
+				FuelType type = FuelType.getType(fuel.get(0));
+				if (type.getModelId() != fs) {
+					flag = true;
+					bs = bs.setValue(KitchenStove.FUELED, type.getModelId());
+				}
+			}else if(fs!=0) {
 				flag = true;
-				bs = bs.setValue(KitchenStove.FUELED, ie ? 0 : 1);
+				bs = bs.setValue(KitchenStove.FUELED, 0);
 			}
 			if (process > 0) {
 				if (!bs.getValue(KitchenStove.ASH)) {

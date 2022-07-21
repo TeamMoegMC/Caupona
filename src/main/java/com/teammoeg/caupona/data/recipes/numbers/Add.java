@@ -23,9 +23,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import com.google.gson.JsonElement;
+import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.ComplexCalculated;
-import com.teammoeg.caupona.data.recipes.SerializeUtil;
 import com.teammoeg.caupona.data.recipes.StewNumber;
 import com.teammoeg.caupona.data.recipes.StewPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;

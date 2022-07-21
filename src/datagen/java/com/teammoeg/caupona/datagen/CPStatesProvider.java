@@ -125,11 +125,12 @@ public class CPStatesProvider extends BlockStateProvider {
         itemModels().getBuilder(n).parent(bmf(n+p));
     }
 	public void stove(Block block) {
-		horizontalMultipart(horizontalMultipart(horizontalMultipart(this.getMultipartBuilder(block),bmf(block.getRegistryName().getPath()))
+		horizontalMultipart(horizontalMultipart(horizontalMultipart(horizontalMultipart(this.getMultipartBuilder(block),bmf(block.getRegistryName().getPath()))
 				.part().modelFile(bmf("kitchen_stove_cold_ash")).addModel().condition(KitchenStove.LIT,false).condition(KitchenStove.ASH,true).end()
 				.part().modelFile(bmf("kitchen_stove_hot_ash")).addModel().condition(KitchenStove.LIT,true).end()
 				,bmf("kitchen_stove_charcoal"),i->i.condition(KitchenStove.FUELED,1))
-				,bmf("kitchen_stove_firewoods"),i->i.condition(KitchenStove.FUELED,2));
+				,bmf("kitchen_stove_firewoods"),i->i.condition(KitchenStove.FUELED,2))
+				,bmf("kitchen_stove_coal"),i->i.condition(KitchenStove.FUELED,3));
 		itemModel(block,bmf(block.getRegistryName().getPath()));
 		
 	}

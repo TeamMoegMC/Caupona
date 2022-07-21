@@ -58,7 +58,7 @@ public class KitchenStove extends CPTileBlock<KitchenStoveTileEntity> {
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
 	public static final BooleanProperty ASH = BooleanProperty.create("ash");
-	public static final IntegerProperty FUELED = IntegerProperty.create("fueled", 0, 2);
+	public static final IntegerProperty FUELED = IntegerProperty.create("fueled", 0, 3);
 
 	public KitchenStove(String name, Properties blockProps, RegistryObject<BlockEntityType<KitchenStoveTileEntity>> ste,
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {

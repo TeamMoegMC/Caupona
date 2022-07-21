@@ -41,7 +41,7 @@ public class KitchenStoveContainer extends AbstractContainerMenu {
 		this.addSlot(new Slot(tile,0,80,55) {
 			@Override
 			public boolean mayPlace(ItemStack stack) {
-				return ForgeHooks.getBurnTime(stack, null) > 0;
+				return ForgeHooks.getBurnTime(stack, null) > 0&&stack.getContainerItem().isEmpty();
 			}
 		});
 

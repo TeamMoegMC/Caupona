@@ -32,25 +32,32 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveContainer> {
 	KitchenStoveTileEntity te;
-	private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID,
-			"textures/gui/kitchen_stove.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID, "textures/gui/kitchen_stove.png");
+
 	public KitchenStoveScreen(KitchenStoveContainer screenContainer, Inventory inv, Component titleIn) {
 		super(screenContainer, inv, titleIn);
-		te=screenContainer.tile;
+		te = screenContainer.tile;
+	}
+
+	public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+		super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+
+		this.renderTooltip(pPoseStack, pMouseX, pMouseY);
+
 	}
 
 	@Override
 	protected void renderBg(PoseStack matrixStack, float partialTicks, int x, int y) {
 		this.renderBackground(matrixStack);
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderTexture(0, TEXTURE);
 
 		this.blit(matrixStack, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (te.processMax > 0 && te.process > 0) {
-			int h = (int) (26 * (1-te.process / (float) te.processMax));
-			this.blit(matrixStack, leftPos + 61, topPos + h, 176,h,54,26 - h);
-			this.blit(matrixStack, leftPos + 61, topPos +13, 176,26,54,16 );
+			int h = (int) (26 * (1 - te.process / (float) te.processMax));
+			this.blit(matrixStack, leftPos + 61, topPos + h, 176, h, 54, 26 - h);
+			this.blit(matrixStack, leftPos + 61, topPos + 13, 176, 26, 54, 16);
 		}
 	}
 
