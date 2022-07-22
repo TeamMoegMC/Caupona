@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"SSS",
+		"B B",
+		"BIB"
+	],
+	"key": {
+		"S": {
+			"item": "minecraft:brick_slab"
+		},
+		"B": {
+			"item": "minecraft:bricks"
+		},
+		"I": {
+			"item": "minecraft:copper_ingot"
+		}
+	},
+	"result": {
+		"item": "caupona:brick_hypocaust_firebox"
+	}
+}

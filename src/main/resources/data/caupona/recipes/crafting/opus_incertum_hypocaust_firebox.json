@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"SSS",
+		"B B",
+		"BIB"
+	],
+	"key": {
+		"S": {
+			"item": "caupona:opus_incertum_slab"
+		},
+		"B": {
+			"item": "caupona:opus_incertum"
+		},
+		"I": {
+			"item": "minecraft:copper_ingot"
+		}
+	},
+	"result": {
+		"item": "caupona:opus_incertum_hypocaust_firebox"
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"P  ",
+		"PP ",
+		"PPP"
+	],
+	"key": {
+		"P": {
+			"item": "caupona:walnut_planks"
+		}
+	},
+	"result": {
+		"item": "caupona:walnut_slab",
+		"count": 4
+	}
+}

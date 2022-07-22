@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"SSS",
+		"BCB",
+		"B B"
+	],
+	"key": {
+		"S": {
+			"item": "minecraft:brick_slab"
+		},
+		"B": {
+			"item": "minecraft:bricks"
+		},
+		"C": {
+			"item": "minecraft:clay"
+		}
+	},
+	"result": {
+		"item": "caupona:brick_kitchen_stove"
+	}
+}

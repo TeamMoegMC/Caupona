@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"B  ",
+		"BB ",
+		"BBB"
+	],
+	"key": {
+		"B": {
+			"item": "caupona:opus_latericium"
+		}
+	},
+	"result": {
+		"item": "caupona:opus_latericium_stairs",
+		"count": 4
+	}
+}

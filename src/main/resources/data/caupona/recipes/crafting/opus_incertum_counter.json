@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"SS",
+		"BB"
+	],
+	"key": {
+		"S": {
+			"item": "caupona:opus_incertum_slab"
+		},
+		"B": {
+			"item": "caupona:opus_incertum"
+		}
+	},
+	"result": {
+		"item": "caupona:opus_incertum_counter"
+	}
+}

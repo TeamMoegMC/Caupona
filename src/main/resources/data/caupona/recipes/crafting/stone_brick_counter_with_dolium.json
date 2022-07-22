@@ -1,0 +1,25 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"S S",
+		"BPB",
+		"BTB"
+	],
+	"key": {
+		"S": {
+			"item": "minecraft:stone_slab"
+		},
+		"B": {
+			"item": "minecraft:stone_bricks"
+		},
+		"P": {
+			"item": "caupona:stew_pot"
+		},
+		"T": {
+			"item": "minecraft:terracotta"
+		}
+	},
+	"result": {
+		"item": "caupona:stone_brick_counter_with_dolium"
+	}
+}

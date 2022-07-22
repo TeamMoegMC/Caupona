@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"P P",
+		"PPP"
+	],
+	"key": {
+		"P": {
+			"item": "caupona:walnut_planks"
+		}
+	},
+	"result": {
+		"item": "caupona:walnut_boat"
+	}
+}

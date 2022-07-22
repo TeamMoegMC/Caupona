@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"SS",
+		"BB"
+	],
+	"key": {
+		"S": {
+			"item": "caupona:opus_latericium_slab"
+		},
+		"B": {
+			"item": "caupona:opus_latericium"
+		}
+	},
+	"result": {
+		"item": "caupona:opus_latericium_counter"
+	}
+}

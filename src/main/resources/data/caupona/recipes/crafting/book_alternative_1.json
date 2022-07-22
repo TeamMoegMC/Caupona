@@ -2,7 +2,7 @@
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
 		{"item": "minecraft:bowl"},
-		{"item": "caupona:water"}
+		{"item": "caupona:wolfberries"}
 	],
 	"result": {
 		"item": "patchouli:guide_book",

@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"DD",
+		"CC"
+	],
+	"key": {
+		"D": {
+			"item": "minecraft:dirt"
+		},
+		"C": {
+			"item": "minecraft:cobblestone"
+		}
+	},
+	"result": {
+		"item": "caupona:mud_counter"
+	}
+}

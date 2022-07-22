@@ -1,0 +1,20 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"PPP",
+		"PPP",
+		" S "
+	],
+	"key": {
+		"P": {
+			"item": "caupona:walnut_planks"
+		},
+		"S": {
+			"item": "minecraft:stick"
+		}
+	},
+	"result": {
+		"item": "caupona:walnut_sign",
+		"count": 3
+	}
+}

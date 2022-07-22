@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"C C",
+		"CSC",
+		"CPC"
+	],
+	"key": {
+		"C": {
+			"item": "minecraft:clay_pot"
+		},
+		"S": {
+			"item": "minecraft:stick"
+		},
+		"P": {
+			"item": "minecraft:flower_pot"
+		}
+	},
+	"result": {
+		"item": "caupona:clay_portable_brazier"
+	}
+}

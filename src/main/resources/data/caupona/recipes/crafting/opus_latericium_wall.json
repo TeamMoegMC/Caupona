@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"BBB",
+		"BBB"
+	],
+	"key": {
+		"B": {
+			"item": "caupona:opus_latericium"
+		}
+	},
+	"result": {
+		"item": "caupona:opus_latericium_wall",
+		"count": 6
+	}
+}

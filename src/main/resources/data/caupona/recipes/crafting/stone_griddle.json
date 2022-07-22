@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"XX ",
+		"XXS"
+	],
+	"key": {
+		"X": {
+			"item": "minecraft:smooth_stone_slab"
+		},
+		"S": {
+			"item": "minecraft:stick"
+		}
+	},
+	"result": {
+		"item": "caupona:stone_griddle"
+	}
+}
