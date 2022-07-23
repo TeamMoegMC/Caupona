@@ -1,0 +1,8 @@
+{
+	"parent": "caupona:block/template_column_shaft",
+	"textures": {
+		"column": "caupona:block/quartz_ionic_column",
+		"ends": "minecraft:block/quartz_block_top",
+		"particle": "minecraft:block/quartz_block_top"
+	}
+}
