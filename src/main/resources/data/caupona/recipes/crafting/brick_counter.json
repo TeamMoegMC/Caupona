@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"SS",
+		"BB"
+	],
+	"key": {
+		"S": {
+			"item": "minecraft:brick_slab"
+		},
+		"B": {
+			"item": "minecraft:bricks"
+		}
+	},
+	"result": {
+		"item": "caupona:brick_counter"
+	}
+}

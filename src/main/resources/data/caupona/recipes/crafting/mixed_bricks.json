@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"LB",
+		"BL"
+	],
+	"key": {
+		"L": {
+			"item": "caupona:lateres"
+		},
+		"B": {
+			"item": "minecraft:brick"
+		}
+	},
+	"result": {
+		"item": "caupona:mixed_bricks"
+	}
+}

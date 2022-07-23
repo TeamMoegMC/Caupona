@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"SSS",
+		"B B",
+		"BIB"
+	],
+	"key": {
+		"S": {
+			"item": "caupona:opus_latericium_slab"
+		},
+		"B": {
+			"item": "caupona:opus_latericium"
+		},
+		"I": {
+			"item": "minecraft:copper_ingot"
+		}
+	},
+	"result": {
+		"item": "caupona:opus_latericium_hypocaust_firebox"
+	}
+}

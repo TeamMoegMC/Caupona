@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"II ",
+		"IIS"
+	],
+	"key": {
+		"I": {
+			"item": "minecraft:copper_ingot"
+		},
+		"S": {
+			"item": "minecraft:stick"
+		}
+	},
+	"result": {
+		"item": "caupona:copper_frying_pan"
+	}
+}

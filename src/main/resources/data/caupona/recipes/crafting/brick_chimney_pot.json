@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" S ",
+		"S S",
+		"B B"
+	],
+	"key": {
+		"S": {
+			"item": "minecraft:brick_slab"
+		},
+		"B": {
+			"item": "minecraft:bricks"
+		}
+	},
+	"result": {
+		"item": "caupona:brick_chimney_pot"
+	}
+}

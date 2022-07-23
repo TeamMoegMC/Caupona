@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"PPP",
+		"PPP"
+	],
+	"key": {
+		"P": {
+			"item": "caupona:walnut_planks"
+		}
+	},
+	"result": {
+		"item": "caupona:walnut_trapdoor",
+		"count": 2
+	}
+}

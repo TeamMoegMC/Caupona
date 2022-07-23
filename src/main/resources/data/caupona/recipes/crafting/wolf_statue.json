@@ -1,0 +1,25 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"II ",
+		"ISL",
+		" C "
+	],
+	"key": {
+		"I": {
+			"item": "minecraft:copper_ingot"
+		},
+		"S": {
+			"item": "minecraft:soul_campfire"
+		},
+		"L": {
+			"item": "minecraft:lightning_rod"
+		},
+		"C": {
+			"item": "minecraft:cut_copper"
+		}
+	},
+	"result": {
+		"item": "caupona:wolf_statue"
+	}
+}

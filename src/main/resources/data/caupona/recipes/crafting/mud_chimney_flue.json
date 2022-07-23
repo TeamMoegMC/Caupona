@@ -1,0 +1,20 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"D D",
+		"D D",
+		"C C"
+	],
+	"key": {
+		"D": {
+			"item": "minecraft:dirt"
+		},
+		"C": {
+			"item": "minecraft:cobblestone"
+		}
+	},
+	"result": {
+		"item": "caupona:mud_chimney_flue",
+		"count": 2
+	}
+}

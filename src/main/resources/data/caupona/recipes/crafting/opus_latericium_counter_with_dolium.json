@@ -1,0 +1,25 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"S S",
+		"BPB",
+		"BTB"
+	],
+	"key": {
+		"S": {
+			"item": "caupona:opus_latericium_slab"
+		},
+		"B": {
+			"item": "caupona:opus_latericium"
+		},
+		"P": {
+			"item": "caupona:stew_pot"
+		},
+		"T": {
+			"item": "minecraft:terracotta"
+		}
+	},
+	"result": {
+		"item": "caupona:opus_latericium_counter_with_dolium"
+	}
+}

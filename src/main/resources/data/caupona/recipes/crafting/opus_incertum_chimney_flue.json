@@ -1,0 +1,20 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"S S",
+		"B B",
+		"B B"
+	],
+	"key": {
+		"S": {
+			"item": "caupona:opus_incertum_slab"
+		},
+		"B": {
+			"item": "caupona:opus_incertum"
+		}
+	},
+	"result": {
+		"item": "caupona:opus_incertum_chimney_flue",
+		"count": 2
+	}
+}
