@@ -1,0 +1,8 @@
+{
+	"parent": "caupona:block/template_thin_column_capital",
+	"textures": {
+		"column": "caupona:block/stone_tuscan_column",
+		"ends": "caupona:block/polished_stone",
+		"particle": "caupona:block/polished_stone"
+	}
+}

@@ -1,8 +1,12 @@
 {
-  "textures": [
-    "caupona:steam_0",
-    "caupona:steam_1",
-    "caupona:steam_2",
-    "caupona:steam_3"
-  ]
+	"textures": [
+		"caupona:steam_0",
+		"caupona:steam_1",
+		"caupona:steam_2",
+		"caupona:steam_3",
+		"caupona:steam_4",
+		"caupona:steam_5",
+		"caupona:steam_6",
+		"caupona:steam_7"
+	]
 }

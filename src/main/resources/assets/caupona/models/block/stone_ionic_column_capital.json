@@ -1,0 +1,8 @@
+{
+	"parent": "caupona:block/template_thick_column_capital",
+	"textures": {
+		"column": "caupona:block/stone_ionic_column",
+		"ends": "caupona:block/polished_stone",
+		"particle": "caupona:block/polished_stone"
+	}
+}

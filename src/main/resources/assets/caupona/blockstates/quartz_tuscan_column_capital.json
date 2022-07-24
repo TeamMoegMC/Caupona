@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"facing=south": {
+			"model": "caupona:block/quartz_tuscan_column_capital"
+		},
+		"facing=west": {
+			"model": "caupona:block/quartz_tuscan_column_capital",
+			"y": 90
+		},
+		"facing=north": {
+			"model": "caupona:block/quartz_tuscan_column_capital",
+			"y": 180
+		},
+		"facing=east": {
+			"model": "caupona:block/quartz_tuscan_column_capital",
+			"y": 270
+		}
+	}
+}

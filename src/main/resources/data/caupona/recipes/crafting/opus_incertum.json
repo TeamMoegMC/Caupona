@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"TGT"
+	],
+	"key": {
+		"T": {
+			"item": "caupona:felsic_tuff"
+		},
+		"G": {
+			"item": "minecraft:gray_concrete"
+		}
+	},
+	"result": {
+		"item": "caupona:opus_incertum",
+		"count": 3
+	}
+}

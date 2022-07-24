@@ -1,0 +1,8 @@
+{
+	"parent": "caupona:block/template_thick_column_capital",
+	"textures": {
+		"column": "caupona:block/calcite_ionic_column",
+		"ends": "minecraft:block/calcite",
+		"particle": "minecraft:block/calcite"
+	}
+}

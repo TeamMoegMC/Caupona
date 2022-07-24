@@ -1,0 +1,8 @@
+{
+	"parent": "caupona:block/template_thick_column_capital",
+	"textures": {
+		"column": "caupona:block/felsic_tuff_acanthine_column",
+		"ends": "caupona:block/felsic_tuff_bricks",
+		"particle": "caupona:block/felsic_tuff_bricks"
+	}
+}
