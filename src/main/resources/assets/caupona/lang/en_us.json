@@ -1,5 +1,5 @@
 {
-	"book.caupona.landing_text": "Next generation cooking method!",
+	"book.caupona.landing_text": "Workaday uses of heat as they always have been",
 	"container.caupona.stewpot.title": "Stew pot",
 	"container.caupona.kitchen_stove.title": "Stove",
 	"itemGroup.caupona": "Caupona",
@@ -9,7 +9,6 @@
 	"gui.caupona.stewpot.canstart": "Start Cooking",
 	"gui.caupona.stewpot.nostart": "Cannot Cook!",
 	"gui.caupona.stewpot.started": "Cooking...",
-	"block.caupona.stew_pot": "Stew Pot",
 	"block.caupona.mixed_bricks": "Mixed Bricks",
 	"block.caupona.mixed_bricks_slab": "Mixed Brick Slab",
 	"block.caupona.mixed_bricks_stairs": "Mixed Brick Stair",

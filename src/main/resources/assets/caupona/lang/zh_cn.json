@@ -1,5 +1,5 @@
 {
-	"book.caupona.landing_text": "全新的烹饪方式",
+	"book.caupona.landing_text": "亘古通今的日常热能利用",
 	"container.caupona.stewpot.title": "汤锅",
 	"container.caupona.kitchen_stove.title": "灶台",
 	"itemGroup.caupona": "分茶",
@@ -9,9 +9,6 @@
 	"gui.caupona.stewpot.canstart": "开始烹饪",
 	"gui.caupona.stewpot.nostart": "无法烹饪！",
 	"gui.caupona.stewpot.started": "烹饪中",
-	"block.caupona.stew_pot": "汤锅",
-	"block.caupona.mud_kitchen_stove": "土炉",
-	"block.caupona.brick_kitchen_stove": "砖炉",
 	"block.caupona.mixed_bricks": "混合红砖",
 	"block.caupona.mixed_bricks_slab": "混合红砖台阶",
 	"block.caupona.mixed_bricks_stairs": "混合红砖楼梯",
