@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 import com.google.common.collect.ImmutableMap;
 import com.teammoeg.caupona.blocks.BowlBlock;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
+import com.teammoeg.caupona.blocks.CPStripPillerBlock;
 import com.teammoeg.caupona.blocks.ChimneyPotBlock;
 import com.teammoeg.caupona.blocks.CounterDoliumBlock;
 import com.teammoeg.caupona.blocks.others.CPStandingSignBlock;
@@ -124,7 +125,7 @@ public class CPBlocks {
 		register(wood + "_fence_gate", new FenceGateBlock(BlockBehaviour.Properties
 				.of(Material.WOOD, planks.defaultMaterialColor()).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
 		gleave.accept(register(wood + "_leaves", leaves(SoundType.GRASS)));
-		glog.accept(register(wood + "_log", log(MaterialColor.WOOD, MaterialColor.PODZOL)));
+		glog.accept(register(wood + "_log", log(MaterialColor.WOOD, MaterialColor.PODZOL,register("stripped_"+wood + "_log", log(MaterialColor.WOOD, MaterialColor.WOOD,null)))));
 
 		register(wood + "_pressure_plate",
 				new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING,
@@ -146,7 +147,9 @@ public class CPBlocks {
 		register(wood + "_stairs", new StairBlock(planks::defaultBlockState, BlockBehaviour.Properties.copy(planks)));
 		register(wood + "_trapdoor", new TrapDoorBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD)
 				.strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(CPBlocks::never)));
-		register(wood + "_wood", new RotatedPillarBlock(
+		register(wood + "_wood", new CPStripPillerBlock(
+				register("stripped_"+wood + "_wood",new RotatedPillarBlock(
+						BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD))),
 				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD)));
 	}
 
@@ -156,8 +159,12 @@ public class CPBlocks {
 				.isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid));
 	}
 
-	private static RotatedPillarBlock log(MaterialColor pTopColor, MaterialColor pBarkColor) {
+	private static RotatedPillarBlock log(MaterialColor pTopColor, MaterialColor pBarkColor,Block st) {
+		if(st==null)
 		return new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.WOOD, (p_152624_) -> {
+			return p_152624_.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? pTopColor : pBarkColor;
+		}).strength(2.0F).sound(SoundType.WOOD));
+		return new CPStripPillerBlock(st,BlockBehaviour.Properties.of(Material.WOOD, (p_152624_) -> {
 			return p_152624_.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? pTopColor : pBarkColor;
 		}).strength(2.0F).sound(SoundType.WOOD));
 	}

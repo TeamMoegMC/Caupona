@@ -105,7 +105,9 @@ public class CPStatesProvider extends BlockStateProvider {
 				blockItemModel(wood+type);
 			blockItemModel(wood+"_fence","_inventory");
 			blockItemModel(wood+"_button","_inventory");
-			blockItemModel(wood+"_trapdoor","_top");
+			blockItemModel("stripped_"+wood+"_log");
+			blockItemModel("stripped_"+wood+"_wood");
+			//blockItemModel(wood+"_trapdoor","_top");
 
 		}
 		blockItemModel("fumarole_boulder");
