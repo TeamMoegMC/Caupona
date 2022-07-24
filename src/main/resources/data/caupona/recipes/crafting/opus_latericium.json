@@ -1,0 +1,20 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" L ",
+		"LGL",
+		" L "
+	],
+	"key": {
+		"L": {
+			"item": "caupona:lateres"
+		},
+		"G": {
+			"item": "minecraft:gray_concrete"
+		}
+	},
+	"result": {
+		"item": "caupona:opus_latericium",
+		"count": 3
+	}
+}
