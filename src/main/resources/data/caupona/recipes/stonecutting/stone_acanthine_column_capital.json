@@ -1,0 +1,8 @@
+{
+	"type": "stonecutting",
+	"ingredient": {
+		"item": "minecraft:stone"
+	},
+	"result": "caupona:stone_acanthine_column_capital",
+	"count": 1
+}

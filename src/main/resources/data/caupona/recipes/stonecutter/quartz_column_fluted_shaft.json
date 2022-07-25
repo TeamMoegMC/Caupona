@@ -1,7 +1,0 @@
-{
-	"type": "stonecutter",
-	"ingredient": {
-		"item": "minecraft:quartz_block"
-	},
-	"result": "caupona:quartz_column_fluted_shaft"
-}

@@ -1,7 +1,0 @@
-{
-	"type": "stonecutter",
-	"ingredient": {
-		"item": "minecraft:stone"
-	},
-	"result": "caupona:stone_ionic_column_capital"
-}

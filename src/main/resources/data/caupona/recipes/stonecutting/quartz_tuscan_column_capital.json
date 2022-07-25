@@ -1,0 +1,8 @@
+{
+	"type": "stonecutting",
+	"ingredient": {
+		"item": "minecraft:quartz_block"
+	},
+	"result": "caupona:quartz_tuscan_column_capital",
+	"count": 1
+}

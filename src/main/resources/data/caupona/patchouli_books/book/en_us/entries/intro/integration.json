@@ -6,11 +6,11 @@
   "pages": [
     {
       "type": "text",
-      "text": "Soup has a dynamic food value, which is not supported by some other hunger display mod, so don't trust their values."
+      "text": "Soups have dynamic food values, which may not be well supported by some other hunger display mod. Check whether it be the case if you have installed any of such mods."
     },
      {
       "type": "text",
-      "text": "Soup has a food value of adding up all of its ingredients.",
+      "text": "Food values of a soup are by default the Sum of all ingredients IN IT.",
       "flag": "mod:diet"
     }
   ]

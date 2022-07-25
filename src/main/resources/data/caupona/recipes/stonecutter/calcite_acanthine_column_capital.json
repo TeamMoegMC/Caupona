@@ -1,7 +1,0 @@
-{
-	"type": "stonecutter",
-	"ingredient": {
-		"item": "minecraft:calcite"
-	},
-	"result": "caupona:calcite_acanthine_column_capital"
-}

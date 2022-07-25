@@ -3,5 +3,6 @@
 	"ingredient": {
 		"item": "minecraft:brick"
 	},
-	"result": "caupona:lateres"
+	"result": "caupona:lateres",
+	"count": 1
 }
