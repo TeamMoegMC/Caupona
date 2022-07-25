@@ -24,6 +24,7 @@ import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.FuelType;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.AbstractStove;
+import com.teammoeg.caupona.blocks.ChimneyPotTileEntity;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.container.KitchenStoveContainer;
 import com.teammoeg.caupona.network.CPBaseTile;
@@ -47,6 +48,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
@@ -80,6 +82,8 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 		processMax = nbt.getInt("processMax");
 		if(nbt.contains("chimneyPos"))
 			attachedChimney=BlockPos.of(nbt.getLong("chimneyPos"));
+		else
+			attachedChimney=null;
 		if (!isClient) {
 			cd = nbt.getInt("cd");
 			fuel.set(0, ItemStack.of(nbt.getCompound("fuel")));
@@ -210,6 +214,12 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 				if (bs.getValue(KitchenStove.LIT)) {
 					cd--;
 					process--;
+					if(attachedChimney!=null) {
+						BlockEntity te=this.getLevel().getBlockEntity(attachedChimney);
+						if(te instanceof ChimneyPotTileEntity) {
+							((ChimneyPotTileEntity) te).addAsh(speed);
+						}
+					}
 					if (cd <= 0) {
 						bs = bs.setValue(KitchenStove.LIT, false);
 						flag = true;
@@ -226,16 +236,20 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 				double d2 = this.getBlockPos().getZ();
 				Random rand=this.getLevel().random;
 				if(attachedChimney==null) {
-					if (rand.nextDouble() < 0.5D*speed) {
+					if (rand.nextDouble() < 0.25D*speed) {
 						this.getLevel().addParticle(ParticleTypes.SMOKE, d0 + .5, d1 + 1, d2 + .5, rand.nextDouble() * .5 - .25,
 								rand.nextDouble() * .125, rand.nextDouble() * .5 - .25);
 					}
 				}else {
-					double motY=0;
-					if(!this.getLevel().getBlockState(attachedChimney).is(ChimneyHelper.chimney_pot))
-						motY=rand.nextDouble() * .25;
-					this.getLevel().addParticle(Particles.SOOT.get(), attachedChimney.getX() + .5, attachedChimney.getY() + .5, attachedChimney.getZ() + .5, rand.nextDouble() * .5 - .25,
-							motY, rand.nextDouble() * .5 - .25);
+					if (rand.nextDouble() < 0.25D*speed) {
+						double motY=-0.3,delY=.5;
+						if(!this.getLevel().getBlockState(attachedChimney).is(ChimneyHelper.chimney_pot)) {
+							motY=rand.nextDouble() * .25;
+							delY=0;
+						}
+						this.getLevel().addParticle(Particles.SOOT.get(), attachedChimney.getX() + .5, attachedChimney.getY() + delY, attachedChimney.getZ() + .5, rand.nextDouble() * .5 - .25,
+								motY, rand.nextDouble() * .5 - .25);
+					}
 				}
 			}
 		}

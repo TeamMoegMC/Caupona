@@ -25,7 +25,7 @@ public class ChimneyHelper {
 			if(bs.isAir()||bs.is(chimney_ignore)) {
 				start=start.above();
 				bs=c.getBlockState(start);
-			}
+			}else break;
 		}
 		if(!bs.is(chimney))return null;
 		while(bs.is(chimney)) {

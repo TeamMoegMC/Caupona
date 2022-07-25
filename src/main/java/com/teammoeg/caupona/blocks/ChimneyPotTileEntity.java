@@ -25,13 +25,18 @@ public class ChimneyPotTileEntity extends CPBaseTile {
 
 	@Override
 	public void readCustomNBT(CompoundTag nbt, boolean isClient) {
+		process=nbt.getInt("process");
+		countSoot=nbt.getInt("soot");
 	}
 
 	@Override
 	public void writeCustomNBT(CompoundTag nbt, boolean isClient) {
+		nbt.putInt("process", process);
+		nbt.putInt("soot", countSoot);
 	}
 	public void addAsh(int val) {
 		process+=val;
+		this.setChanged();
 	}
 	@Override
 	public void tick() {
