@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "caupona:brick_chimney_pot",
+    "caupona:opus_incertum_chimney_pot",
+    "caupona:opus_latericium_chimney_pot",
+    "caupona:mud_chimney_pot",
+    "caupona:stone_brick_chimney_pot"
+  ]
+}

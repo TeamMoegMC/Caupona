@@ -21,6 +21,7 @@ package com.teammoeg.caupona;
 import java.util.ArrayList;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 
@@ -44,7 +45,13 @@ public class Config {
 		/**
 		 * @param builder
 		 */
+		public ConfigValue<Integer> cooldown;
+		
 		Common(ForgeConfigSpec.Builder builder) {
+			builder.push("Stews");
+			
+			cooldown=builder.comment("Add Cooldown to all soups per saturation added").define("CooldownTicksPerSaturation",10);
+			builder.pop();
 		}
 	}
 
@@ -52,7 +59,21 @@ public class Config {
 		/**
 		 * @param builder
 		 */
+		public ConfigValue<Integer> chimneyTicks;
+		public ConfigValue<Integer> chimneyCheck;
+		public ConfigValue<Integer> chimneyStorage;
+		public ConfigValue<Integer> stoveCD;
+		public ConfigValue<Float> stoveFuel;
 		Server(ForgeConfigSpec.Builder builder) {
+			builder.push("chimney");
+			chimneyTicks=builder.comment("How many ticks does a chimney pot needed to make a soot").define("ChimneySootTicks",80);
+			chimneyCheck=builder.comment("How many ticks does a chimney check it's validity").defineInRange("ChimneyCheckTicks",20, 1, 2000);
+			chimneyStorage=builder.comment("Max soot stored in a chimney").defineInRange("ChimneySootStorage",8, 1,64);
+			builder.pop();
+			builder.push("stoves");
+			stoveCD=builder.comment("How many ticks should the stove pause burning when work is done").define("StovePauseTimer",100);
+			stoveFuel=builder.comment("Stove fuel value multiplier").define("StoveFuelMultiplier",1.0f);
+			builder.pop();
 		}
 	}
 

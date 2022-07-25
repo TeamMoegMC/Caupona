@@ -41,6 +41,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
@@ -121,7 +122,16 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 		}
 		for (String mat : CPBlocks.counters) {
 			pickaxe.add(cp(mat + "_chimney_flue"),cp(mat + "_chimney_pot"),cp(mat + "_counter"),cp(mat + "_counter_with_dolium"));
+			tag("counter").add(cp(mat + "_chimney_flue"),cp(mat + "_chimney_pot"),cp(mat + "_counter"),cp(mat + "_counter_with_dolium"));
 		}
+		for (String mat : CPBlocks.counters) {
+			tag("chimney").add(cp(mat + "_chimney_flue"));
+		}
+		for (String mat : CPBlocks.counters) {
+			tag("chimney_pot").add(cp(mat + "_chimney_pot"));
+		}
+		tag("chimney_ignore").addTags(BlockTags.SIGNS,BlockTags.BUTTONS,BlockTags.LEAVES,BlockTags.BANNERS,BlockTags.CANDLES,BlockTags.WALL_SIGNS,BlockTags.STANDING_SIGNS,BlockTags.CANDLES,BlockTags.CORAL_PLANTS,BlockTags.FENCES,BlockTags.WALLS,BlockTags.TRAPDOORS,BlockTags.DOORS,BlockTags.FLOWER_POTS,BlockTags.FLOWERS)
+		.add(Blocks.AIR,Blocks.VINE,Blocks.CAVE_VINES,CPBlocks.stew_pot);
 	}
 
 	private TagAppender<Block> tag(String s) {

@@ -51,16 +51,19 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
 public class CPBlocks {
-	// static data generation
-	public static final Map<String, Block> stoneBlocks = new HashMap<>();
-	public static final List<Block> transparentBlocks = new ArrayList<>();
+	// static string data 
 	public static final String[] counters = new String[] { "brick", "opus_incertum", "opus_latericium", "mud",
 			"stone_brick" };
 	public static final String[] stones = new String[] { "mixed_bricks", "opus_incertum", "opus_latericium",
 			"opus_reticulatum", "felsic_tuff_bricks", "felsic_tuff" };
 	public static final String[] woods = new String[] { "walnut" };
-	public static final List<Block> signs = new ArrayList<>();
 	public static final String[] pillar_materials = new String[] { "stone", "quartz", "felsic_tuff", "calcite" };
+	
+	// Dynamic block types
+	public static final List<Block> signs = new ArrayList<>();
+	public static final Map<String, Block> stoneBlocks = new HashMap<>();
+	public static final List<Block> transparentBlocks = new ArrayList<>();
+	public static final List<Block> chimney = new ArrayList<>();
 
 	// useful blocks
 	public static Block stew_pot = new StewPot("stew_pot", Block.Properties.of(Material.STONE).sound(SoundType.STONE)
@@ -103,8 +106,8 @@ public class CPBlocks {
 			register(stone + "_wall", new WallBlock(getStoneProps()));
 		}
 		for (String mat : counters) {
-			transparentBlocks.add(register(mat + "_chimney_flue", new Block(getStoneProps())));
-			transparentBlocks.add(register(mat + "_chimney_pot", new ChimneyPotBlock(getStoneProps())));
+			transparentBlocks.add(register(mat + "_chimney_flue", new Block(getTransparentProps())));
+			transparentBlocks.add(register(mat + "_chimney_pot", new ChimneyPotBlock(getTransparentProps())));
 			register(mat + "_counter", new CPHorizontalBlock(getStoneProps()));
 			transparentBlocks.add(register(mat + "_counter_with_dolium", new CounterDoliumBlock(getTransparentProps())));
 		}

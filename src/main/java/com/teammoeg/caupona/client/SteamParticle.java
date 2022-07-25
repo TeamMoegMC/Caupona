@@ -30,7 +30,7 @@ public class SteamParticle extends CPParticle {
 			double motionZ) {
 		super(world, x, y, z, motionX, motionY, motionZ);
 		this.gravity = -0.1F;
-		this.rCol = this.gCol = this.bCol = (float) (Math.random() * 0.4) + 0.4f;
+		this.rCol = this.gCol = this.bCol = (float) (Math.random() * 0.2) + 0.8f;
 		this.originalScale = 0.25F;
 		this.lifetime = (int) (12.0D / (Math.random() * 0.8D + 0.2D));
 	}

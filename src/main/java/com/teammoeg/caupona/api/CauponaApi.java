@@ -20,8 +20,11 @@ package com.teammoeg.caupona.api;
 
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Consumer;
 
 import com.mojang.datafixers.util.Pair;
+import com.teammoeg.caupona.CPItems;
+import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.items.StewItem;
@@ -31,6 +34,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
@@ -59,7 +64,7 @@ public class CauponaApi {
 	public static void setInfo(CompoundTag nbt,SoupInfo info) {
 		info.write(nbt);
 	}
-	public static void applyStew(Level worldIn, LivingEntity entityLiving,SoupInfo info) {
+	public static void applyStew(Level worldIn, LivingEntity entityLiving,SoupInfo info,ItemStack from,int cdm) {
 		if (!worldIn.isClientSide) {
 			for (MobEffectInstance eff :info.effects) {
 				if (eff != null) {
@@ -74,6 +79,12 @@ public class CauponaApi {
 			if (entityLiving instanceof Player) {
 				Player player = (Player) entityLiving;
 				player.getFoodData().eat(info.healing,info.saturation);
+				ItemCooldowns t=player.getCooldowns();
+				int cd=(int) (Config.COMMON.cooldown.get()*info.saturation)+cdm;
+				for(Item i:CPItems.stews)
+					t.addCooldown(i,cd);
+				if(from!=null)
+					t.addCooldown(from.getItem(), cd);
 			}
 		}
 	}

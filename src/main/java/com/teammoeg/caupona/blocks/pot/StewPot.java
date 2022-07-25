@@ -22,7 +22,7 @@ import java.util.Random;
 import java.util.function.BiFunction;
 
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.blocks.CPTileBlock;
+import com.teammoeg.caupona.blocks.CPBaseTileBlock;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.items.StewItem;
@@ -57,7 +57,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
 
-public class StewPot extends CPTileBlock<StewPotTileEntity> implements LiquidBlockContainer {
+public class StewPot extends CPBaseTileBlock<StewPotTileEntity> implements LiquidBlockContainer {
 	public static final EnumProperty<Axis> FACING = BlockStateProperties.HORIZONTAL_AXIS;
 
 	public StewPot(String name, Properties blockProps, RegistryObject<BlockEntityType<StewPotTileEntity>> ste,

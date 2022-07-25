@@ -1,5 +1,5 @@
 {
-	"type": "stonecutter",
+	"type": "minecraft:stonecutting",
 	"ingredient": {
 		"item": "caupona:felsic_tuff"
 	},

@@ -30,6 +30,7 @@ import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
+import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.event.RegistryEvents;
@@ -57,6 +58,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
@@ -88,6 +90,7 @@ public class StewItem extends CPBlockItem {
 	public ItemStack finishUsingItem(ItemStack itemstack, Level worldIn, LivingEntity entityLiving) {
 
 		SoupInfo si = getInfo(itemstack);
+		int cooldown;
 		if (!worldIn.isClientSide) {
 			for (MobEffectInstance eff : si.effects) {
 				if (eff != null) {
@@ -102,11 +105,15 @@ public class StewItem extends CPBlockItem {
 		}
 		if (entityLiving instanceof Player) {
 			Player player = (Player) entityLiving;
+			
 			if (!worldIn.isClientSide)
 				player.getFoodData().eat(si.healing, si.saturation);
 			if (player.getAbilities().instabuild)
 				return itemstack;
-
+			ItemCooldowns t=player.getCooldowns();
+			int cd=(int) (Config.COMMON.cooldown.get()*si.saturation);
+			for(Item i:CPItems.stews)
+				t.addCooldown(i,cd);
 		}
 		return new ItemStack(Items.BOWL);
 	}
@@ -264,15 +271,18 @@ public class StewItem extends CPBlockItem {
 	 * Called when this item is used when targetting a Block
 	 */
 	public InteractionResult useOn(UseOnContext pContext) {
+		
 		InteractionResult interactionresult = InteractionResult.PASS;
 		if (pContext.getPlayer().isShiftKeyDown())
 			interactionresult = this.place(new BlockPlaceContext(pContext));
-		if (!interactionresult.consumesAction() && this.isEdible()) {
-			InteractionResult interactionresult1 = this
-					.use(pContext.getLevel(), pContext.getPlayer(), pContext.getHand()).getResult();
-			return interactionresult1 == InteractionResult.CONSUME ? InteractionResult.CONSUME_PARTIAL
-					: interactionresult1;
-		}
+		//if(!pContext.getPlayer().getCooldowns().isOnCooldown(CPItems.water))
+			if (!interactionresult.consumesAction() && this.isEdible()) {
+				
+				InteractionResult interactionresult1 = this
+						.use(pContext.getLevel(), pContext.getPlayer(), pContext.getHand()).getResult();
+				return interactionresult1 == InteractionResult.CONSUME ? InteractionResult.CONSUME_PARTIAL
+						: interactionresult1;
+			}
 		return interactionresult;
 	}
 
