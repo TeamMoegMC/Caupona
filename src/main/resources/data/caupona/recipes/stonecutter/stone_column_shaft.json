@@ -1,0 +1,7 @@
+{
+	"type": "stonecutter",
+	"ingredient": {
+		"item": "minecraft:stone"
+	},
+	"result": "caupona:stone_column_shaft"
+}

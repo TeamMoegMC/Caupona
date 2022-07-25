@@ -7,15 +7,15 @@
   "pages": [
     {
       "type": "text",
-      "text": "Dispensers are modified so that it be possible to automate stew pots."
+      "text": "To make it possible to automate stew pot, dispensers now has more function."
     },
     {
       "type": "text",
-      "text": "When a bowl is being dispensed, dispensers will try to fill the bowl with fluid in front of it: either in a container containing fluid, or a fluid block."
+      "text": "When a bowl is being dispensed, dispenser would try fill the bowl with fluid tank such as stew pot or fluid block such as water in front of it."
     },
      {
       "type": "text",
-      "text": "When a bowl of soup or a bucket of fluid is being dispensed, and in front of the dispenser is a fluid container, the dispenser will try to transfer fluid into the container."
+      "text": "When a bowl of stew or bucket of fluid is being dispensed, dispenser would try to empty the bowl into fluid tank in front of it."
     }
   ]
 }

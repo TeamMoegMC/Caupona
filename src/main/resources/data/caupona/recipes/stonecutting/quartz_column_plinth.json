@@ -1,8 +1,0 @@
-{
-	"type": "stonecutting",
-	"ingredient": {
-		"item": "minecraft:quartz_block"
-	},
-	"result": "caupona:quartz_column_plinth",
-	"count": 1
-}

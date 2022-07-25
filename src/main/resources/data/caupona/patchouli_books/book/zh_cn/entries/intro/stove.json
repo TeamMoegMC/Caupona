@@ -7,7 +7,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "灶台可以用于加热各种厨具，工作时需要消耗固态燃料。"
+      "text": "灶台可以用于加热各种锅，它需要消耗熔炉燃料进行燃烧。"
     },
     {
       "type": "text",
@@ -15,13 +15,13 @@
     },
     {
       "type": "crafting",
-      "recipe": "caupona:mud_kitchen_stove",
-      "text": "夯土干砌石灶台的制造成本最低廉。"
+      "recipe": "caupona:kitchen_stove_t1",
+      "text": "普通灶台便宜耐用。"
     },
     {
       "type": "crafting",
-      "recipe": "caupona:brick_kitchen_stove",
-      "text": "还有一些其他材料建造的灶台。这些灶台效率更高，但也更费燃料。"
+      "recipe": "caupona:kitchen_stove_t2",
+      "text": "高级灶台速度更快，但是会更费燃料。"
     }
   ]
 }
