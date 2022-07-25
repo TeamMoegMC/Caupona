@@ -6,15 +6,15 @@
   "pages": [
     {
       "type": "text",
-      "text": "Soup is a kind of hot drink, its type depends on its ingrendients, and it inherits attributes from all of its ingredients. A bowl of soup contains 250 mb of fluid."
+      "text": "Soups and stews (for simplicity often just \"Soups\") are hot liquid foods. They inherit attributes from all of their ingredients, which also determine their names and types. Volumn of a bowl of soup is 250 millibuckets (mB)."
     },
      {
       "type": "text",
-      "text": "Soup can be cooked with ediable raw ingredients, and they would become cooked ones after cooking."
+      "text": "Soup cooking perfectly accepts ediable raw ingredients, which will become cooked versions during cooking."
     },
     {
       "type": "text",
-      "text": "Potions can also be added to soups, but double duration and three different kind of potion at most."
+      "text": "You can add potions into a stew pot so that the resultant would provide effects. Up to three effects could co-exist."
     }
   ]
 }

@@ -1,7 +1,8 @@
 {
-	"type": "minecraft:stonecutting",
+	"type": "stonecutting",
 	"ingredient": {
 		"item": "caupona:felsic_tuff"
 	},
-	"result": "caupona:felsic_tuff_column_fluted_plinth"
+	"result": "caupona:felsic_tuff_column_fluted_plinth",
+	"count": 1
 }
