@@ -102,14 +102,25 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag(BlockTags.STANDING_SIGNS).add(cp(wood+"_sign"));
 			tag(BlockTags.WALL_SIGNS).add(cp(wood+"_wall_sign"));
 		}
+		TagAppender<Block> pickaxe=tag(BlockTags.MINEABLE_WITH_PICKAXE);
+		for(String str:CPBlocks.pillar_materials) {
+			for(String type:ImmutableSet.of("_column_fluted_plinth",
+					"_column_fluted_shaft",
+					"_column_shaft",
+					"_column_plinth",
+					"_ionic_column_capital",
+					"_tuscan_column_capital",
+					"_acanthine_column_capital"))
+				pickaxe.add(cp(str+type));
+		}
 		for (String stone : CPBlocks.stones) {
-			tag(BlockTags.MINEABLE_WITH_PICKAXE).add(cp(stone),cp(stone + "_slab"),cp(stone + "_stairs"),cp(stone + "_wall"));
+			pickaxe.add(cp(stone),cp(stone + "_slab"),cp(stone + "_stairs"),cp(stone + "_wall"));
 			tag(BlockTags.SLABS).add(cp(stone + "_slab"));
 			tag(BlockTags.STAIRS).add(cp(stone + "_stairs"));
 			tag(BlockTags.WALLS).add(cp(stone + "_wall"));
 		}
-		for (String mat : CPBlocks.materials_C) {
-			tag(BlockTags.MINEABLE_WITH_PICKAXE).add(cp(mat + "_chimney_flue"),cp(mat + "_chimney_pot"),cp(mat + "_counter"),cp(mat + "_counter_with_dolium"));
+		for (String mat : CPBlocks.counters) {
+			pickaxe.add(cp(mat + "_chimney_flue"),cp(mat + "_chimney_pot"),cp(mat + "_counter"),cp(mat + "_counter_with_dolium"));
 		}
 	}
 

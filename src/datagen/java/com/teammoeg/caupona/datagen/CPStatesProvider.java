@@ -84,12 +84,22 @@ public class CPStatesProvider extends BlockStateProvider {
 				blockItemModel(stone+type);
 			blockItemModel(stone+"_wall","_inventory");
 		}
-		for(String mat:CPBlocks.materials_C) {
+		for(String mat:CPBlocks.counters) {
 			for(String type:ImmutableSet.of("_chimney_flue",
 					"_chimney_pot",
 					"_counter",
 					"_counter_with_dolium"))
 				blockItemModel(mat+type);
+		}
+		for(String str:CPBlocks.pillar_materials) {
+			for(String type:ImmutableSet.of("_column_fluted_plinth",
+					"_column_fluted_shaft",
+					"_column_shaft",
+					"_column_plinth",
+					"_ionic_column_capital",
+					"_tuscan_column_capital",
+					"_acanthine_column_capital"))
+				blockItemModel(str+type);
 		}
 		for(String wood:CPBlocks.woods) {
 			for(String type:ImmutableSet.of(

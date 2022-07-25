@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import com.google.common.collect.ImmutableMap;
 import com.teammoeg.caupona.blocks.BowlBlock;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 import com.teammoeg.caupona.blocks.CPStripPillerBlock;
@@ -44,25 +43,26 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WoodButtonBlock;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
 public class CPBlocks {
-	//static data generation
+	// static data generation
 	public static final Map<String, Block> stoneBlocks = new HashMap<>();
 	public static final List<Block> transparentBlocks = new ArrayList<>();
-	public static final String[] materials_C = new String[] { "brick", "opus_incertum", "opus_latericium", "mud",
+	public static final String[] counters = new String[] { "brick", "opus_incertum", "opus_latericium", "mud",
 			"stone_brick" };
 	public static final String[] stones = new String[] { "mixed_bricks", "opus_incertum", "opus_latericium",
 			"opus_reticulatum", "felsic_tuff_bricks", "felsic_tuff" };
 	public static final String[] woods = new String[] { "walnut" };
 	public static final List<Block> signs = new ArrayList<>();
-	
-	//useful blocks 
+	public static final String[] pillar_materials = new String[] { "stone", "quartz", "felsic_tuff", "calcite" };
+
+	// useful blocks
 	public static Block stew_pot = new StewPot("stew_pot", Block.Properties.of(Material.STONE).sound(SoundType.STONE)
 			.requiresCorrectToolForDrops().strength(2, 10).noOcclusion(), CPTileTypes.STEW_POT, CPBlockItem::new);
 	public static Block stove1 = new KitchenStove("mud_kitchen_stove", getStoveProps(), CPTileTypes.STOVE1,
@@ -85,8 +85,10 @@ public class CPBlocks {
 	public static Block WALNUT_LEAVE;
 	public static Block WALNUT_PLANKS;
 	public static Block WALNUT_SAPLINGS;
-	public static final Block FUMAROLE_BOULDER = register("fumarole_boulder", transparent(new Block(getStoneProps().noCollission().isViewBlocking(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid))));
-	public static final Block FUMAROLE_VENT = register("fumarole_vent", transparent(new Block(getStoneProps().noCollission().isViewBlocking(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid))));
+	public static final Block FUMAROLE_BOULDER = register("fumarole_boulder", transparent(new Block(
+			getStoneProps().noCollission().isViewBlocking(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid))));
+	public static final Block FUMAROLE_VENT = register("fumarole_vent", transparent(new Block(
+			getStoneProps().noCollission().isViewBlocking(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid))));
 	public static final Block PUMICE = register("pumice", transparent(new Block(getStoneProps())));
 	public static final Block PUMICE_BLOOM = register("pumice_bloom", transparent(new Block(getStoneProps())));
 
@@ -100,12 +102,21 @@ public class CPBlocks {
 			register(stone + "_stairs", new StairBlock(base::defaultBlockState, getStoneProps()));
 			register(stone + "_wall", new WallBlock(getStoneProps()));
 		}
-		for (String mat : materials_C) {
-			register(mat + "_chimney_flue", new Block(getStoneProps()));
+		for (String mat : counters) {
+			transparentBlocks.add(register(mat + "_chimney_flue", new Block(getStoneProps())));
 			transparentBlocks.add(register(mat + "_chimney_pot", new ChimneyPotBlock(getStoneProps())));
 			register(mat + "_counter", new CPHorizontalBlock(getStoneProps()));
-			transparentBlocks
-					.add(register(mat + "_counter_with_dolium", new CounterDoliumBlock(getTransparentProps())));
+			transparentBlocks.add(register(mat + "_counter_with_dolium", new CounterDoliumBlock(getTransparentProps())));
+		}
+		
+		for (String pil : pillar_materials) {
+			transparentBlocks.add(register(pil+"_column_fluted_plinth", new Block(getTransparentProps())));
+			transparentBlocks.add(register(pil+"_column_fluted_shaft", new Block(getTransparentProps())));
+			transparentBlocks.add(register(pil+"_column_shaft", new Block(getTransparentProps())));
+			transparentBlocks.add(register(pil+"_column_plinth", new Block(getTransparentProps())));
+			transparentBlocks.add(register(pil+"_ionic_column_capital", new CPHorizontalBlock(getTransparentProps())));
+			transparentBlocks.add(register(pil+"_tuscan_column_capital", new CPHorizontalBlock(getTransparentProps())));
+			transparentBlocks.add(register(pil+"_acanthine_column_capital", new CPHorizontalBlock(getTransparentProps())));
 		}
 		registerWood("walnut", WALNUT, WalnutTreeGrower::new, l -> WALNUT_PLANKS = l, l -> WALNUT_LOG = l,
 				l -> WALNUT_LEAVE = l, l -> WALNUT_SAPLINGS = l);
@@ -125,7 +136,8 @@ public class CPBlocks {
 		register(wood + "_fence_gate", new FenceGateBlock(BlockBehaviour.Properties
 				.of(Material.WOOD, planks.defaultMaterialColor()).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
 		gleave.accept(register(wood + "_leaves", leaves(SoundType.GRASS)));
-		glog.accept(register(wood + "_log", log(MaterialColor.WOOD, MaterialColor.PODZOL,register("stripped_"+wood + "_log", log(MaterialColor.WOOD, MaterialColor.WOOD,null)))));
+		glog.accept(register(wood + "_log", log(MaterialColor.WOOD, MaterialColor.PODZOL,
+				register("stripped_" + wood + "_log", log(MaterialColor.WOOD, MaterialColor.WOOD, null)))));
 
 		register(wood + "_pressure_plate",
 				new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING,
@@ -148,8 +160,9 @@ public class CPBlocks {
 		register(wood + "_trapdoor", new TrapDoorBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD)
 				.strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(CPBlocks::never)));
 		register(wood + "_wood", new CPStripPillerBlock(
-				register("stripped_"+wood + "_wood",new RotatedPillarBlock(
-						BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD))),
+				register("stripped_" + wood + "_wood",
+						new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD)
+								.strength(2.0F).sound(SoundType.WOOD))),
 				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD)));
 	}
 
@@ -159,12 +172,12 @@ public class CPBlocks {
 				.isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid));
 	}
 
-	private static RotatedPillarBlock log(MaterialColor pTopColor, MaterialColor pBarkColor,Block st) {
-		if(st==null)
-		return new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.WOOD, (p_152624_) -> {
-			return p_152624_.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? pTopColor : pBarkColor;
-		}).strength(2.0F).sound(SoundType.WOOD));
-		return new CPStripPillerBlock(st,BlockBehaviour.Properties.of(Material.WOOD, (p_152624_) -> {
+	private static RotatedPillarBlock log(MaterialColor pTopColor, MaterialColor pBarkColor, Block st) {
+		if (st == null)
+			return new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.WOOD, (p_152624_) -> {
+				return p_152624_.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? pTopColor : pBarkColor;
+			}).strength(2.0F).sound(SoundType.WOOD));
+		return new CPStripPillerBlock(st, BlockBehaviour.Properties.of(Material.WOOD, (p_152624_) -> {
 			return p_152624_.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? pTopColor : pBarkColor;
 		}).strength(2.0F).sound(SoundType.WOOD));
 	}

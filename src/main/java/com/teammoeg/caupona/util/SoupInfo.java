@@ -199,6 +199,9 @@ public class SoupInfo {
 		for (MobEffectInstance es : effects) {
 			es.duration = (int) (es.duration * oparts / parts);
 		}
+		for (Pair<MobEffectInstance, Float> es : foodeffect) {
+			es.getFirst().duration=(int) (es.getFirst().duration * oparts / parts);
+		}
 		float delta=0;
 		if(oparts>parts)
 			delta=oparts-parts;
