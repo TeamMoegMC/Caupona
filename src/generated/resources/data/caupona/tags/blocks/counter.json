@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    "caupona:brick_chimney_flue",
+    "caupona:brick_chimney_pot",
+    "caupona:brick_counter",
+    "caupona:brick_counter_with_dolium",
+    "caupona:opus_incertum_chimney_flue",
+    "caupona:opus_incertum_chimney_pot",
+    "caupona:opus_incertum_counter",
+    "caupona:opus_incertum_counter_with_dolium",
+    "caupona:opus_latericium_chimney_flue",
+    "caupona:opus_latericium_chimney_pot",
+    "caupona:opus_latericium_counter",
+    "caupona:opus_latericium_counter_with_dolium",
+    "caupona:mud_chimney_flue",
+    "caupona:mud_chimney_pot",
+    "caupona:mud_counter",
+    "caupona:mud_counter_with_dolium",
+    "caupona:stone_brick_chimney_flue",
+    "caupona:stone_brick_chimney_pot",
+    "caupona:stone_brick_counter",
+    "caupona:stone_brick_counter_with_dolium"
+  ]
+}

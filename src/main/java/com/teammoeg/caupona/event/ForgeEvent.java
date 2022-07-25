@@ -18,6 +18,7 @@
 
 package com.teammoeg.caupona.event;
 
+import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.data.RecipeReloadListener;
@@ -127,6 +128,22 @@ public class ForgeEvent {
 		}
 	}
 	@SubscribeEvent
+	public static void onBowlUse(PlayerInteractEvent.RightClickItem event) {
+		if (event.getEntityLiving() != null && !event.getEntityLiving().level.isClientSide
+				&& event.getPlayer() instanceof ServerPlayer) {
+			ItemStack stack= event.getItemStack();
+			LazyOptional<IFluidHandlerItem> cap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
+			if (cap.isPresent()&&stack.getTags().anyMatch(t->t.location().equals(container))) {
+				IFluidHandlerItem data = cap.resolve().get();
+				if(data.getFluidInTank(0).getFluid() instanceof SoupFluid)
+					if(event.getPlayer().getCooldowns().isOnCooldown(CPItems.water)) {
+						event.setCancellationResult(InteractionResult.FAIL);
+						event.setCanceled(true);
+					}
+			}
+		}
+	}
+	@SubscribeEvent
 	public static void onItemUseFinish(LivingEntityUseItemEvent.Finish event) {
 		if (event.getEntityLiving() != null && !event.getEntityLiving().level.isClientSide
 				&& event.getEntityLiving() instanceof ServerPlayer) {
@@ -135,7 +152,7 @@ public class ForgeEvent {
 			if (cap.isPresent()&&stack.getTags().anyMatch(t->t.location().equals(container))) {
 				IFluidHandlerItem data = cap.resolve().get();
 				if(data.getFluidInTank(0).getFluid() instanceof SoupFluid)
-					CauponaApi.applyStew(event.getEntityLiving().level,event.getEntityLiving(),SoupFluid.getInfo(data.getFluidInTank(0)));
+					CauponaApi.applyStew(event.getEntityLiving().level,event.getEntityLiving(),SoupFluid.getInfo(data.getFluidInTank(0)),stack,0);
 			}
 		}
 	}

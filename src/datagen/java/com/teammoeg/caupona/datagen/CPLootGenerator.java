@@ -89,10 +89,20 @@ public class CPLootGenerator extends LootTableProvider {
 					dropSelf(cp(stone + type));
 			}
 
-			for (String stone : CPBlocks.materials_C) {
+			for (String stone : CPBlocks.counters) {
 				for (String type : ImmutableSet.of("_chimney_flue", "_chimney_pot", "_counter", "_counter_with_dolium",
 						"_kitchen_stove"))
 					dropSelf(cp(stone + type));
+			}
+			for(String str:CPBlocks.pillar_materials) {
+				for(String type:ImmutableSet.of("_column_fluted_plinth",
+						"_column_fluted_shaft",
+						"_column_shaft",
+						"_column_plinth",
+						"_ionic_column_capital",
+						"_tuscan_column_capital",
+						"_acanthine_column_capital"))
+					dropSelf(cp(str+type));
 			}
 		}
 

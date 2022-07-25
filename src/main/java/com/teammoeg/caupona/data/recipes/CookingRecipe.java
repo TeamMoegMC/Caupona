@@ -26,6 +26,7 @@ import java.util.stream.Stream;
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.IDataRecipe;
+import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.util.FloatemTagStack;
 

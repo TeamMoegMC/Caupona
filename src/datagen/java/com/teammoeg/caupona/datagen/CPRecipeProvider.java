@@ -131,7 +131,7 @@ public class CPRecipeProvider extends RecipeProvider {
 		//System.out.println(CPBlocks.stove1.asItem().getItemCategory());
 		ShapedRecipeBuilder.shaped(CPBlocks.stove1).define('D',Items.DIRT).define('S',Items.COBBLESTONE).pattern("DDD").pattern("SSS").pattern("S S").unlockedBy("has_cobblestone", has(Blocks.COBBLESTONE)).save(outx);
 		//ShapedRecipeBuilder.shaped(CPBlocks.stove2).define('T',Items.BRICK_SLAB).define('B',Items.BRICKS).define('C',Items.CLAY).pattern("TTT").pattern("BCB").pattern("B B").unlockedBy("has_bricks", has(Blocks.BRICKS)).save(outx);
-		for(String stone:CPBlocks.materials_C) {
+		for(String stone:CPBlocks.counters) {
 			if(!stone.equals("mud"))
 			stoneStove(stone,outx);
 		}

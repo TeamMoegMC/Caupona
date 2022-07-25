@@ -33,7 +33,7 @@ import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.StewPendingContext;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.items.StewItem;
-import com.teammoeg.caupona.network.INetworkTile;
+import com.teammoeg.caupona.network.CPBaseTile;
 import com.teammoeg.caupona.util.SoupInfo;
 
 import net.minecraft.core.BlockPos;
@@ -70,7 +70,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class StewPotTileEntity extends INetworkTile implements MenuProvider {
+public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 	private ItemStackHandler inv = new ItemStackHandler(11) {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {

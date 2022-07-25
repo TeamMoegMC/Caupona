@@ -70,6 +70,7 @@ public class CPClientRegistry {
 	@SubscribeEvent
 	public static void registerParticleFactories(ParticleFactoryRegisterEvent event) {
 		Minecraft.getInstance().particleEngine.register(Particles.STEAM.get(), SteamParticle.Factory::new);
+		Minecraft.getInstance().particleEngine.register(Particles.SOOT.get(), SteamParticle.Factory::new);
 	}
 	@SubscribeEvent
 	public static void onTint(ColorHandlerEvent.Block ev) {

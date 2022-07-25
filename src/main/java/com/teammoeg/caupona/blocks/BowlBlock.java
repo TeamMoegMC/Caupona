@@ -2,6 +2,7 @@ package com.teammoeg.caupona.blocks;
 
 import java.util.function.BiFunction;
 
+import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.items.StewItem;
 
@@ -24,7 +25,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.RegistryObject;
 
-public class BowlBlock extends CPTileBlock<BowlTileEntity> {
+public class BowlBlock extends CPBaseTileBlock<BowlTileEntity> {
 
 	public BowlBlock(String name, Properties blockProps, RegistryObject<BlockEntityType<BowlTileEntity>> ste,
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {
@@ -60,8 +61,8 @@ public class BowlBlock extends CPTileBlock<BowlTileEntity> {
 		if (p.consumesAction())
 			return p;
 		BowlTileEntity tileEntity = (BowlTileEntity) worldIn.getBlockEntity(pos);
-		if (tileEntity.internal != null && tileEntity.internal.getItem() instanceof StewItem) {
-			CauponaApi.applyStew(worldIn, player, CauponaApi.getInfo(tileEntity.internal));
+		if (tileEntity.internal != null && tileEntity.internal.getItem() instanceof StewItem&&!player.getCooldowns().isOnCooldown(CPItems.water)) {
+			CauponaApi.applyStew(worldIn, player, CauponaApi.getInfo(tileEntity.internal),null,32);
 			tileEntity.internal = tileEntity.internal.getContainerItem();
 			tileEntity.syncData();
 			return InteractionResult.SUCCESS;

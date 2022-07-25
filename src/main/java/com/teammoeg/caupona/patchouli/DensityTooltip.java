@@ -34,7 +34,6 @@ import vazkii.patchouli.api.ICustomComponent;
 import vazkii.patchouli.api.IVariable;
 
 public class DensityTooltip implements ICustomComponent {
-	boolean allow;
 	int x,y,w,h;
 	IVariable recipe;
 	transient List<Component> density;

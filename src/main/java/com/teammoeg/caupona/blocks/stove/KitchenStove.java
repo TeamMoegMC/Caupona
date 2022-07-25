@@ -21,7 +21,9 @@ package com.teammoeg.caupona.blocks.stove;
 import java.util.Random;
 import java.util.function.BiFunction;
 
-import com.teammoeg.caupona.blocks.CPTileBlock;
+import com.teammoeg.caupona.blocks.CPBaseTileBlock;
+import com.teammoeg.caupona.client.Particles;
+import com.teammoeg.caupona.util.ChimneyHelper;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -53,12 +55,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
 
-public class KitchenStove extends CPTileBlock<KitchenStoveTileEntity> {
+public class KitchenStove extends CPBaseTileBlock<KitchenStoveTileEntity> {
 
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
 	public static final BooleanProperty ASH = BooleanProperty.create("ash");
-	public static final IntegerProperty FUELED = IntegerProperty.create("fueled", 0, 2);
+	public static final IntegerProperty FUELED = IntegerProperty.create("fueled", 0, 3);
 
 	public KitchenStove(String name, Properties blockProps, RegistryObject<BlockEntityType<KitchenStoveTileEntity>> ste,
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {
@@ -118,11 +120,6 @@ public class KitchenStove extends CPTileBlock<KitchenStoveTileEntity> {
 			}
 			worldIn.addParticle(ParticleTypes.FLAME, d0 + rand.nextDouble(), bp.getY() + 1, d2 + rand.nextDouble(),
 					0.0D, 0.0D, 0.0D);
-			if (rand.nextDouble() < 0.5D) {
-				worldIn.addParticle(ParticleTypes.SMOKE, d0 + .5, bp.getY() + 1, d2 + .5, rand.nextDouble() * .5 - .25,
-						rand.nextDouble() * .125, rand.nextDouble() * .5 - .25);
-
-			}
 		}
 	}
 

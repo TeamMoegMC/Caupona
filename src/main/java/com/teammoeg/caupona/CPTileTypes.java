@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.blocks.BowlTileEntity;
+import com.teammoeg.caupona.blocks.ChimneyPotTileEntity;
 import com.teammoeg.caupona.blocks.others.CPSignTileEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveT1;
@@ -32,6 +33,8 @@ public class CPTileTypes {
 			makeType((p,s) -> new BowlTileEntity(p,s), () -> CPBlocks.bowl));
 	public static final RegistryObject<BlockEntityType<CPSignTileEntity>> SIGN = REGISTER.register("sign",
 			makeTypes((p,s) -> new CPSignTileEntity(p,s), () -> CPBlocks.signs.toArray(new Block[0])));
+	public static final RegistryObject<BlockEntityType<ChimneyPotTileEntity>> CHIMNEY = REGISTER.register("chimney_pot",
+			makeTypes((p,s) -> new ChimneyPotTileEntity(p,s), () -> CPBlocks.chimney.toArray(new Block[0])));
 	
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntitySupplier<T> create,
 			Supplier<Block> valid) {

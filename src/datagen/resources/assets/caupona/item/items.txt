@@ -1,6 +1,7 @@
 "bone_glue.png",
 "chives_spice_jar.png",
 "clay_portable_brazier.png",
+"culinary_heat_haze.png",
 "fig.png",
 "garum_spice_jar.png",
 "lateres.png",

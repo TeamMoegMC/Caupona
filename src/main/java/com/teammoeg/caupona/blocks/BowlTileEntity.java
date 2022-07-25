@@ -1,14 +1,14 @@
 package com.teammoeg.caupona.blocks;
 
 import com.teammoeg.caupona.CPTileTypes;
-import com.teammoeg.caupona.network.INetworkTile;
+import com.teammoeg.caupona.network.CPBaseTile;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BowlTileEntity extends INetworkTile {
+public class BowlTileEntity extends CPBaseTile {
 	public ItemStack internal;
 
 	public BowlTileEntity(BlockPos pWorldPosition, BlockState pBlockState) {

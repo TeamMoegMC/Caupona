@@ -22,6 +22,7 @@ import java.util.function.BiFunction;
 
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.ITranlatable;
+import com.teammoeg.caupona.data.Writeable;
 
 import net.minecraft.resources.ResourceLocation;
 

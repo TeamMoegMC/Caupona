@@ -32,4 +32,6 @@ public class Particles {
 
 	public static final RegistryObject<SimpleParticleType> STEAM = REGISTER.register("steam",
 			() -> new SimpleParticleType(false));
+	public static final RegistryObject<SimpleParticleType> SOOT = REGISTER.register("soot_smoke",
+			() -> new SimpleParticleType(false));
 }

@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.mojang.datafixers.util.Pair;
+import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
-import com.teammoeg.caupona.data.recipes.SerializeUtil;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -198,6 +198,9 @@ public class SoupInfo {
 
 		for (MobEffectInstance es : effects) {
 			es.duration = (int) (es.duration * oparts / parts);
+		}
+		for (Pair<MobEffectInstance, Float> es : foodeffect) {
+			es.getFirst().duration=(int) (es.getFirst().duration * oparts / parts);
 		}
 		float delta=0;
 		if(oparts>parts)

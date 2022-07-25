@@ -16,7 +16,7 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.data.recipes;
+package com.teammoeg.caupona.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,6 +33,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.teammoeg.caupona.data.recipes.StewBaseCondition;
+import com.teammoeg.caupona.data.recipes.StewCondition;
+import com.teammoeg.caupona.data.recipes.StewNumber;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidTag;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidType;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidTypeType;
@@ -51,7 +54,9 @@ import com.teammoeg.caupona.util.CacheMap;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
-
+/**
+ * Tool class for serialize data, packets etc
+ * */
 public class SerializeUtil {
 	public static class Deserializer<T extends JsonElement, U extends Writeable> {
 		private int id;

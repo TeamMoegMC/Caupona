@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:signs",
+    "#minecraft:buttons",
+    "#minecraft:leaves",
+    "#minecraft:banners",
+    "#minecraft:candles",
+    "#minecraft:wall_signs",
+    "#minecraft:standing_signs",
+    "#minecraft:candles",
+    "#minecraft:coral_plants",
+    "#minecraft:fences",
+    "#minecraft:walls",
+    "#minecraft:trapdoors",
+    "#minecraft:doors",
+    "#minecraft:flower_pots",
+    "#minecraft:flowers",
+    "minecraft:air",
+    "minecraft:vine",
+    "minecraft:cave_vines",
+    "caupona:stew_pot"
+  ]
+}

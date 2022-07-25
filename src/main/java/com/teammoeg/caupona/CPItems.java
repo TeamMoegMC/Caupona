@@ -41,12 +41,14 @@ public class CPItems {
 	public static Item stock=new IconItem("stock_based");
 	public static Item milk=new IconItem("milk_based");
 	public static Item any=new IconItem("any_based");
+	public static Item water;
 	public static Item clay_pot=new CPItem("clay_cistern",new Item.Properties().tab(Main.itemGroup));
+	public static Item soot=new CPItem("soot",new Item.Properties().tab(Main.itemGroup));
 	public static void init() {
 		for (String s : soups)
 			new StewItem(s, new ResourceLocation(Main.MODID, s), createSoupProps());
 		new StewItem("milk", new ResourceLocation("milk"), createSoupProps());
-		new StewItem("water", new ResourceLocation("water"), createSoupProps());
+		water=new StewItem("water", new ResourceLocation("water"), createSoupProps());
 		for(String s:aspics) 
 			new CPItem(s,createProps());
 	}

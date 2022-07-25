@@ -157,17 +157,15 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-//    compile fileTree(include: ['*.jar'], dir: 'libs')
-
-    //compile fg.deobf('com.cannolicatfish:Project-Rankine:1.16.5-1.3')
-    //implementation fg.deobf('com.cannolicatfish:Project-Rankine:1.16.5-1.3')
 
     implementation fg.deobf("curse.maven:diet-443570:3758891")
 
-    //implementation fg.deobf("mezz.jei:jei-1.16.5:7.6.4.88")
+	compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.4.1.113:api")
+	// at runtime, use the full JEI jar
+	runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.4.1.113")
     
-    //compile fg.deobf("curse.maven:kiwi-303657:3377053")
-	//implementation fg.deobf("curse.maven:kiwi-303657:3377053")
+    //compile fg.deobf("curse.maven:kiwi-303657:3827373")
+	implementation fg.deobf("curse.maven:kiwi-303657:3827373")
 	
 	//compile fg.deobf("curse.maven:farmers-delight-398521:3573686")
 	//implementation fg.deobf("curse.maven:farmers-delight-398521:3573686")
@@ -184,11 +182,6 @@ dependencies {
 	
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-67:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-67")
-    //runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.2")
-    //compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.2:api")
-
-    //runtimeOnly fg.deobf("gloridifice.watersource:WaterSource:1.1.33-beta-1.16.5")
-   // compileOnly fg.deobf("gloridifice.watersource:WaterSource:1.1.33-beta-1.16.5")
 
     // FG5 requires 0.8.3
     annotationProcessor "org.spongepowered:mixin:0.8.3:processor"

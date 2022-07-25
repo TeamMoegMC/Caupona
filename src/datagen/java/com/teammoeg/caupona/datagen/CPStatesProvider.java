@@ -84,12 +84,22 @@ public class CPStatesProvider extends BlockStateProvider {
 				blockItemModel(stone+type);
 			blockItemModel(stone+"_wall","_inventory");
 		}
-		for(String mat:CPBlocks.materials_C) {
+		for(String mat:CPBlocks.counters) {
 			for(String type:ImmutableSet.of("_chimney_flue",
 					"_chimney_pot",
 					"_counter",
 					"_counter_with_dolium"))
 				blockItemModel(mat+type);
+		}
+		for(String str:CPBlocks.pillar_materials) {
+			for(String type:ImmutableSet.of("_column_fluted_plinth",
+					"_column_fluted_shaft",
+					"_column_shaft",
+					"_column_plinth",
+					"_ionic_column_capital",
+					"_tuscan_column_capital",
+					"_acanthine_column_capital"))
+				blockItemModel(str+type);
 		}
 		for(String wood:CPBlocks.woods) {
 			for(String type:ImmutableSet.of(
@@ -105,7 +115,9 @@ public class CPStatesProvider extends BlockStateProvider {
 				blockItemModel(wood+type);
 			blockItemModel(wood+"_fence","_inventory");
 			blockItemModel(wood+"_button","_inventory");
-			blockItemModel(wood+"_trapdoor","_top");
+			blockItemModel("stripped_"+wood+"_log");
+			blockItemModel("stripped_"+wood+"_wood");
+			//blockItemModel(wood+"_trapdoor","_top");
 
 		}
 		blockItemModel("fumarole_boulder");
@@ -125,11 +137,12 @@ public class CPStatesProvider extends BlockStateProvider {
         itemModels().getBuilder(n).parent(bmf(n+p));
     }
 	public void stove(Block block) {
-		horizontalMultipart(horizontalMultipart(horizontalMultipart(this.getMultipartBuilder(block),bmf(block.getRegistryName().getPath()))
+		horizontalMultipart(horizontalMultipart(horizontalMultipart(horizontalMultipart(this.getMultipartBuilder(block),bmf(block.getRegistryName().getPath()))
 				.part().modelFile(bmf("kitchen_stove_cold_ash")).addModel().condition(KitchenStove.LIT,false).condition(KitchenStove.ASH,true).end()
 				.part().modelFile(bmf("kitchen_stove_hot_ash")).addModel().condition(KitchenStove.LIT,true).end()
 				,bmf("kitchen_stove_charcoal"),i->i.condition(KitchenStove.FUELED,1))
-				,bmf("kitchen_stove_firewoods"),i->i.condition(KitchenStove.FUELED,2));
+				,bmf("kitchen_stove_firewoods"),i->i.condition(KitchenStove.FUELED,2))
+				,bmf("kitchen_stove_coal"),i->i.condition(KitchenStove.FUELED,3));
 		itemModel(block,bmf(block.getRegistryName().getPath()));
 		
 	}

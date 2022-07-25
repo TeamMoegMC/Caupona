@@ -22,6 +22,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import com.teammoeg.caupona.data.ITranlatable;
+import com.teammoeg.caupona.data.Writeable;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.resources.ResourceLocation;

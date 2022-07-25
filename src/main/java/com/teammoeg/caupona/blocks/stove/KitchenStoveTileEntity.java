@@ -18,16 +18,25 @@
 
 package com.teammoeg.caupona.blocks.stove;
 
+import java.util.Random;
+
+import com.teammoeg.caupona.Config;
+import com.teammoeg.caupona.FuelType;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.AbstractStove;
+import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.container.KitchenStoveContainer;
-import com.teammoeg.caupona.network.INetworkTile;
+import com.teammoeg.caupona.network.CPBaseTile;
+import com.teammoeg.caupona.util.ChimneyHelper;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
@@ -42,18 +51,23 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
 
-public class KitchenStoveTileEntity extends INetworkTile implements Container, MenuProvider, AbstractStove {
+public class KitchenStoveTileEntity extends CPBaseTile implements Container, MenuProvider, AbstractStove {
 	private NonNullList<ItemStack> fuel = NonNullList.withSize(1, ItemStack.EMPTY);
 	public int process;
 	public int processMax;
 	private final int speed;
 	private final int maxcd;
 	private int cd;
-
+	private float fuelMod=1f;
+	public BlockPos attachedChimney;
+	private int chimneyTicks=0;
+	private int chimneyCheckTicks=20;
 	public KitchenStoveTileEntity(BlockEntityType<KitchenStoveTileEntity> tet, BlockPos p, BlockState s, int spd) {
 		super(tet, p, s);
 		this.speed = spd;
-		maxcd = 100 / speed;
+		maxcd = Config.SERVER.stoveCD.get() / speed;
+		fuelMod=Config.SERVER.stoveFuel.get();
+		chimneyCheckTicks=Config.SERVER.chimneyCheck.get();
 	}
 
 	@Override
@@ -64,10 +78,13 @@ public class KitchenStoveTileEntity extends INetworkTile implements Container, M
 	public void readCustomNBT(CompoundTag nbt, boolean isClient) {
 		process = nbt.getInt("process");
 		processMax = nbt.getInt("processMax");
-
+		if(nbt.contains("chimneyPos"))
+			attachedChimney=BlockPos.of(nbt.getLong("chimneyPos"));
 		if (!isClient) {
 			cd = nbt.getInt("cd");
 			fuel.set(0, ItemStack.of(nbt.getCompound("fuel")));
+			chimneyTicks=nbt.getInt("chimneyTick");
+			
 		}
 	}
 
@@ -75,10 +92,13 @@ public class KitchenStoveTileEntity extends INetworkTile implements Container, M
 	public void writeCustomNBT(CompoundTag nbt, boolean isClient) {
 		nbt.putInt("process", process);
 		nbt.putInt("processMax", processMax);
-
+		if(attachedChimney!=null)
+			nbt.putLong("chimneyPos",attachedChimney.asLong());
 		if (!isClient) {
 			nbt.putInt("cd", cd);
 			nbt.put("fuel", fuel.get(0).serializeNBT());
+			nbt.putInt("chimneyTick", chimneyTicks);
+			
 		}
 	}
 
@@ -128,8 +148,7 @@ public class KitchenStoveTileEntity extends INetworkTile implements Container, M
 	@Override
 	public boolean canPlaceItem(int index, ItemStack stack) {
 		ItemStack itemstack = fuel.get(0);
-		return ForgeHooks.getBurnTime(stack, null) > 0
-				|| stack.getItem() == Items.BUCKET && itemstack.getItem() != Items.BUCKET;
+		return ForgeHooks.getBurnTime(stack, null) > 0 &&itemstack.getContainerItem().isEmpty();
 	}
 
 	@Override
@@ -149,7 +168,7 @@ public class KitchenStoveTileEntity extends INetworkTile implements Container, M
 			return false;
 		}
 		fuel.get(0).shrink(1);
-		float ftime = time * 1.0f / speed;
+		float ftime = time *  fuelMod/ speed;
 		float frac = Mth.frac(ftime);
 		if (frac > 0)
 			processMax = process = (int) ftime + (this.level.random.nextDouble() < frac ? 1 : 0);
@@ -160,18 +179,28 @@ public class KitchenStoveTileEntity extends INetworkTile implements Container, M
 
 	@Override
 	public void tick() {
-		if (!level.isClientSide) {
+		if (!level.isClientSide) {//server logic
 			BlockState bs = this.getBlockState();
+			chimneyTicks++;
+			if(chimneyTicks>=chimneyCheckTicks) {
+				chimneyTicks=0;
+				attachedChimney=ChimneyHelper.getNearestChimney(this.getLevel(),this.getBlockPos());
+			}
 			boolean flag = false;
 			if (process <= 0 && (bs.getValue(KitchenStove.LIT) || bs.getValue(KitchenStove.ASH))) {
 				bs = bs.setValue(KitchenStove.LIT, false).setValue(KitchenStove.ASH, false);
 				flag = true;
 			}
-			boolean ie = fuel.get(0).isEmpty();
 			int fs = bs.getValue(KitchenStove.FUELED);
-			if (ie != (fs == 0)) {
+			if (!fuel.get(0).isEmpty()) {
+				FuelType type = FuelType.getType(fuel.get(0));
+				if (type.getModelId() != fs) {
+					flag = true;
+					bs = bs.setValue(KitchenStove.FUELED, type.getModelId());
+				}
+			}else if(fs!=0) {
 				flag = true;
-				bs = bs.setValue(KitchenStove.FUELED, ie ? 0 : 1);
+				bs = bs.setValue(KitchenStove.FUELED, 0);
 			}
 			if (process > 0) {
 				if (!bs.getValue(KitchenStove.ASH)) {
@@ -190,6 +219,25 @@ public class KitchenStoveTileEntity extends INetworkTile implements Container, M
 			if (flag)
 				this.level.setBlockAndUpdate(this.getBlockPos(), bs);
 			this.syncData();
+		}else {//client particles
+			if (this.getBlockState().getValue(KitchenStove.LIT)) {
+				double d0 = this.getBlockPos().getX();
+				double d1 = this.getBlockPos().getY();
+				double d2 = this.getBlockPos().getZ();
+				Random rand=this.getLevel().random;
+				if(attachedChimney==null) {
+					if (rand.nextDouble() < 0.5D*speed) {
+						this.getLevel().addParticle(ParticleTypes.SMOKE, d0 + .5, d1 + 1, d2 + .5, rand.nextDouble() * .5 - .25,
+								rand.nextDouble() * .125, rand.nextDouble() * .5 - .25);
+					}
+				}else {
+					double motY=0;
+					if(!this.getLevel().getBlockState(attachedChimney).is(ChimneyHelper.chimney_pot))
+						motY=rand.nextDouble() * .25;
+					this.getLevel().addParticle(Particles.SOOT.get(), attachedChimney.getX() + .5, attachedChimney.getY() + .5, attachedChimney.getZ() + .5, rand.nextDouble() * .5 - .25,
+							motY, rand.nextDouble() * .5 - .25);
+				}
+			}
 		}
 	}
 
@@ -212,6 +260,10 @@ public class KitchenStoveTileEntity extends INetworkTile implements Container, M
 	@Override
 	public boolean canEmitHeat() {
 		return this.process > 0 || ForgeHooks.getBurnTime(fuel.get(0), RecipeType.SMELTING) > 0;
+	}
+
+	public int getSpeed() {
+		return speed;
 	}
 
 }
