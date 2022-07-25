@@ -43,6 +43,7 @@ import com.teammoeg.caupona.data.recipes.conditions.Halfs;
 import com.teammoeg.caupona.data.recipes.conditions.Mainly;
 import com.teammoeg.caupona.data.recipes.conditions.MainlyOfType;
 import com.teammoeg.caupona.data.recipes.conditions.Must;
+import com.teammoeg.caupona.data.recipes.conditions.Only;
 import com.teammoeg.caupona.data.recipes.numbers.Add;
 import com.teammoeg.caupona.data.recipes.numbers.ConstNumber;
 import com.teammoeg.caupona.data.recipes.numbers.ItemIngredient;
@@ -132,6 +133,7 @@ public class SerializeUtil {
 		registerCondition("mainly", Mainly::new, Mainly::new);
 		registerCondition("contains", Must::new, Must::new);
 		registerCondition("mainlyOf", MainlyOfType::new, MainlyOfType::new);
+		registerCondition("only", Only::new, Only::new);
 		registerBase("tag", FluidTag::new, FluidTag::new);
 		registerBase("fluid", FluidType::new, FluidType::new);
 		registerBase("fluid_type", FluidTypeType::new, FluidTypeType::new);

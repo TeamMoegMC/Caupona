@@ -34,6 +34,7 @@ import com.teammoeg.caupona.data.recipes.conditions.Halfs;
 import com.teammoeg.caupona.data.recipes.conditions.Mainly;
 import com.teammoeg.caupona.data.recipes.conditions.MainlyOfType;
 import com.teammoeg.caupona.data.recipes.conditions.Must;
+import com.teammoeg.caupona.data.recipes.conditions.Only;
 import com.teammoeg.caupona.data.recipes.numbers.Add;
 import com.teammoeg.caupona.data.recipes.numbers.ConstNumber;
 import com.teammoeg.caupona.data.recipes.numbers.ItemIngredient;
@@ -157,6 +158,9 @@ public class CookingRecipeBuilder {
 		public StewNumberBuilder any() {
 			return new StewNumberBuilder(this, this::makeMust);
 		}
+		public StewNumberBuilder only() {
+			return new StewNumberBuilder(this, this::makeOnly);
+		}
 
 		public StewConditionsBuilder require() {
 			return new StewConditionsBuilder(parent, al, al, dy);
@@ -169,7 +173,9 @@ public class CookingRecipeBuilder {
 		private void makeMust(StewNumber sn) {
 			li.add(new Must(sn));
 		}
-
+		private void makeOnly(StewNumber sn) {
+			li.add(new Only(sn));
+		}
 		public CookingRecipeBuilder then() {
 			return parent;
 		}
