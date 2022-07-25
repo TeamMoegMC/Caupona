@@ -26,6 +26,7 @@ import com.google.gson.JsonElement;
 import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.ComplexCalculated;
+import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.StewNumber;
 import com.teammoeg.caupona.data.recipes.StewPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
@@ -54,7 +55,7 @@ public class Add implements StewNumber, ComplexCalculated {
 	}
 
 	@Override
-	public Float apply(StewPendingContext t) {
+	public Float apply(IPendingContext t) {
 		/*
 		 * float sum=nums.stream().map(s->{
 		 * float rslt=t.compute(s);

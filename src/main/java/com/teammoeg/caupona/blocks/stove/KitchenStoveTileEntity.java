@@ -188,7 +188,7 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 			chimneyTicks++;
 			if(chimneyTicks>=chimneyCheckTicks) {
 				chimneyTicks=0;
-				attachedChimney=ChimneyHelper.getNearestChimney(this.getLevel(),this.getBlockPos());
+				attachedChimney=ChimneyHelper.getNearestChimney(this.getLevel(),this.getBlockPos(),2);
 			}
 			boolean flag = false;
 			if (process <= 0 && (bs.getValue(KitchenStove.LIT) || bs.getValue(KitchenStove.ASH))) {

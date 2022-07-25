@@ -22,8 +22,8 @@ import java.util.stream.Stream;
 
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.TranslationProvider;
+import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.StewNumber;
-import com.teammoeg.caupona.data.recipes.StewPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.network.FriendlyByteBuf;
@@ -43,7 +43,7 @@ public class MainlyOfType extends NumberedStewCondition {
 	}
 
 	@Override
-	public boolean test(StewPendingContext t, float n) {
+	public boolean test(IPendingContext t, float n) {
 		float thistype = t.getOfType(type);
 		if (n < thistype / 3)
 			return false;

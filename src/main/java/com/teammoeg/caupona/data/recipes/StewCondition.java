@@ -27,7 +27,7 @@ import com.teammoeg.caupona.data.Writeable;
 
 import net.minecraft.resources.ResourceLocation;
 
-public interface StewCondition extends Predicate<StewPendingContext>,Writeable,ITranlatable   {
+public interface StewCondition extends Predicate<IPendingContext>,Writeable,ITranlatable   {
 	public JsonObject serialize();
 
 	public String getType();

@@ -51,6 +51,7 @@ public class CPItems {
 		water=new StewItem("water", new ResourceLocation("water"), createSoupProps());
 		for(String s:aspics) 
 			new CPItem(s,createProps());
+		new CPItem("culinary_heat_haze",createProps());
 	}
 
 	static Properties createSoupProps() {

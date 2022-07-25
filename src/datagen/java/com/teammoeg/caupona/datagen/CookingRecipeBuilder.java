@@ -135,16 +135,9 @@ public class CookingRecipeBuilder {
 			return new StewNumberBuilder(this, this::makeHalf);
 		}
 
-		public StewNumberBuilder halft() {
-			return new StewNumberBuilder(this, this::makeHalft);
-		}
 
 		private void makeHalf(StewNumber sn) {
 			li.add(new Halfs(sn));
-		}
-
-		private void makeHalft(StewNumber sn) {
-			li.add(new Halfs(sn, false));
 		}
 
 		public StewNumberBuilder typeMainly(ResourceLocation rs) {
@@ -159,13 +152,7 @@ public class CookingRecipeBuilder {
 			li.add(new Mainly(sn));
 		}
 
-		public StewNumberBuilder mainlyt() {
-			return new StewNumberBuilder(this, this::makeMainlyt);
-		}
 
-		private void makeMainlyt(StewNumber sn) {
-			li.add(new Mainly(sn, false));
-		}
 
 		public StewNumberBuilder any() {
 			return new StewNumberBuilder(this, this::makeMust);

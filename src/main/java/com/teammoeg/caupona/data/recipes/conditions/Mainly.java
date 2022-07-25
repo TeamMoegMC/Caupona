@@ -20,36 +20,25 @@ package com.teammoeg.caupona.data.recipes.conditions;
 
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.TranslationProvider;
+import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.StewNumber;
-import com.teammoeg.caupona.data.recipes.StewPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.network.FriendlyByteBuf;
 
 public class Mainly extends NumberedStewCondition {
-	private boolean isItem = true;
-
 	public Mainly(JsonObject obj) {
 		super(obj);
-		if (obj.has("isItem"))
-			isItem = obj.get("isItem").getAsBoolean();
 	}
 
 	public Mainly(StewNumber number) {
 		super(number);
 	}
 
-	public Mainly(StewNumber number, boolean isItem) {
-		this(number);
-		this.isItem = isItem;
-	}
 
 	@Override
-	public boolean test(StewPendingContext t, float n) {
-		if (isItem) {
-			if (n < t.getTotalItems() / 3)
-				return false;
-		} else if (n < t.getTotalTypes() / 3)
+	public boolean test(IPendingContext t, float n) {
+		if (n < t.getTotalItems() / 3)
 			return false;
 		return FloatemTagStack.calculateTypes(t.getItems().stream().filter(e -> !number.fits(e))).values().stream()
 				.allMatch(e -> e < n);
@@ -58,20 +47,16 @@ public class Mainly extends NumberedStewCondition {
 	@Override
 	public JsonObject serialize() {
 		JsonObject jo = super.serialize();
-		if (!isItem)
-			jo.addProperty("isItem", isItem);
 		return jo;
 	}
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
 		super.write(buffer);
-		buffer.writeBoolean(isItem);
 	}
 
 	public Mainly(FriendlyByteBuf buffer) {
 		super(buffer);
-		isItem = buffer.readBoolean();
 	}
 
 	@Override
@@ -79,31 +64,26 @@ public class Mainly extends NumberedStewCondition {
 		return "mainly";
 	}
 
+
+	
+	@Override
+	public String getTranslation(TranslationProvider p) {
+		return p.getTranslation("recipe.caupona.cond.mainly",number.getTranslation(p));
+	}
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + (isItem ? 1231 : 1237);
-		return result;
+		return super.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!(obj instanceof Mainly))
-			return false;
 		if (!super.equals(obj))
 			return false;
-
-		Mainly other = (Mainly) obj;
-		if (isItem != other.isItem)
+		if (getClass() != obj.getClass())
 			return false;
 		return true;
-	}
-	
-	@Override
-	public String getTranslation(TranslationProvider p) {
-		return p.getTranslation("recipe.caupona.cond.mainly",number.getTranslation(p));
 	}
 }

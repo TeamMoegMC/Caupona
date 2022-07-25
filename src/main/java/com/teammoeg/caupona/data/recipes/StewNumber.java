@@ -27,7 +27,7 @@ import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.resources.ResourceLocation;
 
-public interface StewNumber extends Function<StewPendingContext, Float>,Writeable,ITranlatable   {
+public interface StewNumber extends Function<IPendingContext, Float>,Writeable,ITranlatable   {
 	public boolean fits(FloatemTagStack stack);
 
 	public String getType();

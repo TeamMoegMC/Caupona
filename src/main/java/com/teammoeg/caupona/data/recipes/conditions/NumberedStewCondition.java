@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.SerializeUtil;
+import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.StewCondition;
 import com.teammoeg.caupona.data.recipes.StewNumber;
 import com.teammoeg.caupona.data.recipes.StewPendingContext;
@@ -41,11 +42,11 @@ public abstract class NumberedStewCondition implements StewCondition {
 	}
 
 	@Override
-	public boolean test(StewPendingContext t) {
+	public boolean test(IPendingContext t) {
 		return test(t, t.compute(number));
 	}
 
-	public abstract boolean test(StewPendingContext t, float n);
+	public abstract boolean test(IPendingContext t, float n);
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {

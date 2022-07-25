@@ -23,6 +23,7 @@ import java.util.stream.Stream;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.teammoeg.caupona.data.TranslationProvider;
+import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.StewNumber;
 import com.teammoeg.caupona.data.recipes.StewPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
@@ -50,7 +51,7 @@ public class NopNumber implements StewNumber {
 	}
 
 	@Override
-	public Float apply(StewPendingContext t) {
+	public Float apply(IPendingContext t) {
 		return 0F;
 	}
 

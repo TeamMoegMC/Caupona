@@ -49,7 +49,8 @@ public class CPItemModelProvider extends ItemModelProvider {
 		simpleTexture("water_or_stock_based","bases/");
 		texture("book","vade_mecum_for_innkeepers");
 		itemModel(CPItems.clay_pot,"clay_stew_pot");
-		
+		simpleTexture("culinary_heat_haze","");
+		simpleTexture("soot","");
 		super.singleTexture("walnut_sapling",new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"block/walnut_sapling"));
 		//super.withExistingParent("clay_cistern",new ResourceLocation(Main.MODID,"block/clay_cistern"));
 	}

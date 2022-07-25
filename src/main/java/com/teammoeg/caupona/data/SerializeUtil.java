@@ -223,7 +223,9 @@ public class SerializeUtil {
 			return Optional.ofNullable(func.apply(buffer));
 		return Optional.empty();
 	}
-
+	public static <T> void writeOptional2(FriendlyByteBuf buffer, T data, BiConsumer<FriendlyByteBuf,T> func) {
+		writeOptional(buffer, data, (a,b)->func.accept(b,a));
+	}
 	public static <T> void writeOptional(FriendlyByteBuf buffer, T data, BiConsumer<T, FriendlyByteBuf> func) {
 		writeOptional(buffer, Optional.ofNullable(data), func);
 	}

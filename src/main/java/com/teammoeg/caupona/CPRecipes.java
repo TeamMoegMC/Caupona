@@ -6,8 +6,10 @@ import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.data.recipes.CookingRecipe;
 import com.teammoeg.caupona.data.recipes.CountingTags;
 import com.teammoeg.caupona.data.recipes.DissolveRecipe;
+import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
+import com.teammoeg.caupona.data.recipes.FryingRecipe;
 
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -22,6 +24,12 @@ public class CPRecipes {
 		CookingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("cooking",
 				() -> new CPRecipeSerializer<CookingRecipe>(CookingRecipe::new, CookingRecipe::new,
 						CookingRecipe::write));
+		FryingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("frying",
+				() -> new CPRecipeSerializer<FryingRecipe>(FryingRecipe::new, FryingRecipe::new,
+						FryingRecipe::write));
+		DoliumRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("dolium",
+				() -> new CPRecipeSerializer<DoliumRecipe>(DoliumRecipe::new, DoliumRecipe::new,
+						DoliumRecipe::write));
 		BoilingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("boiling",
 				() -> new CPRecipeSerializer<BoilingRecipe>(BoilingRecipe::new, BoilingRecipe::new,
 						BoilingRecipe::write));

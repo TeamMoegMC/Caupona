@@ -17,11 +17,11 @@ public class ChimneyHelper {
 	public static final TagKey<Block> chimney_ignore=BlockTags.create(new ResourceLocation(Main.MODID,"chimney_ignore"));
 	public ChimneyHelper() {
 	}
-	public static BlockPos getNearestChimney(Level l,BlockPos from) {
+	public static BlockPos getNearestChimney(Level l,BlockPos from,int maxdist) {
 		ChunkAccess c=l.getChunk(from);
 		BlockPos start=from.above();
 		BlockState bs=c.getBlockState(start);
-		for(int i=0;i<2;i++) {
+		for(int i=0;i<maxdist;i++) {
 			if(bs.isAir()||bs.is(chimney_ignore)) {
 				start=start.above();
 				bs=c.getBlockState(start);
