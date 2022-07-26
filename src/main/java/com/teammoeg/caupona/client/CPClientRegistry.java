@@ -76,6 +76,6 @@ public class CPClientRegistry {
 	public static void onTint(ColorHandlerEvent.Block ev) {
 		ev.getBlockColors().register((p_92626_, p_92627_, p_92628_, p_92629_) -> {
 	         return p_92627_ != null && p_92628_ != null ? BiomeColors.getAverageFoliageColor(p_92627_, p_92628_) : FoliageColor.getDefaultColor();
-	      },CPBlocks.WALNUT_LEAVE);
+	      },CPBlocks.WALNUT_LEAVE,CPBlocks.FIG_LEAVE,CPBlocks.WOLFBERRY_LEAVE);
 	}
 }

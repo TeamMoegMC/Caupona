@@ -38,6 +38,7 @@ import net.minecraft.world.level.ClipContext.Fluid;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biome.BiomeCategory;
+import net.minecraft.world.level.biome.Biome.ClimateSettings;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
@@ -160,11 +161,19 @@ public class ForgeEvent {
     public static void addFeatures(BiomeLoadingEvent event) {
         if (event.getName() != null) {
 			BiomeCategory category = event.getCategory();
+			ClimateSettings climate=event.getClimate();
 			//WALNUT
             if (category != BiomeCategory.NETHER && category != BiomeCategory.THEEND) {
                 if (category == BiomeCategory.FOREST) {
                         event.getGeneration().addFeature(Decoration.VEGETAL_DECORATION, CPPlacements.TREES_WALNUT);
                 }
+                if(category==BiomeCategory.PLAINS||category==BiomeCategory.SAVANNA) {
+                	event.getGeneration().addFeature(Decoration.VEGETAL_DECORATION, CPPlacements.TREES_FIG);
+                }
+                if(category==BiomeCategory.EXTREME_HILLS) {
+                	event.getGeneration().addFeature(Decoration.VEGETAL_DECORATION, CPPlacements.TREES_WOLFBERRY);
+                }
+                	
             }
             //Structures
 			

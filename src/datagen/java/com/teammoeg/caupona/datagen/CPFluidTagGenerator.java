@@ -31,6 +31,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -47,9 +48,7 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 	protected void addTags() {
 
 		tag("stews").add(CPFluids.getAll().collect(Collectors.toList()).toArray(new Fluid[0]));
-		tag(new ResourceLocation("frostedheart","drink")).addTag(otag("stews"));
-		tag(new ResourceLocation("frostedheart","hot_drink")).addTag(otag("stews"));
-		tag(new ResourceLocation("frostedheart","hidden_drink")).addTag(otag("stews"));
+		tag("pumice_bloom_grow_on").add(Fluids.WATER);
 		tag(new ResourceLocation("watersource","drink")).add(ForgeRegistries.FLUIDS.getValue(mrl("nail_soup")));
 	}
 

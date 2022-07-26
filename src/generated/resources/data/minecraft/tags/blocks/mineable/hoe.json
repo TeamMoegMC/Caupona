@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "caupona:walnut_leaves"
+    "caupona:walnut_leaves",
+    "minecraft:air",
+    "minecraft:air"
   ]
 }

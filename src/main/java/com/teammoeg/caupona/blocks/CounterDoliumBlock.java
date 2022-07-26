@@ -31,10 +31,6 @@ public class CounterDoliumBlock extends CPHorizontalBlock {
 			Shapes.or(Block.box(0, 4, 0, 16, 16, 4),
 					Shapes.or(Block.box(12, 4, 0, 16, 16, 16), Block.box(0, 4, 12, 16, 16, 16))));
 
-	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		return shape;
-	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {

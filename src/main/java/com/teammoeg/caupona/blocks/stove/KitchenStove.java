@@ -154,11 +154,6 @@ public class KitchenStove extends CPBaseTileBlock<KitchenStoveTileEntity> {
 					Shapes.or(Block.box(14, 14, 0, 16, 16, 16), Block.box(0, 14, 14, 16, 16, 16))));
 
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		return shape;
-	}
-
-	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return shape;
 	}

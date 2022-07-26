@@ -47,6 +47,7 @@ import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.common.util.LazyOptional;
@@ -78,9 +79,19 @@ public class RegistryEvents {
 			}
 		}
 	}
-
+	@SubscribeEvent
+	public static void registerFoliagePlacer(RegistryEvent.Register<FoliagePlacerType<?>> event) {
+		CPFeatures.init();
+		try {
+			event.getRegistry().register(CPFeatures.bfp);
+		} catch (Throwable e) {
+			Main.logger.error("Failed to register a block. ({})",CPFeatures.bfp);
+			throw e;
+		}
+		
+	}
 	
-
+	 
 
 	@SubscribeEvent
 	public void setup(final FMLCommonSetupEvent event) {

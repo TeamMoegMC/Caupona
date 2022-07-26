@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:block/cross",
 	"textures": {
-		"cross": "caupona:wolfberry/fig_sapling"
+		"cross": "caupona:block/wolfberry_sapling"
 	}
 }

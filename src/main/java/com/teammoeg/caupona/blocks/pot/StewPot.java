@@ -67,10 +67,6 @@ public class StewPot extends CPBaseTileBlock<StewPotTileEntity> implements Liqui
 
 	static final VoxelShape shape = Block.box(1, 0, 1, 15, 12, 15);
 
-	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		return shape;
-	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {

@@ -104,6 +104,7 @@ public class CPLootGenerator extends LootTableProvider {
 						"_acanthine_column_capital"))
 					dropSelf(cp(str+type));
 			}
+
 		}
 
 		private Block cp(String name) {

@@ -8,17 +8,22 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import com.teammoeg.caupona.blocks.BowlBlock;
+import com.teammoeg.caupona.blocks.BushLogBlock;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 import com.teammoeg.caupona.blocks.CPStripPillerBlock;
 import com.teammoeg.caupona.blocks.ChimneyPotBlock;
 import com.teammoeg.caupona.blocks.CounterDoliumBlock;
+import com.teammoeg.caupona.blocks.FruitBlock;
+import com.teammoeg.caupona.blocks.FruitsLeavesBlock;
 import com.teammoeg.caupona.blocks.others.CPStandingSignBlock;
 import com.teammoeg.caupona.blocks.others.CPWallSignBlock;
 import com.teammoeg.caupona.blocks.pot.StewPot;
 import com.teammoeg.caupona.blocks.stove.KitchenStove;
 import com.teammoeg.caupona.event.RegistryEvents;
 import com.teammoeg.caupona.items.CPBlockItem;
+import com.teammoeg.caupona.worldgen.FigTreeGrower;
 import com.teammoeg.caupona.worldgen.WalnutTreeGrower;
+import com.teammoeg.caupona.worldgen.WolfberryTreeGrower;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -88,6 +93,12 @@ public class CPBlocks {
 	public static Block WALNUT_LEAVE;
 	public static Block WALNUT_PLANKS;
 	public static Block WALNUT_SAPLINGS;
+	public static Block FIG_LOG;
+	public static Block FIG_LEAVE;
+	public static Block FIG_SAPLINGS;
+	public static Block WOLFBERRY_LOG;
+	public static Block WOLFBERRY_LEAVE;
+	public static Block WOLFBERRY_SAPLINGS;
 	public static final Block FUMAROLE_BOULDER = register("fumarole_boulder", transparent(new Block(
 			getStoneProps().noCollission().isViewBlocking(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid))));
 	public static final Block FUMAROLE_VENT = register("fumarole_vent", transparent(new Block(
@@ -123,8 +134,23 @@ public class CPBlocks {
 		}
 		registerWood("walnut", WALNUT, WalnutTreeGrower::new, l -> WALNUT_PLANKS = l, l -> WALNUT_LOG = l,
 				l -> WALNUT_LEAVE = l, l -> WALNUT_SAPLINGS = l);
+		registerBush("fig",  FigTreeGrower::new, l -> FIG_LOG = l,
+				l -> FIG_LEAVE = l, l -> FIG_SAPLINGS = l);
+		registerBush("wolfberry",  WolfberryTreeGrower::new, l -> WOLFBERRY_LOG = l,
+				l -> WOLFBERRY_LEAVE = l, l -> WOLFBERRY_SAPLINGS = l);
 	}
-
+	private static void registerBush(String wood, Supplier<AbstractTreeGrower> growth,
+			 Consumer<Block> glog, Consumer<Block> gleave, Consumer<Block> gsap) {
+		glog.accept(register(wood + "_log",new BushLogBlock(BlockBehaviour.Properties.of(Material.WOOD, (p_152624_) ->MaterialColor.WOOD).strength(2.0F).noOcclusion().sound(SoundType.WOOD))));
+		gleave.accept(
+		register(wood + "_leaves",leaves(SoundType.GRASS,
+		transparent(register(wood + "_fruits",new FruitBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP)))))));
+		Block sapling = register(wood + "_sapling", new SaplingBlock(growth.get(), BlockBehaviour.Properties
+				.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
+		transparentBlocks.add(sapling);
+		gsap.accept(sapling);
+		
+	}
 	private static void registerWood(String wood, WoodType wt, Supplier<AbstractTreeGrower> growth,
 			Consumer<Block> gplank, Consumer<Block> glog, Consumer<Block> gleave, Consumer<Block> gsap) {
 		Block planks = register(wood + "_planks", new Block(BlockBehaviour.Properties
@@ -138,7 +164,9 @@ public class CPBlocks {
 				.of(Material.WOOD, planks.defaultMaterialColor()).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
 		register(wood + "_fence_gate", new FenceGateBlock(BlockBehaviour.Properties
 				.of(Material.WOOD, planks.defaultMaterialColor()).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
-		gleave.accept(register(wood + "_leaves", leaves(SoundType.GRASS)));
+		gleave.accept(
+				register(wood + "_leaves", leaves(SoundType.GRASS,
+				transparent(register(wood + "_fruits",new FruitBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP)))))));
 		glog.accept(register(wood + "_log", log(MaterialColor.WOOD, MaterialColor.PODZOL,
 				register("stripped_" + wood + "_log", log(MaterialColor.WOOD, MaterialColor.WOOD, null)))));
 
@@ -169,10 +197,10 @@ public class CPBlocks {
 				BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD)));
 	}
 
-	private static LeavesBlock leaves(SoundType p_152615_) {
-		return new LeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F).randomTicks()
+	private static LeavesBlock leaves(SoundType p_152615_,Block fruit) {
+		return transparent(new FruitsLeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F).randomTicks()
 				.sound(p_152615_).noOcclusion().isValidSpawn(CPBlocks::ocelotOrParrot)
-				.isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid));
+				.isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid),fruit));
 	}
 
 	private static RotatedPillarBlock log(MaterialColor pTopColor, MaterialColor pBarkColor, Block st) {

@@ -52,7 +52,10 @@ public class CPItemModelProvider extends ItemModelProvider {
 		simpleTexture("culinary_heat_haze","");
 		simpleTexture("soot","");
 		super.singleTexture("walnut_sapling",new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"block/walnut_sapling"));
+		super.singleTexture("fig_sapling",new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"block/fig_sapling"));
+		super.singleTexture("wolfberry_sapling",new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"block/wolfberry_sapling"));
 		//super.withExistingParent("clay_cistern",new ResourceLocation(Main.MODID,"block/clay_cistern"));
+		
 	}
 	public void itemModel(Item item,String name) {
     	super.withExistingParent(item.getRegistryName().getPath(),new ResourceLocation(Main.MODID,"block/"+name));

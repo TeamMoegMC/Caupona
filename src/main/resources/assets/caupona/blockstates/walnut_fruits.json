@@ -5,10 +5,18 @@
 			{"model": "caupona:block/walnut_fruits_stage_1", "y": 90}
 		], 
 		"age=1": [
+			{"model": "caupona:block/walnut_fruits_stage_1"},
+			{"model": "caupona:block/walnut_fruits_stage_1", "y": 90}
+		], 
+		"age=2": [
 			{"model": "caupona:block/walnut_fruits_stage_2"},
 			{"model": "caupona:block/walnut_fruits_stage_2", "y": 90}
 		],
-		"age=2": [
+		"age=3": [
+			{"model": "caupona:block/walnut_fruits_stage_2"},
+			{"model": "caupona:block/walnut_fruits_stage_2", "y": 90}
+		],
+		"age=4": [
 			{"model": "caupona:block/walnut_fruits_stage_3"},
 			{"model": "caupona:block/walnut_fruits_stage_3", "y": 90}
 		]

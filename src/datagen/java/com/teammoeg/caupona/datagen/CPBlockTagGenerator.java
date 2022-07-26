@@ -102,6 +102,7 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag(BlockTags.SIGNS).add(cp(wood+"_sign")).add(cp(wood+"_wall_sign"));
 			tag(BlockTags.STANDING_SIGNS).add(cp(wood+"_sign"));
 			tag(BlockTags.WALL_SIGNS).add(cp(wood+"_wall_sign"));
+			tag("fruits_growable").add(cp(wood+"_leaves"));
 		}
 		TagAppender<Block> pickaxe=tag(BlockTags.MINEABLE_WITH_PICKAXE);
 		for(String str:CPBlocks.pillar_materials) {
@@ -132,6 +133,20 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 		}
 		tag("chimney_ignore").addTags(BlockTags.SIGNS,BlockTags.BUTTONS,BlockTags.LEAVES,BlockTags.BANNERS,BlockTags.CANDLES,BlockTags.WALL_SIGNS,BlockTags.STANDING_SIGNS,BlockTags.CANDLES,BlockTags.CORAL_PLANTS,BlockTags.FENCES,BlockTags.WALLS,BlockTags.TRAPDOORS,BlockTags.DOORS,BlockTags.FLOWER_POTS,BlockTags.FLOWERS)
 		.add(Blocks.AIR,Blocks.VINE,Blocks.CAVE_VINES,CPBlocks.stew_pot);
+		tag("fumarole_hot").add(Blocks.MAGMA_BLOCK);
+		tag("fumarole_very_hot").add(Blocks.LAVA);
+		for(String bush:ImmutableSet.of("wolfberry","fig")) {
+			tag(BlockTags.LOGS).add(cp(bush+"_log"));
+			tag(BlockTags.LOGS_THAT_BURN).add(cp(bush+"_log"));
+			tag(BlockTags.LEAVES).add(cp(bush+"_leaves"));
+			tag("fruits_growable").add(cp(bush+"_leaves"));
+			tag(BlockTags.PARROTS_SPAWNABLE_ON).add(cp(bush+"_log")).add(cp(bush+"leaves"));
+			tag(BlockTags.LAVA_POOL_STONE_CANNOT_REPLACE).add(cp(bush+"_log")).add(cp(bush+"leaves"));
+			tag(BlockTags.SAPLINGS).add(cp(bush+"_sapling"));
+			tag(BlockTags.MINEABLE_WITH_AXE).add(cp(bush+"_log"));
+			tag(BlockTags.MINEABLE_WITH_HOE).add(cp(bush+"leaves"));
+		}
+		
 	}
 
 	private TagAppender<Block> tag(String s) {

@@ -34,10 +34,7 @@ public class BowlBlock extends CPBaseTileBlock<BowlTileEntity> {
 
 	static final VoxelShape shape = Block.box(2.8, 0, 2.8, 13.2, 5.2, 13.2);
 
-	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		return shape;
-	}
+
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {

@@ -35,11 +35,6 @@ public class ChimneyPotBlock extends CPHorizontalTileBlock<ChimneyPotTileEntity>
 	static final VoxelShape shape = Block.box(3, 0, 3, 13, 16, 13);
 
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		return shape;
-	}
-
-	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return shape;
 	}

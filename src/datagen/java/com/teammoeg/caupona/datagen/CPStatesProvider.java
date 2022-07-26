@@ -40,6 +40,7 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
@@ -115,6 +116,8 @@ public class CPStatesProvider extends BlockStateProvider {
 				blockItemModel(wood+type);
 			blockItemModel(wood+"_fence","_inventory");
 			blockItemModel(wood+"_button","_inventory");
+			blockItemModel(wood+"_fruits","_stage_1");
+			
 			blockItemModel("stripped_"+wood+"_log");
 			blockItemModel("stripped_"+wood+"_wood");
 			//blockItemModel(wood+"_trapdoor","_top");
@@ -124,6 +127,11 @@ public class CPStatesProvider extends BlockStateProvider {
 		blockItemModel("fumarole_vent");
 		blockItemModel("pumice");
 		blockItemModel("pumice_bloom");
+		for(String bush:ImmutableSet.of("wolfberry","fig")) {
+			blockItemModel(bush+"_log");
+			blockItemModel(bush+"_fruits","_stage_1");
+			blockItemModel(bush+"_leaves");
+		}
 	}
 	private Block cpblock(String name) {
 		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(this.modid,name));
