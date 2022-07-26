@@ -35,9 +35,10 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.base.Stopwatch;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
-import com.teammoeg.caupona.data.recipes.CookingRecipe;
+import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.data.recipes.CountingTags;
 import com.teammoeg.caupona.data.recipes.DissolveRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
@@ -61,7 +62,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@SuppressWarnings("deprecation")
+
 public class RecipeReloadListener implements ResourceManagerReloadListener {
 	ReloadableServerResources data;
 	public static final Logger logger = LogManager.getLogger(Main.MODNAME + " recipe generator");
@@ -141,7 +142,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 		List<SmokingRecipe> irs = recipeManager.getAllRecipesFor(RecipeType.SMOKING);
 		DissolveRecipe.recipes = filterRecipes(recipes, DissolveRecipe.class, DissolveRecipe.TYPE)
 				.collect(Collectors.toList());
-		CookingRecipe.recipes = filterRecipes(recipes, CookingRecipe.class, CookingRecipe.TYPE)
+		StewCookingRecipe.recipes = filterRecipes(recipes, StewCookingRecipe.class, StewCookingRecipe.TYPE)
 				.collect(Collectors.toMap(e -> e.output, UnaryOperator.identity()));
 		BoilingRecipe.recipes = filterRecipes(recipes, BoilingRecipe.class, BoilingRecipe.TYPE)
 				.collect(Collectors.toMap(e -> e.before, UnaryOperator.identity()));
@@ -149,15 +150,16 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 				.collect(Collectors.toMap(e -> e.f, UnaryOperator.identity()));
 		CountingTags.tags = Stream
 				.concat(filterRecipes(recipes, CountingTags.class, CountingTags.TYPE).flatMap(r -> r.tag.stream()),
-						CookingRecipe.recipes.values().stream().flatMap(CookingRecipe::getTags))
+						StewCookingRecipe.recipes.values().stream().flatMap(StewCookingRecipe::getTags))
 				.collect(Collectors.toSet());
 		// CountingTags.tags.forEach(System.out::println);
-		CookingRecipe.cookables = CookingRecipe.recipes.values().stream().flatMap(CookingRecipe::getAllNumbers)
+		StewCookingRecipe.cookables = StewCookingRecipe.recipes.values().stream().flatMap(StewCookingRecipe::getAllNumbers)
 				.collect(Collectors.toSet());
 		DoliumRecipe.recipes=filterRecipes(recipes, DoliumRecipe.class,DoliumRecipe.TYPE)
 				.collect(Collectors.toList());
-		DoliumRecipe.recipes.sort((c1,c2)->Integer.compare(c2.items.size(),c1.items.size()));
-	
+		DoliumRecipe.recipes.sort(((Comparator<DoliumRecipe>)(c1,c2)->Integer.compare(c2.items.size(),c1.items.size())).thenComparing((c1,c2)->Integer.compare(c2.items.stream().reduce(0,(a,b)->a+b.getSecond(),(a,b)->a+b),c1.items.stream().reduce(0,(a,b)->a+b.getSecond(),(a,b)->a+b))));
+		AspicMeltingRecipe.recipes=filterRecipes(recipes, AspicMeltingRecipe.class,AspicMeltingRecipe.TYPE)
+				.collect(Collectors.toList());
 		for (Item i : ForgeRegistries.ITEMS) {
 			ItemStack iis = new ItemStack(i);
 			if (FoodValueRecipe.recipes.containsKey(i))
@@ -168,8 +170,8 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 		}
 
 		FoodValueRecipe.recipeset = new HashSet<>(FoodValueRecipe.recipes.values());
-		CookingRecipe.sorted = new ArrayList<>(CookingRecipe.recipes.values());
-		CookingRecipe.sorted.sort((t2, t1) -> t1.getPriority() - t2.getPriority());
+		StewCookingRecipe.sorted = new ArrayList<>(StewCookingRecipe.recipes.values());
+		StewCookingRecipe.sorted.sort((t2, t1) -> t1.getPriority() - t2.getPriority());
 		sw.stop();
 		logger.info("Recipes built, cost {}",sw);
 	}

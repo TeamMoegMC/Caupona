@@ -25,10 +25,10 @@ import com.teammoeg.caupona.CPTileTypes;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.AbstractStove;
-import com.teammoeg.caupona.container.StewPotContainer;
+import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
-import com.teammoeg.caupona.data.recipes.CookingRecipe;
+import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.data.recipes.DissolveRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
@@ -73,14 +73,14 @@ import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
-	private ItemStackHandler inv = new ItemStackHandler(11) {
+	private ItemStackHandler inv = new ItemStackHandler(12) {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
 			if (slot < 9)
-				return stack.getItem() == Items.POTION || CookingRecipe.isCookable(stack);
+				return stack.getItem() == Items.POTION || StewCookingRecipe.isCookable(stack);
 			if (slot == 9) {
 				Item i = stack.getItem();
-				return i == Items.BOWL || i instanceof StewItem;
+				return i == Items.BOWL || i instanceof StewItem || AspicMeltingRecipe.find(stack) != null;
 			}
 			return false;
 		}
@@ -98,17 +98,20 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 	}
 
 	public SoupInfo current;
-	private FluidTank tank = new FluidTank(1250, CookingRecipe::isBoilable) {
+	private FluidTank tank = new FluidTank(1250, StewCookingRecipe::isBoilable) {
 		protected void onContentsChanged() {
 			// all fluid emptied
 			if (this.isEmpty())
 				current = null;
+			nowork=0;
 		}
+		
 	};
 
 	public StewPotTileEntity(BlockPos p, BlockState s) {
 		super(CPTileTypes.STEW_POT.get(), p, s);
-		stillticks=Config.SERVER.StaticTime.get();
+		stillticks = Config.SERVER.staticTime.get();
+		contTicks=Config.SERVER.containerTick.get();
 	}
 
 	public FluidTank getTank() {
@@ -117,12 +120,19 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 
 	public int process;
 	public int processMax;
+	
 	public int nowork;
+	private int stillticks;
+	
+	public int container;
+	private int contTicks;
+	
 	public boolean working = false;
 	public boolean operate = false;
 	public short proctype = 0;
 	public boolean rsstate = false;
-	private int stillticks;
+	
+	
 	public Fluid become;
 	public ResourceLocation nextbase;
 	public static final short NOP = 0;
@@ -135,7 +145,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 		if (!level.isClientSide) {
 			working = false;
 			if (processMax > 0) {
-				nowork=0;
+				nowork = 0;
 				BlockEntity te = level.getBlockEntity(worldPosition.below());
 				if (te instanceof AbstractStove) {
 					int rh = ((AbstractStove) te).requestHeat();
@@ -149,26 +159,30 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 					}
 				} else
 					return;
-				
+
 			} else {
-				if(getTank().getFluidAmount()>0) {
+				if (!tank.isEmpty()) {
 					nowork++;
-					if(nowork>=stillticks) {
-						nowork=0;
-						if(inv.getStackInSlot(10).isEmpty()) {
-							DoliumRecipe recipe=DoliumRecipe.testPot(getTank().getFluid());
-							if(recipe!=null) {
-								ItemStack out=recipe.handle(getTank().getFluid());
-								inv.setStackInSlot(10,out);
+					if (nowork >= stillticks) {
+						nowork = 0;
+						if (inv.getStackInSlot(10).isEmpty()) {
+							DoliumRecipe recipe = DoliumRecipe.testPot(getTank().getFluid());
+							if (recipe != null) {
+								ItemStack out = recipe.handle(getTank().getFluid());
+								inv.setStackInSlot(10, out);
 							}
-							
+
 						}
 					}
 				}
 				prepareWork();
-				if (canAddFluid())
-					tryContianFluid();
-				
+				container++;
+				if(container>=contTicks) {
+					container=0;
+					if (canAddFluid())
+						tryContianFluid();
+				}
+
 			}
 		}
 		this.syncData();
@@ -182,15 +196,31 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 				if (recipe != null) {
 					is.shrink(1);
 					inv.setStackInSlot(10, recipe.handle(tank.drain(250, FluidAction.EXECUTE)));
-					nowork=0;
+					nowork = 0;
 					return;
 				}
 			}
+			
 			if (is.getItem() instanceof StewItem) {
 				if (tryAddFluid(BowlContainingRecipe.extractFluid(is))) {
 					ItemStack ret = is.getContainerItem();
 					is.shrink(1);
-					nowork=0;
+					nowork = 0;
+					inv.setStackInSlot(10, ret);
+				}
+				return;
+			}
+			AspicMeltingRecipe amr=AspicMeltingRecipe.find(is);
+			if(amr!=null) {
+				int remainSpace=tank.getCapacity()-tank.getFluidAmount();
+				int produce=Math.min(remainSpace/amr.amount,is.getCount());
+				FluidStack fs=amr.handle(is);
+				fs.setAmount(fs.getAmount()*produce);
+				if (tryAddFluid(fs,amr.time,false)) {
+					ItemStack ret = is.getContainerItem();
+					ret.setCount(produce);
+					is.shrink(produce);
+					nowork = 0;
 					inv.setStackInSlot(10, ret);
 				}
 				return;
@@ -199,7 +229,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 			if (far.isSuccess()) {
 				is.shrink(1);
 				if (far.getResult() != null) {
-					nowork=0;
+					nowork = 0;
 					inv.setStackInSlot(10, far.getResult());
 				}
 			}
@@ -217,6 +247,8 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 		proctype = nbt.getShort("worktype");
 		rsstate = nbt.getBoolean("rsstate");
 		inv.deserializeNBT(nbt.getCompound("inv"));
+		if (inv.getSlots() < 12)
+			inv.setSize(12);
 		if (isClient)
 			working = nbt.getBoolean("working");
 		tank.readFromNBT(nbt);
@@ -227,7 +259,8 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 		if (!isClient) {
 			current = nbt.contains("current") ? new SoupInfo(nbt.getCompound("current")) : null;
 			nextbase = nbt.contains("resultBase") ? new ResourceLocation(nbt.getString("resultBase")) : null;
-			nowork=nbt.getInt("nowork");
+			nowork = nbt.getInt("nowork");
+			container=nbt.getInt("containerTicks");
 		}
 	}
 
@@ -244,11 +277,12 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 		if (become != null)
 			nbt.putString("result", become.getRegistryName().toString());
 		if (!isClient) {
-			nbt.putInt("nowork",nowork);
+			nbt.putInt("nowork", nowork);
 			if (current != null)
 				nbt.put("current", current.save());
 			if (nextbase != null)
 				nbt.putString("resultBase", nextbase.toString());
+			nbt.putInt("containerTIck",container);
 		}
 	}
 
@@ -336,7 +370,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 						}
 						cr.add(n);
 					}
-				} else if (CookingRecipe.isCookable(is))
+				} else if (StewCookingRecipe.isCookable(is))
 					itms++;
 				else
 					return false;
@@ -376,7 +410,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 
 		if (!hasItem) {// just reduce water
 			current.completeEffects();
-			processMax = Math.max(100, decideSoup());
+			processMax = Math.max(Config.SERVER.potCookTimeBase.get(), decideSoup());
 			return true;
 		}
 		// List<SmokingRecipe> irs =
@@ -421,7 +455,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 			tpt += iis[i];
 		}
 		current.completeAll();
-		tpt = Math.max(100, tpt);
+		tpt = Math.max(Config.SERVER.potCookTimeBase.get(), tpt);
 		interninv.clear();
 		processMax = Math.max(decideSoup(), tpt);
 		return true;
@@ -462,10 +496,10 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 		if (ctx.getItems().isEmpty()) {
 			return 0;
 		}
-		CookingRecipe cri = CookingRecipe.recipes.get(become);
+		StewCookingRecipe cri = StewCookingRecipe.recipes.get(become);
 		if (cri == null || cri.getPriority() < 0 || cri.matches(ctx) == 0) {
 
-			for (CookingRecipe cr : CookingRecipe.sorted) {
+			for (StewCookingRecipe cr : StewCookingRecipe.sorted) {
 
 				int mt = cr.matches(ctx);
 				// System.out.println("pending "+cr.getId()+" returns "+mt);
@@ -520,16 +554,35 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 		}
 		return current.canMerge(n, tank.getFluidAmount() / 250f, fs.getAmount() / 250f);
 	}
-
 	public boolean tryAddFluid(FluidStack fs) {
-		int tryfill = tank.fill(fs, FluidAction.SIMULATE);
-		if (tryfill > 0) {
-			if (tryfill == fs.getAmount()) {
-				tank.fill(fs, FluidAction.EXECUTE);
-				nowork=0;
-				return true;
+		return tryAddFluid(fs,Config.SERVER.potMixTimeBase.get(),true);
+	}
+	public boolean tryAddFluid(FluidStack fs,int extraTime,boolean canIgnoreHeat) {
+		if(canIgnoreHeat) {
+			int tryfill = tank.fill(fs, FluidAction.SIMULATE);
+			if (tryfill > 0) {
+				if (tryfill == fs.getAmount()) {
+					tank.fill(fs, FluidAction.EXECUTE);
+					nowork = 0;
+					return true;
+				}
+				return false;
 			}
-			return false;
+		}else if(tank.isEmpty()) {
+			int tryfill = tank.fill(fs, FluidAction.SIMULATE);
+			if (tryfill > 0) {
+				if (tryfill == fs.getAmount()) {
+					tank.fill(fs, FluidAction.EXECUTE);
+					this.proctype = 3;
+					this.process = 0;
+					this.processMax = extraTime;
+					become=null;
+					nextbase=null;
+					nowork = 0;
+					return true;
+				}
+				return false;
+			}	
 		}
 		if (tank.getCapacity() - tank.getFluidAmount() < fs.getAmount())
 			return false;
@@ -550,11 +603,11 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 		}
 		if (current.merge(n, tank.getFluidAmount() / 250f, fs.getAmount() / 250f)) {
 			this.adjustParts(fs.getAmount() / 250);
-			int num = Math.max(decideSoup(), 50);
+			int num = Math.max(decideSoup(), extraTime);
 			this.proctype = 3;
 			this.process = 0;
 			this.processMax = Math.max(pm, num);
-			nowork=0;
+			nowork = 0;
 			return true;
 		}
 		return false;
@@ -633,7 +686,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 		}
 
 	};
-	RangedWrapper bowl = new RangedWrapper(inv, 9, 11) {
+	RangedWrapper bowl = new RangedWrapper(inv, 9, 12) {
 		@Override
 		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
 			if (slot == 10)
@@ -643,7 +696,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 
 		@Override
 		public ItemStack extractItem(int slot, int amount, boolean simulate) {
-			if (slot == 9)
+			if (slot == 9 || slot == 11)
 				return ItemStack.EMPTY;
 			return super.extractItem(slot, amount, simulate);
 		}

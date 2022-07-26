@@ -5,8 +5,11 @@ import java.util.function.Supplier;
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.blocks.BowlTileEntity;
 import com.teammoeg.caupona.blocks.ChimneyPotTileEntity;
-import com.teammoeg.caupona.blocks.FumaroleVentTileEntity;
+import com.teammoeg.caupona.blocks.DishTileEntity;
+import com.teammoeg.caupona.blocks.dolium.CounterDoliumTileEntity;
+import com.teammoeg.caupona.blocks.fumarole.FumaroleVentTileEntity;
 import com.teammoeg.caupona.blocks.others.CPSignTileEntity;
+import com.teammoeg.caupona.blocks.pan.PanTile;
 import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveT1;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveT2;
@@ -38,6 +41,12 @@ public class CPTileTypes {
 			makeTypes(ChimneyPotTileEntity::new, () -> CPBlocks.chimney.toArray(new Block[0])));
 	public static final RegistryObject<BlockEntityType<FumaroleVentTileEntity>> FUMAROLE = REGISTER.register("fumarole_vent",
 			makeType(FumaroleVentTileEntity::new, () -> CPBlocks.FUMAROLE_VENT));
+	public static final RegistryObject<BlockEntityType<PanTile>> PAN = REGISTER.register("pan",
+			makeType(PanTile::new, () -> CPBlocks.FUMAROLE_VENT));
+	public static final RegistryObject<BlockEntityType<CounterDoliumTileEntity>> DOLIUM = REGISTER.register("dolium",
+			makeTypes(CounterDoliumTileEntity::new, () -> CPBlocks.dolium.toArray(new Block[0])));
+	public static final RegistryObject<BlockEntityType<DishTileEntity>> DISH = REGISTER.register("dish",
+			makeTypes(DishTileEntity::new, () -> CPBlocks.dishes.toArray(new Block[0])));
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntitySupplier<T> create,
 			Supplier<Block> valid) {
 		return () -> new BlockEntityType<>(create,ImmutableSet.of(valid.get()), null);

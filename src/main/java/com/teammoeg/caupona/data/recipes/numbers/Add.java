@@ -27,15 +27,15 @@ import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.ComplexCalculated;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
-import com.teammoeg.caupona.data.recipes.StewNumber;
+import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.StewPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
-public class Add implements StewNumber, ComplexCalculated {
-	List<StewNumber> nums;
+public class Add implements CookIngredients, ComplexCalculated {
+	List<CookIngredients> nums;
 
 	public Add(JsonElement jo) {
 		if (jo.isJsonObject())
@@ -49,7 +49,7 @@ public class Add implements StewNumber, ComplexCalculated {
 		this(new ArrayList<>());
 	}
 
-	public Add(List<StewNumber> nums) {
+	public Add(List<CookIngredients> nums) {
 		super();
 		this.nums = nums;
 	}
@@ -76,12 +76,12 @@ public class Add implements StewNumber, ComplexCalculated {
 	 * Convenience method for adding number<br>
 	 * <b>Warning! only available in datagen environment!</b>
 	 * */
-	public void add(StewNumber sn) {
+	public void add(CookIngredients sn) {
 		nums.add(sn);
 	}
 	@Override
 	public JsonElement serialize() {
-		return SerializeUtil.toJsonList(nums, StewNumber::serialize);
+		return SerializeUtil.toJsonList(nums, CookIngredients::serialize);
 	}
 
 	@Override
@@ -99,8 +99,8 @@ public class Add implements StewNumber, ComplexCalculated {
 	}
 
 	@Override
-	public Stream<StewNumber> getItemRelated() {
-		return nums.stream().flatMap(StewNumber::getItemRelated);
+	public Stream<CookIngredients> getItemRelated() {
+		return nums.stream().flatMap(CookIngredients::getItemRelated);
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class Add implements StewNumber, ComplexCalculated {
 
 	@Override
 	public Stream<ResourceLocation> getTags() {
-		return nums.stream().flatMap(StewNumber::getTags);
+		return nums.stream().flatMap(CookIngredients::getTags);
 	}
 
 	@Override

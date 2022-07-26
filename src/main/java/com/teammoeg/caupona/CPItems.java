@@ -3,7 +3,9 @@ package com.teammoeg.caupona;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.teammoeg.caupona.blocks.DishBlock;
 import com.teammoeg.caupona.items.CPItem;
+import com.teammoeg.caupona.items.DishItem;
 import com.teammoeg.caupona.items.IconItem;
 import com.teammoeg.caupona.items.StewItem;
 
@@ -36,6 +38,27 @@ public class CPItems {
 			"stracciatella_aspic",
 			"ukha_aspic",
 			"vegetable_soup_aspic"};
+	public static final String[] dishes=new String[] {"huevos_pericos"
+			,"sauteed_beef"
+			,"sauteed_greens"
+			,"sauteed_hodgepodge"
+			,"sauteed_meat"
+			,"sauteed_mushrooms"
+			,"sauteed_roots"
+			,"sauteed_seafood"
+			,"sauteed_vegetables"
+			,"seared_fillet"
+			,"seared_poultry"};
+	public static final String[] spices=new String[] {"chives_spice_jar"
+			,"garum_spice_jar"
+			,"sugar_spice_jar"
+			,"vinegar_spice_jar"};
+	public static final String[] base_material=new String[] {"bone_gelatin"
+			,"fig"
+			,"lateres"
+			,"walnut"
+			,"wolfberries"
+			,"clay_portable_brazier"};
 	public static final List<Item> stews = new ArrayList<>();
 	public static Item anyWater=new IconItem("water_or_stock_based");
 	public static Item stock=new IconItem("stock_based");
@@ -52,6 +75,13 @@ public class CPItems {
 		for(String s:aspics) 
 			new CPItem(s,createProps());
 		new IconItem("culinary_heat_haze");
+		for(String s:spices) {
+			new CPItem(s,createProps().durability(16).craftRemainder(Items.FLOWER_POT).setNoRepair());
+		}
+		for(String s:base_material) {
+			new CPItem(s,createProps());
+		}
+		
 	}
 
 	static Properties createSoupProps() {

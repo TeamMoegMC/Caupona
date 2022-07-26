@@ -22,18 +22,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.annotation.Nullable;
-
-import java.util.Random;
-
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.RegistryEvents;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
-import com.teammoeg.caupona.event.RegistryEvents;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.SoupInfo;
 
@@ -45,52 +40,21 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
-public class StewItem extends CPBlockItem {
-	ItemStack capturedStack;
+public class StewItem extends EdibleBlock {
 
-	@Override
-	public ItemStack getContainerItem(ItemStack itemStack) {
-		return super.getContainerItem(itemStack);
-	}
-
-	@Override
-	public int getItemStackLimit(ItemStack stack) {
-		return super.getItemStackLimit(stack);
-	}
-
-	/**
-	 * Returns the unlocalized name of this item.
-	 */
-	public String getDescriptionId() {
-		return this.getOrCreateDescriptionId();
-	}
-
-	public ItemStack finishUsingItem(ItemStack itemstack, Level worldIn, LivingEntity entityLiving) {
-		super.finishUsingItem(itemstack, worldIn, entityLiving);
-		return new ItemStack(Items.BOWL);
-	}
 	@Override
 	public int getUseDuration(ItemStack stack) {
 		return 16;
@@ -232,26 +196,6 @@ public class StewItem extends CPBlockItem {
 		CPItems.stews.add(this);
 		this.fluid = fluid;
 	}
-
-	/**
-	 * Called when this item is used when targetting a Block
-	 */
-	public InteractionResult useOn(UseOnContext pContext) {
-		InteractionResult interactionresult = InteractionResult.PASS;
-		if (pContext.getPlayer().isShiftKeyDown())
-			interactionresult = this.place(new BlockPlaceContext(pContext));
-		//if(!pContext.getPlayer().getCooldowns().isOnCooldown(CPItems.water))
-			if (!interactionresult.consumesAction() && this.isEdible()) {
-				
-				InteractionResult interactionresult1 = this
-						.use(pContext.getLevel(), pContext.getPlayer(), pContext.getHand()).getResult();
-				return interactionresult1 == InteractionResult.CONSUME ? InteractionResult.CONSUME_PARTIAL
-						: interactionresult1;
-			}
-		return interactionresult;
-	}
-
-
 
 	@Override
 	public FoodProperties getFoodProperties(ItemStack stack, LivingEntity entity) {

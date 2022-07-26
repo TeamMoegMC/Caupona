@@ -13,18 +13,18 @@ public class IPendingContext {
 
 	protected List<FloatemTagStack> items;
 	protected float totalItems;
-	private ResultCachingMap<StewNumber, Float> numbers = new ResultCachingMap<>(e -> e.apply(this));
-	private ResultCachingMap<StewCondition, Boolean> results = new ResultCachingMap<>(e -> e.test(this));
+	private ResultCachingMap<CookIngredients, Float> numbers = new ResultCachingMap<>(e -> e.apply(this));
+	private ResultCachingMap<IngredientCondition, Boolean> results = new ResultCachingMap<>(e -> e.test(this));
 
 	public IPendingContext() {
 		super();
 	}
 
-	public float compute(StewNumber sn) {
+	public float compute(CookIngredients sn) {
 		return numbers.compute(sn);
 	}
 
-	public boolean compute(StewCondition sc) {
+	public boolean compute(IngredientCondition sc) {
 		return results.compute(sc);
 	}
 

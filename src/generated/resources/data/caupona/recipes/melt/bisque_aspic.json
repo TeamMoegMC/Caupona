@@ -1,0 +1,9 @@
+{
+  "type": "caupona:aspic_melt",
+  "aspic": {
+    "item": "caupona:bisque_aspic"
+  },
+  "fluid": "caupona:bisque",
+  "amount": 250,
+  "time": 100
+}

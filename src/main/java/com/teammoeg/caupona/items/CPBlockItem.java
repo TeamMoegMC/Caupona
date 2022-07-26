@@ -19,7 +19,7 @@
 package com.teammoeg.caupona.items;
 
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.event.RegistryEvents;
+import com.teammoeg.caupona.RegistryEvents;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;

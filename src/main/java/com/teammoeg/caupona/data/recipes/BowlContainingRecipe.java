@@ -22,6 +22,7 @@ import java.util.Map;
 
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.IDataRecipe;
+import com.teammoeg.caupona.data.InvalidRecipeException;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -65,8 +66,8 @@ public class BowlContainingRecipe extends IDataRecipe {
 
 	public BowlContainingRecipe(ResourceLocation id, FriendlyByteBuf pb) {
 		super(id);
-		bowl = pb.readRegistryId();
-		fluid = pb.readRegistryId();
+		bowl = pb.readRegistryIdUnsafe(ForgeRegistries.ITEMS);
+		fluid = pb.readRegistryIdUnsafe(ForgeRegistries.FLUIDS);
 	}
 
 	public BowlContainingRecipe(ResourceLocation id, Item bowl, Fluid fluid) {
@@ -76,8 +77,8 @@ public class BowlContainingRecipe extends IDataRecipe {
 	}
 
 	public void write(FriendlyByteBuf pack) {
-		pack.writeRegistryId(bowl);
-		pack.writeRegistryId(fluid);
+		pack.writeRegistryIdUnsafe(ForgeRegistries.ITEMS,bowl);
+		pack.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS,fluid);
 	}
 
 	public void serializeRecipeData(JsonObject jo) {

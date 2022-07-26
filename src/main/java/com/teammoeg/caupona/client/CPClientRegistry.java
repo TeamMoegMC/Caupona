@@ -48,6 +48,7 @@ public class CPClientRegistry {
 	public static void onClientSetupEvent(FMLClientSetupEvent event) {
 		MenuScreens.register(CPGui.STEWPOT.get(), StewPotScreen::new);
 		MenuScreens.register(CPGui.STOVE.get(),KitchenStoveScreen::new);
+		MenuScreens.register(CPGui.DOLIUM.get(), DoliumScreen::new);
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stew_pot, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove1, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove2, RenderType.cutout());

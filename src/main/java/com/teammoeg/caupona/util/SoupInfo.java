@@ -45,6 +45,7 @@ public class SoupInfo {
 	public float saturation;
 	public float shrinkedFluid=0;
 	public ResourceLocation base;
+	public MobEffectInstance spice;
 
 	public SoupInfo(List<FloatemStack> stacks, List<MobEffectInstance> effects, int healing, float saturation,
 			ResourceLocation base) {
@@ -71,6 +72,11 @@ public class SoupInfo {
 	public boolean canAlwaysEat() {
 		return healing<=1||getDensity()<=0.5;
 	}
+	public boolean addSpice(MobEffectInstance spice) {
+		if(this.spice!=null)return false;
+		this.spice=new MobEffectInstance(spice);
+		return true;
+	}
 	public SoupInfo(CompoundTag nbt) {
 		stacks = nbt.getList("items", 10).stream().map(e -> (CompoundTag) e).map(FloatemStack::new)
 				.collect(Collectors.toList());
@@ -92,10 +98,14 @@ public class SoupInfo {
 	public boolean canMerge(SoupInfo f, float cparts, float oparts) {
 		return this.getDensity() + f.getDensity() * oparts / cparts <= 33;
 	}
-
-	public boolean merge(SoupInfo f, float cparts, float oparts) {
+	public boolean merge(SoupInfo f,float cparts,float oparts) {
 		if (this.getDensity() + f.getDensity() * oparts / cparts > 3)
 			return false;
+		forceMerge(f,cparts,oparts);
+		return true;
+	}
+	public void forceMerge(SoupInfo f, float cparts, float oparts) {
+		
 		for (MobEffectInstance es : f.effects) {
 			boolean added = false;
 			for (MobEffectInstance oes : effects) {
@@ -128,9 +138,9 @@ public class SoupInfo {
 			this.addItem(new FloatemStack(fs.getStack(), fs.count * oparts / cparts));
 		}
 		completeAll();
-		return true;
 	}
 	public void completeAll() {
+		clearSpice();
 		completeData();
 		completeEffects();
 	}
@@ -190,7 +200,9 @@ public class SoupInfo {
 		this.healing = (int) Math.ceil(nh);
 		this.saturation = ns;
 	}
-
+	public void clearSpice() {
+		spice=null;
+	}
 	public void adjustParts(float oparts, float parts) {
 		if (oparts == parts)
 			return;
@@ -207,6 +219,7 @@ public class SoupInfo {
 		float delta=0;
 		if(oparts>parts)
 			delta=oparts-parts;
+		clearSpice();
 		shrinkedFluid=(shrinkedFluid*oparts+delta)/parts;
 		healing = (int) (healing * oparts / parts);
 		saturation = saturation * oparts / parts;

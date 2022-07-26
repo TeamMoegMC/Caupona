@@ -21,7 +21,7 @@ package com.teammoeg.caupona.data.recipes.conditions;
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
-import com.teammoeg.caupona.data.recipes.StewNumber;
+import com.teammoeg.caupona.data.recipes.CookIngredients;
 
 import net.minecraft.network.FriendlyByteBuf;
 
@@ -30,7 +30,7 @@ public class Halfs extends NumberedStewCondition {
 		super(obj);
 	}
 
-	public Halfs(StewNumber number) {
+	public Halfs(CookIngredients number) {
 		super(number);
 	}
 

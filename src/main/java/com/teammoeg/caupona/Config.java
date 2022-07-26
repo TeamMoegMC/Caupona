@@ -65,17 +65,23 @@ public class Config {
 		public ConfigValue<Integer> fumaroleCheck;
 		public ConfigValue<Integer> fumarolePower;
 		public ConfigValue<Float> stoveFuel;
-		public ConfigValue<Integer> StaticTime;
+		public ConfigValue<Integer> staticTime;
 		public ConfigValue<Boolean> genWalnut;
 		public ConfigValue<Boolean> genWolfberry;
 		public ConfigValue<Boolean> genFig;
+		public ConfigValue<Integer> potCookTimeBase;
+		public ConfigValue<Integer> potMixTimeBase;
+		public ConfigValue<Integer> containerTick;
 		Server(ForgeConfigSpec.Builder builder) {
 			builder.push("recipes");
-			StaticTime=builder.comment("Ticks before do still recipe").defineInRange("StillRecipeTime",1000,1,Integer.MAX_VALUE);
+			staticTime=builder.comment("Ticks before do still recipe").defineInRange("StillRecipeTicks",12000,1,Integer.MAX_VALUE);
+			potCookTimeBase=builder.comment("Stew pot cooking mininum time in ticks").defineInRange("potCookMinTicks",100,1,Integer.MAX_VALUE);
+			potMixTimeBase=builder.comment("Stew pot mixture mininum time in ticks").defineInRange("potMixMinTicks",50,1,Integer.MAX_VALUE);
+			containerTick=builder.comment("Tick interval between check container input").defineInRange("containTick",10,1,Integer.MAX_VALUE);
 			builder.pop();
 			builder.push("chimney");
 			chimneyTicks=builder.comment("How many ticks does a chimney pot needed to make a soot").define("ChimneySootTicks",80);
-			chimneyCheck=builder.comment("How many ticks does a chimney check it's validity").defineInRange("ChimneyCheckTicks",20, 1, 2000);
+			chimneyCheck=builder.comment("How many ticks does a chimney check it's validity").defineInRange("ChimneyCheckTicks",20, 1,Integer.MAX_VALUE);
 			chimneyStorage=builder.comment("Max soot stored in a chimney").defineInRange("ChimneySootStorage",8, 1,64);
 			builder.pop();
 			
@@ -84,9 +90,9 @@ public class Config {
 			stoveFuel=builder.comment("Stove fuel value multiplier").define("StoveFuelMultiplier",1.0f);
 			builder.pop();
 			builder.push("fumarole");
-			fumaroleSpeed=builder.comment("How many tick does fumarole vent need to generate pumice bloom").defineInRange("FumaroleTicks",100,1,2000);
-			fumaroleCheck=builder.comment("How many ticks should the fumarole check its heat source").defineInRange("FumaroleCheckTicks",20,1,200);
-			fumarolePower=builder.comment("Fumarole heat value, set to 0 to disable fumarole heat.").defineInRange("FumaroleHeat",1,0,10);
+			fumaroleSpeed=builder.comment("How many tick does fumarole vent need to generate pumice bloom").defineInRange("FumaroleTicks",100,1,Integer.MAX_VALUE);
+			fumaroleCheck=builder.comment("How many ticks should the fumarole check its heat source").defineInRange("FumaroleCheckTicks",20,1,Integer.MAX_VALUE);
+			fumarolePower=builder.comment("Fumarole heat value, set to 0 to disable fumarole heat.").defineInRange("FumaroleHeat",1,0,Integer.MAX_VALUE);
 			builder.push("worldgen");
 			genWalnut=builder.comment("Generate Walnut trees").define("generateWalnut",true);
 			genWolfberry=builder.comment("Generate Wolfberry trees").define("generateWolfberry",true);

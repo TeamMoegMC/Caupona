@@ -26,7 +26,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.data.recipes.InvalidRecipeException;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

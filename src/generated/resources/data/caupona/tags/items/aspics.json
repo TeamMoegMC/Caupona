@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "caupona:bisque_aspic",
+    "caupona:borscht_aspic",
+    "caupona:dilute_soup_aspic",
+    "caupona:egg_drop_soup_aspic",
+    "caupona:fish_soup_aspic",
+    "caupona:goulash_aspic",
+    "caupona:hodgepodge_aspic",
+    "caupona:meat_soup_aspic",
+    "caupona:mushroom_soup_aspic",
+    "caupona:nettle_soup_aspic",
+    "caupona:poultry_soup_aspic",
+    "caupona:pumpkin_soup_aspic",
+    "caupona:seaweed_soup_aspic",
+    "caupona:stock_aspic",
+    "caupona:stracciatella_aspic",
+    "caupona:ukha_aspic",
+    "caupona:vegetable_soup_aspic"
+  ]
+}

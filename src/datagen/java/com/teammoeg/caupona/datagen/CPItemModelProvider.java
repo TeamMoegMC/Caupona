@@ -39,6 +39,8 @@ public class CPItemModelProvider extends ItemModelProvider {
 	protected void registerModels() {
 		for (String s : CPItems.soups) 
 			simpleTexture(s,"soups/");
+		for (String s : CPItems.base_material) 
+			simpleTexture(s,"");
 		simpleTexture("water","soups/");
 		simpleTexture("milk","soups/");
 		for (String s : CPItems.aspics) 
@@ -55,7 +57,10 @@ public class CPItemModelProvider extends ItemModelProvider {
 		super.singleTexture("fig_sapling",new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"block/fig_sapling"));
 		super.singleTexture("wolfberry_sapling",new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"block/wolfberry_sapling"));
 		//super.withExistingParent("clay_cistern",new ResourceLocation(Main.MODID,"block/clay_cistern"));
-		
+		for(String s:CPItems.spices)
+			simpleTexture(s,"");
+		for(String s:CPItems.dishes)
+			simpleTexture(s,"sauteed_dishes/");
 	}
 	public void itemModel(Item item,String name) {
     	super.withExistingParent(item.getRegistryName().getPath(),new ResourceLocation(Main.MODID,"block/"+name));

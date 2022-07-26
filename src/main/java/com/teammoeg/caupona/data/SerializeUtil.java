@@ -34,8 +34,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
-import com.teammoeg.caupona.data.recipes.StewCondition;
-import com.teammoeg.caupona.data.recipes.StewNumber;
+import com.teammoeg.caupona.data.recipes.IngredientCondition;
+import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidTag;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidType;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidTypeType;
@@ -88,22 +88,22 @@ public class SerializeUtil {
 		}
 	}
 
-	private static HashMap<String, Deserializer<JsonObject, StewCondition>> conditions = new HashMap<>();
-	private static HashMap<String, Deserializer<JsonElement, StewNumber>> numbers = new HashMap<>();
+	private static HashMap<String, Deserializer<JsonObject, IngredientCondition>> conditions = new HashMap<>();
+	private static HashMap<String, Deserializer<JsonElement, CookIngredients>> numbers = new HashMap<>();
 	private static HashMap<String, Deserializer<JsonObject, StewBaseCondition>> basetypes = new HashMap<>();
 	// do some cache to lower calculation cost
-	private static CacheMap<StewCondition> sccache = new CacheMap<>();
-	private static CacheMap<StewNumber> nmcache = new CacheMap<>();
+	private static CacheMap<IngredientCondition> sccache = new CacheMap<>();
+	private static CacheMap<CookIngredients> nmcache = new CacheMap<>();
 	private static CacheMap<StewBaseCondition> bacache = new CacheMap<>();
 
 	private SerializeUtil() {
 
 	}
 
-	public static void registerCondition(String name, Deserializer<JsonObject, StewCondition> des) {
+	public static void registerCondition(String name, Deserializer<JsonObject, IngredientCondition> des) {
 		conditions.put(name, des);
 	}
-	public static void registerNumber(String name, Deserializer<JsonElement, StewNumber> des) {
+	public static void registerNumber(String name, Deserializer<JsonElement, CookIngredients> des) {
 		numbers.put(name, des);
 	}
 
@@ -111,11 +111,11 @@ public class SerializeUtil {
 		basetypes.put(name, des);
 	}
 	
-	public static void registerCondition(String name,Function<JsonObject, StewCondition> rjson,Function<FriendlyByteBuf, StewCondition> rpacket) {
+	public static void registerCondition(String name,Function<JsonObject, IngredientCondition> rjson,Function<FriendlyByteBuf, IngredientCondition> rpacket) {
 		registerCondition(name,new Deserializer<>(rjson,rpacket));
 	}
 
-	public static void registerNumber(String name,Function<JsonElement,StewNumber> rjson,Function<FriendlyByteBuf,StewNumber> rpacket) {
+	public static void registerNumber(String name,Function<JsonElement,CookIngredients> rjson,Function<FriendlyByteBuf,CookIngredients> rpacket) {
 		registerNumber(name,new Deserializer<>(rjson,rpacket));
 	}
 
@@ -139,11 +139,11 @@ public class SerializeUtil {
 		registerBase("fluid_type", FluidTypeType::new, FluidTypeType::new);
 	}
 
-	public static StewNumber ofNumber(JsonElement jsonElement) {
+	public static CookIngredients ofNumber(JsonElement jsonElement) {
 		return nmcache.of(internalOfNumber(jsonElement));
 	}
 
-	private static StewNumber internalOfNumber(JsonElement jsonElement) {
+	private static CookIngredients internalOfNumber(JsonElement jsonElement) {
 		if (jsonElement == null || jsonElement.isJsonNull())
 			return NopNumber.INSTANCE;
 		if (jsonElement.isJsonPrimitive()) {
@@ -157,7 +157,7 @@ public class SerializeUtil {
 			return new Add(jsonElement);
 		JsonObject jo = jsonElement.getAsJsonObject();
 		if (jo.has("type")) {
-			Deserializer<JsonElement, StewNumber> factory = numbers.get(jo.get("type").getAsString());
+			Deserializer<JsonElement, CookIngredients> factory = numbers.get(jo.get("type").getAsString());
 			if (factory == null)
 				return NopNumber.INSTANCE;
 			return factory.read(jo);
@@ -173,7 +173,7 @@ public class SerializeUtil {
 		return NopNumber.INSTANCE;
 	}
 
-	public static StewCondition ofCondition(JsonObject json) {
+	public static IngredientCondition ofCondition(JsonObject json) {
 		return sccache.of(conditions.get(json.get("cond").getAsString()).read(json));
 	}
 
@@ -193,11 +193,11 @@ public class SerializeUtil {
 		return null;
 	}
 
-	public static StewNumber ofNumber(FriendlyByteBuf buffer) {
+	public static CookIngredients ofNumber(FriendlyByteBuf buffer) {
 		return nmcache.of(numbers.get(buffer.readUtf()).read(buffer));
 	}
 
-	public static StewCondition ofCondition(FriendlyByteBuf buffer) {
+	public static IngredientCondition ofCondition(FriendlyByteBuf buffer) {
 		return sccache.of(conditions.get(buffer.readUtf()).read(buffer));
 	}
 
@@ -205,12 +205,12 @@ public class SerializeUtil {
 		return bacache.of(basetypes.get(buffer.readUtf()).read(buffer));
 	}
 
-	public static void write(StewNumber e, FriendlyByteBuf buffer) {
+	public static void write(CookIngredients e, FriendlyByteBuf buffer) {
 		buffer.writeUtf(e.getType());
 		e.write(buffer);
 	}
 
-	public static void write(StewCondition e, FriendlyByteBuf buffer) {
+	public static void write(IngredientCondition e, FriendlyByteBuf buffer) {
 		buffer.writeUtf(e.getType());
 		e.write(buffer);
 	}

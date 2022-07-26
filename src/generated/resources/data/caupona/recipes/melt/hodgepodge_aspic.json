@@ -1,0 +1,9 @@
+{
+  "type": "caupona:aspic_melt",
+  "aspic": {
+    "item": "caupona:hodgepodge_aspic"
+  },
+  "fluid": "caupona:hodgepodge",
+  "amount": 250,
+  "time": 100
+}

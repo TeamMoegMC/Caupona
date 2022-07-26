@@ -1,7 +1,8 @@
 package com.teammoeg.caupona;
 
-import com.teammoeg.caupona.container.KitchenStoveContainer;
-import com.teammoeg.caupona.container.StewPotContainer;
+import com.teammoeg.caupona.blocks.dolium.DoliumContainer;
+import com.teammoeg.caupona.blocks.pot.StewPotContainer;
+import com.teammoeg.caupona.blocks.stove.KitchenStoveContainer;
 
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
@@ -16,4 +17,6 @@ public class CPGui {
 			() -> IForgeMenuType.create(StewPotContainer::new));
 	public static final RegistryObject<MenuType<KitchenStoveContainer>> STOVE = CONTAINERS.register("kitchen_stove",
 			() -> IForgeMenuType.create(KitchenStoveContainer::new));
+	public static final RegistryObject<MenuType<DoliumContainer>> DOLIUM = CONTAINERS.register("dolium",
+			() -> IForgeMenuType.create(DoliumContainer::new));
 }

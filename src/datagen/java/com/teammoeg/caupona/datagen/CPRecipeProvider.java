@@ -33,6 +33,7 @@ import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPFluids;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.data.IDataRecipe;
+import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
@@ -121,8 +122,8 @@ public class CPRecipeProvider extends RecipeProvider {
 			out.accept(new BowlContainingRecipe(rl("bowl/" + s), item(fs), fluid(fs)));
 		}
 		//out.accept(dissolve(RankineItems.CORN_EAR.get()));
-		out.accept(new BowlContainingRecipe(rl("bowl/plain_water"), cpitem("plain_water"), Fluids.WATER));
-		out.accept(new BowlContainingRecipe(rl("bowl/plain_milk"), cpitem("milk"), ForgeMod.MILK.get()));
+		out.accept(new BowlContainingRecipe(rl("bowl/water"), cpitem("water"), Fluids.WATER));
+		out.accept(new BowlContainingRecipe(rl("bowl/milk"), cpitem("milk"), ForgeMod.MILK.get()));
 		out.accept(new BoilingRecipe(rl("boil/water"), fluid(mcrl("water")), fluid(mrl("nail_soup")), 100));
 		out.accept(new BoilingRecipe(rl("boil/milk"), fluid(mcrl("milk")), fluid(mrl("scalded_milk")), 100));
 		out.accept(new FoodValueRecipe(rl("food/mushroom"),3,3.6f,new ItemStack(Items.RED_MUSHROOM),Items.RED_MUSHROOM,Items.BROWN_MUSHROOM));
@@ -175,9 +176,11 @@ public class CPRecipeProvider extends RecipeProvider {
 				"stock",
 				"stracciatella",
 				"ukha",
-				"vegetable_soup"))
+				"vegetable_soup")) {
 			aspic(s,out);
+		}
 		stewCooking(out);
+		
 		
 	}
 	private void stewCooking(Consumer<IDataRecipe> out) {
@@ -248,6 +251,7 @@ public class CPRecipeProvider extends RecipeProvider {
 	}
 	private void aspic(String soup,Consumer<IDataRecipe> out) {
 		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID,"dolium/"+soup+"_aspic"),stock.getRegistryName(),cpfluid(soup),250,0.25F,true,new ItemStack(cpitem(soup+"_aspic")),null));
+		out.accept(new AspicMeltingRecipe(new ResourceLocation(Main.MODID,"melt/"+soup+"_aspic"), Ingredient.of(cpitem(soup+"_aspic")),cpfluid(soup)));
 	}
 	private Fluid cpfluid(String name) {
 		return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(Main.MODID,name));

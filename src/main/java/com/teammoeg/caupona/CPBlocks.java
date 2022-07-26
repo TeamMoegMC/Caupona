@@ -8,22 +8,23 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import com.teammoeg.caupona.blocks.BowlBlock;
-import com.teammoeg.caupona.blocks.BushLogBlock;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
-import com.teammoeg.caupona.blocks.CPStripPillerBlock;
 import com.teammoeg.caupona.blocks.ChimneyPotBlock;
-import com.teammoeg.caupona.blocks.CounterDoliumBlock;
-import com.teammoeg.caupona.blocks.FruitBlock;
-import com.teammoeg.caupona.blocks.FruitsLeavesBlock;
-import com.teammoeg.caupona.blocks.FumaroleBoulderBlock;
-import com.teammoeg.caupona.blocks.FumaroleVentBlock;
-import com.teammoeg.caupona.blocks.PumiceBloomBlock;
+import com.teammoeg.caupona.blocks.DishBlock;
+import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlock;
+import com.teammoeg.caupona.blocks.fumarole.FumaroleBoulderBlock;
+import com.teammoeg.caupona.blocks.fumarole.FumaroleVentBlock;
+import com.teammoeg.caupona.blocks.fumarole.PumiceBloomBlock;
 import com.teammoeg.caupona.blocks.others.CPStandingSignBlock;
 import com.teammoeg.caupona.blocks.others.CPWallSignBlock;
+import com.teammoeg.caupona.blocks.plants.BushLogBlock;
+import com.teammoeg.caupona.blocks.plants.CPStripPillerBlock;
+import com.teammoeg.caupona.blocks.plants.FruitBlock;
+import com.teammoeg.caupona.blocks.plants.FruitsLeavesBlock;
 import com.teammoeg.caupona.blocks.pot.StewPot;
 import com.teammoeg.caupona.blocks.stove.KitchenStove;
-import com.teammoeg.caupona.event.RegistryEvents;
 import com.teammoeg.caupona.items.CPBlockItem;
+import com.teammoeg.caupona.items.DishItem;
 import com.teammoeg.caupona.worldgen.FigTreeGrower;
 import com.teammoeg.caupona.worldgen.WalnutTreeGrower;
 import com.teammoeg.caupona.worldgen.WolfberryTreeGrower;
@@ -72,6 +73,8 @@ public class CPBlocks {
 	public static final Map<String, Block> stoneBlocks = new HashMap<>();
 	public static final List<Block> transparentBlocks = new ArrayList<>();
 	public static final List<Block> chimney = new ArrayList<>();
+	public static final List<Block> dolium = new ArrayList<>();
+	public static final List<Block> dishes = new ArrayList<>();
 
 	// useful blocks
 	public static Block stew_pot = new StewPot("stew_pot", Block.Properties.of(Material.STONE).sound(SoundType.STONE)
@@ -107,10 +110,11 @@ public class CPBlocks {
 	public static final Block FUMAROLE_VENT = transparent(new FumaroleVentBlock("fumarole_vent",
 			getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion().isSuffocating(CPBlocks::isntSolid),
 			CPBlockItem::new));
-	public static final Block PUMICE = register("pumice", transparent(new Block(getStoneProps())));
+	public static final Block PUMICE = register("pumice", new Block(getStoneProps()));
 	public static final Block PUMICE_BLOOM = register("pumice_bloom", transparent(new PumiceBloomBlock(getStoneProps().noOcclusion())));
 
 	public static final WoodType WALNUT = WoodType.register(WoodType.create("caupona:walnut"));
+	
 
 	public static void init() {
 		for (String stone : stones) {
@@ -142,6 +146,11 @@ public class CPBlocks {
 				l -> FIG_LEAVE = l, l -> FIG_SAPLINGS = l);
 		registerBush("wolfberry",  WolfberryTreeGrower::new, l -> WOLFBERRY_LOG = l,
 				l -> WOLFBERRY_LEAVE = l, l -> WOLFBERRY_SAPLINGS = l);
+		for(String s:CPItems.dishes) {
+			new DishItem(new DishBlock(s,Block.Properties.of(Material.WOOD).sound(SoundType.WOOD).instabreak().noOcclusion()
+					.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
+					.isViewBlocking(CPBlocks::isntSolid)),CPItems.createSoupProps(),s);
+		}
 	}
 	private static void registerBush(String wood, Supplier<AbstractTreeGrower> growth,
 			 Consumer<Block> glog, Consumer<Block> gleave, Consumer<Block> gsap) {

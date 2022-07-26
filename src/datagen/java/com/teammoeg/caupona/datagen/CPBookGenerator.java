@@ -39,7 +39,7 @@ import com.google.gson.JsonParser;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.TranslationProvider;
-import com.teammoeg.caupona.data.recipes.CookingRecipe;
+import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidTag;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidType;
@@ -62,7 +62,7 @@ public class CPBookGenerator implements DataProvider {
 	private Path bookmain;
 	private ExistingFileHelper helper;
 	private Map<String,JsonObject> langs=new HashMap<>();
-	private Map<String,CookingRecipe> recipes;
+	private Map<String,StewCookingRecipe> recipes;
 	class DatagenTranslationProvider implements TranslationProvider{
 		String lang;
 		public DatagenTranslationProvider(String lang) {
@@ -86,7 +86,7 @@ public class CPBookGenerator implements DataProvider {
 	@Override
 	public void run(HashCache cache) throws IOException {
 		bookmain=this.generator.getOutputFolder().resolve("data/"+Main.MODID+"/patchouli_books/book/");
-		recipes=CPRecipeProvider.recipes.stream().map(e->((CookingRecipe)e)).collect(Collectors.toMap(e->e.output.getRegistryName().getPath(),e->e));
+		recipes=CPRecipeProvider.recipes.stream().map(e->((StewCookingRecipe)e)).collect(Collectors.toMap(e->e.output.getRegistryName().getPath(),e->e));
 		loadLang("zh_cn");
 		loadLang("en_us");
 		for(String s:CPItems.soups)
@@ -120,7 +120,7 @@ public class CPBookGenerator implements DataProvider {
 		page.add("name",langs.get(locale).get("item.caupona."+name));
 		page.addProperty("icon",new ResourceLocation(Main.MODID,name).toString());
 		page.addProperty("category","caupona:recipes");
-		CookingRecipe r=recipes.get(name);
+		StewCookingRecipe r=recipes.get(name);
 		Item baseType=CPItems.any;
 		if(r.getBase()!=null&&!r.getBase().isEmpty()) {
 			StewBaseCondition sbc=r.getBase().get(0);

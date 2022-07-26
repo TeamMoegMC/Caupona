@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.blocks.pot.StewPotContainer;
 import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
-import com.teammoeg.caupona.container.StewPotContainer;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.items.StewItem;
 import com.teammoeg.caupona.util.FloatemStack;
@@ -177,7 +177,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 	protected void renderLabels(PoseStack matrixStack, int x, int y) {
 		this.font.draw(matrixStack, this.title, this.titleLabelX, this.titleLabelY, 0xffda856b);
 		
-		Component name = this.title;
+		Component name = this.playerInventoryTitle;
 		int w = this.font.width(name.getString());
 		this.font.draw(matrixStack, name, this.imageWidth - w - this.inventoryLabelX, this.inventoryLabelY,
 				0xffda856b);

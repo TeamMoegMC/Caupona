@@ -141,9 +141,6 @@ public class StewPot extends CPBaseTileBlock<StewPotTileEntity> implements Liqui
 		}
 	}
 
-	public ResourceLocation createRegistryName() {
-		return new ResourceLocation(Main.MODID, name);
-	}
 
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
@@ -166,26 +163,6 @@ public class StewPot extends CPBaseTileBlock<StewPotTileEntity> implements Liqui
 		super.createBlockStateDefinition(builder);
 		builder.add(FACING);
 	}
-
-	// TODO rain
-	/*
-	 * @Override
-	 * public void handleRain(Level worldIn, BlockPos pos) {
-	 * if (worldIn.random.nextInt(25) == 1) {
-	 * float f = worldIn.getBiome(pos).getTemperature(pos);
-	 * if (!(f < 0.15F)) {
-	 * BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-	 * if (tileEntity instanceof StewPotTileEntity) {
-	 * StewPotTileEntity te = (StewPotTileEntity) tileEntity;
-	 * if (te.canAddFluid())
-	 * te.tryAddFluid(new FluidStack(Fluids.WATER, 250));
-	 * }
-	 * 
-	 * }
-	 * }
-	 * 
-	 * }
-	 */
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getAxis());

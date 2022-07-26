@@ -70,6 +70,8 @@ public class CPLootGenerator extends LootTableProvider {
 			dropSelf(CPBlocks.stew_pot);
 			add(CPBlocks.FUMAROLE_VENT,BlockLoot.createSilkTouchDispatchTable(CPBlocks.FUMAROLE_VENT,LootItem.lootTableItem(Blocks.BASALT
 					)));
+			add(CPBlocks.PUMICE_BLOOM,BlockLoot.createSilkTouchDispatchTable(CPBlocks.PUMICE_BLOOM,LootItem.lootTableItem(CPBlocks.PUMICE
+					)));
 			/*
 			 * dropSelf(CPBlocks.stove1);
 			 * dropSelf(CPBlocks.stove2);

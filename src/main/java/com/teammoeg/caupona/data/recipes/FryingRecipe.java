@@ -26,6 +26,7 @@ import java.util.stream.Stream;
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.IDataRecipe;
+import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.util.FloatemTagStack;
@@ -46,7 +47,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class FryingRecipe extends IDataRecipe {
-	public static Set<StewNumber> cookables;
+	public static Set<CookIngredients> cookables;
 	public static Map<Fluid, FryingRecipe> recipes;
 	public static List<FryingRecipe> sorted;
 	public static RecipeType<?> TYPE;
@@ -69,8 +70,8 @@ public class FryingRecipe extends IDataRecipe {
 		return TYPE;
 	}
 
-	List<StewCondition> allow;
-	List<StewCondition> deny;
+	List<IngredientCondition> allow;
+	List<IngredientCondition> deny;
 	int priority = 0;
 	public int time;
 	public Fluid output;
@@ -102,7 +103,7 @@ public class FryingRecipe extends IDataRecipe {
 		output = data.readRegistryId();
 	}
 
-	public FryingRecipe(ResourceLocation id, List<StewCondition> allow, List<StewCondition> deny, int priority,
+	public FryingRecipe(ResourceLocation id, List<IngredientCondition> allow, List<IngredientCondition> deny, int priority,
 			int time, Fluid output) {
 		super(id);
 		this.allow = allow;
@@ -133,10 +134,10 @@ public class FryingRecipe extends IDataRecipe {
 	@Override
 	public void serializeRecipeData(JsonObject json) {
 		if (allow != null && !allow.isEmpty()) {
-			json.add("allow", SerializeUtil.toJsonList(allow, StewCondition::serialize));
+			json.add("allow", SerializeUtil.toJsonList(allow, IngredientCondition::serialize));
 		}
 		if (deny != null && !deny.isEmpty()) {
-			json.add("deny", SerializeUtil.toJsonList(deny, StewCondition::serialize));
+			json.add("deny", SerializeUtil.toJsonList(deny, IngredientCondition::serialize));
 		}
 		if (priority != 0)
 			json.addProperty("priority", priority);
@@ -144,25 +145,25 @@ public class FryingRecipe extends IDataRecipe {
 		json.addProperty("output", output.getRegistryName().toString());
 	}
 
-	public Stream<StewNumber> getAllNumbers() {
-		return Stream.concat(allow == null ? Stream.empty() : allow.stream().flatMap(StewCondition::getAllNumbers),
-				deny == null ? Stream.empty() : deny.stream().flatMap(StewCondition::getAllNumbers));
+	public Stream<CookIngredients> getAllNumbers() {
+		return Stream.concat(allow == null ? Stream.empty() : allow.stream().flatMap(IngredientCondition::getAllNumbers),
+				deny == null ? Stream.empty() : deny.stream().flatMap(IngredientCondition::getAllNumbers));
 	}
 
 	public Stream<ResourceLocation> getTags() {
-		return Stream.concat(allow == null ? Stream.empty() : allow.stream().flatMap(StewCondition::getTags),
-				deny == null ? Stream.empty() : deny.stream().flatMap(StewCondition::getTags));
+		return Stream.concat(allow == null ? Stream.empty() : allow.stream().flatMap(IngredientCondition::getTags),
+				deny == null ? Stream.empty() : deny.stream().flatMap(IngredientCondition::getTags));
 	}
 
 	public int getPriority() {
 		return priority;
 	}
 
-	public List<StewCondition> getAllow() {
+	public List<IngredientCondition> getAllow() {
 		return allow;
 	}
 
-	public List<StewCondition> getDeny() {
+	public List<IngredientCondition> getDeny() {
 		return deny;
 	}
 

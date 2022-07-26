@@ -23,21 +23,21 @@ import java.util.stream.Stream;
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
-import com.teammoeg.caupona.data.recipes.StewCondition;
-import com.teammoeg.caupona.data.recipes.StewNumber;
+import com.teammoeg.caupona.data.recipes.IngredientCondition;
+import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.StewPendingContext;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
-public abstract class NumberedStewCondition implements StewCondition {
-	protected StewNumber number;
+public abstract class NumberedStewCondition implements IngredientCondition {
+	protected CookIngredients number;
 
 	public NumberedStewCondition(JsonObject obj) {
 		this.number = SerializeUtil.ofNumber(obj.get("type"));
 	}
 
-	public NumberedStewCondition(StewNumber number) {
+	public NumberedStewCondition(CookIngredients number) {
 		this.number = number;
 	}
 
@@ -66,7 +66,7 @@ public abstract class NumberedStewCondition implements StewCondition {
 	}
 
 	@Override
-	public Stream<StewNumber> getAllNumbers() {
+	public Stream<CookIngredients> getAllNumbers() {
 		return Stream.of(number);
 	}
 

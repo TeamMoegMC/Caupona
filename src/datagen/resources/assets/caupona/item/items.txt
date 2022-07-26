@@ -1,4 +1,4 @@
-"bone_glue.png",
+"bone_gelatin.png",
 "chives_spice_jar.png",
 "clay_portable_brazier.png",
 "culinary_heat_haze.png",

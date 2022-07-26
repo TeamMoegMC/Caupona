@@ -1,9 +1,10 @@
 package com.teammoeg.caupona;
 
 import com.teammoeg.caupona.data.CPRecipeSerializer;
+import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
-import com.teammoeg.caupona.data.recipes.CookingRecipe;
+import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.data.recipes.CountingTags;
 import com.teammoeg.caupona.data.recipes.DissolveRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
@@ -21,9 +22,9 @@ public class CPRecipes {
 			.create(ForgeRegistries.RECIPE_SERIALIZERS, Main.MODID);
 
 	static {
-		CookingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("cooking",
-				() -> new CPRecipeSerializer<CookingRecipe>(CookingRecipe::new, CookingRecipe::new,
-						CookingRecipe::write));
+		StewCookingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("cooking",
+				() -> new CPRecipeSerializer<StewCookingRecipe>(StewCookingRecipe::new, StewCookingRecipe::new,
+						StewCookingRecipe::write));
 		FryingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("frying",
 				() -> new CPRecipeSerializer<FryingRecipe>(FryingRecipe::new, FryingRecipe::new,
 						FryingRecipe::write));
@@ -47,11 +48,13 @@ public class CPRecipes {
 						FoodValueRecipe::write));
 		FluidFoodValueRecipe.SERIALIZER=RECIPE_SERIALIZERS.register("fluid_food",() ->new CPRecipeSerializer<FluidFoodValueRecipe>(FluidFoodValueRecipe::new, FluidFoodValueRecipe::new,
 				FluidFoodValueRecipe::write));
+		AspicMeltingRecipe.SERIALIZER=RECIPE_SERIALIZERS.register("aspic_melt",() ->new CPRecipeSerializer<AspicMeltingRecipe>(AspicMeltingRecipe::new, AspicMeltingRecipe::new,
+				AspicMeltingRecipe::write));
 		
 	}
 
 	public static void registerRecipeTypes() {
-		CookingRecipe.TYPE = RecipeType.register(Main.MODID + ":stew");
+		StewCookingRecipe.TYPE = RecipeType.register(Main.MODID + ":stew");
 		BoilingRecipe.TYPE = RecipeType.register(Main.MODID + ":boil");
 		BowlContainingRecipe.TYPE = RecipeType.register(Main.MODID + ":bowl");
 		DissolveRecipe.TYPE = RecipeType.register(Main.MODID + ":dissolve");
@@ -60,5 +63,6 @@ public class CPRecipes {
 		FluidFoodValueRecipe.TYPE = RecipeType.register(Main.MODID + ":fluid_food");
 		FryingRecipe.TYPE = RecipeType.register(Main.MODID + ":frying");
 		DoliumRecipe.TYPE = RecipeType.register(Main.MODID + ":dolium");
+		AspicMeltingRecipe.TYPE = RecipeType.register(Main.MODID + ":aspic_melt");
 	}
 }

@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.function.UnaryOperator;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.teammoeg.caupona.data.recipes.CookingRecipe;
+import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -44,7 +44,7 @@ public class DensityTooltip implements ICustomComponent {
 	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
 		recipe=lookup.apply(recipe);
 		ResourceLocation out=new ResourceLocation(recipe.asString());
-		CookingRecipe cr=CookingRecipe.recipes.get(ForgeRegistries.FLUIDS.getValue(out));
+		StewCookingRecipe cr=StewCookingRecipe.recipes.get(ForgeRegistries.FLUIDS.getValue(out));
 		if(cr!=null) {
 			density=new ArrayList<>();
 			density.add(new TranslatableComponent("recipe.caupona.density",cr.getDensity()));

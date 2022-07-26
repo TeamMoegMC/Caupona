@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
-import com.teammoeg.caupona.data.recipes.StewNumber;
+import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.network.FriendlyByteBuf;
@@ -37,7 +37,7 @@ public class MainlyOfType extends NumberedStewCondition {
 		type = new ResourceLocation(obj.get("tag").getAsString());
 	}
 
-	public MainlyOfType(StewNumber obj, ResourceLocation type) {
+	public MainlyOfType(CookIngredients obj, ResourceLocation type) {
 		super(obj);
 		this.type = type;
 	}

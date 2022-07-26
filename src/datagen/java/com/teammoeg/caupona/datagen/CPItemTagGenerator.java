@@ -90,6 +90,9 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 			tag(ItemTags.STAIRS).add(cp(stone + "_stairs"));
 			tag(ItemTags.WALLS).add(cp(stone + "_wall"));
 		}
+		for(String s:CPItems.aspics) {
+			tag("aspics").add(cp(s));
+		}
 		tag("fuel/woods").addTags(ItemTags.LOGS,ItemTags.PLANKS,ItemTags.WOODEN_BUTTONS,ItemTags.WOODEN_DOORS,ItemTags.WOODEN_FENCES,
 				ItemTags.WOODEN_PRESSURE_PLATES,ItemTags.WOODEN_SLABS,ItemTags.WOODEN_STAIRS,ItemTags.WOODEN_TRAPDOORS,ItemTags.SAPLINGS);
 		tag("fuel/charcoals").add(Items.CHARCOAL);

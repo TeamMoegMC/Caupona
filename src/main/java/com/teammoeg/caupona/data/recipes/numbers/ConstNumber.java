@@ -24,14 +24,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
-import com.teammoeg.caupona.data.recipes.StewNumber;
+import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.StewPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
-public class ConstNumber implements StewNumber {
+public class ConstNumber implements CookIngredients {
 	float n;
 
 	public ConstNumber(JsonElement num) {
@@ -76,7 +76,7 @@ public class ConstNumber implements StewNumber {
 	}
 
 	@Override
-	public Stream<StewNumber> getItemRelated() {
+	public Stream<CookIngredients> getItemRelated() {
 		return Stream.empty();
 	}
 

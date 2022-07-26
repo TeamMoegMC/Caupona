@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "caupona:item/vinegar_spice_jar"
+  }
+}

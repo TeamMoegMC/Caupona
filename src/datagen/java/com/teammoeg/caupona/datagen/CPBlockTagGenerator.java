@@ -23,7 +23,7 @@ import java.nio.file.Path;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 import com.teammoeg.caupona.blocks.ChimneyPotBlock;
-import com.teammoeg.caupona.blocks.CounterDoliumBlock;
+import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlock;
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;

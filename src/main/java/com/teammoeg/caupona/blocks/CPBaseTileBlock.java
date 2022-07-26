@@ -21,7 +21,7 @@ package com.teammoeg.caupona.blocks;
 import java.util.function.BiFunction;
 
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.event.RegistryEvents;
+import com.teammoeg.caupona.RegistryEvents;
 import com.teammoeg.caupona.network.CPBaseTile;
 
 import net.minecraft.core.BlockPos;

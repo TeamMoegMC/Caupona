@@ -5,7 +5,7 @@ import java.util.function.BiConsumer;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.teammoeg.caupona.blocks.BushLogBlock;
+import com.teammoeg.caupona.blocks.plants.BushLogBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.valueproviders.IntProvider;

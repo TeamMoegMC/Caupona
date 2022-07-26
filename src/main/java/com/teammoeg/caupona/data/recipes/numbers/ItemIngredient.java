@@ -24,7 +24,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
-import com.teammoeg.caupona.data.recipes.StewNumber;
+import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.StewPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
@@ -32,7 +32,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 
-public class ItemIngredient implements StewNumber {
+public class ItemIngredient implements CookIngredients {
 	Ingredient i;
 
 	public ItemIngredient(JsonElement jo) {
@@ -76,7 +76,7 @@ public class ItemIngredient implements StewNumber {
 	}
 
 	@Override
-	public Stream<StewNumber> getItemRelated() {
+	public Stream<CookIngredients> getItemRelated() {
 		return Stream.of(this);
 	}
 

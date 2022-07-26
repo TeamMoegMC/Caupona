@@ -21,8 +21,8 @@ package com.teammoeg.caupona.client;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.blocks.stove.KitchenStoveContainer;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveTileEntity;
-import com.teammoeg.caupona.container.KitchenStoveContainer;
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -45,7 +45,10 @@ public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveCont
 		this.renderTooltip(pPoseStack, pMouseX, pMouseY);
 
 	}
-
+	protected void renderLabels(PoseStack matrixStack, int x, int y) {
+		this.font.draw(matrixStack, this.title, this.titleLabelX-2, this.titleLabelY, 0xEEEEEE);
+		this.font.draw(matrixStack, this.playerInventoryTitle, this.inventoryLabelX-2, this.inventoryLabelY-2, 4210752);
+	}
 	@Override
 	protected void renderBg(PoseStack matrixStack, float partialTicks, int x, int y) {
 		this.renderBackground(matrixStack);

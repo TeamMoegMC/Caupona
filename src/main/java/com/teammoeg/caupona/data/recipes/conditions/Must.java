@@ -21,7 +21,7 @@ package com.teammoeg.caupona.data.recipes.conditions;
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
-import com.teammoeg.caupona.data.recipes.StewNumber;
+import com.teammoeg.caupona.data.recipes.CookIngredients;
 
 import net.minecraft.network.FriendlyByteBuf;
 
@@ -31,7 +31,7 @@ public class Must extends NumberedStewCondition {
 		super(obj);
 	}
 
-	public Must(StewNumber number) {
+	public Must(CookIngredients number) {
 		super(number);
 	}
 

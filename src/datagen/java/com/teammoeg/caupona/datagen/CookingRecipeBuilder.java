@@ -23,10 +23,10 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.data.recipes.CookingRecipe;
+import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
-import com.teammoeg.caupona.data.recipes.StewCondition;
-import com.teammoeg.caupona.data.recipes.StewNumber;
+import com.teammoeg.caupona.data.recipes.IngredientCondition;
+import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidTag;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidType;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidTypeType;
@@ -50,9 +50,9 @@ import net.minecraft.world.level.material.Fluid;
 public class CookingRecipeBuilder {
 	public static class StewNumberBuilder {
 		private StewConditionsBuilder parent;
-		private List<StewNumber> types = new ArrayList<>();
-		private Consumer<StewNumber> fin;
-		public StewNumberBuilder(StewConditionsBuilder parent, Consumer<StewNumber> fin) {
+		private List<CookIngredients> types = new ArrayList<>();
+		private Consumer<CookIngredients> fin;
+		public StewNumberBuilder(StewConditionsBuilder parent, Consumer<CookIngredients> fin) {
 			super();
 			this.parent = parent;
 			this.fin = fin;
@@ -73,18 +73,18 @@ public class CookingRecipeBuilder {
 		public StewNumberBuilder of(Item i) {
 			return of(new ItemType(i));
 		}
-		public StewNumberBuilder of(StewNumber sn) {
+		public StewNumberBuilder of(CookIngredients sn) {
 			types.add(sn);
 			return this;
 		}
-		public StewNumberBuilder plus(StewNumber sn) {
+		public StewNumberBuilder plus(CookIngredients sn) {
 			if(types.size()<=0)
 				return of(sn);
-			StewNumber sn2=types.get(types.size()-1);
+			CookIngredients sn2=types.get(types.size()-1);
 			if(sn2 instanceof Add) {
 				((Add) sn2).add(sn);
 			}else {
-				List<StewNumber> t2s = new ArrayList<>();
+				List<CookIngredients> t2s = new ArrayList<>();
 				t2s.add(sn2);
 				t2s.add(sn);
 				types.set(types.size()-1,new Add(t2s));
@@ -121,10 +121,10 @@ public class CookingRecipeBuilder {
 
 	public static class StewConditionsBuilder {
 		private CookingRecipeBuilder parent;
-		private List<StewCondition> li, al, dy;
+		private List<IngredientCondition> li, al, dy;
 
-		public StewConditionsBuilder(CookingRecipeBuilder parent, List<StewCondition> cr, List<StewCondition> al,
-				List<StewCondition> dy) {
+		public StewConditionsBuilder(CookingRecipeBuilder parent, List<IngredientCondition> cr, List<IngredientCondition> al,
+				List<IngredientCondition> dy) {
 			super();
 			this.parent = parent;
 			this.li = cr;
@@ -137,7 +137,7 @@ public class CookingRecipeBuilder {
 		}
 
 
-		private void makeHalf(StewNumber sn) {
+		private void makeHalf(CookIngredients sn) {
 			li.add(new Halfs(sn));
 		}
 
@@ -149,7 +149,7 @@ public class CookingRecipeBuilder {
 			return new StewNumberBuilder(this, this::makeMainly);
 		}
 
-		private void makeMainly(StewNumber sn) {
+		private void makeMainly(CookIngredients sn) {
 			li.add(new Mainly(sn));
 		}
 
@@ -170,10 +170,10 @@ public class CookingRecipeBuilder {
 			return new StewConditionsBuilder(parent, dy, al, dy);
 		}
 
-		private void makeMust(StewNumber sn) {
+		private void makeMust(CookIngredients sn) {
 			li.add(new Must(sn));
 		}
-		private void makeOnly(StewNumber sn) {
+		private void makeOnly(CookIngredients sn) {
 			li.add(new Only(sn));
 		}
 		public CookingRecipeBuilder then() {
@@ -209,8 +209,8 @@ public class CookingRecipeBuilder {
 		}
 	}
 
-	private List<StewCondition> allow = new ArrayList<>();
-	private List<StewCondition> deny = new ArrayList<>();
+	private List<IngredientCondition> allow = new ArrayList<>();
+	private List<IngredientCondition> deny = new ArrayList<>();
 	private int priority = 0;
 	private int time = 200;
 	private float density = 0.75f;
@@ -274,12 +274,12 @@ public class CookingRecipeBuilder {
 		return this;
 	}
 
-	public CookingRecipe end() {
-		return new CookingRecipe(id, allow, deny, priority, time, density, base, output);
+	public StewCookingRecipe end() {
+		return new StewCookingRecipe(id, allow, deny, priority, time, density, base, output);
 	}
 
-	public CookingRecipe finish(Consumer<? super CookingRecipe> csr) {
-		CookingRecipe r = end();
+	public StewCookingRecipe finish(Consumer<? super StewCookingRecipe> csr) {
+		StewCookingRecipe r = end();
 		csr.accept(r);
 		return r;
 	}
