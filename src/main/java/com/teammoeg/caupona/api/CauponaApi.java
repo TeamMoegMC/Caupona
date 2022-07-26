@@ -79,12 +79,6 @@ public class CauponaApi {
 			if (entityLiving instanceof Player) {
 				Player player = (Player) entityLiving;
 				player.getFoodData().eat(info.healing,info.saturation);
-				ItemCooldowns t=player.getCooldowns();
-				int cd=(int) (Config.COMMON.cooldown.get()*info.saturation)+cdm;
-				for(Item i:CPItems.stews)
-					t.addCooldown(i,cd);
-				if(from!=null)
-					t.addCooldown(from.getItem(), cd);
 			}
 		}
 	}

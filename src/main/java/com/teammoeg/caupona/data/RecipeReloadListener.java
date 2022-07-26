@@ -20,6 +20,7 @@ package com.teammoeg.caupona.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.UnaryOperator;
@@ -39,6 +40,7 @@ import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.data.recipes.CookingRecipe;
 import com.teammoeg.caupona.data.recipes.CountingTags;
 import com.teammoeg.caupona.data.recipes.DissolveRecipe;
+import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 
@@ -95,7 +97,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 				if (DissolveRecipe.recipes.stream().anyMatch(e -> e.test(reslt)))
 					continue;
 				FoodValueRecipe ret = addCookingTime(reslt.getItem(), reslt, irs, true);
-				FoodProperties of = i.getFoodProperties();
+				FoodProperties of = reslt.getFoodProperties(null);
 				if (of != null && of.getNutrition() > ret.heal) {
 					ret.effects = of.getEffects();
 					ret.heal = of.getNutrition();
@@ -108,7 +110,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 			}
 		}
 		if (force) {
-			FoodProperties of = i.getFoodProperties();
+			FoodProperties of = iis.getFoodProperties(null);
 			FoodValueRecipe ret = FoodValueRecipe.recipes.computeIfAbsent(i,
 					e -> new FoodValueRecipe(new ResourceLocation(Main.MODID, "food/generated/" + (generated_fv++)), 0,
 							0, iis, e));
@@ -152,7 +154,10 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 		// CountingTags.tags.forEach(System.out::println);
 		CookingRecipe.cookables = CookingRecipe.recipes.values().stream().flatMap(CookingRecipe::getAllNumbers)
 				.collect(Collectors.toSet());
-		
+		DoliumRecipe.recipes=filterRecipes(recipes, DoliumRecipe.class,DoliumRecipe.TYPE)
+				.collect(Collectors.toList());
+		DoliumRecipe.recipes.sort((c1,c2)->Integer.compare(c2.items.size(),c1.items.size()));
+	
 		for (Item i : ForgeRegistries.ITEMS) {
 			ItemStack iis = new ItemStack(i);
 			if (FoodValueRecipe.recipes.containsKey(i))

@@ -58,5 +58,7 @@ public class CPRecipes {
 		CountingTags.TYPE = RecipeType.register(Main.MODID + ":tags");
 		FoodValueRecipe.TYPE = RecipeType.register(Main.MODID + ":food");
 		FluidFoodValueRecipe.TYPE = RecipeType.register(Main.MODID + ":fluid_food");
+		FryingRecipe.TYPE = RecipeType.register(Main.MODID + ":frying");
+		DoliumRecipe.TYPE = RecipeType.register(Main.MODID + ":dolium");
 	}
 }

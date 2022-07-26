@@ -1,0 +1,14 @@
+{
+  "type": "caupona:dolium",
+  "items": [],
+  "base": "caupona:stock",
+  "fluid": "caupona:mushroom_soup",
+  "density": 0.25,
+  "amount": 250,
+  "keepInfo": true,
+  "output": {
+    "type": "forge:nbt",
+    "item": "caupona:mushroom_soup_aspic",
+    "count": 1
+  }
+}

@@ -45,12 +45,10 @@ public class Config {
 		/**
 		 * @param builder
 		 */
-		public ConfigValue<Integer> cooldown;
 		
 		Common(ForgeConfigSpec.Builder builder) {
 			builder.push("Stews");
 			
-			cooldown=builder.comment("Add Cooldown to all soups per saturation added").define("CooldownTicksPerSaturation",10);
 			builder.pop();
 		}
 	}
@@ -67,15 +65,20 @@ public class Config {
 		public ConfigValue<Integer> fumaroleCheck;
 		public ConfigValue<Integer> fumarolePower;
 		public ConfigValue<Float> stoveFuel;
+		public ConfigValue<Integer> StaticTime;
 		public ConfigValue<Boolean> genWalnut;
 		public ConfigValue<Boolean> genWolfberry;
 		public ConfigValue<Boolean> genFig;
 		Server(ForgeConfigSpec.Builder builder) {
+			builder.push("recipes");
+			StaticTime=builder.comment("Ticks before do still recipe").defineInRange("StillRecipeTime",1000,1,Integer.MAX_VALUE);
+			builder.pop();
 			builder.push("chimney");
 			chimneyTicks=builder.comment("How many ticks does a chimney pot needed to make a soot").define("ChimneySootTicks",80);
 			chimneyCheck=builder.comment("How many ticks does a chimney check it's validity").defineInRange("ChimneyCheckTicks",20, 1, 2000);
 			chimneyStorage=builder.comment("Max soot stored in a chimney").defineInRange("ChimneySootStorage",8, 1,64);
 			builder.pop();
+			
 			builder.push("stoves");
 			stoveCD=builder.comment("How many ticks should the stove pause burning when work is done").define("StovePauseTimer",100);
 			stoveFuel=builder.comment("Stove fuel value multiplier").define("StoveFuelMultiplier",1.0f);

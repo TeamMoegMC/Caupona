@@ -27,7 +27,11 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.SerializeUtil;
+import com.teammoeg.caupona.fluid.SoupFluid;
+import com.teammoeg.caupona.items.StewItem;
+import com.teammoeg.caupona.util.SoupInfo;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -35,6 +39,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.common.crafting.NBTIngredient;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -57,20 +63,26 @@ public class DoliumRecipe extends IDataRecipe {
 	
 	public ResourceLocation base;
 	public Fluid fluid;
+	public int amount=250;
 	public float density=0;
+	public boolean keepInfo=false;
+	public ItemStack output;
 
-
-	public DoliumRecipe(ResourceLocation id, ResourceLocation base, Fluid fluid, float density, List<Pair<Ingredient,Integer>> items) {
+	public DoliumRecipe(ResourceLocation id, ResourceLocation base, Fluid fluid, int amount,float density,boolean keep,ItemStack out,List<Pair<Ingredient,Integer>> items) {
 		super(id);
 		if(items!=null)
 			this.items = new ArrayList<>(items);
 		else
 			this.items=new ArrayList<>();
+		
 		this.base = base;
 		this.fluid = fluid;
 		this.density = density;
+		this.amount=amount;
+		this.output=out;
+		keepInfo=keep;
 	}
-
+	
 	public DoliumRecipe(ResourceLocation id, JsonObject jo) {
 		super(id);
 		if(jo.has("items")) 
@@ -79,29 +91,77 @@ public class DoliumRecipe extends IDataRecipe {
 		if(jo.has("base"))
 			base=new ResourceLocation(jo.get("base").getAsString());
 		fluid=ForgeRegistries.FLUIDS.getValue(new ResourceLocation(jo.get("fluid").getAsString()));
+		if(jo.has("amount"))
+			amount=jo.get("amount").getAsInt();
 		if(jo.has("density"))
 			density=jo.get("density").getAsFloat();
-		
+		if(jo.has("keepInfo"))
+			keepInfo=jo.get("keepInfo").getAsBoolean();
+		output=Ingredient.fromJson(jo.get("output")).getItems()[0];
+		if(output==null)
+			throw new InvalidRecipeException("cannot load"+id+": no output found!");
 	}
-
-	public boolean test(Fluid f,ItemStack... ss) {
+	public static DoliumRecipe testPot(FluidStack fluidStack) {
+		return recipes.stream().filter(t->t.test(fluidStack)).findFirst().orElse(null);
+	}
+	public static DoliumRecipe testDolium(FluidStack f,NonNullList<ItemStack> inv) {
+		ItemStack is0=inv.get(0);
+		ItemStack is1=inv.get(1);
+		ItemStack is2=inv.get(2);
+		return recipes.stream().filter(t->t.test(f,is0,is1,is2)).findFirst().orElse(null);
+	}
+	public boolean test(FluidStack f,ItemStack... ss) {
 		if(ss.length==0&&items.size()>0)return false;
+		if(!f.getFluid().isSame(fluid))return false;
+		if(f.getAmount()<amount)return false;
+		if(density!=0||base!=null) {
+			SoupInfo info=SoupFluid.getInfo(f);
+			if(base!=null&&!info.base.equals(base))return false;
+			if(info.getDensity()<density)return false;
+		}
+		for(Pair<Ingredient, Integer> igd:items) {
+			boolean flag=false;
+			for(ItemStack is:ss) {
+				if(igd.getFirst().test(is)) {
+					flag=true;
+					break;
+				}
+			}
+			if(!flag)return false;
+		}
 		return true;
 	}
-
+	public ItemStack handle(FluidStack f) {
+		int times=f.getAmount()/amount;
+		ItemStack out=output.copy();
+		out.setCount(out.getCount()*times);
+		if(keepInfo) {
+			SoupInfo info=SoupFluid.getInfo(f);
+			StewItem.setInfo(out,info);
+		}
+		f.shrink(times*amount);
+		return out;
+	}
 	public DoliumRecipe(ResourceLocation id, FriendlyByteBuf data) {
 		super(id);
 		items = SerializeUtil.readList(data,d->Pair.of(Ingredient.fromNetwork(d),d.readVarInt()));
 		base=SerializeUtil.readOptional(data,FriendlyByteBuf::readResourceLocation).orElse(null);
 		fluid=data.readRegistryIdUnsafe(ForgeRegistries.FLUIDS);
+		amount=data.readVarInt();
 		density=data.readFloat();
+		keepInfo=data.readBoolean();
+		output=data.readItem();
 	}
 
 	public void write(FriendlyByteBuf data) {
 		SerializeUtil.writeList(data, items,(r,d)->{r.getFirst().toNetwork(data);data.writeVarInt(r.getSecond());});
 		SerializeUtil.writeOptional2(data,base,FriendlyByteBuf::writeResourceLocation);
 		data.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS, fluid);
+		data.writeVarInt(amount);
 		data.writeFloat(density);
+		data.writeBoolean(keepInfo);
+		data.writeItem(output);
+		
 	}
 
 	@Override
@@ -111,6 +171,9 @@ public class DoliumRecipe extends IDataRecipe {
 		json.addProperty("base",base.toString());
 		json.addProperty("fluid",fluid.getRegistryName().toString());
 		json.addProperty("density", density);
+		json.addProperty("amount", amount);
+		json.addProperty("keepInfo",keepInfo);
+		json.add("output",NBTIngredient.of(output).toJson());
 	}
 
 }

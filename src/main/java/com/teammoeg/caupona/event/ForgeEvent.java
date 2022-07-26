@@ -24,6 +24,7 @@ import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.fluid.SoupFluid;
+import com.teammoeg.caupona.util.SoupInfo;
 import com.teammoeg.caupona.worldgen.CPPlacements;
 
 import net.minecraft.core.BlockPos;
@@ -113,7 +114,7 @@ public class ForgeEvent {
 				net.minecraft.world.level.material.Fluid f = blockstate1.getFluidState().getType();
 				if (f != Fluids.EMPTY) {
 					BowlContainingRecipe recipe = BowlContainingRecipe.recipes.get(f);
-
+					if(recipe==null)return;
 					ItemStack ret = recipe.handle(f);
 					event.setCanceled(true);
 					event.setCancellationResult(InteractionResult.sidedSuccess(worldIn.isClientSide));
@@ -136,11 +137,13 @@ public class ForgeEvent {
 			LazyOptional<IFluidHandlerItem> cap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
 			if (cap.isPresent()&&stack.getTags().anyMatch(t->t.location().equals(container))) {
 				IFluidHandlerItem data = cap.resolve().get();
-				if(data.getFluidInTank(0).getFluid() instanceof SoupFluid)
-					if(event.getPlayer().getCooldowns().isOnCooldown(CPItems.water)) {
+				if(data.getFluidInTank(0).getFluid() instanceof SoupFluid) {
+					SoupInfo si=SoupFluid.getInfo(data.getFluidInTank(0));
+					if(!event.getPlayer().canEat(si.canAlwaysEat())) {
 						event.setCancellationResult(InteractionResult.FAIL);
 						event.setCanceled(true);
 					}
+				}
 			}
 		}
 	}

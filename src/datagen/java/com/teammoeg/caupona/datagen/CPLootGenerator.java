@@ -108,7 +108,10 @@ public class CPLootGenerator extends LootTableProvider {
 						"_acanthine_column_capital"))
 					dropSelf(cp(str+type));
 			}
-
+			for (String wood : ImmutableSet.of("fig","wolfberry")) {
+				dropSelf(cp(wood + "_sapling"));
+				add(cp(wood + "_leaves"),createLeavesDrops(cp(wood + "_leaves"),cp(wood + "_sapling"),0.05F, 0.0625F, 0.083333336F, 0.1F));
+			}
 		}
 
 		private Block cp(String name) {

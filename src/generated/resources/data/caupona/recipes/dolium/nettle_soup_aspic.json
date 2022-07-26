@@ -1,0 +1,14 @@
+{
+  "type": "caupona:dolium",
+  "items": [],
+  "base": "caupona:stock",
+  "fluid": "caupona:nettle_soup",
+  "density": 0.25,
+  "amount": 250,
+  "keepInfo": true,
+  "output": {
+    "type": "forge:nbt",
+    "item": "caupona:nettle_soup_aspic",
+    "count": 1
+  }
+}

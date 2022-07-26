@@ -11,6 +11,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -58,10 +59,12 @@ public class BowlBlock extends CPBaseTileBlock<BowlTileEntity> {
 		if (p.consumesAction())
 			return p;
 		BowlTileEntity tileEntity = (BowlTileEntity) worldIn.getBlockEntity(pos);
-		if (tileEntity.internal != null && tileEntity.internal.getItem() instanceof StewItem&&!player.getCooldowns().isOnCooldown(CPItems.water)) {
-			CauponaApi.applyStew(worldIn, player, CauponaApi.getInfo(tileEntity.internal),null,32);
-			tileEntity.internal = tileEntity.internal.getContainerItem();
-			tileEntity.syncData();
+		if (tileEntity.internal != null && tileEntity.internal.getItem() instanceof StewItem&&tileEntity.internal.isEdible()) {
+			FoodProperties fp=tileEntity.internal.getFoodProperties(player);
+			if(player.canEat(fp.canAlwaysEat())) {
+				tileEntity.internal = player.eat(worldIn,tileEntity.internal);
+				tileEntity.syncData();
+			}
 			return InteractionResult.SUCCESS;
 		}
 		return InteractionResult.PASS;

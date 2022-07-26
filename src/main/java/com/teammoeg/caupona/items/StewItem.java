@@ -88,43 +88,9 @@ public class StewItem extends CPBlockItem {
 	}
 
 	public ItemStack finishUsingItem(ItemStack itemstack, Level worldIn, LivingEntity entityLiving) {
-
-		SoupInfo si = getInfo(itemstack);
-		int cooldown;
-		if (!worldIn.isClientSide) {
-			for (MobEffectInstance eff : si.effects) {
-				if (eff != null) {
-					entityLiving.addEffect(eff);
-				}
-			}
-			Random r = entityLiving.getRandom();
-			for (Pair<MobEffectInstance, Float> ef : si.foodeffect) {
-				if (r.nextFloat() < ef.getSecond())
-					entityLiving.addEffect(ef.getFirst());
-			}
-		}
-		if (entityLiving instanceof Player) {
-			Player player = (Player) entityLiving;
-			
-			if (!worldIn.isClientSide)
-				player.getFoodData().eat(si.healing, si.saturation);
-			if (player.getAbilities().instabuild)
-				return itemstack;
-			ItemCooldowns t=player.getCooldowns();
-			int cd=(int) (Config.COMMON.cooldown.get()*si.saturation);
-			for(Item i:CPItems.stews)
-				t.addCooldown(i,cd);
-		}
+		super.finishUsingItem(itemstack, worldIn, entityLiving);
 		return new ItemStack(Items.BOWL);
 	}
-
-	public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
-		ItemStack itemstack = playerIn.getItemInHand(handIn);
-
-		playerIn.startUsingItem(handIn);
-		return InteractionResultHolder.consume(itemstack);
-	}
-
 	@Override
 	public int getUseDuration(ItemStack stack) {
 		return 16;
@@ -271,7 +237,6 @@ public class StewItem extends CPBlockItem {
 	 * Called when this item is used when targetting a Block
 	 */
 	public InteractionResult useOn(UseOnContext pContext) {
-		
 		InteractionResult interactionresult = InteractionResult.PASS;
 		if (pContext.getPlayer().isShiftKeyDown())
 			interactionresult = this.place(new BlockPlaceContext(pContext));
@@ -286,8 +251,24 @@ public class StewItem extends CPBlockItem {
 		return interactionresult;
 	}
 
+
+
 	@Override
-	public FoodProperties getFoodProperties() {
-		return super.getFoodProperties();
+	public FoodProperties getFoodProperties(ItemStack stack, LivingEntity entity) {
+		SoupInfo si = getInfo(stack);
+		FoodProperties.Builder b=new FoodProperties.Builder();
+		for (MobEffectInstance eff : si.effects) {
+			if (eff != null) {
+				b.effect(eff,1);
+			}
+		}
+		for (Pair<MobEffectInstance, Float> ef : si.foodeffect) {
+			b.effect(ef.getFirst(),ef.getSecond());
+		}
+		b.nutrition(si.healing);
+		b.saturationMod(si.saturation);
+		if(si.canAlwaysEat())
+			b.alwaysEat();
+		return b.build();
 	}
 }

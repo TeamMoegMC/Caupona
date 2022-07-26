@@ -26,6 +26,7 @@ import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.CPBlocks;
@@ -34,6 +35,7 @@ import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
+import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 
@@ -119,8 +121,8 @@ public class CPRecipeProvider extends RecipeProvider {
 			out.accept(new BowlContainingRecipe(rl("bowl/" + s), item(fs), fluid(fs)));
 		}
 		//out.accept(dissolve(RankineItems.CORN_EAR.get()));
-		out.accept(new BowlContainingRecipe(rl("bowl/plain_water"), item(mrl("plain_water")), Fluids.WATER));
-		out.accept(new BowlContainingRecipe(rl("bowl/plain_milk"), item(mrl("plain_milk")), ForgeMod.MILK.get()));
+		out.accept(new BowlContainingRecipe(rl("bowl/plain_water"), cpitem("plain_water"), Fluids.WATER));
+		out.accept(new BowlContainingRecipe(rl("bowl/plain_milk"), cpitem("milk"), ForgeMod.MILK.get()));
 		out.accept(new BoilingRecipe(rl("boil/water"), fluid(mcrl("water")), fluid(mrl("nail_soup")), 100));
 		out.accept(new BoilingRecipe(rl("boil/milk"), fluid(mcrl("milk")), fluid(mrl("scalded_milk")), 100));
 		out.accept(new FoodValueRecipe(rl("food/mushroom"),3,3.6f,new ItemStack(Items.RED_MUSHROOM),Items.RED_MUSHROOM,Items.BROWN_MUSHROOM));
@@ -157,6 +159,28 @@ public class CPRecipeProvider extends RecipeProvider {
 		simpleFood(out,0,.5f,Items.BONE_MEAL);
 		simpleFood(out,1,1f,Items.BONE);
 		simpleFood(out,3,4f,Items.EGG);
+		for(String s:ImmutableSet.of("bisque",
+				"borscht",
+				"dilute_soup",
+				"egg_drop_soup",
+				"fish_soup",
+				"goulash",
+				"hodgepodge",
+				"meat_soup",
+				"mushroom_soup",
+				"nettle_soup",
+				"poultry_soup",
+				"pumpkin_soup",
+				"seaweed_soup",
+				"stock",
+				"stracciatella",
+				"ukha",
+				"vegetable_soup"))
+			aspic(s,out);
+		stewCooking(out);
+		
+	}
+	private void stewCooking(Consumer<IDataRecipe> out) {
 		out=out.andThen(recipes::add);
 		cook("acquacotta").high().base().tag(anyWater).and().require().mainly().of(baked).and().then().finish(out);
 		cook("congee").med().base().tag(anyWater).and().require().half().of(rice).and().then().dense(0.25).finish(out);
@@ -221,6 +245,12 @@ public class CPRecipeProvider extends RecipeProvider {
 		if(cpitem(stone)==null)
 			stoneItem=this::mitem;
 		ShapedRecipeBuilder.shaped(cpitem(stone+"_kitchen_stove")).define('T',stoneItem.apply(stone+"_slab")).define('B',stoneItem.apply(stone)).define('C',Items.CLAY).pattern("TTT").pattern("BCB").pattern("B B").unlockedBy("has_cor_stones", has(cpitem(stone))).save(outx);
+	}
+	private void aspic(String soup,Consumer<IDataRecipe> out) {
+		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID,"dolium/"+soup+"_aspic"),stock.getRegistryName(),cpfluid(soup),250,0.25F,true,new ItemStack(cpitem(soup+"_aspic")),null));
+	}
+	private Fluid cpfluid(String name) {
+		return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(Main.MODID,name));
 	}
 	private Item cpitem(String name) {
 		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID,name));
