@@ -73,28 +73,25 @@ public class FumaroleVentTileEntity extends CPBaseTile implements AbstractStove{
 			int cheat=bs.getValue(FumaroleVentBlock.HEAT);
 			if(below.is(vhot)) {
 				if(cheat!=2) {
-					bs.setValue(FumaroleVentBlock.HEAT, 2);
-					this.getLevel().setBlockAndUpdate(getBlockPos(), bs);
+					this.getLevel().setBlockAndUpdate(getBlockPos(),bs.setValue(FumaroleVentBlock.HEAT, 2));
 				}
 			}else if(below.is(hot)) {
 				if(cheat!=1) {
-					bs.setValue(FumaroleVentBlock.HEAT, 1);
-					this.getLevel().setBlockAndUpdate(getBlockPos(), bs);
+					this.getLevel().setBlockAndUpdate(getBlockPos(),bs.setValue(FumaroleVentBlock.HEAT, 1));
 				}
 			}else if(cheat!=0) {
-				bs.setValue(FumaroleVentBlock.HEAT, 0);
-				this.getLevel().setBlockAndUpdate(getBlockPos(), bs);
+				this.getLevel().setBlockAndUpdate(getBlockPos(),bs.setValue(FumaroleVentBlock.HEAT, 0));
 			}
 		}
 		this.setChanged();
 	}
 	public static void placeFumarole(Level pLevel,BlockPos pPos) {
 		Random pRandom=pLevel.getRandom();
-		int dx=(pRandom.nextBoolean()?1:-1)*(pRandom.nextInt(4));
-		int dz=(pRandom.nextBoolean()?1:-1)*(pRandom.nextInt(4));
+		int dx=(pRandom.nextBoolean()?1:-1)*(pRandom.nextInt(6));
+		int dz=(pRandom.nextBoolean()?1:-1)*(pRandom.nextInt(6));
 		if(dx==0&&dz==0)return;
 		BlockPos pendPos=pPos.offset(dx,0,dz);
-		for(int i=0;i<2;i++) {
+		for(int i=0;i<3;i++) {
 			BlockState b0=pLevel.getBlockState(pendPos);
 			BlockState b1=pLevel.getBlockState(pendPos.below());
 			if(b0.isAir()) {

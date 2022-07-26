@@ -38,10 +38,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTable.Builder;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -66,6 +68,8 @@ public class CPLootGenerator extends LootTableProvider {
 		@Override
 		protected void addTables() {
 			dropSelf(CPBlocks.stew_pot);
+			add(CPBlocks.FUMAROLE_VENT,BlockLoot.createSilkTouchDispatchTable(CPBlocks.FUMAROLE_VENT,LootItem.lootTableItem(Blocks.BASALT
+					)));
 			/*
 			 * dropSelf(CPBlocks.stove1);
 			 * dropSelf(CPBlocks.stove2);

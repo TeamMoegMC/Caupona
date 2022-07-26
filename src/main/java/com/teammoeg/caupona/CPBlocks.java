@@ -15,6 +15,9 @@ import com.teammoeg.caupona.blocks.ChimneyPotBlock;
 import com.teammoeg.caupona.blocks.CounterDoliumBlock;
 import com.teammoeg.caupona.blocks.FruitBlock;
 import com.teammoeg.caupona.blocks.FruitsLeavesBlock;
+import com.teammoeg.caupona.blocks.FumaroleBoulderBlock;
+import com.teammoeg.caupona.blocks.FumaroleVentBlock;
+import com.teammoeg.caupona.blocks.PumiceBloomBlock;
 import com.teammoeg.caupona.blocks.others.CPStandingSignBlock;
 import com.teammoeg.caupona.blocks.others.CPWallSignBlock;
 import com.teammoeg.caupona.blocks.pot.StewPot;
@@ -99,12 +102,13 @@ public class CPBlocks {
 	public static Block WOLFBERRY_LOG;
 	public static Block WOLFBERRY_LEAVE;
 	public static Block WOLFBERRY_SAPLINGS;
-	public static final Block FUMAROLE_BOULDER = register("fumarole_boulder", transparent(new Block(
-			getStoneProps().noCollission().isViewBlocking(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid))));
-	public static final Block FUMAROLE_VENT = register("fumarole_vent", transparent(new Block(
-			getStoneProps().noCollission().isViewBlocking(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid))));
+	public static final Block FUMAROLE_BOULDER = register("fumarole_boulder", transparent(new FumaroleBoulderBlock(
+			getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion().isSuffocating(CPBlocks::isntSolid))));
+	public static final Block FUMAROLE_VENT = transparent(new FumaroleVentBlock("fumarole_vent",
+			getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion().isSuffocating(CPBlocks::isntSolid),
+			CPBlockItem::new));
 	public static final Block PUMICE = register("pumice", transparent(new Block(getStoneProps())));
-	public static final Block PUMICE_BLOOM = register("pumice_bloom", transparent(new Block(getStoneProps())));
+	public static final Block PUMICE_BLOOM = register("pumice_bloom", transparent(new PumiceBloomBlock(getStoneProps().noOcclusion())));
 
 	public static final WoodType WALNUT = WoodType.register(WoodType.create("caupona:walnut"));
 
