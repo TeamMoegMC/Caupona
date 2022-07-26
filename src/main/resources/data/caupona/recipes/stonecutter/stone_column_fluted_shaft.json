@@ -1,7 +1,8 @@
 {
-	"type": "minecraft:stonecutting",
+	"type": "stonecutting",
 	"ingredient": {
 		"item": "minecraft:stone"
 	},
-	"result": "caupona:stone_column_fluted_shaft"
+	"result": "caupona:stone_column_fluted_shaft",
+	"count": 1
 }

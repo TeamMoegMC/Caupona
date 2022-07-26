@@ -1,7 +1,8 @@
 {
-	"type": "minecraft:stonecutting",
+	"type": "stonecutting",
 	"ingredient": {
 		"item": "caupona:felsic_tuff"
 	},
-	"result": "caupona:felsic_tuff_ionic_column_capital"
+	"result": "caupona:felsic_tuff_ionic_column_capital",
+	"count": 1
 }
