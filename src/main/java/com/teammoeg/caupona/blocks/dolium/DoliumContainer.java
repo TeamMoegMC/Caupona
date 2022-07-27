@@ -19,6 +19,7 @@
 package com.teammoeg.caupona.blocks.dolium;
 
 import com.teammoeg.caupona.CPGui;
+import com.teammoeg.caupona.container.OutputSlot;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -26,21 +27,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class DoliumContainer extends AbstractContainerMenu {
-	public static class OutputSlot extends SlotItemHandler {
-		public OutputSlot(IItemHandler inventoryIn, int index, int xPosition, int yPosition) {
-			super(inventoryIn, index, xPosition, yPosition);
-		}
-
-		@Override
-		public boolean mayPlace(ItemStack stack) {
-			return false;
-		}
-	};
-
 	public final CounterDoliumTileEntity tile;
 
 	public CounterDoliumTileEntity getTile() {
@@ -80,14 +69,14 @@ public class DoliumContainer extends AbstractContainerMenu {
 			ItemStack slotStack = slot.getItem();
 			itemStack = slotStack.copy();
 			if (index == 5) {
-				if (!this.moveItemStackTo(slotStack, 12, 48, true)) {
+				if (!this.moveItemStackTo(slotStack, 6, 42, true)) {
 					return ItemStack.EMPTY;
 				}
 				slot.onQuickCraft(slotStack, itemStack);
 			} else if (index >= 6) {
 				if (!this.moveItemStackTo(slotStack, 3, 5, false))
 					if (!this.moveItemStackTo(slotStack, 0, 3, false))
-						if (index < 39) {
+						if (index < 33) {
 							if (!this.moveItemStackTo(slotStack, 33, 42, false))
 								return ItemStack.EMPTY;
 						} else if (index < 42 && !this.moveItemStackTo(slotStack, 6, 33, false))

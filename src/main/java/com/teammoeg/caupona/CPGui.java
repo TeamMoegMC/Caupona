@@ -3,6 +3,7 @@ package com.teammoeg.caupona;
 import com.teammoeg.caupona.blocks.dolium.DoliumContainer;
 import com.teammoeg.caupona.blocks.pot.StewPotContainer;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveContainer;
+import com.teammoeg.caupona.container.PortableBrazierContainer;
 
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
@@ -19,4 +20,7 @@ public class CPGui {
 			() -> IForgeMenuType.create(KitchenStoveContainer::new));
 	public static final RegistryObject<MenuType<DoliumContainer>> DOLIUM = CONTAINERS.register("dolium",
 			() -> IForgeMenuType.create(DoliumContainer::new));
+	public static final RegistryObject<MenuType<PortableBrazierContainer>> BRAZIER = CONTAINERS.register("portable_brazier",
+			() -> IForgeMenuType.create(PortableBrazierContainer::new));
+	
 }

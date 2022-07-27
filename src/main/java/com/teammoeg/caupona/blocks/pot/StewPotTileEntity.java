@@ -282,7 +282,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider {
 				nbt.put("current", current.save());
 			if (nextbase != null)
 				nbt.putString("resultBase", nextbase.toString());
-			nbt.putInt("containerTIck",container);
+			nbt.putInt("containerTicks",container);
 		}
 	}
 

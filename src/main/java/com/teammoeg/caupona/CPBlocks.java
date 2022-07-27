@@ -11,6 +11,7 @@ import com.teammoeg.caupona.blocks.BowlBlock;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 import com.teammoeg.caupona.blocks.ChimneyPotBlock;
 import com.teammoeg.caupona.blocks.DishBlock;
+import com.teammoeg.caupona.blocks.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlock;
 import com.teammoeg.caupona.blocks.fumarole.FumaroleBoulderBlock;
 import com.teammoeg.caupona.blocks.fumarole.FumaroleVentBlock;
@@ -112,7 +113,8 @@ public class CPBlocks {
 			CPBlockItem::new));
 	public static final Block PUMICE = register("pumice", new Block(getStoneProps()));
 	public static final Block PUMICE_BLOOM = register("pumice_bloom", transparent(new PumiceBloomBlock(getStoneProps().noOcclusion())));
-
+	public static final GravyBoatBlock GRAVY_BOAT=registerBlock("gravy_boat",new GravyBoatBlock(Block.Properties.of(Material.GLASS).sound(SoundType.GLASS).instabreak().noOcclusion().isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid)));
+		
 	public static final WoodType WALNUT = WoodType.register(WoodType.create("caupona:walnut"));
 	
 

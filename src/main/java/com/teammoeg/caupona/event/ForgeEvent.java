@@ -18,13 +18,13 @@
 
 package com.teammoeg.caupona.event;
 
-import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.util.SoupInfo;
+import com.teammoeg.caupona.util.ITickableContainer;
 import com.teammoeg.caupona.worldgen.CPPlacements;
 
 import net.minecraft.core.BlockPos;
@@ -32,12 +32,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ClipContext.Fluid;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.biome.Biome.ClimateSettings;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -48,6 +48,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -57,6 +59,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
@@ -66,6 +69,15 @@ public class ForgeEvent {
 		event.addListener(new RecipeReloadListener(event.getServerResources()));
 	}
 	private static ResourceLocation container=new ResourceLocation(Main.MODID,"container");
+	@SubscribeEvent
+	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+		if(event.phase==Phase.START) {
+			AbstractContainerMenu acm=event.player.containerMenu;
+			if(acm instanceof ITickableContainer) {
+				((ITickableContainer) acm).tick(event.side==LogicalSide.SERVER);
+			}
+		}
+	}
 	@SubscribeEvent
 	public static void onBlockClick(PlayerInteractEvent.RightClickBlock event) {
 		ItemStack is = event.getItemStack();

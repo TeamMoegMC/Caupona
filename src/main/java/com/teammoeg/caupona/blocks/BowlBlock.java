@@ -23,6 +23,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -36,7 +38,16 @@ public class BowlBlock extends CPBaseTileBlock<BowlTileEntity> {
 	static final VoxelShape shape = Block.box(2.8, 0, 2.8, 13.2, 5.2, 13.2);
 
 
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
+		return 1.0F;
+	}
 
+	@Override
+	public boolean useShapeForLightOcclusion(BlockState state) {
+		return true;
+	}
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return shape;

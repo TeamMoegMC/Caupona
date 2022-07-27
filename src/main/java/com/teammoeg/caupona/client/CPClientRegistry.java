@@ -49,6 +49,8 @@ public class CPClientRegistry {
 		MenuScreens.register(CPGui.STEWPOT.get(), StewPotScreen::new);
 		MenuScreens.register(CPGui.STOVE.get(),KitchenStoveScreen::new);
 		MenuScreens.register(CPGui.DOLIUM.get(), DoliumScreen::new);
+		MenuScreens.register(CPGui.BRAZIER.get(), PortableBrazierScreen::new);
+		
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stew_pot, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove1, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove2, RenderType.cutout());
@@ -56,12 +58,14 @@ public class CPClientRegistry {
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove4, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove5, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.bowl, RenderType.cutout());
+		ItemBlockRenderTypes.setRenderLayer(CPBlocks.GRAVY_BOAT, RenderType.translucent());
 		
 		for(Block bl:CPBlocks.transparentBlocks)
 			ItemBlockRenderTypes.setRenderLayer(bl, RenderType.cutout());
 		BlockEntityRenderers.register(CPTileTypes.STEW_POT.get(), StewPotRenderer::new);
 		BlockEntityRenderers.register(CPTileTypes.BOWL.get(), BowlRenderer::new);
 		BlockEntityRenderers.register(CPTileTypes.SIGN.get(), SignRenderer::new);
+		BlockEntityRenderers.register(CPTileTypes.DOLIUM.get(),CounterDoliumRenderer::new);
 		Sheets.addWoodType(CPBlocks.WALNUT);
 		
 		
@@ -78,5 +82,9 @@ public class CPClientRegistry {
 		ev.getBlockColors().register((p_92626_, p_92627_, p_92628_, p_92629_) -> {
 	         return p_92627_ != null && p_92628_ != null ? BiomeColors.getAverageFoliageColor(p_92627_, p_92628_) : FoliageColor.getDefaultColor();
 	      },CPBlocks.WALNUT_LEAVE,CPBlocks.FIG_LEAVE,CPBlocks.WOLFBERRY_LEAVE);
+	}
+	@SubscribeEvent
+	public static void onTint(ColorHandlerEvent.Item ev) {
+		ev.getItemColors().register((i,t)->0x5bd449, CPBlocks.WALNUT_LEAVE,CPBlocks.FIG_LEAVE,CPBlocks.WOLFBERRY_LEAVE);
 	}
 }

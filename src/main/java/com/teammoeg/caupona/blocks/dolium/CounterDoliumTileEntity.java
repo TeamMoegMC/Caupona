@@ -9,8 +9,10 @@ import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.items.StewItem;
 import com.teammoeg.caupona.network.CPBaseTile;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -22,13 +24,20 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.wrapper.RangedWrapper;
 
 public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider {
 	ItemStackHandler inv = new ItemStackHandler(6) {
@@ -100,14 +109,7 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider 
 			tryContianFluid();
 		}
 		if(!inner.isEmpty()) {
-			ItemStack is=inv.getStackInSlot(5);
-			if(is.isEmpty()) {
-				inv.setStackInSlot(5, inner.split(inner.getMaxStackSize()));
-			}else if(ItemHandlerHelper.canItemStacksStack(inner, is)){
-				int limit=Math.min(inv.getSlotLimit(5),is.getMaxStackSize());
-				is.grow(limit);
-				inner.shrink(limit);
-			}
+			inner=Utils.insertToOutput(inv,5,inner);
 			return;
 		}
 		if(process<0) {
@@ -118,7 +120,7 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider 
 			process++;
 			if (process >= processMax) {
 				process = -1;
-				if (inv.getStackInSlot(5).isEmpty()) {
+				if (inner.isEmpty()) {
 					DoliumRecipe recipe = DoliumRecipe.testDolium(tank.getFluid(),inv);
 					if (recipe != null) {
 						inner = recipe.handleDolium(tank.getFluid(),inv);
@@ -196,5 +198,41 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider 
 		return new TranslatableComponent("container." + Main.MODID + ".counter_dolium.title");
 	}
 
+	RangedWrapper bowl = new RangedWrapper(inv, 3, 6) {
+		@Override
+		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+			if (slot == 5)
+				return stack;
+			return super.insertItem(slot, stack, simulate);
+		}
 
+		@Override
+		public ItemStack extractItem(int slot, int amount, boolean simulate) {
+			if (slot == 3 || slot == 4)
+				return ItemStack.EMPTY;
+			return super.extractItem(slot, amount, simulate);
+		}
+	};
+	RangedWrapper ingredient = new RangedWrapper(inv, 0, 3) {
+
+		@Override
+		public ItemStack extractItem(int slot, int amount, boolean simulate) {
+			return ItemStack.EMPTY;
+		}
+	};
+	LazyOptional<IItemHandler> up = LazyOptional.of(() -> ingredient);
+	LazyOptional<IItemHandler> side = LazyOptional.of(() -> bowl);
+	LazyOptional<IFluidHandler> fl = LazyOptional.of(() -> tank);
+
+	@Override
+	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			if (side == Direction.UP)
+				return up.cast();
+			return this.side.cast();
+		}
+		if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+			return fl.cast();
+		return super.getCapability(cap, side);
+	}
 }

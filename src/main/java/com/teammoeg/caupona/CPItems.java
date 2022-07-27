@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.teammoeg.caupona.blocks.DishBlock;
+import com.teammoeg.caupona.items.CPBlockItem;
 import com.teammoeg.caupona.items.CPItem;
 import com.teammoeg.caupona.items.DishItem;
 import com.teammoeg.caupona.items.IconItem;
+import com.teammoeg.caupona.items.PortableBrazierItem;
 import com.teammoeg.caupona.items.StewItem;
 
 import net.minecraft.resources.ResourceLocation;
@@ -65,8 +67,10 @@ public class CPItems {
 	public static Item milk=new IconItem("milk_based");
 	public static Item any=new IconItem("any_based");
 	public static Item water;
-	public static Item clay_pot=new CPItem("clay_cistern",new Item.Properties().tab(Main.itemGroup));
-	public static Item soot=new CPItem("soot",new Item.Properties().tab(Main.itemGroup));
+	public static Item clay_pot=new CPItem("clay_cistern",createProps());
+	public static Item soot=new CPItem("soot",createProps());
+	public static Item pbrazier=new PortableBrazierItem("portable_brazier",createProps());
+	public static Item gravy_boat=new CPBlockItem(CPBlocks.GRAVY_BOAT,createProps().durability(5).setNoRepair(),"gravy_boat");
 	public static void init() {
 		for (String s : soups)
 			new StewItem(s, new ResourceLocation(Main.MODID, s), createSoupProps());
@@ -85,7 +89,7 @@ public class CPItems {
 	}
 
 	static Properties createSoupProps() {
-		return new Item.Properties().tab(Main.itemGroup).craftRemainder(Items.BOWL).stacksTo(1);
+		return new Item.Properties().tab(Main.itemGroup).craftRemainder(Items.BOWL).stacksTo(1).craftRemainder(Items.BOWL);
 	}
 	static Properties createProps() {
 		return new Item.Properties().tab(Main.itemGroup);

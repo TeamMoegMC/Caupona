@@ -24,6 +24,7 @@ import com.teammoeg.caupona.Main;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -53,6 +54,7 @@ public class CPItemModelProvider extends ItemModelProvider {
 		itemModel(CPItems.clay_pot,"clay_stew_pot");
 		simpleTexture("culinary_heat_haze","");
 		simpleTexture("soot","");
+		simpleTexture("portable_brazier","");
 		super.singleTexture("walnut_sapling",new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"block/walnut_sapling"));
 		super.singleTexture("fig_sapling",new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"block/fig_sapling"));
 		super.singleTexture("wolfberry_sapling",new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"block/wolfberry_sapling"));
@@ -61,14 +63,39 @@ public class CPItemModelProvider extends ItemModelProvider {
 			simpleTexture(s,"");
 		for(String s:CPItems.dishes)
 			simpleTexture(s,"sauteed_dishes/");
+		texture("gravy_boat","walnut_oil_0").override()
+		.predicate(new ResourceLocation("damaged"), 1)
+		.predicate(new ResourceLocation("damage"), 0.2f)
+		.model(texture("walnut_oil_1"))
+		.end().override()
+		.predicate(new ResourceLocation("damaged"), 1)
+		.predicate(new ResourceLocation("damage"), 0.4f)
+		.model(texture("walnut_oil_2"))
+		.end().override()
+		.predicate(new ResourceLocation("damaged"), 1)
+		.predicate(new ResourceLocation("damage"), 0.6f)
+		.model(texture("walnut_oil_3"))
+		.end().override()
+		.predicate(new ResourceLocation("damaged"), 1)
+		.predicate(new ResourceLocation("damage"), 0.8f)
+		.model(texture("walnut_oil_4"))
+		.end().override()
+		.predicate(new ResourceLocation("damaged"), 1)
+		.predicate(new ResourceLocation("damage"), 1f)
+		.model(texture("oil_bottle"))
+		.end();
 	}
 	public void itemModel(Item item,String name) {
     	super.withExistingParent(item.getRegistryName().getPath(),new ResourceLocation(Main.MODID,"block/"+name));
     }
-	public void simpleTexture(String name,String par) {
-		super.singleTexture(name,new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"item/"+par+name));
+
+	public ItemModelBuilder simpleTexture(String name,String par) {
+		return super.singleTexture(name,new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"item/"+par+name));
 	}
-	public void texture(String name,String par) {
-		super.singleTexture(name,new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"item/"+par));
+	public ItemModelBuilder texture(String name) {
+		return texture(name,name);
+	}
+	public ItemModelBuilder texture(String name,String par) {
+		return super.singleTexture(name,new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"item/"+par));
 	}
 }

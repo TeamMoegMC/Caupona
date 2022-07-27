@@ -31,6 +31,7 @@ import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
+import com.teammoeg.caupona.blocks.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.stove.KitchenStove;
 
 import net.minecraft.core.BlockPos;
@@ -92,6 +93,7 @@ public class CPStatesProvider extends BlockStateProvider {
 					"_counter_with_dolium"))
 				blockItemModel(mat+type);
 		}
+
 		for(String str:CPBlocks.pillar_materials) {
 			for(String type:ImmutableSet.of("_column_fluted_plinth",
 					"_column_fluted_shaft",
@@ -101,6 +103,12 @@ public class CPStatesProvider extends BlockStateProvider {
 					"_tuscan_column_capital",
 					"_acanthine_column_capital"))
 				blockItemModel(str+type);
+		}
+		MultiPartBlockStateBuilder boat=horizontalMultipart(this.getMultipartBuilder(CPBlocks.GRAVY_BOAT),bmf("gravy_boat"));
+		int i=0;
+		for(String s:ImmutableSet.of("_oil_0","_oil_1","_oil_2","_oil_3","_oil_4")) {
+			int j=i++;
+			boat=horizontalMultipart(boat,bmf("gravy_boat"+s),c->c.condition(GravyBoatBlock.LEVEL,j));
 		}
 		for(String wood:CPBlocks.woods) {
 			for(String type:ImmutableSet.of(

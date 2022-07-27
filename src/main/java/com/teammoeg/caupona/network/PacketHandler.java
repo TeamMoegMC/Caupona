@@ -46,5 +46,6 @@ public class PacketHandler {
 		int id = 0;
 		CHANNEL.registerMessage(id++, ClientDataMessage.class, ClientDataMessage::encode, ClientDataMessage::new,
 				ClientDataMessage::handle);
+		CHANNEL.registerMessage(id++, ContainerDataMessage.class, ContainerDataMessage::encode, ContainerDataMessage::new, ContainerDataMessage::handle);
 	}
 }

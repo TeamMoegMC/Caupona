@@ -21,6 +21,7 @@ package com.teammoeg.caupona.blocks.pot;
 import java.util.function.Supplier;
 
 import com.teammoeg.caupona.CPGui;
+import com.teammoeg.caupona.container.OutputSlot;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -32,17 +33,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class StewPotContainer extends AbstractContainerMenu {
-	public static class OutputSlot extends SlotItemHandler {
-		public OutputSlot(IItemHandler inventoryIn, int index, int xPosition, int yPosition) {
-			super(inventoryIn, index, xPosition, yPosition);
-		}
-
-		@Override
-		public boolean mayPlace(ItemStack stack) {
-			return false;
-		}
-	};
-
 	public static class HidableSlot extends SlotItemHandler {
 		Supplier<Boolean> vs;
 
