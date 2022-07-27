@@ -11,12 +11,12 @@
     },
     {
       "type": "spotlight",
-      "item": "caupona:plain_water",
+      "item": "caupona:water",
       "text": "水平平无奇，没有任何特殊的属性。"
     },
     {
       "type": "spotlight",
-      "item": "caupona:plain_milk",
+      "item": "caupona:milk",
       "text": "牛奶会额外提供一些饱和度。"
     },
     {

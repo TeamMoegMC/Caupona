@@ -11,18 +11,18 @@
     },
     {
       "type": "spotlight",
-      "item": "caupona:plain_water",
+      "item": "caupona:water",
       "text": "Water is the plainest base that affects nothing."
     },
     {
       "type": "spotlight",
-      "item": "caupona:plain_milk",
+      "item": "caupona:milk",
       "text": "Milk provides extra Saturation level."
     },
     {
       "type": "spotlight",
       "item": "caupona:stock",
-      "text": "Stock restores more Hunger."
+      "text": "Stock restores more Hunger and Saturation."
     }
   ]
 }
