@@ -3,7 +3,7 @@ package com.teammoeg.caupona;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.teammoeg.caupona.blocks.DishBlock;
+import com.teammoeg.caupona.blocks.foods.DishBlock;
 import com.teammoeg.caupona.items.CPBlockItem;
 import com.teammoeg.caupona.items.CPBoatItem;
 import com.teammoeg.caupona.items.CPItem;

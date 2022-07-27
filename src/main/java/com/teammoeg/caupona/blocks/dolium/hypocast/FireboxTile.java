@@ -1,4 +1,4 @@
-package com.teammoeg.caupona.blocks;
+package com.teammoeg.caupona.blocks.dolium.hypocast;
 
 import com.teammoeg.caupona.CPTileTypes;
 import com.teammoeg.caupona.network.CPBaseTile;
@@ -8,10 +8,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class DishTileEntity extends CPBaseTile {
+public class FireboxTile extends CPBaseTile {
 
-	public DishTileEntity( BlockPos pWorldPosition, BlockState pBlockState) {
-		super(CPTileTypes.DISH.get(), pWorldPosition, pBlockState);
+	public FireboxTile(BlockPos pWorldPosition, BlockState pBlockState) {
+		super(CPTileTypes.FIREBOX.get(), pWorldPosition, pBlockState);
 	}
 
 	@Override

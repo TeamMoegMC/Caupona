@@ -31,7 +31,7 @@ import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
-import com.teammoeg.caupona.blocks.GravyBoatBlock;
+import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.stove.KitchenStove;
 
 import net.minecraft.core.BlockPos;
@@ -131,6 +131,11 @@ public class CPStatesProvider extends BlockStateProvider {
 			//blockItemModel(wood+"_trapdoor","_top");
 
 		}
+		for(String s:CPBlocks.hypocast_materials) {
+			blockItemModel(s+"_hypocaust_firebox");
+			blockItemModel(s+"_caliduct");
+		}
+		blockItemModel("wolf_statue","_1");
 		blockItemModel("fumarole_boulder");
 		blockItemModel("fumarole_vent");
 		blockItemModel("pumice");

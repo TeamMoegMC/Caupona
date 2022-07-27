@@ -1,9 +1,9 @@
-package com.teammoeg.caupona.blocks;
+package com.teammoeg.caupona.blocks.stove;
 
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPTileTypes;
-import com.teammoeg.caupona.blocks.stove.KitchenStoveTileEntity;
+import com.teammoeg.caupona.blocks.CPHorizontalTileBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;

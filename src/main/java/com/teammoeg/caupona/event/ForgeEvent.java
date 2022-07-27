@@ -31,12 +31,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
+
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ClipContext.Fluid;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.biome.Biome.ClimateSettings;
@@ -50,7 +52,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -76,6 +80,12 @@ public class ForgeEvent {
 			if(acm instanceof ITickableContainer) {
 				((ITickableContainer) acm).tick(event.side==LogicalSide.SERVER);
 			}
+		}
+	}
+	@SubscribeEvent
+	public static void onPlayerDeath(PlayerEvent.Clone event) {
+		if(event.isWasDeath()&&!event.getOriginal().getLevel().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)) {
+			
 		}
 	}
 	@SubscribeEvent

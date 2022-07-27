@@ -7,22 +7,25 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import com.teammoeg.caupona.blocks.BowlBlock;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
-import com.teammoeg.caupona.blocks.ChimneyPotBlock;
-import com.teammoeg.caupona.blocks.DishBlock;
-import com.teammoeg.caupona.blocks.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlock;
+import com.teammoeg.caupona.blocks.dolium.hypocast.CaliductBlock;
+import com.teammoeg.caupona.blocks.dolium.hypocast.FireboxBlock;
+import com.teammoeg.caupona.blocks.dolium.hypocast.WolfStatueBlock;
+import com.teammoeg.caupona.blocks.foods.BowlBlock;
+import com.teammoeg.caupona.blocks.foods.DishBlock;
 import com.teammoeg.caupona.blocks.fumarole.FumaroleBoulderBlock;
 import com.teammoeg.caupona.blocks.fumarole.FumaroleVentBlock;
 import com.teammoeg.caupona.blocks.fumarole.PumiceBloomBlock;
 import com.teammoeg.caupona.blocks.others.CPStandingSignBlock;
 import com.teammoeg.caupona.blocks.others.CPWallSignBlock;
+import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.plants.BushLogBlock;
 import com.teammoeg.caupona.blocks.plants.CPStripPillerBlock;
 import com.teammoeg.caupona.blocks.plants.FruitBlock;
 import com.teammoeg.caupona.blocks.plants.FruitsLeavesBlock;
 import com.teammoeg.caupona.blocks.pot.StewPot;
+import com.teammoeg.caupona.blocks.stove.ChimneyPotBlock;
 import com.teammoeg.caupona.blocks.stove.KitchenStove;
 import com.teammoeg.caupona.items.CPBlockItem;
 import com.teammoeg.caupona.items.DishItem;
@@ -68,6 +71,10 @@ public class CPBlocks {
 			"opus_reticulatum", "felsic_tuff_bricks", "felsic_tuff" };
 	public static final String[] woods = new String[] { "walnut" };
 	public static final String[] pillar_materials = new String[] { "stone", "quartz", "felsic_tuff", "calcite" };
+	public static final String[] hypocast_materials=new String[] {"brick",
+			"opus_incertum",
+			"opus_latericium",
+			"stone_brick"};
 	
 	// Dynamic block types
 	public static final List<Block> signs = new ArrayList<>();
@@ -76,6 +83,8 @@ public class CPBlocks {
 	public static final List<Block> chimney = new ArrayList<>();
 	public static final List<Block> dolium = new ArrayList<>();
 	public static final List<Block> dishes = new ArrayList<>();
+	public static final List<Block> caliduct = new ArrayList<>();
+	public static final List<Block> firebox = new ArrayList<>();
 
 	// useful blocks
 	public static Block stew_pot = new StewPot("stew_pot", Block.Properties.of(Material.STONE).sound(SoundType.STONE)
@@ -116,7 +125,7 @@ public class CPBlocks {
 	public static final GravyBoatBlock GRAVY_BOAT=registerBlock("gravy_boat",new GravyBoatBlock(Block.Properties.of(Material.GLASS).sound(SoundType.GLASS).instabreak().noOcclusion().isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid)));
 		
 	public static final WoodType WALNUT = WoodType.register(WoodType.create("caupona:walnut"));
-	
+	public static final Block WOLF=register("wolf_statue", new WolfStatueBlock(getTransparentProps()));
 
 	public static void init() {
 		for (String stone : stones) {
@@ -131,6 +140,11 @@ public class CPBlocks {
 			register(mat + "_chimney_pot", new ChimneyPotBlock(getTransparentProps()));
 			register(mat + "_counter", new CPHorizontalBlock(getStoneProps()));
 			transparentBlocks.add(register(mat + "_counter_with_dolium", new CounterDoliumBlock(getTransparentProps())));
+		}
+		for (String mat : hypocast_materials) {
+			register(mat+"_caliduct",new CaliductBlock(getTransparentProps()));
+			register(mat+"_hypocaust_firebox",new FireboxBlock(getTransparentProps()));
+
 		}
 		
 		for (String pil : pillar_materials) {

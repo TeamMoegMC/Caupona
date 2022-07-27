@@ -24,7 +24,6 @@ import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.FuelType;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.AbstractStove;
-import com.teammoeg.caupona.blocks.ChimneyPotTileEntity;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.network.CPBaseTile;
 import com.teammoeg.caupona.util.ChimneyHelper;

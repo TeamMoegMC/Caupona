@@ -1,4 +1,4 @@
-package com.teammoeg.caupona.blocks;
+package com.teammoeg.caupona.blocks.stove;
 
 import com.teammoeg.caupona.CPTileTypes;
 import com.teammoeg.caupona.Config;

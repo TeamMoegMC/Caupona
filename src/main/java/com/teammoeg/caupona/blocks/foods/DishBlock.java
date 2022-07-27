@@ -1,6 +1,8 @@
-package com.teammoeg.caupona.blocks;
+package com.teammoeg.caupona.blocks.foods;
 
 import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.blocks.CPBaseTileBlock;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

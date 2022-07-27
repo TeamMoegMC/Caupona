@@ -1,8 +1,9 @@
-package com.teammoeg.caupona.blocks;
+package com.teammoeg.caupona.blocks.pan;
 
 import java.util.List;
 
 import com.teammoeg.caupona.CPItems;
+import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;

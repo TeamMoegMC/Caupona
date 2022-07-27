@@ -1,5 +1,5 @@
 {
-	"parent": "caupona:block/template_caliduct",
+	"parent": "caupona:block/template_hypocaust_firebox",
 	"textures": {
 		"sides": "minecraft:block/stone_bricks",
 		"polar": "caupona:block/stone_brick_hypocaust_firebox_polar",

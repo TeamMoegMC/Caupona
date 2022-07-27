@@ -1,9 +1,10 @@
-package com.teammoeg.caupona.blocks;
+package com.teammoeg.caupona.blocks.foods;
 
 import java.util.function.BiFunction;
 
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.api.CauponaApi;
+import com.teammoeg.caupona.blocks.CPBaseTileBlock;
 import com.teammoeg.caupona.items.StewItem;
 
 import net.minecraft.core.BlockPos;

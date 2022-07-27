@@ -3,14 +3,17 @@ package com.teammoeg.caupona;
 import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableSet;
-import com.teammoeg.caupona.blocks.BowlTileEntity;
-import com.teammoeg.caupona.blocks.ChimneyPotTileEntity;
-import com.teammoeg.caupona.blocks.DishTileEntity;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumTileEntity;
+import com.teammoeg.caupona.blocks.dolium.hypocast.CaliductTile;
+import com.teammoeg.caupona.blocks.dolium.hypocast.FireboxTile;
+import com.teammoeg.caupona.blocks.dolium.hypocast.WolfStatueTile;
+import com.teammoeg.caupona.blocks.foods.BowlTileEntity;
+import com.teammoeg.caupona.blocks.foods.DishTileEntity;
 import com.teammoeg.caupona.blocks.fumarole.FumaroleVentTileEntity;
 import com.teammoeg.caupona.blocks.others.CPSignTileEntity;
 import com.teammoeg.caupona.blocks.pan.PanTile;
 import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
+import com.teammoeg.caupona.blocks.stove.ChimneyPotTileEntity;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveT1;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveT2;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveTileEntity;
@@ -47,6 +50,14 @@ public class CPTileTypes {
 			makeTypes(CounterDoliumTileEntity::new, () -> CPBlocks.dolium.toArray(new Block[0])));
 	public static final RegistryObject<BlockEntityType<DishTileEntity>> DISH = REGISTER.register("dish",
 			makeTypes(DishTileEntity::new, () -> CPBlocks.dishes.toArray(new Block[0])));
+	public static final RegistryObject<BlockEntityType<CaliductTile>> CALIDUCT = REGISTER.register("caliduct",
+			makeTypes(CaliductTile::new, () -> CPBlocks.caliduct.toArray(new Block[0])));
+	public static final RegistryObject<BlockEntityType<FireboxTile>> FIREBOX = REGISTER.register("hypocast_firebox",
+			makeTypes(FireboxTile::new, () -> CPBlocks.firebox.toArray(new Block[0])));
+	public static final RegistryObject<BlockEntityType<WolfStatueTile>> WOLF = REGISTER.register("wolf_statue",
+			makeTypes(WolfStatueTile::new, () -> CPBlocks.firebox.toArray(new Block[0])));
+	
+	
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntitySupplier<T> create,
 			Supplier<Block> valid) {
 		return () -> new BlockEntityType<>(create,ImmutableSet.of(valid.get()), null);
