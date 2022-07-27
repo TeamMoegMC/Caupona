@@ -2,18 +2,15 @@ package com.teammoeg.caupona.blocks;
 
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import com.teammoeg.caupona.CPItems;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -36,6 +33,18 @@ public class GravyBoatBlock extends CPHorizontalBlock {
 			return shapeNS;
 		return shapeEW;
 		
+	}
+	public static int getOil(BlockState pState) {
+		return 5-pState.getValue(LEVEL);
+	}
+	public static boolean drawOil(Level pLevel, BlockPos pPos, BlockState pState,int count) {
+		int dmg=pState.getValue(LEVEL);
+		if(dmg+count<=5) {
+			pState=pState.setValue(LEVEL,dmg+count);
+			pLevel.setBlockAndUpdate(pPos, pState);
+			return true;
+		}
+		return false;
 	}
 	@Override
 	@OnlyIn(Dist.CLIENT)
@@ -66,11 +75,7 @@ public class GravyBoatBlock extends CPHorizontalBlock {
 	}
 
 
-	@Override
-	public void playerDestroy(Level pLevel, Player pPlayer, BlockPos pPos, BlockState pState, BlockEntity pBlockEntity,
-			ItemStack pTool) {
-		super.playerDestroy(pLevel, pPlayer, pPos, pState, pBlockEntity, pTool);
-	}
+
 	@Override
 	public List<ItemStack> getDrops(BlockState pState,
 			net.minecraft.world.level.storage.loot.LootContext.Builder pBuilder) {

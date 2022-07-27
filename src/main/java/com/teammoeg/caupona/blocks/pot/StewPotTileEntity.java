@@ -32,6 +32,7 @@ import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.data.recipes.DissolveRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
+import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.data.recipes.StewPendingContext;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.items.StewItem;
@@ -73,7 +74,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfinitable {
+public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfinitable {
 	private ItemStackHandler inv = new ItemStackHandler(12) {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
@@ -83,6 +84,8 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 				Item i = stack.getItem();
 				return i == Items.BOWL || i instanceof StewItem || AspicMeltingRecipe.find(stack) != null;
 			}
+			if (slot == 11)
+				return SpiceRecipe.isValid(stack);
 			return false;
 		}
 
@@ -104,15 +107,15 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 			// all fluid emptied
 			if (this.isEmpty())
 				current = null;
-			nowork=0;
+			nowork = 0;
 		}
-		
+
 	};
 
 	public StewPotTileEntity(BlockPos p, BlockState s) {
 		super(CPTileTypes.STEW_POT.get(), p, s);
 		stillticks = Config.SERVER.staticTime.get();
-		contTicks=Config.SERVER.containerTick.get();
+		contTicks = Config.SERVER.containerTick.get();
 	}
 
 	public FluidTank getTank() {
@@ -121,19 +124,19 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 
 	public int process;
 	public int processMax;
-	
+
 	public int nowork;
 	private int stillticks;
-	
+
 	public int container;
 	private int contTicks;
-	
+
 	public boolean working = false;
 	public boolean operate = false;
 	public short proctype = 0;
 	public boolean rsstate = false;
-	private boolean isInfinite=false;
-	
+	private boolean isInfinite = false;
+
 	public Fluid become;
 	public ResourceLocation nextbase;
 	public static final short NOP = 0;
@@ -150,7 +153,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 				BlockEntity te = level.getBlockEntity(worldPosition.below());
 				if (te instanceof AbstractStove) {
 					int rh = ((AbstractStove) te).requestHeat();
-					if(!isInfinite)
+					if (!isInfinite)
 						process += rh;
 					if (rh > 0)
 						working = true;
@@ -163,7 +166,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 					return;
 
 			} else {
-				if (!tank.isEmpty()&&!isInfinite) {
+				if (!tank.isEmpty() && !isInfinite) {
 					nowork++;
 					if (nowork >= stillticks) {
 						nowork = 0;
@@ -171,35 +174,53 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 							DoliumRecipe recipe = DoliumRecipe.testPot(getTank().getFluid());
 							if (recipe != null) {
 								ItemStack out = recipe.handle(getTank().getFluid());
-								
+
 								inv.setStackInSlot(10, out);
 							}
 
 						}
 					}
 				}
-				if(!isInfinite)
-				prepareWork();
+				if (!isInfinite)
+					prepareWork();
 				container++;
-				if(container>=contTicks) {
-					container=0;
-					if(isInfinite) {
-						FluidStack fs=new FluidStack(tank.getFluid(),tank.getFluidAmount());
+				if (container >= contTicks) {
+					container = 0;
+					if (isInfinite) {
+						FluidStack fs = new FluidStack(tank.getFluid(), tank.getFluidAmount());
 						if (canAddFluid())
 							tryContianFluid();
 						tank.setFluid(fs);
-					}else {
+					} else {
 						if (canAddFluid())
 							tryContianFluid();
 					}
-					
-					
-					
+
 				}
 
 			}
 		}
 		this.syncData();
+	}
+
+	private FluidStack tryAddSpice(FluidStack fs) {
+		SpiceRecipe spice = null;
+		ItemStack spi=inv.getStackInSlot(11);
+		if (fs.getAmount()%250==0&&tank.getFluid().getFluid() instanceof SoupFluid)
+			spice = SpiceRecipe.find(spi);
+		if (spice != null) {
+			SoupInfo si = SoupFluid.getInfo(fs);
+			if(!si.canAddSpice())return fs;
+			if (!isInfinite) {
+				int consume=fs.getAmount()/250;
+				if(SpiceRecipe.getMaxUse(spi)<consume)return fs;
+				inv.setStackInSlot(11, SpiceRecipe.handle(spi, consume));
+			}
+			si.addSpice(spice.effect,spi);
+			SoupFluid.setInfo(fs, si);
+		}
+		return fs;
+
 	}
 
 	private void tryContianFluid() {
@@ -209,12 +230,12 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 				BowlContainingRecipe recipe = BowlContainingRecipe.recipes.get(this.tank.getFluid().getFluid());
 				if (recipe != null) {
 					is.shrink(1);
-					inv.setStackInSlot(10, recipe.handle(tank.drain(250, FluidAction.EXECUTE)));
+					inv.setStackInSlot(10, recipe.handle(tryAddSpice(tank.drain(250, FluidAction.EXECUTE))));
 					nowork = 0;
 					return;
 				}
 			}
-			
+
 			if (is.getItem() instanceof StewItem) {
 				if (tryAddFluid(BowlContainingRecipe.extractFluid(is))) {
 					ItemStack ret = is.getContainerItem();
@@ -224,14 +245,14 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 				}
 				return;
 			}
-			if(!isInfinite) {
-				AspicMeltingRecipe amr=AspicMeltingRecipe.find(is);
-				if(amr!=null) {
-					int remainSpace=tank.getCapacity()-tank.getFluidAmount();
-					int produce=Math.min(remainSpace/amr.amount,is.getCount());
-					FluidStack fs=amr.handle(is);
-					fs.setAmount(fs.getAmount()*produce);
-					if (tryAddFluid(fs,amr.time,false)) {
+			if (!isInfinite) {
+				AspicMeltingRecipe amr = AspicMeltingRecipe.find(is);
+				if (amr != null) {
+					int remainSpace = tank.getCapacity() - tank.getFluidAmount();
+					int produce = Math.min(remainSpace / amr.amount, is.getCount());
+					FluidStack fs = amr.handle(is);
+					fs.setAmount(fs.getAmount() * produce);
+					if (tryAddFluid(fs, amr.time, false)) {
 						ItemStack ret = is.getContainerItem();
 						ret.setCount(produce);
 						is.shrink(produce);
@@ -276,8 +297,8 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 			current = nbt.contains("current") ? new SoupInfo(nbt.getCompound("current")) : null;
 			nextbase = nbt.contains("resultBase") ? new ResourceLocation(nbt.getString("resultBase")) : null;
 			nowork = nbt.getInt("nowork");
-			container=nbt.getInt("containerTicks");
-			isInfinite=nbt.getBoolean("inf");
+			container = nbt.getInt("containerTicks");
+			isInfinite = nbt.getBoolean("inf");
 		}
 	}
 
@@ -299,7 +320,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 				nbt.put("current", current.save());
 			if (nextbase != null)
 				nbt.putString("resultBase", nextbase.toString());
-			nbt.putInt("containerTicks",container);
+			nbt.putInt("containerTicks", container);
 			nbt.putBoolean("inf", isInfinite);
 		}
 	}
@@ -550,7 +571,8 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 	}
 
 	public boolean canAddFluid(FluidStack fs) {
-		if(isInfinite)return false;
+		if (isInfinite)
+			return false;
 		int tryfill = tank.fill(fs, FluidAction.SIMULATE);
 		if (tryfill > 0) {
 			if (tryfill == fs.getAmount()) {
@@ -573,12 +595,15 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 		}
 		return current.canMerge(n, tank.getFluidAmount() / 250f, fs.getAmount() / 250f);
 	}
+
 	public boolean tryAddFluid(FluidStack fs) {
-		return tryAddFluid(fs,Config.SERVER.potMixTimeBase.get(),true);
+		return tryAddFluid(fs, Config.SERVER.potMixTimeBase.get(), true);
 	}
-	public boolean tryAddFluid(FluidStack fs,int extraTime,boolean canIgnoreHeat) {
-		if(isInfinite)return false;
-		if(canIgnoreHeat) {
+
+	public boolean tryAddFluid(FluidStack fs, int extraTime, boolean canIgnoreHeat) {
+		if (isInfinite)
+			return false;
+		if (canIgnoreHeat) {
 			int tryfill = tank.fill(fs, FluidAction.SIMULATE);
 			if (tryfill > 0) {
 				if (tryfill == fs.getAmount()) {
@@ -588,7 +613,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 				}
 				return false;
 			}
-		}else if(tank.isEmpty()) {
+		} else if (tank.isEmpty()) {
 			int tryfill = tank.fill(fs, FluidAction.SIMULATE);
 			if (tryfill > 0) {
 				if (tryfill == fs.getAmount()) {
@@ -596,13 +621,13 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 					this.proctype = 3;
 					this.process = 0;
 					this.processMax = extraTime;
-					become=null;
-					nextbase=null;
+					become = null;
+					nextbase = null;
 					nowork = 0;
 					return true;
 				}
 				return false;
-			}	
+			}
 		}
 		if (tank.getCapacity() - tank.getFluidAmount() < fs.getAmount())
 			return false;
@@ -686,27 +711,29 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 
 		@Override
 		public int fill(FluidStack resource, FluidAction action) {
-			if (canAddFluid()&&!isInfinite)
+			if (canAddFluid() && !isInfinite)
 				return tank.fill(resource, action);
 			return 0;
 		}
 
 		@Override
 		public FluidStack drain(FluidStack resource, FluidAction action) {
-			
+
 			if (canAddFluid()) {
-				if(isInfinite)return resource;
-				return tank.drain(resource, action);
+				if (isInfinite)
+					return action.simulate()?resource:tryAddSpice(resource);
+				return action.simulate()?tank.drain(resource, action):tryAddSpice(tank.drain(resource, action));
 			}
 			return FluidStack.EMPTY;
 		}
 
 		@Override
 		public FluidStack drain(int maxDrain, FluidAction action) {
-			
+
 			if (canAddFluid()) {
-				if(isInfinite)return new FluidStack(tank.getFluid(),maxDrain);
-				return tank.drain(maxDrain, action);
+				if (isInfinite)
+					return action.simulate()?new FluidStack(tank.getFluid(), maxDrain):tryAddSpice(new FluidStack(tank.getFluid(), maxDrain));
+				return action.simulate()?tank.drain(maxDrain, action):tryAddSpice(tank.drain(maxDrain, action));
 			}
 			return FluidStack.EMPTY;
 		}
@@ -758,6 +785,6 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider,IInfin
 
 	@Override
 	public boolean setInfinity() {
-		return isInfinite=!isInfinite;
+		return isInfinite = !isInfinite;
 	}
 }

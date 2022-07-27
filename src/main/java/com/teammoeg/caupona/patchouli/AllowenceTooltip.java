@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.api.GameTranslation;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
+import com.teammoeg.caupona.data.recipes.FryingRecipe;
+import com.teammoeg.caupona.data.recipes.IConditionalRecipe;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 
 import net.minecraft.network.chat.Component;
@@ -48,7 +50,10 @@ public class AllowenceTooltip implements ICustomComponent {
 	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
 		recipe=lookup.apply(recipe);
 		ResourceLocation out=new ResourceLocation(recipe.asString());
-		StewCookingRecipe cr=StewCookingRecipe.recipes.get(ForgeRegistries.FLUIDS.getValue(out));
+		IConditionalRecipe cr=StewCookingRecipe.recipes.get(ForgeRegistries.FLUIDS.getValue(out));
+		if(cr==null) {
+			cr=FryingRecipe.recipes.get(ForgeRegistries.ITEMS.getValue(out));
+		}
 		if(cr!=null) {
 			List<IngredientCondition> conds;
 			if(allow)

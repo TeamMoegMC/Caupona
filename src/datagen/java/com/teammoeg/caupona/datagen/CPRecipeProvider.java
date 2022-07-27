@@ -39,6 +39,7 @@ import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
+import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -46,6 +47,9 @@ import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -179,6 +183,7 @@ public class CPRecipeProvider extends RecipeProvider {
 				"vegetable_soup")) {
 			aspic(s,out);
 		}
+		spice(cpitem("vinegar_spice_jar"),MobEffects.NIGHT_VISION,out);
 		stewCooking(out);
 		
 		
@@ -248,6 +253,10 @@ public class CPRecipeProvider extends RecipeProvider {
 		if(cpitem(stone)==null)
 			stoneItem=this::mitem;
 		ShapedRecipeBuilder.shaped(cpitem(stone+"_kitchen_stove")).define('T',stoneItem.apply(stone+"_slab")).define('B',stoneItem.apply(stone)).define('C',Items.CLAY).pattern("TTT").pattern("BCB").pattern("B B").unlockedBy("has_cor_stones", has(cpitem(stone))).save(outx);
+	}
+	private void spice(Item spice,MobEffect eff,Consumer<IDataRecipe> out) {
+		out.accept(new SpiceRecipe(new ResourceLocation(Main.MODID,"spice/"+spice.getRegistryName().getPath()),Ingredient.of(spice),new MobEffectInstance(eff,200)));
+		
 	}
 	private void aspic(String soup,Consumer<IDataRecipe> out) {
 		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID,"dolium/"+soup+"_aspic"),stock.getRegistryName(),cpfluid(soup),250,0.25F,true,new ItemStack(cpitem(soup+"_aspic")),null));

@@ -46,7 +46,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class StewCookingRecipe extends IDataRecipe {
+public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe {
 	public static Set<CookIngredients> cookables;
 	public static Map<Fluid, StewCookingRecipe> recipes;
 	public static List<StewCookingRecipe> sorted;
@@ -199,10 +199,12 @@ public class StewCookingRecipe extends IDataRecipe {
 		return base;
 	}
 
+	@Override
 	public List<IngredientCondition> getAllow() {
 		return allow;
 	}
 
+	@Override
 	public List<IngredientCondition> getDeny() {
 		return deny;
 	}

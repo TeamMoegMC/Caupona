@@ -92,7 +92,7 @@ public class ForgeEvent {
 							FluidStack stack = handler.drain(250, FluidAction.SIMULATE);
 							BowlContainingRecipe recipe = BowlContainingRecipe.recipes.get(stack.getFluid());
 							if (recipe != null && stack.getAmount() == 250) {
-								stack = handler.drain(stack, FluidAction.EXECUTE);
+								stack = handler.drain(250, FluidAction.EXECUTE);
 								if (stack.getAmount() == 250) {
 
 									ItemStack ret = recipe.handle(stack);

@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
+    "caupona:water",
+    "caupona:milk",
     "caupona:acquacotta",
     "caupona:bisque",
     "caupona:borscht",
@@ -36,8 +38,6 @@
     "caupona:ukha",
     "caupona:vegetable_chowder",
     "caupona:vegetable_soup",
-    "caupona:walnut_soup",
-    "caupona:milk",
-    "caupona:water"
+    "caupona:walnut_soup"
   ]
 }

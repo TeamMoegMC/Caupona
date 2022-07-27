@@ -27,6 +27,7 @@ import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
+import com.teammoeg.caupona.data.recipes.IConditionalRecipe;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidTag;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidType;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidTypeType;

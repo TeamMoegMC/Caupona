@@ -11,6 +11,7 @@ import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FryingRecipe;
+import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -50,7 +51,8 @@ public class CPRecipes {
 				FluidFoodValueRecipe::write));
 		AspicMeltingRecipe.SERIALIZER=RECIPE_SERIALIZERS.register("aspic_melt",() ->new CPRecipeSerializer<AspicMeltingRecipe>(AspicMeltingRecipe::new, AspicMeltingRecipe::new,
 				AspicMeltingRecipe::write));
-		
+		SpiceRecipe.SERIALIZER=RECIPE_SERIALIZERS.register("spice",() ->new CPRecipeSerializer<SpiceRecipe>(SpiceRecipe::new, SpiceRecipe::new,
+				SpiceRecipe::write));
 	}
 
 	public static void registerRecipeTypes() {
@@ -64,5 +66,6 @@ public class CPRecipes {
 		FryingRecipe.TYPE = RecipeType.register(Main.MODID + ":frying");
 		DoliumRecipe.TYPE = RecipeType.register(Main.MODID + ":dolium");
 		AspicMeltingRecipe.TYPE = RecipeType.register(Main.MODID + ":aspic_melt");
+		SpiceRecipe.TYPE= RecipeType.register(Main.MODID + ":aspic_spice");
 	}
 }

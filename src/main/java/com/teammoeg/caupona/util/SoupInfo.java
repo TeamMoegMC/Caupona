@@ -37,7 +37,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class SoupInfo {
+public class SoupInfo{
 	public List<FloatemStack> stacks;
 	public List<MobEffectInstance> effects;
 	public List<Pair<MobEffectInstance, Float>> foodeffect = new ArrayList<>();
@@ -46,6 +46,8 @@ public class SoupInfo {
 	public float shrinkedFluid=0;
 	public ResourceLocation base;
 	public MobEffectInstance spice;
+	public boolean hasSpice=false;
+	public ResourceLocation spiceName;
 
 	public SoupInfo(List<FloatemStack> stacks, List<MobEffectInstance> effects, int healing, float saturation,
 			ResourceLocation base) {
@@ -65,6 +67,11 @@ public class SoupInfo {
 		return nbt.getList("items", 10).stream().map(e -> (CompoundTag) e).map(FloatemStack::new)
 				.collect(Collectors.toList());
 	}
+	public static ResourceLocation getSpice(CompoundTag nbt) {
+		if(nbt.contains("spiceName"))
+			return new ResourceLocation(nbt.getString("spiceName"));
+		return null;
+	}
 
 	public float getDensity() {
 		return stacks.stream().map(FloatemStack::getCount).reduce(0f, Float::sum);
@@ -72,9 +79,11 @@ public class SoupInfo {
 	public boolean canAlwaysEat() {
 		return healing<=1||getDensity()<=0.5;
 	}
-	public boolean addSpice(MobEffectInstance spice) {
+	public boolean addSpice(MobEffectInstance spice,ItemStack im) {
 		if(this.spice!=null)return false;
 		this.spice=new MobEffectInstance(spice);
+		hasSpice=true;
+		this.spiceName=im.getItem().getRegistryName();
 		return true;
 	}
 	public SoupInfo(CompoundTag nbt) {
@@ -88,6 +97,11 @@ public class SoupInfo {
 				.map(e -> new Pair<>(MobEffectInstance.load(e.getCompound("effect")), e.getFloat("chance")))
 				.collect(Collectors.toList());
 		base = new ResourceLocation(nbt.getString("base"));
+		hasSpice=nbt.getBoolean("hasSpice");
+		if(nbt.contains("spice"))
+			spice=MobEffectInstance.load(nbt.getCompound("spice"));
+		if(nbt.contains("spiceName"))
+			spiceName=new ResourceLocation(nbt.getString("spiceName"));
 		shrinkedFluid=nbt.getFloat("afluid");
 	}
 
@@ -202,6 +216,7 @@ public class SoupInfo {
 	}
 	public void clearSpice() {
 		spice=null;
+		hasSpice=false;
 	}
 	public void adjustParts(float oparts, float parts) {
 		if (oparts == parts)
@@ -272,6 +287,15 @@ public class SoupInfo {
 		nbt.putFloat("sat", saturation);
 		nbt.putString("base", base.toString());
 		nbt.putFloat("afluid",shrinkedFluid);
+		nbt.putBoolean("hasSpice",hasSpice);
+		if(spice!=null)
+			nbt.put("spice",spice.save(new CompoundTag()));
+		if(spiceName!=null)
+			nbt.putString("spiceName",spiceName.toString());
+	}
+
+	public boolean canAddSpice() {
+		return !hasSpice;
 	}
 
 }

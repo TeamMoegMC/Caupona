@@ -13,34 +13,6 @@
       "id": "farmersdelight:ham",
       "required": false
     },
-    {
-      "id": "stone_age:venison",
-      "required": false
-    },
-    {
-      "id": "stone_age:auroch_meat",
-      "required": false
-    },
-    {
-      "id": "stone_age:mouflon_meat",
-      "required": false
-    },
-    {
-      "id": "stone_age:boar_meat",
-      "required": false
-    },
-    {
-      "id": "stone_age:mammoth_meat",
-      "required": false
-    },
-    {
-      "id": "stone_age:rhino_meat",
-      "required": false
-    },
-    {
-      "id": "stone_age:tiger_meat",
-      "required": false
-    },
     "#forge:raw_bacon"
   ]
 }

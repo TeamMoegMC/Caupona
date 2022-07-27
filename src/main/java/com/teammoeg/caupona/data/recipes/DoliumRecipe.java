@@ -125,7 +125,7 @@ public class DoliumRecipe extends IDataRecipe {
 		ItemStack is0=inv.getStackInSlot(0);
 		ItemStack is1=inv.getStackInSlot(1);
 		ItemStack is2=inv.getStackInSlot(2);
-		ItemStack cont=inv.getStackInSlot(3);
+		ItemStack cont=inv.getStackInSlot(4);
 		return recipes.stream().filter(t->t.test(f,cont,is0,is1,is2)).findFirst().orElse(null);
 	}
 	public boolean test(FluidStack f,ItemStack container,ItemStack... ss) {
@@ -186,7 +186,7 @@ public class DoliumRecipe extends IDataRecipe {
 		}
 		
 		if(extra!=null)
-			inv.getStackInSlot(3).shrink(times);
+			inv.getStackInSlot(4).shrink(times);
 		for(Pair<Ingredient, Integer> igd:items) {
 			if(igd.getSecond()==0)continue;
 			for(int i=0;i<3;i++) {

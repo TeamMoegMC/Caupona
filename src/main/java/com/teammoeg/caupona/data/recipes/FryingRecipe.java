@@ -28,27 +28,22 @@ import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.SerializeUtil;
-import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class FryingRecipe extends IDataRecipe {
+public class FryingRecipe extends IDataRecipe implements IConditionalRecipe {
 	public static Set<CookIngredients> cookables;
-	public static Map<Fluid, FryingRecipe> recipes;
+	public static Map<Item,FryingRecipe> recipes;
 	public static List<FryingRecipe> sorted;
 	public static RecipeType<?> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
@@ -56,7 +51,7 @@ public class FryingRecipe extends IDataRecipe {
 
 	public static boolean isCookable(ItemStack stack) {
 		FloatemTagStack s = new FloatemTagStack(stack);
-		return stack.getItem().builtInRegistryHolder().containsTag(cookable) || cookables.stream().anyMatch(e -> e.fits(s));
+		return stack.is(cookable) || cookables.stream().anyMatch(e -> e.fits(s));
 		//return true;
 	}
 
@@ -74,7 +69,7 @@ public class FryingRecipe extends IDataRecipe {
 	List<IngredientCondition> deny;
 	int priority = 0;
 	public int time;
-	public Fluid output;
+	public Item output;
 
 	public FryingRecipe(ResourceLocation id) {
 		super(id);
@@ -89,8 +84,8 @@ public class FryingRecipe extends IDataRecipe {
 		if (data.has("priority"))
 			priority = data.get("priority").getAsInt();
 		time = data.get("time").getAsInt();
-		output = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(data.get("output").getAsString()));
-		if(output==Fluids.EMPTY)
+		output = ForgeRegistries.ITEMS.getValue(new ResourceLocation(data.get("output").getAsString()));
+		if(output==null)
 			throw new InvalidRecipeException();
 	}
 
@@ -100,11 +95,11 @@ public class FryingRecipe extends IDataRecipe {
 		deny = SerializeUtil.readList(data, SerializeUtil::ofCondition);
 		priority = data.readVarInt();
 		time = data.readVarInt();
-		output = data.readRegistryId();
+		output = data.readRegistryIdUnsafe(ForgeRegistries.ITEMS);
 	}
 
 	public FryingRecipe(ResourceLocation id, List<IngredientCondition> allow, List<IngredientCondition> deny, int priority,
-			int time, Fluid output) {
+			int time, Item output) {
 		super(id);
 		this.allow = allow;
 		this.deny = deny;
@@ -118,7 +113,7 @@ public class FryingRecipe extends IDataRecipe {
 		SerializeUtil.writeList(data, deny, SerializeUtil::write);
 		data.writeVarInt(priority);
 		data.writeVarInt(time);
-		data.writeRegistryId(output);
+		data.writeRegistryIdUnsafe(ForgeRegistries.ITEMS,output);
 	}
 
 	public boolean matches(PanPendingContext ctx) {

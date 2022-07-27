@@ -85,7 +85,7 @@ public class CauponaApi {
 	public static Optional<ItemStack> fillBowl(IFluidHandler handler) {
 		FluidStack stack = handler.drain(250, FluidAction.SIMULATE);
 		if(stack.getAmount()==250)
-			return fillBowl(handler.drain(stack, FluidAction.EXECUTE));
+			return fillBowl(handler.drain(250, FluidAction.EXECUTE));
 		return Optional.empty();
 	}
 	public static Optional<ItemStack> fillBowl(FluidStack stack) {

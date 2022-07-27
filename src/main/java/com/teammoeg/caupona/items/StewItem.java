@@ -68,6 +68,9 @@ public class StewItem extends EdibleBlock {
 				.orElse(null);
 		if (fs != null)
 			tooltip.add(new TranslatableComponent("tooltip.caupona.main_ingredient", fs.getStack().getDisplayName()));
+		ResourceLocation rl=info.spiceName;
+		if(rl!=null)
+			tooltip.add(new TranslatableComponent("tooltip.caupona.spice",new TranslatableComponent("spice."+rl.getNamespace()+"."+rl.getPath())));;
 		addPotionTooltip(info.effects, tooltip, 1);
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}

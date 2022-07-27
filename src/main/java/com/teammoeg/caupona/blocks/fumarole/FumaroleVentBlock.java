@@ -11,6 +11,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -84,4 +87,10 @@ public class FumaroleVentBlock extends CPBaseTileBlock<FumaroleVentTileEntity> {
 		}
 	}
 
+	@Override
+	public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
+		if(pEntity instanceof LivingEntity&&pState.getValue(HEAT)!=0)
+			pEntity.setRemainingFireTicks(100);
+		super.stepOn(pLevel, pPos, pState, pEntity);
+	}
 }

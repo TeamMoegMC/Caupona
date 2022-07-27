@@ -7,6 +7,8 @@
 	"message.caupona.chronoconis":"无尽：%s",
 	"tooltip.caupona.main_ingredient": "主料: %s",
 	"tooltip.caupona.chronoconis":"创造模式专属",
+	"tooltip.caupona.spice": "调味: %s",
+	"spice.caupona.vinegar_spice_jar":"醋",
 	"gui.caupona.stewpot.noredstone": "关闭红石控制",
 	"gui.caupona.stewpot.redstone": "启用红石控制",
 	"gui.caupona.stewpot.canstart": "开始烹饪",
