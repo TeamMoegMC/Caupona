@@ -131,6 +131,7 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 
 	@Override
 	public void tick() {
+		if(this.level.isClientSide)return;
 		container++;
 		if (container >= contTicks) {
 			container = 0;
