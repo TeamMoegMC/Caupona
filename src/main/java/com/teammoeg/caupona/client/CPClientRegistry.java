@@ -19,22 +19,29 @@
 package com.teammoeg.caupona.client;
 
 import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPEntityTypes;
 import com.teammoeg.caupona.CPGui;
 import com.teammoeg.caupona.CPTileTypes;
 import com.teammoeg.caupona.Main;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.model.BoatModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -46,6 +53,9 @@ public class CPClientRegistry {
 	@SuppressWarnings("unused")
 	@SubscribeEvent
 	public static void onClientSetupEvent(FMLClientSetupEvent event) {
+		LayerDefinition layer=BoatModel.createBodyModel();
+		for(String wood:CPBlocks.woods)
+		ForgeHooksClient.registerLayerDefinition(new ModelLayerLocation(new ResourceLocation(Main.MODID,"boat/" + wood), "main"),()->layer);
 		MenuScreens.register(CPGui.STEWPOT.get(), StewPotScreen::new);
 		MenuScreens.register(CPGui.STOVE.get(),KitchenStoveScreen::new);
 		MenuScreens.register(CPGui.DOLIUM.get(), DoliumScreen::new);
@@ -67,7 +77,7 @@ public class CPClientRegistry {
 		BlockEntityRenderers.register(CPTileTypes.SIGN.get(), SignRenderer::new);
 		BlockEntityRenderers.register(CPTileTypes.DOLIUM.get(),CounterDoliumRenderer::new);
 		Sheets.addWoodType(CPBlocks.WALNUT);
-		
+		EntityRenderers.register(CPEntityTypes.BOAT.get(), CPBoatRenderer::new);
 		
 	}
 

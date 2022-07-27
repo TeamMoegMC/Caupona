@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.teammoeg.caupona.blocks.DishBlock;
 import com.teammoeg.caupona.items.CPBlockItem;
+import com.teammoeg.caupona.items.CPBoatItem;
 import com.teammoeg.caupona.items.CPItem;
 import com.teammoeg.caupona.items.DishItem;
 import com.teammoeg.caupona.items.IconItem;
@@ -12,6 +13,7 @@ import com.teammoeg.caupona.items.PortableBrazierItem;
 import com.teammoeg.caupona.items.StewItem;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.Items;
@@ -71,6 +73,7 @@ public class CPItems {
 	public static Item soot=new CPItem("soot",createProps());
 	public static Item pbrazier=new PortableBrazierItem("portable_brazier",createProps());
 	public static Item gravy_boat=new CPBlockItem(CPBlocks.GRAVY_BOAT,createProps().durability(5).setNoRepair(),"gravy_boat");
+	public static Item walnut_boat=new CPBoatItem("walnut",createProps());
 	public static void init() {
 		for (String s : soups)
 			new StewItem(s, new ResourceLocation(Main.MODID, s), createSoupProps());

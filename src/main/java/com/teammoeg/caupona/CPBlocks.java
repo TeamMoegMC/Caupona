@@ -108,11 +108,11 @@ public class CPBlocks {
 	public static Block WOLFBERRY_SAPLINGS;
 	public static final Block FUMAROLE_BOULDER = register("fumarole_boulder", transparent(new FumaroleBoulderBlock(
 			getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion().isSuffocating(CPBlocks::isntSolid))));
-	public static final Block FUMAROLE_VENT = transparent(new FumaroleVentBlock("fumarole_vent",
+	public static final Block FUMAROLE_VENT = new FumaroleVentBlock("fumarole_vent",
 			getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion().isSuffocating(CPBlocks::isntSolid),
-			CPBlockItem::new));
+			CPBlockItem::new);
 	public static final Block PUMICE = register("pumice", new Block(getStoneProps()));
-	public static final Block PUMICE_BLOOM = register("pumice_bloom", transparent(new PumiceBloomBlock(getStoneProps().noOcclusion())));
+	public static final Block PUMICE_BLOOM = register("pumice_bloom", new PumiceBloomBlock(getStoneProps().noOcclusion()));
 	public static final GravyBoatBlock GRAVY_BOAT=registerBlock("gravy_boat",new GravyBoatBlock(Block.Properties.of(Material.GLASS).sound(SoundType.GLASS).instabreak().noOcclusion().isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid)));
 		
 	public static final WoodType WALNUT = WoodType.register(WoodType.create("caupona:walnut"));
@@ -127,20 +127,20 @@ public class CPBlocks {
 			register(stone + "_wall", new WallBlock(getStoneProps()));
 		}
 		for (String mat : counters) {
-			transparentBlocks.add(register(mat + "_chimney_flue", new Block(getTransparentProps())));
-			transparentBlocks.add(register(mat + "_chimney_pot", new ChimneyPotBlock(getTransparentProps())));
+			register(mat + "_chimney_flue", new Block(getTransparentProps()));
+			register(mat + "_chimney_pot", new ChimneyPotBlock(getTransparentProps()));
 			register(mat + "_counter", new CPHorizontalBlock(getStoneProps()));
 			transparentBlocks.add(register(mat + "_counter_with_dolium", new CounterDoliumBlock(getTransparentProps())));
 		}
 		
 		for (String pil : pillar_materials) {
-			transparentBlocks.add(register(pil+"_column_fluted_plinth", new Block(getTransparentProps())));
-			transparentBlocks.add(register(pil+"_column_fluted_shaft", new Block(getTransparentProps())));
-			transparentBlocks.add(register(pil+"_column_shaft", new Block(getTransparentProps())));
-			transparentBlocks.add(register(pil+"_column_plinth", new Block(getTransparentProps())));
-			transparentBlocks.add(register(pil+"_ionic_column_capital", new CPHorizontalBlock(getTransparentProps())));
-			transparentBlocks.add(register(pil+"_tuscan_column_capital", new CPHorizontalBlock(getTransparentProps())));
-			transparentBlocks.add(register(pil+"_acanthine_column_capital", new CPHorizontalBlock(getTransparentProps())));
+			register(pil+"_column_fluted_plinth", new Block(getTransparentProps()));
+			register(pil+"_column_fluted_shaft", new Block(getTransparentProps()));
+			register(pil+"_column_shaft", new Block(getTransparentProps()));
+			register(pil+"_column_plinth", new Block(getTransparentProps()));
+			register(pil+"_ionic_column_capital", new CPHorizontalBlock(getTransparentProps()));
+			register(pil+"_tuscan_column_capital", new CPHorizontalBlock(getTransparentProps()));
+			register(pil+"_acanthine_column_capital", new CPHorizontalBlock(getTransparentProps()));
 		}
 		registerWood("walnut", WALNUT, WalnutTreeGrower::new, l -> WALNUT_PLANKS = l, l -> WALNUT_LOG = l,
 				l -> WALNUT_LEAVE = l, l -> WALNUT_SAPLINGS = l);
