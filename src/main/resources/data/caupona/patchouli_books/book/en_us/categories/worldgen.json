@@ -1,0 +1,6 @@
+{
+	"name": "World Generation",
+	"description": "Plants and structures generating on the world.",
+	"icon": "caupona:walnut",
+	"sortnum": 3
+}

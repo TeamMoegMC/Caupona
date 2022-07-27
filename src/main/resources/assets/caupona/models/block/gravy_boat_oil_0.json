@@ -1,11 +1,8 @@
 {
-	"parent": "minecraft:block/cube",
 	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube",
 	"ambientocclusion": false,
-	"texture_size": [
-		32,
-		32
-	],
+	"texture_size": [32, 32],
 	"textures": {
 		"0": "caupona:block/gravy_boat_walnut_oil",
 		"particle": "caupona:block/gravy_boat_walnut_oil"
@@ -13,148 +10,36 @@
 	"elements": [
 		{
 			"name": "gravyMouth",
-			"from": [
-				1.001,
-				4.501,
-				6.001
-			],
-			"to": [
-				5.499,
-				6.499,
-				10.499
-			],
-			"rotation": {
-				"angle": 45,
-				"axis": "y",
-				"origin": [
-					3,
-					0,
-					8
-				]
-			},
+			"from": [1.001, 4.5, 6.001],
+			"to": [5.501, 6.49, 10.501],
+			"rotation": {"angle": 45, "axis": "y", "origin": [3, 0, 8]},
 			"faces": {
-				"north": {
-					"uv": [
-						1.25,
-						2,
-						3.499,
-						2.999
-					],
-					"texture": "#0"
-				},
-				"west": {
-					"uv": [
-						3.499,
-						2,
-						1.25,
-						2.999
-					],
-					"texture": "#0"
-				},
-				"up": {
-					"uv": [
-						4.5,
-						4.25,
-						6.749,
-						6.499
-					],
-					"rotation": 90,
-					"texture": "#0"
-				},
-				"down": {
-					"uv": [
-						4.5,
-						4.25,
-						6.749,
-						6.499
-					],
-					"texture": "#0"
-				}
+				"north": {"uv": [1.25, 2, 3.499, 2.999], "texture": "#0"},
+				"west": {"uv": [3.499, 2, 1.25, 2.999], "texture": "#0"},
+				"up": {"uv": [4.5, 4.25, 6.749, 6.499], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [4.5, 4.25, 6.749, 6.499], "texture": "#0"}
 			}
 		},
 		{
 			"name": "gravyBody",
-			"from": [
-				3.5,
-				2.5,
-				4.5
-			],
-			"to": [
-				12.5,
-				6.5,
-				11.5
-			],
+			"from": [3.5, 2.5, 4.5],
+			"to": [12.5, 6.5, 11.5],
 			"faces": {
-				"north": {
-					"uv": [
-						0,
-						0,
-						4.5,
-						2
-					],
-					"texture": "#0"
-				},
-				"east": {
-					"uv": [
-						0,
-						2,
-						3.5,
-						4
-					],
-					"texture": "#0"
-				},
-				"south": {
-					"uv": [
-						0,
-						0,
-						4.5,
-						2
-					],
-					"texture": "#0"
-				},
-				"west": {
-					"uv": [
-						0,
-						2,
-						3.5,
-						4
-					],
-					"texture": "#0"
-				},
-				"up": {
-					"uv": [
-						0,
-						4,
-						4.5,
-						7.5
-					],
-					"texture": "#0"
-				},
-				"down": {
-					"uv": [
-						0,
-						4,
-						4.5,
-						7.5
-					],
-					"texture": "#0"
-				}
+				"north": {"uv": [0, 0, 4.5, 2], "texture": "#0"},
+				"east": {"uv": [0, 2, 3.5, 4], "texture": "#0"},
+				"south": {"uv": [0, 0, 4.5, 2], "texture": "#0"},
+				"west": {"uv": [0, 2, 3.5, 4], "texture": "#0"},
+				"up": {"uv": [0, 4, 4.5, 7.5], "texture": "#0"},
+				"down": {"uv": [0, 4, 4.5, 7.5], "texture": "#0"}
 			}
 		}
 	],
 	"groups": [
 		{
 			"name": "GravyBoatOil",
-			"origin": [
-				8,
-				8,
-				8
-			],
+			"origin": [8, 8, 8],
 			"color": 0,
-			"children": [
-				0,
-				1
-			]
+			"children": [0, 1]
 		}
 	]
 }

@@ -1,7 +1,7 @@
 
 {
   "name": "灶台",
-  "icon": "caupona:kitchen_stove_t2",
+  "icon": "caupona:brick_kitchen_stove",
   "category": "caupona:intro",
   "sortnum": 4,
   "pages": [

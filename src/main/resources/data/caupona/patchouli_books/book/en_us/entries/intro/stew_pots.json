@@ -1,13 +1,13 @@
 
 {
-  "name": "Stew pots",
+  "name": "Stew Pots",
   "icon": "caupona:stew_pot",
   "category": "caupona:intro",
-  "priority": true,
+  "sortnum": 1,
   "pages": [
     {
       "type": "crafting",
-      "recipe": "caupona:clay_stew_pot"
+      "recipe": "caupona:clay_cistern"
     },
     {
       "type": "smelting",

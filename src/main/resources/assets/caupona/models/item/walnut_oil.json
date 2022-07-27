@@ -1,0 +1,24 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "caupona:item/walnut_oil_0"
+	},
+	"overrides": [
+		{
+			"predicate": {"damaged": 1, "damage": 0.2},
+			"model": "caupona:item/walnut_oil_1"
+		},
+		{
+			"predicate": {"damaged": 1, "damage": 0.4},
+			"model": "caupona:item/walnut_oil_2"
+		},
+		{
+			"predicate": {"damaged": 1, "damage": 0.6},
+			"model": "caupona:item/walnut_oil_3"
+		},
+		{
+			"predicate": {"damaged": 1, "damage": 0.8},
+			"model": "caupona:item/walnut_oil_4"
+		}
+	]
+}

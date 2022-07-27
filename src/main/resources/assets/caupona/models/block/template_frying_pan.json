@@ -1,526 +1,106 @@
 {
-	"parent": "minecraft:block/cube",
 	"credit": "Made with Blockbench",
-	"texture_size": [
-		32,
-		32
-	],
+	"parent": "minecraft:block/cube",
+	"texture_size": [32, 32],
 	"elements": [
 		{
 			"name": "panBottom",
-			"from": [
-				4,
-				0,
-				3
-			],
-			"to": [
-				12,
-				1,
-				11
-			],
-			"rotation": {
-				"angle": 0,
-				"axis": "y",
-				"origin": [
-					0,
-					0,
-					1
-				]
-			},
+			"from": [4, 0, 4],
+			"to": [12, 1, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 2]},
 			"faces": {
-				"north": {
-					"uv": [
-						0.5,
-						6,
-						4.5,
-						6.5
-					],
-					"texture": "#pan"
-				},
-				"east": {
-					"uv": [
-						0.5,
-						6,
-						4.5,
-						6.5
-					],
-					"texture": "#pan"
-				},
-				"south": {
-					"uv": [
-						0.5,
-						6,
-						4.5,
-						6.5
-					],
-					"texture": "#pan"
-				},
-				"west": {
-					"uv": [
-						0.5,
-						6,
-						4.5,
-						6.5
-					],
-					"texture": "#pan"
-				},
-				"up": {
-					"uv": [
-						0,
-						6.5,
-						4,
-						10.5
-					],
-					"texture": "#pan"
-				},
-				"down": {
-					"uv": [
-						10,
-						0,
-						14,
-						4
-					],
-					"texture": "#pan"
-				}
+				"north": {"uv": [0.5, 6, 4.5, 6.5], "texture": "#pan"},
+				"east": {"uv": [0.5, 6, 4.5, 6.5], "texture": "#pan"},
+				"south": {"uv": [0.5, 6, 4.5, 6.5], "texture": "#pan"},
+				"west": {"uv": [0.5, 6, 4.5, 6.5], "texture": "#pan"},
+				"up": {"uv": [0, 6.5, 4, 10.5], "texture": "#pan"},
+				"down": {"uv": [10, 0, 14, 4], "texture": "#pan"}
 			}
 		},
 		{
 			"name": "handle0",
-			"from": [
-				7,
-				3,
-				15
-			],
-			"to": [
-				9,
-				4,
-				19
-			],
-			"rotation": {
-				"angle": 0,
-				"axis": "y",
-				"origin": [
-					0,
-					0,
-					1
-				]
-			},
+			"from": [7, 3, 16],
+			"to": [9, 4, 20],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 2]},
 			"faces": {
-				"east": {
-					"uv": [
-						15.5,
-						0,
-						16,
-						2
-					],
-					"rotation": 90,
-					"texture": "#pan"
-				},
-				"south": {
-					"uv": [
-						15,
-						1.5,
-						16,
-						2
-					],
-					"texture": "#pan"
-				},
-				"west": {
-					"uv": [
-						15.5,
-						0,
-						16,
-						2
-					],
-					"rotation": 270,
-					"texture": "#pan"
-				},
-				"up": {
-					"uv": [
-						15,
-						0,
-						16,
-						2
-					],
-					"texture": "#pan"
-				},
-				"down": {
-					"uv": [
-						15,
-						0,
-						16,
-						2
-					],
-					"rotation": 180,
-					"texture": "#pan"
-				}
+				"east": {"uv": [15.5, 0, 16, 2], "rotation": 90, "texture": "#pan"},
+				"south": {"uv": [15, 1.5, 16, 2], "texture": "#pan"},
+				"west": {"uv": [15.5, 0, 16, 2], "rotation": 270, "texture": "#pan"},
+				"up": {"uv": [15, 0, 16, 2], "texture": "#pan"},
+				"down": {"uv": [15, 0, 16, 2], "rotation": 180, "texture": "#pan"}
 			}
 		},
 		{
 			"name": "handle1",
-			"from": [
-				7,
-				3,
-				11
-			],
-			"to": [
-				9,
-				4,
-				15
-			],
-			"rotation": {
-				"angle": -22.5,
-				"axis": "x",
-				"origin": [
-					8,
-					4,
-					15
-				]
-			},
+			"from": [7, 3, 12],
+			"to": [9, 4, 16],
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 4, 16]},
 			"faces": {
-				"east": {
-					"uv": [
-						14.5,
-						0,
-						15,
-						2
-					],
-					"rotation": 90,
-					"texture": "#pan"
-				},
-				"west": {
-					"uv": [
-						14.5,
-						0,
-						15,
-						2
-					],
-					"rotation": 270,
-					"texture": "#pan"
-				},
-				"up": {
-					"uv": [
-						14,
-						0,
-						15,
-						2
-					],
-					"texture": "#pan"
-				},
-				"down": {
-					"uv": [
-						14,
-						0,
-						15,
-						2
-					],
-					"rotation": 180,
-					"texture": "#pan"
-				}
+				"east": {"uv": [14.5, 0, 15, 2], "rotation": 90, "texture": "#pan"},
+				"west": {"uv": [14.5, 0, 15, 2], "rotation": 270, "texture": "#pan"},
+				"up": {"uv": [14, 0, 15, 2], "texture": "#pan"},
+				"down": {"uv": [14, 0, 15, 2], "rotation": 180, "texture": "#pan"}
 			}
 		},
 		{
 			"name": "panRimS",
-			"from": [
-				3,
-				1,
-				11
-			],
-			"to": [
-				12,
-				3,
-				12
-			],
-			"rotation": {
-				"angle": 0,
-				"axis": "y",
-				"origin": [
-					8,
-					0,
-					7
-				]
-			},
+			"from": [3, 1, 12],
+			"to": [12, 3, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
 			"faces": {
-				"north": {
-					"uv": [
-						0.5,
-						5,
-						5,
-						6
-					],
-					"texture": "#pan"
-				},
-				"south": {
-					"uv": [
-						0,
-						5,
-						4.5,
-						6
-					],
-					"texture": "#pan"
-				},
-				"west": {
-					"uv": [
-						4.5,
-						5,
-						5,
-						6
-					],
-					"texture": "#pan"
-				},
-				"up": {
-					"uv": [
-						0,
-						4.5,
-						4.5,
-						5
-					],
-					"texture": "#pan"
-				},
-				"down": {
-					"uv": [
-						5,
-						0,
-						9.5,
-						0.5
-					],
-					"rotation": 90,
-					"texture": "#pan"
-				}
+				"north": {"uv": [0.5, 5, 5, 6], "texture": "#pan"},
+				"south": {"uv": [0, 5, 4.5, 6], "texture": "#pan"},
+				"west": {"uv": [4.5, 5, 5, 6], "texture": "#pan"},
+				"up": {"uv": [0, 4.5, 4.5, 5], "texture": "#pan"},
+				"down": {"uv": [5, 0, 9.5, 0.5], "rotation": 90, "texture": "#pan"}
 			}
 		},
 		{
 			"name": "panRimE",
-			"from": [
-				12,
-				1,
-				3
-			],
-			"to": [
-				13,
-				3,
-				12
-			],
-			"rotation": {
-				"angle": 0,
-				"axis": "y",
-				"origin": [
-					8,
-					0,
-					7
-				]
-			},
+			"from": [12, 1, 4],
+			"to": [13, 3, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
 			"faces": {
-				"east": {
-					"uv": [
-						0,
-						5,
-						4.5,
-						6
-					],
-					"texture": "#pan"
-				},
-				"south": {
-					"uv": [
-						4.5,
-						5,
-						5,
-						6
-					],
-					"texture": "#pan"
-				},
-				"west": {
-					"uv": [
-						0.5,
-						5,
-						5,
-						6
-					],
-					"texture": "#pan"
-				},
-				"up": {
-					"uv": [
-						0,
-						4.5,
-						4.5,
-						5
-					],
-					"rotation": 270,
-					"texture": "#pan"
-				},
-				"down": {
-					"uv": [
-						5,
-						0,
-						9.5,
-						0.5
-					],
-					"rotation": 90,
-					"texture": "#pan"
-				}
+				"east": {"uv": [0, 5, 4.5, 6], "texture": "#pan"},
+				"south": {"uv": [4.5, 5, 5, 6], "texture": "#pan"},
+				"west": {"uv": [0.5, 5, 5, 6], "texture": "#pan"},
+				"up": {"uv": [0, 4.5, 4.5, 5], "rotation": 270, "texture": "#pan"},
+				"down": {"uv": [5, 0, 9.5, 0.5], "rotation": 90, "texture": "#pan"}
 			}
 		},
 		{
 			"name": "panRimN",
-			"from": [
-				4,
-				1,
-				2
-			],
-			"to": [
-				13,
-				3,
-				3
-			],
-			"rotation": {
-				"angle": 0,
-				"axis": "y",
-				"origin": [
-					8,
-					0,
-					7
-				]
-			},
+			"from": [4, 1, 3],
+			"to": [13, 3, 4],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
 			"faces": {
-				"north": {
-					"uv": [
-						0,
-						5,
-						4.5,
-						6
-					],
-					"texture": "#pan"
-				},
-				"east": {
-					"uv": [
-						4.5,
-						5,
-						5,
-						6
-					],
-					"texture": "#pan"
-				},
-				"south": {
-					"uv": [
-						0.5,
-						5,
-						5,
-						6
-					],
-					"texture": "#pan"
-				},
-				"up": {
-					"uv": [
-						0,
-						4.5,
-						4.5,
-						5
-					],
-					"rotation": 180,
-					"texture": "#pan"
-				},
-				"down": {
-					"uv": [
-						5,
-						0,
-						9.5,
-						0.5
-					],
-					"rotation": 90,
-					"texture": "#pan"
-				}
+				"north": {"uv": [0, 5, 4.5, 6], "texture": "#pan"},
+				"east": {"uv": [4.5, 5, 5, 6], "texture": "#pan"},
+				"south": {"uv": [0.5, 5, 5, 6], "texture": "#pan"},
+				"up": {"uv": [0, 4.5, 4.5, 5], "rotation": 180, "texture": "#pan"},
+				"down": {"uv": [5, 0, 9.5, 0.5], "rotation": 90, "texture": "#pan"}
 			}
 		},
 		{
 			"name": "panRimW",
-			"from": [
-				3,
-				1,
-				2
-			],
-			"to": [
-				4,
-				3,
-				11
-			],
-			"rotation": {
-				"angle": 0,
-				"axis": "y",
-				"origin": [
-					8,
-					0,
-					7
-				]
-			},
+			"from": [3, 1, 3],
+			"to": [4, 3, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
 			"faces": {
-				"north": {
-					"uv": [
-						4.5,
-						5,
-						5,
-						6
-					],
-					"texture": "#pan"
-				},
-				"east": {
-					"uv": [
-						0.5,
-						5,
-						5,
-						6
-					],
-					"texture": "#pan"
-				},
-				"west": {
-					"uv": [
-						0,
-						5,
-						4.5,
-						6
-					],
-					"texture": "#pan"
-				},
-				"up": {
-					"uv": [
-						0,
-						4.5,
-						4.5,
-						5
-					],
-					"rotation": 90,
-					"texture": "#pan"
-				},
-				"down": {
-					"uv": [
-						5,
-						0,
-						9.5,
-						0.5
-					],
-					"rotation": 90,
-					"texture": "#pan"
-				}
+				"north": {"uv": [4.5, 5, 5, 6], "texture": "#pan"},
+				"east": {"uv": [0.5, 5, 5, 6], "texture": "#pan"},
+				"west": {"uv": [0, 5, 4.5, 6], "texture": "#pan"},
+				"up": {"uv": [0, 4.5, 4.5, 5], "rotation": 90, "texture": "#pan"},
+				"down": {"uv": [5, 0, 9.5, 0.5], "rotation": 90, "texture": "#pan"}
 			}
 		}
 	],
 	"groups": [
 		{
 			"name": "FryingPan",
-			"origin": [
-				8,
-				8,
-				8
-			],
+			"origin": [8, 8, 8],
 			"color": 9,
-			"children": [
-				0,
-				1,
-				2,
-				3,
-				4,
-				5,
-				6
-			]
+			"children": [0, 1, 2, 3, 4, 5, 6]
 		}
 	]
 }
