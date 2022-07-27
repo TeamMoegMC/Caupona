@@ -48,7 +48,6 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 	}
 
 	static final String fd = "farmersdelight";
-	static final String sa = "stone_age:";
 	static final String sf = "simplefarming:";
 
 	@Override
@@ -104,7 +103,7 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag(vegetables).addTag(atag(mushrooms)).addTag(atag(roots)).addTag(ftag("salad_ingredients"))
 				.addTag(atag(pumpkin));
 		tag(frl("raw_beef")).add(Items.BEEF);
-		tag(walnut);
+		tag(walnut).add(cp("walnut"));
 		tag(baked).add(Items.BREAD).addTag(ftag("pasta"))
 				.addOptional(rl(fd + ":pie_crust"));
 		tag(cereals).addTag(atag(rice)).addTag(ftag("grain")).addTag(atag(baked)).add(Items.WHEAT, Items.WHEAT_SEEDS)
@@ -118,22 +117,19 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag(fish).addTag(atag(mcrl("fishes"))).addTag(ftag("raw_fishes"));
 		tag(seafood).add(Items.KELP, Items.DRIED_KELP);
 		tag(poultry).add(Items.CHICKEN, Items.RABBIT).addTag(ftag("raw_chicken")).addTag(ftag("raw_rabbit"))
-				.addOptional(rl(sa + "fowl_meat")).addTag(ftag("bread")).addOptional(rl(sf+"raw_chicken_wings")).addOptional(rl(sf+"raw_sausage")).addOptional(rl(sf+"raw_horse_meat"));
+				.addTag(ftag("bread")).addOptional(rl(sf+"raw_chicken_wings")).addOptional(rl(sf+"raw_sausage")).addOptional(rl(sf+"raw_horse_meat"));
 		tag(meat).add(Items.BEEF, Items.MUTTON, Items.PORKCHOP, Items.ROTTEN_FLESH).addTag(ftag("bacon"))
 				.addTag(ftag("raw_pork")).addTag(ftag("raw_beef")).addTag(ftag("raw_mutton"))
-				.addOptional(rl(fd + ":ham")).addOptional(rl(sa + "venison")).addOptional(rl(sa + "auroch_meat"))
-				.addOptional(rl(sa + "mouflon_meat")).addOptional(rl(sa + "boar_meat"))
-				.addOptional(rl(sa + "mammoth_meat")).addOptional(rl(sa + "rhino_meat"))
-				.addOptional(rl(sa + "tiger_meat")).addTag(ftag("raw_bacon"));
+				.addOptional(rl(fd + ":ham")).addTag(ftag("raw_bacon"));
 		tag(sugar).add(Items.SUGAR_CANE, Items.HONEYCOMB, Items.HONEY_BOTTLE);
 		tag("bone").add(Items.BONE);
 		tag("ice").add(Items.ICE, Items.BLUE_ICE, Items.PACKED_ICE);
 		tag(mushrooms).add(Items.BROWN_MUSHROOM, Items.RED_MUSHROOM).addTag(ftag("mushrooms"));
 		tag("fern").add(Items.FERN, Items.LARGE_FERN);
-		tag("wolfberries").addOptional(new ResourceLocation("frostedheart:wolfberries"));
+		tag("wolfberries").add(cp("wolfberries"));
 		tag("stews").add(CPItems.stews.toArray(new Item[0]));
 		tag("stoves").add(CPBlocks.stove1.asItem(),CPBlocks.stove2.asItem(),CPBlocks.stove3.asItem(),CPBlocks.stove4.asItem(),CPBlocks.stove5.asItem());
-		tag("portable_brazier_fuel").add(Items.MAGMA_CREAM);
+		tag("portable_brazier_fuel").add(Items.MAGMA_CREAM).add(cp("vivid_charcoal"));
 	}
 
 	private TagAppender<Item> tag(String s) {

@@ -26,7 +26,7 @@ import net.minecraft.world.item.Item;
 public class CPItem extends Item {
 
 	public CPItem(String name, Properties properties) {
-		super(properties.tab(Main.itemGroup));
+		super(properties);
 		setRegistryName(Main.MODID, name);
 		RegistryEvents.registeredItems.add(this);
 	}

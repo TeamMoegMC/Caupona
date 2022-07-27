@@ -72,9 +72,18 @@ public class BowlBlock extends CPBaseTileBlock<BowlTileEntity> {
 		BowlTileEntity tileEntity = (BowlTileEntity) worldIn.getBlockEntity(pos);
 		if (tileEntity.internal != null && tileEntity.internal.getItem() instanceof StewItem&&tileEntity.internal.isEdible()) {
 			FoodProperties fp=tileEntity.internal.getFoodProperties(player);
-			if(player.canEat(fp.canAlwaysEat())) {
-				tileEntity.internal = player.eat(worldIn,tileEntity.internal);
-				tileEntity.syncData();
+			if(tileEntity.isInfinite) {
+				if(player.canEat(fp.canAlwaysEat())) {
+					player.eat(worldIn,tileEntity.internal.copy());
+					tileEntity.syncData();
+				}
+			}else {
+				if(player.canEat(fp.canAlwaysEat())) {
+					ItemStack iout=tileEntity.internal.getContainerItem();
+					 player.eat(worldIn,tileEntity.internal);
+					 tileEntity.internal=iout;
+					 tileEntity.syncData();
+				}
 			}
 			return InteractionResult.SUCCESS;
 		}

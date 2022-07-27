@@ -7,6 +7,7 @@ import com.teammoeg.caupona.blocks.DishBlock;
 import com.teammoeg.caupona.items.CPBlockItem;
 import com.teammoeg.caupona.items.CPBoatItem;
 import com.teammoeg.caupona.items.CPItem;
+import com.teammoeg.caupona.items.Chronoconis;
 import com.teammoeg.caupona.items.DishItem;
 import com.teammoeg.caupona.items.IconItem;
 import com.teammoeg.caupona.items.PortableBrazierItem;
@@ -57,44 +58,53 @@ public class CPItems {
 			,"garum_spice_jar"
 			,"sugar_spice_jar"
 			,"vinegar_spice_jar"};
-	public static final String[] base_material=new String[] {"bone_gelatin"
+	public static final String[] food_material=new String[] {"bone_gelatin"
 			,"fig"
-			,"lateres"
 			,"walnut"
 			,"wolfberries"
-			,"clay_portable_brazier"};
+			};
+	public static final String[] base_material=new String[] {"lateres","clay_portable_brazier","vivid_charcoal"};
+	
 	public static final List<Item> stews = new ArrayList<>();
 	public static Item anyWater=new IconItem("water_or_stock_based");
 	public static Item stock=new IconItem("stock_based");
 	public static Item milk=new IconItem("milk_based");
 	public static Item any=new IconItem("any_based");
-	public static Item water;
+	public static Item water_bowl=new StewItem("water", new ResourceLocation("water"), createSoupProps());
+	public static Item milk_bowl=new StewItem("milk", new ResourceLocation("milk"), createSoupProps());
 	public static Item clay_pot=new CPItem("clay_cistern",createProps());
 	public static Item soot=new CPItem("soot",createProps());
 	public static Item pbrazier=new PortableBrazierItem("portable_brazier",createProps());
-	public static Item gravy_boat=new CPBlockItem(CPBlocks.GRAVY_BOAT,createProps().durability(5).setNoRepair(),"gravy_boat");
+	public static Item gravy_boat=new CPBlockItem(CPBlocks.GRAVY_BOAT,createFoodProps().durability(5).setNoRepair(),"gravy_boat");
 	public static Item walnut_boat=new CPBoatItem("walnut",createProps());
+	public static Item chronoconis=new Chronoconis("chronoconis",createFoodProps());
+	public static Item haze=new IconItem("culinary_heat_haze");
 	public static void init() {
 		for (String s : soups)
 			new StewItem(s, new ResourceLocation(Main.MODID, s), createSoupProps());
-		new StewItem("milk", new ResourceLocation("milk"), createSoupProps());
-		water=new StewItem("water", new ResourceLocation("water"), createSoupProps());
+		
+		
 		for(String s:aspics) 
-			new CPItem(s,createProps());
-		new IconItem("culinary_heat_haze");
+			new CPItem(s,createFoodProps());
+		
 		for(String s:spices) {
-			new CPItem(s,createProps().durability(16).craftRemainder(Items.FLOWER_POT).setNoRepair());
+			new CPItem(s,createFoodProps().durability(16).craftRemainder(Items.FLOWER_POT).setNoRepair());
 		}
 		for(String s:base_material) {
 			new CPItem(s,createProps());
 		}
-		
+		for(String s:food_material) {
+			new CPItem(s,createFoodProps());
+		}
 	}
 
 	static Properties createSoupProps() {
-		return new Item.Properties().tab(Main.itemGroup).craftRemainder(Items.BOWL).stacksTo(1).craftRemainder(Items.BOWL);
+		return new Item.Properties().tab(Main.foodGroup).craftRemainder(Items.BOWL).stacksTo(1).craftRemainder(Items.BOWL);
+	}
+	static Properties createFoodProps() {
+		return new Item.Properties().tab(Main.foodGroup);
 	}
 	static Properties createProps() {
-		return new Item.Properties().tab(Main.itemGroup);
+		return new Item.Properties().tab(Main.mainGroup);
 	}
 }

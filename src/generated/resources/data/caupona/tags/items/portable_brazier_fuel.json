@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "minecraft:magma_cream"
+    "minecraft:magma_cream",
+    "caupona:vivid_charcoal"
   ]
 }

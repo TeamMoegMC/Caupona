@@ -46,7 +46,7 @@ public class Main {
 	public static final String MODID = "caupona";
 	public static final String MODNAME = "Caupona";
 	public static final Logger logger = LogManager.getLogger(MODNAME);
-	public static final CreativeModeTab itemGroup = new CreativeModeTab(MODID) {
+	public static final CreativeModeTab mainGroup = new CreativeModeTab(MODID) {
 		@Override
 		@Nonnull
 		public ItemStack makeIcon() {
@@ -54,7 +54,14 @@ public class Main {
 		}
 
 	};
+	public static final CreativeModeTab foodGroup = new CreativeModeTab(MODID+"_foods") {
+		@Override
+		@Nonnull
+		public ItemStack makeIcon() {
+			return new ItemStack(CPItems.gravy_boat);
+		}
 
+	};
 	public static ResourceLocation rl(String path) {
 		return new ResourceLocation(MODID, path);
 	}

@@ -31,7 +31,7 @@ public class CPBlockItem extends BlockItem {
 	}
 
 	public CPBlockItem(Block block, Item.Properties props, String name) {
-		this(block, props.tab(Main.itemGroup));
+		this(block, props);
 		this.setRegistryName(Main.MODID, name);
 		RegistryEvents.registeredItems.add(this);
 	}

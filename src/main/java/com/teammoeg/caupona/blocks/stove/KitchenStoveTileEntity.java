@@ -28,6 +28,7 @@ import com.teammoeg.caupona.blocks.ChimneyPotTileEntity;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.network.CPBaseTile;
 import com.teammoeg.caupona.util.ChimneyHelper;
+import com.teammoeg.caupona.util.IInfinitable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -52,7 +53,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
 
-public class KitchenStoveTileEntity extends CPBaseTile implements Container, MenuProvider, AbstractStove {
+public class KitchenStoveTileEntity extends CPBaseTile implements Container, MenuProvider, AbstractStove,IInfinitable {
 	private NonNullList<ItemStack> fuel = NonNullList.withSize(1, ItemStack.EMPTY);
 	public int process;
 	public int processMax;
@@ -63,6 +64,7 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 	public BlockPos attachedChimney;
 	private int chimneyTicks=0;
 	private int chimneyCheckTicks=20;
+	private boolean isInfinite=false;
 	public KitchenStoveTileEntity(BlockEntityType<KitchenStoveTileEntity> tet, BlockPos p, BlockState s, int spd) {
 		super(tet, p, s);
 		this.speed = spd;
@@ -87,7 +89,7 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 			cd = nbt.getInt("cd");
 			fuel.set(0, ItemStack.of(nbt.getCompound("fuel")));
 			chimneyTicks=nbt.getInt("chimneyTick");
-			
+			isInfinite=nbt.getBoolean("inf");
 		}
 	}
 
@@ -101,7 +103,7 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 			nbt.putInt("cd", cd);
 			nbt.put("fuel", fuel.get(0).serializeNBT());
 			nbt.putInt("chimneyTick", chimneyTicks);
-			
+			nbt.putBoolean("inf",isInfinite);
 		}
 	}
 
@@ -170,6 +172,7 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 			process = processMax = 0;
 			return false;
 		}
+		isInfinite=false;
 		fuel.get(0).shrink(1);
 		float ftime = time *  fuelMod/ speed;
 		float frac = Mth.frac(ftime);
@@ -212,7 +215,8 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 				}
 				if (bs.getValue(KitchenStove.LIT)) {
 					cd--;
-					process--;
+					if(!isInfinite)
+						process--;
 					if(attachedChimney!=null) {
 						BlockEntity te=this.getLevel().getBlockEntity(attachedChimney);
 						if(te instanceof ChimneyPotTileEntity) {
@@ -260,7 +264,8 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 			if (!consumeFuel()) {
 				return 0;
 			}
-			process--;
+			if(!isInfinite)
+				process--;
 		}
 		BlockState bs = this.getBlockState();
 		cd = maxcd;
@@ -277,6 +282,11 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 
 	public int getSpeed() {
 		return speed;
+	}
+
+	@Override
+	public boolean setInfinity() {
+		return isInfinite=!isInfinite;
 	}
 
 }

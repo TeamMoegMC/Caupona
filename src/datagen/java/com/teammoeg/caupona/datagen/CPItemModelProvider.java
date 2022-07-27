@@ -41,7 +41,9 @@ public class CPItemModelProvider extends ItemModelProvider {
 		for (String s : CPItems.soups) 
 			simpleTexture(s,"soups/");
 		for (String s : CPItems.base_material) 
-			simpleTexture(s,"");
+			texture(s);
+		for (String s : CPItems.food_material) 
+			texture(s);
 		simpleTexture("water","soups/");
 		simpleTexture("milk","soups/");
 		for (String s : CPItems.aspics) 
@@ -56,6 +58,7 @@ public class CPItemModelProvider extends ItemModelProvider {
 		texture("soot");
 		texture("portable_brazier");
 		texture("walnut_boat");
+		texture("chronoconis");
 		super.singleTexture("walnut_sapling",new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"block/walnut_sapling"));
 		super.singleTexture("fig_sapling",new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"block/fig_sapling"));
 		super.singleTexture("wolfberry_sapling",new ResourceLocation("minecraft", "item/generated"),"layer0",new ResourceLocation(Main.MODID,"block/wolfberry_sapling"));

@@ -91,7 +91,9 @@ public class BowlContainingRecipe extends IDataRecipe {
 		is.getOrCreateTag().putString("type", f.getRegistryName().toString());
 		return is;
 	}
-
+	public boolean matches(Fluid f) {
+		return fluid==f;
+	}
 	public ItemStack handle(FluidStack stack) {
 		ItemStack is = new ItemStack(bowl);
 		if (stack.hasTag())

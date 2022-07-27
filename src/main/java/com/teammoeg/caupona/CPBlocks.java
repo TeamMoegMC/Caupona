@@ -193,7 +193,7 @@ public class CPBlocks {
 				.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
 		transparentBlocks.add(sapling);
 		gsap.accept(sapling);
-		register(wood + "_sign", new SignItem((new Item.Properties()).stacksTo(16).tab(Main.itemGroup),
+		register(wood + "_sign", new SignItem((new Item.Properties()).stacksTo(16).tab(Main.mainGroup),
 				registerBlock(wood + "_sign",
 						new CPStandingSignBlock(BlockBehaviour.Properties.of(Material.WOOD).noCollission()
 								.strength(1.0F).sound(SoundType.WOOD), wt)),
@@ -242,7 +242,7 @@ public class CPBlocks {
 		bl.setRegistryName(registryName);
 
 		RegistryEvents.registeredBlocks.add(bl);
-		Item item = new BlockItem(bl, new Item.Properties().tab(Main.itemGroup));
+		Item item = new BlockItem(bl, new Item.Properties().tab(Main.mainGroup));
 		item.setRegistryName(registryName);
 		RegistryEvents.registeredItems.add(item);
 		return bl;

@@ -50,7 +50,7 @@ public class CPBaseTileBlock<T extends BlockEntity> extends Block implements CPT
 
 		RegistryEvents.registeredBlocks.add(this);
 		if(createItemBlock!=null) {
-			Item item = createItemBlock.apply(this, new Item.Properties().tab(Main.itemGroup));
+			Item item = createItemBlock.apply(this, new Item.Properties().tab(Main.mainGroup));
 			if (item != null) {
 				item.setRegistryName(registryName);
 				RegistryEvents.registeredItems.add(item);
