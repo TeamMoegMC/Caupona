@@ -3,7 +3,7 @@
   "name": "Stew Pots",
   "icon": "caupona:stew_pot",
   "category": "caupona:intro",
-  "priority": true,
+  "sortnum": 1,
   "pages": [
     {
       "type": "crafting",

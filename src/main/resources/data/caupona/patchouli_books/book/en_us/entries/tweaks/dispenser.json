@@ -3,7 +3,7 @@
   "name": "Dispenser Modification",
   "icon": "minecraft:dispenser",
   "category": "caupona:intro",
-  "sortnum": 5,
+  "sortnum": 0,
   "pages": [
     {
       "type": "text",
