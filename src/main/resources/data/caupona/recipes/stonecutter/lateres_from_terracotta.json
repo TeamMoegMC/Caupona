@@ -1,0 +1,8 @@
+{
+	"type": "stonecutting",
+	"ingredient": {
+		"item": "minecraft:terracotta"
+	},
+	"result": "caupona:lateres",
+	"count": 3
+}
