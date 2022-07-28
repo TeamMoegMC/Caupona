@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"L"
+	],
+	"key": {
+		"L": {
+			"item": "caupona:walnut_log"
+		}
+	},
+	"result": {
+		"item": "caupona:walnut_planks",
+		"count": 4
+	}
+}

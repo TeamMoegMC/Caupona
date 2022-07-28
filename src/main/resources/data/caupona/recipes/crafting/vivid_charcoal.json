@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{"item": "minecraft:charcoal"},
+		{"item": "minecraft:charcoal"},
+		{"item": "minecraft:charcoal"},
+		{"item": "minecraft:magma_cream"}
+	],
+	"result": {
+		"item": "caupona:vivid_charcoal",
+		"count": 8
+	}
+}

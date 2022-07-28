@@ -1,6 +1,8 @@
 {
 	"type": "minecraft:crafting_shaped",
 	"pattern": [
+		"P  ",
+		"PP ",
 		"PPP"
 	],
 	"key": {
@@ -9,7 +11,7 @@
 		}
 	},
 	"result": {
-		"item": "caupona:walnut_slab",
-		"count": 6
+		"item": "caupona:walnut_stairs",
+		"count": 4
 	}
 }

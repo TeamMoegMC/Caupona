@@ -1,7 +1,7 @@
 {
 	"type": "minecraft:crafting_shaped",
 	"pattern": [
-		"PPP"
+		"PP"
 	],
 	"key": {
 		"P": {
@@ -9,7 +9,6 @@
 		}
 	},
 	"result": {
-		"item": "caupona:walnut_slab",
-		"count": 6
+		"item": "caupona:walnut_pressure_plate"
 	}
 }
