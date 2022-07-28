@@ -22,8 +22,8 @@ import java.util.stream.Stream;
 
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.TranslationProvider;
-import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
+import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.network.FriendlyByteBuf;

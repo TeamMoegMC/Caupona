@@ -3,18 +3,15 @@ package com.teammoeg.caupona;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.teammoeg.caupona.blocks.foods.DishBlock;
 import com.teammoeg.caupona.items.CPBlockItem;
 import com.teammoeg.caupona.items.CPBoatItem;
 import com.teammoeg.caupona.items.CPItem;
 import com.teammoeg.caupona.items.Chronoconis;
-import com.teammoeg.caupona.items.DishItem;
 import com.teammoeg.caupona.items.IconItem;
 import com.teammoeg.caupona.items.PortableBrazierItem;
 import com.teammoeg.caupona.items.StewItem;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.Items;

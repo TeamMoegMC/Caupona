@@ -18,20 +18,20 @@
 
 package com.teammoeg.caupona.event;
 
+import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.fluid.SoupFluid;
-import com.teammoeg.caupona.util.SoupInfo;
 import com.teammoeg.caupona.util.ITickableContainer;
+import com.teammoeg.caupona.util.SoupInfo;
 import com.teammoeg.caupona.worldgen.CPPlacements;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
-
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
@@ -41,7 +41,6 @@ import net.minecraft.world.level.ClipContext.Fluid;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome.BiomeCategory;
-import net.minecraft.world.level.biome.Biome.ClimateSettings;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
@@ -52,7 +51,6 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -72,22 +70,27 @@ public class ForgeEvent {
 	public static void addReloadListeners(AddReloadListenerEvent event) {
 		event.addListener(new RecipeReloadListener(event.getServerResources()));
 	}
-	private static ResourceLocation container=new ResourceLocation(Main.MODID,"container");
+
+	private static ResourceLocation container = new ResourceLocation(Main.MODID, "container");
+
 	@SubscribeEvent
 	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		if(event.phase==Phase.START) {
-			AbstractContainerMenu acm=event.player.containerMenu;
-			if(acm instanceof ITickableContainer) {
-				((ITickableContainer) acm).tick(event.side==LogicalSide.SERVER);
+		if (event.phase == Phase.START) {
+			AbstractContainerMenu acm = event.player.containerMenu;
+			if (acm instanceof ITickableContainer) {
+				((ITickableContainer) acm).tick(event.side == LogicalSide.SERVER);
 			}
 		}
 	}
+
 	@SubscribeEvent
 	public static void onPlayerDeath(PlayerEvent.Clone event) {
-		if(event.isWasDeath()&&!event.getOriginal().getLevel().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)) {
-			
+		if (event.isWasDeath()
+				&& !event.getOriginal().getLevel().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)) {
+
 		}
 	}
+
 	@SubscribeEvent
 	public static void onBlockClick(PlayerInteractEvent.RightClickBlock event) {
 		ItemStack is = event.getItemStack();
@@ -136,7 +139,8 @@ public class ForgeEvent {
 				net.minecraft.world.level.material.Fluid f = blockstate1.getFluidState().getType();
 				if (f != Fluids.EMPTY) {
 					BowlContainingRecipe recipe = BowlContainingRecipe.recipes.get(f);
-					if(recipe==null)return;
+					if (recipe == null)
+						return;
 					ItemStack ret = recipe.handle(f);
 					event.setCanceled(true);
 					event.setCancellationResult(InteractionResult.sidedSuccess(worldIn.isClientSide));
@@ -151,17 +155,19 @@ public class ForgeEvent {
 			}
 		}
 	}
+
 	@SubscribeEvent
 	public static void onBowlUse(PlayerInteractEvent.RightClickItem event) {
 		if (event.getEntityLiving() != null && !event.getEntityLiving().level.isClientSide
 				&& event.getPlayer() instanceof ServerPlayer) {
-			ItemStack stack= event.getItemStack();
-			LazyOptional<IFluidHandlerItem> cap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
-			if (cap.isPresent()&&stack.getTags().anyMatch(t->t.location().equals(container))) {
+			ItemStack stack = event.getItemStack();
+			LazyOptional<IFluidHandlerItem> cap = stack
+					.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
+			if (cap.isPresent() && stack.getTags().anyMatch(t -> t.location().equals(container))) {
 				IFluidHandlerItem data = cap.resolve().get();
-				if(data.getFluidInTank(0).getFluid() instanceof SoupFluid) {
-					SoupInfo si=SoupFluid.getInfo(data.getFluidInTank(0));
-					if(!event.getPlayer().canEat(si.canAlwaysEat())) {
+				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid) {
+					SoupInfo si = SoupFluid.getInfo(data.getFluidInTank(0));
+					if (!event.getPlayer().canEat(si.canAlwaysEat())) {
 						event.setCancellationResult(InteractionResult.FAIL);
 						event.setCanceled(true);
 					}
@@ -169,39 +175,44 @@ public class ForgeEvent {
 			}
 		}
 	}
+
 	@SubscribeEvent
 	public static void onItemUseFinish(LivingEntityUseItemEvent.Finish event) {
 		if (event.getEntityLiving() != null && !event.getEntityLiving().level.isClientSide
 				&& event.getEntityLiving() instanceof ServerPlayer) {
-			ItemStack stack= event.getItem();
-			LazyOptional<IFluidHandlerItem> cap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
-			if (cap.isPresent()&&stack.getTags().anyMatch(t->t.location().equals(container))) {
+			ItemStack stack = event.getItem();
+			LazyOptional<IFluidHandlerItem> cap = stack
+					.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
+			if (cap.isPresent() && stack.getTags().anyMatch(t -> t.location().equals(container))) {
 				IFluidHandlerItem data = cap.resolve().get();
-				if(data.getFluidInTank(0).getFluid() instanceof SoupFluid)
-					CauponaApi.applyStew(event.getEntityLiving().level,event.getEntityLiving(),SoupFluid.getInfo(data.getFluidInTank(0)),stack,0);
+				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid)
+					CauponaApi.applyStew(event.getEntityLiving().level, event.getEntityLiving(),
+							SoupFluid.getInfo(data.getFluidInTank(0)), stack, 0);
 			}
 		}
 	}
-    @SubscribeEvent(priority = EventPriority.LOW)
-    public static void addFeatures(BiomeLoadingEvent event) {
-        if (event.getName() != null) {
+
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public static void addFeatures(BiomeLoadingEvent event) {
+		if (event.getName() != null) {
 			BiomeCategory category = event.getCategory();
-			ClimateSettings climate=event.getClimate();
-			//WALNUT
-            if (category != BiomeCategory.NETHER && category != BiomeCategory.THEEND) {
-                if (category == BiomeCategory.FOREST) {
-                        event.getGeneration().addFeature(Decoration.VEGETAL_DECORATION, CPPlacements.TREES_WALNUT);
-                }
-                if(category==BiomeCategory.PLAINS||category==BiomeCategory.SAVANNA) {
-                	event.getGeneration().addFeature(Decoration.VEGETAL_DECORATION, CPPlacements.TREES_FIG);
-                }
-                if(category==BiomeCategory.EXTREME_HILLS) {
-                	event.getGeneration().addFeature(Decoration.VEGETAL_DECORATION, CPPlacements.TREES_WOLFBERRY);
-                }
-                	
-            }
-            //Structures
-			
+			// WALNUT
+			if (category != BiomeCategory.NETHER && category != BiomeCategory.THEEND) {
+				if (Config.SERVER.genWalnut.get() && category == BiomeCategory.FOREST) {
+					event.getGeneration().addFeature(Decoration.VEGETAL_DECORATION, CPPlacements.TREES_WALNUT);
+				}
+				if (Config.SERVER.genFig.get())
+					if (category == BiomeCategory.PLAINS || category == BiomeCategory.SAVANNA) {
+						event.getGeneration().addFeature(Decoration.VEGETAL_DECORATION, CPPlacements.TREES_FIG);
+					}
+				if (Config.SERVER.genWolfberry.get())
+					if (category == BiomeCategory.EXTREME_HILLS) {
+						event.getGeneration().addFeature(Decoration.VEGETAL_DECORATION, CPPlacements.TREES_WOLFBERRY);
+					}
+
+			}
+			// Structures
+
 		}
 	}
 }

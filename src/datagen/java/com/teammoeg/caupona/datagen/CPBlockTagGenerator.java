@@ -148,7 +148,11 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 		}
 		for(String s:CPBlocks.hypocast_materials) {
 			tag("caliducts").add(cp(s+"_caliduct"));
+			tag("heat_conductor").add(cp(s+"_hypocaust_firebox"));
+			tag("chimney_ignore").add(cp(s+"_hypocaust_firebox"));
 		}
+		tag("heat_conductor").addTag(otag("caliducts"));
+		
 	}
 
 	private TagAppender<Block> tag(String s) {
@@ -171,8 +175,8 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 		return new ResourceLocation(r);
 	}
 
-	private TagKey<Item> otag(String s) {
-		return ItemTags.create(mrl(s));
+	private TagKey<Block> otag(String s) {
+		return BlockTags.create(mrl(s));
 	}
 
 	private TagKey<Item> atag(ResourceLocation s) {

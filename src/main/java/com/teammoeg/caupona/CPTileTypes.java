@@ -55,7 +55,7 @@ public class CPTileTypes {
 	public static final RegistryObject<BlockEntityType<FireboxTile>> FIREBOX = REGISTER.register("hypocast_firebox",
 			makeTypes(FireboxTile::new, () -> CPBlocks.firebox.toArray(new Block[0])));
 	public static final RegistryObject<BlockEntityType<WolfStatueTile>> WOLF = REGISTER.register("wolf_statue",
-			makeTypes(WolfStatueTile::new, () -> CPBlocks.firebox.toArray(new Block[0])));
+			makeType(WolfStatueTile::new, () -> CPBlocks.WOLF));
 	
 	
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntitySupplier<T> create,

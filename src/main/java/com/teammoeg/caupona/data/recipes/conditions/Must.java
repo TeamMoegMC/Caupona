@@ -20,8 +20,8 @@ package com.teammoeg.caupona.data.recipes.conditions;
 
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.TranslationProvider;
-import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
+import com.teammoeg.caupona.data.recipes.IPendingContext;
 
 import net.minecraft.network.FriendlyByteBuf;
 

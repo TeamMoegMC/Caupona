@@ -1,23 +1,33 @@
 package com.teammoeg.caupona.blocks.dolium.hypocast;
 
-import java.util.function.BiFunction;
-
-import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPTileTypes;
-import com.teammoeg.caupona.blocks.CPBaseTileBlock;
 import com.teammoeg.caupona.blocks.CPHorizontalTileBlock;
 
-import net.minecraft.world.item.Item;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction.Axis;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class WolfStatueBlock extends CPHorizontalTileBlock<WolfStatueTile> {
 	public static final IntegerProperty HEAT=IntegerProperty.create("heat", 0, 3);
 	public WolfStatueBlock(Properties blockProps) {
 		super(CPTileTypes.WOLF,blockProps);
 		super.registerDefaultState(this.defaultBlockState().setValue(HEAT,0));
+	}
+	static final VoxelShape shapeNS = Block.box(3, 0, 0, 13, 16, 16);
+	static final VoxelShape shapeEW = Block.box(0, 0, 3, 16, 16, 13);
+
+	@Override
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+		if(state.getValue(FACING).getAxis()==Axis.Z)
+			return shapeNS;
+		return shapeEW;
+		
 	}
 	@Override
 	protected void createBlockStateDefinition(

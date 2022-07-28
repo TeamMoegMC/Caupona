@@ -22,8 +22,6 @@ import java.util.Random;
 import java.util.function.BiFunction;
 
 import com.teammoeg.caupona.blocks.CPBaseTileBlock;
-import com.teammoeg.caupona.client.Particles;
-import com.teammoeg.caupona.util.ChimneyHelper;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;

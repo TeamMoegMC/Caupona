@@ -24,11 +24,6 @@ import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumTileEntity;
-import com.teammoeg.caupona.blocks.foods.BowlTileEntity;
-import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
-import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
-import com.teammoeg.caupona.fluid.SoupFluid;
-import com.teammoeg.caupona.items.StewItem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;

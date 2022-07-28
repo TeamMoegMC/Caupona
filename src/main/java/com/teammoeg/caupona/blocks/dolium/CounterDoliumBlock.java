@@ -1,13 +1,8 @@
 package com.teammoeg.caupona.blocks.dolium;
 
-import java.util.Random;
-
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPTileTypes;
-import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 import com.teammoeg.caupona.blocks.CPHorizontalTileBlock;
-import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
-import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.items.StewItem;
 

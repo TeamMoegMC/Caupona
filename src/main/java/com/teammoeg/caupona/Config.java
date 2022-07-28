@@ -28,8 +28,8 @@ import net.minecraftforge.fml.config.ModConfig;
 public class Config {
 
 	public static void register() {
-		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG);
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);
+		//ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG);
+		//ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SERVER_CONFIG);
 	}
 
@@ -47,9 +47,6 @@ public class Config {
 		 */
 		
 		Common(ForgeConfigSpec.Builder builder) {
-			builder.push("Stews");
-			
-			builder.pop();
 		}
 	}
 
@@ -72,16 +69,22 @@ public class Config {
 		public ConfigValue<Integer> potCookTimeBase;
 		public ConfigValue<Integer> potMixTimeBase;
 		public ConfigValue<Integer> containerTick;
+		public ConfigValue<Integer> bathExp;
+		public ConfigValue<Double> bathChance;
+		public ConfigValue<Integer> bathPath;
+		public ConfigValue<Integer> wolfTick;
+		public ConfigValue<Integer> bathRange;
 		Server(ForgeConfigSpec.Builder builder) {
 			builder.push("recipes");
 			staticTime=builder.comment("Ticks before do still recipe").defineInRange("StillRecipeTicks",12000,1,Integer.MAX_VALUE);
 			potCookTimeBase=builder.comment("Stew pot cooking mininum time in ticks").defineInRange("potCookMinTicks",100,1,Integer.MAX_VALUE);
 			potMixTimeBase=builder.comment("Stew pot mixture mininum time in ticks").defineInRange("potMixMinTicks",50,1,Integer.MAX_VALUE);
-			containerTick=builder.comment("Tick interval between check container input").defineInRange("containTick",10,1,Integer.MAX_VALUE);
+			containerTick=builder.comment("Tick interval between container input check").defineInRange("containTick",10,1,Integer.MAX_VALUE);
 			builder.pop();
+			
 			builder.push("chimney");
 			chimneyTicks=builder.comment("How many ticks does a chimney pot needed to make a soot").define("ChimneySootTicks",80);
-			chimneyCheck=builder.comment("How many ticks does a chimney check it's validity").defineInRange("ChimneyCheckTicks",20, 1,Integer.MAX_VALUE);
+			chimneyCheck=builder.comment("Interval in ticks for a chimney to check it's validity").defineInRange("ChimneyCheckTicks",20, 1,Integer.MAX_VALUE);
 			chimneyStorage=builder.comment("Max soot stored in a chimney").defineInRange("ChimneySootStorage",8, 1,64);
 			builder.pop();
 			
@@ -89,10 +92,22 @@ public class Config {
 			stoveCD=builder.comment("How many ticks should the stove pause burning when work is done").define("StovePauseTimer",100);
 			stoveFuel=builder.comment("Stove fuel value multiplier").define("StoveFuelMultiplier",1.0f);
 			builder.pop();
+			
 			builder.push("fumarole");
-			fumaroleSpeed=builder.comment("How many tick does fumarole vent need to generate pumice bloom").defineInRange("FumaroleTicks",100,1,Integer.MAX_VALUE);
-			fumaroleCheck=builder.comment("How many ticks should the fumarole check its heat source").defineInRange("FumaroleCheckTicks",20,1,Integer.MAX_VALUE);
+			fumaroleSpeed=builder.comment("Interval in ticks for a  fumarole vent to generate pumice bloom").defineInRange("FumaroleTicks",100,1,Integer.MAX_VALUE);
+			fumaroleCheck=builder.comment("Interval in ticks for a fumarole vent to check its heat source").defineInRange("FumaroleCheckTicks",20,1,Integer.MAX_VALUE);
 			fumarolePower=builder.comment("Fumarole heat value, set to 0 to disable fumarole heat.").defineInRange("FumaroleHeat",1,0,Integer.MAX_VALUE);
+			builder.pop();
+			
+			builder.push("hypocast");
+			builder.comment("Actual expectation of experience per tick is change x exp");
+			bathExp=builder.comment("How many exp add to bathing play when conditions meet, set 0 to disable").defineInRange("BathExperience",1,0,Integer.MAX_VALUE);
+			bathChance=builder.comment("The chance add the exp to player per tick per caliduct block").defineInRange("BathGetExpChance",0.005f,0f,1f);
+			bathPath=builder.comment("Interval for bath heat check").defineInRange("BathHeatTicks",20,1,Integer.MAX_VALUE);
+			wolfTick=builder.comment("Interval for wolf statue heat check").defineInRange("WolfTicks",10,1,Integer.MAX_VALUE);
+			bathRange=builder.comment("Firebox heat conduct radius").defineInRange("FireboxRadius",4,0,Integer.MAX_VALUE);
+			builder.pop();
+			
 			builder.push("worldgen");
 			genWalnut=builder.comment("Generate Walnut trees").define("generateWalnut",true);
 			genWolfberry=builder.comment("Generate Wolfberry trees").define("generateWolfberry",true);
@@ -101,22 +116,22 @@ public class Config {
 		}
 	}
 
-	public static final ForgeConfigSpec CLIENT_CONFIG;
-	public static final ForgeConfigSpec COMMON_CONFIG;
+	//public static final ForgeConfigSpec CLIENT_CONFIG;
+	//public static final ForgeConfigSpec COMMON_CONFIG;
 	public static final ForgeConfigSpec SERVER_CONFIG;
-	public static final Client CLIENT;
-	public static final Common COMMON;
+	//public static final Client CLIENT;
+	//public static final Common COMMON;
 	public static final Server SERVER;
 
 	public static ArrayList<String> DEFAULT_WHITELIST = new ArrayList<>();
 
 	static {
-		ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
-		CLIENT = new Client(CLIENT_BUILDER);
-		CLIENT_CONFIG = CLIENT_BUILDER.build();
-		ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
-		COMMON = new Common(COMMON_BUILDER);
-		COMMON_CONFIG = COMMON_BUILDER.build();
+		//ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
+		//CLIENT = new Client(CLIENT_BUILDER);
+		//CLIENT_CONFIG = CLIENT_BUILDER.build();
+		//ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
+		//COMMON = new Common(COMMON_BUILDER);
+		//COMMON_CONFIG = COMMON_BUILDER.build();
 		ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
 		SERVER = new Server(SERVER_BUILDER);
 		SERVER_CONFIG = SERVER_BUILDER.build();

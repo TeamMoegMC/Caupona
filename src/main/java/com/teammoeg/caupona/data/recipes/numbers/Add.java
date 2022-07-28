@@ -26,9 +26,8 @@ import com.google.gson.JsonElement;
 import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.ComplexCalculated;
-import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
-import com.teammoeg.caupona.data.recipes.StewPendingContext;
+import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.network.FriendlyByteBuf;

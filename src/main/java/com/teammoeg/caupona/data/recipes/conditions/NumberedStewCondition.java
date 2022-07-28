@@ -22,10 +22,9 @@ import java.util.stream.Stream;
 
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.SerializeUtil;
+import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
-import com.teammoeg.caupona.data.recipes.CookIngredients;
-import com.teammoeg.caupona.data.recipes.StewPendingContext;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

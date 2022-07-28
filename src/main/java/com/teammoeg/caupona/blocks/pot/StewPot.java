@@ -21,7 +21,6 @@ package com.teammoeg.caupona.blocks.pot;
 import java.util.Random;
 import java.util.function.BiFunction;
 
-import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.CPBaseTileBlock;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
@@ -29,7 +28,6 @@ import com.teammoeg.caupona.items.StewItem;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

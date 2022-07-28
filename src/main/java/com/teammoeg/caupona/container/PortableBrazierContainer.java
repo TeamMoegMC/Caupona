@@ -4,7 +4,6 @@ import com.teammoeg.caupona.CPGui;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
-import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.util.INetworkContainer;
 import com.teammoeg.caupona.util.ITickableContainer;
 import com.teammoeg.caupona.util.Utils;
@@ -22,7 +21,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 

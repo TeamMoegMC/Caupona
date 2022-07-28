@@ -25,17 +25,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumTileEntity;
 import com.teammoeg.caupona.blocks.dolium.DoliumContainer;
-import com.teammoeg.caupona.blocks.stove.KitchenStoveContainer;
-import com.teammoeg.caupona.blocks.stove.KitchenStoveTileEntity;
-import com.teammoeg.caupona.fluid.SoupFluid;
-import com.teammoeg.caupona.items.StewItem;
-import com.teammoeg.caupona.util.FloatemStack;
-import com.teammoeg.caupona.util.SoupInfo;
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
