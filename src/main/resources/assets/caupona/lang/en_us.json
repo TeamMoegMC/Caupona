@@ -275,5 +275,5 @@
 	"recipe.caupona.cond.mainlyof": "Majority of %s in %s",
 	"recipe.caupona.allow": "Must contain:",
 	"recipe.caupona.deny": "Rejects:",
-	"recipe.caupona.density":"Concentration: %s item(s)/bowl"
+	"recipe.caupona.density":"Concentration: At least %s item(s)/bowl"
 }

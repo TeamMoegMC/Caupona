@@ -275,5 +275,5 @@
 	"recipe.caupona.cond.mainlyof":"%s在%s中占主要",
 	"recipe.caupona.allow":"必须：",
 	"recipe.caupona.deny":"不能：",
-	"recipe.caupona.density":"浓度要求：%s物品/碗"
+	"recipe.caupona.density":"浓度要求：至少%s物品/碗"
 }
