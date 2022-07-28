@@ -30,6 +30,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -155,5 +157,11 @@ public class KitchenStove extends CPBaseTileBlock<KitchenStoveTileEntity> {
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return shape;
 	}
-
+	@Override
+	public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
+		if (pState.getValue(LIT)) {
+			pEntity.hurt(DamageSource.HOT_FLOOR, 1);
+		}
+		super.stepOn(pLevel, pPos, pState, pEntity);
+	}
 }

@@ -1,0 +1,13 @@
+{
+  "name": "杂烩",
+  "icon": "caupona:sauteed_hodgepodge",
+  "category": "caupona:sautee_recipes",
+  "pages": [
+    {
+      "type": "caupona:fryrecipe",
+      "img": "caupona:textures/gui/recipes/sauteed_hodgepodge.png",
+      "result": "caupona:sauteed_hodgepodge",
+      "base": "caupona:gravy_boat"
+    }
+  ]
+}

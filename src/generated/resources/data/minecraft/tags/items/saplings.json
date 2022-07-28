@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "minecraft:air"
+    "caupona:walnut_sapling",
+    "caupona:fig_sapling",
+    "caupona:wolfberry_sapling"
   ]
 }

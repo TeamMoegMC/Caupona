@@ -1,10 +1,10 @@
 {
   "name": "Seaweed Soup",
   "icon": "caupona:seaweed_soup",
-  "category": "caupona:recipes",
+  "category": "caupona:cook_recipes",
   "pages": [
     {
-      "type": "caupona:thprecipe",
+      "type": "caupona:cookrecipe",
       "img": "caupona:textures/gui/recipes/seaweed_soup.png",
       "result": "caupona:seaweed_soup",
       "base": "caupona:water_or_stock_based"

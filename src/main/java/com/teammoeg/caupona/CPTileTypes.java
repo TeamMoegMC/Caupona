@@ -1,15 +1,33 @@
+/*
+ * Copyright (c) 2022 TeamMoeg
+ *
+ * This file is part of Caupona.
+ *
+ * Caupona is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * Caupona is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.teammoeg.caupona;
 
 import java.util.function.Supplier;
 
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumTileEntity;
-import com.teammoeg.caupona.blocks.dolium.hypocast.CaliductTile;
-import com.teammoeg.caupona.blocks.dolium.hypocast.FireboxTile;
-import com.teammoeg.caupona.blocks.dolium.hypocast.WolfStatueTile;
 import com.teammoeg.caupona.blocks.foods.BowlTileEntity;
 import com.teammoeg.caupona.blocks.foods.DishTileEntity;
 import com.teammoeg.caupona.blocks.fumarole.FumaroleVentTileEntity;
+import com.teammoeg.caupona.blocks.hypocast.CaliductTile;
+import com.teammoeg.caupona.blocks.hypocast.FireboxTile;
+import com.teammoeg.caupona.blocks.hypocast.WolfStatueTile;
 import com.teammoeg.caupona.blocks.others.CPSignTileEntity;
 import com.teammoeg.caupona.blocks.pan.PanTile;
 import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
@@ -45,7 +63,7 @@ public class CPTileTypes {
 	public static final RegistryObject<BlockEntityType<FumaroleVentTileEntity>> FUMAROLE = REGISTER.register("fumarole_vent",
 			makeType(FumaroleVentTileEntity::new, () -> CPBlocks.FUMAROLE_VENT));
 	public static final RegistryObject<BlockEntityType<PanTile>> PAN = REGISTER.register("pan",
-			makeType(PanTile::new, () -> CPBlocks.FUMAROLE_VENT));
+			makeTypes(PanTile::new, () -> new Block[]{CPBlocks.STONE_PAN,CPBlocks.COPPER_PAN,CPBlocks.IRON_PAN}));
 	public static final RegistryObject<BlockEntityType<CounterDoliumTileEntity>> DOLIUM = REGISTER.register("dolium",
 			makeTypes(CounterDoliumTileEntity::new, () -> CPBlocks.dolium.toArray(new Block[0])));
 	public static final RegistryObject<BlockEntityType<DishTileEntity>> DISH = REGISTER.register("dish",

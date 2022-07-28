@@ -60,7 +60,11 @@ public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveCont
 		if (te.processMax > 0 && te.process > 0) {
 			int h = (int) (26 * (1 - te.process / (float) te.processMax));
 			this.blit(matrixStack, leftPos + 61, topPos + h, 176, h, 54, 26 - h);
-			this.blit(matrixStack, leftPos + 61, topPos + 13, 176, 26, 54, 16);
+			switch(te.last) {
+			case CHARCOAL:this.blit(matrixStack, leftPos + 61, topPos + 13, 176, 42, 54, 16);break;
+			case WOODS:this.blit(matrixStack, leftPos + 61, topPos + 13, 176, 58, 54, 16);break;
+			default:this.blit(matrixStack, leftPos + 61, topPos + 13, 176, 26, 54, 16);break;
+			}
 		}
 	}
 

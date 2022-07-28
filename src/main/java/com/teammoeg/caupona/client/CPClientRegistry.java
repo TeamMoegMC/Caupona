@@ -59,6 +59,7 @@ public class CPClientRegistry {
 		MenuScreens.register(CPGui.STOVE.get(),KitchenStoveScreen::new);
 		MenuScreens.register(CPGui.DOLIUM.get(), DoliumScreen::new);
 		MenuScreens.register(CPGui.BRAZIER.get(), PortableBrazierScreen::new);
+		MenuScreens.register(CPGui.PAN.get(), PanScreen::new);
 		
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stew_pot, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove1, RenderType.cutout());
@@ -69,12 +70,14 @@ public class CPClientRegistry {
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.bowl, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.GRAVY_BOAT, RenderType.translucent());
 		
+		
 		for(Block bl:CPBlocks.transparentBlocks)
 			ItemBlockRenderTypes.setRenderLayer(bl, RenderType.cutout());
 		BlockEntityRenderers.register(CPTileTypes.STEW_POT.get(), StewPotRenderer::new);
 		BlockEntityRenderers.register(CPTileTypes.BOWL.get(), BowlRenderer::new);
 		BlockEntityRenderers.register(CPTileTypes.SIGN.get(), SignRenderer::new);
 		BlockEntityRenderers.register(CPTileTypes.DOLIUM.get(),CounterDoliumRenderer::new);
+		BlockEntityRenderers.register(CPTileTypes.PAN.get(),PanRenderer::new);
 		Sheets.addWoodType(CPBlocks.WALNUT);
 		EntityRenderers.register(CPEntityTypes.BOAT.get(), CPBoatRenderer::new);
 		

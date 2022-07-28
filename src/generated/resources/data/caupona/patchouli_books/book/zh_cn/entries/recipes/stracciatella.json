@@ -1,10 +1,10 @@
 {
   "name": "蔬菜蛋花汤",
   "icon": "caupona:stracciatella",
-  "category": "caupona:recipes",
+  "category": "caupona:cook_recipes",
   "pages": [
     {
-      "type": "caupona:thprecipe",
+      "type": "caupona:cookrecipe",
       "img": "caupona:textures/gui/recipes/stracciatella.png",
       "result": "caupona:stracciatella",
       "base": "caupona:water_or_stock_based"

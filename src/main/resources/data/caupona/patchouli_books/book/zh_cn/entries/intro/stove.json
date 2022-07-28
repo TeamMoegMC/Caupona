@@ -20,7 +20,7 @@
     },
     {
       "type": "crafting",
-      "recipe": "caupona:brick_kitchen_stove",
+      "recipe": "caupona:crafting/brick_kitchen_stove",
       "text": "还有一些其他材料建造的灶台。这些灶台效率更高，但也更费燃料。"
     }
   ]

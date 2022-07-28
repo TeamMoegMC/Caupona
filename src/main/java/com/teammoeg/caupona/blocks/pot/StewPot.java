@@ -146,11 +146,16 @@ public class StewPot extends CPBaseTileBlock<StewPotTileEntity> implements Liqui
 		if (tileEntity instanceof StewPotTileEntity && state.getBlock() != newState.getBlock()) {
 			StewPotTileEntity te = (StewPotTileEntity) tileEntity;
 			if (te.proctype != 2)
-				for (int i = 0; i < 11; i++) {
+				for (int i = 0; i < 9; i++) {
 					ItemStack is = te.getInv().getStackInSlot(i);
 					if (!is.isEmpty())
 						super.popResource(worldIn, pos, is);
 				}
+			for (int i = 9; i < 12; i++) {
+				ItemStack is = te.getInv().getStackInSlot(i);
+				if (!is.isEmpty())
+					super.popResource(worldIn, pos, is);
+			}
 		}
 		super.onRemove(state, worldIn, pos, newState, isMoving);
 	}

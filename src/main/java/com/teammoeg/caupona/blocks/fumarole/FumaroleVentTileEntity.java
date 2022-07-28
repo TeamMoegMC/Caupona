@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2022 TeamMoeg
+ *
+ * This file is part of Caupona.
+ *
+ * Caupona is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * Caupona is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.teammoeg.caupona.blocks.fumarole;
 
 import java.util.Iterator;
@@ -7,7 +25,7 @@ import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPTileTypes;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.blocks.AbstractStove;
+import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.network.CPBaseTile;
 
 import net.minecraft.core.BlockPos;
@@ -22,7 +40,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 
-public class FumaroleVentTileEntity extends CPBaseTile implements AbstractStove{
+public class FumaroleVentTileEntity extends CPBaseTile implements IStove{
 	private final int heat;
 	private final int checkmax;
 	private final int updatemax;

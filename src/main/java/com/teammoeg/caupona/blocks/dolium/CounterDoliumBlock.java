@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2022 TeamMoeg
+ *
+ * This file is part of Caupona.
+ *
+ * Caupona is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * Caupona is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.teammoeg.caupona.blocks.dolium;
 
 import com.teammoeg.caupona.CPBlocks;
@@ -66,6 +84,7 @@ public class CounterDoliumBlock extends CPHorizontalTileBlock<CounterDoliumTileE
 	@Override
 	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
 			BlockHitResult hit) {
+		@SuppressWarnings("deprecation")
 		InteractionResult p = super.use(state, worldIn, pos, player, handIn, hit);
 		if (p.consumesAction())
 			return p;
@@ -112,6 +131,7 @@ public class CounterDoliumBlock extends CPHorizontalTileBlock<CounterDoliumTileE
 		}
 		return false;
 	}
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		BlockEntity tileEntity = worldIn.getBlockEntity(pos);

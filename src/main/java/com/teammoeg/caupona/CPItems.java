@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2022 TeamMoeg
+ *
+ * This file is part of Caupona.
+ *
+ * Caupona is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * Caupona is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.teammoeg.caupona;
 
 import java.util.ArrayList;
@@ -76,10 +94,14 @@ public class CPItems {
 	public static Item walnut_boat=new CPBoatItem("walnut",createProps());
 	public static Item chronoconis=new Chronoconis("chronoconis",createFoodProps());
 	public static Item haze=new IconItem("culinary_heat_haze");
+	public static Item ddish;
+	public static Item acquacotta;
 	public static void init() {
-		for (String s : soups)
-			new StewItem(s, new ResourceLocation(Main.MODID, s), createSoupProps());
-		
+		for (String s : soups) {
+			Item it=new StewItem(s, new ResourceLocation(Main.MODID, s), createSoupProps());
+			if(s.equals("acquacotta"))
+				acquacotta=it;
+		}
 		
 		for(String s:aspics) 
 			new CPItem(s,createFoodProps());

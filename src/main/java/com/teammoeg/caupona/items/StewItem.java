@@ -75,14 +75,7 @@ public class StewItem extends EdibleBlock {
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
 
-	public static SoupInfo getInfo(ItemStack stack) {
-		if (stack.hasTag()) {
-			CompoundTag soupTag = stack.getTagElement("soup");
-			return soupTag == null ? new SoupInfo(new ResourceLocation(stack.getTag().getString("type")))
-					: new SoupInfo(soupTag);
-		}
-		return new SoupInfo();
-	}
+
 
 	public static void addPotionTooltip(List<MobEffectInstance> list, List<Component> lores, float durationFactor) {
 		List<Pair<Attribute, AttributeModifier>> list1 = Lists.newArrayList();
@@ -150,7 +143,14 @@ public class StewItem extends EdibleBlock {
 		}
 
 	}
-
+	public static SoupInfo getInfo(ItemStack stack) {
+		if (stack.hasTag()) {
+			CompoundTag soupTag = stack.getTagElement("soup");
+			return soupTag == null ? new SoupInfo(new ResourceLocation(stack.getTag().getString("type")))
+					: new SoupInfo(soupTag);
+		}
+		return new SoupInfo();
+	}
 	public static void setInfo(ItemStack stack, SoupInfo si) {
 		if (!si.isEmpty())
 			stack.getOrCreateTag().put("soup", si.save());
@@ -209,6 +209,8 @@ public class StewItem extends EdibleBlock {
 				b.effect(eff,1);
 			}
 		}
+		if(si.spice!=null)
+			b.effect(si.spice,1);
 		for (Pair<MobEffectInstance, Float> ef : si.foodeffect) {
 			b.effect(ef.getFirst(),ef.getSecond());
 		}

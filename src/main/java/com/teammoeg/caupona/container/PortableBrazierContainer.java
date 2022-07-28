@@ -1,6 +1,25 @@
+/*
+ * Copyright (c) 2022 TeamMoeg
+ *
+ * This file is part of Caupona.
+ *
+ * Caupona is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * Caupona is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.teammoeg.caupona.container;
 
 import com.teammoeg.caupona.CPGui;
+import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
@@ -20,7 +39,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
@@ -38,7 +56,7 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 			if (slot == INGREDIENT)
 				return AspicMeltingRecipe.find(stack) != null;
 			if (slot == CONTAINER)
-				return stack.is(Items.BOWL);
+				return stack.is(CPItems.water_bowl);
 			if (slot == FUEL)
 				return stack.is(fueltype);
 			return false;

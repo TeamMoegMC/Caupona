@@ -1,10 +1,10 @@
 {
   "name": "麦粥",
   "icon": "caupona:gruel",
-  "category": "caupona:recipes",
+  "category": "caupona:cook_recipes",
   "pages": [
     {
-      "type": "caupona:thprecipe",
+      "type": "caupona:cookrecipe",
       "img": "caupona:textures/gui/recipes/gruel.png",
       "result": "caupona:gruel",
       "base": "caupona:water_or_stock_based"

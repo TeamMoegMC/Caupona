@@ -2,7 +2,7 @@
 {
   "name": "Definition",
   "icon": "minecraft:bowl",
-  "category": "caupona:recipes",
+  "category": "caupona:cook_recipes",
   "priority": true,
   "pages": [
     {

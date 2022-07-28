@@ -59,7 +59,7 @@ public class CauponaApi {
 	public static void setInfo(CompoundTag nbt,SoupInfo info) {
 		info.write(nbt);
 	}
-	public static void applyStew(Level worldIn, LivingEntity entityLiving,SoupInfo info,ItemStack from,int cdm) {
+	public static void applyStew(Level worldIn, LivingEntity entityLiving,SoupInfo info) {
 		if (!worldIn.isClientSide) {
 			for (MobEffectInstance eff :info.effects) {
 				if (eff != null) {

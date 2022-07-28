@@ -1,10 +1,10 @@
 {
   "name": "杂烩汤",
   "icon": "caupona:hodgepodge",
-  "category": "caupona:recipes",
+  "category": "caupona:cook_recipes",
   "pages": [
     {
-      "type": "caupona:thprecipe",
+      "type": "caupona:cookrecipe",
       "img": "caupona:textures/gui/recipes/hodgepodge.png",
       "result": "caupona:hodgepodge",
       "base": "caupona:any_based"

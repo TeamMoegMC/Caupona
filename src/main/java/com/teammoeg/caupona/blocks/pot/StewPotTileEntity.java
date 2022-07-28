@@ -24,7 +24,7 @@ import java.util.List;
 import com.teammoeg.caupona.CPTileTypes;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.blocks.AbstractStove;
+import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
@@ -114,7 +114,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 
 	public StewPotTileEntity(BlockPos p, BlockState s) {
 		super(CPTileTypes.STEW_POT.get(), p, s);
-		stillticks = Config.SERVER.staticTime.get();
+		stillticks = Config.COMMON.staticTime.get();
 		contTicks = Config.SERVER.containerTick.get();
 	}
 
@@ -151,8 +151,8 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 			if (processMax > 0) {
 				nowork = 0;
 				BlockEntity te = level.getBlockEntity(worldPosition.below());
-				if (te instanceof AbstractStove) {
-					int rh = ((AbstractStove) te).requestHeat();
+				if (te instanceof IStove) {
+					int rh = ((IStove) te).requestHeat();
 					if (!isInfinite)
 						process += rh;
 					if (rh > 0)
@@ -283,7 +283,6 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 		processMax = nbt.getInt("processMax");
 		proctype = nbt.getShort("worktype");
 		rsstate = nbt.getBoolean("rsstate");
-		inv.deserializeNBT(nbt.getCompound("inv"));
 		if (inv.getSlots() < 12)
 			inv.setSize(12);
 		if (isClient)
@@ -294,6 +293,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 		else
 			become = null;
 		if (!isClient) {
+			inv.deserializeNBT(nbt.getCompound("inv"));
 			current = nbt.contains("current") ? new SoupInfo(nbt.getCompound("current")) : null;
 			nextbase = nbt.contains("resultBase") ? new ResourceLocation(nbt.getString("resultBase")) : null;
 			nowork = nbt.getInt("nowork");
@@ -310,11 +310,12 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 		nbt.putBoolean("rsstate", rsstate);
 		if (isClient)
 			nbt.putBoolean("working", working);
-		nbt.put("inv", inv.serializeNBT());
+		
 		tank.writeToNBT(nbt);
 		if (become != null)
 			nbt.putString("result", become.getRegistryName().toString());
 		if (!isClient) {
+			nbt.put("inv", inv.serializeNBT());
 			nbt.putInt("nowork", nowork);
 			if (current != null)
 				nbt.put("current", current.save());
@@ -332,7 +333,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 		if (operate && proctype == 0) {
 			operate = false;
 			BlockEntity te = level.getBlockEntity(worldPosition.below());
-			if (!(te instanceof AbstractStove) || !((AbstractStove) te).canEmitHeat())
+			if (!(te instanceof IStove) || !((IStove) te).canEmitHeat())
 				return;
 			if (doBoil())
 				proctype = 1;
@@ -452,46 +453,21 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 			processMax = Math.max(Config.SERVER.potCookTimeBase.get(), decideSoup());
 			return true;
 		}
-		// List<SmokingRecipe> irs =
-		// this.world.getRecipeManager().getRecipesForType(IRecipeType.SMOKING);
-		int[] iis = new int[9];
-		int imax = 9;
+		int tpt = Config.SERVER.potMixTimeBase.get();
 		outer: for (int i = 0; i < 9; i++) {
 			ItemStack is = interninv.get(i);
-			if (is.isEmpty()) {
-				imax = i;
+			if (is.isEmpty()) 
 				break;
-			}
+			current.addItem(is, parts);
 			for (DissolveRecipe rs : DissolveRecipe.recipes) {
 				if (rs.item.test(is)) {
-					iis[i] = rs.time;
+					tpt+= rs.time;
 					continue outer;
 				}
 			}
 			FoodValueRecipe fvr = FoodValueRecipe.recipes.get(is.getItem());
 			if (fvr != null)
-				iis[i] = fvr.processtimes.getOrDefault(is.getItem(), 0);
-			/*
-			 * CookInfo ci=cook(is,irs);
-			 * if(ci!=null) {
-			 * iis[i]=ci.i;
-			 * interninv.set(i,ci.is);
-			 * }
-			 */
-		}
-		int tpt = 50;
-		for (int i = 0; i < imax; i++) {
-			ItemStack is = interninv.get(i);
-			if (!is.isEmpty()) {
-				for (DissolveRecipe rs : DissolveRecipe.recipes) {
-					if (rs.item.test(is)) {
-						iis[i] += rs.time;
-						break;
-					}
-				}
-				current.addItem(is, parts);
-			}
-			tpt += iis[i];
+				tpt+= fvr.processtimes.getOrDefault(is.getItem(), 0);
 		}
 		current.completeAll();
 		tpt = Math.max(Config.SERVER.potCookTimeBase.get(), tpt);
@@ -500,33 +476,6 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 		return true;
 	}
 
-	/*
-	 * private static class CookInfo{
-	 * ItemStack is;
-	 * int i;
-	 * public CookInfo(ItemStack is, int i) {
-	 * this.is = is;
-	 * this.i = i;
-	 * }
-	 * public CookInfo add(CookInfo other) {
-	 * if(other==null)return this;
-	 * this.is=other.is;
-	 * i+=other.i;
-	 * return this;
-	 * }
-	 * }
-	 * private CookInfo cook(ItemStack org,List<SmokingRecipe> recipes) {
-	 * if(org.isEmpty())return null;
-	 * for (SmokingRecipe sr : recipes) {
-	 * if (sr.getIngredients().get(0).test(org)) {
-	 * ItemStack ret=sr.getCraftingResult(null).copy();
-	 * ret.setCount(org.getCount());
-	 * return new CookInfo(ret,sr.getCookTime()).add(cook(ret,recipes));
-	 * }
-	 * }
-	 * return null;
-	 * }
-	 */
 	private int decideSoup() {
 		become = tank.getFluid().getFluid();
 
@@ -583,7 +532,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 		if (tank.getCapacity() - tank.getFluidAmount() < fs.getAmount())
 			return false;
 		BlockEntity te = level.getBlockEntity(worldPosition.below());
-		if (!(te instanceof AbstractStove) || !((AbstractStove) te).canEmitHeat())
+		if (!(te instanceof IStove) || !((IStove) te).canEmitHeat())
 			return false;
 		SoupInfo n = SoupFluid.getInfo(fs);
 		if (!getCurrent().base.equals(n.base)) {
@@ -632,7 +581,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 		if (tank.getCapacity() - tank.getFluidAmount() < fs.getAmount())
 			return false;
 		BlockEntity te = level.getBlockEntity(worldPosition.below());
-		if (!(te instanceof AbstractStove) || !((AbstractStove) te).canEmitHeat())
+		if (!(te instanceof IStove) || !((IStove) te).canEmitHeat())
 			return false;
 		SoupInfo n = SoupFluid.getInfo(fs);
 		int pm = 0;

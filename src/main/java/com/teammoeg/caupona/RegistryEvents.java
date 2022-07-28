@@ -32,7 +32,6 @@ import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -55,7 +54,6 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryEvents {
@@ -79,19 +77,11 @@ public class RegistryEvents {
 	public static void registerFoliagePlacer(RegistryEvent.Register<FoliagePlacerType<?>> event) {
 		CPFeatures.init();
 		try {
-			event.getRegistry().register(CPFeatures.bfp);
+			event.getRegistry().register(CPFeatures.BUSH_PLACER);
 		} catch (Throwable e) {
-			Main.logger.error("Failed to register a block. ({})",CPFeatures.bfp);
+			Main.logger.error("Failed to register a foliage placer. ({})",CPFeatures.BUSH_PLACER);
 			throw e;
 		}
-		
-	}
-	
-	 
-
-	@SubscribeEvent
-	public void setup(final FMLCommonSetupEvent event) {
-		
 		
 	}
 
@@ -109,6 +99,7 @@ public class RegistryEvents {
 		DispenserBlock.registerBehavior(Items.BOWL, new DefaultDispenseItemBehavior() {
 			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
 
+			@SuppressWarnings("resource")
 			@Override
 			protected ItemStack execute(BlockSource bp, ItemStack is) {
 
@@ -152,13 +143,12 @@ public class RegistryEvents {
 			/**
 			 * Dispense the specified stack, play the dispense sound and spawn particles.
 			 */
+			@SuppressWarnings("resource")
 			public ItemStack execute(BlockSource source, ItemStack stack) {
 				
-				BlockPos blockpos = source.getPos().relative(source.getBlockState().getValue(DispenserBlock.FACING));
 				Level world = source.getLevel();
 				Direction d = source.getBlockState().getValue(DispenserBlock.FACING);
 				BlockPos front = source.getPos().relative(d);
-				FluidState fs = world.getBlockState(front).getFluidState();
 				BlockEntity te = world.getBlockEntity(front);
 				if (te != null) {
 					LazyOptional<IFluidHandler> ip = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
@@ -182,6 +172,7 @@ public class RegistryEvents {
 		DefaultDispenseItemBehavior ddib = new DefaultDispenseItemBehavior() {
 			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
 
+			@SuppressWarnings("resource")
 			@Override
 			protected ItemStack execute(BlockSource source, ItemStack stack) {
 				FluidStack fs = BowlContainingRecipe.extractFluid(stack);
@@ -238,15 +229,11 @@ public class RegistryEvents {
 			}
 		}
 	}
+	@SuppressWarnings("unused")
 	@SubscribeEvent
 	public static void registerFeatures(RegistryEvent.Register<Feature<?>> event) {
 		CPFeatures.init();
 		CPPlacements.init();
-	}
-	@SuppressWarnings("unused")
-	@SubscribeEvent
-	public static void registerEffects(final RegistryEvent.Register<MobEffect> event) {
-	
 	}
 
 }

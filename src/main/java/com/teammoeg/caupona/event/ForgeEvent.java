@@ -18,6 +18,8 @@
 
 package com.teammoeg.caupona.event;
 
+import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.api.CauponaApi;
@@ -63,6 +65,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 @Mod.EventBusSubscriber
 public class ForgeEvent {
@@ -187,7 +190,7 @@ public class ForgeEvent {
 				IFluidHandlerItem data = cap.resolve().get();
 				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid)
 					CauponaApi.applyStew(event.getEntityLiving().level, event.getEntityLiving(),
-							SoupFluid.getInfo(data.getFluidInTank(0)), stack, 0);
+							SoupFluid.getInfo(data.getFluidInTank(0)));
 			}
 		}
 	}

@@ -52,7 +52,10 @@ public class FluidType implements StewBaseCondition {
 	public boolean test(ResourceLocation t) {
 		return of.equals(t);
 	}
-
+	@Override
+	public boolean test(Fluid f) {
+		return f.getRegistryName().equals(of);
+	}
 	public JsonObject serialize() {
 		JsonObject jo = new JsonObject();
 		jo.addProperty("fluid", of.toString());

@@ -30,9 +30,11 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.FluidStack;
 
 public class StewPotRenderer implements BlockEntityRenderer<StewPotTileEntity> {
@@ -64,29 +66,28 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotTileEntity> {
 		matrixStack.pushPose();
 		FluidStack fs = te.getTank().getFluid();
 		if (fs != null && !fs.isEmpty() && fs.getFluid() != null) {
-			float rr=fs.getAmount();
-			if(te.proctype==2)//just animate fluid reduction
-				rr+=250f*(1-te.process*1f/te.processMax);
-			float yy = Math.min(1,rr / te.getTank().getCapacity()) * .5f + .1875f;
+			float rr = fs.getAmount();
+			if (te.proctype == 2)// just animate fluid reduction
+				rr += 250f * (1 - te.process * 1f / te.processMax);
+			float yy = Math.min(1, rr / te.getTank().getCapacity()) * .5f + .1875f;
 			matrixStack.translate(0, yy, 0);
 			matrixStack.mulPose(new Quaternion(90, 0, 0, true));
 			matrixStack.pushPose();
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
-			TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager()
-					.getAtlas(InventoryMenu.BLOCK_ATLAS)
-					.getSprite(fs.getFluid().getAttributes().getStillTexture(fs));
-			int col = fs.getFluid().getAttributes().getColor(fs);
+			FluidAttributes attr0=fs.getFluid().getAttributes();
+			TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
+			TextureAtlasSprite sprite = atlas.getSprite(attr0.getStillTexture(fs));
+			int col = attr0.getColor(fs);
 			int iW = sprite.getWidth();
 			int iH = sprite.getHeight();
 			if (iW > 0 && iH > 0) {
 				Vector3f clr;
 				float alp = 1f;
 				if (te.become != null && te.processMax > 0) {
-					TextureAtlasSprite sprite2 = Minecraft.getInstance().getModelManager()
-							.getAtlas(InventoryMenu.BLOCK_ATLAS)
-							.getSprite(te.become.getAttributes().getStillTexture(fs));
+					FluidAttributes attr1=te.become.getAttributes();
+					TextureAtlasSprite sprite2 = atlas.getSprite(attr1.getStillTexture(fs));
 					float proc = te.process * 1f / te.processMax;
-					clr = clr(col, te.become.getAttributes().getColor(fs), proc);
+					clr = clr(col, attr1.getColor(fs), proc);
 					if (sprite2.getWidth() > 0 && sprite2.getHeight() > 0) {
 						alp = 1 - proc;
 						RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(),
@@ -97,14 +98,14 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotTileEntity> {
 					clr = clr(col);
 
 				}
-				RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(),
-						clr.y(), clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(),
-						sprite.getV1(), combinedLightIn, combinedOverlayIn);
+				RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(), clr.y(),
+						clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), combinedLightIn,
+						combinedOverlayIn);
 
 			}
 			matrixStack.popPose();
 		}
-		
+
 		matrixStack.popPose();
 	}
 

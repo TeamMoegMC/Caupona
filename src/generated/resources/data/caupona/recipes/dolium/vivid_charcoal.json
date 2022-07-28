@@ -1,0 +1,26 @@
+{
+  "type": "caupona:dolium",
+  "items": [
+    {
+      "item": {
+        "tag": "minecraft:coals"
+      },
+      "count": 3
+    },
+    {
+      "item": {
+        "item": "minecraft:slime_ball"
+      },
+      "count": 1
+    }
+  ],
+  "fluid": "minecraft:lava",
+  "density": 0.0,
+  "amount": 250,
+  "keepInfo": false,
+  "output": {
+    "type": "forge:nbt",
+    "item": "caupona:vivid_charcoal",
+    "count": 8
+  }
+}

@@ -20,7 +20,7 @@
     },
     {
       "type": "crafting",
-      "recipe": "caupona:brick_kitchen_stove",
+      "recipe": "caupona:crafting/brick_kitchen_stove",
       "text": "You can also see kitchen stoves built with other materials. They are faster, yet also consume more fuel."
     }
   ]

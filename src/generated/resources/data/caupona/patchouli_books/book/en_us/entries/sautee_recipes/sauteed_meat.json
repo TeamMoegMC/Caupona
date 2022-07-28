@@ -1,0 +1,13 @@
+{
+  "name": "Sautéed Meat",
+  "icon": "caupona:sauteed_meat",
+  "category": "caupona:sautee_recipes",
+  "pages": [
+    {
+      "type": "caupona:fryrecipe",
+      "img": "caupona:textures/gui/recipes/sauteed_meat.png",
+      "result": "caupona:sauteed_meat",
+      "base": "caupona:gravy_boat"
+    }
+  ]
+}

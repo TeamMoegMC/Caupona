@@ -2,5 +2,5 @@
   "type": "caupona:boiling",
   "from": "minecraft:milk",
   "to": "caupona:scalded_milk",
-  "time": 100
+  "time": 200
 }

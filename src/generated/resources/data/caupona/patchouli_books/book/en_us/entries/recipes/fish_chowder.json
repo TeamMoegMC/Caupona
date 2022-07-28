@@ -1,10 +1,10 @@
 {
   "name": "Fish Chowder",
   "icon": "caupona:fish_chowder",
-  "category": "caupona:recipes",
+  "category": "caupona:cook_recipes",
   "pages": [
     {
-      "type": "caupona:thprecipe",
+      "type": "caupona:cookrecipe",
       "img": "caupona:textures/gui/recipes/fish_chowder.png",
       "result": "caupona:fish_chowder",
       "base": "caupona:milk_based"

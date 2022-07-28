@@ -1,0 +1,13 @@
+{
+  "name": "炒绿叶蔬菜",
+  "icon": "caupona:sauteed_greens",
+  "category": "caupona:sautee_recipes",
+  "pages": [
+    {
+      "type": "caupona:fryrecipe",
+      "img": "caupona:textures/gui/recipes/sauteed_greens.png",
+      "result": "caupona:sauteed_greens",
+      "base": "caupona:gravy_boat"
+    }
+  ]
+}

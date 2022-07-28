@@ -1,10 +1,10 @@
 {
   "name": "乌哈汤",
   "icon": "caupona:ukha",
-  "category": "caupona:recipes",
+  "category": "caupona:cook_recipes",
   "pages": [
     {
-      "type": "caupona:thprecipe",
+      "type": "caupona:cookrecipe",
       "img": "caupona:textures/gui/recipes/ukha.png",
       "result": "caupona:ukha",
       "base": "caupona:water_or_stock_based"

@@ -19,6 +19,7 @@
 package com.teammoeg.caupona.data.recipes;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,7 +62,7 @@ public class DoliumRecipe extends IDataRecipe {
 	}
 
 	public List<Pair<Ingredient,Integer>> items;
-	Ingredient extra;
+	public Ingredient extra;
 	public ResourceLocation base;
 	public Fluid fluid=Fluids.EMPTY;
 	public int amount=250;
@@ -71,7 +72,7 @@ public class DoliumRecipe extends IDataRecipe {
 	public DoliumRecipe(ResourceLocation id, ResourceLocation base, Fluid fluid, int amount,float density,boolean keep,ItemStack out,List<Pair<Ingredient,Integer>> items) {
 		this(id, base, fluid, amount, density, keep, out, items,null);
 	}
-	public DoliumRecipe(ResourceLocation id, ResourceLocation base, Fluid fluid, int amount,float density,boolean keep,ItemStack out,List<Pair<Ingredient,Integer>> items,Ingredient ext) {
+	public DoliumRecipe(ResourceLocation id, ResourceLocation base, Fluid fluid, int amount,float density,boolean keep,ItemStack out,Collection<Pair<Ingredient,Integer>> items,Ingredient ext) {
 		super(id);
 		if(items!=null)
 			this.items = new ArrayList<>(items);
@@ -136,7 +137,7 @@ public class DoliumRecipe extends IDataRecipe {
 		if(extra!=null&&!extra.test(container))return false;
 		if(fluid.isSame(Fluids.EMPTY)&&f.isEmpty()) {
 		}else if(!f.getFluid().isSame(fluid))return false;
-		if(f.getAmount()<amount)return false;
+		if(amount>0&&f.getAmount()<amount)return false;
 	
 		if(density!=0||base!=null) {
 			SoupInfo info=SoupFluid.getInfo(f);
@@ -156,7 +157,9 @@ public class DoliumRecipe extends IDataRecipe {
 		return true;
 	}
 	public ItemStack handle(FluidStack f) {
-		int times=f.getAmount()/amount;
+		int times=1;
+		if(amount>0)
+			times=f.getAmount()/amount;
 		ItemStack out=output.copy();
 		out.setCount(out.getCount()*times);
 		if(keepInfo) {
@@ -167,9 +170,11 @@ public class DoliumRecipe extends IDataRecipe {
 		return out;
 	}
 	public ItemStack handleDolium(FluidStack f,ItemStackHandler inv) {
-		int times=Math.min(f.getAmount()/amount,output.getMaxStackSize());
+		int times=output.getMaxStackSize();
+		if(amount>0)
+			times=Math.min(f.getAmount()/amount,times);
 		if(extra!=null)
-			times=Math.min(times,inv.getStackInSlot(3).getCount());
+			times=Math.min(times,inv.getStackInSlot(4).getCount());
 		for(Pair<Ingredient, Integer> igd:items) {
 			if(igd.getSecond()==0)continue;
 			for(int i=0;i<3;i++) {
@@ -199,7 +204,8 @@ public class DoliumRecipe extends IDataRecipe {
 			SoupInfo info=SoupFluid.getInfo(f);
 			StewItem.setInfo(out,info);
 		}
-		f.shrink(times*amount);
+		if(amount>0)
+			f.shrink(times*amount);
 		return out;
 	}
 	public DoliumRecipe(ResourceLocation id, FriendlyByteBuf data) {

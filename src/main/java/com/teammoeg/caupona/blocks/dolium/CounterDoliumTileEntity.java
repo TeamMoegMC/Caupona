@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2022 TeamMoeg
+ *
+ * This file is part of Caupona.
+ *
+ * Caupona is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * Caupona is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.teammoeg.caupona.blocks.dolium;
 
 import com.teammoeg.caupona.CPTileTypes;
@@ -94,7 +112,7 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 
 	public CounterDoliumTileEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPTileTypes.DOLIUM.get(), pWorldPosition, pBlockState);
-		processMax = Config.SERVER.staticTime.get();
+		processMax = Config.COMMON.staticTime.get();
 		contTicks = Config.SERVER.containerTick.get();
 	}
 
@@ -119,10 +137,14 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 	public void writeCustomNBT(CompoundTag nbt, boolean isClient) {
 		nbt.putInt("process", process);
 		nbt.put("tank", tank.writeToNBT(new CompoundTag()));
-		nbt.put("inventory", inv.serializeNBT());
-		nbt.put("inner", inner.serializeNBT());
-		nbt.putInt("containerTicks", container);
-		nbt.putBoolean("inf",isInfinite);
+		
+		if(!isClient) {
+			nbt.put("inventory", inv.serializeNBT());
+			nbt.put("inner", inner.serializeNBT());
+			nbt.putInt("containerTicks", container);
+			nbt.putBoolean("inf",isInfinite);
+		}
+		
 	}
 
 	@Override
@@ -142,9 +164,11 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 			this.syncData();
 			return;
 		}
-		if (process < 0&&!isInfinite) {
+		if ((process < 0||process%20==0)&&!isInfinite) {
 			if (DoliumRecipe.testDolium(tank.getFluid(), inv) != null)
 				process = 0;
+			else
+				process= -1;
 		}
 		if (process >= 0&&!isInfinite) {
 			process++;

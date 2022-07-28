@@ -1,10 +1,10 @@
 {
   "name": "Bisque",
   "icon": "caupona:bisque",
-  "category": "caupona:recipes",
+  "category": "caupona:cook_recipes",
   "pages": [
     {
-      "type": "caupona:thprecipe",
+      "type": "caupona:cookrecipe",
       "img": "caupona:textures/gui/recipes/bisque.png",
       "result": "caupona:bisque",
       "base": "caupona:water_or_stock_based"

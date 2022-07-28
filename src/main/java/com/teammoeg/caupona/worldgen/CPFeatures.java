@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2022 TeamMoeg
+ *
+ * This file is part of Caupona.
+ *
+ * Caupona is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * Caupona is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.teammoeg.caupona.worldgen;
 
 import com.teammoeg.caupona.CPBlocks;
@@ -24,9 +42,9 @@ public class CPFeatures {
 			Feature.TREE, createStraightBlobBush(CPBlocks.FIG_LOG,CPBlocks.FIG_LEAVE,4,2,0,2).ignoreVines().build());
 	public static final Holder<ConfiguredFeature<TreeConfiguration, ?>> WOLFBERRY = FeatureUtils.register(Main.MODID+":wolfberry",
 			Feature.TREE, createStraightBlobBush(CPBlocks.WOLFBERRY_LOG,CPBlocks.WOLFBERRY_LEAVE,4,2,0,2).ignoreVines().build());
-	public static final FoliagePlacerType<BushFoliagePlacer> bfp=new FoliagePlacerType<>(BushFoliagePlacer.CODEC);
+	public static final FoliagePlacerType<BushFoliagePlacer> BUSH_PLACER=new FoliagePlacerType<>(BushFoliagePlacer.CODEC);
 	static {
-		bfp.setRegistryName(new ResourceLocation(Main.MODID,"bush_foliage_placer"));
+		BUSH_PLACER.setRegistryName(new ResourceLocation(Main.MODID,"bush_foliage_placer"));
 	}
 	public CPFeatures() {
 	}

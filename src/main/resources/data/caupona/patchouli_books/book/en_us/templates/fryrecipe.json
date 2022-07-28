@@ -1,30 +1,30 @@
 {
 	"components": [
 		{
-			"type": "header",
+			"type": "patchouli:header",
 			"text": "#result->iname",
 			"x":-1,
 			"y":-1
 		},
 		{
-			"type": "item",
+			"type": "patchouli:item",
 			"item":"#base",
 			"x":30,
 			"y":33
 		},
 		{
-			"type": "item",
+			"type": "patchouli:item",
 			"item":"#result",
 			"x":61,
 			"y":38
 		},
 		{
-			"type": "separator",
+			"type": "patchouli:separator",
 			"x":-1,
 			"y":-1
 		},
 		{
-			"type": "image",
+			"type": "patchouli:image",
 			"image": "#img",
 			"width": 200,
 			"height": 210,
@@ -32,11 +32,11 @@
 			"y":20
 		},
 		{
-			"type": "frame",
+			"type": "patchouli:frame",
 			"y":20
 		},
 		{
-			"type": "custom",
+			"type": "patchouli:custom",
 			"recipe":"#result",
 			"class":"com.teammoeg.caupona.patchouli.AllowenceTooltip",
 			"x":0,
@@ -46,7 +46,7 @@
 			"allow":true
 		},
 		{
-			"type": "custom",
+			"type": "patchouli:custom",
 			"recipe":"#result",
 			"class":"com.teammoeg.caupona.patchouli.AllowenceTooltip",
 			"x":50,

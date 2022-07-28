@@ -19,19 +19,20 @@
 package com.teammoeg.caupona.datagen;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonObject;
-import com.teammoeg.caupona.Main;
+import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPFluids;
 import com.teammoeg.caupona.CPItems;
+import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
@@ -47,6 +48,7 @@ import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -55,7 +57,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -64,32 +65,22 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class CPRecipeProvider extends RecipeProvider {
 	private final HashMap<String, Integer> PATH_COUNT = new HashMap<>();
-	static final ResourceLocation rice = mrl("cereals/rice"),
-			eggs = mrl("eggs"),
-			baked = mrl("cereals/baked"),
-			anyWater = mrl("water"),
-			vegetables = mrl("vegetables"),
-			meat = mrl("meats/meat"),
-			fish = mrl("seafood/fish"),
-			poultry = mrl("meats/poultry"),
-			seafood = mrl("seafood"),
-			meats = mrl("meats"),
-			sugar = mrl("sugar"),
-			cereals = mrl("cereals"),
-			crustaceans = mrl("seafood/crustaceans"),
-			roots = mrl("vegetables/roots"),
-			mushrooms = mrl("mushroom"),
-			pumpkin = mrl("vegetables/pumpkin"),
-			walnut = mrl("walnut");
+	static final ResourceLocation rice = mrl("cereals/rice"), eggs = mrl("eggs"), baked = mrl("cereals/baked"),
+			anyWater = mrl("water"), vegetables = mrl("vegetables"), meat = mrl("meats/meat"),
+			fish = mrl("seafood/fish"), poultry = mrl("meats/poultry"), seafood = mrl("seafood"), meats = mrl("meats"),
+			sugar = mrl("sugar"), cereals = mrl("cereals"), crustaceans = mrl("seafood/crustaceans"),
+			roots = mrl("vegetables/roots"), mushrooms = mrl("mushroom"), pumpkin = mrl("vegetables/pumpkin"),
+			walnut = mrl("walnut"), greens = mrl("vegetables/pumpkin");
 	static final Fluid water = fluid(mrl("nail_soup")), milk = fluid(mrl("scalded_milk")), stock = fluid(mrl("stock"));
-	public static List<IDataRecipe> recipes=new ArrayList<>();
+	public static List<IDataRecipe> recipes = new ArrayList<>();
+
 	public CPRecipeProvider(DataGenerator generatorIn) {
 		super(generatorIn);
 	}
 
 	@Override
 	protected void buildCraftingRecipes(@Nonnull Consumer<FinishedRecipe> outx) {
-		Consumer<IDataRecipe> out=r->{
+		Consumer<IDataRecipe> out = r -> {
 			outx.accept(new FinishedRecipe() {
 
 				@Override
@@ -101,8 +92,6 @@ public class CPRecipeProvider extends RecipeProvider {
 				public ResourceLocation getId() {
 					return r.getId();
 				}
-
-		
 
 				@Override
 				public JsonObject serializeAdvancement() {
@@ -118,78 +107,121 @@ public class CPRecipeProvider extends RecipeProvider {
 				public RecipeSerializer<?> getType() {
 					return r.getSerializer();
 				}
-				
+
 			});
 		};
 		for (String s : CPFluids.getSoupfluids()) {
 			ResourceLocation fs = mrl(s);
 			out.accept(new BowlContainingRecipe(rl("bowl/" + s), item(fs), fluid(fs)));
 		}
-		//out.accept(dissolve(RankineItems.CORN_EAR.get()));
+		// out.accept(dissolve(RankineItems.CORN_EAR.get()));
 		out.accept(new BowlContainingRecipe(rl("bowl/water"), cpitem("water"), Fluids.WATER));
 		out.accept(new BowlContainingRecipe(rl("bowl/milk"), cpitem("milk"), ForgeMod.MILK.get()));
-		out.accept(new BoilingRecipe(rl("boil/water"), fluid(mcrl("water")), fluid(mrl("nail_soup")), 100));
-		out.accept(new BoilingRecipe(rl("boil/milk"), fluid(mcrl("milk")), fluid(mrl("scalded_milk")), 100));
-		out.accept(new FoodValueRecipe(rl("food/mushroom"),3,3.6f,new ItemStack(Items.RED_MUSHROOM),Items.RED_MUSHROOM,Items.BROWN_MUSHROOM));
-		out.accept(new FoodValueRecipe(rl("food/pumpkin"),3,6f,new ItemStack(Items.PUMPKIN),Items.PUMPKIN,Items.CARVED_PUMPKIN));
-		out.accept(new FoodValueRecipe(rl("food/wheat"),3,5f,new ItemStack(Items.WHEAT),Items.WHEAT,Items.WHEAT_SEEDS));
-		out.accept(new FoodValueRecipe(rl("food/fern"),1,0.5f,new ItemStack(Items.FERN),Items.FERN,Items.LARGE_FERN));
-		//System.out.println(CPBlocks.stove1.asItem());
-		//System.out.println(CPBlocks.stove1.asItem().getItemCategory());
-		ShapedRecipeBuilder.shaped(CPBlocks.stove1).define('D',Items.DIRT).define('S',Items.COBBLESTONE).pattern("DDD").pattern("SSS").pattern("S S").unlockedBy("has_cobblestone", has(Blocks.COBBLESTONE)).save(outx);
-		//ShapedRecipeBuilder.shaped(CPBlocks.stove2).define('T',Items.BRICK_SLAB).define('B',Items.BRICKS).define('C',Items.CLAY).pattern("TTT").pattern("BCB").pattern("B B").unlockedBy("has_bricks", has(Blocks.BRICKS)).save(outx);
-		for(String stone:CPBlocks.counters) {
-			if(!stone.equals("mud"))
-			stoneStove(stone,outx);
+		out.accept(new BoilingRecipe(rl("boil/water"), fluid(mcrl("water")), fluid(mrl("nail_soup")), 200));
+		out.accept(new BoilingRecipe(rl("boil/milk"), fluid(mcrl("milk")), fluid(mrl("scalded_milk")), 200));
+		out.accept(new FoodValueRecipe(rl("food/mushroom"), 3, 3.6f, new ItemStack(Items.RED_MUSHROOM),
+				Items.RED_MUSHROOM, Items.BROWN_MUSHROOM));
+		out.accept(new FoodValueRecipe(rl("food/pumpkin"), 3, 6f, new ItemStack(Items.PUMPKIN), Items.PUMPKIN,
+				Items.CARVED_PUMPKIN));
+		out.accept(new FoodValueRecipe(rl("food/wheat"), 3, 5f, new ItemStack(Items.WHEAT), Items.WHEAT,
+				Items.WHEAT_SEEDS));
+		out.accept(
+				new FoodValueRecipe(rl("food/fern"), 1, 0.5f, new ItemStack(Items.FERN), Items.FERN, Items.LARGE_FERN));
+		// System.out.println(CPBlocks.stove1.asItem());
+		// System.out.println(CPBlocks.stove1.asItem().getItemCategory());
+		ShapedRecipeBuilder.shaped(CPBlocks.stove1).define('D', Items.DIRT).define('S', Items.COBBLESTONE)
+				.pattern("DDD").pattern("SSS").pattern("S S").unlockedBy("has_cobblestone", has(Blocks.COBBLESTONE))
+				.save(outx);
+		// ShapedRecipeBuilder.shaped(CPBlocks.stove2).define('T',Items.BRICK_SLAB).define('B',Items.BRICKS).define('C',Items.CLAY).pattern("TTT").pattern("BCB").pattern("B
+		// B").unlockedBy("has_bricks", has(Blocks.BRICKS)).save(outx);
+		ShapedRecipeBuilder.shaped(CPItems.clay_pot).define('C', Items.CLAY_BALL).define('S', Items.STICK)
+				.pattern("CCC").pattern("CSC").pattern("CCC").unlockedBy("has_clay", has(Items.CLAY_BALL)).save(outx);
+		SimpleCookingRecipeBuilder.smelting(Ingredient.of(CPItems.clay_pot), CPBlocks.stew_pot, 0.35f, 200)
+				.unlockedBy("has_claypot", has(CPItems.clay_pot)).save(outx);
+		// ShapedRecipeBuilder.shapedRecipe(THPBlocks.stew_pot).key('B',Items.BRICK).key('C',Items.CLAY_BALL).patternLine("BCB").patternLine("B
+		// B").patternLine("BBB").unlockedBy("has_brick",
+		// hasItem(Items.BRICK)).build(out);
+		// ShapelessRecipeBuilder.shapelessRecipe(THPItems.BOOK).addIngredient(Items.BOOK).addIngredient(Items.BOWL).unlockedBy("has_bowl",
+		// hasItem(Items.BOWL)).build(out);
+		out.accept(new FluidFoodValueRecipe(rl("fluid_food/milk"), 0, 1f, new ItemStack(Items.MILK_BUCKET), 4,
+				new ResourceLocation(Main.MODID, "scalded_milk")));
+		out.accept(new FluidFoodValueRecipe(rl("fluid_food/stock"), 2,1f, null, 4,
+				new ResourceLocation(Main.MODID, "stock")));
+		simpleFood(out, 2, 0.4f, Items.HONEYCOMB);
+		/*
+		 * simpleFood(out,3,5f,ItemRegistry.amaranthitem);
+		 * simpleFood(out,3,5f,ItemRegistry.barleyitem);
+		 * simpleFood(out,3,5f,ItemRegistry.beanitem);
+		 * simpleFood(out,3,5f,ItemRegistry.chickpeaitem);
+		 * simpleFood(out,3,5f,ItemRegistry.cornitem);
+		 * simpleFood(out,3,5f,ItemRegistry.lentilitem);
+		 * simpleFood(out,3,5f,ItemRegistry.milletitem);
+		 * simpleFood(out,3,5f,ItemRegistry.oatsitem);
+		 * simpleFood(out,3,5f,ItemRegistry.quinoaitem);
+		 * simpleFood(out,3,5f,ItemRegistry.riceitem);
+		 * simpleFood(out,3,5f,ItemRegistry.ryeitem);
+		 * simpleFood(out,3,5f,ItemRegistry.soybeanitem);
+		 */
+		simpleFood(out, 0, .5f, Items.BONE_MEAL);
+		simpleFood(out, 1, 1f, Items.BONE);
+		simpleFood(out, 3, 4f, Items.EGG);
+		for (String s : ImmutableSet.of("bisque", "borscht", "dilute_soup", "egg_drop_soup", "fish_soup", "goulash",
+				"hodgepodge", "meat_soup", "mushroom_soup", "nettle_soup", "poultry_soup", "pumpkin_soup",
+				"seaweed_soup", "stock", "stracciatella", "ukha", "vegetable_soup")) {
+			aspic(s, out);
 		}
-		ShapedRecipeBuilder.shaped(CPItems.clay_pot).define('C',Items.CLAY_BALL).define('S',Items.STICK).pattern("CCC").pattern("CSC").pattern("CCC").unlockedBy("has_clay", has(Items.CLAY_BALL)).save(outx);
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(CPItems.clay_pot),CPBlocks.stew_pot,0.35f,200).unlockedBy("has_claypot",has(CPItems.clay_pot)).save(outx);
-		//ShapedRecipeBuilder.shapedRecipe(THPBlocks.stew_pot).key('B',Items.BRICK).key('C',Items.CLAY_BALL).patternLine("BCB").patternLine("B B").patternLine("BBB").unlockedBy("has_brick", hasItem(Items.BRICK)).build(out);
-		//ShapelessRecipeBuilder.shapelessRecipe(THPItems.BOOK).addIngredient(Items.BOOK).addIngredient(Items.BOWL).unlockedBy("has_bowl", hasItem(Items.BOWL)).build(out);
-		out.accept(new FluidFoodValueRecipe(rl("fluid_food/milk"),0,1.2f,new ItemStack(Items.MILK_BUCKET),4,new ResourceLocation(Main.MODID,"scalded_milk")));
-		out.accept(new FluidFoodValueRecipe(rl("fluid_food/stock"),2,5,null,4,new ResourceLocation(Main.MODID,"stock")));
-		simpleFood(out,2,0.4f,Items.HONEYCOMB);
-		/*simpleFood(out,3,5f,ItemRegistry.amaranthitem);
-		simpleFood(out,3,5f,ItemRegistry.barleyitem);
-		simpleFood(out,3,5f,ItemRegistry.beanitem);
-		simpleFood(out,3,5f,ItemRegistry.chickpeaitem);
-		simpleFood(out,3,5f,ItemRegistry.cornitem);
-		simpleFood(out,3,5f,ItemRegistry.lentilitem);
-		simpleFood(out,3,5f,ItemRegistry.milletitem);
-		simpleFood(out,3,5f,ItemRegistry.oatsitem);
-		simpleFood(out,3,5f,ItemRegistry.quinoaitem);
-		simpleFood(out,3,5f,ItemRegistry.riceitem);
-		simpleFood(out,3,5f,ItemRegistry.ryeitem);
-		simpleFood(out,3,5f,ItemRegistry.soybeanitem);*/
-		simpleFood(out,0,.5f,Items.BONE_MEAL);
-		simpleFood(out,1,1f,Items.BONE);
-		simpleFood(out,3,4f,Items.EGG);
-		for(String s:ImmutableSet.of("bisque",
-				"borscht",
-				"dilute_soup",
-				"egg_drop_soup",
-				"fish_soup",
-				"goulash",
-				"hodgepodge",
-				"meat_soup",
-				"mushroom_soup",
-				"nettle_soup",
-				"poultry_soup",
-				"pumpkin_soup",
-				"seaweed_soup",
-				"stock",
-				"stracciatella",
-				"ukha",
-				"vegetable_soup")) {
-			aspic(s,out);
-		}
-		spice(cpitem("vinegar_spice_jar"),MobEffects.NIGHT_VISION,out);
+		spice(cpitem("garum_spice_jar"), MobEffects.JUMP, out);
+		spice(cpitem("sugar_spice_jar"), MobEffects.MOVEMENT_SPEED, out);
+		spice(cpitem("chives_spice_jar"), MobEffects.SLOW_FALLING, out);
+		spice(cpitem("vinegar_spice_jar"), MobEffects.NIGHT_VISION, out);
 		stewCooking(out);
-		
-		
+		frying(out);
+		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/garum_spice_jar"), null, Fluids.EMPTY, 0,
+				0f, false, new ItemStack(cpitem("garum_spice_jar")),
+				Arrays.asList(
+						Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "garum_fish"))), 4)),
+				Ingredient.of(Items.FLOWER_POT)));
+		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/vinegar_spice_jar_from_fruits"), null,
+				Fluids.EMPTY, 0, 0f, false, new ItemStack(cpitem("vinegar_spice_jar")),
+				Arrays.asList(
+						Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "vinegar_fruits"))), 4)),
+				Ingredient.of(Items.FLOWER_POT)));
+		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/vinegar_spice_jar_from_berries"), null,
+				Fluids.EMPTY, 0, 0f, false, new ItemStack(cpitem("vinegar_spice_jar")),
+				Arrays.asList(Pair.of(
+						Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "vinegar_fruits_small"))), 16)),
+				Ingredient.of(Items.FLOWER_POT)));
+		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/gravy_boat"), null, Fluids.EMPTY, 0, 0f,
+				false, new ItemStack(CPItems.gravy_boat),
+				Arrays.asList(Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "walnut"))), 8),
+						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
+				Ingredient.of(CPItems.gravy_boat)));
+		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/vivid_charcoal"), null, Fluids.LAVA,250, 0f,
+				false, new ItemStack(cpitem("vivid_charcoal"),8),
+				Arrays.asList(Pair.of(Ingredient.of(ItemTags.COALS), 3),
+						Pair.of(Ingredient.of(Items.SLIME_BALL), 1)),
+				null));
+
+
 	}
+
+	private void frying(Consumer<IDataRecipe> out) {
+		out = out.andThen(recipes::add);
+		fry("huevos_pericos").high().require().mainly().of(eggs).and().then().finish(out);
+		fry("sauteed_beef").high().require().mainly().of(ftag("raw_beef")).and().then().finish(out);
+		fry("sauteed_greens").high().require().mainly().of(greens).and().then().finish(out);
+		fry("sauteed_meat").med().require().mainly().of(meat).and().then().finish(out);
+		fry("sauteed_mushrooms").med().require().mainly().of(mushrooms).and().then().finish(out);
+		fry("sauteed_roots").high().require().mainly().of(roots).and().then().finish(out);
+		fry("sauteed_seafood").med().require().mainly().of(seafood).and().then().finish(out);
+		fry("sauteed_vegetables").med().require().mainly().of(vegetables).and().then().finish(out);
+		fry("seared_fillet").med().require().mainly().of(fish).and().then().finish(out);
+		fry("seared_poultry").high().require().mainly().of(poultry).and().then().finish(out);
+		fry("sauteed_hodgepodge").low().finish(out);
+	}
+
 	private void stewCooking(Consumer<IDataRecipe> out) {
-		out=out.andThen(recipes::add);
+		out = out.andThen(recipes::add);
 		cook("acquacotta").high().base().tag(anyWater).and().require().mainly().of(baked).and().then().finish(out);
 		cook("congee").med().base().tag(anyWater).and().require().half().of(rice).and().then().dense(0.25).finish(out);
 		cook("rice_pudding").med().base().type(milk).and().require().half().of(rice).and().then().dense(0.25)
@@ -215,7 +247,8 @@ public class CPRecipeProvider extends RecipeProvider {
 				.typeMainly(vegetables).of(mushrooms).and().then().finish(out);
 		cook("cream_of_mushroom_soup").high().base().type(milk).and().require().mainly().of(vegetables).and()
 				.typeMainly(vegetables).of(mushrooms).and().then().finish(out);
-		cook("seaweed_soup").med().base().tag(anyWater).and().require().mainly().of(Items.KELP).and().then().finish(out);
+		cook("seaweed_soup").med().base().tag(anyWater).and().require().mainly().of(Items.KELP).and().then()
+				.finish(out);
 		cook("bisque").base().tag(anyWater).and().require().mainly().of(crustaceans).and().then().finish(out);
 		cook("fish_soup").base().tag(anyWater).and().require().mainly().of(fish).and().then().finish(out);
 		cook("fish_chowder").base().type(milk).and().require().mainly().of(seafood).and().then().finish(out);
@@ -228,54 +261,61 @@ public class CPRecipeProvider extends RecipeProvider {
 
 		cook("stock").special().base().type(water).and().require().mainly().of(mrl("bone")).plus(poultry).and().any()
 				.of(mrl("bone")).of(poultry).and().then().finish(out);
-		//cook("bone_gelatin").special().high().base().type(water).and().require().half().of(Items.BONE_MEAL).and().then()
-		//		.dense(3).finish(out);
+		// cook("bone_gelatin").special().high().base().type(water).and().require().half().of(Items.BONE_MEAL).and().then()
+		// .dense(3).finish(out);
 		cook("egg_tongsui").special().med().base().type(water).and().require().half().of(eggs).and().any().of(sugar)
-				.and().not().any().of(meats).of(seafood).of(vegetables).of(mrl("wolfberries")).and().then()
-				.finish(out);
+				.and().not().any().of(meats).of(seafood).of(vegetables).of(mrl("wolfberries")).and().then().finish(out);
 		cook("walnut_soup").special().med().base().type(water).and().require().half().of(walnut).and().any().of(sugar)
-				.and().not().any().of(meats).of(seafood).of(vegetables).of(mrl("wolfberries")).and().then()
-				.finish(out);
+				.and().not().any().of(meats).of(seafood).of(vegetables).of(mrl("wolfberries")).and().then().finish(out);
 		cook("goji_tongsui").special().med().base().type(water).and().require().mainly().of(sugar).and().any()
-				.of(mrl("wolfberries")).and().not().any().of(meats).of(seafood).of(vegetables).and().then()
-				.finish(out);
-		cook("ukha").special().med().base().tag(anyWater).and().require().half().of(fish).plus(roots).and().any().of(fish).of(roots).and().not().any()
-				.of(meats).of(cereals).and().then().finish(out);
+				.of(mrl("wolfberries")).and().not().any().of(meats).of(seafood).of(vegetables).and().then().finish(out);
+		cook("ukha").special().med().base().tag(anyWater).and().require().half().of(fish).plus(roots).and().any()
+				.of(fish).of(roots).and().not().any().of(meats).of(cereals).and().then().finish(out);
 		cook("goulash").special().high().base().type(stock).and().require().mainly().of(ftag("raw_beef")).and().any()
 				.of(vegetables).and().not().any().of(seafood).of(cereals).and().then().finish(out);
-		cook("okroshka").special().high().require().half().of(vegetables).plus(meats).and().any().of(vegetables).of(meats).of(mrl("ice"))
-		.and().then().finish(out);
+		cook("okroshka").special().high().require().half().of(vegetables).plus(meats).and().any().of(vegetables)
+				.of(meats).of(mrl("ice")).and().then().finish(out);
 		cook("nettle_soup").special().med().require().half().of(mrl("fern")).and().not().any().of(seafood).of(meats)
 				.of(cereals).and().then().finish(out);
 	}
-	private void stoneStove(String stone,Consumer<FinishedRecipe> outx) {
-		Function<String,Item> stoneItem=this::cpitem;
-		if(cpitem(stone)==null)
-			stoneItem=this::mitem;
-		ShapedRecipeBuilder.shaped(cpitem(stone+"_kitchen_stove")).define('T',stoneItem.apply(stone+"_slab")).define('B',stoneItem.apply(stone)).define('C',Items.CLAY).pattern("TTT").pattern("BCB").pattern("B B").unlockedBy("has_cor_stones", has(cpitem(stone))).save(outx);
+
+
+	private void spice(Item spice, MobEffect eff, Consumer<IDataRecipe> out) {
+		out.accept(new SpiceRecipe(new ResourceLocation(Main.MODID, "spice/" + spice.getRegistryName().getPath()),
+				Ingredient.of(spice), new MobEffectInstance(eff, 200)));
+
 	}
-	private void spice(Item spice,MobEffect eff,Consumer<IDataRecipe> out) {
-		out.accept(new SpiceRecipe(new ResourceLocation(Main.MODID,"spice/"+spice.getRegistryName().getPath()),Ingredient.of(spice),new MobEffectInstance(eff,200)));
-		
+
+	private void aspic(String soup, Consumer<IDataRecipe> out) {
+		out.accept(
+				new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/" + soup + "_aspic"), stock.getRegistryName(),
+						cpfluid(soup), 250, 0.25F, true, new ItemStack(cpitem(soup + "_aspic")), null));
+		out.accept(new AspicMeltingRecipe(new ResourceLocation(Main.MODID, "melt/" + soup + "_aspic"),
+				Ingredient.of(cpitem(soup + "_aspic")), cpfluid(soup)));
 	}
-	private void aspic(String soup,Consumer<IDataRecipe> out) {
-		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID,"dolium/"+soup+"_aspic"),stock.getRegistryName(),cpfluid(soup),250,0.25F,true,new ItemStack(cpitem(soup+"_aspic")),null));
-		out.accept(new AspicMeltingRecipe(new ResourceLocation(Main.MODID,"melt/"+soup+"_aspic"), Ingredient.of(cpitem(soup+"_aspic")),cpfluid(soup)));
-	}
+
 	private Fluid cpfluid(String name) {
-		return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(Main.MODID,name));
+		return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(Main.MODID, name));
 	}
+
 	private Item cpitem(String name) {
-		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID,name));
+		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, name));
 	}
+
 	private Item mitem(String name) {
 		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(name));
 	}
-	private void simpleFood(Consumer<IDataRecipe> out,int h,float s,Item i) {
-		out.accept(new FoodValueRecipe(rl("food/"+i.getRegistryName().getPath()),h,s,new ItemStack(i),i));
+
+	private void simpleFood(Consumer<IDataRecipe> out, int h, float s, Item i) {
+		out.accept(new FoodValueRecipe(rl("food/" + i.getRegistryName().getPath()), h, s, new ItemStack(i), i));
 	}
-	private CookingRecipeBuilder cook(String s) {
-		return CookingRecipeBuilder.start(fluid(mrl(s)));
+
+	private StewRecipeBuilder cook(String s) {
+		return StewRecipeBuilder.start(fluid(mrl(s)));
+	}
+
+	private FryingRecipeBuilder fry(String s) {
+		return FryingRecipeBuilder.start(item(mrl(s)));
 	}
 
 	private Item item(ResourceLocation rl) {

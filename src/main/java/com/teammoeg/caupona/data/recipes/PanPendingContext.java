@@ -1,20 +1,36 @@
+/*
+ * Copyright (c) 2022 TeamMoeg
+ *
+ * This file is part of Caupona.
+ *
+ * Caupona is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * Caupona is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.teammoeg.caupona.data.recipes;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.FloatemTagStack;
-
-import net.minecraft.world.item.ItemStack;
+import com.teammoeg.caupona.util.SauteedFoodInfo;
 
 public class PanPendingContext extends IPendingContext {
 
-	public PanPendingContext(List<ItemStack> stacks,int parts) {
-		items = new ArrayList<>(stacks.size());
-		for(ItemStack is:stacks) {
-			super.items.add(new FloatemTagStack(new FloatemStack(is,is.getCount()*1.0F/parts)));
-			super.totalItems+=is.getCount()*1.0F/parts;
+	public PanPendingContext(SauteedFoodInfo info) {
+		items = new ArrayList<>(info.stacks.size());
+		for(FloatemStack fs:info.stacks) {
+			super.items.add(new FloatemTagStack(fs));
+			totalItems += fs.getCount();
 		}
 	}
 

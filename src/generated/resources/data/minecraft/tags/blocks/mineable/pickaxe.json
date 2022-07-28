@@ -78,6 +78,18 @@
     "caupona:stone_brick_chimney_flue",
     "caupona:stone_brick_chimney_pot",
     "caupona:stone_brick_counter",
-    "caupona:stone_brick_counter_with_dolium"
+    "caupona:stone_brick_counter_with_dolium",
+    "caupona:brick_caliduct",
+    "caupona:brick_hypocaust_firebox",
+    "caupona:opus_incertum_caliduct",
+    "caupona:opus_incertum_hypocaust_firebox",
+    "caupona:opus_latericium_caliduct",
+    "caupona:opus_latericium_hypocaust_firebox",
+    "caupona:stone_brick_caliduct",
+    "caupona:stone_brick_hypocaust_firebox",
+    "caupona:wolf_statue",
+    "caupona:stone_griddle",
+    "caupona:copper_frying_pan",
+    "caupona:iron_frying_pan"
   ]
 }

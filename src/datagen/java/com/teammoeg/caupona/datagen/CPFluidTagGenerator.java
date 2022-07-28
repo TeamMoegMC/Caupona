@@ -21,8 +21,8 @@ package com.teammoeg.caupona.datagen;
 import java.nio.file.Path;
 import java.util.stream.Collectors;
 
-import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.CPFluids;
+import com.teammoeg.caupona.Main;
 
 import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;

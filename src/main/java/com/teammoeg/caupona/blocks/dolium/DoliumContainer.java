@@ -51,9 +51,9 @@ public class DoliumContainer extends AbstractContainerMenu {
 		this.addSlot(new OutputSlot(te.inv, 5, 152, 51));
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 9; j++)
-				addSlot(new Slot(inv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				addSlot(new Slot(inv, j + i * 9 + 9, 8 + j * 18, 83 + i * 18));
 		for (int i = 0; i < 9; i++)
-			addSlot(new Slot(inv, i, 8 + i * 18, 142));
+			addSlot(new Slot(inv, i, 8 + i * 18, 141));
 	}
 
 	@Override
@@ -74,8 +74,8 @@ public class DoliumContainer extends AbstractContainerMenu {
 				}
 				slot.onQuickCraft(slotStack, itemStack);
 			} else if (index >= 6) {
-				if (!this.moveItemStackTo(slotStack, 3, 5, false))
-					if (!this.moveItemStackTo(slotStack, 0, 3, false))
+				if (!this.moveItemStackTo(slotStack, 0, 3, false))
+					if (!this.moveItemStackTo(slotStack, 3, 5, false))
 						if (index < 33) {
 							if (!this.moveItemStackTo(slotStack, 33, 42, false))
 								return ItemStack.EMPTY;

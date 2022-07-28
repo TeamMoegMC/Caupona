@@ -20,31 +20,20 @@ package com.teammoeg.caupona.datagen;
 
 import java.nio.file.Path;
 
-import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.blocks.CPHorizontalBlock;
-import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlock;
-import com.teammoeg.caupona.blocks.stove.ChimneyPotBlock;
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.CPItems;
-
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.*;
+import com.teammoeg.caupona.Main;
 
 import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
-import net.minecraft.data.tags.TagsProvider.TagAppender;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.WallBlock;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -150,7 +139,11 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag("caliducts").add(cp(s+"_caliduct"));
 			tag("heat_conductor").add(cp(s+"_hypocaust_firebox"));
 			tag("chimney_ignore").add(cp(s+"_hypocaust_firebox"));
+			tag(BlockTags.MINEABLE_WITH_PICKAXE).add(cp(s+"_caliduct")).add(cp(s+"_hypocaust_firebox"));
 		}
+		tag(BlockTags.MINEABLE_WITH_PICKAXE).add(CPBlocks.WOLF,CPBlocks.STONE_PAN,CPBlocks.COPPER_PAN,CPBlocks.IRON_PAN);
+		tag(BlockTags.NEEDS_STONE_TOOL).add(CPBlocks.WOLF,CPBlocks.COPPER_PAN,CPBlocks.IRON_PAN);
+		tag("chimney_ignore").add(CPBlocks.WOLF);
 		tag("heat_conductor").addTag(otag("caliducts"));
 		
 	}

@@ -1,0 +1,12 @@
+{
+  "type": "caupona:frying",
+  "allow": [
+    {
+      "cond": "mainly",
+      "type": "caupona:eggs"
+    }
+  ],
+  "priority": 128,
+  "time": 200,
+  "output": "caupona:huevos_pericos"
+}

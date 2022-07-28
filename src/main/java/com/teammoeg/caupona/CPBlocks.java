@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2022 TeamMoeg
+ *
+ * This file is part of Caupona.
+ *
+ * Caupona is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * Caupona is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.teammoeg.caupona;
 
 import java.util.ArrayList;
@@ -9,17 +27,18 @@ import java.util.function.Supplier;
 
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlock;
-import com.teammoeg.caupona.blocks.dolium.hypocast.CaliductBlock;
-import com.teammoeg.caupona.blocks.dolium.hypocast.FireboxBlock;
-import com.teammoeg.caupona.blocks.dolium.hypocast.WolfStatueBlock;
 import com.teammoeg.caupona.blocks.foods.BowlBlock;
 import com.teammoeg.caupona.blocks.foods.DishBlock;
 import com.teammoeg.caupona.blocks.fumarole.FumaroleBoulderBlock;
 import com.teammoeg.caupona.blocks.fumarole.FumaroleVentBlock;
 import com.teammoeg.caupona.blocks.fumarole.PumiceBloomBlock;
+import com.teammoeg.caupona.blocks.hypocast.CaliductBlock;
+import com.teammoeg.caupona.blocks.hypocast.FireboxBlock;
+import com.teammoeg.caupona.blocks.hypocast.WolfStatueBlock;
 import com.teammoeg.caupona.blocks.others.CPStandingSignBlock;
 import com.teammoeg.caupona.blocks.others.CPWallSignBlock;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
+import com.teammoeg.caupona.blocks.pan.PanBlock;
 import com.teammoeg.caupona.blocks.plants.BushLogBlock;
 import com.teammoeg.caupona.blocks.plants.CPStripPillerBlock;
 import com.teammoeg.caupona.blocks.plants.FruitBlock;
@@ -126,7 +145,12 @@ public class CPBlocks {
 		
 	public static final WoodType WALNUT = WoodType.register(WoodType.create("caupona:walnut"));
 	public static final Block WOLF=register("wolf_statue", new WolfStatueBlock(getTransparentProps()));
-
+	public static final Block STONE_PAN=register("stone_griddle",new PanBlock(getTransparentProps()));
+	public static final Block COPPER_PAN=register("copper_frying_pan",new PanBlock(getTransparentProps()));
+	public static final Block IRON_PAN=register("iron_frying_pan",new PanBlock(getTransparentProps()));
+	public static final Block DISH=new DishBlock("dish",Block.Properties.of(Material.WOOD).sound(SoundType.WOOD).instabreak().noOcclusion()
+			.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
+			.isViewBlocking(CPBlocks::isntSolid));
 	public static void init() {
 		for (String stone : stones) {
 			Block base = register(stone, new Block(getStoneProps()));
@@ -163,9 +187,14 @@ public class CPBlocks {
 		registerBush("wolfberry",  WolfberryTreeGrower::new, l -> WOLFBERRY_LOG = l,
 				l -> WOLFBERRY_LEAVE = l, l -> WOLFBERRY_SAPLINGS = l);
 		for(String s:CPItems.dishes) {
-			new DishItem(new DishBlock(s,Block.Properties.of(Material.WOOD).sound(SoundType.WOOD).instabreak().noOcclusion()
+			Item di=new DishItem(new DishBlock(s,Block.Properties.of(Material.WOOD).sound(SoundType.WOOD).instabreak().noOcclusion()
 					.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 					.isViewBlocking(CPBlocks::isntSolid)),CPItems.createSoupProps(),s);
+			
+			
+			if(s.equals("sauteed_hodgepodge"))
+				CPItems.ddish=di;
+				
 		}
 	}
 	private static void registerBush(String wood, Supplier<AbstractTreeGrower> growth,
@@ -290,14 +319,17 @@ public class CPBlocks {
 				.noOcclusion();
 	}
 
+	@SuppressWarnings("unused")
 	private static boolean isntSolid(BlockState state, BlockGetter reader, BlockPos pos) {
 		return false;
 	}
 
+	@SuppressWarnings("unused")
 	private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
 		return (boolean) false;
 	}
 
+	@SuppressWarnings("unused")
 	private static Boolean ocelotOrParrot(BlockState p_50822_, BlockGetter p_50823_, BlockPos p_50824_,
 			EntityType<?> p_50825_) {
 		return p_50825_ == EntityType.OCELOT || p_50825_ == EntityType.PARROT;

@@ -24,34 +24,44 @@ import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class FluidTag implements StewBaseCondition {
 	ResourceLocation tag;
-
+	TagKey<Fluid> f;
 	public FluidTag(JsonObject jo) {
 		tag = new ResourceLocation(jo.get("tag").getAsString());
+		f=FluidTags.create(tag);
 	}
 
 	public FluidTag(ResourceLocation tag) {
 		super();
 		this.tag = tag;
+		f=FluidTags.create(tag);
 	}
 
 	@Override
 	public Integer apply(ResourceLocation t, ResourceLocation u) {
 		return test(u) ? 2 : test(t) ? 1 : 0;
 	}
-
+	@Override
 	public boolean test(ResourceLocation t) {
 		Fluid f = ForgeRegistries.FLUIDS.getValue(t);
 		if (f == null)
 			return false;
 		
-		return f.builtInRegistryHolder().getTagKeys().anyMatch(i->i.location().equals(tag));
+		return f.is(this.f);
 	}
-
+	@Override
+	public boolean test(Fluid f) {
+		if (f == null)
+			return false;
+		
+		return f.is(this.f);
+	}
 	public JsonObject serialize() {
 		JsonObject jo = new JsonObject();
 		jo.addProperty("tag", tag.toString());
@@ -65,6 +75,7 @@ public class FluidTag implements StewBaseCondition {
 
 	public FluidTag(FriendlyByteBuf buffer) {
 		tag = buffer.readResourceLocation();
+		f=FluidTags.create(tag);
 	}
 
 	@Override

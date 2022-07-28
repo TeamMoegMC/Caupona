@@ -35,7 +35,6 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -68,10 +67,14 @@ public class CPLootGenerator extends LootTableProvider {
 		@Override
 		protected void addTables() {
 			dropSelf(CPBlocks.stew_pot);
+			dropSelf(CPBlocks.STONE_PAN);
+			dropSelf(CPBlocks.COPPER_PAN);
+			dropSelf(CPBlocks.IRON_PAN);
 			add(CPBlocks.FUMAROLE_VENT,BlockLoot.createSilkTouchDispatchTable(CPBlocks.FUMAROLE_VENT,LootItem.lootTableItem(Blocks.BASALT
 					)));
 			add(CPBlocks.PUMICE_BLOOM,BlockLoot.createSilkTouchDispatchTable(CPBlocks.PUMICE_BLOOM,LootItem.lootTableItem(CPBlocks.PUMICE
 					)));
+			dropSelf(CPBlocks.PUMICE);
 			/*
 			 * dropSelf(CPBlocks.stove1);
 			 * dropSelf(CPBlocks.stove2);
@@ -114,6 +117,10 @@ public class CPLootGenerator extends LootTableProvider {
 			for (String wood : ImmutableSet.of("fig","wolfberry")) {
 				dropSelf(cp(wood + "_sapling"));
 				add(cp(wood + "_leaves"),createLeavesDrops(cp(wood + "_leaves"),cp(wood + "_sapling"),0.05F, 0.0625F, 0.083333336F, 0.1F));
+			}
+			for(String s:CPBlocks.hypocast_materials) {
+				dropSelf(cp(s+"_caliduct"));
+				dropSelf(cp(s+"_hypocaust_firebox"));
 			}
 		}
 

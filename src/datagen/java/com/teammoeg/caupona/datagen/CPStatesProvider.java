@@ -28,9 +28,6 @@ import java.util.function.UnaryOperator;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.stove.KitchenStove;
 
@@ -41,16 +38,11 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder.PartBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -128,6 +120,9 @@ public class CPStatesProvider extends BlockStateProvider {
 			
 			blockItemModel("stripped_"+wood+"_log");
 			blockItemModel("stripped_"+wood+"_wood");
+			blockItemModel(CPBlocks.STONE_PAN.getRegistryName().getPath());
+			blockItemModel(CPBlocks.COPPER_PAN.getRegistryName().getPath());
+			blockItemModel(CPBlocks.IRON_PAN.getRegistryName().getPath());
 			//blockItemModel(wood+"_trapdoor","_top");
 
 		}

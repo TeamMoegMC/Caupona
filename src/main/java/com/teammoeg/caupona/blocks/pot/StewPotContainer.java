@@ -18,9 +18,8 @@
 
 package com.teammoeg.caupona.blocks.pot;
 
-import java.util.function.Supplier;
-
 import com.teammoeg.caupona.CPGui;
+import com.teammoeg.caupona.container.HidableSlot;
 import com.teammoeg.caupona.container.OutputSlot;
 
 import net.minecraft.network.FriendlyByteBuf;
@@ -29,31 +28,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class StewPotContainer extends AbstractContainerMenu {
-	public static class HidableSlot extends SlotItemHandler {
-		Supplier<Boolean> vs;
-
-		public HidableSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition,
-				Supplier<Boolean> visible) {
-			super(itemHandler, index, xPosition, yPosition);
-			vs = visible;
-		}
-
-		@Override
-		public boolean isActive() {
-			return vs.get();
-		}
-
-		@Override
-		public boolean mayPickup(Player playerIn) {
-			return vs.get();
-		}
-
-	}
-
 	StewPotTileEntity tile;
 
 	public StewPotTileEntity getTile() {

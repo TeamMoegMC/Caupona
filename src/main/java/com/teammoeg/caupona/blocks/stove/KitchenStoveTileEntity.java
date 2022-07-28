@@ -23,7 +23,6 @@ import java.util.Random;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.FuelType;
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.blocks.AbstractStove;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.network.CPBaseTile;
 import com.teammoeg.caupona.util.ChimneyHelper;
@@ -49,7 +48,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
 
-public class KitchenStoveTileEntity extends CPBaseTile implements Container, MenuProvider, AbstractStove,IInfinitable {
+public class KitchenStoveTileEntity extends CPBaseTile implements Container, MenuProvider, IStove,IInfinitable {
 	private NonNullList<ItemStack> fuel = NonNullList.withSize(1, ItemStack.EMPTY);
 	public int process;
 	public int processMax;
@@ -61,6 +60,7 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 	private int chimneyTicks=0;
 	private int chimneyCheckTicks=20;
 	private boolean isInfinite=false;
+	public FuelType last=FuelType.OTHER;
 	public KitchenStoveTileEntity(BlockEntityType<KitchenStoveTileEntity> tet, BlockPos p, BlockState s, int spd) {
 		super(tet, p, s);
 		this.speed = spd;
@@ -81,6 +81,7 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 			attachedChimney=BlockPos.of(nbt.getLong("chimneyPos"));
 		else
 			attachedChimney=null;
+		last=FuelType.values()[nbt.getInt("fuel_type")];
 		if (!isClient) {
 			cd = nbt.getInt("cd");
 			fuel.set(0, ItemStack.of(nbt.getCompound("fuel")));
@@ -95,6 +96,7 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 		nbt.putInt("processMax", processMax);
 		if(attachedChimney!=null)
 			nbt.putLong("chimneyPos",attachedChimney.asLong());
+		nbt.putInt("fuel_type", last.ordinal());
 		if (!isClient) {
 			nbt.putInt("cd", cd);
 			nbt.put("fuel", fuel.get(0).serializeNBT());
@@ -168,7 +170,7 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 			process = processMax = 0;
 			return false;
 		}
-		isInfinite=false;
+		last=FuelType.getType(fuel.get(0));
 		fuel.get(0).shrink(1);
 		float ftime = time *  fuelMod/ speed;
 		float frac = Mth.frac(ftime);

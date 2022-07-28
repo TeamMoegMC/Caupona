@@ -1,0 +1,12 @@
+{
+  "type": "caupona:frying",
+  "allow": [
+    {
+      "cond": "mainly",
+      "type": "caupona:vegetables/pumpkin"
+    }
+  ],
+  "priority": 128,
+  "time": 200,
+  "output": "caupona:sauteed_greens"
+}

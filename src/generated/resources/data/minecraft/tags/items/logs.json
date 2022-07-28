@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "caupona:walnut_wood",
-    "caupona:walnut_log"
+    "caupona:walnut_log",
+    "caupona:fig_log",
+    "caupona:wolfberry_log"
   ]
 }

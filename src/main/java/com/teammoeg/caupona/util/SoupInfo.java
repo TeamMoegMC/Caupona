@@ -37,7 +37,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class SoupInfo{
+public class SoupInfo extends SpicedFoodInfo{
 	public List<FloatemStack> stacks;
 	public List<MobEffectInstance> effects;
 	public List<Pair<MobEffectInstance, Float>> foodeffect = new ArrayList<>();
@@ -45,9 +45,7 @@ public class SoupInfo{
 	public float saturation;
 	public float shrinkedFluid=0;
 	public ResourceLocation base;
-	public MobEffectInstance spice;
-	public boolean hasSpice=false;
-	public ResourceLocation spiceName;
+
 
 	public SoupInfo(List<FloatemStack> stacks, List<MobEffectInstance> effects, int healing, float saturation,
 			ResourceLocation base) {
@@ -79,14 +77,9 @@ public class SoupInfo{
 	public boolean canAlwaysEat() {
 		return healing<=1||getDensity()<=0.5;
 	}
-	public boolean addSpice(MobEffectInstance spice,ItemStack im) {
-		if(this.spice!=null)return false;
-		this.spice=new MobEffectInstance(spice);
-		hasSpice=true;
-		this.spiceName=im.getItem().getRegistryName();
-		return true;
-	}
+	
 	public SoupInfo(CompoundTag nbt) {
+		super(nbt);
 		stacks = nbt.getList("items", 10).stream().map(e -> (CompoundTag) e).map(FloatemStack::new)
 				.collect(Collectors.toList());
 		effects = nbt.getList("effects", 10).stream().map(e -> (CompoundTag) e).map(MobEffectInstance::load)
@@ -97,11 +90,7 @@ public class SoupInfo{
 				.map(e -> new Pair<>(MobEffectInstance.load(e.getCompound("effect")), e.getFloat("chance")))
 				.collect(Collectors.toList());
 		base = new ResourceLocation(nbt.getString("base"));
-		hasSpice=nbt.getBoolean("hasSpice");
-		if(nbt.contains("spice"))
-			spice=MobEffectInstance.load(nbt.getCompound("spice"));
-		if(nbt.contains("spiceName"))
-			spiceName=new ResourceLocation(nbt.getString("spiceName"));
+		
 		shrinkedFluid=nbt.getFloat("afluid");
 	}
 
@@ -192,7 +181,7 @@ public class SoupInfo{
 			FoodValueRecipe fvr = FoodValueRecipe.recipes.get(fs.getItem());
 			if (fvr != null) {
 				nh += fvr.heal * fs.count;
-				ns += fvr.sat * fs.count;
+				ns += fvr.sat * fs.count * fvr.heal;
 				foodeffect.addAll(fvr.effects);
 				continue;
 			}
@@ -208,16 +197,16 @@ public class SoupInfo{
 			nh+=ffvr.heal*(1+this.shrinkedFluid);
 			ns+=ffvr.sat*(1+this.shrinkedFluid);
 		}
-		if(nh>0) {
-			nh+=Mth.clamp(this.getDensity(),1,2);
-		}
-		this.healing = (int) Math.ceil(nh);
-		this.saturation = ns;
+		float dense=this.getDensity();
+		/*if(nh>0) {
+			nh+=Mth.clamp(dense,1,2);
+		}*/
+		int conv=(int) (Mth.clamp((dense-1)/2f,0,1)*0.3*nh);
+		this.healing = (int) Math.ceil(nh-conv);
+		ns+=conv/2f;
+		this.saturation = Math.max(0.7f,ns/this.healing);
 	}
-	public void clearSpice() {
-		spice=null;
-		hasSpice=false;
-	}
+
 	public void adjustParts(float oparts, float parts) {
 		if (oparts == parts)
 			return;
@@ -240,11 +229,6 @@ public class SoupInfo{
 		saturation = saturation * oparts / parts;
 	}
 
-	public CompoundTag save() {
-		CompoundTag nbt = new CompoundTag();
-		write(nbt);
-		return nbt;
-	}
 
 	public SoupInfo(ResourceLocation base) {
 		this(new ArrayList<>(), new ArrayList<>(), 0, 0, base);
@@ -275,6 +259,7 @@ public class SoupInfo{
 	}
 
 	public void write(CompoundTag nbt) {
+		super.write(nbt);
 		nbt.put("items", SerializeUtil.toNBTList(stacks, FloatemStack::serializeNBT));
 		nbt.put("effects", SerializeUtil.toNBTList(effects, e -> e.save(new CompoundTag())));
 		nbt.put("feffects", SerializeUtil.toNBTList(foodeffect, e -> {
@@ -287,15 +272,9 @@ public class SoupInfo{
 		nbt.putFloat("sat", saturation);
 		nbt.putString("base", base.toString());
 		nbt.putFloat("afluid",shrinkedFluid);
-		nbt.putBoolean("hasSpice",hasSpice);
-		if(spice!=null)
-			nbt.put("spice",spice.save(new CompoundTag()));
-		if(spiceName!=null)
-			nbt.putString("spiceName",spiceName.toString());
+
 	}
 
-	public boolean canAddSpice() {
-		return !hasSpice;
-	}
+	
 
 }

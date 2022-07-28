@@ -1,0 +1,12 @@
+{
+  "type": "caupona:frying",
+  "allow": [
+    {
+      "cond": "mainly",
+      "type": "caupona:seafood"
+    }
+  ],
+  "priority": 64,
+  "time": 200,
+  "output": "caupona:sauteed_seafood"
+}

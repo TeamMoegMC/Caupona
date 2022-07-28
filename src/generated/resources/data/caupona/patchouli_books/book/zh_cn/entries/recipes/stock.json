@@ -1,10 +1,10 @@
 {
   "name": "高汤",
   "icon": "caupona:stock",
-  "category": "caupona:recipes",
+  "category": "caupona:cook_recipes",
   "pages": [
     {
-      "type": "caupona:thprecipe",
+      "type": "caupona:cookrecipe",
       "img": "caupona:textures/gui/recipes/stock.png",
       "result": "caupona:stock",
       "base": "caupona:any_based"

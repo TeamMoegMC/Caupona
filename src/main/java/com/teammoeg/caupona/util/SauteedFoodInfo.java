@@ -34,7 +34,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class SauteedFoodInfo {
+public class SauteedFoodInfo extends SpicedFoodInfo{
 	public List<FloatemStack> stacks;
 	public List<Pair<MobEffectInstance, Float>> foodeffect = new ArrayList<>();
 	public int healing;
@@ -58,6 +58,7 @@ public class SauteedFoodInfo {
 
 
 	public SauteedFoodInfo(CompoundTag nbt) {
+		super(nbt);
 		stacks = nbt.getList("items", 10).stream().map(e -> (CompoundTag) e).map(FloatemStack::new)
 				.collect(Collectors.toList());
 		healing = nbt.getInt("heal");
@@ -89,20 +90,21 @@ public class SauteedFoodInfo {
 			FoodValueRecipe fvr = FoodValueRecipe.recipes.get(fs.getItem());
 			if (fvr != null) {
 				nh += fvr.heal * fs.count;
-				ns += fvr.sat * fs.count;
+				ns += fvr.sat * fs.count * fvr.heal;
 				foodeffect.addAll(fvr.effects);
 				continue;
 			}
-			FoodProperties f = fs.getItem().getFoodProperties(fs.getStack(),null);
+			FoodProperties f = fs.getStack().getFoodProperties(null);
 			if (f != null) {
 				nh += fs.count * f.getNutrition();
 				ns += fs.count * f.getSaturationModifier();
 				foodeffect.addAll(f.getEffects());
 			}
 		}
-
-		this.healing = (int) Math.ceil(nh);
-		this.saturation = ns;
+		int conv=(int) (0.075*nh);
+		this.healing = (int) Math.ceil(nh-conv);
+		ns+=conv/2f;
+		this.saturation = Math.max(0.6f,ns/this.healing);
 	}
 
 
@@ -135,6 +137,7 @@ public class SauteedFoodInfo {
 	}
 
 	public void write(CompoundTag nbt) {
+		super.write(nbt);
 		nbt.put("items", SerializeUtil.toNBTList(stacks, FloatemStack::serializeNBT));
 		nbt.put("feffects", SerializeUtil.toNBTList(foodeffect, e -> {
 			CompoundTag cnbt = new CompoundTag();
