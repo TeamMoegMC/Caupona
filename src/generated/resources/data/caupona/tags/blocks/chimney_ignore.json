@@ -19,6 +19,10 @@
     "minecraft:air",
     "minecraft:vine",
     "minecraft:cave_vines",
-    "caupona:stew_pot"
+    "caupona:stew_pot",
+    "caupona:brick_hypocaust_firebox",
+    "caupona:opus_incertum_hypocaust_firebox",
+    "caupona:opus_latericium_hypocaust_firebox",
+    "caupona:stone_brick_hypocaust_firebox"
   ]
 }

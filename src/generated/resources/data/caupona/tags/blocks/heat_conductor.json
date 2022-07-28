@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "caupona:brick_hypocaust_firebox",
+    "caupona:opus_incertum_hypocaust_firebox",
+    "caupona:opus_latericium_hypocaust_firebox",
+    "caupona:stone_brick_hypocaust_firebox",
+    "#caupona:caliducts"
+  ]
+}
