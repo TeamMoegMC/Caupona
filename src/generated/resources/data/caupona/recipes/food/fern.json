@@ -1,7 +1,7 @@
 {
   "type": "caupona:food",
-  "heal": 1,
-  "sat": 0.5,
+  "heal": 2,
+  "sat": 0.3,
   "items": [
     {
       "item": "minecraft:fern"

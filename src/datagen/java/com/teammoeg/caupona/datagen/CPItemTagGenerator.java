@@ -34,6 +34,7 @@ import static com.teammoeg.caupona.datagen.CPRecipeProvider.seafood;
 import static com.teammoeg.caupona.datagen.CPRecipeProvider.sugar;
 import static com.teammoeg.caupona.datagen.CPRecipeProvider.vegetables;
 import static com.teammoeg.caupona.datagen.CPRecipeProvider.walnut;
+import static com.teammoeg.caupona.datagen.CPRecipeProvider.greens;
 
 import java.nio.file.Path;
 
@@ -144,6 +145,7 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag(roots).add(Items.POTATO, Items.BAKED_POTATO).addTag(ftag("rootvegetables"));
 		tag(vegetables).add(Items.CARROT, Items.BEETROOT, Items.PUMPKIN).addTag(atag(mushrooms))
 				.addTag(ftag("vegetables")).addTag(ftag("vegetable"));
+		tag(greens).addTag(ftag("vegetables/asparagus")).add(Items.FERN, Items.LARGE_FERN,Items.ALLIUM);
 		tag(eggs).add(Items.EGG).addTag(ftag("cooked_eggs"));
 		tag(crustaceans);
 		tag(fish).addTag(atag(mcrl("fishes"))).addTag(ftag("raw_fishes"));
@@ -165,6 +167,7 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag("garum_fish").add(Items.COD,Items.SALMON);
 		tag("vinegar_fruits").add(Items.APPLE);
 		tag("vinegar_fruits_small").add(Items.SWEET_BERRIES);
+		
 	}
 
 	private TagAppender<Item> tag(String s) {

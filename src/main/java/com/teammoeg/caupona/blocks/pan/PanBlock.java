@@ -44,7 +44,7 @@ public class PanBlock extends CPHorizontalTileBlock<PanTile> {
 		super(CPTileTypes.PAN, p_54120_);
 	}
 
-	static final VoxelShape bshape = Block.box(0, 0, 0, 16, 2, 16);
+	static final VoxelShape bshape = Block.box(1, 0, 1, 15, 2, 15);
 	static final VoxelShape sshape = Block.box(3, 0, 3, 13, 3, 13);
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {

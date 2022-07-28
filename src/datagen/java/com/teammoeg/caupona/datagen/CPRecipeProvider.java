@@ -70,7 +70,7 @@ public class CPRecipeProvider extends RecipeProvider {
 			fish = mrl("seafood/fish"), poultry = mrl("meats/poultry"), seafood = mrl("seafood"), meats = mrl("meats"),
 			sugar = mrl("sugar"), cereals = mrl("cereals"), crustaceans = mrl("seafood/crustaceans"),
 			roots = mrl("vegetables/roots"), mushrooms = mrl("mushroom"), pumpkin = mrl("vegetables/pumpkin"),
-			walnut = mrl("walnut"), greens = mrl("vegetables/pumpkin");
+			walnut = mrl("walnut"), greens = mrl("vegetables/greens");
 	static final Fluid water = fluid(mrl("nail_soup")), milk = fluid(mrl("scalded_milk")), stock = fluid(mrl("stock"));
 	public static List<IDataRecipe> recipes = new ArrayList<>();
 
@@ -119,14 +119,16 @@ public class CPRecipeProvider extends RecipeProvider {
 		out.accept(new BowlContainingRecipe(rl("bowl/milk"), cpitem("milk"), ForgeMod.MILK.get()));
 		out.accept(new BoilingRecipe(rl("boil/water"), fluid(mcrl("water")), fluid(mrl("nail_soup")), 200));
 		out.accept(new BoilingRecipe(rl("boil/milk"), fluid(mcrl("milk")), fluid(mrl("scalded_milk")), 200));
-		out.accept(new FoodValueRecipe(rl("food/mushroom"), 3, 3.6f, new ItemStack(Items.RED_MUSHROOM),
+		out.accept(new FoodValueRecipe(rl("food/mushroom"), 3, 0.6f, new ItemStack(Items.RED_MUSHROOM),
 				Items.RED_MUSHROOM, Items.BROWN_MUSHROOM));
-		out.accept(new FoodValueRecipe(rl("food/pumpkin"), 3, 6f, new ItemStack(Items.PUMPKIN), Items.PUMPKIN,
+		out.accept(new FoodValueRecipe(rl("food/pumpkin"), 3, 0.6f, new ItemStack(Items.PUMPKIN), Items.PUMPKIN,
 				Items.CARVED_PUMPKIN));
-		out.accept(new FoodValueRecipe(rl("food/wheat"), 3, 5f, new ItemStack(Items.WHEAT), Items.WHEAT,
+		out.accept(new FoodValueRecipe(rl("food/wheat"), 3, 0.6f, new ItemStack(Items.WHEAT), Items.WHEAT,
 				Items.WHEAT_SEEDS));
 		out.accept(
-				new FoodValueRecipe(rl("food/fern"), 1, 0.5f, new ItemStack(Items.FERN), Items.FERN, Items.LARGE_FERN));
+				new FoodValueRecipe(rl("food/fern"), 2, 0.3f, new ItemStack(Items.FERN), Items.FERN, Items.LARGE_FERN));
+		out.accept(
+				new FoodValueRecipe(rl("food/allium"), 1, 0.2f, new ItemStack(Items.ALLIUM), Items.ALLIUM));
 		// System.out.println(CPBlocks.stove1.asItem());
 		// System.out.println(CPBlocks.stove1.asItem().getItemCategory());
 		ShapedRecipeBuilder.shaped(CPBlocks.stove1).define('D', Items.DIRT).define('S', Items.COBBLESTONE)
