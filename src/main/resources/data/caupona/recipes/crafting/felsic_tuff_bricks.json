@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"BB",
+		"BB"
+	],
+	"key": {
+		"B": {
+			"item": "caupona:felsic_tuff"
+		}
+	},
+	"result": {
+		"item": "caupona:felsic_tuff_bricks",
+		"count": 4
+	}
+}
