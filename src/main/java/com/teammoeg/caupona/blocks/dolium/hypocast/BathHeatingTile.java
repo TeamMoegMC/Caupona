@@ -27,6 +27,7 @@ public abstract class BathHeatingTile extends CPBaseTile {
 		return heat;
 	};
 	public void setHeat(int val) {
+		if(heat>val)return;
 		if(val!=0)
 			process=mp;
 		else
