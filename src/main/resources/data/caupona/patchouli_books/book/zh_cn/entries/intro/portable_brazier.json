@@ -1,7 +1,7 @@
 {
 	"name": "便携式火盆",
-	"icon": "caupona:stew_pot",
-	"category": "caupona:portable_brazier",
+	"icon": "caupona:portable_brazier",
+	"category": "caupona:intro",
 	"sortnum": 11,
 	"pages": [
 		{

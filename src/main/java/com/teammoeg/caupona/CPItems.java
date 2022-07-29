@@ -30,6 +30,7 @@ import com.teammoeg.caupona.items.PortableBrazierItem;
 import com.teammoeg.caupona.items.StewItem;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.Items;
@@ -113,7 +114,7 @@ public class CPItems {
 			new CPItem(s,createProps());
 		}
 		for(String s:food_material) {
-			new CPItem(s,createFoodProps());
+			new CPItem(s,createFoodProps().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3f).build()));
 		}
 	}
 

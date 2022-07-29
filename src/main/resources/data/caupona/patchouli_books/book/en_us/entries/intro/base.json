@@ -1,6 +1,6 @@
 {
   "name": "汤底",
-  "icon": "caupona:bases/water_or_stock_based",
+  "icon": "caupona:water_or_stock_based",
   "category": "caupona:intro",
   "sortnum": 2,
   "pages": [
