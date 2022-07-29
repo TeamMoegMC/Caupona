@@ -2,7 +2,7 @@
 	"name": "柱子",
 	"icon": "caupona:calcite_ionic_column_capital",
 	"category": "caupona:intro",
-	"sortnum": 62,
+	"sortnum": 31,
 	"pages": [
 		{
 			"type": "text",

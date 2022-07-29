@@ -2,7 +2,7 @@
 	"name": "油",
 	"icon": "caupona:gravy_boat",
 	"category": "caupona:resting",
-	"sortnum": 200,
+	"sortnum": 5,
 	"pages": [
 		{
 			"type": "text",

@@ -99,10 +99,10 @@ public class SoupInfo extends SpicedFoodInfo{
 	}
 
 	public boolean canMerge(SoupInfo f, float cparts, float oparts) {
-		return this.getDensity() + f.getDensity() * oparts / cparts <= 33;
+		return (this.getDensity()*cparts + f.getDensity() * oparts) / (cparts+oparts) <= 3;
 	}
 	public boolean merge(SoupInfo f,float cparts,float oparts) {
-		if (this.getDensity() + f.getDensity() * oparts / cparts > 3)
+		if (!canMerge(f,cparts,oparts))
 			return false;
 		forceMerge(f,cparts,oparts);
 		return true;

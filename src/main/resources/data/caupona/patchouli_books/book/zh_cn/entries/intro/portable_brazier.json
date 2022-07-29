@@ -1,0 +1,30 @@
+{
+	"name": "便携式火盆",
+	"icon": "caupona:stew_pot",
+	"category": "caupona:portable_brazier",
+	"sortnum": 11,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/clay_portable_brazier"
+		},
+		{
+			"type": "smelting",
+			"recipe": "caupona:smelting/portable_brazier",
+			"text": "便携式火盆是可以随身携带并打开GUI的器具，唯一的用途是将$(l:resting/aspics)汤冻$(/l)还原为汤。"
+		},
+		{
+			"type": "text",
+			"text": "便携式火盆的GUI有四个槽：汤冻、水碗、产物槽，以及火盆图片上的燃料槽。虽然在陶锅中融化汤冻并不需要水，但便携式火盆固定需要一碗水，将汤冻转化为汤。"
+		},
+		{
+			"type": "text",
+			"text": "便携式火盆每次工作，固定消耗一个燃料物品。允许的燃料有两种：岩浆膏，及鲜活木炭。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:vivid_charcoal",
+			"text": "鲜活木炭的造价比岩浆膏便宜一些，它的唯一作用就是作为便携式火盆的燃料。"
+		}
+	]
+}

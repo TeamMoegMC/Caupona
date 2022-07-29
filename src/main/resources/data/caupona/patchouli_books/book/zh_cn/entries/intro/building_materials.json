@@ -2,7 +2,7 @@
 	"name": "建筑材料",
 	"icon": "caupona:opus_incertum",
 	"category": "caupona:intro",
-	"sortnum": 9,
+	"sortnum": 29,
 	"pages": [
 		{
 			"type": "text",

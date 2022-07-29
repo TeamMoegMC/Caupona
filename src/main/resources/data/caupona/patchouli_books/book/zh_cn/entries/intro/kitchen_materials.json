@@ -2,7 +2,7 @@
 	"name": "厨房设施的建造材料",
 	"icon": "caupona:opus_latericium_chimney_flue",
 	"category": "caupona:intro",
-	"sortnum": 10,
+	"sortnum": 30,
 	"pages": [
 		{
 			"type": "text",
