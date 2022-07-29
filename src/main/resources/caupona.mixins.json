@@ -6,8 +6,9 @@
   "refmap": "caupona.refmap.json",
   "mixins": [
   "DietApiImplMixin"
+  
   ],
-  "client": [],
+  "client": ["SmokerBlockMixin"],
   "injectors": {
     "defaultRequire": 1
   }
