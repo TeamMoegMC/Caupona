@@ -1,5 +1,5 @@
 {
-	"name": "油",
+	"name": "Oil",
 	"icon": "caupona:gravy_boat",
 	"category": "caupona:resting",
 	"sortnum": 5,
@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Place oil bottle onto world as gravy boat, which can provide oil for nearby pans."
+			"text": "Place oil bottle onto world as gravy boat, which can provide oil for nearby pans. Its direction doesn't matters"
 		}
 	]
 }

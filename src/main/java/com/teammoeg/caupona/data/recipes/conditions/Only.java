@@ -64,7 +64,7 @@ public class Only extends NumberedStewCondition {
 	
 	@Override
 	public String getTranslation(TranslationProvider p) {
-		return p.getTranslation("recipe.caupona.cond.mainly",number.getTranslation(p));
+		return p.getTranslation("recipe.caupona.cond.only",number.getTranslation(p));
 	}
 
 	@Override

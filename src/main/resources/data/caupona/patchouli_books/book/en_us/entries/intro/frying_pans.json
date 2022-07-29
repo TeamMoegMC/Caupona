@@ -12,7 +12,7 @@
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/copper_frying_pan",
-			"text": "Metal pans can be made of copper and iron. Frying pans should be put on heat source, like $(l:intro/stove)stoves$(/l) or $(l:worldgen/fumarole)fumarole vent$(/l)."
+			"text": "Metal pans can be made of copper and iron. Frying pans should be put on heat source, like $(l:intro/stove)stoves$(/l) or $(l:worldgen/volcanic_fumarole)fumarole vent$(/l)."
 		},
 		{
 			"type": "text",
@@ -29,6 +29,11 @@
 		{
 			"type": "text",
 			"text": "With redstone control on, if pan is not working and redstong signal provided. It would keep trying to start working. This is useful for automation."
+		},
+		{
+			"type": "image",
+			"images": ["caupona:textures/gui/entries/frying_pan.png"],
+			"text": "A way of using frying pans. Also refer to $(l:resting/oil)oil gravy boat$(/l) and $(l:tweaks/dispenser)dispenser$(/l)."
 		}
 	]
 }

@@ -11,7 +11,7 @@
 		{
 			"type": "smelting",
 			"recipe": "caupona:stew_pot",
-			"text": "陶锅是煮汤的厨具之一，需要放在热源，如$(l:intro/stove)灶台$(/l)或$(l:worldgen/fumarole)火山喷气孔$(/l)上方使用。"
+			"text": "陶锅是煮汤的厨具之一，需要放在热源，如$(l:intro/stove)灶台$(/l)或$(l:worldgen/volcanic_fumarole)火山喷气孔$(/l)上方使用。"
 		},
 		{
 			"type": "text",

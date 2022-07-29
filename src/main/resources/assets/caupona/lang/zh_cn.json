@@ -273,6 +273,7 @@
 	"recipe.caupona.cond.mainly":"主要是%s",
 	"recipe.caupona.cond.half":"过半数是%s",
 	"recipe.caupona.cond.any":"任意%s",
+	"recipe.caupona.cond.only": "只含%s",
 	"recipe.caupona.cond.mainlyof":"%s在%s中占主要",
 	"recipe.caupona.allow":"必须：",
 	"recipe.caupona.deny":"不能：",

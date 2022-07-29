@@ -1,0 +1,13 @@
+{
+  "name": "New slime ball recipe",
+  "icon": "minecraft:slime_ball",
+  "category": "caupona:tweaks",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "crafting",
+      "recipe": "caupona:crafting/slime_ball",
+      "text": "Slime balls can be crafted from bone gelatin and sea weeds."
+    }
+  ]
+}

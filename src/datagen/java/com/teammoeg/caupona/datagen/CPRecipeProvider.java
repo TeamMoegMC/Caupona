@@ -284,6 +284,7 @@ public class CPRecipeProvider extends RecipeProvider {
 				.of(meats).of(mrl("ice")).and().then().finish(out);
 		cook("nettle_soup").special().med().require().half().of(mrl("fern")).and().not().any().of(seafood).of(meats)
 				.of(cereals).and().then().finish(out);
+		cook("bone_gelatin").special().med().require().only().of(Items.BONE).and().then().dense(1).finish(out);
 	}
 
 

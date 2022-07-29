@@ -24,7 +24,7 @@
 		},
 		{
 			"type": "image",
-			"images": "caupona:textures/gui/entries/chimney.png",
+			"images": ["caupona:textures/gui/entries/chimney.png"],
 			"title": "烟囱的一种可行的布置方式"
 		},
 		{

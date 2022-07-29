@@ -1,6 +1,6 @@
 {
-	"name": "世界生成",
-	"description": "在世界上生成的植物和结构",
+	"name": "World Generation",
+	"description": "Structures and plants throughout the world",
 	"icon": "caupona:walnut",
 	"sortnum": 4
 }

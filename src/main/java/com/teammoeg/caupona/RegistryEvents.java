@@ -137,6 +137,47 @@ public class RegistryEvents {
 			}
 
 		});
+		DispenserBlock.registerBehavior(CPItems.gravy_boat, new DefaultDispenseItemBehavior() {
+			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
+
+			@SuppressWarnings("resource")
+			@Override
+			protected ItemStack execute(BlockSource bp, ItemStack is) {
+
+				Direction d = bp.getBlockState().getValue(DispenserBlock.FACING);
+				BlockPos front = bp.getPos().relative(d);
+				FluidState fs = bp.getLevel().getBlockState(front).getFluidState();
+				BlockEntity te = bp.getLevel().getBlockEntity(front);
+				if (te != null) {
+					LazyOptional<IFluidHandler> ip = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
+							d.getOpposite());
+					if (ip.isPresent()) {
+						ItemStack ret = CauponaApi.fillBowl(ip.resolve().get()).orElse(null);
+						if (ret != null) {
+							if (is.getCount() == 1)
+								return ret;
+							is.shrink(1);
+							if (bp.<DispenserBlockEntity>getEntity().addItem(ret) == -1)
+								this.defaultBehaviour.dispense(bp, ret);
+						}
+					}
+					;
+					return is;
+				} else if (!fs.isEmpty()) {
+					ItemStack ret = CauponaApi.fillBowl(new FluidStack(fs.getType(), 250)).orElse(null);
+					if (ret != null) {
+						if (is.getCount() == 1)
+							return ret;
+						is.shrink(1);
+						if (bp.<DispenserBlockEntity>getEntity().addItem(ret) == -1)
+							this.defaultBehaviour.dispense(bp, ret);
+					}
+					return is;
+				}
+				return this.defaultBehaviour.dispense(bp, is);
+			}
+
+		});
 		DispenseItemBehavior idispenseitembehavior1 = new DefaultDispenseItemBehavior() {
 			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
 

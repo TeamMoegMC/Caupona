@@ -1,7 +1,7 @@
 {
 	"name": "JEI支持",
-	"icon": "caupona:wolfberries",
-	"category": "caupona:chronoconis",
+	"icon": "caupona:chronoconis",
+	"category": "caupona:intro",
 	"sortnum": 102,
 	"pages": [
 		{

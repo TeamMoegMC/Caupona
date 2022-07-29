@@ -29,7 +29,7 @@
 		},
 		{
 			"type": "image",
-			"images": "caupona:textures/gui/entries/columns.png",
+			"images": ["caupona:textures/gui/entries/columns.png"],
 			"text": "三种柱式的柱子示例"
 		}
 	]

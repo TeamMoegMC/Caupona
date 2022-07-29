@@ -1,6 +1,6 @@
 {
-	"name": "炒菜配方",
-	"description": "查阅各种炒菜的配方",
+	"name": "Stir Fry Recipe",
+	"description": "Learn about different dishes and how they are made",
 	"icon": "caupona:sauteed_seafood",
 	"sortnum": 2
 }

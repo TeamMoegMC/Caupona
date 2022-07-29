@@ -1,0 +1,16 @@
+{
+	"name": "JEI支持",
+	"icon": "caupona:chronoconis",
+	"category": "caupona:intro",
+	"sortnum": 102,
+	"pages": [
+		{
+			"type": "text",
+			"text": "All Recipes of this mod are available on JEI(Just Enough Item). So we won't write every recipe in this book. Check out in JEI is recommended"
+		},
+		{
+			"type": "text",
+			"text": "Recipes in this mod:$(li) frying and cooking recipe:described in this book, $()$(li)Boiling recipe, $()$(li)Convertion between aspics and stews, $()$(li)Resting, $()$(li)Transfer fluid between containers.$()"
+		}
+	]
+}

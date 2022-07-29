@@ -26,6 +26,11 @@
 			"type": "spotlight",
 			"item": "caupona:calcite_acanthine_column_capital",
 			"text": "This type of column does not exist in reality.Its prototype is the Collins column. There are some leaf pattern relief on the capitail while it's shaft is fluted."
+		},
+		{
+			"type": "image",
+			"images": ["caupona:textures/gui/entries/columns.png"],
+			"text": "Example style of columns"
 		}
 	]
 }

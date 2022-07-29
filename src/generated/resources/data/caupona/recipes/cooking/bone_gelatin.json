@@ -1,0 +1,15 @@
+{
+  "type": "caupona:cooking",
+  "allow": [
+    {
+      "cond": "only",
+      "type": {
+        "item": "minecraft:bone"
+      }
+    }
+  ],
+  "priority": 1088,
+  "density": 1.0,
+  "time": 200,
+  "output": "caupona:bone_gelatin"
+}

@@ -7,7 +7,7 @@
 		{
 			"type": "smelting",
 			"recipe": "caupona:stew_pot",
-			"text": "Stew pots is tool for cooking soup. It should be on any kind of heat source like $(l:intro/stove)stoves$(/l) or $(l:worldgen/fumarole)fumarole vent$(/l)."
+			"text": "Stew pots is tool for cooking soup. It should be on any kind of heat source like $(l:intro/stove)stoves$(/l) or $(l:worldgen/volcanic_fumarole)fumarole vent$(/l)."
 		},
 		{
 			"type": "text",

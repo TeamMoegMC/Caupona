@@ -15,7 +15,7 @@
     {
       "type": "crafting",
       "recipe": "caupona:mud_kitchen_stove",
-      "text": "Stone Stove is cheap and useful. But its speed is half of other stoves, just like $(l:worldgen/fumarole)fumarole vent$(/l)."
+      "text": "Stone Stove is cheap and useful. But its speed is half of other stoves, just like $(l:worldgen/volcanic_fumarole)fumarole vent$(/l)."
     },
     {
       "type": "crafting",

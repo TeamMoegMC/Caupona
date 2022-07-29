@@ -15,7 +15,7 @@
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/felsic_tuff",
-			"text": "长英质凝灰岩由原版凝灰岩与$(l:worldgen/fumarole)浮岩$(/l)合成获得，是本 mod 多种建筑材料的原料"
+			"text": "长英质凝灰岩由原版凝灰岩与$(l:worldgen/volcanic_fumarole)浮岩$(/l)合成获得，是本 mod 多种建筑材料的原料"
 		},
 		{
 			"type": "crafting",

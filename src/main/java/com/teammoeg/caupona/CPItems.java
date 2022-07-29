@@ -41,7 +41,7 @@ public class CPItems {
 			"egg_drop_soup", "egg_tongsui", "fish_chowder", "fish_soup", "fricassee", "goji_tongsui", "goulash",
 			"gruel", "hodgepodge", "meat_soup", "mushroom_soup", "nail_soup", "nettle_soup", "okroshka", "porridge",
 			"poultry_soup", "pumpkin_soup", "pumpkin_soup_cream", "rice_pudding", "scalded_milk", "seaweed_soup",
-			"stock", "stracciatella", "ukha", "vegetable_chowder", "vegetable_soup", "walnut_soup" };
+			"stock", "stracciatella", "ukha", "vegetable_chowder", "vegetable_soup", "walnut_soup","bone_gelatin" };
 	public static final String[] aspics=new String[] {"bisque_aspic",
 			"borscht_aspic",
 			"dilute_soup_aspic",
@@ -74,8 +74,8 @@ public class CPItems {
 			,"garum_spice_jar"
 			,"sugar_spice_jar"
 			,"vinegar_spice_jar"};
-	public static final String[] food_material=new String[] {"bone_gelatin"
-			,"fig"
+	public static final String[] food_material=new String[] {
+			"fig"
 			,"walnut"
 			,"wolfberries"
 			};

@@ -29,16 +29,19 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 class BaseCallback implements IRecipeSlotTooltipCallback{
 	ResourceLocation base;
-	
-	public BaseCallback(ResourceLocation base) {
+	float dense;
+	public BaseCallback(ResourceLocation base, float density) {
 		super();
 		this.base=base;
+		this.dense=density;
 	}
 
 	@Override
 	public void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {
 		if(base!=null)
 			tooltip.add(new TranslatableComponent("recipe.caupona.base",new TranslatableComponent(ForgeRegistries.FLUIDS.getValue(base).getAttributes().getTranslationKey())));
+		if(dense!=0)
+			tooltip.add(new TranslatableComponent("recipe.caupona.density",dense));
 	}
 	
 }

@@ -13,7 +13,7 @@
 		},
 		{
 			"type": "image",
-			"images": "caupona:textures/gui/entries/walnut_tree.png",
+			"images": ["caupona:textures/gui/entries/walnut_tree.png"],
 			"title": "核桃树"
 		},
 		{
@@ -23,7 +23,7 @@
 		},
 		{
 			"type": "image",
-			"images": "caupona:textures/gui/entries/fig_tree.png",
+			"images": ["caupona:textures/gui/entries/fig_tree.png"],
 			"title": "无花果树"
 		},
 		{
@@ -33,7 +33,7 @@
 		},
 		{
 			"type": "image",
-			"images": "caupona:textures/gui/entries/wolfberry_tree.png",
+			"images": ["caupona:textures/gui/entries/wolfberry_tree.png"],
 			"title": "枸杞树"
 		},
 		{

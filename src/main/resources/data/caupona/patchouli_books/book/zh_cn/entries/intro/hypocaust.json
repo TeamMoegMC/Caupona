@@ -19,7 +19,7 @@
 		},
 		{
 			"type": "text",
-			"text": "在建造地暖系统时，炉膛需要和（成片的）地暖隔层方块水平方向上相连，下方需要提供源源不断的热源（$(l:intro/stove)灶台$(/l)或$(l:worldgen/fumarole)火山喷气孔$(/l)）。"
+			"text": "在建造地暖系统时，炉膛需要和（成片的）地暖隔层方块水平方向上相连，下方需要提供源源不断的热源（$(l:intro/stove)灶台$(/l)或$(l:worldgen/volcanic_fumarole)火山喷气孔$(/l)）。"
 		},
 		{
 			"type": "text",
@@ -27,7 +27,7 @@
 		},
 		{
 			"type": "image",
-			"images": "caupona:textures/gui/entries/bath.png",
+			"images": ["caupona:textures/gui/entries/bath.png"],
 			"text": "地暖和浴池的一种可行布置方式示例"
 		}
 	]

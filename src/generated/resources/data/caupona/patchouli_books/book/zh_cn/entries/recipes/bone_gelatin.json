@@ -1,0 +1,13 @@
+{
+  "name": "骨胶",
+  "icon": "caupona:bone_gelatin",
+  "category": "caupona:cook_recipes",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "img": "caupona:textures/gui/recipes/bone_gelatin.png",
+      "result": "caupona:bone_gelatin",
+      "base": "caupona:any_based"
+    }
+  ]
+}

@@ -15,7 +15,7 @@
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/felsic_tuff",
-			"text": "Felsic tuff is made of $(l:worldgen/fumarole)pumice$(/l) and tuff, is one of the fundamental building materials of this mod."
+			"text": "Felsic tuff is made of $(l:worldgen/volcanic_fumarole)pumice$(/l) and tuff, is one of the fundamental building materials of this mod."
 		},
 		{
 			"type": "crafting",

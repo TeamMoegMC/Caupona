@@ -23,6 +23,11 @@
 			"text": "Chimney structure can only extend vertically up, and should not be blocked between smoke source and itself"
 		},
 		{
+			"type": "image",
+			"images": ["caupona:textures/gui/entries/chimney.png"],
+			"title": "A valid chimney structure"
+		},
+		{
 			"type": "spotlight",
 			"item": "caupona:soot",
 			"text": "Ash accumulates when the chimney pot is in use. Can be collected with shovel at the chimney pot.They are useful in dye crafting."

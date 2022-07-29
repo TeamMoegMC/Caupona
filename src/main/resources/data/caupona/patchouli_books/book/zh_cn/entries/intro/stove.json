@@ -15,7 +15,7 @@
     {
       "type": "crafting",
       "recipe": "caupona:mud_kitchen_stove",
-      "text": "夯土干砌石灶台的制造成本最低廉，但加热速率是其他更坚固材料制造的灶台的一半，与作为永久热源的$(l:worldgen/fumarole)火山喷气孔$(/l)相仿。"
+      "text": "夯土干砌石灶台的制造成本最低廉，但加热速率是其他更坚固材料制造的灶台的一半，与作为永久热源的$(l:worldgen/volcanic_fumarole)火山喷气孔$(/l)相仿。"
     },
     {
       "type": "crafting",
