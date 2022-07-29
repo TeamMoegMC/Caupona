@@ -57,7 +57,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 public class WolfStatueBlock extends CPHorizontalTileBlock<WolfStatueTile> implements SimpleWaterloggedBlock {
-	public static final IntegerProperty HEAT = IntegerProperty.create("heat", 0, 3);
+	public static final IntegerProperty HEAT = IntegerProperty.create("heat", 0, 2);
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	private boolean gch;
 

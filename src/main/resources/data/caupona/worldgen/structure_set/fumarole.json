@@ -1,0 +1,14 @@
+{
+	"structures": [
+		{
+			"structure": "caupona:fumarole",
+			"weight": 1
+		}
+	],
+	"placement": {
+		"salt": 1905387052,
+		"spacing": 12,
+		"separation": 8,
+		"type": "minecraft:random_spread"
+	}
+}

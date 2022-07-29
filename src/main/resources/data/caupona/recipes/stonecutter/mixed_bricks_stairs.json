@@ -3,5 +3,6 @@
 	"ingredient": {
 		"item": "caupona:mixed_bricks"
 	},
-	"result": "caupona:mixed_bricks_stairs"
+	"result": "caupona:mixed_bricks_stairs",
+	"count":1
 }

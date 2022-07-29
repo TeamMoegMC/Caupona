@@ -1,0 +1,12 @@
+{
+	"type": "caupona:fumarole",
+	"config": {
+		"start_pool": "caupona:fumarole",
+		"size": 2
+	},
+	"biomes": "#caupona:has_structure/fumarole",
+	"adapt_noise": false,
+	"spawn_overrides": {
+		
+	}
+}

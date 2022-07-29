@@ -26,6 +26,7 @@ import org.apache.logging.log4j.Logger;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.network.PacketHandler;
+import com.teammoeg.caupona.worldgen.CPStructures;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -82,6 +83,7 @@ public class Main {
 		CPFluids.FLUIDS.register(mod);
 		CPRecipes.RECIPE_SERIALIZERS.register(mod);
 		CPEntityTypes.ENTITY_TYPES.register(mod);
+		CPStructures.STRUCTURES.register(mod);
 		Config.register();
 		PacketHandler.register();
 	}

@@ -1,0 +1,114 @@
+{
+  "name": "caupona:fumarole",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "caupona:fumarole_active_1",
+        "projection": "rigid",
+        "processors":"minecraft:empty",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "caupona:fumarole_active_2",
+        "projection": "rigid",
+        "processors":"minecraft:empty",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "caupona:fumarole_active_3",
+        "projection": "rigid",
+        "processors":"minecraft:empty",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "caupona:fumarole_active_4",
+        "projection": "rigid",
+        "processors":"minecraft:empty",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "caupona:fumarole_active_5",
+        "projection": "rigid",
+        "processors":"minecraft:empty",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "caupona:fumarole_active_6",
+        "projection": "rigid",
+        "processors":"minecraft:empty",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "caupona:fumarole_cold_1",
+        "projection": "rigid",
+        "processors":"minecraft:empty",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "caupona:fumarole_cold_2",
+        "projection": "rigid",
+        "processors":"minecraft:empty",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "caupona:fumarole_cold_3",
+        "projection": "rigid",
+        "processors":"minecraft:empty",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "location": "caupona:fumarole_cold_4",
+        "projection": "rigid",
+        "processors":"minecraft:empty",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 4,
+      "element": {
+        "location": "caupona:fumarole_cooling_1",
+        "projection": "rigid",
+        "processors":"minecraft:empty",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 4,
+      "element": {
+        "location": "caupona:fumarole_cooling_2",
+        "projection": "rigid",
+        "processors":"minecraft:empty",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}
