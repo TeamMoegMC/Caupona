@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.teammoeg.caupona.api.CauponaApi;
+import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
+import com.teammoeg.caupona.blocks.pan.PanTile;
 import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.worldgen.CPFeatures;
@@ -40,6 +42,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 import net.minecraft.world.level.material.Fluid;
@@ -119,8 +122,16 @@ public class RegistryEvents {
 							if (bp.<DispenserBlockEntity>getEntity().addItem(ret) == -1)
 								this.defaultBehaviour.dispense(bp, ret);
 						}
+					}else if(te instanceof PanTile) {
+						PanTile pt=(PanTile) te;
+						ItemStack out=pt.inv.getStackInSlot(10);
+						if(!out.isEmpty()) {
+							pt.inv.setStackInSlot(10, ItemStack.EMPTY);
+							if (bp.<DispenserBlockEntity>getEntity().addItem(out) == -1)
+								this.defaultBehaviour.dispense(bp,out);
+						}
 					}
-					;
+					
 					return is;
 				} else if (!fs.isEmpty()) {
 					ItemStack ret = CauponaApi.fillBowl(new FluidStack(fs.getType(), 250)).orElse(null);
@@ -146,32 +157,11 @@ public class RegistryEvents {
 
 				Direction d = bp.getBlockState().getValue(DispenserBlock.FACING);
 				BlockPos front = bp.getPos().relative(d);
-				FluidState fs = bp.getLevel().getBlockState(front).getFluidState();
-				BlockEntity te = bp.getLevel().getBlockEntity(front);
-				if (te != null) {
-					LazyOptional<IFluidHandler> ip = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
-							d.getOpposite());
-					if (ip.isPresent()) {
-						ItemStack ret = CauponaApi.fillBowl(ip.resolve().get()).orElse(null);
-						if (ret != null) {
-							if (is.getCount() == 1)
-								return ret;
-							is.shrink(1);
-							if (bp.<DispenserBlockEntity>getEntity().addItem(ret) == -1)
-								this.defaultBehaviour.dispense(bp, ret);
-						}
-					}
-					;
-					return is;
-				} else if (!fs.isEmpty()) {
-					ItemStack ret = CauponaApi.fillBowl(new FluidStack(fs.getType(), 250)).orElse(null);
-					if (ret != null) {
-						if (is.getCount() == 1)
-							return ret;
-						is.shrink(1);
-						if (bp.<DispenserBlockEntity>getEntity().addItem(ret) == -1)
-							this.defaultBehaviour.dispense(bp, ret);
-					}
+				BlockState bs = bp.getLevel().getBlockState(front);
+				if (bs.is(CPBlocks.GRAVY_BOAT)) {
+					int idmg=is.getDamageValue();
+					is.setDamageValue(bs.getValue(GravyBoatBlock.LEVEL));
+					bp.getLevel().setBlockAndUpdate(front,bs.setValue(GravyBoatBlock.LEVEL, idmg));
 					return is;
 				}
 				return this.defaultBehaviour.dispense(bp, is);

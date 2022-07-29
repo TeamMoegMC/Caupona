@@ -22,7 +22,7 @@
     },
      {
       "type": "text",
-      "text": "When bowls inside dispenser and a pan in front of it, it would try to put it into the input slot of the pan and replace it with the output slot, for automated dish output."
+      "text": "Also, putting bowl inside dispenser can draw output from frying pans."
     }
   ]
 }
