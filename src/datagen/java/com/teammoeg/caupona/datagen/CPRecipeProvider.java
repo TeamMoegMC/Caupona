@@ -198,6 +198,11 @@ public class CPRecipeProvider extends RecipeProvider {
 				Arrays.asList(Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "walnut"))), 8),
 						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
 				Ingredient.of(CPItems.gravy_boat)));
+		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/gravy_boat_glass_bottle"), null, Fluids.EMPTY, 0, 0f,
+				false, new ItemStack(CPItems.gravy_boat),
+				Arrays.asList(Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "walnut"))), 8),
+						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
+				Ingredient.of(Items.GLASS_BOTTLE)));
 		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/vivid_charcoal"), null, Fluids.LAVA,250, 0f,
 				false, new ItemStack(cpitem("vivid_charcoal"),8),
 				Arrays.asList(Pair.of(Ingredient.of(ItemTags.COALS), 3),
