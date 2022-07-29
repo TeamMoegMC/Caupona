@@ -1,0 +1,11 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{"item": "caupona:bone_gelatin"},
+		{"item": "minecraft:kelp"},
+		{"item": "minecraft:kelp"}
+	],
+	"result": {
+		"item": "minecraft:slime_ball"
+	}
+}

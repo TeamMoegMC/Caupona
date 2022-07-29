@@ -3,7 +3,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"1": "caupona:block/walnut_fruit",
-		"particle": "caupona:block/walnut_leaves"
+		"particle": "caupona:block/walnut_fruit"
 	},
 	"elements": [
 		{

@@ -26,6 +26,11 @@
 			"type": "spotlight",
 			"item": "caupona:calcite_acanthine_column_capital",
 			"text": "这种柱式其实并非现实存在的，原型是柯林斯柱式。柱头有叶纹浮雕，柱身有槽饰。"
+		},
+		{
+			"type": "image",
+			"images": "caupona:textures/gui/entries/columns.png",
+			"text": "三种柱式的柱子示例"
 		}
 	]
 }
