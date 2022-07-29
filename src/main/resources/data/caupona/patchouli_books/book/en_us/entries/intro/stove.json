@@ -1,27 +1,26 @@
-
 {
-  "name": "Kitchen Stoves",
-  "icon": "caupona:kitchen_stove_t2",
+  "name": "灶台",
+  "icon": "caupona:brick_kitchen_stove",
   "category": "caupona:intro",
   "sortnum": 4,
   "pages": [
     {
       "type": "text",
-      "text": "Kitchen stoves consume solid fuel, and provide heat to cooking utensils above them."
+      "text": "灶台是最重要的厨房设施，可以用于加热各种厨具。工作时，灶台需要消耗固态燃料。"
     },
     {
       "type": "text",
-      "text": "Kitchen Stoves will stop working after being idle for a while, and restart automatically anytime you need them again."
+      "text": "灶台可以在没有工作一段时间之后自动关闭，需要的时候随时重新开始，无需手动操作。"
     },
     {
       "type": "crafting",
       "recipe": "caupona:mud_kitchen_stove",
-      "text": "Mud-and-drystone kitchen stove is the easiest to craft."
+      "text": "夯土干砌石灶台的制造成本最低廉，但加热效率是其他更坚固材料制造的灶台的一半，与作为永久热源的$(l:worldgen/fumarole)火山喷气孔$(/l)相仿。"
     },
     {
       "type": "crafting",
       "recipe": "caupona:brick_kitchen_stove",
-      "text": "You can also see kitchen stoves built with other materials. They are faster, yet also consume more fuel."
+      "text": "还有$(l:intro/kitchen_materials)一些其他材料$(/l)建造的灶台。这些灶台效率更高，但也更费燃料。"
     }
   ]
 }

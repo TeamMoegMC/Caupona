@@ -1,28 +1,27 @@
-
 {
-  "name": "Soup fluids",
-  "icon": "caupona:water_or_stock_based",
+  "name": "汤底",
+  "icon": "caupona:bases/water_or_stock_based",
   "category": "caupona:intro",
   "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "The effect of a soup is influenced by its fluid ingredient, or \"base\"."
+      "text": "汤底对汤有额外的属性调节作用，使用不同的汤底有不同的功能。"
     },
     {
       "type": "spotlight",
       "item": "caupona:water",
-      "text": "Water is the plainest base that affects nothing."
+      "text": "水平平无奇，没有任何特殊的属性。"
     },
     {
       "type": "spotlight",
       "item": "caupona:milk",
-      "text": "Milk provides extra Saturation level."
+      "text": "牛奶会额外提供一些饱和度。"
     },
     {
       "type": "spotlight",
       "item": "caupona:stock",
-      "text": "Stock restores more Hunger and Saturation."
+      "text": "高汤会额外提供一些饱和度和饱食度。"
     }
   ]
 }

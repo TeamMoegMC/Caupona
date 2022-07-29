@@ -1,0 +1,37 @@
+{
+	"name": "厨房设施的建造材料",
+	"icon": "caupona:opus_latericium_chimney_flue",
+	"category": "caupona:intro",
+	"sortnum": 61,
+	"pages": [
+		{
+			"type": "text",
+			"text": "厨房设施包括台面、嵌陶缸的台面、灶台、烟道及烟囱帽，分别可以用五种材料制造，以融入不同的厨房设计。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:mud_counter",
+			"text": "夯土—干砌石是最便宜的材料，只需要泥土和圆石。注意，虽然大部分材料不会对厨房设施的性能造成影响，但夯土—干砌石灶台是个例外（效率更低）。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:stone_brick_counter",
+			"text": "石砖材料的核心原料是石砖与石台阶（不是石砖台阶！）。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:brick_counter",
+			"text": "红砖材料的核心原料是红砖与红砖台阶。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:opus_latericium_counter",
+			"text": "嵌砖混凝土材料的核心原料是嵌砖混凝土与嵌砖混凝土台阶。材质和红砖有些区别，主要是没有红砖的勾缝，且在一些面可能露出混凝土材质。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:opus_incertum_counter",
+			"text": "片石饰面混凝土材料的核心原料是片石饰面混凝土与片石饰面混凝土台阶。"
+		}
+	]
+}
