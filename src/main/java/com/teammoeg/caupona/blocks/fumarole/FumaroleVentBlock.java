@@ -39,12 +39,18 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class FumaroleVentBlock extends CPBaseTileBlock<FumaroleVentTileEntity> {
+public class FumaroleVentBlock extends CPBaseTileBlock<FumaroleVentTileEntity> implements SimpleWaterloggedBlock {
+	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final IntegerProperty HEAT = IntegerProperty.create("heat", 0, 2);
 	static final VoxelShape shape = Block.box(0, 0, 0, 16, 6, 16);
 
@@ -56,24 +62,32 @@ public class FumaroleVentBlock extends CPBaseTileBlock<FumaroleVentTileEntity> {
 	public FumaroleVentBlock(String name, Properties blockProps,
 			BiFunction<Block, net.minecraft.world.item.Item.Properties, Item> createItemBlock) {
 		super(name, blockProps, CPTileTypes.FUMAROLE, createItemBlock);
-		this.registerDefaultState(this.defaultBlockState().setValue(HEAT, 0));
+		this.registerDefaultState(this.defaultBlockState().setValue(HEAT, 0).setValue(WATERLOGGED, false));
 	}
 
 	@Override
 	protected void createBlockStateDefinition(
 			net.minecraft.world.level.block.state.StateDefinition.Builder<Block, BlockState> builder) {
 		super.createBlockStateDefinition(builder);
-		builder.add(HEAT);
+		builder.add(HEAT).add(WATERLOGGED);
 	}
 
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(HEAT, 0);
+		return this.defaultBlockState().setValue(HEAT, 0).setValue(WATERLOGGED,
+				context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER);
 	}
 
+
+	public FluidState getFluidState(BlockState pState) {
+		return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
+	}
 	@Override
 	public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel,
 			BlockPos pCurrentPos, BlockPos pFacingPos) {
+		if (pState.getValue(WATERLOGGED)) {
+			pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
+		}
 		return pFacing == Direction.DOWN && !this.canSurvive(pState, pLevel, pCurrentPos)
 				? Blocks.AIR.defaultBlockState()
 				: super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);

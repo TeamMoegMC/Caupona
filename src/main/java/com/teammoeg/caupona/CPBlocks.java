@@ -83,6 +83,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
 public class CPBlocks {
+
 	// static string data 
 	public static final String[] counters = new String[] { "brick", "opus_incertum", "opus_latericium", "mud",
 			"stone_brick" };
@@ -119,7 +120,7 @@ public class CPBlocks {
 	public static Block stove5 = new KitchenStove("stone_brick_kitchen_stove", getStoveProps(), CPTileTypes.STOVE2,
 			CPBlockItem::new);
 	public static Block bowl = new BowlBlock("bowl",
-			Block.Properties.of(Material.WOOD).sound(SoundType.WOOD).instabreak().noOcclusion()
+			Block.Properties.of(Material.DECORATION).sound(SoundType.WOOD).instabreak().noOcclusion()
 					.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 					.isViewBlocking(CPBlocks::isntSolid),
 			CPTileTypes.BOWL, null);
@@ -141,14 +142,17 @@ public class CPBlocks {
 			CPBlockItem::new);
 	public static final Block PUMICE = register("pumice", new Block(getStoneProps()));
 	public static final Block PUMICE_BLOOM = register("pumice_bloom", new PumiceBloomBlock(getStoneProps().noOcclusion()));
-	public static final GravyBoatBlock GRAVY_BOAT=registerBlock("gravy_boat",new GravyBoatBlock(Block.Properties.of(Material.GLASS).sound(SoundType.GLASS).instabreak().noOcclusion().isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid)));
+	public static final GravyBoatBlock GRAVY_BOAT=registerBlock("gravy_boat",new GravyBoatBlock(Block.Properties.of(Material.DECORATION).sound(SoundType.GLASS).instabreak().noOcclusion().isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid)));
 		
 	public static final WoodType WALNUT = WoodType.register(WoodType.create("caupona:walnut"));
 	public static final Block WOLF=register("wolf_statue", new WolfStatueBlock(getTransparentProps()));
-	public static final Block STONE_PAN=register("stone_griddle",new PanBlock(getTransparentProps()));
-	public static final Block COPPER_PAN=register("copper_frying_pan",new PanBlock(getTransparentProps()));
-	public static final Block IRON_PAN=register("iron_frying_pan",new PanBlock(getTransparentProps()));
-	public static final Block DISH=new DishBlock("dish",Block.Properties.of(Material.WOOD).sound(SoundType.WOOD).instabreak().noOcclusion()
+	public static final Block STONE_PAN=register("stone_griddle",new PanBlock(Block.Properties.of(Material.DECORATION).sound(SoundType.STONE).strength(2, 10)
+			.noOcclusion()));
+	public static final Block COPPER_PAN=register("copper_frying_pan",new PanBlock(Block.Properties.of(Material.DECORATION).sound(SoundType.COPPER).strength(2, 10)
+			.noOcclusion()));
+	public static final Block IRON_PAN=register("iron_frying_pan",new PanBlock(Block.Properties.of(Material.DECORATION).sound(SoundType.METAL).strength(2, 10)
+			.noOcclusion()));
+	public static final Block DISH=new DishBlock("dish",Block.Properties.of(Material.DECORATION).sound(SoundType.WOOD).instabreak().noOcclusion()
 			.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 			.isViewBlocking(CPBlocks::isntSolid));
 	public static void init() {
@@ -187,7 +191,7 @@ public class CPBlocks {
 		registerBush("wolfberry",  WolfberryTreeGrower::new, l -> WOLFBERRY_LOG = l,
 				l -> WOLFBERRY_LEAVE = l, l -> WOLFBERRY_SAPLINGS = l);
 		for(String s:CPItems.dishes) {
-			Item di=new DishItem(new DishBlock(s,Block.Properties.of(Material.WOOD).sound(SoundType.WOOD).instabreak().noOcclusion()
+			Item di=new DishItem(new DishBlock(s,Block.Properties.of(Material.DECORATION).sound(SoundType.WOOD).instabreak().noOcclusion()
 					.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 					.isViewBlocking(CPBlocks::isntSolid)),CPItems.createSoupProps(),s);
 			

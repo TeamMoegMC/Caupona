@@ -81,7 +81,8 @@ public class FumaroleVentTileEntity extends CPBaseTile implements IStove{
 				update++;
 			}else {
 				update=0;
-				placeFumarole(this.getLevel(),this.getBlockPos());
+				if(!this.getBlockState().getValue(FumaroleVentBlock.WATERLOGGED))
+					placeFumarole(this.getLevel(),this.getBlockPos());
 			}
 		}
 		if(check<checkmax) {
@@ -109,6 +110,7 @@ public class FumaroleVentTileEntity extends CPBaseTile implements IStove{
 		int dx=(pRandom.nextBoolean()?1:-1)*(pRandom.nextInt(6));
 		int dz=(pRandom.nextBoolean()?1:-1)*(pRandom.nextInt(6));
 		if(dx==0&&dz==0)return;
+		
 		BlockPos pendPos=pPos.offset(dx,0,dz);
 		for(int i=0;i<3;i++) {
 			BlockState b0=pLevel.getBlockState(pendPos);
@@ -136,12 +138,14 @@ public class FumaroleVentTileEntity extends CPBaseTile implements IStove{
 	}
 	@Override
 	public int requestHeat() {
+		if(this.getBlockState().getValue(FumaroleVentBlock.WATERLOGGED))return 0;
 		return heat;
 	}
 
 	@Override
 	public boolean canEmitHeat() {
 		if(heat==0)return false;
+		if(this.getBlockState().getValue(FumaroleVentBlock.WATERLOGGED))return false;
 		return this.getBlockState().getValue(FumaroleVentBlock.HEAT)!=0;
 	}
 
