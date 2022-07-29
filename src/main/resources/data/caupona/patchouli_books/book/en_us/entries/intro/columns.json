@@ -1,31 +1,31 @@
 {
-	"name": "柱子",
+	"name": "Columns",
 	"icon": "caupona:calcite_ionic_column_capital",
 	"category": "caupona:intro",
 	"sortnum": 31,
 	"pages": [
 		{
 			"type": "text",
-			"text": "柱子是希腊—罗马世界常见的建筑元素。本 mod 添加了四种材料的柱子，并兼容三种柱式。四种材料为石英、方解石、石头、长英质凝灰岩。"
+			"text": "Columns are usual Greco-Roman architectural elements. We add three types of columns in four materials: quartz, calcite, stone, felsic_tuff."
 		},
 		{
 			"type": "text",
-			"text": "柱子可以由三类方块拼接得到：柱头、柱身、柱基。三类方块均由它们的材料（其中石英柱子方块的材料为平滑石英块）在切石机获得。"
+			"text": "Columns are built with three parts: capital, shaft and plinth. These can be made of there material in the stonecutter, quartz columns require smooth quartz block."
 		},
 		{
 			"type": "spotlight",
 			"item": "caupona:calcite_ionic_column_capital",
-			"text": "爱奥尼亚柱式有着经典的螺旋状柱头，及有槽饰的柱身。"
+			"text": "The Ionian column has a classic spiral capital and fluted shaft."
 		},
 		{
 			"type": "spotlight",
 			"item": "caupona:calcite_tuscan_column_capital",
-			"text": "托斯卡纳柱式的柱头没有繁复的雕纹，柱身也没有槽饰，视觉效果较简洁。"
+			"text": "The Tuscan column has no complicated carvings on the capital, and the column shaft are not fluted. So its visual effect is relatively simple."
 		},
 		{
 			"type": "spotlight",
 			"item": "caupona:calcite_acanthine_column_capital",
-			"text": "这种柱式其实并非现实存在的，原型是柯林斯柱式。柱头有叶纹浮雕，柱身有槽饰。"
+			"text": "This type of column does not exist in reality.Its prototype is the Collins column. There are some leaf pattern relief on the capitail while it's shaft is fluted."
 		}
 	]
 }

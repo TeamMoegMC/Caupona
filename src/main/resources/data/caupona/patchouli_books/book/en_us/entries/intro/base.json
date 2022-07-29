@@ -1,27 +1,27 @@
 {
-  "name": "汤底",
+  "name": "Soup Base",
   "icon": "caupona:water_or_stock_based",
   "category": "caupona:intro",
   "sortnum": 2,
   "pages": [
     {
       "type": "text",
-      "text": "汤底对汤有额外的属性调节作用，使用不同的汤底有不同的功能。"
+      "text": "Different bases has different effect for the outcome"
     },
     {
       "type": "spotlight",
       "item": "caupona:water",
-      "text": "水平平无奇，没有任何特殊的属性。"
+      "text": "Water is nothing special and have no special effects"
     },
     {
       "type": "spotlight",
       "item": "caupona:milk",
-      "text": "牛奶会额外提供一些饱和度。"
+      "text": "Milk provides some extra saturation"
     },
     {
       "type": "spotlight",
       "item": "caupona:stock",
-      "text": "高汤会额外提供一些饱和度和饱食度。"
+      "text": "Stock provides extra food points and saturation "
     }
   ]
 }

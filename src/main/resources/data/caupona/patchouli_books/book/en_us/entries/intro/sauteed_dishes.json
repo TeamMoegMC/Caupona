@@ -1,20 +1,20 @@
 {
-  "name": "炒菜和嫩煎菜",
+  "name": "Sauteed food",
   "icon": "caupona:sauteed_seafood",
   "category": "caupona:intro",
   "sortnum": 4,
   "pages": [
     {
       "type": "text",
-      "text": "炒菜和嫩煎菜（以下均简称炒菜）是另一类自定义菜肴，可以通过使用煎锅（包括石鏊）烹饪获得。和汤类似，炒菜的属性由其所有原料决定。"
+      "text": "Sauteed food is another kind of custom cuisine. They are cooked in pans, including stone griddles. It's properties are the sum of its ingredients."
     },
     {
       "type": "text",
-      "text": "和汤一样，炒菜的原料也可以使用生的食材。和汤相比，炒菜的优点在于不需要液态原料（例如在下界这种不容易获得大量水的场合，炒菜就尤为方便）；此外，炒菜需要的时间短、因此耗费的燃料也更少。炒菜的缺点是提供的饱和度相对较少。"
+      "text": "Alike stew cooking, raw ingredient are also available for frying. Compare to stew cooking, Frying does not need any sort of fluid and is much faster, which means less fuel consumption. But it's saturation boost is lower and no potion can be added"
     },
     {
       "type": "text",
-      "text": "Shift + 右击可以将炒菜以方块的形式放置在世界上。"
+      "text": "Shift + right click can place sauteed dishes onto the world."
     }
   ]
 }

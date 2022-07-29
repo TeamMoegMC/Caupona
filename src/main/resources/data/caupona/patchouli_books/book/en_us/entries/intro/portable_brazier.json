@@ -1,5 +1,5 @@
 {
-	"name": "便携式火盆",
+	"name": "Portable Brazier",
 	"icon": "caupona:portable_brazier",
 	"category": "caupona:intro",
 	"sortnum": 11,
@@ -11,20 +11,20 @@
 		{
 			"type": "smelting",
 			"recipe": "caupona:smelting/portable_brazier",
-			"text": "便携式火盆是可以随身携带并打开GUI的器具，唯一的用途是将$(l:resting/aspics)汤冻$(/l)还原为汤。"
+			"text": "Portable braziers are carried in inventory and can open in hand. It's only use is to thaw $(l:resting/aspics)aspics$(/l) into soup."
 		},
 		{
 			"type": "text",
-			"text": "便携式火盆的GUI有四个槽：汤冻、水碗、产物槽，以及火盆图片上的燃料槽。虽然在陶锅中融化汤冻并不需要水，但便携式火盆固定需要一碗水，将汤冻转化为汤。"
+			"text": "There are input slot, water bowl slot, output slot and fuel slot in the Portable Brazier. Though water is not required in stew pots to thaw aspics, this would need a bowl of water to do so."
 		},
 		{
 			"type": "text",
-			"text": "便携式火盆每次工作，固定消耗一个燃料物品。允许的燃料有两种：岩浆膏，及鲜活木炭。"
+			"text": "Portable braziers consume a fuel item per work. It accepts vivid charcoal and magma cream as fuel."
 		},
 		{
 			"type": "spotlight",
 			"item": "caupona:vivid_charcoal",
-			"text": "鲜活木炭的造价比岩浆膏便宜一些，它的唯一作用就是作为便携式火盆的燃料。"
+			"text": "Vivid charcoal is cheaper than magma cream, and it's only for fuel in portable braziers"
 		}
 	]
 }

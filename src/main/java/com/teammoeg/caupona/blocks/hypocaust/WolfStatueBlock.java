@@ -16,7 +16,7 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.blocks.hypocast;
+package com.teammoeg.caupona.blocks.hypocaust;
 
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;

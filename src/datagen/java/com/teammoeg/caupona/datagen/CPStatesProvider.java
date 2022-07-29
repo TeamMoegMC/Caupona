@@ -126,7 +126,7 @@ public class CPStatesProvider extends BlockStateProvider {
 			//blockItemModel(wood+"_trapdoor","_top");
 
 		}
-		for(String s:CPBlocks.hypocast_materials) {
+		for(String s:CPBlocks.hypocaust_materials) {
 			blockItemModel(s+"_hypocaust_firebox");
 			blockItemModel(s+"_caliduct");
 		}

@@ -1,12 +1,12 @@
 {
-	"name": "建筑材料",
+	"name": "Building Materials",
 	"icon": "caupona:opus_incertum",
 	"category": "caupona:intro",
 	"sortnum": 29,
 	"pages": [
 		{
 			"type": "text",
-			"text": "本 mod 增加了一系列建筑材料。"
+			"text": "We also add some building materials."
 		},
 		{
 			"type": "crafting",
@@ -15,12 +15,12 @@
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/felsic_tuff",
-			"text": "长英质凝灰岩由原版凝灰岩与$(l:worldgen/fumarole)浮岩$(/l)合成获得，是本 mod 多种建筑材料的原料"
+			"text": "Felsic tuff is made of $(l:worldgen/fumarole)pumice$(/l) and tuff, is one of the fundamental building materials of this mod."
 		},
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/felsic_tuff_bricks",
-			"text": "这些石质或砖块类型的建筑材料都有完整的配套方块：台阶、楼梯、墙。"
+			"text": "These blocks can also craft into stairs, slabs, walls and so on."
 		},
 		{
 			"type": "crafting",

@@ -16,16 +16,16 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.blocks.hypocast;
+package com.teammoeg.caupona.blocks.hypocaust;
 
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPTileTypes;
 
-public class FireboxBlock extends BathHeatingBlock<FireboxTile> {
+public class CaliductBlock extends BathHeatingBlock<CaliductTile> {
 
-	public FireboxBlock(Properties blockProps) {
-		super(CPTileTypes.FIREBOX,blockProps);
-		CPBlocks.firebox.add(this);
+	public CaliductBlock(Properties blockProps) {
+		super(CPTileTypes.CALIDUCT,blockProps);
+		CPBlocks.caliduct.add(this);
 	}
 
 }

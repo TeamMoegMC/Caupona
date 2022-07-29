@@ -1,5 +1,5 @@
 {
-	"name": "狼雕像",
+	"name": "Wolf Statue",
 	"icon": "caupona:wolf_statue",
 	"category": "caupona:intro",
 	"sortnum": 47,
@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "text",
-			"text": "狼雕像有类似水温计的功能。其可以像水一样被地暖系统加热，得到热量后，材质和模型就会发生一定的改变。因此，狼雕像可以指示当前位置的加热状态。"
+			"text": "Wolf statue acts like thermometer, its appearance changes base on its current heat, so it could be used to measure heat at the location."
 		}
 	]
 }

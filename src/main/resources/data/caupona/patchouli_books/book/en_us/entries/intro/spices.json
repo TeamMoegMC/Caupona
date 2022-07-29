@@ -1,32 +1,32 @@
 {
-	"name": "调味料",
+	"name": "Spices",
 	"icon": "caupona:chives_spice_jar",
 	"category": "caupona:intro",
 	"sortnum": 24,
 	"pages": [
 		{
 			"type": "text",
-			"text": "汤和炒菜在出锅时可以加入调味料，加入调味料的菜肴会给予短时间的药水效果。若菜肴回锅，则调味料的效果或散失。部分调味料来自静置转化，需要用花盆盛出。"
+			"text": "Spices can be apply to stews and dishes when they are taken from stew pots or pans. Spices can add a short potion effect to the food. If food with spice is cooked again, it would lost its spice. Spice are contained in flower pots and some of the spices are made by resting."
 		},
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/sugar_spice_jar",
-			"text": "糖可以提供速度。"
+			"text": "Sugar can provide speed effect."
 		},
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/chives_spice_jar",
-			"text": "香葱可以提供缓降。"
+			"text": "Chives can provide slow falling effect"
 		},
 		{
 			"type": "spotlight",
 			"item": "caupona:garum_spice_jar",
-			"text": "鱼露来自鱼在嵌陶缸的台面中静置转化，提供跳跃提升。"
+			"text": "Garum are made from fish in doliums, provides jump boost effect."
 		},
 		{
 			"type": "spotlight",
 			"item": "caupona:vinegar_spice_jar",
-			"text": "醋来自苹果或浆果在嵌陶缸的台面中静置转化，提供夜视。"
+			"text": "Vinegar are made from berries or apple in doliums, provides night vision effect."
 		}
 	]
 }

@@ -1,5 +1,5 @@
 {
-	"name": "煎锅",
+	"name": "Frying Pans",
 	"icon": "caupona:stone_griddle",
 	"category": "caupona:intro",
 	"sortnum": 5,
@@ -7,28 +7,28 @@
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/stone_griddle",
-			"text": "煎锅用于炒菜，石鏊是最容易获得的一种煎锅。"
+			"text": "Frying pans are for stir fry, stone griddle is one of the cheapest pans. Due to its poor heat conductivity, it is significantly slower than metal ones."
 		},
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/copper_frying_pan",
-			"text": "金属煎锅有铜和铁两种材质。煎锅需要放在热源，如$(l:intro/stove)灶台$(/l)或$(l:worldgen/fumarole)火山喷气孔$(/l)上方使用。"
+			"text": "Metal pans can be made of copper and iron. Frying pans should be put on heat source, like $(l:intro/stove)stoves$(/l) or $(l:worldgen/fumarole)fumarole vent$(/l)."
 		},
 		{
 			"type": "text",
-			"text": "煎锅的GUI与陶锅类似，同样有九个原料输入槽，只不过不涉及流体交互。左侧的两个按钮分别控制烹饪的开始，及切换红石控制状态，红石控制默认为关。右侧有两个槽可以放置容器和$(l:intro/spices)调味料$(/l)，以获得汤的成品。"
+			"text": "Frying pans are similar with stew pots except no fluid interaction. Buttons on the left side controls its start and restone control, redstone default off. Bowl and $(l:intro/spices)spice$(/l) should be put in the right side slots, the get finished dishes."
 		},
 		{
 			"type": "text",
-			"text": "在煎锅开始烹饪之前，必须保证锅中有$(l:resting/oil)油$(/l)。油通过与煎锅相邻的油舟自动添加。"
+			"text": "Before start cooking, there should be $(l:resting/oil)oil$(/l) and enough bowl in the pan. Oil is automatically taken from nearby gravy boats."
 		},
 		{
 			"type": "text",
-			"text": "由于不涉及流体，煎锅烹饪炒菜时并不像汤那样有浓度的说法。一般而言，固定每两个物品原料（四舍五入）出产一盘炒菜。"
+			"text": "Without liquid, stir fry dishes does not have any sort of concentration, instead, There would be a dish about each two ingredients (rounded up)."
 		},
 		{
 			"type": "text",
-			"text": "红石控制开启时，若红石信号为高且煎锅当前空闲，则会不断尝试开始烹饪。配合其它自动化工具可以实现完全自动化。"
+			"text": "With redstone control on, if pan is not working and redstong signal provided. It would keep trying to start working. This is useful for automation."
 		}
 	]
 }

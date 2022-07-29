@@ -6,11 +6,11 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "油是烹饪炒菜前需要往煎锅中添加的原料。当前，油的主要来源是$(l:worldgen/plants)核桃$(/l)的静置转化，8个核桃能够榨出一个油舟的油，可以使用五次。油的容器是玻璃瓶。"
+			"text": "Oil is needed when frying in pans. With Anvils(does not consume) and $(l:worldgen/plants)walnuts$(/l) resting in doliums. 8 walnuts can turn into a bottle of oil, for five uses."
 		},
 		{
 			"type": "text",
-			"text": "将玻璃瓶放置在世界上，即成为油舟。油舟会为与其相邻的煎锅提供油（注意油舟嘴的方向）。"
+			"text": "Place oil bottle onto world as gravy boat, which can provide oil for nearby pans."
 		}
 	]
 }

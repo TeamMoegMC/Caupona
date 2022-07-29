@@ -165,8 +165,8 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag("stoves").add(CPBlocks.stove1.asItem(),CPBlocks.stove2.asItem(),CPBlocks.stove3.asItem(),CPBlocks.stove4.asItem(),CPBlocks.stove5.asItem());
 		tag("portable_brazier_fuel").add(Items.MAGMA_CREAM).add(cp("vivid_charcoal"));
 		tag("garum_fish").add(Items.COD,Items.SALMON);
-		tag("vinegar_fruits").add(Items.APPLE);
-		tag("vinegar_fruits_small").add(Items.SWEET_BERRIES);
+		tag("vinegar_fruits").add(Items.APPLE).add(cp("fig"));
+		tag("vinegar_fruits_small").add(Items.SWEET_BERRIES).add(cp("wolfberries"));
 		
 	}
 

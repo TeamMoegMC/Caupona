@@ -1,5 +1,5 @@
 {
-	"name": "台面",
+	"name": "Counter",
 	"icon": "caupona:brick_counter",
 	"category": "caupona:intro",
 	"sortnum": 7,
@@ -7,11 +7,11 @@
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/brick_counter",
-			"text": "台面是一种厨房设施。和其他类型的厨房设施一样，有$(l:intro/kitchen_materials)多种材料$(/l)的版本。"
+			"text": "Counters are kitchen facilities. Alike others, they have variants of different $(l:intro/kitchen_materials)kitchen materials$(/l)."
 		},
 		{
 			"type": "text",
-			"text": "台面没有任何特殊功能，只是用于将$(l:intro/stove)灶台$(/l)和$(l:intro/counter_with_dolium)嵌陶缸的台面$(/l)等其他厨房设施连为一体。"
+			"text": "They are only for decoration. To connect $(l:intro/stove)stoves$(/l) and $(l:intro/counter_with_dolium)counter with doliums$(/l)and some other kitchen facilities."
 		}
 	]
 }

@@ -50,7 +50,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class PanTile extends CPBaseTile implements MenuProvider {
@@ -280,6 +287,8 @@ public class PanTile extends CPBaseTile implements MenuProvider {
 			}
 		}
 		preout=CPItems.ddish;
+		if(this.getBlockState().is(CPBlocks.STONE_PAN))
+			tpt*=2;
 		processMax = tpt;
 		return;
 	}
@@ -292,5 +301,38 @@ public class PanTile extends CPBaseTile implements MenuProvider {
 	public Component getDisplayName() {
 		return new TranslatableComponent("container." + Main.MODID + ".pan.title");
 	}
+	RangedWrapper bowl = new RangedWrapper(inv, 9, 12) {
+		@Override
+		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+			if (slot == 10)
+				return stack;
+			return super.insertItem(slot, stack, simulate);
+		}
 
+		@Override
+		public ItemStack extractItem(int slot, int amount, boolean simulate) {
+			if (slot == 9 || slot == 11)
+				return ItemStack.EMPTY;
+			return super.extractItem(slot, amount, simulate);
+		}
+	};
+	RangedWrapper ingredient = new RangedWrapper(inv, 0, 9) {
+
+		@Override
+		public ItemStack extractItem(int slot, int amount, boolean simulate) {
+			return ItemStack.EMPTY;
+		}
+	};
+	LazyOptional<IItemHandler> up = LazyOptional.of(() -> ingredient);
+	LazyOptional<IItemHandler> side = LazyOptional.of(() -> bowl);
+
+	@Override
+	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			if (side == Direction.UP)
+				return up.cast();
+			return this.side.cast();
+		}
+		return super.getCapability(cap, side);
+	}
 }

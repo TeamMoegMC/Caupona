@@ -135,7 +135,7 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag(BlockTags.MINEABLE_WITH_AXE).add(cp(bush+"_log"));
 			tag(BlockTags.MINEABLE_WITH_HOE).add(cp(bush+"leaves"));
 		}
-		for(String s:CPBlocks.hypocast_materials) {
+		for(String s:CPBlocks.hypocaust_materials) {
 			tag("caliducts").add(cp(s+"_caliduct"));
 			tag("heat_conductor").add(cp(s+"_hypocaust_firebox"));
 			tag("chimney_ignore").add(cp(s+"_hypocaust_firebox"));

@@ -1,26 +1,26 @@
 {
-	"name": "火山喷气孔",
+	"name": "Volcanic Fumarole",
 	"icon": "caupona:pumice",
 	"category": "caupona:worldgen",
 	"sortnum": 1,
 	"pages": [
 		{
 			"type": "text",
-			"text": "火山喷气孔是在荒芜地区（如雪原和沙漠）生成的结构，由玄武岩及若干玄武岩材质的其他方块组成。"
+			"text": "Volcanic Fumarole generates in barren biomes like desert and taiga."
 		},
 		{
 			"type": "spotlight",
 			"item": "caupona:fumarole_vent",
-			"text": "火山喷气孔结构必定在中央包含一个突出的主方块。若此主方块下方第二格为岩浆，则喷气孔会处于活跃状态，散发出粒子效果、导致上方的生物着火，并在附近的水面上生成浮岩华。"
+			"text": "Volcanic Fumarole contains a vent in the middle, if two blocks below it is lava, it would become active, causing fire and generate pumice bloom in nearby water."
 		},
 		{
 			"type": "spotlight",
 			"item": "caupona:pumice_bloom",
-			"text": "挖掘浮岩华掉落浮岩，这是重要的建筑材料原料。也可使用精准采集附魔的工具获得浮岩华本身。"
+			"text": "Mining pumice bloom yields pumice, an important building material. Pick it with silk touch to get pumice bloom."
 		},
 		{
 			"type": "text",
-			"text": "活跃的喷气孔是永久热源，可用于以相对低的效率加热炊具及地暖系统。"
+			"text": "Active vents are free heat source, can provide heat at a lower speed."
 		}
 	]
 }

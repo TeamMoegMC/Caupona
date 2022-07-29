@@ -1,12 +1,12 @@
 {
-	"name": "地暖和浴池",
+	"name": "Hypocaust and Bath",
 	"icon": "caupona:opus_incertum_hypocaust_firebox",
 	"category": "caupona:intro",
 	"sortnum": 46,
 	"pages": [
 		{
 			"type": "text",
-			"text": "地暖是一种集中供暖系统，热量从热源导入系统的中心方块（地暖炉膛），并向四周通过地暖隔层扩散。"
+			"text": "Hypocaust is a central heating system. Heat input from the central block (firebox) and spreads to a relatively large area."
 		},
 		{
 			"type": "crafting",
@@ -18,11 +18,11 @@
 		},
 		{
 			"type": "text",
-			"text": "在建造地暖系统时，炉膛需要和地暖隔层方块水平相连，下方需要提供热源（灶台或火山喷气孔）。"
+			"text": "In building hypocaust systems, firebox and caliducts should be connected horizontally and the firebox should be put on heat source, like $(l:intro/stove)stoves$(/l) or $(l:worldgen/fumarole)fumarole vent$(/l). "
 		},
 		{
 			"type": "text",
-			"text": "有热量流经的地暖隔层会加热上方的水方块，使其成为浴池水，散发出一些蒸汽粒子。与浴池水接触能持续不断地获取经验，不过这一过程相当缓慢。一个工作中的炉膛方块大致可以加热9×9水平范围内的水。"
+			"text": "Heated hypocaust system would heat water above it into bath water with steam. When inside bath water, one can gain experience gradually, But this process is very slow. A firebox can heat up a 9x9 area near it."
 		}
 	]
 }

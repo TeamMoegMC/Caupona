@@ -1,28 +1,28 @@
 {
-	"name": "汤",
+	"name": "Stew",
 	"icon": "caupona:acquacotta",
 	"category": "caupona:intro",
 	"sortnum": 0,
 	"pages": [
 		{
 			"type": "text",
-			"text": "汤是一种热饮，可以通过使用汤锅烹饪获得，根据汤底，材料的不同，会变成不同种类的汤，但是它的属性会继承它的各种原料。一碗汤对应250 mB 的流体。"
+			"text": "Stew is a kind of hot drink. It's type depends on its base and ingredients. Its values are the sum of its ingredients, a bowl of soup contains 250mb fluid."
 		},
 		{
 			"type": "text",
-			"text": "汤的原料可以直接使用生的食材，烹饪时会自动煮熟食材，计算参数时取两者中最高的。和炒菜相比，汤一般能够提供更高的饱和度，但原料需要流体、且烹饪时间更长。"
+			"text": "Stews can be cooked with raw ingredients and automatically cook them. Compare with sauteed dishes, it has greater saturation boost but require fluid ingredient and takes longer to cook."
 		},
 		{
 			"type": "text",
-			"text": "对于足够浓的汤，一部分其所补充的饥饿值会被转移至饱和度，即越浓的汤补充的饱和度与饥饿值的比值一般越高。"
+			"text": "For the stew thick enough, some of its food point would be convert into saturation restored, making a higher saturation ratio."
 		},
 		{
 			"type": "text",
-			"text": "汤里面也可以添加药水，为其增加药水效果，多瓶药水时间叠加，最高为两倍，汤最多可以添加三种不同的药水效果。"
+			"text": "Potions can also be added to stews. Multiple potions result in duration added up. stew could have at most three types of potion, and double duration."
 		},
 		{
 			"type": "text",
-			"text": "Shift + 右击可以将汤以方块的形式放置在世界上，且可以直接饮用。"
+			"text": "Shift + right click to place stews onto the world."
 		}
 	]
 }

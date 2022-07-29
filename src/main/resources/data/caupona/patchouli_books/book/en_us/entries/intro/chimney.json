@@ -1,31 +1,31 @@
 {
-	"name": "烟囱",
+	"name": "Chimney",
 	"icon": "caupona:brick_chimney_pot",
 	"category": "caupona:intro",
-	"sortnum": 28,
+	"sortnum": 8,
 	"pages": [
 		{
 			"type": "text",
-			"text": "烟囱是一种结构，也是厨房设施，由烟道和烟囱帽两类方块组成。和其他类型的厨房设施一样，烟道和烟囱帽有$(l:intro/kitchen_materials)多种材料$(/l)的版本。"
+			"text": "Chimneys are structures and kitchen facilities consist of flue and pot. Like other kitchen facilities, They have variants of different $(l:intro/kitchen_materials)kitchen materials$(/l)."
 		},
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/brick_chimney_flue",
-			"text": "烟道是烟囱的重要组成部分，其作用在于延长烟囱，铅直方向上长度可变。"
+			"text": "Chimney flue can extend the length of the chimney. They can be either long or short."
 		},
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/brick_chimney_pot",
-			"text": "烟囱帽必须位于烟囱结构的最顶端。要让烟囱工作，烟囱帽和烟道（每个方块）的材料不必完全一致。"
+			"text": "Chimney pot must be placed on the top of the chimney structure, it doesn't need to be of the same type with chimney flue"
 		},
 		{
 			"type": "text",
-			"text": "烟囱结构只在铅直方向上延伸。烟囱的用途是收集正下方厨房设施（主要为灶台）燃烧时产生的烟，导烟时烟囱帽会散发出黑烟的粒子效果，并逐渐积累炱。烟囱和发烟的厨房设施之间不能被阻挡。"
+			"text": "Chimney structure can only extend vertically up, and should not be blocked between smoke source and itself"
 		},
 		{
 			"type": "spotlight",
 			"item": "caupona:soot",
-			"text": "炱，或者说烟灰，会在烟囱正常工作时逐渐积累，可从烟囱帽处收集。炱的主要用途是合成染料。"
+			"text": "Ash accumulates when the chimney pot is in use. Can be collected with shovel at the chimney pot.They are useful in dye crafting."
 		}
 	]
 }

@@ -32,9 +32,9 @@ import com.teammoeg.caupona.blocks.foods.DishBlock;
 import com.teammoeg.caupona.blocks.fumarole.FumaroleBoulderBlock;
 import com.teammoeg.caupona.blocks.fumarole.FumaroleVentBlock;
 import com.teammoeg.caupona.blocks.fumarole.PumiceBloomBlock;
-import com.teammoeg.caupona.blocks.hypocast.CaliductBlock;
-import com.teammoeg.caupona.blocks.hypocast.FireboxBlock;
-import com.teammoeg.caupona.blocks.hypocast.WolfStatueBlock;
+import com.teammoeg.caupona.blocks.hypocaust.CaliductBlock;
+import com.teammoeg.caupona.blocks.hypocaust.FireboxBlock;
+import com.teammoeg.caupona.blocks.hypocaust.WolfStatueBlock;
 import com.teammoeg.caupona.blocks.others.CPStandingSignBlock;
 import com.teammoeg.caupona.blocks.others.CPWallSignBlock;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
@@ -91,7 +91,7 @@ public class CPBlocks {
 			"opus_reticulatum", "felsic_tuff_bricks", "felsic_tuff" };
 	public static final String[] woods = new String[] { "walnut" };
 	public static final String[] pillar_materials = new String[] { "stone", "quartz", "felsic_tuff", "calcite" };
-	public static final String[] hypocast_materials=new String[] {"brick",
+	public static final String[] hypocaust_materials=new String[] {"brick",
 			"opus_incertum",
 			"opus_latericium",
 			"stone_brick"};
@@ -146,11 +146,11 @@ public class CPBlocks {
 		
 	public static final WoodType WALNUT = WoodType.register(WoodType.create("caupona:walnut"));
 	public static final Block WOLF=register("wolf_statue", new WolfStatueBlock(getTransparentProps()));
-	public static final Block STONE_PAN=register("stone_griddle",new PanBlock(Block.Properties.of(Material.DECORATION).sound(SoundType.STONE).strength(2, 10)
+	public static final Block STONE_PAN=register("stone_griddle",new PanBlock(Block.Properties.of(Material.DECORATION).sound(SoundType.STONE).strength(3.5f, 10)
 			.noOcclusion()));
-	public static final Block COPPER_PAN=register("copper_frying_pan",new PanBlock(Block.Properties.of(Material.DECORATION).sound(SoundType.COPPER).strength(2, 10)
+	public static final Block COPPER_PAN=register("copper_frying_pan",new PanBlock(Block.Properties.of(Material.DECORATION).sound(SoundType.COPPER).strength(3.5f, 10)
 			.noOcclusion()));
-	public static final Block IRON_PAN=register("iron_frying_pan",new PanBlock(Block.Properties.of(Material.DECORATION).sound(SoundType.METAL).strength(2, 10)
+	public static final Block IRON_PAN=register("iron_frying_pan",new PanBlock(Block.Properties.of(Material.DECORATION).sound(SoundType.METAL).strength(3.5f, 10)
 			.noOcclusion()));
 	public static final Block DISH=new DishBlock("dish",Block.Properties.of(Material.DECORATION).sound(SoundType.WOOD).instabreak().noOcclusion()
 			.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
@@ -169,7 +169,7 @@ public class CPBlocks {
 			register(mat + "_counter", new CPHorizontalBlock(getStoneProps()));
 			transparentBlocks.add(register(mat + "_counter_with_dolium", new CounterDoliumBlock(getTransparentProps())));
 		}
-		for (String mat : hypocast_materials) {
+		for (String mat : hypocaust_materials) {
 			register(mat+"_caliduct",new CaliductBlock(getTransparentProps()));
 			register(mat+"_hypocaust_firebox",new FireboxBlock(getTransparentProps()));
 
@@ -313,13 +313,13 @@ public class CPBlocks {
 	}
 
 	private static Properties getStoveProps() {
-		return Block.Properties.of(Material.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops().strength(2, 10)
+		return Block.Properties.of(Material.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops().strength(3.5f, 10)
 				.noOcclusion().lightLevel(s -> s.getValue(KitchenStove.LIT) ? 9 : 0)
 				.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid);
 	}
 
 	private static Properties getTransparentProps() {
-		return Block.Properties.of(Material.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops().strength(2, 10)
+		return Block.Properties.of(Material.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops().strength(3.5f, 10)
 				.noOcclusion();
 	}
 
