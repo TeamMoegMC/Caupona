@@ -1,6 +1,6 @@
 {
-	"name": "Sautéing Recipes",
-	"description": "Learn about different sautéed dishes, and how to make them.",
+	"name": "炒菜配方",
+	"description": "查阅各种炒菜的配方",
 	"icon": "caupona:sauteed_seafood",
 	"sortnum": 2
 }

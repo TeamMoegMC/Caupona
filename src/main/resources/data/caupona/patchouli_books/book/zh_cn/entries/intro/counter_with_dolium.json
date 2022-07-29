@@ -2,7 +2,7 @@
 	"name": "嵌陶缸的台面",
 	"icon": "caupona:brick_counter_with_dolium",
 	"category": "caupona:intro",
-	"sortnum": 21,
+	"sortnum": 6,
 	"pages": [
 		{
 			"type": "crafting",

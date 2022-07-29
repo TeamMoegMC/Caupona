@@ -2,7 +2,7 @@
   "name": "炒菜和嫩煎菜",
   "icon": "caupona:sauteed_seafood",
   "category": "caupona:intro",
-  "sortnum": 10,
+  "sortnum": 4,
   "pages": [
     {
       "type": "text",

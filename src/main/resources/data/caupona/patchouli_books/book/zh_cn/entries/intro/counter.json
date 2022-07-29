@@ -2,7 +2,7 @@
 	"name": "台面",
 	"icon": "caupona:brick_counter",
 	"category": "caupona:intro",
-	"sortnum": 22,
+	"sortnum": 7,
 	"pages": [
 		{
 			"type": "crafting",

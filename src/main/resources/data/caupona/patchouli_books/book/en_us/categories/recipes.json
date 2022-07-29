@@ -1,6 +1,6 @@
 {
-  "name": "Stew Recipes",
-  "description": "Learn about different soups & stews, and how to make them.",
+  "name": "汤品配方",
+  "description": "查阅各种汤品的配方。",
   "icon": "caupona:acquacotta",
-  "sortnum": 0
+  "sortnum": 1
 }

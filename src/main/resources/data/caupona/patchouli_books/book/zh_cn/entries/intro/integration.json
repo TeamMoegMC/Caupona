@@ -2,7 +2,7 @@
   "name": "Mod 联动",
   "icon": "minecraft:grass_block",
   "category": "caupona:intro",
-  "sortnum": 100,
+  "sortnum": 11,
   "pages": [
     {
       "type": "text",

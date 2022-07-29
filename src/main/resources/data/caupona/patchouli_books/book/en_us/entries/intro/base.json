@@ -2,7 +2,7 @@
   "name": "汤底",
   "icon": "caupona:bases/water_or_stock_based",
   "category": "caupona:intro",
-  "sortnum": 3,
+  "sortnum": 2,
   "pages": [
     {
       "type": "text",

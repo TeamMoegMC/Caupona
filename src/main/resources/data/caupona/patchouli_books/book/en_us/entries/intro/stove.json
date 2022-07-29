@@ -2,7 +2,7 @@
   "name": "灶台",
   "icon": "caupona:brick_kitchen_stove",
   "category": "caupona:intro",
-  "sortnum": 4,
+  "sortnum": 3,
   "pages": [
     {
       "type": "text",
@@ -19,7 +19,7 @@
     },
     {
       "type": "crafting",
-      "recipe": "caupona:brick_kitchen_stove",
+      "recipe": "caupona:crafting/brick_kitchen_stove",
       "text": "还有$(l:intro/kitchen_materials)一些其他材料$(/l)建造的灶台。这些灶台效率更高，但也更费燃料。"
     }
   ]
