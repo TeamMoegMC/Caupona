@@ -5,6 +5,7 @@ import com.teammoeg.caupona.util.INetworkContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fml.DistExecutor.SafeRunnable;
 
 public class ClientUtils {
 
@@ -16,4 +17,5 @@ public class ClientUtils {
 			((INetworkContainer) p.containerMenu).handle(nbt);
 		}
 	}
+	
 }

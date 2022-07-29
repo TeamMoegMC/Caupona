@@ -1,8 +1,7 @@
-
 {
   "name": "发射器改动",
   "icon": "minecraft:dispenser",
-  "category": "caupona:intro",
+  "category": "caupona:tweaks",
   "sortnum": 0,
   "pages": [
     {

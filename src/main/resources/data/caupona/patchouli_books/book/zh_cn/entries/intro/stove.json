@@ -1,13 +1,12 @@
-
 {
   "name": "灶台",
   "icon": "caupona:brick_kitchen_stove",
   "category": "caupona:intro",
-  "sortnum": 4,
+  "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "灶台可以用于加热各种厨具，工作时需要消耗固态燃料。"
+      "text": "灶台是最重要的厨房设施，可以用于加热各种厨具。工作时，灶台需要消耗固态燃料。"
     },
     {
       "type": "text",
@@ -16,12 +15,12 @@
     {
       "type": "crafting",
       "recipe": "caupona:mud_kitchen_stove",
-      "text": "夯土干砌石灶台的制造成本最低廉。"
+      "text": "夯土干砌石灶台的制造成本最低廉，但加热效率是其他更坚固材料制造的灶台的一半，与作为永久热源的$(l:worldgen/fumarole)火山喷气孔$(/l)相仿。"
     },
     {
       "type": "crafting",
       "recipe": "caupona:crafting/brick_kitchen_stove",
-      "text": "还有一些其他材料建造的灶台。这些灶台效率更高，但也更费燃料。"
+      "text": "还有$(l:intro/kitchen_materials)一些其他材料$(/l)建造的灶台。这些灶台效率更高，但也更费燃料。"
     }
   ]
 }

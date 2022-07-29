@@ -1,21 +1,20 @@
-
 {
-  "name": "Dispenser Modification",
+  "name": "发射器改动",
   "icon": "minecraft:dispenser",
-  "category": "caupona:intro",
+  "category": "caupona:tweaks",
   "sortnum": 0,
   "pages": [
     {
       "type": "text",
-      "text": "Dispensers are modified so that it be possible to automate stew pots."
+      "text": "为了适配陶锅的自动化，原版发射器具有了更多的功能。"
     },
     {
       "type": "text",
-      "text": "When a bowl is being dispensed, dispensers will try to fill the bowl with fluid in front of it: either in a container containing fluid, or a fluid block."
+      "text": "当发射器里面有木碗时，它会尝试用木碗装发射器前方容器内的流体，比如陶锅；也会尝试装流体方块，比如水。这可以用于取出陶锅的产物。"
     },
      {
       "type": "text",
-      "text": "When a bowl of soup or a bucket of fluid is being dispensed, and in front of the dispenser is a fluid container, the dispenser will try to transfer fluid into the container."
+      "text": "当发射器里面有满的汤碗或者桶时，它会尝试把流体装在前方容器内，比如陶锅。这可以用于自动加水、混合、等等的流体输入操作。"
     }
   ]
 }

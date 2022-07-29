@@ -1,0 +1,38 @@
+{
+	"name": "建筑材料",
+	"icon": "caupona:opus_incertum",
+	"category": "caupona:intro",
+	"sortnum": 9,
+	"pages": [
+		{
+			"type": "text",
+			"text": "本 mod 增加了一系列建筑材料。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/mixed_bricks"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/felsic_tuff",
+			"text": "长英质凝灰岩由原版凝灰岩与$(l:worldgen/fumarole)浮岩$(/l)合成获得，是本 mod 多种建筑材料的原料"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/felsic_tuff_bricks",
+			"text": "这些石质或砖块类型的建筑材料都有完整的配套方块：台阶、楼梯、墙。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_incertum",
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_reticulatum",
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_latericium",
+		}
+	]
+}

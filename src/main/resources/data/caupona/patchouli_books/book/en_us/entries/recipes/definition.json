@@ -1,17 +1,16 @@
-
 {
-  "name": "Definition",
+  "name": "说明",
   "icon": "minecraft:bowl",
   "category": "caupona:cook_recipes",
   "priority": true,
   "pages": [
     {
       "type": "text",
-      "text": "Top left of the picture tells the fluid ingredient requirement and density(items per bowl of soup) requirement. Below of which are item requirements, every requirement of the left should be fulfilled while any of the right ones should not be fulfilled."
+      "text": "配方图片左上角为液体原料要求，汤的基底液体必须符合要求，背景则表示浓度要求 (每份汤至少包含的物品数量)。$(br)配方图片的下方为具体要求，左侧是必须包含，右侧是不能包含。$(br)左侧的所有条件都需要被满足而右侧的所有条件都不能被满足。"
     },
     {
       "type": "text",
-      "text": "In the item requirement, Majority means this ingredient should excess one thrid of the total and more than any other kinds.$(br) Half means this ingredient should more than half of the total.$(br) Any means this ingredient should be contained."
+      "text": "要求中，“最主要”表示对应物品或者类别要占总量的三分之一以上，且不能超过其它类别。$(br)“过半数”表示对应物品或者类别占总量的一半以上(不含)。$(br)“任意”表示包含对应物品或者类别。"
     }
   ]
 }

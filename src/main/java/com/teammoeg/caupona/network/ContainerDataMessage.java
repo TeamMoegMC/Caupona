@@ -20,13 +20,10 @@ package com.teammoeg.caupona.network;
 
 import java.util.function.Supplier;
 
+import com.teammoeg.caupona.client.ClientProxy;
 import com.teammoeg.caupona.client.ClientUtils;
-import com.teammoeg.caupona.util.INetworkContainer;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
@@ -48,7 +45,8 @@ public class ContainerDataMessage {
 
 	void handle(Supplier<NetworkEvent.Context> context) {
 		context.get().enqueueWork(() -> {
-			DistExecutor.safeRunWhenOn(Dist.CLIENT,()->() -> ClientUtils.syncContainerInfo(nbt));
+			ClientProxy.data=nbt;
+			DistExecutor.safeRunWhenOn(Dist.CLIENT,()->ClientProxy::run);
 		});
 		context.get().setPacketHandled(true);
 	}

@@ -1,0 +1,26 @@
+{
+	"name": "火山喷气孔",
+	"icon": "caupona:pumice",
+	"category": "caupona:worldgen",
+	"sortnum": 1,
+	"pages": [
+		{
+			"type": "text",
+			"text": "火山喷气孔是在荒芜地区（如雪原和沙漠）生成的结构，由玄武岩及若干玄武岩材质的其他方块组成。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:fumarole_vent",
+			"text": "火山喷气孔结构必定在中央包含一个突出的主方块。若此主方块下方第二格为岩浆，则喷气孔会处于活跃状态，散发出粒子效果、导致上方的生物着火，并在附近的水面上生成浮岩华。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:pumice_bloom",
+			"text": "挖掘浮岩华掉落浮岩，这是重要的建筑材料原料。也可使用精准采集附魔的工具获得浮岩华本身。"
+		},
+		{
+			"type": "text",
+			"text": "活跃的喷气孔是永久热源，可用于以相对低的效率加热炊具及地暖系统。"
+		}
+	]
+}
