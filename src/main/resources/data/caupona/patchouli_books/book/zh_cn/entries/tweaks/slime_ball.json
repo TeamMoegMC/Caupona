@@ -1,0 +1,13 @@
+{
+  "name": "黏液球的新合成方式",
+  "icon": "minecraft:slime_ball",
+  "category": "caupona:tweaks",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "crafting",
+      "recipe": "caupona:crafting/slime_ball",
+      "text": "现在可以通过骨胶和海藻合成黏液球。"
+    }
+  ]
+}

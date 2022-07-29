@@ -14,15 +14,21 @@
 		},
 		{
 			"type": "crafting",
-			"recipe": "caupona:crafting/opus_incertum_caliduct"
+			"recipe": "caupona:crafting/opus_incertum_caliduct",
+			"text": "地暖炉膛和地暖隔层的材料与$(l:intro/kitchen_materials)厨房设施$(/l)的材料类似，唯独缺少夯土干砌石版本，因为这种材料不适合可能需要与热水接触、且中空的地暖系统结构。"
 		},
 		{
 			"type": "text",
-			"text": "在建造地暖系统时，炉膛需要和（成片的）地暖隔层方块水平方向上相连，下方需要提供源源不断的热源（灶台或火山喷气孔）。"
+			"text": "在建造地暖系统时，炉膛需要和（成片的）地暖隔层方块水平方向上相连，下方需要提供源源不断的热源（$(l:intro/stove)灶台$(/l)或$(l:worldgen/fumarole)火山喷气孔$(/l)）。"
 		},
 		{
 			"type": "text",
-			"text": "有热量流经的地暖隔层会加热上方的水方块，使其成为浴池水，散发出一些蒸汽粒子。与浴池水接触能持续不断地获取经验值，不过这一过程相当缓慢。一个工作中的炉膛方块大致可以加热9×9水平范围内的水。"
+			"text": "有热量流经的地暖隔层会加热上方最近一层的水方块，使其成为浴池水，散发出一些蒸汽粒子。与浴池水接触能持续不断地获取经验值，不过这一过程相当缓慢。一个工作中的炉膛方块大致可以加热9×9水平范围内的水。"
+		},
+		{
+			"type": "image",
+			"images": "caupona:textures/gui/entries/bath.png",
+			"text": "地暖和浴池的一种可行布置方式示例"
 		}
 	]
 }

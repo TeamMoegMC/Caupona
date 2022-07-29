@@ -29,6 +29,11 @@
 		{
 			"type": "text",
 			"text": "红石控制开启时，若红石信号为高且煎锅当前空闲，则会不断尝试开始烹饪。配合其它自动化工具可以实现完全自动化。"
+		},
+		{
+			"type": "image",
+			"images": "caupona:textures/gui/entries/frying_pan.png",
+			"text": "煎锅的一种使用方法示例，另见$(l:resting/oil)油舟$(/l)和$(l:tweaks/dispenser)发射器$(/l)。"
 		}
 	]
 }

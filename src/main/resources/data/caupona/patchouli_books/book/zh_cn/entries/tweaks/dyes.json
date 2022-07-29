@@ -1,0 +1,12 @@
+{
+  "name": "染料的新合成方式",
+  "icon": "minecraft:orange_dye",
+  "category": "caupona:tweaks",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "text",
+      "text": "现在可以通过$(l:intro/chimney)炱$()和骨胶汤静置转化获得三种（黑色、棕色、橙色）染料，每个配方需求的浓度、骨胶汤的量、炱的数量各不相同。"
+    }
+  ]
+}

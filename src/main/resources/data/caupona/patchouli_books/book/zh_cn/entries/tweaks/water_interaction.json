@@ -1,0 +1,12 @@
+{
+  "name": "与水的交互",
+  "icon": "minecraft:water_bucket",
+  "category": "caupona:tweaks",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "text",
+      "text": "本 mod 中，一些方块有含水的版本，如火山喷气孔相关的方块、浮岩花、狼雕像；一些方块则会被水流破坏、掉落物品，如放置状态的菜肴、炒锅等。"
+    }
+  ]
+}

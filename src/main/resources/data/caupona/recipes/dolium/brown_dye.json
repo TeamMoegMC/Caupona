@@ -1,0 +1,20 @@
+{
+	"type": "caupona:dolium",
+	"items": [
+		{
+			"item": {
+				"tag": "caupona:soot"
+			},
+			"count": 3
+		}
+	],
+	"fluid": "caupona:bone_gelatin",
+	"density": 1.25,
+	"amount": 500,
+	"keepInfo": false,
+	"output": {
+		"type": "forge:nbt",
+		"item": "minecraft:brown_dye",
+		"count": 4
+	}
+}
