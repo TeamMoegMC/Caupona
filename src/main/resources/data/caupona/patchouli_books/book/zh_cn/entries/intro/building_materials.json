@@ -24,15 +24,15 @@
 		},
 		{
 			"type": "crafting",
-			"recipe": "caupona:crafting/opus_incertum",
+			"recipe": "caupona:crafting/opus_incertum"
 		},
 		{
 			"type": "crafting",
-			"recipe": "caupona:crafting/opus_reticulatum",
+			"recipe": "caupona:crafting/opus_reticulatum"
 		},
 		{
 			"type": "crafting",
-			"recipe": "caupona:crafting/opus_latericium",
+			"recipe": "caupona:crafting/opus_latericium"
 		}
 	]
 }

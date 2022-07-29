@@ -52,6 +52,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class StewItem extends EdibleBlock {
 
@@ -71,6 +72,9 @@ public class StewItem extends EdibleBlock {
 		ResourceLocation rl=info.spiceName;
 		if(rl!=null)
 			tooltip.add(new TranslatableComponent("tooltip.caupona.spice",new TranslatableComponent("spice."+rl.getNamespace()+"."+rl.getPath())));;
+			ResourceLocation base=info.base;
+		if(base!=null)
+			tooltip.add(new TranslatableComponent("tooltip.caupona.base",new TranslatableComponent(ForgeRegistries.FLUIDS.getValue(base).getAttributes().getTranslationKey())));
 		addPotionTooltip(info.effects, tooltip, 1);
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}

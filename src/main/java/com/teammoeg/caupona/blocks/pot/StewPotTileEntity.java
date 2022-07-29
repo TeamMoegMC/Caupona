@@ -535,7 +535,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 		if (!(te instanceof IStove) || !((IStove) te).canEmitHeat())
 			return false;
 		SoupInfo n = SoupFluid.getInfo(fs);
-		if (!getCurrent().base.equals(n.base)) {
+		if (!getCurrent().base.equals(n.base)&&!current.base.equals(fs.getFluid().getRegistryName())&&!tank.getFluid().getFluid().getRegistryName().equals(n.base)) {
 			BoilingRecipe bnx = BoilingRecipe.recipes.get(fs.getFluid());
 			if (bnx == null)
 				return false;

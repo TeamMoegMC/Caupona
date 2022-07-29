@@ -103,8 +103,10 @@ public class SoupFluid extends ForgeFlowingFluid {
 
 	public static class SoupAttributes extends FluidAttributes {
 		// private static final String DefName="fluid."+Main.MODID+".soup";
+		Fluid f;
 		public SoupAttributes(Builder builder, Fluid fluid) {
 			super(builder, fluid);
+			f=fluid;
 		}
 
 		@Override
@@ -135,6 +137,11 @@ public class SoupFluid extends ForgeFlowingFluid {
 
 		public static Builder builder(ResourceLocation stillTexture, ResourceLocation flowingTexture) {
 			return new SoupAttributesBuilder(stillTexture, flowingTexture);
+		}
+
+		@Override
+		public String getTranslationKey() {
+			return "item." + f.getRegistryName().getNamespace() + "." + f.getRegistryName().getPath();
 		}
 	}
 

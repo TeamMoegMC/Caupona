@@ -85,7 +85,7 @@ public class PotRestingCategory implements IRecipeCategory<DoliumRecipe> {
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, DoliumRecipe recipe, IFocusGroup focuses) {
     	builder.addSlot(RecipeIngredientRole.OUTPUT,83,24).addIngredient(VanillaTypes.ITEM,recipe.output);
-    	builder.addSlot(RecipeIngredientRole.INPUT,30, 9).addIngredient(VanillaTypes.FLUID,new FluidStack(recipe.fluid,recipe.amount)).setFluidRenderer(1250, false,16,46);
+    	builder.addSlot(RecipeIngredientRole.INPUT,30, 9).addIngredient(VanillaTypes.FLUID,new FluidStack(recipe.fluid,recipe.amount)).setFluidRenderer(1250, false,16,46).addTooltipCallback(new BaseCallback(recipe.base));
     }
 
 

@@ -11,6 +11,7 @@
 	"tooltip.caupona.main_ingredient": "主料: %s",
 	"tooltip.caupona.chronoconis":"创造模式专属",
 	"tooltip.caupona.spice": "调味: %s",
+	"tooltip.caupona.base": "基底: %s",
 	"spice.caupona.vinegar_spice_jar": "醋",
 	"spice.caupona.chives_spice_jar": "香葱",
 	"spice.caupona.sugar_spice_jar": "糖",
@@ -275,5 +276,6 @@
 	"recipe.caupona.cond.mainlyof":"%s在%s中占主要",
 	"recipe.caupona.allow":"必须：",
 	"recipe.caupona.deny":"不能：",
+	"recipe.caupona.base": "基底要求：%s",
 	"recipe.caupona.density":"浓度要求：至少%s物品/碗"
 }

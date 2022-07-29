@@ -24,7 +24,7 @@
 		},
 		{
 			"type": "spotlight",
-			"type": "caupona:soot",
+			"item": "caupona:soot",
 			"text": "炱，或者说烟灰，会在烟囱正常工作时逐渐积累，可从烟囱帽处收集。炱的主要用途是合成染料。"
 		}
 	]

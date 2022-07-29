@@ -150,7 +150,7 @@ public class DoliumRestingCategory implements IRecipeCategory<DoliumRecipe> {
     		builder.addSlot(RecipeIngredientRole.INPUT,89, 10).addIngredients(VanillaTypes.ITEM,unpack(recipe.extra));
     	}
     	if(!(recipe.fluid==Fluids.EMPTY))
-    		builder.addSlot(RecipeIngredientRole.INPUT,26, 9).addIngredient(VanillaTypes.FLUID,new FluidStack(recipe.fluid,recipe.amount)).setFluidRenderer(1250, false,16,46);
+    		builder.addSlot(RecipeIngredientRole.INPUT,26, 9).addIngredient(VanillaTypes.FLUID,new FluidStack(recipe.fluid,recipe.amount)).setFluidRenderer(1250, false,16,46).addTooltipCallback(new BaseCallback(recipe.base));
     	
     }
 

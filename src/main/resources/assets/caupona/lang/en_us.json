@@ -10,6 +10,7 @@
 	"message.caupona.chronoconis":"Infinity: %s",
 	"tooltip.caupona.main_ingredient": "Main Ingredient: %s",
 	"tooltip.caupona.spice": "Spice: %s",
+	"tooltip.caupona.base": "Base: %s",
 	"tooltip.caupona.chronoconis":"Creative only",
 	"spice.caupona.vinegar_spice_jar": "Vinegar",
 	"spice.caupona.chives_spice_jar": "Chives",
@@ -275,5 +276,6 @@
 	"recipe.caupona.cond.mainlyof": "Majority of %s in %s",
 	"recipe.caupona.allow": "Must contain:",
 	"recipe.caupona.deny": "Rejects:",
+	"recipe.caupona.base": "Base Requirement: %s",
 	"recipe.caupona.density":"Concentration: At least %s item(s)/bowl"
 }
