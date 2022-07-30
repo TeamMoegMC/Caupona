@@ -2,7 +2,10 @@
   "replace": false,
   "values": [
     "caupona:walnut_leaves",
-    "minecraft:air",
-    "minecraft:air"
+    "caupona:walnut_fruits",
+    "caupona:wolfberry_leaves",
+    "caupona:wolfberry_fruits",
+    "caupona:fig_leaves",
+    "caupona:fig_fruits"
   ]
 }

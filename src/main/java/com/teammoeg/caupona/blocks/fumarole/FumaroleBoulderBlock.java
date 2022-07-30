@@ -87,6 +87,11 @@ public class FumaroleBoulderBlock extends Block implements SimpleWaterloggedBloc
 	public FluidState getFluidState(BlockState pState) {
 		return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
 	}
-
+	@Override
+	public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
+		if(pEntity instanceof LivingEntity)
+			pEntity.hurt(DamageSource.SWEET_BERRY_BUSH,1.0f);
+		super.stepOn(pLevel, pPos, pState, pEntity);
+	}
 
 }
