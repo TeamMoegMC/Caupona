@@ -120,7 +120,7 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 		for (String mat : CPBlocks.counters) {
 			tag("chimney_pot").add(cp(mat + "_chimney_pot"));
 		}
-		tag("chimney_ignore").addTags(BlockTags.SIGNS,BlockTags.BUTTONS,BlockTags.LEAVES,BlockTags.BANNERS,BlockTags.CANDLES,BlockTags.WALL_SIGNS,BlockTags.STANDING_SIGNS,BlockTags.CANDLES,BlockTags.CORAL_PLANTS,BlockTags.FENCES,BlockTags.WALLS,BlockTags.TRAPDOORS,BlockTags.DOORS,BlockTags.FLOWER_POTS,BlockTags.FLOWERS)
+		tag("chimney_ignore").addTags(BlockTags.SIGNS,BlockTags.BUTTONS,BlockTags.LEAVES,BlockTags.BANNERS,BlockTags.CANDLES,BlockTags.WALL_SIGNS,BlockTags.STANDING_SIGNS,BlockTags.CANDLES,BlockTags.CORAL_PLANTS,BlockTags.FENCES,BlockTags.WALLS,BlockTags.TRAPDOORS,BlockTags.DOORS,BlockTags.FLOWER_POTS,BlockTags.WALL_POST_OVERRIDE,BlockTags.FLOWERS)
 		.add(Blocks.AIR,Blocks.VINE,Blocks.CAVE_VINES,CPBlocks.stew_pot);
 		tag("fumarole_hot").add(Blocks.MAGMA_BLOCK);
 		tag("fumarole_very_hot").add(Blocks.LAVA);

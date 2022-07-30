@@ -707,7 +707,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 			return super.extractItem(slot, amount, simulate);
 		}
 	};
-	RangedWrapper ingredient = new RangedWrapper(inv, 0, 9) {
+	RangedWrapper ingredient = new RangedWrapper(inv, 0, 10) {
 
 		@Override
 		public ItemStack extractItem(int slot, int amount, boolean simulate) {

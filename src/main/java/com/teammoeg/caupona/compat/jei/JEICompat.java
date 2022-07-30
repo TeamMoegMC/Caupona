@@ -128,10 +128,10 @@ public class JEICompat implements IModPlugin {
 			}
 		});
 	
-		registry.addRecipeClickArea(DoliumScreen.class,117, 32,12,25,DoliumRestingCategory.UID);
-		registry.addRecipeClickArea(StewPotScreen.class,132, 33,38,18,PotCategory.UID, BoilingCategory.UID, PotRestingCategory.UID,StewCookingCategory.UID);
-		registry.addRecipeClickArea(KitchenStoveScreen.class,61,0,54,29,VanillaRecipeCategoryUid.FUEL);
-		registry.addRecipeClickArea(PanScreen.class,125, 29,38,18,FryingCategory.UID);
+		registry.addRecipeClickArea(DoliumScreen.class,118, 32,10,25,DoliumRestingCategory.UID);
+		registry.addRecipeClickArea(StewPotScreen.class,132, 34,38,16,PotCategory.UID, BoilingCategory.UID, PotRestingCategory.UID,StewCookingCategory.UID);
+		registry.addRecipeClickArea(KitchenStoveScreen.class,61,0,54,28,VanillaRecipeCategoryUid.FUEL);
+		registry.addRecipeClickArea(PanScreen.class,125, 30,38,16,FryingCategory.UID);
 	}
 
 	@Override

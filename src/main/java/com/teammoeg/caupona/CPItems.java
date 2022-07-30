@@ -74,6 +74,7 @@ public class CPItems {
 			,"garum_spice_jar"
 			,"sugar_spice_jar"
 			,"vinegar_spice_jar"};
+	public static final List<Item>  spicesItems=new ArrayList<>();
 	public static final String[] food_material=new String[] {
 			"fig"
 			,"walnut"
@@ -108,7 +109,7 @@ public class CPItems {
 			new CPItem(s,createFoodProps());
 		
 		for(String s:spices) {
-			new CPItem(s,createFoodProps().durability(16).craftRemainder(Items.FLOWER_POT).setNoRepair());
+			spicesItems.add(new CPItem(s,createFoodProps().durability(16).craftRemainder(Items.FLOWER_POT).setNoRepair()));
 		}
 		for(String s:base_material) {
 			new CPItem(s,createProps());

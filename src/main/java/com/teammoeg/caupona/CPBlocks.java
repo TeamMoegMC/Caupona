@@ -25,7 +25,9 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import com.teammoeg.caupona.blocks.BaseColumnBlock;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
+import com.teammoeg.caupona.blocks.ColumnCapitalBlock;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlock;
 import com.teammoeg.caupona.blocks.foods.BowlBlock;
 import com.teammoeg.caupona.blocks.foods.DishBlock;
@@ -108,7 +110,7 @@ public class CPBlocks {
 
 	// useful blocks
 	public static Block stew_pot = new StewPot("stew_pot", Block.Properties.of(Material.STONE).sound(SoundType.STONE)
-			.requiresCorrectToolForDrops().strength(2, 10).noOcclusion(), CPTileTypes.STEW_POT, CPBlockItem::new);
+			.requiresCorrectToolForDrops().strength(3.5f, 10).noOcclusion(), CPTileTypes.STEW_POT, CPBlockItem::new);
 	public static Block stove1 = new KitchenStove("mud_kitchen_stove", getStoveProps(), CPTileTypes.STOVE1,
 			CPBlockItem::new);
 	public static Block stove2 = new KitchenStove("brick_kitchen_stove", getStoveProps(), CPTileTypes.STOVE2,
@@ -138,14 +140,15 @@ public class CPBlocks {
 	public static final Block FUMAROLE_BOULDER = register("fumarole_boulder", transparent(new FumaroleBoulderBlock(
 			getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion().isSuffocating(CPBlocks::isntSolid))));
 	public static final Block FUMAROLE_VENT = new FumaroleVentBlock("fumarole_vent",
-			getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion().isSuffocating(CPBlocks::isntSolid),
+			getStoneProps().strength(4.5f,10).isViewBlocking(CPBlocks::isntSolid).noOcclusion().isSuffocating(CPBlocks::isntSolid),
 			CPBlockItem::new);
 	public static final Block PUMICE = register("pumice", new Block(getStoneProps()));
 	public static final Block PUMICE_BLOOM = register("pumice_bloom", new PumiceBloomBlock(getStoneProps().noOcclusion()));
 	public static final GravyBoatBlock GRAVY_BOAT=registerBlock("gravy_boat",new GravyBoatBlock(Block.Properties.of(Material.DECORATION).sound(SoundType.GLASS).instabreak().noOcclusion().isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid)));
 		
 	public static final WoodType WALNUT = WoodType.register(WoodType.create("caupona:walnut"));
-	public static final Block WOLF=register("wolf_statue", new WolfStatueBlock(getTransparentProps()));
+	public static final Block WOLF=register("wolf_statue", new WolfStatueBlock(Block.Properties.of(Material.METAL).sound(SoundType.COPPER).requiresCorrectToolForDrops().strength(3.5f, 10)
+			.noOcclusion()));
 	public static final Block STONE_PAN=register("stone_griddle",new PanBlock(Block.Properties.of(Material.DECORATION).sound(SoundType.STONE).strength(3.5f, 10)
 			.noOcclusion()));
 	public static final Block COPPER_PAN=register("copper_frying_pan",new PanBlock(Block.Properties.of(Material.DECORATION).sound(SoundType.COPPER).strength(3.5f, 10)
@@ -176,13 +179,13 @@ public class CPBlocks {
 		}
 		
 		for (String pil : pillar_materials) {
-			register(pil+"_column_fluted_plinth", new Block(getTransparentProps()));
-			register(pil+"_column_fluted_shaft", new Block(getTransparentProps()));
-			register(pil+"_column_shaft", new Block(getTransparentProps()));
-			register(pil+"_column_plinth", new Block(getTransparentProps()));
-			register(pil+"_ionic_column_capital", new CPHorizontalBlock(getTransparentProps()));
-			register(pil+"_tuscan_column_capital", new CPHorizontalBlock(getTransparentProps()));
-			register(pil+"_acanthine_column_capital", new CPHorizontalBlock(getTransparentProps()));
+			register(pil+"_column_fluted_plinth", new BaseColumnBlock(getTransparentProps().strength(2f, 6f),true));
+			register(pil+"_column_fluted_shaft", new BaseColumnBlock(getTransparentProps().strength(2f, 6f),false));
+			register(pil+"_column_shaft", new BaseColumnBlock(getTransparentProps().strength(2f, 6f),false));
+			register(pil+"_column_plinth", new BaseColumnBlock(getTransparentProps().strength(2f, 6f),true));
+			register(pil+"_ionic_column_capital", new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f),true));
+			register(pil+"_tuscan_column_capital", new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f),false));
+			register(pil+"_acanthine_column_capital", new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f),true));
 		}
 		registerWood("walnut", WALNUT, WalnutTreeGrower::new, l -> WALNUT_PLANKS = l, l -> WALNUT_LOG = l,
 				l -> WALNUT_LEAVE = l, l -> WALNUT_SAPLINGS = l);
@@ -309,7 +312,7 @@ public class CPBlocks {
 	}
 
 	private static Properties getStoneProps() {
-		return Block.Properties.of(Material.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops();
+		return Block.Properties.of(Material.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops().strength(2.0f, 6);
 	}
 
 	private static Properties getStoveProps() {

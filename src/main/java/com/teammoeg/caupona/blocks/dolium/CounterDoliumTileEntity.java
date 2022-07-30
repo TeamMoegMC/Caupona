@@ -349,4 +349,8 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 	public boolean setInfinity() {
 		return isInfinite = !isInfinite;
 	}
+
+	public ItemStackHandler getInv() {
+		return inv;
+	}
 }

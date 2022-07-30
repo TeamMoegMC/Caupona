@@ -316,7 +316,7 @@ public class PanTile extends CPBaseTile implements MenuProvider {
 			return super.extractItem(slot, amount, simulate);
 		}
 	};
-	RangedWrapper ingredient = new RangedWrapper(inv, 0, 9) {
+	RangedWrapper ingredient = new RangedWrapper(inv, 0, 10) {
 
 		@Override
 		public ItemStack extractItem(int slot, int amount, boolean simulate) {
@@ -334,5 +334,9 @@ public class PanTile extends CPBaseTile implements MenuProvider {
 			return this.side.cast();
 		}
 		return super.getCapability(cap, side);
+	}
+
+	public ItemStackHandler getInv() {
+		return inv;
 	}
 }

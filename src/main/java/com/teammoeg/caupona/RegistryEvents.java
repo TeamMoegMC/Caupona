@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.teammoeg.caupona.api.CauponaApi;
+import com.teammoeg.caupona.blocks.dolium.CounterDoliumTileEntity;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.pan.PanTile;
 import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
@@ -245,6 +246,74 @@ public class RegistryEvents {
 		};
 		for (Item i : CPItems.stews) {
 			DispenserBlock.registerBehavior(i, ddib);
+		}
+		DefaultDispenseItemBehavior spice = new DefaultDispenseItemBehavior() {
+			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
+
+			@SuppressWarnings("resource")
+			@Override
+			protected ItemStack execute(BlockSource source, ItemStack stack) {
+				Direction d = source.getBlockState().getValue(DispenserBlock.FACING);
+				BlockPos front = source.getPos().relative(d);
+				BlockEntity te = source.getLevel().getBlockEntity(front);
+
+				
+				if (te instanceof StewPotTileEntity) {
+					ItemStack ospice=((StewPotTileEntity) te).getInv().getStackInSlot(11);
+					((StewPotTileEntity) te).getInv().setStackInSlot(11, stack);
+					return ospice;
+				} else if (te instanceof PanTile) {
+					ItemStack ospice=((PanTile) te).getInv().getStackInSlot(11);
+					((PanTile) te).getInv().setStackInSlot(11, stack);
+					return ospice;
+				}else if (te instanceof CounterDoliumTileEntity) {
+					ItemStack ospice=((CounterDoliumTileEntity) te).getInv().getStackInSlot(3);
+					((CounterDoliumTileEntity) te).getInv().setStackInSlot(3, stack);
+					return ospice;
+				}
+					
+				return this.defaultBehaviour.dispense(source, stack);
+			}
+
+		};
+		DefaultDispenseItemBehavior pot = new DefaultDispenseItemBehavior() {
+			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
+
+			@SuppressWarnings("resource")
+			@Override
+			protected ItemStack execute(BlockSource source, ItemStack stack) {
+				Direction d = source.getBlockState().getValue(DispenserBlock.FACING);
+				BlockPos front = source.getPos().relative(d);
+				BlockEntity te = source.getLevel().getBlockEntity(front);
+
+				
+				if (te instanceof StewPotTileEntity) {
+					ItemStack ospice=((StewPotTileEntity) te).getInv().getStackInSlot(11);
+					((StewPotTileEntity) te).getInv().setStackInSlot(11,ItemStack.EMPTY);
+					if (source.<DispenserBlockEntity>getEntity().addItem(ospice) == -1)
+						this.defaultBehaviour.dispense(source, ospice);
+					return stack;
+				} else if (te instanceof PanTile) {
+					ItemStack ospice=((PanTile) te).getInv().getStackInSlot(11);
+					((PanTile) te).getInv().setStackInSlot(11,ItemStack.EMPTY);
+					if (source.<DispenserBlockEntity>getEntity().addItem(ospice) == -1)
+						this.defaultBehaviour.dispense(source, ospice);
+					return stack;
+				}else if (te instanceof CounterDoliumTileEntity) {
+					ItemStack ospice=((CounterDoliumTileEntity) te).getInv().getStackInSlot(3);
+					((CounterDoliumTileEntity) te).getInv().setStackInSlot(3,ItemStack.EMPTY);
+					if (source.<DispenserBlockEntity>getEntity().addItem(ospice) == -1)
+						this.defaultBehaviour.dispense(source, ospice);
+					return stack;
+				}
+					
+				return this.defaultBehaviour.dispense(source, stack);
+			}
+
+		};
+		DispenserBlock.registerBehavior(Items.FLOWER_POT,pot);
+		for (Item i : CPItems.spicesItems) {
+			DispenserBlock.registerBehavior(i,spice);
 		}
 	}
 
