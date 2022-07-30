@@ -85,7 +85,7 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 	private FluidStack tryAddSpice(FluidStack fs) {
 		SpiceRecipe spice = null;
 		ItemStack spi = inv.getStackInSlot(3);
-		if (fs.getAmount() % 250 == 0 && tank.getFluid().getFluid() instanceof SoupFluid)
+		if (fs.getAmount() % 250 == 0 && fs.getFluid() instanceof SoupFluid)
 			spice = SpiceRecipe.find(spi);
 		if (spice != null) {
 			SoupInfo si = SoupFluid.getInfo(fs);

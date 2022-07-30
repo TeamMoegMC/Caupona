@@ -206,7 +206,8 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 	private FluidStack tryAddSpice(FluidStack fs) {
 		SpiceRecipe spice = null;
 		ItemStack spi = inv.getStackInSlot(11);
-		if (fs.getAmount() % 250 == 0 && tank.getFluid().getFluid() instanceof SoupFluid)
+		System.out.println(tank.getFluid().getFluid().getClass().getSimpleName());
+		if (fs.getAmount() % 250 == 0 && fs.getFluid() instanceof SoupFluid)
 			spice = SpiceRecipe.find(spi);
 		if (spice != null) {
 			SoupInfo si = SoupFluid.getInfo(fs);
