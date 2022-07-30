@@ -165,9 +165,10 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 			return;
 		}
 		if ((process < 0||process%20==0)&&!isInfinite) {
-			if (DoliumRecipe.testDolium(tank.getFluid(), inv) != null)
-				process = 0;
-			else
+			if (DoliumRecipe.testDolium(tank.getFluid(), inv) != null) {
+				if(process==-1)
+					process = 0;
+			}else
 				process= -1;
 		}
 		if (process >= 0&&!isInfinite) {
