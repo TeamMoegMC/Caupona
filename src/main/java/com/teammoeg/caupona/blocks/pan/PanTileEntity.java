@@ -30,6 +30,7 @@ import com.teammoeg.caupona.data.recipes.PanPendingContext;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.items.DishItem;
 import com.teammoeg.caupona.network.CPBaseTile;
+import com.teammoeg.caupona.util.IInfinitable;
 import com.teammoeg.caupona.util.SauteedFoodInfo;
 import com.teammoeg.caupona.util.Utils;
 
@@ -56,11 +57,12 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class PanTileEntity extends CPBaseTile implements MenuProvider {
+public class PanTileEntity extends CPBaseTile implements MenuProvider,IInfinitable {
 	public ItemStackHandler inv = new ItemStackHandler(12) {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
@@ -90,7 +92,7 @@ public class PanTileEntity extends CPBaseTile implements MenuProvider {
 	public boolean operate = false;
 	public boolean rsstate = false;
 	public SauteedFoodInfo current;
-
+	boolean isInfinite = false;
 	public PanTileEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPTileTypes.PAN.get(), pWorldPosition, pBlockState);
 	}
@@ -115,13 +117,14 @@ public class PanTileEntity extends CPBaseTile implements MenuProvider {
 		rsstate = nbt.getBoolean("rsstate");
 		process = nbt.getInt("process");
 		processMax = nbt.getInt("processMax");
+		
 		if (nbt.contains("sout"))
 			sout = ItemStack.of(nbt.getCompound("sout"));
 		else
 			sout = ItemStack.EMPTY;
 		inv.deserializeNBT(nbt.getCompound("items"));
 		if (!isClient) {
-
+			isInfinite =nbt.getBoolean("inf");
 			oamount = nbt.getInt("amount");
 			if (nbt.contains("cur"))
 				current = new SauteedFoodInfo(nbt.getCompound("cur"));
@@ -144,7 +147,7 @@ public class PanTileEntity extends CPBaseTile implements MenuProvider {
 		nbt.put("items", inv.serializeNBT());
 		if (!isClient) {
 			nbt.putInt("amount", oamount);
-
+			nbt.putBoolean("inf",isInfinite);
 			if (current != null)
 				nbt.put("cur", current.save());
 
@@ -158,7 +161,8 @@ public class PanTileEntity extends CPBaseTile implements MenuProvider {
 		SpiceRecipe spice = SpiceRecipe.find(spi);
 		if (spice != null && SpiceRecipe.getMaxUse(spi) >= fs.getCount()) {
 			SauteedFoodInfo si = DishItem.getInfo(fs);
-			inv.setStackInSlot(11, SpiceRecipe.handle(spi, fs.getCount()));
+			if (!isInfinite) 
+				inv.setStackInSlot(11, SpiceRecipe.handle(spi, fs.getCount()));
 			si.addSpice(spice.effect, spi);
 			DishItem.setInfo(fs, si);
 		}
@@ -187,7 +191,10 @@ public class PanTileEntity extends CPBaseTile implements MenuProvider {
 			} else if (!sout.isEmpty()) {
 				operate = false;
 				if (inv.getStackInSlot(10).isEmpty()) {
-					inv.setStackInSlot(10, tryAddSpice(sout.split(1)));
+					if(!isInfinite)
+						inv.setStackInSlot(10, tryAddSpice(sout.split(1)));
+					else
+						inv.setStackInSlot(10, tryAddSpice(ItemHandlerHelper.copyStackWithSize(sout, 1)));
 				}
 			} else {
 				prepareWork();
@@ -348,5 +355,10 @@ public class PanTileEntity extends CPBaseTile implements MenuProvider {
 
 	public ItemStackHandler getInv() {
 		return inv;
+	}
+
+	@Override
+	public boolean setInfinity() {
+		return isInfinite=!isInfinite;
 	}
 }

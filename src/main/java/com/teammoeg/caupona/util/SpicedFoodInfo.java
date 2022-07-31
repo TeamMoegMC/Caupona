@@ -38,6 +38,11 @@ public class SpicedFoodInfo {
 		if (nbt.contains("spiceName"))
 			spiceName = new ResourceLocation(nbt.getString("spiceName"));
 	}
+	public static ResourceLocation getSpice(CompoundTag nbt) {
+		if (nbt.contains("spiceName"))
+			return new ResourceLocation(nbt.getString("spiceName"));
+		return null;
+	}
 
 	public boolean addSpice(MobEffectInstance spice, ItemStack im) {
 		if (this.spice != null)

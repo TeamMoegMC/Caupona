@@ -65,11 +65,6 @@ public class SoupInfo extends SpicedFoodInfo {
 				.collect(Collectors.toList());
 	}
 
-	public static ResourceLocation getSpice(CompoundTag nbt) {
-		if (nbt.contains("spiceName"))
-			return new ResourceLocation(nbt.getString("spiceName"));
-		return null;
-	}
 
 	public float getDensity() {
 		return stacks.stream().map(FloatemStack::getCount).reduce(0f, Float::sum);
