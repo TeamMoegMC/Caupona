@@ -72,7 +72,6 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotTileEntity> {
 			float yy = Math.min(1, rr / te.getTank().getCapacity()) * .5f + .1875f;
 			matrixStack.translate(0, yy, 0);
 			matrixStack.mulPose(new Quaternion(90, 0, 0, true));
-			matrixStack.pushPose();
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
 			FluidAttributes attr0=fs.getFluid().getAttributes();
 			TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
@@ -103,7 +102,6 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotTileEntity> {
 						combinedOverlayIn);
 
 			}
-			matrixStack.popPose();
 		}
 
 		matrixStack.popPose();
