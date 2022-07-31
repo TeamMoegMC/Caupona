@@ -50,7 +50,7 @@ public class Chronoconis extends CPItem {
 		if(!pContext.getLevel().isClientSide) {
 			BlockEntity te=pContext.getLevel().getBlockEntity(pContext.getClickedPos());
 			if(te instanceof IInfinitable) {
-				pContext.getPlayer().sendMessage(new TranslatableComponent("message.caupona.chronoconis",((IInfinitable) te).setInfinity()),null);
+				pContext.getPlayer().sendMessage(new TranslatableComponent("message.caupona.chronoconis",((IInfinitable) te).setInfinity()),pContext.getPlayer().getUUID());
 				
 				return InteractionResult.SUCCESS;
 			}
