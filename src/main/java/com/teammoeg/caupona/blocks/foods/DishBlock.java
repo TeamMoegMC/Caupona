@@ -39,6 +39,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
@@ -145,5 +146,15 @@ public class DishBlock extends CPBaseTileBlock<DishTileEntity> {
 			te.internal = ItemHandlerHelper.copyStackWithSize(pStack, 1);
 		}
 	}
+	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player)
+    {
+		BlockEntity tileEntity = level.getBlockEntity(pos);
+		if (tileEntity instanceof BowlTileEntity) {
+			BowlTileEntity te = (BowlTileEntity) tileEntity;
+			if(te.internal==null)return ItemStack.EMPTY;
+			return te.internal.copy();
+		}
+		return this.getCloneItemStack(state, target, level, pos, player);
+    }
 
 }
