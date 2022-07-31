@@ -36,12 +36,13 @@ public class CPRecipeSerializer<T extends IDataRecipe>
 	BiFunction<ResourceLocation, JsonObject, T> jsfactory;
 	BiFunction<ResourceLocation, FriendlyByteBuf, T> pkfactory;
 	BiConsumer<T, FriendlyByteBuf> writer;
-	static final Logger logger=LogManager.getLogger(Main.MODID+" recipe serialize");
+	static final Logger logger = LogManager.getLogger(Main.MODID + " recipe serialize");
+
 	@Override
 	public T fromJson(ResourceLocation recipeId, JsonObject json) {
 		try {
 			return jsfactory.apply(recipeId, json);
-		}catch(InvalidRecipeException e) {
+		} catch (InvalidRecipeException e) {
 			return null;
 		}
 	}

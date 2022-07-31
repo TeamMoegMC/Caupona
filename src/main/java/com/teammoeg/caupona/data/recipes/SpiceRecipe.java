@@ -66,19 +66,17 @@ public class SpiceRecipe extends IDataRecipe {
 			if (x.has("time"))
 				duration = x.get("time").getAsInt();
 			MobEffect eff = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(x.get("effect").getAsString()));
-			if(eff!=null)
+			if (eff != null)
 				effect = new MobEffectInstance(eff, duration, amplifier);
 		}
 	}
 
 	public SpiceRecipe(ResourceLocation id, FriendlyByteBuf pb) {
 		super(id);
-		spice=Ingredient.fromNetwork(pb);
-		
-		effect=SerializeUtil.readOptional(pb,b->MobEffectInstance.load(b.readNbt())).orElse(null);
+		spice = Ingredient.fromNetwork(pb);
+
+		effect = SerializeUtil.readOptional(pb, b -> MobEffectInstance.load(b.readNbt())).orElse(null);
 	}
-
-
 
 	public SpiceRecipe(ResourceLocation id, Ingredient spice, MobEffectInstance effect) {
 		super(id);
@@ -87,37 +85,42 @@ public class SpiceRecipe extends IDataRecipe {
 	}
 
 	public void write(FriendlyByteBuf pack) {
-		spice.toNetwork(pack);;
-		SerializeUtil.writeOptional(pack,effect,(e,b)->b.writeNbt(e.save(new CompoundTag())));
+		spice.toNetwork(pack);
+		;
+		SerializeUtil.writeOptional(pack, effect, (e, b) -> b.writeNbt(e.save(new CompoundTag())));
 	}
 
 	public void serializeRecipeData(JsonObject jx) {
-		jx.add("spice",spice.toJson());
-		if(effect!=null) {
-			JsonObject jo=new JsonObject();
-			jo.addProperty("level",effect.getAmplifier());
-			jo.addProperty("time",effect.getDuration());
-			jo.addProperty("effect",effect.getEffect().getRegistryName().toString());
+		jx.add("spice", spice.toJson());
+		if (effect != null) {
+			JsonObject jo = new JsonObject();
+			jo.addProperty("level", effect.getAmplifier());
+			jo.addProperty("time", effect.getDuration());
+			jo.addProperty("effect", effect.getEffect().getRegistryName().toString());
 			jx.add("effect", jo);
 		}
 	}
+
 	public static int getMaxUse(ItemStack spice) {
-		return spice.getMaxDamage()-spice.getDamageValue();
+		return spice.getMaxDamage() - spice.getDamageValue();
 	}
-	public static ItemStack handle(ItemStack spice,int cnt) {
-		int cdmg=spice.getDamageValue();
-		cdmg+=cnt;
-		if(cdmg>=spice.getMaxDamage()) {
+
+	public static ItemStack handle(ItemStack spice, int cnt) {
+		int cdmg = spice.getDamageValue();
+		cdmg += cnt;
+		if (cdmg >= spice.getMaxDamage()) {
 			return spice.getContainerItem();
 		}
 		spice.setDamageValue(cdmg);
 		return spice;
 	}
+
 	public static SpiceRecipe find(ItemStack spice) {
-		return recipes.stream().filter(e->e.spice.test(spice)).findFirst().orElse(null);
+		return recipes.stream().filter(e -> e.spice.test(spice)).findFirst().orElse(null);
 	}
+
 	public static boolean isValid(ItemStack spice) {
-		return recipes.stream().anyMatch(e->e.spice.test(spice));
+		return recipes.stream().anyMatch(e -> e.spice.test(spice));
 	}
 
 }

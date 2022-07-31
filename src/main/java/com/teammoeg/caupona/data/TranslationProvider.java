@@ -17,7 +17,8 @@
  */
 
 package com.teammoeg.caupona.data;
+
 @FunctionalInterface
 public interface TranslationProvider {
-	String getTranslation(String key,Object...objects);
+	String getTranslation(String key, Object... objects);
 }

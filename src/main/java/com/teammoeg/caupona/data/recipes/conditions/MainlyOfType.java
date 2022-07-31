@@ -105,8 +105,10 @@ public class MainlyOfType extends NumberedStewCondition {
 	public Stream<ResourceLocation> getTags() {
 		return Stream.concat(super.getTags(), Stream.of(type));
 	}
+
 	@Override
 	public String getTranslation(TranslationProvider p) {
-		return p.getTranslation("recipe.caupona.cond.mainlyof",number.getTranslation(p),p.getTranslation("tag."+this.type.toString().replaceAll("[:/]",".")));
+		return p.getTranslation("recipe.caupona.cond.mainlyof", number.getTranslation(p),
+				p.getTranslation("tag." + this.type.toString().replaceAll("[:/]", ".")));
 	}
 }

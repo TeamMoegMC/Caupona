@@ -61,18 +61,18 @@ public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumT
 		BlockState state = te.getBlockState();
 		if (!CPBlocks.dolium.contains(state.getBlock()))
 			return;
-		
-		if(te.tank.isEmpty())return;
+
+		if (te.tank.isEmpty())
+			return;
 		FluidStack fs = te.tank.getFluid();
 		matrixStack.pushPose();
 		if (fs != null && !fs.isEmpty() && fs.getFluid() != null) {
-			float rr=(fs.getAmount()/1250f)*0.5f+0.375f;
+			float rr = (fs.getAmount() / 1250f) * 0.5f + 0.375f;
 			matrixStack.translate(0, rr, 0);
 			matrixStack.mulPose(new Quaternion(90, 0, 0, true));
-			
+
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
-			TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager()
-					.getAtlas(InventoryMenu.BLOCK_ATLAS)
+			TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS)
 					.getSprite(fs.getFluid().getAttributes().getStillTexture(fs));
 			int col = fs.getFluid().getAttributes().getColor(fs);
 			int iW = sprite.getWidth();
@@ -81,13 +81,13 @@ public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumT
 				Vector3f clr;
 				float alp = 1f;
 				clr = clr(col);
-				RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(),
-						clr.y(), clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(),
-						sprite.getV1(), combinedLightIn, combinedOverlayIn);
+				RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(), clr.y(),
+						clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), combinedLightIn,
+						combinedOverlayIn);
 
 			}
 		}
-		
+
 		matrixStack.popPose();
 	}
 

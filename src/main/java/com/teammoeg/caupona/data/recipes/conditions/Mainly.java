@@ -35,7 +35,6 @@ public class Mainly extends NumberedStewCondition {
 		super(number);
 	}
 
-
 	@Override
 	public boolean test(IPendingContext t, float n) {
 		if (n < t.getTotalItems() / 3)
@@ -64,11 +63,9 @@ public class Mainly extends NumberedStewCondition {
 		return "mainly";
 	}
 
-
-	
 	@Override
 	public String getTranslation(TranslationProvider p) {
-		return p.getTranslation("recipe.caupona.cond.mainly",number.getTranslation(p));
+		return p.getTranslation("recipe.caupona.cond.mainly", number.getTranslation(p));
 	}
 
 	@Override

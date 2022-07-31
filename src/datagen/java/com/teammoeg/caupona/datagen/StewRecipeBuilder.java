@@ -82,11 +82,11 @@ public class StewRecipeBuilder {
 	}
 
 	public IngredientConditionsBuilder<StewRecipeBuilder> require() {
-		return new IngredientConditionsBuilder<StewRecipeBuilder> (this, allow, allow, deny);
+		return new IngredientConditionsBuilder<StewRecipeBuilder>(this, allow, allow, deny);
 	}
 
-	public IngredientConditionsBuilder<StewRecipeBuilder>  not() {
-		return new IngredientConditionsBuilder<StewRecipeBuilder> (this, deny, allow, deny);
+	public IngredientConditionsBuilder<StewRecipeBuilder> not() {
+		return new IngredientConditionsBuilder<StewRecipeBuilder>(this, deny, allow, deny);
 	}
 
 	public StewBaseBuilder base() {

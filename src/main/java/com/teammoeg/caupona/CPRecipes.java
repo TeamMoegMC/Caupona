@@ -45,32 +45,31 @@ public class CPRecipes {
 				() -> new CPRecipeSerializer<StewCookingRecipe>(StewCookingRecipe::new, StewCookingRecipe::new,
 						StewCookingRecipe::write));
 		FryingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("frying",
-				() -> new CPRecipeSerializer<FryingRecipe>(FryingRecipe::new, FryingRecipe::new,
-						FryingRecipe::write));
+				() -> new CPRecipeSerializer<FryingRecipe>(FryingRecipe::new, FryingRecipe::new, FryingRecipe::write));
 		DoliumRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("dolium",
-				() -> new CPRecipeSerializer<DoliumRecipe>(DoliumRecipe::new, DoliumRecipe::new,
-						DoliumRecipe::write));
+				() -> new CPRecipeSerializer<DoliumRecipe>(DoliumRecipe::new, DoliumRecipe::new, DoliumRecipe::write));
 		BoilingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("boiling",
 				() -> new CPRecipeSerializer<BoilingRecipe>(BoilingRecipe::new, BoilingRecipe::new,
 						BoilingRecipe::write));
 		BowlContainingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("bowl",
-				() -> new CPRecipeSerializer<BowlContainingRecipe>(BowlContainingRecipe::new,
-						BowlContainingRecipe::new, BowlContainingRecipe::write));
+				() -> new CPRecipeSerializer<BowlContainingRecipe>(BowlContainingRecipe::new, BowlContainingRecipe::new,
+						BowlContainingRecipe::write));
 		DissolveRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("dissolve",
 				() -> new CPRecipeSerializer<DissolveRecipe>(DissolveRecipe::new, DissolveRecipe::new,
 						DissolveRecipe::write));
 		CountingTags.SERIALIZER = RECIPE_SERIALIZERS.register("tags",
-				() -> new CPRecipeSerializer<CountingTags>(CountingTags::new, CountingTags::new,
-						CountingTags::write));
+				() -> new CPRecipeSerializer<CountingTags>(CountingTags::new, CountingTags::new, CountingTags::write));
 		FoodValueRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("food",
 				() -> new CPRecipeSerializer<FoodValueRecipe>(FoodValueRecipe::new, FoodValueRecipe::new,
 						FoodValueRecipe::write));
-		FluidFoodValueRecipe.SERIALIZER=RECIPE_SERIALIZERS.register("fluid_food",() ->new CPRecipeSerializer<FluidFoodValueRecipe>(FluidFoodValueRecipe::new, FluidFoodValueRecipe::new,
-				FluidFoodValueRecipe::write));
-		AspicMeltingRecipe.SERIALIZER=RECIPE_SERIALIZERS.register("aspic_melt",() ->new CPRecipeSerializer<AspicMeltingRecipe>(AspicMeltingRecipe::new, AspicMeltingRecipe::new,
-				AspicMeltingRecipe::write));
-		SpiceRecipe.SERIALIZER=RECIPE_SERIALIZERS.register("spice",() ->new CPRecipeSerializer<SpiceRecipe>(SpiceRecipe::new, SpiceRecipe::new,
-				SpiceRecipe::write));
+		FluidFoodValueRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("fluid_food",
+				() -> new CPRecipeSerializer<FluidFoodValueRecipe>(FluidFoodValueRecipe::new, FluidFoodValueRecipe::new,
+						FluidFoodValueRecipe::write));
+		AspicMeltingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("aspic_melt",
+				() -> new CPRecipeSerializer<AspicMeltingRecipe>(AspicMeltingRecipe::new, AspicMeltingRecipe::new,
+						AspicMeltingRecipe::write));
+		SpiceRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("spice",
+				() -> new CPRecipeSerializer<SpiceRecipe>(SpiceRecipe::new, SpiceRecipe::new, SpiceRecipe::write));
 	}
 
 	public static void registerRecipeTypes() {
@@ -84,6 +83,6 @@ public class CPRecipes {
 		FryingRecipe.TYPE = RecipeType.register(Main.MODID + ":frying");
 		DoliumRecipe.TYPE = RecipeType.register(Main.MODID + ":dolium");
 		AspicMeltingRecipe.TYPE = RecipeType.register(Main.MODID + ":aspic_melt");
-		SpiceRecipe.TYPE= RecipeType.register(Main.MODID + ":aspic_spice");
+		SpiceRecipe.TYPE = RecipeType.register(Main.MODID + ":aspic_spice");
 	}
 }

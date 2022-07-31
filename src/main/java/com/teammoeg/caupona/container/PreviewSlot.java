@@ -27,55 +27,49 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 public abstract class PreviewSlot extends Slot {
-	private static Container empty=new SimpleContainer(0);
+	private static Container empty = new SimpleContainer(0);
+
 	public PreviewSlot(int index, int xPosition, int yPosition) {
 		super(empty, index, xPosition, yPosition);
 	}
 
-    @Override
-    public boolean mayPlace(@Nonnull ItemStack stack)
-    {
-       return false;
-    }
+	@Override
+	public boolean mayPlace(@Nonnull ItemStack stack) {
+		return false;
+	}
 
-    @Override
-    @Nonnull
-    public abstract ItemStack getItem();
+	@Override
+	@Nonnull
+	public abstract ItemStack getItem();
 
-    // Override if your IItemHandler does not implement IItemHandlerModifiable
-    @Override
-    public void set(@Nonnull ItemStack stack)
-    {
-    }
+	// Override if your IItemHandler does not implement IItemHandlerModifiable
+	@Override
+	public void set(@Nonnull ItemStack stack) {
+	}
 
-    @Override
-    public void onQuickCraft(@Nonnull ItemStack oldStackIn, @Nonnull ItemStack newStackIn)
-    {
-    }
+	@Override
+	public void onQuickCraft(@Nonnull ItemStack oldStackIn, @Nonnull ItemStack newStackIn) {
+	}
 
-    @Override
-    public int getMaxStackSize()
-    {
-        return 1;
-    }
+	@Override
+	public int getMaxStackSize() {
+		return 1;
+	}
 
-    @Override
-    public int getMaxStackSize(@Nonnull ItemStack stack)
-    {
-        return 1;
-    }
+	@Override
+	public int getMaxStackSize(@Nonnull ItemStack stack) {
+		return 1;
+	}
 
-    @Override
-    public boolean mayPickup(Player playerIn)
-    {
-        return false;
-    }
+	@Override
+	public boolean mayPickup(Player playerIn) {
+		return false;
+	}
 
-    @Override
-    @Nonnull
-    public ItemStack remove(int amount)
-    {
-        return ItemStack.EMPTY;
-    }
+	@Override
+	@Nonnull
+	public ItemStack remove(int amount) {
+		return ItemStack.EMPTY;
+	}
 
 }

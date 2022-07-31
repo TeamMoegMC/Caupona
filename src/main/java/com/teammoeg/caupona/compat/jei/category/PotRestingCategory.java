@@ -43,50 +43,55 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class PotRestingCategory implements IRecipeCategory<DoliumRecipe> {
-    public static ResourceLocation UID = new ResourceLocation(Main.MODID, "pot_resting");
-    private IDrawable BACKGROUND;
-    private IDrawable ICON;
-    
-    public PotRestingCategory(IGuiHelper guiHelper) {
-        this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM,new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID,"goulash_aspic"))));
-        ResourceLocation guiMain=new ResourceLocation(Main.MODID, "textures/gui/jei/fluid_resting.png");
-        this.BACKGROUND = guiHelper.createDrawable(guiMain,0, 0, 127, 63);
-    }
+	public static ResourceLocation UID = new ResourceLocation(Main.MODID, "pot_resting");
+	private IDrawable BACKGROUND;
+	private IDrawable ICON;
 
-    @Override
-    public ResourceLocation getUid() {
-        return UID;
-    }
-
-    @Override
-    public Class<? extends DoliumRecipe> getRecipeClass() {
-        return DoliumRecipe.class;
-    }
-
-
-    public Component getTitle() {
-        return new TranslatableComponent("gui.jei.category." + Main.MODID + ".resting_aspic.title");
-    }
-	@Override
-	public void draw(DoliumRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-		String burnTime = String.valueOf(Config.COMMON.staticTime.get()/20f)+"s";
-		Minecraft.getInstance().font.drawShadow(stack, burnTime,90,55, 0xFFFFFF);
+	public PotRestingCategory(IGuiHelper guiHelper) {
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM,
+				new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, "goulash_aspic"))));
+		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/fluid_resting.png");
+		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 	}
-    @Override
-    public IDrawable getBackground() {
-        return BACKGROUND;
-    }
 
-    @Override
-    public IDrawable getIcon() {
-        return ICON;
-    }
+	@Override
+	public ResourceLocation getUid() {
+		return UID;
+	}
 
-    @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, DoliumRecipe recipe, IFocusGroup focuses) {
-    	builder.addSlot(RecipeIngredientRole.OUTPUT,83,24).addIngredient(VanillaTypes.ITEM,recipe.output);
-    	builder.addSlot(RecipeIngredientRole.INPUT,30, 9).addIngredient(VanillaTypes.FLUID,new FluidStack(recipe.fluid,recipe.amount)).setFluidRenderer(1250, false,16,46).addTooltipCallback(new BaseCallback(recipe.base,recipe.density));
-    }
+	@Override
+	public Class<? extends DoliumRecipe> getRecipeClass() {
+		return DoliumRecipe.class;
+	}
 
+	public Component getTitle() {
+		return new TranslatableComponent("gui.jei.category." + Main.MODID + ".resting_aspic.title");
+	}
+
+	@Override
+	public void draw(DoliumRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
+			double mouseY) {
+		String burnTime = String.valueOf(Config.COMMON.staticTime.get() / 20f) + "s";
+		Minecraft.getInstance().font.drawShadow(stack, burnTime, 90, 55, 0xFFFFFF);
+	}
+
+	@Override
+	public IDrawable getBackground() {
+		return BACKGROUND;
+	}
+
+	@Override
+	public IDrawable getIcon() {
+		return ICON;
+	}
+
+	@Override
+	public void setRecipe(IRecipeLayoutBuilder builder, DoliumRecipe recipe, IFocusGroup focuses) {
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 24).addIngredient(VanillaTypes.ITEM, recipe.output);
+		builder.addSlot(RecipeIngredientRole.INPUT, 30, 9)
+				.addIngredient(VanillaTypes.FLUID, new FluidStack(recipe.fluid, recipe.amount))
+				.setFluidRenderer(1250, false, 16, 46)
+				.addTooltipCallback(new BaseCallback(recipe.base, recipe.density));
+	}
 
 }

@@ -32,24 +32,23 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class PanContainer extends AbstractContainerMenu {
 
+	PanTileEntity tile;
 
-	PanTile tile;
-
-	public PanTile getTile() {
+	public PanTileEntity getTile() {
 		return tile;
 	}
 
 	public PanContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
-		this(id, inv, (PanTile) inv.player.level.getBlockEntity(buffer.readBlockPos()));
+		this(id, inv, (PanTileEntity) inv.player.level.getBlockEntity(buffer.readBlockPos()));
 	}
 
-	public PanContainer(int id, Inventory inv, PanTile te) {
+	public PanContainer(int id, Inventory inv, PanTileEntity te) {
 		super(CPGui.PAN.get(), id);
 		tile = te;
 		for (int i = 0; i < 9; i++)
-			this.addSlot(new HidableSlot(te.inv, i, 62 + (i % 3) * 18, 13 + (i / 3) * 18, () -> te.processMax==0));
+			this.addSlot(new HidableSlot(te.inv, i, 62 + (i % 3) * 18, 13 + (i / 3) * 18, () -> te.processMax == 0));
 		this.addSlot(new SlotItemHandler(te.inv, 9, 147, 13));
-		
+
 		this.addSlot(new OutputSlot(te.inv, 10, 136, 47));
 		this.addSlot(new SlotItemHandler(te.inv, 11, 125, 13));
 		for (int i = 0; i < 3; i++)
@@ -71,7 +70,7 @@ public class PanContainer extends AbstractContainerMenu {
 		if (slot != null && slot.hasItem()) {
 			ItemStack slotStack = slot.getItem();
 			itemStack = slotStack.copy();
-			if (index == 10||index==11) {
+			if (index == 10 || index == 11) {
 				if (!this.moveItemStackTo(slotStack, 12, 48, true)) {
 					return ItemStack.EMPTY;
 				}
@@ -79,13 +78,13 @@ public class PanContainer extends AbstractContainerMenu {
 			} else if (index > 11) {
 				if (!this.moveItemStackTo(slotStack, 9, 10, false))
 					if (!this.moveItemStackTo(slotStack, 11, 12, false))
-						if (!this.moveItemStackTo(slotStack, 0, 9, false)) 
+						if (!this.moveItemStackTo(slotStack, 0, 9, false))
 							if (index < 39) {
 								if (!this.moveItemStackTo(slotStack, 39, 48, false))
 									return ItemStack.EMPTY;
-							}else if (index < 48 && !this.moveItemStackTo(slotStack, 12, 39, false))
+							} else if (index < 48 && !this.moveItemStackTo(slotStack, 12, 39, false))
 								return ItemStack.EMPTY;
-	
+
 			} else if (!this.moveItemStackTo(slotStack, 12, 47, false)) {
 				return ItemStack.EMPTY;
 			}

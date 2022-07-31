@@ -29,7 +29,7 @@ import com.teammoeg.caupona.blocks.hypocaust.CaliductTile;
 import com.teammoeg.caupona.blocks.hypocaust.FireboxTile;
 import com.teammoeg.caupona.blocks.hypocaust.WolfStatueTile;
 import com.teammoeg.caupona.blocks.others.CPSignTileEntity;
-import com.teammoeg.caupona.blocks.pan.PanTile;
+import com.teammoeg.caupona.blocks.pan.PanTileEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
 import com.teammoeg.caupona.blocks.stove.ChimneyPotTileEntity;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveT1;
@@ -50,20 +50,21 @@ public class CPTileTypes {
 
 	public static final RegistryObject<BlockEntityType<StewPotTileEntity>> STEW_POT = REGISTER.register("stew_pot",
 			makeType(StewPotTileEntity::new, () -> CPBlocks.stew_pot));
-	public static final RegistryObject<BlockEntityType<KitchenStoveTileEntity>> STOVE1 = REGISTER.register("kitchen_stove_basic",
-			makeType(KitchenStoveT1::new, () -> CPBlocks.stove1));
-	public static final RegistryObject<BlockEntityType<KitchenStoveTileEntity>> STOVE2 = REGISTER.register("kitchen_stove_fast",
-			makeTypes(KitchenStoveT2::new, () -> new Block[]{CPBlocks.stove2,CPBlocks.stove3,CPBlocks.stove4,CPBlocks.stove5}));
+	public static final RegistryObject<BlockEntityType<KitchenStoveTileEntity>> STOVE1 = REGISTER
+			.register("kitchen_stove_basic", makeType(KitchenStoveT1::new, () -> CPBlocks.stove1));
+	public static final RegistryObject<BlockEntityType<KitchenStoveTileEntity>> STOVE2 = REGISTER
+			.register("kitchen_stove_fast", makeTypes(KitchenStoveT2::new,
+					() -> new Block[] { CPBlocks.stove2, CPBlocks.stove3, CPBlocks.stove4, CPBlocks.stove5 }));
 	public static final RegistryObject<BlockEntityType<BowlTileEntity>> BOWL = REGISTER.register("bowl",
 			makeType(BowlTileEntity::new, () -> CPBlocks.bowl));
 	public static final RegistryObject<BlockEntityType<CPSignTileEntity>> SIGN = REGISTER.register("sign",
 			makeTypes(CPSignTileEntity::new, () -> CPBlocks.signs.toArray(new Block[0])));
 	public static final RegistryObject<BlockEntityType<ChimneyPotTileEntity>> CHIMNEY = REGISTER.register("chimney_pot",
 			makeTypes(ChimneyPotTileEntity::new, () -> CPBlocks.chimney.toArray(new Block[0])));
-	public static final RegistryObject<BlockEntityType<FumaroleVentTileEntity>> FUMAROLE = REGISTER.register("fumarole_vent",
-			makeType(FumaroleVentTileEntity::new, () -> CPBlocks.FUMAROLE_VENT));
-	public static final RegistryObject<BlockEntityType<PanTile>> PAN = REGISTER.register("pan",
-			makeTypes(PanTile::new, () -> new Block[]{CPBlocks.STONE_PAN,CPBlocks.COPPER_PAN,CPBlocks.IRON_PAN}));
+	public static final RegistryObject<BlockEntityType<FumaroleVentTileEntity>> FUMAROLE = REGISTER
+			.register("fumarole_vent", makeType(FumaroleVentTileEntity::new, () -> CPBlocks.FUMAROLE_VENT));
+	public static final RegistryObject<BlockEntityType<PanTileEntity>> PAN = REGISTER.register("pan", makeTypes(
+			PanTileEntity::new, () -> new Block[] { CPBlocks.STONE_PAN, CPBlocks.COPPER_PAN, CPBlocks.IRON_PAN }));
 	public static final RegistryObject<BlockEntityType<CounterDoliumTileEntity>> DOLIUM = REGISTER.register("dolium",
 			makeTypes(CounterDoliumTileEntity::new, () -> CPBlocks.dolium.toArray(new Block[0])));
 	public static final RegistryObject<BlockEntityType<DishTileEntity>> DISH = REGISTER.register("dish",
@@ -74,14 +75,14 @@ public class CPTileTypes {
 			makeTypes(FireboxTile::new, () -> CPBlocks.firebox.toArray(new Block[0])));
 	public static final RegistryObject<BlockEntityType<WolfStatueTile>> WOLF = REGISTER.register("wolf_statue",
 			makeType(WolfStatueTile::new, () -> CPBlocks.WOLF));
-	
-	
+
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntitySupplier<T> create,
 			Supplier<Block> valid) {
-		return () -> new BlockEntityType<>(create,ImmutableSet.of(valid.get()), null);
+		return () -> new BlockEntityType<>(create, ImmutableSet.of(valid.get()), null);
 	}
+
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeTypes(BlockEntitySupplier<T> create,
 			Supplier<Block[]> valid) {
-		return () -> new BlockEntityType<>(create,ImmutableSet.copyOf(valid.get()), null);
+		return () -> new BlockEntityType<>(create, ImmutableSet.copyOf(valid.get()), null);
 	}
 }

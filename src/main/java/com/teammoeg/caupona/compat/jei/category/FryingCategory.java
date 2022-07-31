@@ -43,79 +43,88 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class FryingCategory implements IRecipeCategory<FryingRecipe> {
-    public static ResourceLocation UID = new ResourceLocation(Main.MODID, "frying");
-    private IDrawable BACKGROUND;
-    private IDrawable ICON;
-    private IGuiHelper helper;
-    public FryingCategory(IGuiHelper guiHelper) {
-        this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM,new ItemStack(CPItems.gravy_boat));
-        this.BACKGROUND = guiHelper.createBlankDrawable(100, 105);
-        this.helper=guiHelper;
-    }
+	public static ResourceLocation UID = new ResourceLocation(Main.MODID, "frying");
+	private IDrawable BACKGROUND;
+	private IDrawable ICON;
+	private IGuiHelper helper;
 
-    @Override
-    public ResourceLocation getUid() {
-        return UID;
-    }
+	public FryingCategory(IGuiHelper guiHelper) {
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(CPItems.gravy_boat));
+		this.BACKGROUND = guiHelper.createBlankDrawable(100, 105);
+		this.helper = guiHelper;
+	}
 
-    @Override
-    public Class<? extends FryingRecipe> getRecipeClass() {
-        return FryingRecipe.class;
-    }
-
-
-    public Component getTitle() {
-        return new TranslatableComponent("gui.jei.category." + Main.MODID + ".frying.title");
-    }
 	@Override
-	public void draw(FryingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
+	public ResourceLocation getUid() {
+		return UID;
+	}
+
+	@Override
+	public Class<? extends FryingRecipe> getRecipeClass() {
+		return FryingRecipe.class;
+	}
+
+	public Component getTitle() {
+		return new TranslatableComponent("gui.jei.category." + Main.MODID + ".frying.title");
+	}
+
+	@Override
+	public void draw(FryingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
+			double mouseY) {
 		stack.pushPose();
 		stack.scale(0.5f, 0.5f, 0);
-		helper.createDrawable(new ResourceLocation(recipe.output.getRegistryName().getNamespace(),"textures/gui/recipes/"+recipe.output.getRegistryName().getPath()+".png"), 0, 0, 200, 210)
-		.draw(stack);
+		helper.createDrawable(new ResourceLocation(recipe.output.getRegistryName().getNamespace(),
+				"textures/gui/recipes/" + recipe.output.getRegistryName().getPath() + ".png"), 0, 0, 200, 210)
+				.draw(stack);
 		stack.popPose();
 	}
-    @Override
-    public IDrawable getBackground() {
-        return BACKGROUND;
-    }
 
-    @Override
-    public IDrawable getIcon() {
-        return ICON;
-    }
-    @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, FryingRecipe recipe, IFocusGroup focuses) {
-    
-    	builder.addSlot(RecipeIngredientRole.INPUT,30,13).addIngredient(VanillaTypes.ITEM,new ItemStack(CPItems.gravy_boat));
-    	builder.addSlot(RecipeIngredientRole.OUTPUT,61,18).addIngredient(VanillaTypes.ITEM,new ItemStack(recipe.output));
-    }
-    public static boolean inRange(double x,double y,int ox,int oy,int w,int h) {
-    	return x>ox&&x<ox+w&&y>oy&&y<oy+h;
-    }
+	@Override
+	public IDrawable getBackground() {
+		return BACKGROUND;
+	}
+
+	@Override
+	public IDrawable getIcon() {
+		return ICON;
+	}
+
+	@Override
+	public void setRecipe(IRecipeLayoutBuilder builder, FryingRecipe recipe, IFocusGroup focuses) {
+
+		builder.addSlot(RecipeIngredientRole.INPUT, 30, 13).addIngredient(VanillaTypes.ITEM,
+				new ItemStack(CPItems.gravy_boat));
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 61, 18).addIngredient(VanillaTypes.ITEM,
+				new ItemStack(recipe.output));
+	}
+
+	public static boolean inRange(double x, double y, int ox, int oy, int w, int h) {
+		return x > ox && x < ox + w && y > oy && y < oy + h;
+	}
+
 	@Override
 	public List<Component> getTooltipStrings(FryingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX,
 			double mouseY) {
-		if(inRange(mouseX,mouseY,0,50,100,50)) {
+		if (inRange(mouseX, mouseY, 0, 50, 100, 50)) {
 			List<Component> allowence = null;
 			List<IngredientCondition> conds;
-			if(mouseX<50)
-				conds=recipe.getAllow();
+			if (mouseX < 50)
+				conds = recipe.getAllow();
 			else
-				conds=recipe.getDeny();
-			if(conds!=null)
-				allowence=conds.stream().map(e->e.getTranslation(GameTranslation.get())).map(TextComponent::new).collect(Collectors.toList());
-			if(allowence!=null&&!allowence.isEmpty()) {
-				if(mouseX<50)
-					allowence.add(0,new TranslatableComponent("recipe.caupona.allow"));
+				conds = recipe.getDeny();
+			if (conds != null)
+				allowence = conds.stream().map(e -> e.getTranslation(GameTranslation.get())).map(TextComponent::new)
+						.collect(Collectors.toList());
+			if (allowence != null && !allowence.isEmpty()) {
+				if (mouseX < 50)
+					allowence.add(0, new TranslatableComponent("recipe.caupona.allow"));
 				else
-					allowence.add(0,new TranslatableComponent("recipe.caupona.deny"));
+					allowence.add(0, new TranslatableComponent("recipe.caupona.deny"));
 				return allowence;
 			}
-			
+
 		}
 		return Arrays.asList();
 	}
-
 
 }

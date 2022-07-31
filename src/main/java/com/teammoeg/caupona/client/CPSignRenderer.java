@@ -56,9 +56,11 @@ public class CPSignRenderer implements BlockEntityRenderer<CPSignTileEntity> {
 	private static final int OUTLINE_RENDER_DISTANCE = Mth.square(16);
 	private final SignRenderer.SignModel signrenderer$signmodel;
 	private final Font font;
-	Material material ;
+	Material material;
+
 	public CPSignRenderer(BlockEntityRendererProvider.Context pContext) {
-		signrenderer$signmodel=new SignRenderer.SignModel(pContext.bakeLayer(ModelLayers.createSignModelName(CPBlocks.WALNUT)));
+		signrenderer$signmodel = new SignRenderer.SignModel(
+				pContext.bakeLayer(ModelLayers.createSignModelName(CPBlocks.WALNUT)));
 		material = Sheets.getSignMaterial(CPBlocks.WALNUT);
 		this.font = pContext.getFont();
 	}
@@ -82,7 +84,7 @@ public class CPSignRenderer implements BlockEntityRenderer<CPSignTileEntity> {
 
 		pPoseStack.pushPose();
 		pPoseStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
-		
+
 		VertexConsumer vertexconsumer = material.buffer(pBufferSource, signrenderer$signmodel::renderType);
 		signrenderer$signmodel.root.render(pPoseStack, vertexconsumer, pPackedLight, pPackedOverlay);
 		pPoseStack.popPose();
@@ -111,11 +113,11 @@ public class CPSignRenderer implements BlockEntityRenderer<CPSignTileEntity> {
 			FormattedCharSequence formattedcharsequence = aformattedcharsequence[i1];
 			float f3 = -this.font.width(formattedcharsequence) / 2;
 			if (flag) {
-				this.font.drawInBatch8xOutline(formattedcharsequence, f3, i1 * 10 - 20, k, i,
-						pPoseStack.last().pose(), pBufferSource, l);
+				this.font.drawInBatch8xOutline(formattedcharsequence, f3, i1 * 10 - 20, k, i, pPoseStack.last().pose(),
+						pBufferSource, l);
 			} else {
-				this.font.drawInBatch(formattedcharsequence, f3, i1 * 10 - 20, k, false,
-						pPoseStack.last().pose(), pBufferSource, false, 0, l);
+				this.font.drawInBatch(formattedcharsequence, f3, i1 * 10 - 20, k, false, pPoseStack.last().pose(),
+						pBufferSource, false, 0, l);
 			}
 		}
 
@@ -159,7 +161,5 @@ public class CPSignRenderer implements BlockEntityRenderer<CPSignTileEntity> {
 				CubeListBuilder.create().texOffs(0, 14).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 14.0F, 2.0F), PartPose.ZERO);
 		return LayerDefinition.create(meshdefinition, 64, 32);
 	}
-
-
 
 }

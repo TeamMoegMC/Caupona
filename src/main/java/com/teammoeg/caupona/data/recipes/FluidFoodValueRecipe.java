@@ -61,8 +61,7 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 	public int parts;
 	public ResourceLocation f;
 
-
-	public FluidFoodValueRecipe(ResourceLocation id, int heal, float sat,ItemStack repersent, int parts, Fluid f) {
+	public FluidFoodValueRecipe(ResourceLocation id, int heal, float sat, ItemStack repersent, int parts, Fluid f) {
 		super(id);
 		this.heal = heal;
 		this.sat = sat;
@@ -75,11 +74,11 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 		super(id);
 		heal = jo.get("heal").getAsInt();
 		sat = jo.get("sat").getAsFloat();
-		f=new ResourceLocation(jo.get("fluid").getAsString());
-		if(jo.has("parts"))
-			parts=jo.get("parts").getAsInt();
+		f = new ResourceLocation(jo.get("fluid").getAsString());
+		if (jo.has("parts"))
+			parts = jo.get("parts").getAsInt();
 		else
-			parts=1;
+			parts = 1;
 		effects = SerializeUtil.parseJsonList(jo.get("effects"), x -> {
 			int amplifier = 0;
 			if (x.has("level"))
@@ -88,7 +87,7 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 			if (x.has("time"))
 				duration = x.get("time").getAsInt();
 			MobEffect eff = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(x.get("effect").getAsString()));
-			if(eff==null)
+			if (eff == null)
 				return null;
 			MobEffectInstance effect = new MobEffectInstance(eff, duration, amplifier);
 			float f = 1;
@@ -96,48 +95,47 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 				f = x.get("chance").getAsInt();
 			return new Pair<>(effect, f);
 		});
-		if(effects!=null)
-			effects.removeIf(e->e==null);
+		if (effects != null)
+			effects.removeIf(e -> e == null);
 		if (jo.has("item")) {
 			ItemStack[] i = Ingredient.fromJson(jo.get("item")).getItems();
 			if (i.length > 0)
 				repersent = i[0];
 		}
 	}
+
 	@Override
 	public void serializeRecipeData(JsonObject json) {
 		json.addProperty("heal", heal);
 		json.addProperty("sat", sat);
-		json.addProperty("parts",parts);
-		json.addProperty("fluid",f.toString());
-		if(effects!=null&&!effects.isEmpty())
-		json.add("effects",SerializeUtil.toJsonList(effects,x->{
-			JsonObject jo=new JsonObject();
-			jo.addProperty("level",x.getFirst().getAmplifier());
-			jo.addProperty("time",x.getFirst().getDuration());
-			jo.addProperty("effect",x.getFirst().getEffect().getRegistryName().toString());
-			jo.addProperty("chance",x.getSecond());
-			return jo;
-		}));
-		if(repersent!=null)
-			json.add("item",Ingredient.of(repersent).toJson());
-				
-			
+		json.addProperty("parts", parts);
+		json.addProperty("fluid", f.toString());
+		if (effects != null && !effects.isEmpty())
+			json.add("effects", SerializeUtil.toJsonList(effects, x -> {
+				JsonObject jo = new JsonObject();
+				jo.addProperty("level", x.getFirst().getAmplifier());
+				jo.addProperty("time", x.getFirst().getDuration());
+				jo.addProperty("effect", x.getFirst().getEffect().getRegistryName().toString());
+				jo.addProperty("chance", x.getSecond());
+				return jo;
+			}));
+		if (repersent != null)
+			json.add("item", Ingredient.of(repersent).toJson());
+
 	}
 
 	public FluidFoodValueRecipe(ResourceLocation id, FriendlyByteBuf data) {
 		super(id);
 		heal = data.readVarInt();
 		sat = data.readFloat();
-		parts=data.readVarInt();
-		f=data.readResourceLocation();
-		effects = SerializeUtil.readList(data,
-				d -> new Pair<>(MobEffectInstance.load(d.readNbt()), d.readFloat()));
+		parts = data.readVarInt();
+		f = data.readResourceLocation();
+		effects = SerializeUtil.readList(data, d -> new Pair<>(MobEffectInstance.load(d.readNbt()), d.readFloat()));
 		repersent = SerializeUtil.readOptional(data, d -> ItemStack.of(d.readNbt())).orElse(null);
 	}
 
-	public FluidFoodValueRecipe(ResourceLocation id, int heal, float sat,
-			ItemStack repersent, int parts, ResourceLocation f) {
+	public FluidFoodValueRecipe(ResourceLocation id, int heal, float sat, ItemStack repersent, int parts,
+			ResourceLocation f) {
 		super(id);
 		this.heal = heal;
 		this.sat = sat;
@@ -159,7 +157,6 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 		});
 		SerializeUtil.writeOptional(data, repersent, (d, e) -> e.writeNbt(d.serializeNBT()));
 	}
-
 
 	public ItemStack getRepersent() {
 		return repersent;

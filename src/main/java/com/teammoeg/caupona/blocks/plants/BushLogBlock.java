@@ -63,11 +63,13 @@ public class BushLogBlock extends Block {
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(FOILAGED, false);
 	}
+
 	public static BlockState setFullShape(BlockState state) {
 		for (BooleanProperty i : CDIRS)
-			state=state.setValue(i, true);
+			state = state.setValue(i, true);
 		return state.setValue(FOILAGED, true);
 	}
+
 	@Override
 	public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState,
 			LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pNeighborPos) {
@@ -89,6 +91,5 @@ public class BushLogBlock extends Block {
 	public boolean propagatesSkylightDown(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
 		return true;
 	}
-
 
 }

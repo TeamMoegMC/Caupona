@@ -28,9 +28,11 @@ import com.teammoeg.caupona.data.Writeable;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 
-public interface StewBaseCondition extends BiFunction<ResourceLocation, ResourceLocation, Integer>,Predicate<ResourceLocation>,Writeable,ITranlatable  {
+public interface StewBaseCondition extends BiFunction<ResourceLocation, ResourceLocation, Integer>,
+		Predicate<ResourceLocation>, Writeable, ITranlatable {
 	public JsonObject serialize();
 
 	public String getType();
+
 	public boolean test(Fluid f);
 }

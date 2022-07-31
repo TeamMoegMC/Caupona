@@ -63,18 +63,18 @@ public class BowlRenderer implements BlockEntityRenderer<BowlTileEntity> {
 		BlockState state = te.getBlockState();
 		if (state.getBlock() != CPBlocks.bowl)
 			return;
-		
-		if(te.internal==null||!(te.internal.getItem() instanceof StewItem))return;
+
+		if (te.internal == null || !(te.internal.getItem() instanceof StewItem))
+			return;
 		FluidStack fs = BowlContainingRecipe.extractFluid(te.internal);
 		matrixStack.pushPose();
 		if (fs != null && !fs.isEmpty() && fs.getFluid() != null) {
-			float rr=fs.getAmount();
+			float rr = fs.getAmount();
 			matrixStack.translate(0, .28125f, 0);
 			matrixStack.mulPose(new Quaternion(90, 0, 0, true));
-			
+
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
-			TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager()
-					.getAtlas(InventoryMenu.BLOCK_ATLAS)
+			TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS)
 					.getSprite(fs.getFluid().getAttributes().getStillTexture(fs));
 			int col = fs.getFluid().getAttributes().getColor(fs);
 			int iW = sprite.getWidth();
@@ -84,12 +84,12 @@ public class BowlRenderer implements BlockEntityRenderer<BowlTileEntity> {
 				float alp = 1f;
 				clr = clr(col);
 				RenderUtils.drawTexturedColoredRect(builder, matrixStack, .28125f, .28125f, .4375f, .4375f, clr.x(),
-						clr.y(), clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(),
-						sprite.getV1(), combinedLightIn, combinedOverlayIn);
+						clr.y(), clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(),
+						combinedLightIn, combinedOverlayIn);
 
 			}
 		}
-		
+
 		matrixStack.popPose();
 	}
 

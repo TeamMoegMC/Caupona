@@ -8,11 +8,12 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CPStructures {
-    public static final DeferredRegister<StructureFeature<?>> STRUCTURES =
-            DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, Main.MODID);
+	public static final DeferredRegister<StructureFeature<?>> STRUCTURES = DeferredRegister
+			.create(ForgeRegistries.STRUCTURE_FEATURES, Main.MODID);
 
-    public static final RegistryObject<StructureFeature<?>> SKY_STRUCTURES =
-            STRUCTURES.register("fumarole", FumaroleStructures::new);
+	public static final RegistryObject<StructureFeature<?>> SKY_STRUCTURES = STRUCTURES.register("fumarole",
+			FumaroleStructures::new);
+
 	public CPStructures() {
 	}
 

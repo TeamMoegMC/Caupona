@@ -41,50 +41,60 @@ public class CauponaApi {
 
 	private CauponaApi() {
 	}
+
 	public static SoupInfo getInfo(ItemStack item) {
 		return StewItem.getInfo(item);
 	}
+
 	public static SoupInfo getInfo(FluidStack item) {
 		return SoupFluid.getInfo(item);
 	}
+
 	public static SoupInfo getInfo(CompoundTag nbt) {
 		return new SoupInfo(nbt);
 	}
-	public static void setInfo(ItemStack item,SoupInfo info) {
-		StewItem.setInfo(item,info);
+
+	public static void setInfo(ItemStack item, SoupInfo info) {
+		StewItem.setInfo(item, info);
 	}
-	public static void setInfo(FluidStack item,SoupInfo info) {
-		SoupFluid.setInfo(item,info);
+
+	public static void setInfo(FluidStack item, SoupInfo info) {
+		SoupFluid.setInfo(item, info);
 	}
-	public static void setInfo(CompoundTag nbt,SoupInfo info) {
+
+	public static void setInfo(CompoundTag nbt, SoupInfo info) {
 		info.write(nbt);
 	}
-	public static void applyStew(Level worldIn, LivingEntity entityLiving,SoupInfo info) {
+
+	public static void applyStew(Level worldIn, LivingEntity entityLiving, SoupInfo info) {
 		if (!worldIn.isClientSide) {
-			for (MobEffectInstance eff :info.effects) {
+			for (MobEffectInstance eff : info.effects) {
 				if (eff != null) {
 					entityLiving.addEffect(eff);
 				}
 			}
-			Random r=entityLiving.getRandom();
-			for(Pair<MobEffectInstance, Float> ef:info.foodeffect) {
-				if(r.nextFloat()<ef.getSecond())
+			Random r = entityLiving.getRandom();
+			for (Pair<MobEffectInstance, Float> ef : info.foodeffect) {
+				if (r.nextFloat() < ef.getSecond())
 					entityLiving.addEffect(ef.getFirst());
 			}
 			if (entityLiving instanceof Player) {
 				Player player = (Player) entityLiving;
-				player.getFoodData().eat(info.healing,info.saturation);
+				player.getFoodData().eat(info.healing, info.saturation);
 			}
 		}
 	}
+
 	public static Optional<ItemStack> fillBowl(IFluidHandler handler) {
 		FluidStack stack = handler.drain(250, FluidAction.SIMULATE);
-		if(stack.getAmount()==250)
+		if (stack.getAmount() == 250)
 			return fillBowl(handler.drain(250, FluidAction.EXECUTE));
 		return Optional.empty();
 	}
+
 	public static Optional<ItemStack> fillBowl(FluidStack stack) {
-		if(stack.getAmount() != 250)return Optional.empty();
+		if (stack.getAmount() != 250)
+			return Optional.empty();
 		BowlContainingRecipe recipe = BowlContainingRecipe.recipes.get(stack.getFluid());
 		if (recipe != null) {
 			ItemStack ret = recipe.handle(stack);

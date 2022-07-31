@@ -40,33 +40,35 @@ import vazkii.patchouli.api.IVariable;
 
 public class AllowenceTooltip implements ICustomComponent {
 	boolean allow;
-	int x,y,w,h;
+	int x, y, w, h;
 	IVariable recipe;
 	transient List<Component> allowence;
+
 	public AllowenceTooltip() {
 	}
 
 	@Override
 	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
-		recipe=lookup.apply(recipe);
-		ResourceLocation out=new ResourceLocation(recipe.asString());
-		IConditionalRecipe cr=StewCookingRecipe.recipes.get(ForgeRegistries.FLUIDS.getValue(out));
-		if(cr==null) {
-			cr=FryingRecipe.recipes.get(ForgeRegistries.ITEMS.getValue(out));
+		recipe = lookup.apply(recipe);
+		ResourceLocation out = new ResourceLocation(recipe.asString());
+		IConditionalRecipe cr = StewCookingRecipe.recipes.get(ForgeRegistries.FLUIDS.getValue(out));
+		if (cr == null) {
+			cr = FryingRecipe.recipes.get(ForgeRegistries.ITEMS.getValue(out));
 		}
-		if(cr!=null) {
+		if (cr != null) {
 			List<IngredientCondition> conds;
-			if(allow)
-				conds=cr.getAllow();
+			if (allow)
+				conds = cr.getAllow();
 			else
-				conds=cr.getDeny();
-			if(conds!=null)
-				allowence=conds.stream().map(e->e.getTranslation(GameTranslation.get())).map(TextComponent::new).collect(Collectors.toList());
-			if(allowence!=null&&!allowence.isEmpty()) {
-				if(allow)
-					allowence.add(0,new TranslatableComponent("recipe.caupona.allow"));
+				conds = cr.getDeny();
+			if (conds != null)
+				allowence = conds.stream().map(e -> e.getTranslation(GameTranslation.get())).map(TextComponent::new)
+						.collect(Collectors.toList());
+			if (allowence != null && !allowence.isEmpty()) {
+				if (allow)
+					allowence.add(0, new TranslatableComponent("recipe.caupona.allow"));
 				else
-					allowence.add(0,new TranslatableComponent("recipe.caupona.deny"));
+					allowence.add(0, new TranslatableComponent("recipe.caupona.deny"));
 			}
 		}
 	}
@@ -77,8 +79,8 @@ public class AllowenceTooltip implements ICustomComponent {
 
 	@Override
 	public void render(PoseStack ms, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
-		if(context.isAreaHovered(mouseX, mouseY,x,y,w,h))
-			if(allowence!=null&&!allowence.isEmpty())
+		if (context.isAreaHovered(mouseX, mouseY, x, y, w, h))
+			if (allowence != null && !allowence.isEmpty())
 				context.setHoverTooltipComponents(allowence);
 	}
 

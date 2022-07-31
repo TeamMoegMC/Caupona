@@ -38,37 +38,43 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 
 public class DishItem extends EdibleBlock {
-	public static final FoodProperties fakefood = new FoodProperties.Builder().nutrition(4).saturationMod(0.2f)
-			.meat().build();
+	public static final FoodProperties fakefood = new FoodProperties.Builder().nutrition(4).saturationMod(0.2f).meat()
+			.build();
 	public final DishBlock bl;
+
 	public DishItem(DishBlock block, Properties props) {
 		super(block, props.food(fakefood));
-		bl=block;
+		bl = block;
 	}
 
 	public DishItem(DishBlock block, Properties props, String name) {
 		super(block, props.food(fakefood), name);
-		bl=block;
+		bl = block;
 	}
+
 	@Override
 	public int getUseDuration(ItemStack stack) {
 		return 32;
 	}
+
 	public UseAnim getUseAnimation(ItemStack stack) {
 		return UseAnim.EAT;
 	}
+
 	public static SauteedFoodInfo getInfo(ItemStack stack) {
 		if (stack.hasTag()) {
 			CompoundTag soupTag = stack.getTagElement("dish");
-			if(soupTag!=null)
-				return  new SauteedFoodInfo(soupTag);
+			if (soupTag != null)
+				return new SauteedFoodInfo(soupTag);
 		}
 		return new SauteedFoodInfo();
 	}
+
 	public static void setInfo(ItemStack stack, SauteedFoodInfo current) {
 		if (!current.isEmpty())
 			stack.getOrCreateTag().put("dish", current.save());
 	}
+
 	@Override
 	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		SauteedFoodInfo info = DishItem.getInfo(stack);
@@ -77,20 +83,23 @@ public class DishItem extends EdibleBlock {
 				.orElse(null);
 		if (fs != null)
 			tooltip.add(new TranslatableComponent("tooltip.caupona.main_ingredient", fs.getStack().getDisplayName()));
-		ResourceLocation rl=info.spiceName;
-		if(rl!=null)
-			tooltip.add(new TranslatableComponent("tooltip.caupona.spice",new TranslatableComponent("spice."+rl.getNamespace()+"."+rl.getPath())));;
+		ResourceLocation rl = info.spiceName;
+		if (rl != null)
+			tooltip.add(new TranslatableComponent("tooltip.caupona.spice",
+					new TranslatableComponent("spice." + rl.getNamespace() + "." + rl.getPath())));
+		;
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
+
 	@Override
 	public FoodProperties getFoodProperties(ItemStack stack, LivingEntity entity) {
 		SauteedFoodInfo si = getInfo(stack);
-		FoodProperties.Builder b=new FoodProperties.Builder();
-		
-		if(si.spice!=null)
-			b.effect(si.spice,1);
+		FoodProperties.Builder b = new FoodProperties.Builder();
+
+		if (si.spice != null)
+			b.effect(si.spice, 1);
 		for (Pair<MobEffectInstance, Float> ef : si.foodeffect) {
-			b.effect(ef.getFirst(),ef.getSecond());
+			b.effect(ef.getFirst(), ef.getSecond());
 		}
 		b.nutrition(si.healing);
 		b.saturationMod(si.saturation);

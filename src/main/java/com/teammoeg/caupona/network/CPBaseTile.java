@@ -39,8 +39,8 @@ public abstract class CPBaseTile extends BlockEntity {
 	}
 
 	public void syncData() {
-		BlockState lvl=level.getBlockState(getBlockPos());
-		if(!this.getBlockState().equals(lvl))
+		BlockState lvl = level.getBlockState(getBlockPos());
+		if (!this.getBlockState().equals(lvl))
 			this.setBlockState(lvl);
 		this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
 		this.setChanged();
@@ -54,12 +54,14 @@ public abstract class CPBaseTile extends BlockEntity {
 	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
 		this.readCustomNBT(pkt.getTag(), true);
 	}
+
 	public abstract void tick();
+
 	@Override
 	public void load(CompoundTag nbt) {
 		this.readCustomNBT(nbt, false);
 		super.load(nbt);
-		
+
 	}
 
 	@Override
@@ -68,12 +70,11 @@ public abstract class CPBaseTile extends BlockEntity {
 		super.saveAdditional(compound);
 	}
 
-
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket() {
 		CompoundTag cnbt = new CompoundTag();
 		writeCustomNBT(cnbt, true);
-		return ClientboundBlockEntityDataPacket.create(this,i->cnbt);
+		return ClientboundBlockEntityDataPacket.create(this, i -> cnbt);
 	}
 
 	@Override

@@ -22,7 +22,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.foods.DishBlock;
-import com.teammoeg.caupona.blocks.pan.PanTile;
+import com.teammoeg.caupona.blocks.pan.PanTileEntity;
 import com.teammoeg.caupona.items.DishItem;
 
 import net.minecraft.client.Minecraft;
@@ -38,11 +38,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.ModelDataManager;
 import net.minecraftforge.client.model.data.IModelData;
 
-public class PanRenderer implements BlockEntityRenderer<PanTile> {
+public class PanRenderer implements BlockEntityRenderer<PanTileEntity> {
 
 	public PanRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
 	}
-
 
 	private static Vector3f clr(int col) {
 		return new Vector3f((col >> 16 & 255) / 255.0f, (col >> 8 & 255) / 255.0f, (col & 255) / 255.0f);
@@ -50,32 +49,34 @@ public class PanRenderer implements BlockEntityRenderer<PanTile> {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void render(PanTile te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer,
+	public void render(PanTileEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer,
 			int combinedLightIn, int combinedOverlayIn) {
 		if (!te.getLevel().hasChunkAt(te.getBlockPos()))
 			return;
 		BlockState state = te.getBlockState();
-		Block b=state.getBlock();
-		
-		Item torender=null;
-		if(!te.sout.isEmpty()) {
-			torender=te.sout.getItem();
-		}else if(!(te.preout==Items.AIR)) {
-			torender=te.preout;
-		}else { 
-			ItemStack is=te.inv.getStackInSlot(10);
-			if(!is.isEmpty())
-				torender=is.getItem();
+		Block b = state.getBlock();
+
+		Item torender = null;
+		if (!te.sout.isEmpty()) {
+			torender = te.sout.getItem();
+		} else if (!(te.preout == Items.AIR)) {
+			torender = te.preout;
+		} else {
+			ItemStack is = te.inv.getStackInSlot(10);
+			if (!is.isEmpty())
+				torender = is.getItem();
 		}
-		if(!(torender instanceof DishItem))return;
-		BlockState bs=((DishItem)torender).bl.defaultBlockState();
-		if (b==CPBlocks.STONE_PAN) {
-			bs=bs.setValue(DishBlock.PAN,1);
-		}else
-			bs=bs.setValue(DishBlock.PAN,2);
-		BlockRenderDispatcher rd=Minecraft.getInstance().getBlockRenderer();
-		IModelData imd=rd.getBlockModel(bs).getModelData(te.getLevel(),te.getBlockPos(), bs,ModelDataManager.getModelData(te.getLevel(),te.getBlockPos()));
-		rd.renderSingleBlock(bs,matrixStack, buffer,combinedLightIn,combinedOverlayIn,imd);
+		if (!(torender instanceof DishItem))
+			return;
+		BlockState bs = ((DishItem) torender).bl.defaultBlockState();
+		if (b == CPBlocks.STONE_PAN) {
+			bs = bs.setValue(DishBlock.PAN, 1);
+		} else
+			bs = bs.setValue(DishBlock.PAN, 2);
+		BlockRenderDispatcher rd = Minecraft.getInstance().getBlockRenderer();
+		IModelData imd = rd.getBlockModel(bs).getModelData(te.getLevel(), te.getBlockPos(), bs,
+				ModelDataManager.getModelData(te.getLevel(), te.getBlockPos()));
+		rd.renderSingleBlock(bs, matrixStack, buffer, combinedLightIn, combinedOverlayIn, imd);
 
 	}
 

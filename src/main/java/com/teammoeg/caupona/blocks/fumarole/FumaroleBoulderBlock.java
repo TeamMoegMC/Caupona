@@ -41,12 +41,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class FumaroleBoulderBlock extends Block implements SimpleWaterloggedBlock {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+
 	public FumaroleBoulderBlock(Properties p_49795_) {
 		super(p_49795_);
 		super.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false));
 	}
 
-	static final VoxelShape shape = Block.box(4, 0, 4, 12,15, 12);
+	static final VoxelShape shape = Block.box(4, 0, 4, 12, 15, 12);
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
@@ -69,7 +70,6 @@ public class FumaroleBoulderBlock extends Block implements SimpleWaterloggedBloc
 		return canSupportRigidBlock(pLevel, pPos.below());
 	}
 
-
 	@Override
 	protected void createBlockStateDefinition(
 			net.minecraft.world.level.block.state.StateDefinition.Builder<Block, BlockState> builder) {
@@ -87,10 +87,11 @@ public class FumaroleBoulderBlock extends Block implements SimpleWaterloggedBloc
 	public FluidState getFluidState(BlockState pState) {
 		return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
 	}
+
 	@Override
 	public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
-		if(pEntity instanceof LivingEntity)
-			pEntity.hurt(DamageSource.SWEET_BERRY_BUSH,1.0f);
+		if (pEntity instanceof LivingEntity)
+			pEntity.hurt(DamageSource.SWEET_BERRY_BUSH, 1.0f);
 		super.stepOn(pLevel, pPos, pState, pEntity);
 	}
 

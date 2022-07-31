@@ -26,10 +26,12 @@ import net.minecraft.world.item.ItemStack;
 public class IconItem extends CPItem {
 
 	public IconItem(String name) {
-		super(name,new Item.Properties());
+		super(name, new Item.Properties());
 	}
-	//omit to avoid display in JEI and CT
+
+	// omit to avoid display in JEI and CT
 	@Override
-	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {}
+	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+	}
 
 }

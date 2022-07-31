@@ -27,7 +27,7 @@ import com.teammoeg.caupona.data.Writeable;
 
 import net.minecraft.resources.ResourceLocation;
 
-public interface IngredientCondition extends Predicate<IPendingContext>,Writeable,ITranlatable   {
+public interface IngredientCondition extends Predicate<IPendingContext>, Writeable, ITranlatable {
 	public JsonObject serialize();
 
 	public String getType();
@@ -39,5 +39,5 @@ public interface IngredientCondition extends Predicate<IPendingContext>,Writeabl
 	public default Stream<ResourceLocation> getTags() {
 		return Stream.empty();
 	};
-	
+
 }

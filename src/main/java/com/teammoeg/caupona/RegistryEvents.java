@@ -24,7 +24,7 @@ import java.util.List;
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumTileEntity;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
-import com.teammoeg.caupona.blocks.pan.PanTile;
+import com.teammoeg.caupona.blocks.pan.PanTileEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.worldgen.CPFeatures;
@@ -64,6 +64,7 @@ public class RegistryEvents {
 	public static List<Block> registeredBlocks = new ArrayList<>();
 	public static List<Item> registeredItems = new ArrayList<>();
 	public static List<Fluid> registeredFluids = new ArrayList<>();
+
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
 		CPBlocks.init();
@@ -77,16 +78,17 @@ public class RegistryEvents {
 			}
 		}
 	}
+
 	@SubscribeEvent
 	public static void registerFoliagePlacer(RegistryEvent.Register<FoliagePlacerType<?>> event) {
 		CPFeatures.init();
 		try {
 			event.getRegistry().register(CPFeatures.BUSH_PLACER);
 		} catch (Throwable e) {
-			Main.logger.error("Failed to register a foliage placer. ({})",CPFeatures.BUSH_PLACER);
+			Main.logger.error("Failed to register a foliage placer. ({})", CPFeatures.BUSH_PLACER);
 			throw e;
 		}
-		
+
 	}
 
 	@SubscribeEvent
@@ -123,16 +125,16 @@ public class RegistryEvents {
 							if (bp.<DispenserBlockEntity>getEntity().addItem(ret) == -1)
 								this.defaultBehaviour.dispense(bp, ret);
 						}
-					}else if(te instanceof PanTile) {
-						PanTile pt=(PanTile) te;
-						ItemStack out=pt.inv.getStackInSlot(10);
-						if(!out.isEmpty()) {
+					} else if (te instanceof PanTileEntity) {
+						PanTileEntity pt = (PanTileEntity) te;
+						ItemStack out = pt.inv.getStackInSlot(10);
+						if (!out.isEmpty()) {
 							pt.inv.setStackInSlot(10, ItemStack.EMPTY);
 							if (bp.<DispenserBlockEntity>getEntity().addItem(out) == -1)
-								this.defaultBehaviour.dispense(bp,out);
+								this.defaultBehaviour.dispense(bp, out);
 						}
 					}
-					
+
 					return is;
 				} else if (!fs.isEmpty()) {
 					ItemStack ret = CauponaApi.fillBowl(new FluidStack(fs.getType(), 250)).orElse(null);
@@ -160,9 +162,9 @@ public class RegistryEvents {
 				BlockPos front = bp.getPos().relative(d);
 				BlockState bs = bp.getLevel().getBlockState(front);
 				if (bs.is(CPBlocks.GRAVY_BOAT)) {
-					int idmg=is.getDamageValue();
+					int idmg = is.getDamageValue();
 					is.setDamageValue(bs.getValue(GravyBoatBlock.LEVEL));
-					bp.getLevel().setBlockAndUpdate(front,bs.setValue(GravyBoatBlock.LEVEL, idmg));
+					bp.getLevel().setBlockAndUpdate(front, bs.setValue(GravyBoatBlock.LEVEL, idmg));
 					return is;
 				}
 				return this.defaultBehaviour.dispense(bp, is);
@@ -177,7 +179,7 @@ public class RegistryEvents {
 			 */
 			@SuppressWarnings("resource")
 			public ItemStack execute(BlockSource source, ItemStack stack) {
-				
+
 				Level world = source.getLevel();
 				Direction d = source.getBlockState().getValue(DispenserBlock.FACING);
 				BlockPos front = source.getPos().relative(d);
@@ -186,13 +188,13 @@ public class RegistryEvents {
 					LazyOptional<IFluidHandler> ip = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
 							d.getOpposite());
 					if (ip.isPresent()) {
-						FluidActionResult fa = FluidUtil.tryEmptyContainerAndStow(stack,ip.resolve().get(), null, 1250,null,
-								true);
+						FluidActionResult fa = FluidUtil.tryEmptyContainerAndStow(stack, ip.resolve().get(), null, 1250,
+								null, true);
 						if (fa.isSuccess()) {
 							if (fa.getResult() != null)
 								return fa.getResult();
 							stack.shrink(1);
-							
+
 						}
 					}
 					return stack;
@@ -257,21 +259,20 @@ public class RegistryEvents {
 				BlockPos front = source.getPos().relative(d);
 				BlockEntity te = source.getLevel().getBlockEntity(front);
 
-				
 				if (te instanceof StewPotTileEntity) {
-					ItemStack ospice=((StewPotTileEntity) te).getInv().getStackInSlot(11);
+					ItemStack ospice = ((StewPotTileEntity) te).getInv().getStackInSlot(11);
 					((StewPotTileEntity) te).getInv().setStackInSlot(11, stack);
 					return ospice;
-				} else if (te instanceof PanTile) {
-					ItemStack ospice=((PanTile) te).getInv().getStackInSlot(11);
-					((PanTile) te).getInv().setStackInSlot(11, stack);
+				} else if (te instanceof PanTileEntity) {
+					ItemStack ospice = ((PanTileEntity) te).getInv().getStackInSlot(11);
+					((PanTileEntity) te).getInv().setStackInSlot(11, stack);
 					return ospice;
-				}else if (te instanceof CounterDoliumTileEntity) {
-					ItemStack ospice=((CounterDoliumTileEntity) te).getInv().getStackInSlot(3);
+				} else if (te instanceof CounterDoliumTileEntity) {
+					ItemStack ospice = ((CounterDoliumTileEntity) te).getInv().getStackInSlot(3);
 					((CounterDoliumTileEntity) te).getInv().setStackInSlot(3, stack);
 					return ospice;
 				}
-					
+
 				return this.defaultBehaviour.dispense(source, stack);
 			}
 
@@ -286,40 +287,39 @@ public class RegistryEvents {
 				BlockPos front = source.getPos().relative(d);
 				BlockEntity te = source.getLevel().getBlockEntity(front);
 
-				
 				if (te instanceof StewPotTileEntity) {
-					ItemStack ospice=((StewPotTileEntity) te).getInv().getStackInSlot(11);
-					((StewPotTileEntity) te).getInv().setStackInSlot(11,ItemStack.EMPTY);
+					ItemStack ospice = ((StewPotTileEntity) te).getInv().getStackInSlot(11);
+					((StewPotTileEntity) te).getInv().setStackInSlot(11, ItemStack.EMPTY);
 					if (source.<DispenserBlockEntity>getEntity().addItem(ospice) == -1)
 						this.defaultBehaviour.dispense(source, ospice);
 					return stack;
-				} else if (te instanceof PanTile) {
-					ItemStack ospice=((PanTile) te).getInv().getStackInSlot(11);
-					((PanTile) te).getInv().setStackInSlot(11,ItemStack.EMPTY);
+				} else if (te instanceof PanTileEntity) {
+					ItemStack ospice = ((PanTileEntity) te).getInv().getStackInSlot(11);
+					((PanTileEntity) te).getInv().setStackInSlot(11, ItemStack.EMPTY);
 					if (source.<DispenserBlockEntity>getEntity().addItem(ospice) == -1)
 						this.defaultBehaviour.dispense(source, ospice);
 					return stack;
-				}else if (te instanceof CounterDoliumTileEntity) {
-					ItemStack ospice=((CounterDoliumTileEntity) te).getInv().getStackInSlot(3);
-					((CounterDoliumTileEntity) te).getInv().setStackInSlot(3,ItemStack.EMPTY);
+				} else if (te instanceof CounterDoliumTileEntity) {
+					ItemStack ospice = ((CounterDoliumTileEntity) te).getInv().getStackInSlot(3);
+					((CounterDoliumTileEntity) te).getInv().setStackInSlot(3, ItemStack.EMPTY);
 					if (source.<DispenserBlockEntity>getEntity().addItem(ospice) == -1)
 						this.defaultBehaviour.dispense(source, ospice);
 					return stack;
 				}
-					
+
 				return this.defaultBehaviour.dispense(source, stack);
 			}
 
 		};
-		DispenserBlock.registerBehavior(Items.FLOWER_POT,pot);
+		DispenserBlock.registerBehavior(Items.FLOWER_POT, pot);
 		for (Item i : CPItems.spicesItems) {
-			DispenserBlock.registerBehavior(i,spice);
+			DispenserBlock.registerBehavior(i, spice);
 		}
 	}
 
 	@SubscribeEvent
 	public static void registerFluids(RegistryEvent.Register<Fluid> event) {
-		
+
 		for (Fluid fluid : RegistryEvents.registeredFluids) {
 			try {
 				event.getRegistry().register(fluid);
@@ -329,6 +329,7 @@ public class RegistryEvents {
 			}
 		}
 	}
+
 	@SuppressWarnings("unused")
 	@SubscribeEvent
 	public static void registerFeatures(RegistryEvent.Register<Feature<?>> event) {

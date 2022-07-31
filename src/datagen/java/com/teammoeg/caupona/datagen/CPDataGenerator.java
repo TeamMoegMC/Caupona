@@ -41,7 +41,7 @@ public class CPDataGenerator {
 			gen.addProvider(new CPFluidTagGenerator(gen, Main.MODID, exHelper));
 			gen.addProvider(new CPLootGenerator(gen));
 			gen.addProvider(new CPStatesProvider(gen, Main.MODID, exHelper));
-			gen.addProvider(new CPBookGenerator(gen,exHelper));
+			gen.addProvider(new CPBookGenerator(gen, exHelper));
 		}
 	}
 }

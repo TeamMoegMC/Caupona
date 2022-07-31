@@ -83,6 +83,7 @@ public class SoupFluid extends ForgeFlowingFluid {
 		if (!si.isEmpty())
 			stack.getOrCreateTag().put("soup", si.save());
 	}
+
 	public static List<FloatemStack> getItems(FluidStack stack) {
 		if (stack.hasTag()) {
 			CompoundTag nbt = stack.getChildTag("soup");
@@ -104,9 +105,10 @@ public class SoupFluid extends ForgeFlowingFluid {
 	public static class SoupAttributes extends FluidAttributes {
 		// private static final String DefName="fluid."+Main.MODID+".soup";
 		Fluid f;
+
 		public SoupAttributes(Builder builder, Fluid fluid) {
 			super(builder, fluid);
-			f=fluid;
+			f = fluid;
 		}
 
 		@Override

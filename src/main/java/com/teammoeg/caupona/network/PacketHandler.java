@@ -27,8 +27,8 @@ import net.minecraftforge.network.simple.SimpleChannel;
 
 public class PacketHandler {
 	private static final String VERSION = Integer.toString(1);
-	private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(Main.MODID,"network"),
-			() -> VERSION, VERSION::equals, VERSION::equals);
+	private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
+			new ResourceLocation(Main.MODID, "network"), () -> VERSION, VERSION::equals, VERSION::equals);
 
 	public static void send(PacketDistributor.PacketTarget target, Object message) {
 		CHANNEL.send(target, message);
@@ -46,6 +46,7 @@ public class PacketHandler {
 		int id = 0;
 		CHANNEL.registerMessage(id++, ClientDataMessage.class, ClientDataMessage::encode, ClientDataMessage::new,
 				ClientDataMessage::handle);
-		CHANNEL.registerMessage(id++, ContainerDataMessage.class, ContainerDataMessage::encode, ContainerDataMessage::new, ContainerDataMessage::handle);
+		CHANNEL.registerMessage(id++, ContainerDataMessage.class, ContainerDataMessage::encode,
+				ContainerDataMessage::new, ContainerDataMessage::handle);
 	}
 }

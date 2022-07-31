@@ -42,51 +42,57 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class BoilingCategory implements IRecipeCategory<BoilingRecipe> {
-    public static ResourceLocation UID = new ResourceLocation(Main.MODID, "boiling");
-    private IDrawable BACKGROUND;
-    private IDrawable ICON;
-   
-    public BoilingCategory(IGuiHelper guiHelper) {
-        this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM,new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID,"nail_soup"))));
-        ResourceLocation guiMain=new ResourceLocation(Main.MODID, "textures/gui/jei/boiling.png");
-        this.BACKGROUND = guiHelper.createDrawable(guiMain,0, 0, 127, 63);
-       
-    }
+	public static ResourceLocation UID = new ResourceLocation(Main.MODID, "boiling");
+	private IDrawable BACKGROUND;
+	private IDrawable ICON;
 
-    @Override
-    public ResourceLocation getUid() {
-        return UID;
-    }
+	public BoilingCategory(IGuiHelper guiHelper) {
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM,
+				new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, "nail_soup"))));
+		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/boiling.png");
+		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 
-    @Override
-    public Class<? extends BoilingRecipe> getRecipeClass() {
-        return BoilingRecipe.class;
-    }
-
-
-    public Component getTitle() {
-        return new TranslatableComponent("gui.jei.category." + Main.MODID + ".boiling.title");
-    }
-	@Override
-	public void draw(BoilingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-		String burnTime = String.valueOf(recipe.time/20f)+"s";
-		Minecraft.getInstance().font.drawShadow(stack, burnTime,103,55, 0xFFFFFF);
 	}
-    @Override
-    public IDrawable getBackground() {
-        return BACKGROUND;
-    }
 
-    @Override
-    public IDrawable getIcon() {
-        return ICON;
-    }
+	@Override
+	public ResourceLocation getUid() {
+		return UID;
+	}
 
-    @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, BoilingRecipe recipe, IFocusGroup focuses) {
-    	builder.addSlot(RecipeIngredientRole.INPUT,30,9).addIngredient(VanillaTypes.FLUID,new FluidStack(recipe.before,250)).setFluidRenderer(1250, false,16,46);
-    	builder.addSlot(RecipeIngredientRole.OUTPUT,83, 9).addIngredient(VanillaTypes.FLUID,new FluidStack(recipe.after,250)).setFluidRenderer(1250, false,16,46);
-    }
+	@Override
+	public Class<? extends BoilingRecipe> getRecipeClass() {
+		return BoilingRecipe.class;
+	}
 
+	public Component getTitle() {
+		return new TranslatableComponent("gui.jei.category." + Main.MODID + ".boiling.title");
+	}
+
+	@Override
+	public void draw(BoilingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
+			double mouseY) {
+		String burnTime = String.valueOf(recipe.time / 20f) + "s";
+		Minecraft.getInstance().font.drawShadow(stack, burnTime, 103, 55, 0xFFFFFF);
+	}
+
+	@Override
+	public IDrawable getBackground() {
+		return BACKGROUND;
+	}
+
+	@Override
+	public IDrawable getIcon() {
+		return ICON;
+	}
+
+	@Override
+	public void setRecipe(IRecipeLayoutBuilder builder, BoilingRecipe recipe, IFocusGroup focuses) {
+		builder.addSlot(RecipeIngredientRole.INPUT, 30, 9)
+				.addIngredient(VanillaTypes.FLUID, new FluidStack(recipe.before, 250))
+				.setFluidRenderer(1250, false, 16, 46);
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 9)
+				.addIngredient(VanillaTypes.FLUID, new FluidStack(recipe.after, 250))
+				.setFluidRenderer(1250, false, 16, 46);
+	}
 
 }

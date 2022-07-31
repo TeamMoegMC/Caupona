@@ -9,10 +9,10 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class BaseColumnBlock extends Block {
-	static final VoxelShape shaft=Block.box(2, 0, 2, 14, 16, 14);
+	static final VoxelShape shaft = Block.box(2, 0, 2, 14, 16, 14);
 	boolean isPlinth;
-	static final VoxelShape plinth=Shapes.or(shaft,Block.box(0, 0, 0, 16, 4, 16));
-	
+	static final VoxelShape plinth = Shapes.or(shaft, Block.box(0, 0, 0, 16, 4, 16));
+
 	public BaseColumnBlock(Properties p_49795_, boolean isPlinth) {
 		super(p_49795_);
 		this.isPlinth = isPlinth;
@@ -20,6 +20,6 @@ public class BaseColumnBlock extends Block {
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		return isPlinth?plinth:shaft;
+		return isPlinth ? plinth : shaft;
 	}
 }

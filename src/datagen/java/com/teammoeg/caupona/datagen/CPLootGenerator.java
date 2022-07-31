@@ -70,10 +70,10 @@ public class CPLootGenerator extends LootTableProvider {
 			dropSelf(CPBlocks.STONE_PAN);
 			dropSelf(CPBlocks.COPPER_PAN);
 			dropSelf(CPBlocks.IRON_PAN);
-			add(CPBlocks.FUMAROLE_VENT,BlockLoot.createSilkTouchDispatchTable(CPBlocks.FUMAROLE_VENT,LootItem.lootTableItem(Blocks.BASALT
-					)));
-			add(CPBlocks.PUMICE_BLOOM,BlockLoot.createSilkTouchDispatchTable(CPBlocks.PUMICE_BLOOM,LootItem.lootTableItem(CPBlocks.PUMICE
-					)));
+			add(CPBlocks.FUMAROLE_VENT, BlockLoot.createSilkTouchDispatchTable(CPBlocks.FUMAROLE_VENT,
+					LootItem.lootTableItem(Blocks.BASALT)));
+			add(CPBlocks.PUMICE_BLOOM, BlockLoot.createSilkTouchDispatchTable(CPBlocks.PUMICE_BLOOM,
+					LootItem.lootTableItem(CPBlocks.PUMICE)));
 			dropSelf(CPBlocks.PUMICE);
 			/*
 			 * dropSelf(CPBlocks.stove1);
@@ -88,8 +88,9 @@ public class CPLootGenerator extends LootTableProvider {
 						"_fence", "_fence_gate", "_log", "_planks", "_pressure_plate", "_sapling", "_sign", "_slab",
 						"_stairs", "_trapdoor", "_wood"))
 					dropSelf(cp(wood + type));
-				add(cp(wood + "_door"),createDoorTable(cp(wood + "_door")));
-				add(cp(wood + "_leaves"),createLeavesDrops(cp(wood + "_leaves"),cp(wood + "_sapling"),0.05F, 0.0625F, 0.083333336F, 0.1F));
+				add(cp(wood + "_door"), createDoorTable(cp(wood + "_door")));
+				add(cp(wood + "_leaves"), createLeavesDrops(cp(wood + "_leaves"), cp(wood + "_sapling"), 0.05F, 0.0625F,
+						0.083333336F, 0.1F));
 				dropOther(cp(wood + "_wall_sign"), cp(wood + "_sign"));
 			}
 
@@ -103,24 +104,21 @@ public class CPLootGenerator extends LootTableProvider {
 						"_kitchen_stove"))
 					dropSelf(cp(stone + type));
 			}
-			for(String str:CPBlocks.pillar_materials) {
-				for(String type:ImmutableSet.of("_column_fluted_plinth",
-						"_column_fluted_shaft",
-						"_column_shaft",
-						"_column_plinth",
-						"_ionic_column_capital",
-						"_tuscan_column_capital",
+			for (String str : CPBlocks.pillar_materials) {
+				for (String type : ImmutableSet.of("_column_fluted_plinth", "_column_fluted_shaft", "_column_shaft",
+						"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital",
 						"_acanthine_column_capital"))
-					dropSelf(cp(str+type));
+					dropSelf(cp(str + type));
 			}
 			dropSelf(CPBlocks.GRAVY_BOAT);
-			for (String wood : ImmutableSet.of("fig","wolfberry")) {
+			for (String wood : ImmutableSet.of("fig", "wolfberry")) {
 				dropSelf(cp(wood + "_sapling"));
-				add(cp(wood + "_leaves"),createLeavesDrops(cp(wood + "_leaves"),cp(wood + "_sapling"),0.05F, 0.0625F, 0.083333336F, 0.1F));
+				add(cp(wood + "_leaves"), createLeavesDrops(cp(wood + "_leaves"), cp(wood + "_sapling"), 0.05F, 0.0625F,
+						0.083333336F, 0.1F));
 			}
-			for(String s:CPBlocks.hypocaust_materials) {
-				dropSelf(cp(s+"_caliduct"));
-				dropSelf(cp(s+"_hypocaust_firebox"));
+			for (String s : CPBlocks.hypocaust_materials) {
+				dropSelf(cp(s + "_caliduct"));
+				dropSelf(cp(s + "_hypocaust_firebox"));
 			}
 		}
 

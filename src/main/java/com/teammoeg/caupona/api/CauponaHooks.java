@@ -38,7 +38,9 @@ public class CauponaHooks {
 
 	private CauponaHooks() {
 	}
-	public static final ResourceLocation stew=new ResourceLocation(Main.MODID,"stews");
+
+	public static final ResourceLocation stew = new ResourceLocation(Main.MODID, "stews");
+
 	public static Optional<List<FloatemStack>> getItems(ItemStack stack) {
 		if (stack.getItem() instanceof StewItem) {
 			return Optional.of(StewItem.getItems(stack));
@@ -46,12 +48,13 @@ public class CauponaHooks {
 		LazyOptional<IFluidHandlerItem> cap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
 		if (cap.isPresent()) {
 			IFluidHandlerItem data = cap.resolve().get();
-			FluidStack fs=data.getFluidInTank(0);
-			//TODO: CHECK STEW TAG
+			FluidStack fs = data.getFluidInTank(0);
+			// TODO: CHECK STEW TAG
 			return Optional.of(SoupFluid.getItems(fs));
 		}
 		return Optional.empty();
 	}
+
 	public static ResourceLocation getBase(ItemStack stack) {
 		if (stack.getItem() instanceof StewItem) {
 			return StewItem.getBase(stack);
@@ -63,6 +66,7 @@ public class CauponaHooks {
 		}
 		return new ResourceLocation("water");
 	}
+
 	public static SoupInfo getInfo(ItemStack stack) {
 		if (stack.getItem() instanceof StewItem) {
 			return StewItem.getInfo(stack);

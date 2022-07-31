@@ -55,9 +55,10 @@ import com.teammoeg.caupona.util.CacheMap;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
+
 /**
  * Tool class for serialize data, packets etc
- * */
+ */
 public class SerializeUtil {
 	public static class Deserializer<T extends JsonElement, U extends Writeable> {
 		private int id;
@@ -103,6 +104,7 @@ public class SerializeUtil {
 	public static void registerCondition(String name, Deserializer<JsonObject, IngredientCondition> des) {
 		conditions.put(name, des);
 	}
+
 	public static void registerNumber(String name, Deserializer<JsonElement, CookIngredients> des) {
 		numbers.put(name, des);
 	}
@@ -110,18 +112,22 @@ public class SerializeUtil {
 	public static void registerBase(String name, Deserializer<JsonObject, StewBaseCondition> des) {
 		basetypes.put(name, des);
 	}
-	
-	public static void registerCondition(String name,Function<JsonObject, IngredientCondition> rjson,Function<FriendlyByteBuf, IngredientCondition> rpacket) {
-		registerCondition(name,new Deserializer<>(rjson,rpacket));
+
+	public static void registerCondition(String name, Function<JsonObject, IngredientCondition> rjson,
+			Function<FriendlyByteBuf, IngredientCondition> rpacket) {
+		registerCondition(name, new Deserializer<>(rjson, rpacket));
 	}
 
-	public static void registerNumber(String name,Function<JsonElement,CookIngredients> rjson,Function<FriendlyByteBuf,CookIngredients> rpacket) {
-		registerNumber(name,new Deserializer<>(rjson,rpacket));
+	public static void registerNumber(String name, Function<JsonElement, CookIngredients> rjson,
+			Function<FriendlyByteBuf, CookIngredients> rpacket) {
+		registerNumber(name, new Deserializer<>(rjson, rpacket));
 	}
 
-	public static void registerBase(String name,Function<JsonObject,StewBaseCondition> rjson,Function<FriendlyByteBuf,StewBaseCondition> rpacket) {
-		registerBase(name,new Deserializer<>(rjson,rpacket));
+	public static void registerBase(String name, Function<JsonObject, StewBaseCondition> rjson,
+			Function<FriendlyByteBuf, StewBaseCondition> rpacket) {
+		registerBase(name, new Deserializer<>(rjson, rpacket));
 	}
+
 	static {
 		registerNumber("add", Add::new, Add::new);
 		registerNumber("ingredient", ItemIngredient::new, ItemIngredient::new);
@@ -225,14 +231,17 @@ public class SerializeUtil {
 			return Optional.ofNullable(func.apply(buffer));
 		return Optional.empty();
 	}
-	public static <T> void writeOptional2(FriendlyByteBuf buffer, T data, BiConsumer<FriendlyByteBuf,T> func) {
-		writeOptional(buffer, data, (a,b)->func.accept(b,a));
+
+	public static <T> void writeOptional2(FriendlyByteBuf buffer, T data, BiConsumer<FriendlyByteBuf, T> func) {
+		writeOptional(buffer, data, (a, b) -> func.accept(b, a));
 	}
+
 	public static <T> void writeOptional(FriendlyByteBuf buffer, T data, BiConsumer<T, FriendlyByteBuf> func) {
 		writeOptional(buffer, Optional.ofNullable(data), func);
 	}
 
-	public static <T> void writeOptional(FriendlyByteBuf buffer, Optional<T> data, BiConsumer<T, FriendlyByteBuf> func) {
+	public static <T> void writeOptional(FriendlyByteBuf buffer, Optional<T> data,
+			BiConsumer<T, FriendlyByteBuf> func) {
 		if (data.isPresent()) {
 			buffer.writeBoolean(true);
 			func.accept(data.get(), buffer);

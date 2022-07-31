@@ -38,9 +38,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID,
-			"textures/gui/stew_pot.png");
-
+	private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID, "textures/gui/stew_pot.png");
 
 	StewPotTileEntity te;
 
@@ -53,14 +51,10 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 		te = container.getTile();
 	}
 
-	public static TranslatableComponent start = new TranslatableComponent(
-			"gui." + Main.MODID + ".stewpot.canstart");
-	public static TranslatableComponent started = new TranslatableComponent(
-			"gui." + Main.MODID + ".stewpot.started");
-	public static TranslatableComponent nostart = new TranslatableComponent(
-			"gui." + Main.MODID + ".stewpot.cantstart");
-	public static TranslatableComponent nors = new TranslatableComponent(
-			"gui." + Main.MODID + ".stewpot.noredstone");
+	public static TranslatableComponent start = new TranslatableComponent("gui." + Main.MODID + ".stewpot.canstart");
+	public static TranslatableComponent started = new TranslatableComponent("gui." + Main.MODID + ".stewpot.started");
+	public static TranslatableComponent nostart = new TranslatableComponent("gui." + Main.MODID + ".stewpot.cantstart");
+	public static TranslatableComponent nors = new TranslatableComponent("gui." + Main.MODID + ".stewpot.noredstone");
 	public static TranslatableComponent rs = new TranslatableComponent("gui." + Main.MODID + ".stewpot.redstone");
 	private ArrayList<Component> tooltip = new ArrayList<>(2);
 	ImageButton btn1;
@@ -69,26 +63,28 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 	@Override
 	public void init() {
 		super.init();
-		
-		this.clearWidgets();
-		this.addRenderableWidget(btn1 = new ImageButton(TEXTURE,leftPos + 7, topPos + 48, 20, 12, 176, 83, (b, s, x, y) -> {
-			if (btn1.state == 0)
-				tooltip.add(start);
-			else
-				tooltip.add(started);
-		}, btn -> {
-			if (btn1.state == 0)
-				te.sendMessage((short) 0, 0);
 
-		}));
-		this.addRenderableWidget(btn2 = new ImageButton(TEXTURE,leftPos + 7, topPos + 61, 20, 20, 176, 107, (b, s, x, y) -> {
-			if (btn2.state == 1)
-				tooltip.add(nors);
-			else
-				tooltip.add(rs);
-		}, btn -> {
-			te.sendMessage((short) 1, btn2.state);
-		}));
+		this.clearWidgets();
+		this.addRenderableWidget(
+				btn1 = new ImageButton(TEXTURE, leftPos + 7, topPos + 48, 20, 12, 176, 83, (b, s, x, y) -> {
+					if (btn1.state == 0)
+						tooltip.add(start);
+					else
+						tooltip.add(started);
+				}, btn -> {
+					if (btn1.state == 0)
+						te.sendMessage((short) 0, 0);
+
+				}));
+		this.addRenderableWidget(
+				btn2 = new ImageButton(TEXTURE, leftPos + 7, topPos + 61, 20, 20, 176, 107, (b, s, x, y) -> {
+					if (btn2.state == 1)
+						tooltip.add(nors);
+					else
+						tooltip.add(rs);
+				}, btn -> {
+					te.sendMessage((short) 1, btn2.state);
+				}));
 
 	}
 
@@ -98,14 +94,17 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 		btn1.state = te.proctype > 0 ? 1 : 0;
 		btn2.state = te.rsstate ? 1 : 2;
 		super.render(transform, mouseX, mouseY, partial);
-		if (te.proctype < 2&&!te.getTank().isEmpty()) {
+		if (te.proctype < 2 && !te.getTank().isEmpty()) {
 			if (isMouseIn(mouseX, mouseY, 105, 20, 16, 46)) {
 				tooltip.add(te.getTank().getFluid().getDisplayName());
-				SoupInfo si=SoupFluid.getInfo(te.getTank().getFluid());
-				FloatemStack fs=si.stacks.stream().max((t1,t2)->t1.getCount()>t2.getCount()?1:(t1.getCount()==t2.getCount()?0:-1)).orElse(null);
-				if(fs!=null)
-					tooltip.add(new TranslatableComponent("tooltip.caupona.main_ingredient",fs.getStack().getDisplayName()));
-				StewItem.addPotionTooltip(si.effects,tooltip,1);
+				SoupInfo si = SoupFluid.getInfo(te.getTank().getFluid());
+				FloatemStack fs = si.stacks.stream()
+						.max((t1, t2) -> t1.getCount() > t2.getCount() ? 1 : (t1.getCount() == t2.getCount() ? 0 : -1))
+						.orElse(null);
+				if (fs != null)
+					tooltip.add(new TranslatableComponent("tooltip.caupona.main_ingredient",
+							fs.getStack().getDisplayName()));
+				StewItem.addPotionTooltip(si.effects, tooltip, 1);
 			}
 			RenderUtils.handleGuiTank(transform, te.getTank(), leftPos + 105, topPos + 20, 16, 46);
 		}
@@ -118,19 +117,18 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 
 	protected void renderLabels(PoseStack matrixStack, int x, int y) {
 		this.font.draw(matrixStack, this.title, this.titleLabelX, this.titleLabelY, 0xffda856b);
-		
+
 		Component name = this.playerInventoryTitle;
 		int w = this.font.width(name.getString());
-		this.font.draw(matrixStack, name, this.imageWidth - w - this.inventoryLabelX, this.inventoryLabelY,
-				0xffda856b);
+		this.font.draw(matrixStack, name, this.imageWidth - w - this.inventoryLabelX, this.inventoryLabelY, 0xffda856b);
 	}
 
 	@Override
 	protected void renderBg(PoseStack transform, float partial, int x, int y) {
 		this.renderBackground(transform);
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderTexture(0, TEXTURE);
 
 		this.blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (te.processMax > 0 && te.process > 0) {

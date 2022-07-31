@@ -78,10 +78,10 @@ public class FumaroleVentBlock extends CPBaseTileBlock<FumaroleVentTileEntity> i
 				context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER);
 	}
 
-
 	public FluidState getFluidState(BlockState pState) {
 		return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
 	}
+
 	@Override
 	public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel,
 			BlockPos pCurrentPos, BlockPos pFacingPos) {
@@ -103,13 +103,12 @@ public class FumaroleVentBlock extends CPBaseTileBlock<FumaroleVentTileEntity> i
 		super.animateTick(pState, pLevel, pPos, pRand);
 		int heat = pState.getValue(HEAT);
 		if (heat > 0) {
-			if (pRand.nextInt(10/heat) == 0) {
-				pLevel.playLocalSound(pPos.getX() + 0.5D, pPos.getY() + 0.5D, pPos.getZ() + 0.5D,
-						SoundEvents.LAVA_POP, SoundSource.BLOCKS, 0.5F + pRand.nextFloat(),
-						pRand.nextFloat() * 0.7F + 0.6F, false);
+			if (pRand.nextInt(10 / heat) == 0) {
+				pLevel.playLocalSound(pPos.getX() + 0.5D, pPos.getY() + 0.5D, pPos.getZ() + 0.5D, SoundEvents.LAVA_POP,
+						SoundSource.BLOCKS, 0.5F + pRand.nextFloat(), pRand.nextFloat() * 0.7F + 0.6F, false);
 			}
 
-			if (pRand.nextInt(5/heat) == 0) {
+			if (pRand.nextInt(5 / heat) == 0) {
 				for (int i = 0; i < pRand.nextInt(1) + 1; ++i) {
 					pLevel.addParticle(ParticleTypes.LAVA, pPos.getX() + 0.5D, pPos.getY() + 0.5D, pPos.getZ() + 0.5D,
 							pRand.nextFloat() / 2.0F, 5.0E-5D, pRand.nextFloat() / 2.0F);
@@ -120,7 +119,7 @@ public class FumaroleVentBlock extends CPBaseTileBlock<FumaroleVentTileEntity> i
 
 	@Override
 	public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
-		if(pEntity instanceof LivingEntity&&pState.getValue(HEAT)!=0)
+		if (pEntity instanceof LivingEntity && pState.getValue(HEAT) != 0)
 			pEntity.setRemainingFireTicks(100);
 		super.stepOn(pLevel, pPos, pState, pEntity);
 	}

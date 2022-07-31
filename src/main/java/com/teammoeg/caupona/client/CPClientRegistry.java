@@ -52,15 +52,16 @@ public class CPClientRegistry {
 	@SuppressWarnings("unused")
 	@SubscribeEvent
 	public static void onClientSetupEvent(FMLClientSetupEvent event) {
-		LayerDefinition layer=BoatModel.createBodyModel();
-		for(String wood:CPBlocks.woods)
-		ForgeHooksClient.registerLayerDefinition(new ModelLayerLocation(new ResourceLocation(Main.MODID,"boat/" + wood), "main"),()->layer);
+		LayerDefinition layer = BoatModel.createBodyModel();
+		for (String wood : CPBlocks.woods)
+			ForgeHooksClient.registerLayerDefinition(
+					new ModelLayerLocation(new ResourceLocation(Main.MODID, "boat/" + wood), "main"), () -> layer);
 		MenuScreens.register(CPGui.STEWPOT.get(), StewPotScreen::new);
-		MenuScreens.register(CPGui.STOVE.get(),KitchenStoveScreen::new);
+		MenuScreens.register(CPGui.STOVE.get(), KitchenStoveScreen::new);
 		MenuScreens.register(CPGui.DOLIUM.get(), DoliumScreen::new);
 		MenuScreens.register(CPGui.BRAZIER.get(), PortableBrazierScreen::new);
 		MenuScreens.register(CPGui.PAN.get(), PanScreen::new);
-		
+
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stew_pot, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove1, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove2, RenderType.cutout());
@@ -69,18 +70,17 @@ public class CPClientRegistry {
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove5, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.bowl, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.GRAVY_BOAT, RenderType.translucent());
-		
-		
-		for(Block bl:CPBlocks.transparentBlocks)
+
+		for (Block bl : CPBlocks.transparentBlocks)
 			ItemBlockRenderTypes.setRenderLayer(bl, RenderType.cutout());
 		BlockEntityRenderers.register(CPTileTypes.STEW_POT.get(), StewPotRenderer::new);
 		BlockEntityRenderers.register(CPTileTypes.BOWL.get(), BowlRenderer::new);
 		BlockEntityRenderers.register(CPTileTypes.SIGN.get(), CPSignRenderer::new);
-		BlockEntityRenderers.register(CPTileTypes.DOLIUM.get(),CounterDoliumRenderer::new);
-		BlockEntityRenderers.register(CPTileTypes.PAN.get(),PanRenderer::new);
+		BlockEntityRenderers.register(CPTileTypes.DOLIUM.get(), CounterDoliumRenderer::new);
+		BlockEntityRenderers.register(CPTileTypes.PAN.get(), PanRenderer::new);
 		Sheets.addWoodType(CPBlocks.WALNUT);
 		EntityRenderers.register(CPEntityTypes.BOAT.get(), CPBoatRenderer::new);
-		
+
 	}
 
 	@SuppressWarnings("unused")
@@ -89,14 +89,18 @@ public class CPClientRegistry {
 		Minecraft.getInstance().particleEngine.register(Particles.STEAM.get(), SteamParticle.Factory::new);
 		Minecraft.getInstance().particleEngine.register(Particles.SOOT.get(), SootParticle.Factory::new);
 	}
+
 	@SubscribeEvent
 	public static void onTint(ColorHandlerEvent.Block ev) {
 		ev.getBlockColors().register((p_92626_, p_92627_, p_92628_, p_92629_) -> {
-	         return p_92627_ != null && p_92628_ != null ? BiomeColors.getAverageFoliageColor(p_92627_, p_92628_) : FoliageColor.getDefaultColor();
-	      },CPBlocks.WALNUT_LEAVE,CPBlocks.FIG_LEAVE,CPBlocks.WOLFBERRY_LEAVE);
+			return p_92627_ != null && p_92628_ != null ? BiomeColors.getAverageFoliageColor(p_92627_, p_92628_)
+					: FoliageColor.getDefaultColor();
+		}, CPBlocks.WALNUT_LEAVE, CPBlocks.FIG_LEAVE, CPBlocks.WOLFBERRY_LEAVE);
 	}
+
 	@SubscribeEvent
 	public static void onTint(ColorHandlerEvent.Item ev) {
-		ev.getItemColors().register((i,t)->0x5bd449, CPBlocks.WALNUT_LEAVE,CPBlocks.FIG_LEAVE,CPBlocks.WOLFBERRY_LEAVE);
+		ev.getItemColors().register((i, t) -> 0x5bd449, CPBlocks.WALNUT_LEAVE, CPBlocks.FIG_LEAVE,
+				CPBlocks.WOLFBERRY_LEAVE);
 	}
 }

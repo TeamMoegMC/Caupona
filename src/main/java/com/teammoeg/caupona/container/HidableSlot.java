@@ -27,8 +27,7 @@ import net.minecraftforge.items.SlotItemHandler;
 public class HidableSlot extends SlotItemHandler {
 	Supplier<Boolean> vs;
 
-	public HidableSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition,
-			Supplier<Boolean> visible) {
+	public HidableSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition, Supplier<Boolean> visible) {
 		super(itemHandler, index, xPosition, yPosition);
 		vs = visible;
 	}

@@ -48,90 +48,101 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class StewCookingCategory implements IRecipeCategory<StewCookingRecipe> {
-    public static ResourceLocation UID = new ResourceLocation(Main.MODID, "stew_cooking");
-    private IDrawable BACKGROUND;
-    private IDrawable ICON;
-    private IGuiHelper helper;
-    public StewCookingCategory(IGuiHelper guiHelper) {
-        this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM,new ItemStack(CPItems.anyWater));
-        this.BACKGROUND = guiHelper.createBlankDrawable(100, 105);
-        this.helper=guiHelper;
-    }
+	public static ResourceLocation UID = new ResourceLocation(Main.MODID, "stew_cooking");
+	private IDrawable BACKGROUND;
+	private IDrawable ICON;
+	private IGuiHelper helper;
 
-    @Override
-    public ResourceLocation getUid() {
-        return UID;
-    }
+	public StewCookingCategory(IGuiHelper guiHelper) {
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(CPItems.anyWater));
+		this.BACKGROUND = guiHelper.createBlankDrawable(100, 105);
+		this.helper = guiHelper;
+	}
 
-    @Override
-    public Class<? extends StewCookingRecipe> getRecipeClass() {
-        return StewCookingRecipe.class;
-    }
-
-
-    public Component getTitle() {
-        return new TranslatableComponent("gui.jei.category." + Main.MODID + ".stew_cooking.title");
-    }
 	@Override
-	public void draw(StewCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
+	public ResourceLocation getUid() {
+		return UID;
+	}
+
+	@Override
+	public Class<? extends StewCookingRecipe> getRecipeClass() {
+		return StewCookingRecipe.class;
+	}
+
+	public Component getTitle() {
+		return new TranslatableComponent("gui.jei.category." + Main.MODID + ".stew_cooking.title");
+	}
+
+	@Override
+	public void draw(StewCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
+			double mouseY) {
 		stack.pushPose();
 		stack.scale(0.5f, 0.5f, 0);
-		helper.createDrawable(new ResourceLocation(recipe.output.getRegistryName().getNamespace(),"textures/gui/recipes/"+recipe.output.getRegistryName().getPath()+".png"), 0, 0, 200, 210)
-		.draw(stack);
+		helper.createDrawable(new ResourceLocation(recipe.output.getRegistryName().getNamespace(),
+				"textures/gui/recipes/" + recipe.output.getRegistryName().getPath() + ".png"), 0, 0, 200, 210)
+				.draw(stack);
 		stack.popPose();
 	}
-    @Override
-    public IDrawable getBackground() {
-        return BACKGROUND;
-    }
 
-    @Override
-    public IDrawable getIcon() {
-        return ICON;
-    }
-    @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, StewCookingRecipe recipe, IFocusGroup focuses) {
-    	if(recipe.getBase()!=null&&recipe.getBase().size()>0) {
-    		List<FluidStack> fss=new ArrayList<>();
-    		for(Fluid f:ForgeRegistries.FLUIDS) {
-    			for(StewBaseCondition base:recipe.getBase())
-    				if(base.test(f))
-    					fss.add(new FluidStack(f,250));
-    		}
-    		builder.addSlot(RecipeIngredientRole.INPUT,30,13).addIngredients(VanillaTypes.FLUID,fss).setFluidRenderer(250, false, 16, 16);
-    	}else
-    		builder.addSlot(RecipeIngredientRole.INPUT,30,13).addIngredient(VanillaTypes.ITEM,new ItemStack(CPItems.any));
-    	builder.addSlot(RecipeIngredientRole.OUTPUT,61,18).addIngredient(VanillaTypes.FLUID,new FluidStack(recipe.output,250)).setFluidRenderer(250, false, 16, 16);
-    }
-    public static boolean inRange(double x,double y,int ox,int oy,int w,int h) {
-    	return x>ox&&x<ox+w&&y>oy&&y<oy+h;
-    }
+	@Override
+	public IDrawable getBackground() {
+		return BACKGROUND;
+	}
+
+	@Override
+	public IDrawable getIcon() {
+		return ICON;
+	}
+
+	@Override
+	public void setRecipe(IRecipeLayoutBuilder builder, StewCookingRecipe recipe, IFocusGroup focuses) {
+		if (recipe.getBase() != null && recipe.getBase().size() > 0) {
+			List<FluidStack> fss = new ArrayList<>();
+			for (Fluid f : ForgeRegistries.FLUIDS) {
+				for (StewBaseCondition base : recipe.getBase())
+					if (base.test(f))
+						fss.add(new FluidStack(f, 250));
+			}
+			builder.addSlot(RecipeIngredientRole.INPUT, 30, 13).addIngredients(VanillaTypes.FLUID, fss)
+					.setFluidRenderer(250, false, 16, 16);
+		} else
+			builder.addSlot(RecipeIngredientRole.INPUT, 30, 13).addIngredient(VanillaTypes.ITEM,
+					new ItemStack(CPItems.any));
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 61, 18)
+				.addIngredient(VanillaTypes.FLUID, new FluidStack(recipe.output, 250))
+				.setFluidRenderer(250, false, 16, 16);
+	}
+
+	public static boolean inRange(double x, double y, int ox, int oy, int w, int h) {
+		return x > ox && x < ox + w && y > oy && y < oy + h;
+	}
+
 	@Override
 	public List<Component> getTooltipStrings(StewCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX,
 			double mouseY) {
-		if(inRange(mouseX,mouseY,21,6,34,30)) {
-			return Arrays.asList(new TranslatableComponent("recipe.caupona.density",recipe.getDensity()));
+		if (inRange(mouseX, mouseY, 21, 6, 34, 30)) {
+			return Arrays.asList(new TranslatableComponent("recipe.caupona.density", recipe.getDensity()));
 		}
-		if(inRange(mouseX,mouseY,0,50,100,50)) {
+		if (inRange(mouseX, mouseY, 0, 50, 100, 50)) {
 			List<Component> allowence = null;
 			List<IngredientCondition> conds;
-			if(mouseX<50)
-				conds=recipe.getAllow();
+			if (mouseX < 50)
+				conds = recipe.getAllow();
 			else
-				conds=recipe.getDeny();
-			if(conds!=null)
-				allowence=conds.stream().map(e->e.getTranslation(GameTranslation.get())).map(TextComponent::new).collect(Collectors.toList());
-			if(allowence!=null&&!allowence.isEmpty()) {
-				if(mouseX<50)
-					allowence.add(0,new TranslatableComponent("recipe.caupona.allow"));
+				conds = recipe.getDeny();
+			if (conds != null)
+				allowence = conds.stream().map(e -> e.getTranslation(GameTranslation.get())).map(TextComponent::new)
+						.collect(Collectors.toList());
+			if (allowence != null && !allowence.isEmpty()) {
+				if (mouseX < 50)
+					allowence.add(0, new TranslatableComponent("recipe.caupona.allow"));
 				else
-					allowence.add(0,new TranslatableComponent("recipe.caupona.deny"));
+					allowence.add(0, new TranslatableComponent("recipe.caupona.deny"));
 				return allowence;
 			}
-			
+
 		}
 		return Arrays.asList();
 	}
-
 
 }

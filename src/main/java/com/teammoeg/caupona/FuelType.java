@@ -25,24 +25,25 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public enum FuelType {
-	WOODS(2,"fuel/woods"),
-	CHARCOAL(1,"fuel/charcoals"),
-	FOSSIL(3,"fuel/fossil"),
-	GEOTHERMAL(0,"fuel/lava"),
-	OTHER(0,"fuel/others");
+	WOODS(2, "fuel/woods"), CHARCOAL(1, "fuel/charcoals"), FOSSIL(3, "fuel/fossil"), GEOTHERMAL(0, "fuel/lava"),
+	OTHER(0, "fuel/others");
+
 	private final int modelId;
 	private final TagKey<Item> it;
-	private FuelType(int modelId,String tagname) {
+
+	private FuelType(int modelId, String tagname) {
 		this.modelId = modelId;
-		it=ItemTags.create(new ResourceLocation(Main.MODID,tagname));
+		it = ItemTags.create(new ResourceLocation(Main.MODID, tagname));
 	}
+
 	public static FuelType getType(ItemStack is) {
-		for(FuelType ft:FuelType.values()) {
-			if(is.is(ft.it))
+		for (FuelType ft : FuelType.values()) {
+			if (is.is(ft.it))
 				return ft;
 		}
 		return FuelType.OTHER;
 	}
+
 	public int getModelId() {
 		return modelId;
 	}

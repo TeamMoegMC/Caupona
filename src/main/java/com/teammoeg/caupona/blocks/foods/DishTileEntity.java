@@ -27,10 +27,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class DishTileEntity extends CPBaseTile  implements IInfinitable{
-	public ItemStack internal=ItemStack.EMPTY;
-	boolean isInfinite=false;
-	public DishTileEntity( BlockPos pWorldPosition, BlockState pBlockState) {
+public class DishTileEntity extends CPBaseTile implements IInfinitable {
+	public ItemStack internal = ItemStack.EMPTY;
+	boolean isInfinite = false;
+
+	public DishTileEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPTileTypes.DISH.get(), pWorldPosition, pBlockState);
 	}
 
@@ -38,11 +39,10 @@ public class DishTileEntity extends CPBaseTile  implements IInfinitable{
 	public void handleMessage(short type, int data) {
 	}
 
-
 	@Override
 	public void readCustomNBT(CompoundTag nbt, boolean isClient) {
 		internal = ItemStack.of(nbt.getCompound("bowl"));
-		isInfinite=nbt.getBoolean("inf");
+		isInfinite = nbt.getBoolean("inf");
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class DishTileEntity extends CPBaseTile  implements IInfinitable{
 
 	@Override
 	public boolean setInfinity() {
-		return isInfinite=!isInfinite;
+		return isInfinite = !isInfinite;
 	}
 
 }

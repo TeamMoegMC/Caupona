@@ -31,10 +31,11 @@ public class ChimneyPotTileEntity extends CPBaseTile {
 	private int processMax;
 	int countSoot;
 	private int maxStore;
-	public ChimneyPotTileEntity( BlockPos pWorldPosition, BlockState pBlockState) {
+
+	public ChimneyPotTileEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPTileTypes.CHIMNEY.get(), pWorldPosition, pBlockState);
-		processMax=Config.SERVER.chimneyTicks.get();
-		maxStore=Config.SERVER.chimneyStorage.get();
+		processMax = Config.SERVER.chimneyTicks.get();
+		maxStore = Config.SERVER.chimneyStorage.get();
 	}
 
 	@Override
@@ -43,8 +44,8 @@ public class ChimneyPotTileEntity extends CPBaseTile {
 
 	@Override
 	public void readCustomNBT(CompoundTag nbt, boolean isClient) {
-		process=nbt.getInt("process");
-		countSoot=nbt.getInt("soot");
+		process = nbt.getInt("process");
+		countSoot = nbt.getInt("soot");
 	}
 
 	@Override
@@ -52,18 +53,20 @@ public class ChimneyPotTileEntity extends CPBaseTile {
 		nbt.putInt("process", process);
 		nbt.putInt("soot", countSoot);
 	}
+
 	public void addAsh(int val) {
-		process+=val;
+		process += val;
 		this.setChanged();
 	}
+
 	@Override
 	public void tick() {
-		if(process>=processMax) {
-			if(countSoot<maxStore) {
+		if (process >= processMax) {
+			if (countSoot < maxStore) {
 				countSoot++;
 				this.syncData();
 			}
-			process=0;
+			process = 0;
 		}
 	}
 

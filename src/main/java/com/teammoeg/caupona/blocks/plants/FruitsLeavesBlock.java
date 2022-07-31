@@ -44,8 +44,8 @@ public class FruitsLeavesBlock extends LeavesBlock implements BonemealableBlock 
 				dropResources(pState, pLevel, pPos);
 				pLevel.removeBlock(pPos, false);
 			} else {
-				BlockPos below=pPos.below();
-				if (pRandom.nextInt(51) == 0&&pLevel.getRawBrightness(below, 0)>=9) {
+				BlockPos below = pPos.below();
+				if (pRandom.nextInt(51) == 0 && pLevel.getRawBrightness(below, 0) >= 9) {
 					if (pLevel.getBlockState(below).isAir()) {
 						pLevel.setBlockAndUpdate(below, fruit.defaultBlockState());
 					}

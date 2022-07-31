@@ -146,15 +146,30 @@ public class DishBlock extends CPBaseTileBlock<DishTileEntity> {
 			te.internal = ItemHandlerHelper.copyStackWithSize(pStack, 1);
 		}
 	}
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player)
-    {
+
+	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos,
+			Player player) {
 		BlockEntity tileEntity = level.getBlockEntity(pos);
-		if (tileEntity instanceof BowlTileEntity) {
-			BowlTileEntity te = (BowlTileEntity) tileEntity;
-			if(te.internal==null)return ItemStack.EMPTY;
+		if (tileEntity instanceof DishTileEntity) {
+			DishTileEntity te = (DishTileEntity) tileEntity;
+			if (te.internal == null)
+				return ItemStack.EMPTY;
 			return te.internal.copy();
 		}
 		return this.getCloneItemStack(state, target, level, pos, player);
-    }
+	}
 
+	@Override
+	public boolean hasAnalogOutputSignal(BlockState pState) {
+		return true;
+	}
+
+	@Override
+	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
+		DishTileEntity te = (DishTileEntity) pLevel.getBlockEntity(pPos);
+		if (te.internal == null || te.internal.isEmpty() || !te.internal.isEdible()) {
+			return 0;
+		}
+		return 15;
+	}
 }

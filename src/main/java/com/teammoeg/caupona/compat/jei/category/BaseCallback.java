@@ -27,21 +27,23 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
-class BaseCallback implements IRecipeSlotTooltipCallback{
+class BaseCallback implements IRecipeSlotTooltipCallback {
 	ResourceLocation base;
 	float dense;
+
 	public BaseCallback(ResourceLocation base, float density) {
 		super();
-		this.base=base;
-		this.dense=density;
+		this.base = base;
+		this.dense = density;
 	}
 
 	@Override
 	public void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {
-		if(base!=null)
-			tooltip.add(new TranslatableComponent("recipe.caupona.base",new TranslatableComponent(ForgeRegistries.FLUIDS.getValue(base).getAttributes().getTranslationKey())));
-		if(dense!=0)
-			tooltip.add(new TranslatableComponent("recipe.caupona.density",dense));
+		if (base != null)
+			tooltip.add(new TranslatableComponent("recipe.caupona.base", new TranslatableComponent(
+					ForgeRegistries.FLUIDS.getValue(base).getAttributes().getTranslationKey())));
+		if (dense != 0)
+			tooltip.add(new TranslatableComponent("recipe.caupona.density", dense));
 	}
-	
+
 }

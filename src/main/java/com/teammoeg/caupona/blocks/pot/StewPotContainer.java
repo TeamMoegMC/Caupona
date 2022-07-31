@@ -47,7 +47,7 @@ public class StewPotContainer extends AbstractContainerMenu {
 		for (int i = 0; i < 9; i++)
 			this.addSlot(new HidableSlot(te.getInv(), i, 45 + (i % 3) * 18, 17 + (i / 3) * 18, () -> te.proctype != 2));
 		this.addSlot(new SlotItemHandler(te.getInv(), 9, 154, 17));
-		
+
 		this.addSlot(new OutputSlot(te.getInv(), 10, 143, 51));
 		this.addSlot(new SlotItemHandler(te.getInv(), 11, 132, 17));
 		for (int i = 0; i < 3; i++)
@@ -69,7 +69,7 @@ public class StewPotContainer extends AbstractContainerMenu {
 		if (slot != null && slot.hasItem()) {
 			ItemStack slotStack = slot.getItem();
 			itemStack = slotStack.copy();
-			if (index == 10||index==11) {
+			if (index == 10 || index == 11) {
 				if (!this.moveItemStackTo(slotStack, 12, 48, true)) {
 					return ItemStack.EMPTY;
 				}
@@ -77,13 +77,13 @@ public class StewPotContainer extends AbstractContainerMenu {
 			} else if (index > 11) {
 				if (!this.moveItemStackTo(slotStack, 9, 10, false))
 					if (!this.moveItemStackTo(slotStack, 11, 12, false))
-						if (!this.moveItemStackTo(slotStack, 0, 9, false)) 
+						if (!this.moveItemStackTo(slotStack, 0, 9, false))
 							if (index < 39) {
 								if (!this.moveItemStackTo(slotStack, 39, 48, false))
 									return ItemStack.EMPTY;
-							}else if (index < 48 && !this.moveItemStackTo(slotStack, 12, 39, false))
+							} else if (index < 48 && !this.moveItemStackTo(slotStack, 12, 39, false))
 								return ItemStack.EMPTY;
-	
+
 			} else if (!this.moveItemStackTo(slotStack, 12, 47, false)) {
 				return ItemStack.EMPTY;
 			}

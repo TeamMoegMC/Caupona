@@ -47,7 +47,6 @@ public class IngredientConditionsBuilder<T> {
 		return new IngredientNumberBuilder<T>(this, this::makeHalf);
 	}
 
-
 	private void makeHalf(CookIngredients sn) {
 		li.add(new Halfs(sn));
 	}
@@ -64,11 +63,10 @@ public class IngredientConditionsBuilder<T> {
 		li.add(new Mainly(sn));
 	}
 
-
-
 	public IngredientNumberBuilder<T> any() {
 		return new IngredientNumberBuilder<T>(this, this::makeMust);
 	}
+
 	public IngredientNumberBuilder<T> only() {
 		return new IngredientNumberBuilder<T>(this, this::makeOnly);
 	}
@@ -84,9 +82,11 @@ public class IngredientConditionsBuilder<T> {
 	private void makeMust(CookIngredients sn) {
 		li.add(new Must(sn));
 	}
+
 	private void makeOnly(CookIngredients sn) {
 		li.add(new Only(sn));
 	}
+
 	public T then() {
 		return parent;
 	}

@@ -69,17 +69,18 @@ public class StewItem extends EdibleBlock {
 				.orElse(null);
 		if (fs != null)
 			tooltip.add(new TranslatableComponent("tooltip.caupona.main_ingredient", fs.getStack().getDisplayName()));
-		ResourceLocation rl=info.spiceName;
-		if(rl!=null)
-			tooltip.add(new TranslatableComponent("tooltip.caupona.spice",new TranslatableComponent("spice."+rl.getNamespace()+"."+rl.getPath())));;
-			ResourceLocation base=info.base;
-		if(base!=null)
-			tooltip.add(new TranslatableComponent("tooltip.caupona.base",new TranslatableComponent(ForgeRegistries.FLUIDS.getValue(base).getAttributes().getTranslationKey())));
+		ResourceLocation rl = info.spiceName;
+		if (rl != null)
+			tooltip.add(new TranslatableComponent("tooltip.caupona.spice",
+					new TranslatableComponent("spice." + rl.getNamespace() + "." + rl.getPath())));
+		;
+		ResourceLocation base = info.base;
+		if (base != null)
+			tooltip.add(new TranslatableComponent("tooltip.caupona.base", new TranslatableComponent(
+					ForgeRegistries.FLUIDS.getValue(base).getAttributes().getTranslationKey())));
 		addPotionTooltip(info.effects, tooltip, 1);
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
-
-
 
 	public static void addPotionTooltip(List<MobEffectInstance> list, List<Component> lores, float durationFactor) {
 		List<Pair<Attribute, AttributeModifier>> list1 = Lists.newArrayList();
@@ -147,6 +148,7 @@ public class StewItem extends EdibleBlock {
 		}
 
 	}
+
 	public static SoupInfo getInfo(ItemStack stack) {
 		if (stack.hasTag()) {
 			CompoundTag soupTag = stack.getTagElement("soup");
@@ -155,6 +157,7 @@ public class StewItem extends EdibleBlock {
 		}
 		return new SoupInfo();
 	}
+
 	public static void setInfo(ItemStack stack, SoupInfo si) {
 		if (!si.isEmpty())
 			stack.getOrCreateTag().put("soup", si.save());
@@ -207,20 +210,20 @@ public class StewItem extends EdibleBlock {
 	@Override
 	public FoodProperties getFoodProperties(ItemStack stack, LivingEntity entity) {
 		SoupInfo si = getInfo(stack);
-		FoodProperties.Builder b=new FoodProperties.Builder();
+		FoodProperties.Builder b = new FoodProperties.Builder();
 		for (MobEffectInstance eff : si.effects) {
 			if (eff != null) {
-				b.effect(eff,1);
+				b.effect(eff, 1);
 			}
 		}
-		if(si.spice!=null)
-			b.effect(si.spice,1);
+		if (si.spice != null)
+			b.effect(si.spice, 1);
 		for (Pair<MobEffectInstance, Float> ef : si.foodeffect) {
-			b.effect(ef.getFirst(),ef.getSecond());
+			b.effect(ef.getFirst(), ef.getSecond());
 		}
 		b.nutrition(si.healing);
 		b.saturationMod(si.saturation);
-		if(si.canAlwaysEat())
+		if (si.canAlwaysEat())
 			b.alwaysEat();
 		return b.build();
 	}

@@ -40,12 +40,12 @@ public abstract class BathHeatingBlock<V extends BathHeatingTile> extends CPHori
 	@Override
 	public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, Random pRandom) {
 		super.animateTick(pState, pLevel, pPos, pRandom);
-		if(pRandom.nextDouble()<0.05&&pLevel.getFluidState(pPos.above()).is(FluidTags.WATER)) {
-			BlockEntity te=pLevel.getBlockEntity(pPos);
-			if(te instanceof BathHeatingTile) {
-				if(((BathHeatingTile) te).getHeat()>0) {
-					pLevel.addParticle(Particles.STEAM.get(), pPos.getX() + pRandom.nextFloat(),pPos.getY()+2, pPos.getZ() + pRandom.nextFloat(), 0.0D,
-					0.0D, 0.0D);
+		if (pRandom.nextDouble() < 0.05 && pLevel.getFluidState(pPos.above()).is(FluidTags.WATER)) {
+			BlockEntity te = pLevel.getBlockEntity(pPos);
+			if (te instanceof BathHeatingTile) {
+				if (((BathHeatingTile) te).getHeat() > 0) {
+					pLevel.addParticle(Particles.STEAM.get(), pPos.getX() + pRandom.nextFloat(), pPos.getY() + 2,
+							pPos.getZ() + pRandom.nextFloat(), 0.0D, 0.0D, 0.0D);
 				}
 			}
 		}

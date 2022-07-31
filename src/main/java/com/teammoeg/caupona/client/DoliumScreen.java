@@ -34,13 +34,16 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class DoliumScreen extends AbstractContainerScreen<DoliumContainer> {
 	public final CounterDoliumTileEntity te;
-	private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID, "textures/gui/counter_with_dolium.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID,
+			"textures/gui/counter_with_dolium.png");
 
 	public DoliumScreen(DoliumContainer screenContainer, Inventory inv, Component titleIn) {
 		super(screenContainer, inv, titleIn);
 		te = screenContainer.tile;
 	}
+
 	private ArrayList<Component> tooltip = new ArrayList<>(2);
+
 	@Override
 	public void render(PoseStack transform, int mouseX, int mouseY, float partial) {
 		tooltip.clear();
@@ -59,23 +62,25 @@ public class DoliumScreen extends AbstractContainerScreen<DoliumContainer> {
 	}
 
 	protected void renderLabels(PoseStack matrixStack, int x, int y) {
-		this.font.draw(matrixStack, this.title, this.titleLabelX-2, this.titleLabelY, 0xEEEEEE);
-		this.font.draw(matrixStack, this.playerInventoryTitle, this.inventoryLabelX-2, this.inventoryLabelY-3, 4210752);
+		this.font.draw(matrixStack, this.title, this.titleLabelX - 2, this.titleLabelY, 0xEEEEEE);
+		this.font.draw(matrixStack, this.playerInventoryTitle, this.inventoryLabelX - 2, this.inventoryLabelY - 3,
+				4210752);
 	}
 
 	@Override
 	protected void renderBg(PoseStack transform, float partial, int x, int y) {
 		this.renderBackground(transform);
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderTexture(0, TEXTURE);
 
 		this.blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (te.process > 0) {
 			int w = (int) (12 * (te.process / (float) te.processMax));
-			this.blit(transform, leftPos + 117, topPos + 32, 176,0, w, 25);
+			this.blit(transform, leftPos + 117, topPos + 32, 176, 0, w, 25);
 		}
 	}
+
 	public boolean isMouseIn(int mouseX, int mouseY, int x, int y, int w, int h) {
 		return mouseX >= leftPos + x && mouseY >= topPos + y && mouseX < leftPos + x + w && mouseY < topPos + y + h;
 	}

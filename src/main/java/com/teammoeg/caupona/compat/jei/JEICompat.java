@@ -79,8 +79,9 @@ public class JEICompat implements IModPlugin {
 	@Override
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
 		registration.addRecipeCatalyst(new ItemStack(CPItems.pbrazier), BrazierCategory.UID);
-		registration.addRecipeCatalyst(new ItemStack(CPBlocks.stew_pot), PotCategory.UID, BoilingCategory.UID, PotRestingCategory.UID,StewCookingCategory.UID);
-		for(Block bl:CPBlocks.dolium)
+		registration.addRecipeCatalyst(new ItemStack(CPBlocks.stew_pot), PotCategory.UID, BoilingCategory.UID,
+				PotRestingCategory.UID, StewCookingCategory.UID);
+		for (Block bl : CPBlocks.dolium)
 			registration.addRecipeCatalyst(new ItemStack(bl), DoliumRestingCategory.UID, PotRestingCategory.UID);
 		registration.addRecipeCatalyst(new ItemStack(CPBlocks.STONE_PAN), FryingCategory.UID);
 		registration.addRecipeCatalyst(new ItemStack(CPBlocks.COPPER_PAN), FryingCategory.UID);
@@ -95,9 +96,11 @@ public class JEICompat implements IModPlugin {
 		registration.addRecipes(new ArrayList<>(BowlContainingRecipe.recipes.values()), BowlEmptyCategory.UID);
 		registration.addRecipes(new ArrayList<>(BowlContainingRecipe.recipes.values()), BowlFillCategory.UID);
 		registration.addRecipes(new ArrayList<>(DoliumRecipe.recipes), DoliumRestingCategory.UID);
-		registration.addRecipes(new ArrayList<>(StewCookingRecipe.sorted),StewCookingCategory.UID);
-		registration.addRecipes(new ArrayList<>(FryingRecipe.sorted),FryingCategory.UID);
-		registration.addRecipes(DoliumRecipe.recipes.stream().filter(e->e.items.size()==0).collect(Collectors.toList()), PotRestingCategory.UID);
+		registration.addRecipes(new ArrayList<>(StewCookingRecipe.sorted), StewCookingCategory.UID);
+		registration.addRecipes(new ArrayList<>(FryingRecipe.sorted), FryingCategory.UID);
+		registration.addRecipes(
+				DoliumRecipe.recipes.stream().filter(e -> e.items.size() == 0).collect(Collectors.toList()),
+				PotRestingCategory.UID);
 	}
 
 	@Override
@@ -107,10 +110,10 @@ public class JEICompat implements IModPlugin {
 	@Override
 	public void registerCategories(IRecipeCategoryRegistration registration) {
 		IGuiHelper guiHelper = registration.getJeiHelpers().getGuiHelper();
-		registration.addRecipeCategories(new BrazierCategory(guiHelper),new PotCategory(guiHelper)
-				,new BoilingCategory(guiHelper),new BowlEmptyCategory(guiHelper)
-				,new BowlFillCategory(guiHelper),new DoliumRestingCategory(guiHelper)
-				,new PotRestingCategory(guiHelper),new StewCookingCategory(guiHelper),new FryingCategory(guiHelper));
+		registration.addRecipeCategories(new BrazierCategory(guiHelper), new PotCategory(guiHelper),
+				new BoilingCategory(guiHelper), new BowlEmptyCategory(guiHelper), new BowlFillCategory(guiHelper),
+				new DoliumRestingCategory(guiHelper), new PotRestingCategory(guiHelper),
+				new StewCookingCategory(guiHelper), new FryingCategory(guiHelper));
 	}
 
 	@Override
@@ -121,17 +124,19 @@ public class JEICompat implements IModPlugin {
 	public void registerGuiHandlers(IGuiHandlerRegistration registry) {
 		registry.addGuiContainerHandler(PortableBrazierScreen.class, new IGuiContainerHandler<PortableBrazierScreen>() {
 			@Override
-			public Collection<IGuiClickableArea> getGuiClickableAreas(PortableBrazierScreen containerScreen, double mouseX, double mouseY) {
-				IGuiClickableArea clickableArea1 = IGuiClickableArea.createBasic(60,11,14,16,BrazierCategory.UID);
-				IGuiClickableArea clickableArea2 = IGuiClickableArea.createBasic(90,11,14,16,BrazierCategory.UID);
-				return List.of(clickableArea1,clickableArea2);
+			public Collection<IGuiClickableArea> getGuiClickableAreas(PortableBrazierScreen containerScreen,
+					double mouseX, double mouseY) {
+				IGuiClickableArea clickableArea1 = IGuiClickableArea.createBasic(60, 11, 14, 16, BrazierCategory.UID);
+				IGuiClickableArea clickableArea2 = IGuiClickableArea.createBasic(90, 11, 14, 16, BrazierCategory.UID);
+				return List.of(clickableArea1, clickableArea2);
 			}
 		});
-	
-		registry.addRecipeClickArea(DoliumScreen.class,118, 32,10,25,DoliumRestingCategory.UID);
-		registry.addRecipeClickArea(StewPotScreen.class,132, 34,38,16,PotCategory.UID, BoilingCategory.UID, PotRestingCategory.UID,StewCookingCategory.UID);
-		registry.addRecipeClickArea(KitchenStoveScreen.class,61,0,54,28,VanillaRecipeCategoryUid.FUEL);
-		registry.addRecipeClickArea(PanScreen.class,125, 30,38,16,FryingCategory.UID);
+
+		registry.addRecipeClickArea(DoliumScreen.class, 118, 32, 10, 25, DoliumRestingCategory.UID);
+		registry.addRecipeClickArea(StewPotScreen.class, 132, 34, 38, 16, PotCategory.UID, BoilingCategory.UID,
+				PotRestingCategory.UID, StewCookingCategory.UID);
+		registry.addRecipeClickArea(KitchenStoveScreen.class, 61, 0, 54, 28, VanillaRecipeCategoryUid.FUEL);
+		registry.addRecipeClickArea(PanScreen.class, 125, 30, 38, 16, FryingCategory.UID);
 	}
 
 	@Override

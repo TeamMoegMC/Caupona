@@ -67,10 +67,10 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 			return 1;
 		}
 	};
-	ItemStack bowl=ItemStack.EMPTY;
-	ItemStack aspic=ItemStack.EMPTY;
-	ItemStack out=ItemStack.EMPTY;
-	ItemStack pout=ItemStack.EMPTY;//simulated output
+	ItemStack bowl = ItemStack.EMPTY;
+	ItemStack aspic = ItemStack.EMPTY;
+	ItemStack out = ItemStack.EMPTY;
+	ItemStack pout = ItemStack.EMPTY;// simulated output
 	public int process;
 	public int processMax;
 
@@ -94,7 +94,7 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 	}
 
 	private void sendUpdate() {
-		
+
 		CompoundTag tag = new CompoundTag();
 		tag.putInt("process", process);
 		tag.putInt("processMax", processMax);
@@ -115,7 +115,7 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 				pPlayer.drop(bowl, false);
 			if (!aspic.isEmpty())
 				pPlayer.drop(aspic, false);
-			if(!out.isEmpty())
+			if (!out.isEmpty())
 				pPlayer.drop(out, false);
 		} else {
 			Inventory inventory = pPlayer.getInventory();
@@ -127,7 +127,7 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 					inventory.placeItemBackInInventory(bowl);
 				if (!aspic.isEmpty())
 					inventory.placeItemBackInInventory(aspic);
-				if(!out.isEmpty())
+				if (!out.isEmpty())
 					inventory.placeItemBackInInventory(out);
 			}
 		}
@@ -188,23 +188,23 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 			if (processMax > 0) {
 				process++;
 				if (process >= processMax) {
-					out = Utils.insertToOutput(items,OUT,pout);
+					out = Utils.insertToOutput(items, OUT, pout);
 					process = 0;
 					processMax = 0;
 					bowl = ItemStack.EMPTY;
 					aspic = ItemStack.EMPTY;
-					pout=ItemStack.EMPTY;
+					pout = ItemStack.EMPTY;
 				}
 				sendUpdate();
 			}
 			if (!out.isEmpty()) {
-				out = Utils.insertToOutput(items,OUT,out);
+				out = Utils.insertToOutput(items, OUT, out);
 				return;
 			}
 			if (processMax == 0 && items.getStackInSlot(OUT).isEmpty() && !items.getStackInSlot(CONTAINER).isEmpty()
 					&& items.getStackInSlot(FUEL).is(fueltype)) {
 				AspicMeltingRecipe recipe = AspicMeltingRecipe.find(items.getStackInSlot(INGREDIENT));
-				if(recipe != null) {
+				if (recipe != null) {
 					BowlContainingRecipe recipe2 = BowlContainingRecipe.recipes.get(recipe.fluid);
 					if (recipe2 != null) {
 						this.processMax = recipe.time;
@@ -226,7 +226,7 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 
 	@Override
 	public void handle(CompoundTag nbt) {
-	
+
 		process = nbt.getInt("process");
 		processMax = nbt.getInt("processMax");
 	}

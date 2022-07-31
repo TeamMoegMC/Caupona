@@ -42,46 +42,49 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
 
 public class BowlEmptyCategory implements IRecipeCategory<BowlContainingRecipe> {
-    public static ResourceLocation UID = new ResourceLocation(Main.MODID, "bowl_draining");
-    private IDrawable BACKGROUND;
-    private IDrawable ICON;
-    
-    public BowlEmptyCategory(IGuiHelper guiHelper) {
-        this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM,new ItemStack(Items.BOWL));
-        ResourceLocation guiMain=new ResourceLocation(Main.MODID, "textures/gui/jei/container_draining.png");
-        this.BACKGROUND = guiHelper.createDrawable(guiMain,0, 0, 127, 63);
-    }
+	public static ResourceLocation UID = new ResourceLocation(Main.MODID, "bowl_draining");
+	private IDrawable BACKGROUND;
+	private IDrawable ICON;
 
-    @Override
-    public ResourceLocation getUid() {
-        return UID;
-    }
+	public BowlEmptyCategory(IGuiHelper guiHelper) {
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(Items.BOWL));
+		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/container_draining.png");
+		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
+	}
 
-    @Override
-    public Class<? extends BowlContainingRecipe> getRecipeClass() {
-        return BowlContainingRecipe.class;
-    }
+	@Override
+	public ResourceLocation getUid() {
+		return UID;
+	}
 
+	@Override
+	public Class<? extends BowlContainingRecipe> getRecipeClass() {
+		return BowlContainingRecipe.class;
+	}
 
-    public Component getTitle() {
-        return new TranslatableComponent("gui.jei.category." + Main.MODID + ".draining.title");
-    }
-    @Override
-    public IDrawable getBackground() {
-        return BACKGROUND;
-    }
+	public Component getTitle() {
+		return new TranslatableComponent("gui.jei.category." + Main.MODID + ".draining.title");
+	}
 
-    @Override
-    public IDrawable getIcon() {
-        return ICON;
-    }
+	@Override
+	public IDrawable getBackground() {
+		return BACKGROUND;
+	}
 
-    @Override
-    public void setRecipe(IRecipeLayoutBuilder builder,BowlContainingRecipe recipe, IFocusGroup focuses) {
-    	builder.addSlot(RecipeIngredientRole.INPUT,30,17).addIngredient(VanillaTypes.ITEM,new ItemStack(recipe.bowl));
-    	builder.addSlot(RecipeIngredientRole.OUTPUT,56,37).addIngredient(VanillaTypes.ITEM,new ItemStack(Items.BOWL));
-    	builder.addSlot(RecipeIngredientRole.OUTPUT,83, 9).addIngredient(VanillaTypes.FLUID,new FluidStack(recipe.fluid,250)).setFluidRenderer(250,true,16,46);
-    }
+	@Override
+	public IDrawable getIcon() {
+		return ICON;
+	}
 
+	@Override
+	public void setRecipe(IRecipeLayoutBuilder builder, BowlContainingRecipe recipe, IFocusGroup focuses) {
+		builder.addSlot(RecipeIngredientRole.INPUT, 30, 17).addIngredient(VanillaTypes.ITEM,
+				new ItemStack(recipe.bowl));
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 56, 37).addIngredient(VanillaTypes.ITEM,
+				new ItemStack(Items.BOWL));
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 9)
+				.addIngredient(VanillaTypes.FLUID, new FluidStack(recipe.fluid, 250))
+				.setFluidRenderer(250, true, 16, 46);
+	}
 
 }

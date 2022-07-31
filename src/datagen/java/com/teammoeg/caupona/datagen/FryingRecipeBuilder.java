@@ -31,7 +31,6 @@ import net.minecraft.world.item.Item;
 
 public class FryingRecipeBuilder {
 
-
 	private List<IngredientCondition> allow = new ArrayList<>();
 	private List<IngredientCondition> deny = new ArrayList<>();
 	private int priority = 0;
@@ -39,7 +38,7 @@ public class FryingRecipeBuilder {
 	private Item output;
 	private ResourceLocation id;
 
-	public FryingRecipeBuilder(ResourceLocation id,Item out) {
+	public FryingRecipeBuilder(ResourceLocation id, Item out) {
 		output = out;
 		this.id = id;
 	}
@@ -50,13 +49,12 @@ public class FryingRecipeBuilder {
 	}
 
 	public IngredientConditionsBuilder<FryingRecipeBuilder> require() {
-		return new IngredientConditionsBuilder<FryingRecipeBuilder> (this, allow, allow, deny);
+		return new IngredientConditionsBuilder<FryingRecipeBuilder>(this, allow, allow, deny);
 	}
 
-	public IngredientConditionsBuilder<FryingRecipeBuilder>  not() {
-		return new IngredientConditionsBuilder<FryingRecipeBuilder> (this, deny, allow, deny);
+	public IngredientConditionsBuilder<FryingRecipeBuilder> not() {
+		return new IngredientConditionsBuilder<FryingRecipeBuilder>(this, deny, allow, deny);
 	}
-
 
 	public FryingRecipeBuilder prio(int p) {
 		priority = p;
@@ -86,7 +84,6 @@ public class FryingRecipeBuilder {
 		time = t;
 		return this;
 	}
-
 
 	public FryingRecipe end() {
 		return new FryingRecipe(id, allow, deny, priority, time, output);

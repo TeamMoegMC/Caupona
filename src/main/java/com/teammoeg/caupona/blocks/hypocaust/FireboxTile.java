@@ -49,7 +49,7 @@ public class FireboxTile extends BathHeatingTile {
 	public FireboxTile(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPTileTypes.FIREBOX.get(), pWorldPosition, pBlockState);
 		r = Config.SERVER.bathRange.get();
-		mp = Config.SERVER.bathPath.get()/2;
+		mp = Config.SERVER.bathPath.get() / 2;
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class FireboxTile extends BathHeatingTile {
 				process = 0;
 				heat = nh;
 			}
-		}else if (heat != 0) {
+		} else if (heat != 0) {
 			process = 0;
 			heat = 0;
 		}
@@ -115,7 +115,7 @@ public class FireboxTile extends BathHeatingTile {
 			Set<BlockPos> pss = getAll();
 			for (BlockPos pos : pss) {
 				BlockEntity hte = level.getBlockEntity(pos);
-				if(hte instanceof BathHeatingTile)
+				if (hte instanceof BathHeatingTile)
 					((BathHeatingTile) hte).setHeat(heat);
 			}
 		}

@@ -34,8 +34,6 @@ public class Halfs extends NumberedStewCondition {
 		super(number);
 	}
 
-
-
 	@Override
 	public boolean test(IPendingContext t, float n) {
 		return n > t.getTotalItems() / 2;
@@ -61,8 +59,6 @@ public class Halfs extends NumberedStewCondition {
 		return "half";
 	}
 
-
-
 	@Override
 	public int hashCode() {
 		return super.hashCode();
@@ -81,6 +77,6 @@ public class Halfs extends NumberedStewCondition {
 
 	@Override
 	public String getTranslation(TranslationProvider p) {
-		return p.getTranslation("recipe.caupona.cond.half",number.getTranslation(p));
+		return p.getTranslation("recipe.caupona.cond.half", number.getTranslation(p));
 	}
 }

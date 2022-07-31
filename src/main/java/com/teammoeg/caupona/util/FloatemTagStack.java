@@ -50,7 +50,8 @@ public class FloatemTagStack {
 	public FloatemTagStack(ItemStack stack) {
 		FoodValueRecipe fvr = FoodValueRecipe.recipes.get(stack.getItem());
 		if (fvr == null) {
-			tags = stack.getTags().map(TagKey::location).filter(CountingTags.tags::contains).collect(Collectors.toSet());
+			tags = stack.getTags().map(TagKey::location).filter(CountingTags.tags::contains)
+					.collect(Collectors.toSet());
 		} else
 			tags = fvr.getTags();
 		this.stack = stack;

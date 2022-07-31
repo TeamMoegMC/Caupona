@@ -2,7 +2,7 @@
   "name": "与水的交互",
   "icon": "minecraft:water_bucket",
   "category": "caupona:tweaks",
-  "sortnum": 1,
+  "sortnum": 2,
   "pages": [
     {
       "type": "text",

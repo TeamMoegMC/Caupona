@@ -60,7 +60,7 @@ public class BowlContainingRecipe extends IDataRecipe {
 		super(id);
 		bowl = ForgeRegistries.ITEMS.getValue(new ResourceLocation(jo.get("item").getAsString()));
 		fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(jo.get("fluid").getAsString()));
-		if (bowl == null||bowl==Items.AIR || fluid == null||fluid==Fluids.EMPTY)
+		if (bowl == null || bowl == Items.AIR || fluid == null || fluid == Fluids.EMPTY)
 			throw new InvalidRecipeException();
 	}
 
@@ -77,8 +77,8 @@ public class BowlContainingRecipe extends IDataRecipe {
 	}
 
 	public void write(FriendlyByteBuf pack) {
-		pack.writeRegistryIdUnsafe(ForgeRegistries.ITEMS,bowl);
-		pack.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS,fluid);
+		pack.writeRegistryIdUnsafe(ForgeRegistries.ITEMS, bowl);
+		pack.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS, fluid);
 	}
 
 	public void serializeRecipeData(JsonObject jo) {
@@ -91,9 +91,11 @@ public class BowlContainingRecipe extends IDataRecipe {
 		is.getOrCreateTag().putString("type", f.getRegistryName().toString());
 		return is;
 	}
+
 	public boolean matches(Fluid f) {
-		return fluid==f;
+		return fluid == f;
 	}
+
 	public ItemStack handle(FluidStack stack) {
 		ItemStack is = new ItemStack(bowl);
 		if (stack.hasTag())

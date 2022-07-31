@@ -29,11 +29,12 @@ public class ClientUtils {
 
 	public ClientUtils() {
 	}
+
 	public static void syncContainerInfo(CompoundTag nbt) {
-		Player p=Minecraft.getInstance().player;
-		if(p!=null&&p.containerMenu instanceof INetworkContainer) {
+		Player p = Minecraft.getInstance().player;
+		if (p != null && p.containerMenu instanceof INetworkContainer) {
 			((INetworkContainer) p.containerMenu).handle(nbt);
 		}
 	}
-	
+
 }

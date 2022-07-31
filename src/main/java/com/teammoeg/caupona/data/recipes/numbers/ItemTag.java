@@ -110,6 +110,6 @@ public class ItemTag implements CookIngredients {
 
 	@Override
 	public String getTranslation(TranslationProvider p) {
-		return p.getTranslation("tag."+this.tag.toString().replaceAll("[:/]","."));
+		return p.getTranslation("tag." + this.tag.toString().replaceAll("[:/]", "."));
 	}
 }

@@ -38,12 +38,14 @@ public class EdibleBlock extends CPBlockItem {
 	public EdibleBlock(Block block, Properties props, String name) {
 		super(block, props, name);
 	}
+
 	@Override
 	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
 			items.add(new ItemStack(this));
 		}
 	}
+
 	/**
 	 * Returns the unlocalized name of this item.
 	 */
@@ -63,14 +65,14 @@ public class EdibleBlock extends CPBlockItem {
 		InteractionResult interactionresult = InteractionResult.PASS;
 		if (pContext.getPlayer().isShiftKeyDown())
 			interactionresult = this.place(new BlockPlaceContext(pContext));
-		//if(!pContext.getPlayer().getCooldowns().isOnCooldown(CPItems.water))
-			if (!interactionresult.consumesAction() && this.isEdible()) {
-				
-				InteractionResult interactionresult1 = this
-						.use(pContext.getLevel(), pContext.getPlayer(), pContext.getHand()).getResult();
-				return interactionresult1 == InteractionResult.CONSUME ? InteractionResult.CONSUME_PARTIAL
-						: interactionresult1;
-			}
+		// if(!pContext.getPlayer().getCooldowns().isOnCooldown(CPItems.water))
+		if (!interactionresult.consumesAction() && this.isEdible()) {
+
+			InteractionResult interactionresult1 = this
+					.use(pContext.getLevel(), pContext.getPlayer(), pContext.getHand()).getResult();
+			return interactionresult1 == InteractionResult.CONSUME ? InteractionResult.CONSUME_PARTIAL
+					: interactionresult1;
+		}
 		return interactionresult;
 	}
 

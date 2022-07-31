@@ -139,41 +139,41 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 		Stopwatch sw = Stopwatch.createStarted();
 		BowlContainingRecipe.recipes = filterRecipes(recipes, BowlContainingRecipe.class, BowlContainingRecipe.TYPE)
 				.collect(Collectors.toMap(e -> e.fluid, UnaryOperator.identity()));
-		
+
 		FoodValueRecipe.recipes = filterRecipes(recipes, FoodValueRecipe.class, FoodValueRecipe.TYPE)
 				.flatMap(t -> t.processtimes.keySet().stream().map(i -> new Pair<>(i, t)))
 				.collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
 		List<SmokingRecipe> irs = recipeManager.getAllRecipesFor(RecipeType.SMOKING);
-		
+
 		DissolveRecipe.recipes = filterRecipes(recipes, DissolveRecipe.class, DissolveRecipe.TYPE)
 				.collect(Collectors.toList());
-		
+
 		BoilingRecipe.recipes = filterRecipes(recipes, BoilingRecipe.class, BoilingRecipe.TYPE)
 				.collect(Collectors.toMap(e -> e.before, UnaryOperator.identity()));
-		
+
 		FluidFoodValueRecipe.recipes = filterRecipes(recipes, FluidFoodValueRecipe.class, FluidFoodValueRecipe.TYPE)
 				.collect(Collectors.toMap(e -> e.f, UnaryOperator.identity()));
-		
+
 		StewCookingRecipe.recipes = filterRecipes(recipes, StewCookingRecipe.class, StewCookingRecipe.TYPE)
 				.collect(Collectors.toMap(e -> e.output, UnaryOperator.identity()));
 		StewCookingRecipe.cookables = StewCookingRecipe.recipes.values().stream()
 				.flatMap(StewCookingRecipe::getAllNumbers).collect(Collectors.toSet());
 		StewCookingRecipe.sorted = new ArrayList<>(StewCookingRecipe.recipes.values());
 		StewCookingRecipe.sorted.sort((t2, t1) -> t1.getPriority() - t2.getPriority());
-		
+
 		CountingTags.tags = Stream
 				.concat(filterRecipes(recipes, CountingTags.class, CountingTags.TYPE).flatMap(r -> r.tag.stream()),
 						StewCookingRecipe.recipes.values().stream().flatMap(StewCookingRecipe::getTags))
 				.collect(Collectors.toSet());
 		// CountingTags.tags.forEach(System.out::println);
-		
-		
-		
-		FryingRecipe.recipes=filterRecipes(recipes,FryingRecipe.class, FryingRecipe.TYPE).collect(Collectors.toMap(e -> e.output, UnaryOperator.identity()));
-		FryingRecipe.cookables = FryingRecipe.recipes.values().stream().flatMap(FryingRecipe::getAllNumbers).collect(Collectors.toSet());
-		FryingRecipe.sorted= new ArrayList<>(FryingRecipe.recipes.values());
+
+		FryingRecipe.recipes = filterRecipes(recipes, FryingRecipe.class, FryingRecipe.TYPE)
+				.collect(Collectors.toMap(e -> e.output, UnaryOperator.identity()));
+		FryingRecipe.cookables = FryingRecipe.recipes.values().stream().flatMap(FryingRecipe::getAllNumbers)
+				.collect(Collectors.toSet());
+		FryingRecipe.sorted = new ArrayList<>(FryingRecipe.recipes.values());
 		FryingRecipe.sorted.sort((t2, t1) -> t1.getPriority() - t2.getPriority());
-		
+
 		DoliumRecipe.recipes = filterRecipes(recipes, DoliumRecipe.class, DoliumRecipe.TYPE)
 				.collect(Collectors.toList());
 		DoliumRecipe.recipes
@@ -181,13 +181,12 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 						.thenComparing((c1, c2) -> Integer.compare(
 								c2.items.stream().reduce(0, (a, b) -> a + b.getSecond(), (a, b) -> a + b),
 								c1.items.stream().reduce(0, (a, b) -> a + b.getSecond(), (a, b) -> a + b))));
-		
-		
+
 		AspicMeltingRecipe.recipes = filterRecipes(recipes, AspicMeltingRecipe.class, AspicMeltingRecipe.TYPE)
 				.collect(Collectors.toList());
-		
+
 		SpiceRecipe.recipes = filterRecipes(recipes, SpiceRecipe.class, SpiceRecipe.TYPE).collect(Collectors.toList());
-		
+
 		for (Item i : ForgeRegistries.ITEMS) {
 			ItemStack iis = new ItemStack(i);
 			if (FoodValueRecipe.recipes.containsKey(i))
@@ -198,7 +197,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 		}
 
 		FoodValueRecipe.recipeset = new HashSet<>(FoodValueRecipe.recipes.values());
-		
+
 		sw.stop();
 		logger.info("Recipes built, cost {}", sw);
 	}

@@ -24,7 +24,7 @@ import com.teammoeg.caupona.CPTileTypes;
 public class FireboxBlock extends BathHeatingBlock<FireboxTile> {
 
 	public FireboxBlock(Properties blockProps) {
-		super(CPTileTypes.FIREBOX,blockProps);
+		super(CPTileTypes.FIREBOX, blockProps);
 		CPBlocks.firebox.add(this);
 	}
 

@@ -22,6 +22,7 @@ import java.util.Random;
 import java.util.function.BiFunction;
 
 import com.teammoeg.caupona.blocks.CPBaseTileBlock;
+import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -157,6 +158,7 @@ public class KitchenStove extends CPBaseTileBlock<KitchenStoveTileEntity> {
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return shape;
 	}
+
 	@Override
 	public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
 		if (pState.getValue(LIT)) {
@@ -164,4 +166,5 @@ public class KitchenStove extends CPBaseTileBlock<KitchenStoveTileEntity> {
 		}
 		super.stepOn(pLevel, pPos, pState, pEntity);
 	}
+
 }

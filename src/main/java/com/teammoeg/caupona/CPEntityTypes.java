@@ -33,7 +33,7 @@ public class CPEntityTypes {
 	public static final RegistryObject<EntityType<CPBoat>> BOAT = ENTITY_TYPES.register("boat",
 			() -> EntityType.Builder.<CPBoat>of(CPBoat::new, MobCategory.MISC).sized(0.5f, 0.5f)
 					.build(new ResourceLocation(Main.MODID, "boat").toString()));
-	
+
 	private CPEntityTypes() {
 	}
 

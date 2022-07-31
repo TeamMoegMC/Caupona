@@ -84,23 +84,23 @@ public class FoodValueRecipe extends IDataRecipe {
 		heal = jo.get("heal").getAsInt();
 		sat = jo.get("sat").getAsFloat();
 		processtimes = SerializeUtil.parseJsonList(jo.get("items"), x -> {
-			ResourceLocation rl=new ResourceLocation(x.get("item").getAsString());
-			if(ForgeRegistries.ITEMS.containsKey(rl)) {
+			ResourceLocation rl = new ResourceLocation(x.get("item").getAsString());
+			if (ForgeRegistries.ITEMS.containsKey(rl)) {
 				Item i = ForgeRegistries.ITEMS.getValue(rl);
 				int f = 0;
 				if (x.has("time"))
 					f = x.get("time").getAsInt();
-				if(i==Items.AIR)
+				if (i == Items.AIR)
 					return null;
 				return new Pair<Item, Integer>(i, f);
 			}
 			return null;
 		}).stream().filter(Objects::nonNull).collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
-		if(processtimes.isEmpty())
+		if (processtimes.isEmpty())
 			throw new InvalidRecipeException();
 		effects = SerializeUtil.parseJsonList(jo.get("effects"), x -> {
-			ResourceLocation rl=new ResourceLocation(x.get("effect").getAsString());
-			if(ForgeRegistries.POTIONS.containsKey(rl)) {
+			ResourceLocation rl = new ResourceLocation(x.get("effect").getAsString());
+			if (ForgeRegistries.POTIONS.containsKey(rl)) {
 				int amplifier = 0;
 				if (x.has("level"))
 					amplifier = x.get("level").getAsInt();
@@ -108,48 +108,50 @@ public class FoodValueRecipe extends IDataRecipe {
 				if (x.has("time"))
 					duration = x.get("time").getAsInt();
 				MobEffect eff = ForgeRegistries.MOB_EFFECTS.getValue(rl);
-				if(eff==null)
+				if (eff == null)
 					return null;
 				MobEffectInstance effect = new MobEffectInstance(eff, duration, amplifier);
 				float f = 1;
 				if (x.has("chance"))
 					f = x.get("chance").getAsInt();
 				return new Pair<>(effect, f);
-			}return null;
+			}
+			return null;
 		}).stream().filter(Objects::nonNull).collect(Collectors.toList());
-		if(effects!=null)
-			effects.removeIf(e->e==null);
+		if (effects != null)
+			effects.removeIf(e -> e == null);
 		if (jo.has("item")) {
 			ItemStack[] i = Ingredient.fromJson(jo.get("item")).getItems();
 			if (i.length > 0)
 				repersent = i[0];
 		}
-		
+
 	}
+
 	@Override
 	public void serializeRecipeData(JsonObject json) {
 		json.addProperty("heal", heal);
 		json.addProperty("sat", sat);
-		if(processtimes!=null&&!processtimes.isEmpty())
-		json.add("items",SerializeUtil.toJsonList(processtimes.entrySet(),e->{
-			JsonObject jo=new JsonObject();
-			jo.addProperty("item",e.getKey().getRegistryName().toString());
-			if(e.getValue()!=0)
-				jo.addProperty("time",e.getValue());
-		return jo;}));
-		if(effects!=null&&!effects.isEmpty())
-		json.add("effects",SerializeUtil.toJsonList(effects,x->{
-			JsonObject jo=new JsonObject();
-			jo.addProperty("level",x.getFirst().getAmplifier());
-			jo.addProperty("time",x.getFirst().getDuration());
-			jo.addProperty("effect",x.getFirst().getEffect().getRegistryName().toString());
-			jo.addProperty("chance",x.getSecond());
-			return jo;
-		}));
-		if(repersent!=null)
-		json.add("item",Ingredient.of(repersent).toJson());
-				
-			
+		if (processtimes != null && !processtimes.isEmpty())
+			json.add("items", SerializeUtil.toJsonList(processtimes.entrySet(), e -> {
+				JsonObject jo = new JsonObject();
+				jo.addProperty("item", e.getKey().getRegistryName().toString());
+				if (e.getValue() != 0)
+					jo.addProperty("time", e.getValue());
+				return jo;
+			}));
+		if (effects != null && !effects.isEmpty())
+			json.add("effects", SerializeUtil.toJsonList(effects, x -> {
+				JsonObject jo = new JsonObject();
+				jo.addProperty("level", x.getFirst().getAmplifier());
+				jo.addProperty("time", x.getFirst().getDuration());
+				jo.addProperty("effect", x.getFirst().getEffect().getRegistryName().toString());
+				jo.addProperty("chance", x.getSecond());
+				return jo;
+			}));
+		if (repersent != null)
+			json.add("item", Ingredient.of(repersent).toJson());
+
 	}
 
 	public FoodValueRecipe(ResourceLocation id, FriendlyByteBuf data) {
@@ -158,8 +160,7 @@ public class FoodValueRecipe extends IDataRecipe {
 		sat = data.readFloat();
 		processtimes = SerializeUtil.readList(data, d -> new Pair<>(d.<Item>readRegistryId(), d.readVarInt())).stream()
 				.collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
-		effects = SerializeUtil.readList(data,
-				d -> new Pair<>(MobEffectInstance.load(d.readNbt()), d.readFloat()));
+		effects = SerializeUtil.readList(data, d -> new Pair<>(MobEffectInstance.load(d.readNbt()), d.readFloat()));
 		repersent = SerializeUtil.readOptional(data, d -> ItemStack.of(d.readNbt())).orElse(null);
 	}
 
@@ -181,11 +182,13 @@ public class FoodValueRecipe extends IDataRecipe {
 	}
 
 	public void clearCache() {
-		tags=null;
+		tags = null;
 	}
+
 	public Set<ResourceLocation> getTags() {
 		if (tags == null)
-			tags = processtimes.keySet().stream().flatMap(i->(i.builtInRegistryHolder().getTagKeys().map(TagKey::location)))
+			tags = processtimes.keySet().stream()
+					.flatMap(i -> (i.builtInRegistryHolder().getTagKeys().map(TagKey::location)))
 					.filter(CountingTags.tags::contains).collect(Collectors.toSet());
 		return tags;
 	}

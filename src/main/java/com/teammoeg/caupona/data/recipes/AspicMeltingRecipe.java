@@ -56,37 +56,38 @@ public class AspicMeltingRecipe extends IDataRecipe {
 
 	public Ingredient aspic;
 	public Fluid fluid;
-	public int amount=250;
-	public int time=100;
+	public int amount = 250;
+	public int time = 100;
+
 	public AspicMeltingRecipe(ResourceLocation id, JsonObject jo) {
 		super(id);
-		aspic=Ingredient.fromJson(jo.get("aspic"));
+		aspic = Ingredient.fromJson(jo.get("aspic"));
 		fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(jo.get("fluid").getAsString()));
-		if(jo.has("time"))
-			time=jo.get("time").getAsInt();
-		if(jo.has("amount"))
-			amount=jo.get("amount").getAsInt();
-		if (fluid == null||fluid==Fluids.EMPTY)
+		if (jo.has("time"))
+			time = jo.get("time").getAsInt();
+		if (jo.has("amount"))
+			amount = jo.get("amount").getAsInt();
+		if (fluid == null || fluid == Fluids.EMPTY)
 			throw new InvalidRecipeException();
 	}
 
 	public AspicMeltingRecipe(ResourceLocation id, FriendlyByteBuf pb) {
 		super(id);
-		aspic= Ingredient.fromNetwork(pb);
+		aspic = Ingredient.fromNetwork(pb);
 		fluid = pb.readRegistryIdUnsafe(ForgeRegistries.FLUIDS);
-		amount =pb.readVarInt();
-		time=pb.readVarInt();
+		amount = pb.readVarInt();
+		time = pb.readVarInt();
 	}
 
-	public AspicMeltingRecipe(ResourceLocation id,Ingredient aspic, Fluid fluid) {
+	public AspicMeltingRecipe(ResourceLocation id, Ingredient aspic, Fluid fluid) {
 		super(id);
-		this.aspic=aspic;
+		this.aspic = aspic;
 		this.fluid = fluid;
 	}
 
 	public void write(FriendlyByteBuf pack) {
 		aspic.toNetwork(pack);
-		pack.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS,fluid);
+		pack.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS, fluid);
 		pack.writeVarInt(amount);
 		pack.writeVarInt(time);
 	}
@@ -94,22 +95,24 @@ public class AspicMeltingRecipe extends IDataRecipe {
 	public void serializeRecipeData(JsonObject jo) {
 		jo.add("aspic", aspic.toJson());
 		jo.addProperty("fluid", fluid.getRegistryName().toString());
-		jo.addProperty("amount",amount);
-		jo.addProperty("time",time);
+		jo.addProperty("amount", amount);
+		jo.addProperty("time", time);
 	}
 
 	public FluidStack handle(ItemStack s) {
-		SoupInfo si=StewItem.getInfo(s);
-		FluidStack fs=new FluidStack(fluid,amount);
+		SoupInfo si = StewItem.getInfo(s);
+		FluidStack fs = new FluidStack(fluid, amount);
 		SoupFluid.setInfo(fs, si);
 		return fs;
 	}
+
 	public SoupInfo info(ItemStack s) {
-		SoupInfo si=StewItem.getInfo(s);
+		SoupInfo si = StewItem.getInfo(s);
 		return si;
 	}
+
 	public static AspicMeltingRecipe find(ItemStack aspic) {
-		return recipes.stream().filter(t->t.aspic.test(aspic)).findFirst().orElse(null);
-		
+		return recipes.stream().filter(t -> t.aspic.test(aspic)).findFirst().orElse(null);
+
 	}
 }

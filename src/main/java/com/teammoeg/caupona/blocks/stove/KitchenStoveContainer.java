@@ -30,17 +30,18 @@ import net.minecraftforge.common.ForgeHooks;
 
 public class KitchenStoveContainer extends AbstractContainerMenu {
 	public KitchenStoveTileEntity tile;
+
 	public KitchenStoveContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
-		this(id,inv,(KitchenStoveTileEntity) inv.player.level.getBlockEntity(buffer.readBlockPos()));
+		this(id, inv, (KitchenStoveTileEntity) inv.player.level.getBlockEntity(buffer.readBlockPos()));
 	}
 
 	public KitchenStoveContainer(int id, Inventory inv, KitchenStoveTileEntity te) {
 		super(CPGui.STOVE.get(), id);
 		tile = te;
-		this.addSlot(new Slot(tile,0,80,55) {
+		this.addSlot(new Slot(tile, 0, 80, 55) {
 			@Override
 			public boolean mayPlace(ItemStack stack) {
-				return ForgeHooks.getBurnTime(stack, null) > 0&&stack.getContainerItem().isEmpty();
+				return ForgeHooks.getBurnTime(stack, null) > 0 && stack.getContainerItem().isEmpty();
 			}
 		});
 
@@ -55,6 +56,7 @@ public class KitchenStoveContainer extends AbstractContainerMenu {
 	public boolean stillValid(Player playerIn) {
 		return true;
 	}
+
 	@Override
 	public ItemStack quickMoveStack(Player playerIn, int index) {
 		ItemStack itemStack = ItemStack.EMPTY;
@@ -68,7 +70,7 @@ public class KitchenStoveContainer extends AbstractContainerMenu {
 				}
 				slot.onQuickCraft(slotStack, itemStack);
 			} else if (index > 0) {
-				if (!this.moveItemStackTo(slotStack,0, 1, false))
+				if (!this.moveItemStackTo(slotStack, 0, 1, false))
 					if (index < 28)
 						if (!this.moveItemStackTo(slotStack, 28, 37, false))
 							return ItemStack.EMPTY;

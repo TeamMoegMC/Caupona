@@ -43,7 +43,7 @@ public class CPBaseTileBlock<T extends BlockEntity> extends Block implements CPT
 		setRegistryName(registryName);
 
 		RegistryEvents.registeredBlocks.add(this);
-		if(createItemBlock!=null) {
+		if (createItemBlock != null) {
 			Item item = createItemBlock.apply(this, new Item.Properties().tab(Main.mainGroup));
 			if (item != null) {
 				item.setRegistryName(registryName);
@@ -53,11 +53,9 @@ public class CPBaseTileBlock<T extends BlockEntity> extends Block implements CPT
 
 	}
 
-
 	public ResourceLocation createRegistryName() {
 		return new ResourceLocation(Main.MODID, name);
 	}
-
 
 	@Override
 	public RegistryObject<BlockEntityType<T>> getTile() {

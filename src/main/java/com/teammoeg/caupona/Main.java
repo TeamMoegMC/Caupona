@@ -53,7 +53,7 @@ public class Main {
 		}
 
 	};
-	public static final CreativeModeTab foodGroup = new CreativeModeTab(MODID+"_foods") {
+	public static final CreativeModeTab foodGroup = new CreativeModeTab(MODID + "_foods") {
 		@Override
 		@Nonnull
 		public ItemStack makeIcon() {
@@ -61,6 +61,7 @@ public class Main {
 		}
 
 	};
+
 	public static ResourceLocation rl(String path) {
 		return new ResourceLocation(MODID, path);
 	}
@@ -70,11 +71,9 @@ public class Main {
 		System.out.println("main");
 		mod.addListener(this::processIMC);
 		mod.addListener(this::enqueueIMC);
-		
+
 		ForgeMod.enableMilkFluid();
-		
-		
-		
+
 		CPFluids.init();
 		CPTileTypes.REGISTER.register(mod);
 		CPGui.CONTAINERS.register(mod);
@@ -87,8 +86,6 @@ public class Main {
 		Config.register();
 		PacketHandler.register();
 	}
-
-
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {
 	}

@@ -31,7 +31,9 @@ public abstract class IDataRecipe implements Recipe<Container> {
 	public ResourceLocation getId() {
 		return id;
 	}
+
 	ResourceLocation id;
+
 	public IDataRecipe(ResourceLocation id) {
 		this.id = id;
 	}
@@ -55,5 +57,6 @@ public abstract class IDataRecipe implements Recipe<Container> {
 	public ItemStack getResultItem() {
 		return ItemStack.EMPTY;
 	}
+
 	public abstract void serializeRecipeData(JsonObject json);
 }

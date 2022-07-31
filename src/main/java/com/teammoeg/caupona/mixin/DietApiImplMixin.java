@@ -45,11 +45,12 @@ import top.theillusivec4.diet.common.util.DietResult;
 //As Diet's author didn't add such a more flexible api, I have to resort to mixin.
 @Mixin(DietApiImpl.class)
 public class DietApiImplMixin extends DietApi {
-	
-	private static void CP$getResult(Player player,ItemStack input, CallbackInfoReturnable<IDietResult> result) {
+
+	private static void CP$getResult(Player player, ItemStack input, CallbackInfoReturnable<IDietResult> result) {
 		SoupInfo ois = CauponaHooks.getInfo(input);
-		if(ois==null)return;
-		List<FloatemStack> is=ois.stacks;
+		if (ois == null)
+			return;
+		List<FloatemStack> is = ois.stacks;
 		Map<IDietGroup, Float> groups = new HashMap<>();
 		for (FloatemStack sx : is) {
 			FoodValueRecipe fvr = FoodValueRecipe.recipes.get(sx.getItem());
@@ -61,30 +62,35 @@ public class DietApiImplMixin extends DietApi {
 			IDietResult dr = DietApiImpl.getInstance().get(player, stack);
 			if (dr != DietResult.EMPTY)
 				for (Entry<IDietGroup, Float> me : dr.get().entrySet())
-					groups.merge(me.getKey(), me.getValue() * sx.getCount()*1.3f, Float::sum);
+					groups.merge(me.getKey(), me.getValue() * sx.getCount() * 1.3f, Float::sum);
 		}
-		FluidFoodValueRecipe ffvr=FluidFoodValueRecipe.recipes.get(ois.base);
-		if(ffvr!=null&&ffvr.getRepersent()!=null) {
-			IDietResult dr = DietApiImpl.getInstance().get(player,ffvr.getRepersent());
+		FluidFoodValueRecipe ffvr = FluidFoodValueRecipe.recipes.get(ois.base);
+		if (ffvr != null && ffvr.getRepersent() != null) {
+			IDietResult dr = DietApiImpl.getInstance().get(player, ffvr.getRepersent());
 			if (dr != DietResult.EMPTY)
 				for (Entry<IDietGroup, Float> me : dr.get().entrySet())
-					groups.merge(me.getKey(), me.getValue()*(ois.shrinkedFluid+1)/ffvr.parts*1.3f, Float::sum);
+					groups.merge(me.getKey(), me.getValue() * (ois.shrinkedFluid + 1) / ffvr.parts * 1.3f, Float::sum);
 		}
 		result.setReturnValue(new DietResult(groups));
 	}
+
 	@Inject(at = @At("HEAD"), require = 1, method = "get(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;)Ltop/theillusivec4/diet/api/IDietResult;", cancellable = true, remap = false)
 	public void get(Player player, ItemStack input, CallbackInfoReturnable<IDietResult> result) {
-		CP$getResult(player,input,result);
+		CP$getResult(player, input, result);
 	}
 
 	/**
 	 * @param heal
 	 * @param sat
 	 */
-	/*@Inject(at = @At("HEAD"), require = 1, method = "get(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/item/ItemStack;IF)Ltop/theillusivec4/diet/api/IDietResult;", cancellable = true, remap = false)
-	public void get(Player player, ItemStack input, int heal, float sat,
-			CallbackInfoReturnable<IDietResult> result) {
-		CP$getResult(player,input,result);
-	}*/
+	/*
+	 * @Inject(at = @At("HEAD"), require = 1, method =
+	 * "get(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/item/ItemStack;IF)Ltop/theillusivec4/diet/api/IDietResult;",
+	 * cancellable = true, remap = false)
+	 * public void get(Player player, ItemStack input, int heal, float sat,
+	 * CallbackInfoReturnable<IDietResult> result) {
+	 * CP$getResult(player,input,result);
+	 * }
+	 */
 
 }

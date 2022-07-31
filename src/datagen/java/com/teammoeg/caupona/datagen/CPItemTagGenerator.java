@@ -79,54 +79,53 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		 * }
 		 * }
 		 */
-		for(String wood:CPBlocks.woods) {
+		for (String wood : CPBlocks.woods) {
 
-	
-			tag(ItemTags.LEAVES).add(cp(wood+"_leaves"));
-			tag(ItemTags.SAPLINGS).add(cp(wood+"_sapling"));
-			
-			tag(ItemTags.DOORS).add(cp(wood+"_door"));
-			tag(ItemTags.WOODEN_DOORS).add(cp(wood+"_door"));
-			
-			tag(ItemTags.FENCES).add(cp(wood+"_fence"));
-			tag(ItemTags.WOODEN_FENCES).add(cp(wood+"_fence"));
-			tag(ftag("fence_gates")).add(cp(wood+"_fence_gate"));
-			tag(ftag("fence_gates/wooden")).add(cp(wood+"_fence_gate"));
-			tag(ItemTags.TRAPDOORS).add(cp(wood+"_trapdoor"));
-			tag(ItemTags.WOODEN_TRAPDOORS).add(cp(wood+"_trapdoor"));
-			
-			tag(ItemTags.WOODEN_PRESSURE_PLATES).add(cp(wood+"_pressure_plate"));
-			
-			tag(ItemTags.LOGS).add(cp(wood+"_wood")).add(cp(wood+"_log"));
-			
-			tag(ItemTags.SLABS).add(cp(wood+"_slab"));
-			tag(ItemTags.WOODEN_SLABS).add(cp(wood+"_slab"));
-			
-			tag(ItemTags.PLANKS).add(cp(wood+"_planks"));
-			
-			tag(ItemTags.STAIRS).add(cp(wood+"_stairs"));
-			tag(ItemTags.WOODEN_STAIRS).add(cp(wood+"_stairs"));
-			
-			tag(ItemTags.WOODEN_BUTTONS).add(cp(wood+"_button"));
-			
-			
-			tag(ItemTags.SIGNS).add(cp(wood+"_sign"));
+			tag(ItemTags.LEAVES).add(cp(wood + "_leaves"));
+			tag(ItemTags.SAPLINGS).add(cp(wood + "_sapling"));
+
+			tag(ItemTags.DOORS).add(cp(wood + "_door"));
+			tag(ItemTags.WOODEN_DOORS).add(cp(wood + "_door"));
+
+			tag(ItemTags.FENCES).add(cp(wood + "_fence"));
+			tag(ItemTags.WOODEN_FENCES).add(cp(wood + "_fence"));
+			tag(ftag("fence_gates")).add(cp(wood + "_fence_gate"));
+			tag(ftag("fence_gates/wooden")).add(cp(wood + "_fence_gate"));
+			tag(ItemTags.TRAPDOORS).add(cp(wood + "_trapdoor"));
+			tag(ItemTags.WOODEN_TRAPDOORS).add(cp(wood + "_trapdoor"));
+
+			tag(ItemTags.WOODEN_PRESSURE_PLATES).add(cp(wood + "_pressure_plate"));
+
+			tag(ItemTags.LOGS).add(cp(wood + "_wood")).add(cp(wood + "_log"));
+
+			tag(ItemTags.SLABS).add(cp(wood + "_slab"));
+			tag(ItemTags.WOODEN_SLABS).add(cp(wood + "_slab"));
+
+			tag(ItemTags.PLANKS).add(cp(wood + "_planks"));
+
+			tag(ItemTags.STAIRS).add(cp(wood + "_stairs"));
+			tag(ItemTags.WOODEN_STAIRS).add(cp(wood + "_stairs"));
+
+			tag(ItemTags.WOODEN_BUTTONS).add(cp(wood + "_button"));
+
+			tag(ItemTags.SIGNS).add(cp(wood + "_sign"));
 		}
-		for(String wood:ImmutableList.of("fig","wolfberry")) {
-			tag(ItemTags.LEAVES).add(cp(wood+"_leaves"));
-			tag(ItemTags.SAPLINGS).add(cp(wood+"_sapling"));
-			tag(ItemTags.LOGS).add(cp(wood+"_log"));
+		for (String wood : ImmutableList.of("fig", "wolfberry")) {
+			tag(ItemTags.LEAVES).add(cp(wood + "_leaves"));
+			tag(ItemTags.SAPLINGS).add(cp(wood + "_sapling"));
+			tag(ItemTags.LOGS).add(cp(wood + "_log"));
 		}
 		for (String stone : CPBlocks.stones) {
 			tag(ItemTags.SLABS).add(cp(stone + "_slab"));
 			tag(ItemTags.STAIRS).add(cp(stone + "_stairs"));
 			tag(ItemTags.WALLS).add(cp(stone + "_wall"));
 		}
-		for(String s:CPItems.aspics) {
+		for (String s : CPItems.aspics) {
 			tag("aspics").add(cp(s));
 		}
-		tag("fuel/woods").addTags(ItemTags.LOGS,ItemTags.PLANKS,ItemTags.WOODEN_BUTTONS,ItemTags.WOODEN_DOORS,ItemTags.WOODEN_FENCES,
-				ItemTags.WOODEN_PRESSURE_PLATES,ItemTags.WOODEN_SLABS,ItemTags.WOODEN_STAIRS,ItemTags.WOODEN_TRAPDOORS,ItemTags.SAPLINGS);
+		tag("fuel/woods").addTags(ItemTags.LOGS, ItemTags.PLANKS, ItemTags.WOODEN_BUTTONS, ItemTags.WOODEN_DOORS,
+				ItemTags.WOODEN_FENCES, ItemTags.WOODEN_PRESSURE_PLATES, ItemTags.WOODEN_SLABS, ItemTags.WOODEN_STAIRS,
+				ItemTags.WOODEN_TRAPDOORS, ItemTags.SAPLINGS);
 		tag("fuel/charcoals").add(Items.CHARCOAL);
 		tag("fuel/fossil").addTags(ItemTags.COALS);
 		tag("fuel/lava").add(Items.LAVA_BUCKET);
@@ -137,21 +136,21 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 				.addTag(atag(pumpkin));
 		tag(frl("raw_beef")).add(Items.BEEF);
 		tag(walnut).add(cp("walnut"));
-		tag(baked).add(Items.BREAD).addTag(ftag("pasta"))
-				.addOptional(rl(fd + ":pie_crust"));
+		tag(baked).add(Items.BREAD).addTag(ftag("pasta")).addOptional(rl(fd + ":pie_crust"));
 		tag(cereals).addTag(atag(rice)).addTag(ftag("grain")).addTag(atag(baked)).add(Items.WHEAT, Items.WHEAT_SEEDS)
 				.addTag(ftag("bread"));
 		tag(rice).addTag(ftag("grain/rice"));
 		tag(roots).add(Items.POTATO, Items.BAKED_POTATO).addTag(ftag("rootvegetables"));
 		tag(vegetables).add(Items.CARROT, Items.BEETROOT, Items.PUMPKIN).addTag(atag(mushrooms))
 				.addTag(ftag("vegetables")).addTag(ftag("vegetable"));
-		tag(greens).addTag(ftag("vegetables/asparagus")).add(Items.FERN, Items.LARGE_FERN,Items.ALLIUM);
+		tag(greens).addTag(ftag("vegetables/asparagus")).add(Items.FERN, Items.LARGE_FERN, Items.ALLIUM);
 		tag(eggs).add(Items.EGG).addTag(ftag("cooked_eggs"));
 		tag(crustaceans).add(Items.NAUTILUS_SHELL);
 		tag(fish).addTag(atag(mcrl("fishes"))).addTag(ftag("raw_fishes"));
 		tag(seafood).add(Items.KELP, Items.DRIED_KELP);
 		tag(poultry).add(Items.CHICKEN, Items.RABBIT).addTag(ftag("raw_chicken")).addTag(ftag("raw_rabbit"))
-				.addTag(ftag("bread")).addOptional(rl(sf+"raw_chicken_wings")).addOptional(rl(sf+"raw_sausage")).addOptional(rl(sf+"raw_horse_meat"));
+				.addTag(ftag("bread")).addOptional(rl(sf + "raw_chicken_wings")).addOptional(rl(sf + "raw_sausage"))
+				.addOptional(rl(sf + "raw_horse_meat"));
 		tag(meat).add(Items.BEEF, Items.MUTTON, Items.PORKCHOP, Items.ROTTEN_FLESH).addTag(ftag("bacon"))
 				.addTag(ftag("raw_pork")).addTag(ftag("raw_beef")).addTag(ftag("raw_mutton"))
 				.addOptional(rl(fd + ":ham")).addTag(ftag("raw_bacon"));
@@ -162,12 +161,13 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag("fern").add(Items.FERN, Items.LARGE_FERN);
 		tag("wolfberries").add(cp("wolfberries"));
 		tag("stews").add(CPItems.stews.toArray(new Item[0]));
-		tag("stoves").add(CPBlocks.stove1.asItem(),CPBlocks.stove2.asItem(),CPBlocks.stove3.asItem(),CPBlocks.stove4.asItem(),CPBlocks.stove5.asItem());
+		tag("stoves").add(CPBlocks.stove1.asItem(), CPBlocks.stove2.asItem(), CPBlocks.stove3.asItem(),
+				CPBlocks.stove4.asItem(), CPBlocks.stove5.asItem());
 		tag("portable_brazier_fuel").add(Items.MAGMA_CREAM).add(cp("vivid_charcoal"));
-		tag("garum_fish").add(Items.COD,Items.SALMON);
+		tag("garum_fish").add(Items.COD, Items.SALMON);
 		tag("vinegar_fruits").add(Items.APPLE).add(cp("fig"));
 		tag("vinegar_fruits_small").add(Items.SWEET_BERRIES).add(cp("wolfberries"));
-		
+
 	}
 
 	private TagAppender<Item> tag(String s) {
@@ -216,10 +216,12 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 	public String getName() {
 		return Main.MODID + " item tags";
 	}
+
 	private Item cp(String s) {
-		Item i=ForgeRegistries.ITEMS.getValue(mrl(s));
-		return i.asItem();//just going to cause trouble if not exists
+		Item i = ForgeRegistries.ITEMS.getValue(mrl(s));
+		return i.asItem();// just going to cause trouble if not exists
 	}
+
 	@Override
 	protected Path getPath(ResourceLocation id) {
 		return this.generator.getOutputFolder()

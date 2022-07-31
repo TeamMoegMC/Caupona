@@ -32,36 +32,40 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class FluidTag implements StewBaseCondition {
 	ResourceLocation tag;
 	TagKey<Fluid> f;
+
 	public FluidTag(JsonObject jo) {
 		tag = new ResourceLocation(jo.get("tag").getAsString());
-		f=FluidTags.create(tag);
+		f = FluidTags.create(tag);
 	}
 
 	public FluidTag(ResourceLocation tag) {
 		super();
 		this.tag = tag;
-		f=FluidTags.create(tag);
+		f = FluidTags.create(tag);
 	}
 
 	@Override
 	public Integer apply(ResourceLocation t, ResourceLocation u) {
 		return test(u) ? 2 : test(t) ? 1 : 0;
 	}
+
 	@Override
 	public boolean test(ResourceLocation t) {
 		Fluid f = ForgeRegistries.FLUIDS.getValue(t);
 		if (f == null)
 			return false;
-		
+
 		return f.is(this.f);
 	}
+
 	@Override
 	public boolean test(Fluid f) {
 		if (f == null)
 			return false;
-		
+
 		return f.is(this.f);
 	}
+
 	public JsonObject serialize() {
 		JsonObject jo = new JsonObject();
 		jo.addProperty("tag", tag.toString());
@@ -75,7 +79,7 @@ public class FluidTag implements StewBaseCondition {
 
 	public FluidTag(FriendlyByteBuf buffer) {
 		tag = buffer.readResourceLocation();
-		f=FluidTags.create(tag);
+		f = FluidTags.create(tag);
 	}
 
 	@Override
@@ -108,7 +112,7 @@ public class FluidTag implements StewBaseCondition {
 
 	@Override
 	public String getTranslation(TranslationProvider p) {
-		return p.getTranslation("tag."+this.tag.toString().replaceAll("[:/]","."));
+		return p.getTranslation("tag." + this.tag.toString().replaceAll("[:/]", "."));
 	}
 
 }

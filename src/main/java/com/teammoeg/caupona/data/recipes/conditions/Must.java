@@ -70,8 +70,9 @@ public class Must extends NumberedStewCondition {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String getTranslation(TranslationProvider p) {
-		return p.getTranslation("recipe.caupona.cond.any",number.getTranslation(p));
+		return p.getTranslation("recipe.caupona.cond.any", number.getTranslation(p));
 	}
 }

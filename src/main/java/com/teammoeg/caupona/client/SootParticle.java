@@ -33,7 +33,7 @@ public class SootParticle extends CPParticle {
 		this.rCol = this.gCol = this.bCol = (float) (Math.random() * 0.2) + 0.8f;
 		this.originalScale = 0.25F;
 		this.lifetime = (int) (20.0D / (Math.random() * 0.8D + 0.2D));
-		super.alpha=0.75f;
+		super.alpha = 0.75f;
 	}
 
 	public static class Factory implements ParticleProvider<SimpleParticleType> {

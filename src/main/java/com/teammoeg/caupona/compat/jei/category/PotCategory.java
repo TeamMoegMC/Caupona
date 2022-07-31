@@ -40,50 +40,54 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class PotCategory implements IRecipeCategory<AspicMeltingRecipe> {
-    public static ResourceLocation UID = new ResourceLocation(Main.MODID, "aspic_thawing_pot");
-    private IDrawable BACKGROUND;
-    private IDrawable ICON;
-    
-    public PotCategory(IGuiHelper guiHelper) {
-        this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM,new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID,"goulash"))));
-        ResourceLocation guiMain=new ResourceLocation(Main.MODID, "textures/gui/jei/aspic_thawing_pot.png");
-        this.BACKGROUND = guiHelper.createDrawable(guiMain,0, 0, 127, 63);
-    }
+	public static ResourceLocation UID = new ResourceLocation(Main.MODID, "aspic_thawing_pot");
+	private IDrawable BACKGROUND;
+	private IDrawable ICON;
 
-    @Override
-    public ResourceLocation getUid() {
-        return UID;
-    }
-
-    @Override
-    public Class<? extends AspicMeltingRecipe> getRecipeClass() {
-        return AspicMeltingRecipe.class;
-    }
-
-
-    public Component getTitle() {
-        return new TranslatableComponent("gui.jei.category." + Main.MODID + ".thawing_pot.title");
-    }
-	@Override
-	public void draw(AspicMeltingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-		String burnTime = String.valueOf(recipe.time/20f)+"s";
-		Minecraft.getInstance().font.drawShadow(stack, burnTime,103,55, 0xFFFFFF);
+	public PotCategory(IGuiHelper guiHelper) {
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM,
+				new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, "goulash"))));
+		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/aspic_thawing_pot.png");
+		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 	}
-    @Override
-    public IDrawable getBackground() {
-        return BACKGROUND;
-    }
 
-    @Override
-    public IDrawable getIcon() {
-        return ICON;
-    }
+	@Override
+	public ResourceLocation getUid() {
+		return UID;
+	}
 
-    @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, AspicMeltingRecipe recipe, IFocusGroup focuses) {
-    	builder.addSlot(RecipeIngredientRole.INPUT,30,28).addIngredients(recipe.aspic);
-    	builder.addSlot(RecipeIngredientRole.OUTPUT,83, 9).addIngredient(VanillaTypes.FLUID,new FluidStack(recipe.fluid,recipe.amount)).setFluidRenderer(1250, false,16,46);
-    }
+	@Override
+	public Class<? extends AspicMeltingRecipe> getRecipeClass() {
+		return AspicMeltingRecipe.class;
+	}
 
+	public Component getTitle() {
+		return new TranslatableComponent("gui.jei.category." + Main.MODID + ".thawing_pot.title");
+	}
+
+	@Override
+	public void draw(AspicMeltingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
+			double mouseY) {
+		String burnTime = String.valueOf(recipe.time / 20f) + "s";
+		Minecraft.getInstance().font.drawShadow(stack, burnTime, 103, 55, 0xFFFFFF);
+	}
+
+	@Override
+	public IDrawable getBackground() {
+		return BACKGROUND;
+	}
+
+	@Override
+	public IDrawable getIcon() {
+		return ICON;
+	}
+
+	@Override
+	public void setRecipe(IRecipeLayoutBuilder builder, AspicMeltingRecipe recipe, IFocusGroup focuses) {
+		builder.addSlot(RecipeIngredientRole.INPUT, 30, 28).addIngredients(recipe.aspic);
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 9)
+				.addIngredient(VanillaTypes.FLUID, new FluidStack(recipe.fluid, recipe.amount))
+				.setFluidRenderer(1250, false, 16, 46);
+	}
 
 }

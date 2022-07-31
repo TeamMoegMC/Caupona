@@ -58,12 +58,12 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 	public static boolean isCookable(ItemStack stack) {
 		FloatemTagStack s = new FloatemTagStack(stack);
 		return stack.is(cookable) || cookables.stream().anyMatch(e -> e.fits(s));
-		//return true;
+		// return true;
 	}
 
 	public static boolean isBoilable(FluidStack f) {
 		Fluid fd = f.getFluid();
-		return fd instanceof SoupFluid || f.getFluid().is(boilable)|| recipes.keySet().contains(fd);
+		return fd instanceof SoupFluid || f.getFluid().is(boilable) || recipes.keySet().contains(fd);
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 		if (data.has("base"))
 			base = SerializeUtil.parseJsonList(data.get("base"), SerializeUtil::ofBase);
 		output = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(data.get("output").getAsString()));
-		if(output==Fluids.EMPTY)
+		if (output == Fluids.EMPTY)
 			throw new InvalidRecipeException();
 	}
 
@@ -117,8 +117,8 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 		output = data.readRegistryId();
 	}
 
-	public StewCookingRecipe(ResourceLocation id, List<IngredientCondition> allow, List<IngredientCondition> deny, int priority,
-			int time, float density, List<StewBaseCondition> base, Fluid output) {
+	public StewCookingRecipe(ResourceLocation id, List<IngredientCondition> allow, List<IngredientCondition> deny,
+			int priority, int time, float density, List<StewBaseCondition> base, Fluid output) {
 		super(id);
 		this.allow = allow;
 		this.deny = deny;
@@ -182,7 +182,8 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 	}
 
 	public Stream<CookIngredients> getAllNumbers() {
-		return Stream.concat(allow == null ? Stream.empty() : allow.stream().flatMap(IngredientCondition::getAllNumbers),
+		return Stream.concat(
+				allow == null ? Stream.empty() : allow.stream().flatMap(IngredientCondition::getAllNumbers),
 				deny == null ? Stream.empty() : deny.stream().flatMap(IngredientCondition::getAllNumbers));
 	}
 

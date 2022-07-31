@@ -21,6 +21,7 @@ package com.teammoeg.caupona.blocks.foods;
 import java.util.function.BiFunction;
 
 import com.teammoeg.caupona.blocks.CPBaseTileBlock;
+import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
 import com.teammoeg.caupona.items.StewItem;
 
 import net.minecraft.core.BlockPos;
@@ -55,7 +56,6 @@ public class BowlBlock extends CPBaseTileBlock<BowlTileEntity> {
 
 	static final VoxelShape shape = Block.box(2.8, 0, 2.8, 13.2, 5.2, 13.2);
 
-
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
@@ -66,6 +66,7 @@ public class BowlBlock extends CPBaseTileBlock<BowlTileEntity> {
 	public boolean useShapeForLightOcclusion(BlockState state) {
 		return true;
 	}
+
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return shape;
@@ -88,19 +89,20 @@ public class BowlBlock extends CPBaseTileBlock<BowlTileEntity> {
 		if (p.consumesAction())
 			return p;
 		BowlTileEntity tileEntity = (BowlTileEntity) worldIn.getBlockEntity(pos);
-		if (tileEntity.internal != null && tileEntity.internal.getItem() instanceof StewItem&&tileEntity.internal.isEdible()) {
-			FoodProperties fp=tileEntity.internal.getFoodProperties(player);
-			if(tileEntity.isInfinite) {
-				if(player.canEat(fp.canAlwaysEat())) {
-					player.eat(worldIn,tileEntity.internal.copy());
+		if (tileEntity.internal != null && tileEntity.internal.getItem() instanceof StewItem
+				&& tileEntity.internal.isEdible()) {
+			FoodProperties fp = tileEntity.internal.getFoodProperties(player);
+			if (tileEntity.isInfinite) {
+				if (player.canEat(fp.canAlwaysEat())) {
+					player.eat(worldIn, tileEntity.internal.copy());
 					tileEntity.syncData();
 				}
-			}else {
-				if(player.canEat(fp.canAlwaysEat())) {
-					ItemStack iout=tileEntity.internal.getContainerItem();
-					 player.eat(worldIn,tileEntity.internal);
-					 tileEntity.internal=iout;
-					 tileEntity.syncData();
+			} else {
+				if (player.canEat(fp.canAlwaysEat())) {
+					ItemStack iout = tileEntity.internal.getContainerItem();
+					player.eat(worldIn, tileEntity.internal);
+					tileEntity.internal = iout;
+					tileEntity.syncData();
 				}
 			}
 			return InteractionResult.SUCCESS;
@@ -118,15 +120,29 @@ public class BowlBlock extends CPBaseTileBlock<BowlTileEntity> {
 		}
 	}
 
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player)
-    {
+	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos,
+			Player player) {
 		BlockEntity tileEntity = level.getBlockEntity(pos);
 		if (tileEntity instanceof BowlTileEntity) {
 			BowlTileEntity te = (BowlTileEntity) tileEntity;
-			if(te.internal==null)return ItemStack.EMPTY;
+			if (te.internal == null)
+				return ItemStack.EMPTY;
 			return te.internal.copy();
 		}
 		return this.getCloneItemStack(state, target, level, pos, player);
-    }
+	}
 
+	@Override
+	public boolean hasAnalogOutputSignal(BlockState pState) {
+		return true;
+	}
+
+	@Override
+	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
+		BowlTileEntity te = (BowlTileEntity) pLevel.getBlockEntity(pPos);
+		if (te.internal == null || te.internal.isEmpty() || !te.internal.isEdible()) {
+			return 0;
+		}
+		return 15;
+	}
 }

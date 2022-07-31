@@ -57,7 +57,7 @@ public class BoilingRecipe extends IDataRecipe {
 		before = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(jo.get("from").getAsString()));
 		after = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(jo.get("to").getAsString()));
 		time = jo.get("time").getAsInt();
-		if(before==Fluids.EMPTY||after==Fluids.EMPTY)
+		if (before == Fluids.EMPTY || after == Fluids.EMPTY)
 			throw new InvalidRecipeException();
 	}
 

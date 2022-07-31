@@ -37,15 +37,14 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class SoupInfo extends SpicedFoodInfo{
+public class SoupInfo extends SpicedFoodInfo {
 	public List<FloatemStack> stacks;
 	public List<MobEffectInstance> effects;
 	public List<Pair<MobEffectInstance, Float>> foodeffect = new ArrayList<>();
 	public int healing;
 	public float saturation;
-	public float shrinkedFluid=0;
+	public float shrinkedFluid = 0;
 	public ResourceLocation base;
-
 
 	public SoupInfo(List<FloatemStack> stacks, List<MobEffectInstance> effects, int healing, float saturation,
 			ResourceLocation base) {
@@ -65,8 +64,9 @@ public class SoupInfo extends SpicedFoodInfo{
 		return nbt.getList("items", 10).stream().map(e -> (CompoundTag) e).map(FloatemStack::new)
 				.collect(Collectors.toList());
 	}
+
 	public static ResourceLocation getSpice(CompoundTag nbt) {
-		if(nbt.contains("spiceName"))
+		if (nbt.contains("spiceName"))
 			return new ResourceLocation(nbt.getString("spiceName"));
 		return null;
 	}
@@ -74,10 +74,11 @@ public class SoupInfo extends SpicedFoodInfo{
 	public float getDensity() {
 		return stacks.stream().map(FloatemStack::getCount).reduce(0f, Float::sum);
 	}
+
 	public boolean canAlwaysEat() {
-		return healing<=1||getDensity()<=0.5;
+		return healing <= 1 || getDensity() <= 0.5;
 	}
-	
+
 	public SoupInfo(CompoundTag nbt) {
 		super(nbt);
 		stacks = nbt.getList("items", 10).stream().map(e -> (CompoundTag) e).map(FloatemStack::new)
@@ -90,8 +91,8 @@ public class SoupInfo extends SpicedFoodInfo{
 				.map(e -> new Pair<>(MobEffectInstance.load(e.getCompound("effect")), e.getFloat("chance")))
 				.collect(Collectors.toList());
 		base = new ResourceLocation(nbt.getString("base"));
-		
-		shrinkedFluid=nbt.getFloat("afluid");
+
+		shrinkedFluid = nbt.getFloat("afluid");
 	}
 
 	public boolean isEmpty() {
@@ -99,16 +100,18 @@ public class SoupInfo extends SpicedFoodInfo{
 	}
 
 	public boolean canMerge(SoupInfo f, float cparts, float oparts) {
-		return (this.getDensity()*cparts + f.getDensity() * oparts) / (cparts+oparts) <= 3;
+		return (this.getDensity() * cparts + f.getDensity() * oparts) / (cparts + oparts) <= 3;
 	}
-	public boolean merge(SoupInfo f,float cparts,float oparts) {
-		if (!canMerge(f,cparts,oparts))
+
+	public boolean merge(SoupInfo f, float cparts, float oparts) {
+		if (!canMerge(f, cparts, oparts))
 			return false;
-		forceMerge(f,cparts,oparts);
+		forceMerge(f, cparts, oparts);
 		return true;
 	}
+
 	public void forceMerge(SoupInfo f, float cparts, float oparts) {
-		
+
 		for (MobEffectInstance es : f.effects) {
 			boolean added = false;
 			for (MobEffectInstance oes : effects) {
@@ -126,7 +129,7 @@ public class SoupInfo extends SpicedFoodInfo{
 		for (Pair<MobEffectInstance, Float> es : f.foodeffect) {
 			boolean added = false;
 			for (Pair<MobEffectInstance, Float> oes : foodeffect) {
-				if (es.getSecond()==oes.getSecond()&&isEffectEquals(oes.getFirst(), es.getFirst())) {
+				if (es.getSecond() == oes.getSecond() && isEffectEquals(oes.getFirst(), es.getFirst())) {
 					oes.getFirst().duration += es.getFirst().duration * oparts / cparts;
 					added = true;
 					break;
@@ -136,24 +139,31 @@ public class SoupInfo extends SpicedFoodInfo{
 				foodeffect.add(es);
 			}
 		}
-		shrinkedFluid+=f.shrinkedFluid * oparts / cparts;
+		shrinkedFluid += f.shrinkedFluid * oparts / cparts;
 		for (FloatemStack fs : f.stacks) {
 			this.addItem(new FloatemStack(fs.getStack(), fs.count * oparts / cparts));
 		}
 		completeAll();
 	}
+
 	public void completeAll() {
 		clearSpice();
 		completeData();
 		completeEffects();
 	}
+
 	public void completeData() {
-		stacks.sort(Comparator.comparingInt(e->Item.getId(e.stack.getItem())));
-		foodeffect.sort(Comparator.<Pair<MobEffectInstance,Float>>comparingInt(e->MobEffect.getId(e.getFirst().getEffect())).thenComparing(Pair::getSecond));
+		stacks.sort(Comparator.comparingInt(e -> Item.getId(e.stack.getItem())));
+		foodeffect.sort(
+				Comparator.<Pair<MobEffectInstance, Float>>comparingInt(e -> MobEffect.getId(e.getFirst().getEffect()))
+						.thenComparing(Pair::getSecond));
 	}
+
 	public void completeEffects() {
-		effects.sort(Comparator.<MobEffectInstance>comparingInt(x->MobEffect.getId(x.getEffect())).thenComparingInt(e->e.getDuration()));
+		effects.sort(Comparator.<MobEffectInstance>comparingInt(x -> MobEffect.getId(x.getEffect()))
+				.thenComparingInt(e -> e.getDuration()));
 	}
+
 	public static boolean isEffectEquals(MobEffectInstance t1, MobEffectInstance t2) {
 		return t1.getEffect() == t2.getEffect() && t1.getAmplifier() == t2.getAmplifier();
 	}
@@ -162,7 +172,8 @@ public class SoupInfo extends SpicedFoodInfo{
 
 		for (MobEffectInstance oes : effects) {
 			if (isEffectEquals(oes, eff)) {
-				oes.duration =Math.max(oes.duration,(int)Math.min(oes.duration+eff.duration / parts,eff.duration*2f));
+				oes.duration = Math.max(oes.duration,
+						(int) Math.min(oes.duration + eff.duration / parts, eff.duration * 2f));
 				return;
 			}
 		}
@@ -192,19 +203,21 @@ public class SoupInfo extends SpicedFoodInfo{
 				foodeffect.addAll(f.getEffects());
 			}
 		}
-		FluidFoodValueRecipe ffvr=FluidFoodValueRecipe.recipes.get(this.base);
-		if(ffvr!=null) {
-			nh+=ffvr.heal*(1+this.shrinkedFluid);
-			ns+=ffvr.sat*(1+this.shrinkedFluid);
+		FluidFoodValueRecipe ffvr = FluidFoodValueRecipe.recipes.get(this.base);
+		if (ffvr != null) {
+			nh += ffvr.heal * (1 + this.shrinkedFluid);
+			ns += ffvr.sat * (1 + this.shrinkedFluid);
 		}
-		float dense=this.getDensity();
-		/*if(nh>0) {
-			nh+=Mth.clamp(dense,1,2);
-		}*/
-		int conv=(int) (Mth.clamp((dense-1)/2f,0,1)*0.3*nh);
-		this.healing = (int) Math.ceil(nh-conv);
-		ns+=conv/2f;
-		this.saturation = Math.max(0.7f,ns/this.healing);
+		float dense = this.getDensity();
+		/*
+		 * if(nh>0) {
+		 * nh+=Mth.clamp(dense,1,2);
+		 * }
+		 */
+		int conv = (int) (Mth.clamp((dense - 1) / 2f, 0, 1) * 0.3 * nh);
+		this.healing = (int) Math.ceil(nh - conv);
+		ns += conv / 2f;
+		this.saturation = Math.max(0.7f, ns / this.healing);
 	}
 
 	public void adjustParts(float oparts, float parts) {
@@ -218,17 +231,16 @@ public class SoupInfo extends SpicedFoodInfo{
 			es.duration = (int) (es.duration * oparts / parts);
 		}
 		for (Pair<MobEffectInstance, Float> es : foodeffect) {
-			es.getFirst().duration=(int) (es.getFirst().duration * oparts / parts);
+			es.getFirst().duration = (int) (es.getFirst().duration * oparts / parts);
 		}
-		float delta=0;
-		if(oparts>parts)
-			delta=oparts-parts;
+		float delta = 0;
+		if (oparts > parts)
+			delta = oparts - parts;
 		clearSpice();
-		shrinkedFluid=(shrinkedFluid*oparts+delta)/parts;
+		shrinkedFluid = (shrinkedFluid * oparts + delta) / parts;
 		healing = (int) (healing * oparts / parts);
 		saturation = saturation * oparts / parts;
 	}
-
 
 	public SoupInfo(ResourceLocation base) {
 		this(new ArrayList<>(), new ArrayList<>(), 0, 0, base);
@@ -271,10 +283,8 @@ public class SoupInfo extends SpicedFoodInfo{
 		nbt.putInt("heal", healing);
 		nbt.putFloat("sat", saturation);
 		nbt.putString("base", base.toString());
-		nbt.putFloat("afluid",shrinkedFluid);
+		nbt.putFloat("afluid", shrinkedFluid);
 
 	}
-
-	
 
 }

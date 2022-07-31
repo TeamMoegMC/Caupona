@@ -34,10 +34,9 @@ public class Only extends NumberedStewCondition {
 		super(number);
 	}
 
-
 	@Override
 	public boolean test(IPendingContext t, float n) {
-		return n==t.getTotalItems();
+		return n == t.getTotalItems();
 	}
 
 	@Override
@@ -60,11 +59,9 @@ public class Only extends NumberedStewCondition {
 		return "only";
 	}
 
-
-	
 	@Override
 	public String getTranslation(TranslationProvider p) {
-		return p.getTranslation("recipe.caupona.cond.only",number.getTranslation(p));
+		return p.getTranslation("recipe.caupona.cond.only", number.getTranslation(p));
 	}
 
 	@Override

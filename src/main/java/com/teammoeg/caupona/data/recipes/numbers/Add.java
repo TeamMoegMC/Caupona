@@ -71,13 +71,15 @@ public class Add implements CookIngredients, ComplexCalculated {
 	public boolean fits(FloatemTagStack stack) {
 		return nums.stream().anyMatch(s -> s.fits(stack));
 	}
+
 	/**
 	 * Convenience method for adding number<br>
 	 * <b>Warning! only available in datagen environment!</b>
-	 * */
+	 */
 	public void add(CookIngredients sn) {
 		nums.add(sn);
 	}
+
 	@Override
 	public JsonElement serialize() {
 		return SerializeUtil.toJsonList(nums, CookIngredients::serialize);
@@ -132,7 +134,7 @@ public class Add implements CookIngredients, ComplexCalculated {
 
 	@Override
 	public String getTranslation(TranslationProvider p) {
-		return nums.stream().map(e->e.getTranslation(p)).reduce((s1,s2)->s1+"+"+s2).orElse("");
+		return nums.stream().map(e -> e.getTranslation(p)).reduce((s1, s2) -> s1 + "+" + s2).orElse("");
 	}
 
 }

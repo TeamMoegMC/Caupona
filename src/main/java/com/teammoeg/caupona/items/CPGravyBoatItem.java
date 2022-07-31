@@ -30,5 +30,4 @@ public class CPGravyBoatItem extends CPBlockItem {
 		super(block, props, name);
 	}
 
-
 }

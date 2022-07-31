@@ -63,9 +63,12 @@ public class CPFluids {
 	public static TAC milk(int c) {
 		return new TAC(STILL_MILK_TEXTURE, c);
 	}
-	public static Stream<Fluid> getAll(){
-		return soupfluids.keySet().stream().map(e->new ResourceLocation(Main.MODID,e)).map(ForgeRegistries.FLUIDS::getValue);
+
+	public static Stream<Fluid> getAll() {
+		return soupfluids.keySet().stream().map(e -> new ResourceLocation(Main.MODID, e))
+				.map(ForgeRegistries.FLUIDS::getValue);
 	}
+
 	public static void init() {
 		soupfluids.put("acquacotta", soup(0xffdcb259));
 		soupfluids.put("bisque", soup(0xffb87246));

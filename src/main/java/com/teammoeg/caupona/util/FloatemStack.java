@@ -149,9 +149,11 @@ public class FloatemStack {
 	public CompoundTag getTag() {
 		return stack.getTag();
 	}
+
 	public Stream<ResourceLocation> getTags() {
 		return stack.getTags().map(TagKey::location);
 	}
+
 	public CompoundTag getOrCreateTag() {
 		return stack.getOrCreateTag();
 	}

@@ -24,16 +24,19 @@ import net.minecraft.network.chat.TranslatableComponent;
 
 public class GameTranslation implements TranslationProvider {
 	private static GameTranslation INSTANCE;
+
 	private GameTranslation() {
 	}
-	public static TranslationProvider get(){
-		if(INSTANCE==null)INSTANCE=new GameTranslation();
+
+	public static TranslationProvider get() {
+		if (INSTANCE == null)
+			INSTANCE = new GameTranslation();
 		return INSTANCE;
 	}
 
 	@Override
 	public String getTranslation(String key, Object... objects) {
-		return new TranslatableComponent(key,objects).getString();
+		return new TranslatableComponent(key, objects).getString();
 	}
 
 }

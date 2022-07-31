@@ -89,13 +89,15 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 			spice = SpiceRecipe.find(spi);
 		if (spice != null) {
 			SoupInfo si = SoupFluid.getInfo(fs);
-			if(!si.canAddSpice())return fs;
+			if (!si.canAddSpice())
+				return fs;
 			if (!isInfinite) {
-				int consume=fs.getAmount()/250;
-				if(SpiceRecipe.getMaxUse(spi)<consume)return fs;
+				int consume = fs.getAmount() / 250;
+				if (SpiceRecipe.getMaxUse(spi) < consume)
+					return fs;
 				inv.setStackInSlot(3, SpiceRecipe.handle(spi, consume));
 			}
-			si.addSpice(spice.effect,spi);
+			si.addSpice(spice.effect, spi);
 			SoupFluid.setInfo(fs, si);
 		}
 		return fs;
@@ -128,7 +130,7 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 			container = nbt.getInt("containerTicks");
 			inner = ItemStack.of(nbt.getCompound("inner"));
 			inv.deserializeNBT(nbt.getCompound("inventory"));
-			isInfinite=nbt.getBoolean("inf");
+			isInfinite = nbt.getBoolean("inf");
 		}
 
 	}
@@ -137,41 +139,43 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 	public void writeCustomNBT(CompoundTag nbt, boolean isClient) {
 		nbt.putInt("process", process);
 		nbt.put("tank", tank.writeToNBT(new CompoundTag()));
-		
-		if(!isClient) {
+
+		if (!isClient) {
 			nbt.put("inventory", inv.serializeNBT());
 			nbt.put("inner", inner.serializeNBT());
 			nbt.putInt("containerTicks", container);
-			nbt.putBoolean("inf",isInfinite);
+			nbt.putBoolean("inf", isInfinite);
 		}
-		
+
 	}
 
 	@Override
 	public void tick() {
-		if(this.level.isClientSide)return;
+		if (this.level.isClientSide)
+			return;
 		container++;
 		if (container >= contTicks) {
 			container = 0;
-			if(isInfinite) {
+			if (isInfinite) {
 				FluidStack fs = new FluidStack(tank.getFluid(), tank.getFluidAmount());
 				tryContianFluid();
 				tank.setFluid(fs);
-			}else tryContianFluid();
+			} else
+				tryContianFluid();
 		}
 		if (!inner.isEmpty()) {
 			inner = Utils.insertToOutput(inv, 5, inner);
 			this.syncData();
 			return;
 		}
-		if ((process < 0||process%20==0)&&!isInfinite) {
+		if ((process < 0 || process % 20 == 0) && !isInfinite) {
 			if (DoliumRecipe.testDolium(tank.getFluid(), inv) != null) {
-				if(process==-1)
+				if (process == -1)
 					process = 0;
-			}else
-				process= -1;
+			} else
+				process = -1;
 		}
-		if (process >= 0&&!isInfinite) {
+		if (process >= 0 && !isInfinite) {
 			process++;
 			if (process >= processMax) {
 				process = -1;
@@ -188,7 +192,8 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 	}
 
 	boolean tryAddFluid(FluidStack fs) {
-		if(isInfinite) return false;
+		if (isInfinite)
+			return false;
 		int tryfill = tank.fill(fs, FluidAction.SIMULATE);
 		if (tryfill > 0) {
 			if (tryfill == fs.getAmount()) {
@@ -232,7 +237,7 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 				}
 				return;
 			}
-			if(!isInfinite) {
+			if (!isInfinite) {
 				far = FluidUtil.tryEmptyContainer(is, this.tank, 1250, null, true);
 				if (far.isSuccess()) {
 					is.shrink(1);
@@ -278,7 +283,7 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 			return ItemStack.EMPTY;
 		}
 	};
-	
+
 	IFluidHandler handler = new IFluidHandler() {
 		@Override
 		public int getTanks() {
@@ -316,8 +321,8 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 		public FluidStack drain(FluidStack resource, FluidAction action) {
 			process = -1;
 			if (isInfinite)
-				return action.simulate()?resource:tryAddSpice(resource);
-			return action.simulate()?tank.drain(resource, action):tryAddSpice(tank.drain(resource, action));
+				return action.simulate() ? resource : tryAddSpice(resource);
+			return action.simulate() ? tank.drain(resource, action) : tryAddSpice(tank.drain(resource, action));
 
 		}
 
@@ -325,8 +330,9 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 		public FluidStack drain(int maxDrain, FluidAction action) {
 			process = -1;
 			if (isInfinite)
-				return action.simulate()?new FluidStack(tank.getFluid(), maxDrain):tryAddSpice(new FluidStack(tank.getFluid(), maxDrain));
-			return action.simulate()?tank.drain(maxDrain, action):tryAddSpice(tank.drain(maxDrain, action));
+				return action.simulate() ? new FluidStack(tank.getFluid(), maxDrain)
+						: tryAddSpice(new FluidStack(tank.getFluid(), maxDrain));
+			return action.simulate() ? tank.drain(maxDrain, action) : tryAddSpice(tank.drain(maxDrain, action));
 
 		}
 
@@ -334,6 +340,7 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 	LazyOptional<IItemHandler> up = LazyOptional.of(() -> ingredient);
 	LazyOptional<IItemHandler> side = LazyOptional.of(() -> bowl);
 	LazyOptional<IFluidHandler> fl = LazyOptional.of(() -> handler);
+
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
 		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {

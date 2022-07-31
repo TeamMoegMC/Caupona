@@ -25,38 +25,45 @@ import net.minecraft.world.item.ItemStack;
 
 public class SpicedFoodInfo {
 	public MobEffectInstance spice;
-	public boolean hasSpice=false;
+	public boolean hasSpice = false;
 	public ResourceLocation spiceName;
+
 	public SpicedFoodInfo() {
 	}
+
 	public SpicedFoodInfo(CompoundTag nbt) {
-		hasSpice=nbt.getBoolean("hasSpice");
-		if(nbt.contains("spice"))
-			spice=MobEffectInstance.load(nbt.getCompound("spice"));
-		if(nbt.contains("spiceName"))
-			spiceName=new ResourceLocation(nbt.getString("spiceName"));
+		hasSpice = nbt.getBoolean("hasSpice");
+		if (nbt.contains("spice"))
+			spice = MobEffectInstance.load(nbt.getCompound("spice"));
+		if (nbt.contains("spiceName"))
+			spiceName = new ResourceLocation(nbt.getString("spiceName"));
 	}
-	public boolean addSpice(MobEffectInstance spice,ItemStack im) {
-		if(this.spice!=null)return false;
-		this.spice=new MobEffectInstance(spice);
-		hasSpice=true;
-		this.spiceName=im.getItem().getRegistryName();
+
+	public boolean addSpice(MobEffectInstance spice, ItemStack im) {
+		if (this.spice != null)
+			return false;
+		this.spice = new MobEffectInstance(spice);
+		hasSpice = true;
+		this.spiceName = im.getItem().getRegistryName();
 		return true;
 	}
+
 	public void clearSpice() {
-		spice=null;
-		hasSpice=false;
-		spiceName=null;
+		spice = null;
+		hasSpice = false;
+		spiceName = null;
 	}
+
 	public boolean canAddSpice() {
 		return !hasSpice;
 	}
+
 	public void write(CompoundTag nbt) {
-		nbt.putBoolean("hasSpice",hasSpice);
-		if(spice!=null)
-			nbt.put("spice",spice.save(new CompoundTag()));
-		if(spiceName!=null)
-			nbt.putString("spiceName",spiceName.toString());
+		nbt.putBoolean("hasSpice", hasSpice);
+		if (spice != null)
+			nbt.put("spice", spice.save(new CompoundTag()));
+		if (spiceName != null)
+			nbt.putString("spiceName", spiceName.toString());
 	}
 
 	public CompoundTag save() {

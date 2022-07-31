@@ -34,7 +34,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class SauteedFoodInfo extends SpicedFoodInfo{
+public class SauteedFoodInfo extends SpicedFoodInfo {
 	public List<FloatemStack> stacks;
 	public List<Pair<MobEffectInstance, Float>> foodeffect = new ArrayList<>();
 	public int healing;
@@ -56,7 +56,6 @@ public class SauteedFoodInfo extends SpicedFoodInfo{
 				.collect(Collectors.toList());
 	}
 
-
 	public SauteedFoodInfo(CompoundTag nbt) {
 		super(nbt);
 		stacks = nbt.getList("items", 10).stream().map(e -> (CompoundTag) e).map(FloatemStack::new)
@@ -71,13 +70,18 @@ public class SauteedFoodInfo extends SpicedFoodInfo{
 	public boolean isEmpty() {
 		return stacks.isEmpty();
 	}
+
 	public void completeAll() {
 		completeData();
 	}
+
 	public void completeData() {
-		stacks.sort(Comparator.comparingInt(e->Item.getId(e.stack.getItem())));
-		foodeffect.sort(Comparator.<Pair<MobEffectInstance,Float>>comparingInt(e->MobEffect.getId(e.getFirst().getEffect())).thenComparing(Pair::getSecond));
+		stacks.sort(Comparator.comparingInt(e -> Item.getId(e.stack.getItem())));
+		foodeffect.sort(
+				Comparator.<Pair<MobEffectInstance, Float>>comparingInt(e -> MobEffect.getId(e.getFirst().getEffect()))
+						.thenComparing(Pair::getSecond));
 	}
+
 	public static boolean isEffectEquals(MobEffectInstance t1, MobEffectInstance t2) {
 		return t1.getEffect() == t2.getEffect() && t1.getAmplifier() == t2.getAmplifier();
 	}
@@ -101,20 +105,17 @@ public class SauteedFoodInfo extends SpicedFoodInfo{
 				foodeffect.addAll(f.getEffects());
 			}
 		}
-		int conv=(int) (0.075*nh);
-		this.healing = (int) Math.ceil(nh-conv);
-		ns+=conv/2f;
-		this.saturation = Math.max(0.6f,ns/this.healing);
+		int conv = (int) (0.075 * nh);
+		this.healing = (int) Math.ceil(nh - conv);
+		ns += conv / 2f;
+		this.saturation = Math.max(0.6f, ns / this.healing);
 	}
-
 
 	public CompoundTag save() {
 		CompoundTag nbt = new CompoundTag();
 		write(nbt);
 		return nbt;
 	}
-
-
 
 	public void addItem(ItemStack is, float parts) {
 		for (FloatemStack i : stacks) {

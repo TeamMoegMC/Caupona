@@ -65,7 +65,6 @@ public class StewPot extends CPBaseTileBlock<StewPotTileEntity> implements Liqui
 
 	static final VoxelShape shape = Block.box(1, 0, 1, 15, 12, 15);
 
-
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return shape;
@@ -139,7 +138,6 @@ public class StewPot extends CPBaseTileBlock<StewPotTileEntity> implements Liqui
 		}
 	}
 
-
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		BlockEntity tileEntity = worldIn.getBlockEntity(pos);
@@ -166,10 +164,32 @@ public class StewPot extends CPBaseTileBlock<StewPotTileEntity> implements Liqui
 		super.createBlockStateDefinition(builder);
 		builder.add(FACING);
 	}
+
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getAxis());
 
 	}
 
+	@Override
+	public boolean hasAnalogOutputSignal(BlockState pState) {
+		return true;
+	}
+
+	@Override
+	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
+		StewPotTileEntity te = (StewPotTileEntity) pLevel.getBlockEntity(pPos);
+		if (te.proctype == 0) {
+			int ret = 1;
+			for (int i = 0; i < 9; i++) {
+				ItemStack is = te.getInv().getStackInSlot(i);
+				if (!is.isEmpty())
+					ret++;
+
+			}
+			ret += te.getTank().getFluidAmount() / 250;
+			return ret;
+		}
+		return 0;
+	}
 }

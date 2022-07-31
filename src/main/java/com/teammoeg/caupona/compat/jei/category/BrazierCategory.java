@@ -38,51 +38,55 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 public class BrazierCategory implements IRecipeCategory<AspicMeltingRecipe> {
-    public static ResourceLocation UID = new ResourceLocation(Main.MODID, "aspic_thawing_brazier");
-    private IDrawable BACKGROUND;
-    private IDrawable ICON;
-    
-    public BrazierCategory(IGuiHelper guiHelper) {
-        this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM,new ItemStack(CPItems.pbrazier));
-        ResourceLocation guiMain=new ResourceLocation(Main.MODID, "textures/gui/jei/aspic_thawing_brazier.png");
-        this.BACKGROUND = guiHelper.createDrawable(guiMain,0, 0, 127, 63);
-    }
+	public static ResourceLocation UID = new ResourceLocation(Main.MODID, "aspic_thawing_brazier");
+	private IDrawable BACKGROUND;
+	private IDrawable ICON;
 
-    @Override
-    public ResourceLocation getUid() {
-        return UID;
-    }
-
-    @Override
-    public Class<? extends AspicMeltingRecipe> getRecipeClass() {
-        return AspicMeltingRecipe.class;
-    }
-
-
-    public Component getTitle() {
-        return new TranslatableComponent("gui.jei.category." + Main.MODID + ".thawing_brazier.title");
-    }
-	@Override
-	public void draw(AspicMeltingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-		String burnTime = String.valueOf(recipe.time/20f)+"s";
-		Minecraft.getInstance().font.drawShadow(stack, burnTime,103,55, 0xFFFFFF);
+	public BrazierCategory(IGuiHelper guiHelper) {
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(CPItems.pbrazier));
+		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/aspic_thawing_brazier.png");
+		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 	}
-    @Override
-    public IDrawable getBackground() {
-        return BACKGROUND;
-    }
 
-    @Override
-    public IDrawable getIcon() {
-        return ICON;
-    }
+	@Override
+	public ResourceLocation getUid() {
+		return UID;
+	}
 
-    @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, AspicMeltingRecipe recipe, IFocusGroup focuses) {
-    	builder.addSlot(RecipeIngredientRole.INPUT,30,28).addIngredients(recipe.aspic);
-    	builder.addSlot(RecipeIngredientRole.INPUT,57, 14).addIngredient(VanillaTypes.ITEM,new ItemStack(CPItems.water_bowl));
-    	builder.addSlot(RecipeIngredientRole.OUTPUT,83, 9).addIngredient(VanillaTypes.FLUID,new FluidStack(recipe.fluid,recipe.amount)).setFluidRenderer(1250, false,16,46);
-    }
+	@Override
+	public Class<? extends AspicMeltingRecipe> getRecipeClass() {
+		return AspicMeltingRecipe.class;
+	}
 
+	public Component getTitle() {
+		return new TranslatableComponent("gui.jei.category." + Main.MODID + ".thawing_brazier.title");
+	}
+
+	@Override
+	public void draw(AspicMeltingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
+			double mouseY) {
+		String burnTime = String.valueOf(recipe.time / 20f) + "s";
+		Minecraft.getInstance().font.drawShadow(stack, burnTime, 103, 55, 0xFFFFFF);
+	}
+
+	@Override
+	public IDrawable getBackground() {
+		return BACKGROUND;
+	}
+
+	@Override
+	public IDrawable getIcon() {
+		return ICON;
+	}
+
+	@Override
+	public void setRecipe(IRecipeLayoutBuilder builder, AspicMeltingRecipe recipe, IFocusGroup focuses) {
+		builder.addSlot(RecipeIngredientRole.INPUT, 30, 28).addIngredients(recipe.aspic);
+		builder.addSlot(RecipeIngredientRole.INPUT, 57, 14).addIngredient(VanillaTypes.ITEM,
+				new ItemStack(CPItems.water_bowl));
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 9)
+				.addIngredient(VanillaTypes.FLUID, new FluidStack(recipe.fluid, recipe.amount))
+				.setFluidRenderer(1250, false, 16, 46);
+	}
 
 }

@@ -43,7 +43,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class FryingRecipe extends IDataRecipe implements IConditionalRecipe {
 	public static Set<CookIngredients> cookables;
-	public static Map<Item,FryingRecipe> recipes;
+	public static Map<Item, FryingRecipe> recipes;
 	public static List<FryingRecipe> sorted;
 	public static RecipeType<?> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
@@ -52,7 +52,7 @@ public class FryingRecipe extends IDataRecipe implements IConditionalRecipe {
 	public static boolean isCookable(ItemStack stack) {
 		FloatemTagStack s = new FloatemTagStack(stack);
 		return stack.is(cookable) || cookables.stream().anyMatch(e -> e.fits(s));
-		//return true;
+		// return true;
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class FryingRecipe extends IDataRecipe implements IConditionalRecipe {
 			priority = data.get("priority").getAsInt();
 		time = data.get("time").getAsInt();
 		output = ForgeRegistries.ITEMS.getValue(new ResourceLocation(data.get("output").getAsString()));
-		if(output==null)
+		if (output == null)
 			throw new InvalidRecipeException();
 	}
 
@@ -98,8 +98,8 @@ public class FryingRecipe extends IDataRecipe implements IConditionalRecipe {
 		output = data.readRegistryIdUnsafe(ForgeRegistries.ITEMS);
 	}
 
-	public FryingRecipe(ResourceLocation id, List<IngredientCondition> allow, List<IngredientCondition> deny, int priority,
-			int time, Item output) {
+	public FryingRecipe(ResourceLocation id, List<IngredientCondition> allow, List<IngredientCondition> deny,
+			int priority, int time, Item output) {
 		super(id);
 		this.allow = allow;
 		this.deny = deny;
@@ -113,7 +113,7 @@ public class FryingRecipe extends IDataRecipe implements IConditionalRecipe {
 		SerializeUtil.writeList(data, deny, SerializeUtil::write);
 		data.writeVarInt(priority);
 		data.writeVarInt(time);
-		data.writeRegistryIdUnsafe(ForgeRegistries.ITEMS,output);
+		data.writeRegistryIdUnsafe(ForgeRegistries.ITEMS, output);
 	}
 
 	public boolean matches(PanPendingContext ctx) {
@@ -141,7 +141,8 @@ public class FryingRecipe extends IDataRecipe implements IConditionalRecipe {
 	}
 
 	public Stream<CookIngredients> getAllNumbers() {
-		return Stream.concat(allow == null ? Stream.empty() : allow.stream().flatMap(IngredientCondition::getAllNumbers),
+		return Stream.concat(
+				allow == null ? Stream.empty() : allow.stream().flatMap(IngredientCondition::getAllNumbers),
 				deny == null ? Stream.empty() : deny.stream().flatMap(IngredientCondition::getAllNumbers));
 	}
 
@@ -161,6 +162,5 @@ public class FryingRecipe extends IDataRecipe implements IConditionalRecipe {
 	public List<IngredientCondition> getDeny() {
 		return deny;
 	}
-
 
 }

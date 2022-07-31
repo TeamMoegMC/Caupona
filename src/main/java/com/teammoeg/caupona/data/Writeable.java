@@ -21,10 +21,11 @@ package com.teammoeg.caupona.data;
 import com.google.gson.JsonElement;
 
 import net.minecraft.network.FriendlyByteBuf;
+
 /**
  * Class being able to write to buffer and json
  * This is not a typo but to differ from java writable
- * */
+ */
 public interface Writeable {
 	public JsonElement serialize();
 

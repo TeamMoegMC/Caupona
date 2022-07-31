@@ -66,35 +66,31 @@ public class RenderUtils {
 		transform.popPose();
 	}
 
-	private static final Function<ResourceLocation, RenderType> GUI_CUTOUT=Util.memoize(texture -> RenderType.create(
-			"gui_"+texture,
-			DefaultVertexFormat.POSITION_COLOR_TEX,
-			Mode.QUADS,256,false,false,
-			RenderType.CompositeState.builder()
-			.setTextureState(new TextureStateShard(texture, false, false))
-			.setShaderState(RenderStateShard.POSITION_COLOR_TEX_SHADER).createCompositeState(false)
-	));
+	private static final Function<ResourceLocation, RenderType> GUI_CUTOUT = Util
+			.memoize(texture -> RenderType.create("gui_" + texture, DefaultVertexFormat.POSITION_COLOR_TEX, Mode.QUADS,
+					256, false, false,
+					RenderType.CompositeState.builder().setTextureState(new TextureStateShard(texture, false, false))
+							.setShaderState(RenderStateShard.POSITION_COLOR_TEX_SHADER).createCompositeState(false)));
 
 	private static void buildVertex(VertexConsumer bu, PoseStack transform, float r, float g, float b, float a,
 			float p1, float p2, float u0, float u1, int light, int overlay) {
-		bu.vertex(transform.last().pose(), p1, p2, 0).color(r, g, b, a).uv(u0, u1).overlayCoords(overlay)
-				.uv2(light).normal(transform.last().normal(), 1, 1, 1).endVertex();
+		bu.vertex(transform.last().pose(), p1, p2, 0).color(r, g, b, a).uv(u0, u1).overlayCoords(overlay).uv2(light)
+				.normal(transform.last().normal(), 1, 1, 1).endVertex();
 	}
 
 	public static void drawRepeatedFluidSpriteGui(MultiBufferSource.BufferSource buffer, PoseStack transform,
 			FluidStack fluid, float x, float y, float w, float h) {
 		RenderType renderType = GUI_CUTOUT.apply(InventoryMenu.BLOCK_ATLAS);
 		VertexConsumer builder = buffer.getBuffer(renderType);
-		TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager()
-				.getAtlas(InventoryMenu.BLOCK_ATLAS)
+		TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS)
 				.getSprite(fluid.getFluid().getAttributes().getStillTexture(fluid));
 		int col = fluid.getFluid().getAttributes().getColor(fluid);
 		int iW = sprite.getWidth();
 		int iH = sprite.getHeight();
 		if (iW > 0 && iH > 0)
-			drawRepeatedSprite(builder, transform, x, y, w, h, iW, iH, sprite.getU0(), sprite.getU1(),
-					sprite.getV0(), sprite.getV1(), (col >> 16 & 255) / 255.0f, (col >> 8 & 255) / 255.0f,
-					(col & 255) / 255.0f, 0.8f, LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY);
+			drawRepeatedSprite(builder, transform, x, y, w, h, iW, iH, sprite.getU0(), sprite.getU1(), sprite.getV0(),
+					sprite.getV1(), (col >> 16 & 255) / 255.0f, (col >> 8 & 255) / 255.0f, (col & 255) / 255.0f, 0.8f,
+					LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY);
 		buffer.endBatch(renderType);
 	}
 

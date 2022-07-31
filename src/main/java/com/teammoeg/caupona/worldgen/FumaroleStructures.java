@@ -15,30 +15,25 @@ import net.minecraft.world.level.levelgen.Heightmap;
 
 public class FumaroleStructures extends StructureFeature<JigsawConfiguration> {
 
-    public FumaroleStructures() {
-        super(JigsawConfiguration.CODEC, FumaroleStructures::createPiecesGenerator, PostPlacementProcessor.NONE);
-    }
+	public FumaroleStructures() {
+		super(JigsawConfiguration.CODEC, FumaroleStructures::createPiecesGenerator, PostPlacementProcessor.NONE);
+	}
 
-    @Override
-    public GenerationStep.Decoration step() {
-        return GenerationStep.Decoration.SURFACE_STRUCTURES;
-    }
+	@Override
+	public GenerationStep.Decoration step() {
+		return GenerationStep.Decoration.SURFACE_STRUCTURES;
+	}
 
+	public static Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(
+			PieceGeneratorSupplier.Context<JigsawConfiguration> context) {
 
-    public static Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(PieceGeneratorSupplier.Context<JigsawConfiguration> context) {
-
-
-        return Optional.of((builder,ctx)->{
-        		BlockPos blockpos=ctx.chunkPos().getBlockAt(ctx.random().nextInt(16), 0,ctx.random().nextInt(16));
-        		int topLandY = context.chunkGenerator().getFirstFreeHeight(blockpos.getX(), blockpos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
-        		blockpos=blockpos.atY(topLandY-4+ctx.random().nextInt(1));
-                JigsawPlacement.addPieces(
-                        context,
-                        PoolElementStructurePiece::new,
-                        blockpos,
-                        false, 
-                        false 
-                ).ifPresent(t->t.generatePieces(builder, ctx));
-        		});
-    }
+		return Optional.of((builder, ctx) -> {
+			BlockPos blockpos = ctx.chunkPos().getBlockAt(ctx.random().nextInt(16), 0, ctx.random().nextInt(16));
+			int topLandY = context.chunkGenerator().getFirstFreeHeight(blockpos.getX(), blockpos.getZ(),
+					Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
+			blockpos = blockpos.atY(topLandY - 4 + ctx.random().nextInt(1));
+			JigsawPlacement.addPieces(context, PoolElementStructurePiece::new, blockpos, false, false)
+					.ifPresent(t -> t.generatePieces(builder, ctx));
+		});
+	}
 }

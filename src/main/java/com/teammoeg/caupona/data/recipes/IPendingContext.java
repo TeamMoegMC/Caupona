@@ -58,7 +58,6 @@ public class IPendingContext {
 		return 0f;
 	}
 
-
 	public float getTotalItems() {
 		return totalItems;
 	}

@@ -23,6 +23,7 @@ import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPTileTypes;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.blocks.CPHorizontalTileBlock;
+import com.teammoeg.caupona.blocks.foods.BowlTileEntity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -100,9 +101,11 @@ public class WolfStatueBlock extends CPHorizontalTileBlock<WolfStatueTile> imple
 		}
 		return super.updateShape(pState, pFacing, pState, pLevel, pCurrentPos, pFacingPos);
 	}
-	 public FluidState getFluidState(BlockState pState) {
-	      return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
-	   }
+
+	public FluidState getFluidState(BlockState pState) {
+		return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
+	}
+
 	@Override
 	public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
 		return false;
@@ -142,5 +145,23 @@ public class WolfStatueBlock extends CPHorizontalTileBlock<WolfStatueTile> imple
 			}
 		}
 		return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+	}
+
+
+	@Override
+	public boolean hasAnalogOutputSignal(BlockState pState) {
+		return true;
+	}
+
+	@Override
+	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
+		BlockEntity te = pLevel.getBlockEntity(pPos);
+		int ret=pState.getValue(HEAT)*3;
+		if (te instanceof WolfStatueTile) {
+			WolfStatueTile wst = (WolfStatueTile) te;
+			if (wst.isVeryHot)
+				ret+=9;
+		}
+		return ret;
 	}
 }

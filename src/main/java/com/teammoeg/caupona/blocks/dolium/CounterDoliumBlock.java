@@ -89,7 +89,7 @@ public class CounterDoliumBlock extends CPHorizontalTileBlock<CounterDoliumTileE
 		if (p.consumesAction())
 			return p;
 		CounterDoliumTileEntity tileEntity = (CounterDoliumTileEntity) worldIn.getBlockEntity(pos);
-		
+
 		ItemStack held = player.getItemInHand(handIn);
 		if (held.isEmpty() && player.isShiftKeyDown()) {
 			tileEntity.tank.setFluid(FluidStack.EMPTY);
@@ -108,7 +108,6 @@ public class CounterDoliumBlock extends CPHorizontalTileBlock<CounterDoliumTileE
 		if (FluidUtil.interactWithFluidHandler(player, handIn, tileEntity.tank))
 			return InteractionResult.SUCCESS;
 
-		
 		if (handIn == InteractionHand.MAIN_HAND) {
 			if (tileEntity != null && !worldIn.isClientSide)
 				NetworkHooks.openGui((ServerPlayer) player, tileEntity, tileEntity.getBlockPos());
@@ -120,7 +119,7 @@ public class CounterDoliumBlock extends CPHorizontalTileBlock<CounterDoliumTileE
 	@Override
 	public boolean canPlaceLiquid(BlockGetter w, BlockPos p, BlockState s, Fluid f) {
 		CounterDoliumTileEntity te = (CounterDoliumTileEntity) w.getBlockEntity(p);
-		return te.tank.fill(new FluidStack(f,1000),FluidAction.SIMULATE)==1000;
+		return te.tank.fill(new FluidStack(f, 1000), FluidAction.SIMULATE) == 1000;
 	}
 
 	@Override
@@ -131,6 +130,7 @@ public class CounterDoliumBlock extends CPHorizontalTileBlock<CounterDoliumTileE
 		}
 		return false;
 	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {

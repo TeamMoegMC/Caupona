@@ -40,9 +40,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 public class ChimneyPotBlock extends CPHorizontalTileBlock<ChimneyPotTileEntity> {
-	
+
 	public ChimneyPotBlock(Properties p_54120_) {
-		super(CPTileTypes.CHIMNEY,p_54120_);
+		super(CPTileTypes.CHIMNEY, p_54120_);
 		CPBlocks.chimney.add(this);
 	}
 
@@ -52,21 +52,22 @@ public class ChimneyPotBlock extends CPHorizontalTileBlock<ChimneyPotTileEntity>
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return shape;
 	}
-	
+
 	@Override
 	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
 			BlockHitResult hit) {
 		InteractionResult p = super.use(state, worldIn, pos, player, handIn, hit);
 		if (p.consumesAction())
 			return p;
-		BlockEntity tileEntity =  worldIn.getBlockEntity(pos);
-		if (tileEntity instanceof ChimneyPotTileEntity&&player.getItemInHand(handIn).getItem() instanceof ShovelItem) {
-			ChimneyPotTileEntity cpte=(ChimneyPotTileEntity) tileEntity;
-			if(cpte.countSoot>0) {
-				if(!worldIn.isClientSide) {
-					player.getItemInHand(handIn).hurtAndBreak(1,player,t->t.broadcastBreakEvent(handIn));
-					ItemHandlerHelper.giveItemToPlayer(player,new ItemStack(CPItems.soot,cpte.countSoot));
-					cpte.countSoot=0;
+		BlockEntity tileEntity = worldIn.getBlockEntity(pos);
+		if (tileEntity instanceof ChimneyPotTileEntity
+				&& player.getItemInHand(handIn).getItem() instanceof ShovelItem) {
+			ChimneyPotTileEntity cpte = (ChimneyPotTileEntity) tileEntity;
+			if (cpte.countSoot > 0) {
+				if (!worldIn.isClientSide) {
+					player.getItemInHand(handIn).hurtAndBreak(1, player, t -> t.broadcastBreakEvent(handIn));
+					ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(CPItems.soot, cpte.countSoot));
+					cpte.countSoot = 0;
 				}
 				return InteractionResult.sidedSuccess(worldIn.isClientSide);
 			}

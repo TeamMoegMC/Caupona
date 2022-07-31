@@ -38,6 +38,7 @@ public class IngredientNumberBuilder<T> {
 	private IngredientConditionsBuilder<T> parent;
 	private List<CookIngredients> types = new ArrayList<>();
 	private Consumer<CookIngredients> fin;
+
 	public IngredientNumberBuilder(IngredientConditionsBuilder<T> parent, Consumer<CookIngredients> fin) {
 		super();
 		this.parent = parent;
@@ -59,24 +60,27 @@ public class IngredientNumberBuilder<T> {
 	public IngredientNumberBuilder<T> of(Item i) {
 		return of(new ItemType(i));
 	}
+
 	public IngredientNumberBuilder<T> of(CookIngredients sn) {
 		types.add(sn);
 		return this;
 	}
+
 	public IngredientNumberBuilder<T> plus(CookIngredients sn) {
-		if(types.size()<=0)
+		if (types.size() <= 0)
 			return of(sn);
-		CookIngredients sn2=types.get(types.size()-1);
-		if(sn2 instanceof Add) {
+		CookIngredients sn2 = types.get(types.size() - 1);
+		if (sn2 instanceof Add) {
 			((Add) sn2).add(sn);
-		}else {
+		} else {
 			List<CookIngredients> t2s = new ArrayList<>();
 			t2s.add(sn2);
 			t2s.add(sn);
-			types.set(types.size()-1,new Add(t2s));
+			types.set(types.size() - 1, new Add(t2s));
 		}
 		return this;
 	}
+
 	public IngredientNumberBuilder<T> plus(float n) {
 		return plus(new ConstNumber(n));
 	}

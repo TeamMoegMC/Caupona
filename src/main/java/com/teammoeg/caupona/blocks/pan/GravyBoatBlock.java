@@ -45,32 +45,37 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class GravyBoatBlock extends CPHorizontalBlock {
-	public static final IntegerProperty LEVEL=IntegerProperty.create("damage", 0, 5);
+	public static final IntegerProperty LEVEL = IntegerProperty.create("damage", 0, 5);
+
 	public GravyBoatBlock(Properties p_54120_) {
 		super(p_54120_);
 	}
+
 	static final VoxelShape shapeNS = Block.box(3, 0, 4, 13, 7, 12);
 	static final VoxelShape shapeEW = Block.box(4, 0, 3, 12, 7, 13);
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		if(state.getValue(FACING).getAxis()==Axis.Z)
+		if (state.getValue(FACING).getAxis() == Axis.Z)
 			return shapeNS;
 		return shapeEW;
-		
+
 	}
+
 	public static int getOil(BlockState pState) {
-		return 5-pState.getValue(LEVEL);
+		return 5 - pState.getValue(LEVEL);
 	}
-	public static boolean drawOil(Level pLevel, BlockPos pPos, BlockState pState,int count) {
-		int dmg=pState.getValue(LEVEL);
-		if(dmg+count<=5) {
-			pState=pState.setValue(LEVEL,dmg+count);
+
+	public static boolean drawOil(Level pLevel, BlockPos pPos, BlockState pState, int count) {
+		int dmg = pState.getValue(LEVEL);
+		if (dmg + count <= 5) {
+			pState = pState.setValue(LEVEL, dmg + count);
 			pLevel.setBlockAndUpdate(pPos, pState);
 			return true;
 		}
 		return false;
 	}
+
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
@@ -81,6 +86,7 @@ public class GravyBoatBlock extends CPHorizontalBlock {
 	public boolean useShapeForLightOcclusion(BlockState state) {
 		return true;
 	}
+
 	@Override
 	public boolean propagatesSkylightDown(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
 		return true;
@@ -88,10 +94,10 @@ public class GravyBoatBlock extends CPHorizontalBlock {
 
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(LEVEL,context.getItemInHand().getDamageValue());
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(LEVEL,
+				context.getItemInHand().getDamageValue());
 
 	}
-
 
 	@Override
 	protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
@@ -102,7 +108,7 @@ public class GravyBoatBlock extends CPHorizontalBlock {
 	@Override
 	public void fillItemCategory(CreativeModeTab pGroup, NonNullList<ItemStack> pItems) {
 		super.fillItemCategory(pGroup, pItems);
-		ItemStack is=new ItemStack(this);
+		ItemStack is = new ItemStack(this);
 		is.setDamageValue(is.getMaxDamage());
 		pItems.add(is);
 	}
@@ -110,17 +116,28 @@ public class GravyBoatBlock extends CPHorizontalBlock {
 	@Override
 	public List<ItemStack> getDrops(BlockState pState,
 			net.minecraft.world.level.storage.loot.LootContext.Builder pBuilder) {
-		List<ItemStack> sep=super.getDrops(pState, pBuilder);
-		for(ItemStack is:sep)
-			if(is.is(CPItems.gravy_boat))
+		List<ItemStack> sep = super.getDrops(pState, pBuilder);
+		for (ItemStack is : sep)
+			if (is.is(CPItems.gravy_boat))
 				is.setDamageValue(pState.getValue(LEVEL));
 		return sep;
-		
+
 	}
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player)
-    {
-		ItemStack is=new ItemStack(CPItems.gravy_boat);
+
+	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos,
+			Player player) {
+		ItemStack is = new ItemStack(CPItems.gravy_boat);
 		is.setDamageValue(state.getValue(LEVEL));
 		return is;
-    }
+	}
+
+	@Override
+	public boolean hasAnalogOutputSignal(BlockState pState) {
+		return true;
+	}
+
+	@Override
+	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
+		return 15 - (pState.getValue(LEVEL) * 3);
+	}
 }

@@ -45,10 +45,13 @@ public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveCont
 		this.renderTooltip(pPoseStack, pMouseX, pMouseY);
 
 	}
+
 	protected void renderLabels(PoseStack matrixStack, int x, int y) {
-		this.font.draw(matrixStack, this.title, this.titleLabelX-2, this.titleLabelY, 0xEEEEEE);
-		this.font.draw(matrixStack, this.playerInventoryTitle, this.inventoryLabelX-2, this.inventoryLabelY-2, 4210752);
+		this.font.draw(matrixStack, this.title, this.titleLabelX - 2, this.titleLabelY, 0xEEEEEE);
+		this.font.draw(matrixStack, this.playerInventoryTitle, this.inventoryLabelX - 2, this.inventoryLabelY - 2,
+				4210752);
 	}
+
 	@Override
 	protected void renderBg(PoseStack matrixStack, float partialTicks, int x, int y) {
 		this.renderBackground(matrixStack);
@@ -60,10 +63,16 @@ public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveCont
 		if (te.processMax > 0 && te.process > 0) {
 			int h = (int) (26 * (1 - te.process / (float) te.processMax));
 			this.blit(matrixStack, leftPos + 61, topPos + h, 176, h, 54, 26 - h);
-			switch(te.last) {
-			case CHARCOAL:this.blit(matrixStack, leftPos + 61, topPos + 13, 176, 42, 54, 16);break;
-			case WOODS:this.blit(matrixStack, leftPos + 61, topPos + 13, 176, 58, 54, 16);break;
-			default:this.blit(matrixStack, leftPos + 61, topPos + 13, 176, 26, 54, 16);break;
+			switch (te.last) {
+			case CHARCOAL:
+				this.blit(matrixStack, leftPos + 61, topPos + 13, 176, 42, 54, 16);
+				break;
+			case WOODS:
+				this.blit(matrixStack, leftPos + 61, topPos + 13, 176, 58, 54, 16);
+				break;
+			default:
+				this.blit(matrixStack, leftPos + 61, topPos + 13, 176, 26, 54, 16);
+				break;
 			}
 		}
 	}

@@ -127,8 +127,7 @@ public class CPRecipeProvider extends RecipeProvider {
 				Items.WHEAT_SEEDS));
 		out.accept(
 				new FoodValueRecipe(rl("food/fern"), 2, 0.3f, new ItemStack(Items.FERN), Items.FERN, Items.LARGE_FERN));
-		out.accept(
-				new FoodValueRecipe(rl("food/allium"), 1, 0.2f, new ItemStack(Items.ALLIUM), Items.ALLIUM));
+		out.accept(new FoodValueRecipe(rl("food/allium"), 1, 0.2f, new ItemStack(Items.ALLIUM), Items.ALLIUM));
 		// System.out.println(CPBlocks.stove1.asItem());
 		// System.out.println(CPBlocks.stove1.asItem().getItemCategory());
 		ShapedRecipeBuilder.shaped(CPBlocks.stove1).define('D', Items.DIRT).define('S', Items.COBBLESTONE)
@@ -147,7 +146,7 @@ public class CPRecipeProvider extends RecipeProvider {
 		// hasItem(Items.BOWL)).build(out);
 		out.accept(new FluidFoodValueRecipe(rl("fluid_food/milk"), 0, 1f, new ItemStack(Items.MILK_BUCKET), 4,
 				new ResourceLocation(Main.MODID, "scalded_milk")));
-		out.accept(new FluidFoodValueRecipe(rl("fluid_food/stock"), 2,1f, null, 4,
+		out.accept(new FluidFoodValueRecipe(rl("fluid_food/stock"), 2, 1f, null, 4,
 				new ResourceLocation(Main.MODID, "stock")));
 		simpleFood(out, 2, 0.4f, Items.HONEYCOMB);
 		/*
@@ -198,17 +197,15 @@ public class CPRecipeProvider extends RecipeProvider {
 				Arrays.asList(Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "walnut"))), 8),
 						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
 				Ingredient.of(CPItems.gravy_boat)));
-		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/gravy_boat_glass_bottle"), null, Fluids.EMPTY, 0, 0f,
-				false, new ItemStack(CPItems.gravy_boat),
+		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/gravy_boat_glass_bottle"), null,
+				Fluids.EMPTY, 0, 0f, false, new ItemStack(CPItems.gravy_boat),
 				Arrays.asList(Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "walnut"))), 8),
 						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
 				Ingredient.of(Items.GLASS_BOTTLE)));
-		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/vivid_charcoal"), null, Fluids.LAVA,250, 0f,
-				false, new ItemStack(cpitem("vivid_charcoal"),8),
-				Arrays.asList(Pair.of(Ingredient.of(ItemTags.COALS), 3),
-						Pair.of(Ingredient.of(Items.SLIME_BALL), 1)),
+		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/vivid_charcoal"), null, Fluids.LAVA, 250,
+				0f, false, new ItemStack(cpitem("vivid_charcoal"), 8),
+				Arrays.asList(Pair.of(Ingredient.of(ItemTags.COALS), 3), Pair.of(Ingredient.of(Items.SLIME_BALL), 1)),
 				null));
-
 
 	}
 
@@ -286,7 +283,6 @@ public class CPRecipeProvider extends RecipeProvider {
 				.of(cereals).and().then().finish(out);
 		cook("bone_gelatin").special().med().require().only().of(Items.BONE).and().then().dense(1).finish(out);
 	}
-
 
 	private void spice(Item spice, MobEffect eff, Consumer<IDataRecipe> out) {
 		out.accept(new SpiceRecipe(new ResourceLocation(Main.MODID, "spice/" + spice.getRegistryName().getPath()),

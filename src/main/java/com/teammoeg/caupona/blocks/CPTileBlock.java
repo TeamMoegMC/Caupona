@@ -29,12 +29,14 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.RegistryObject;
 
-public interface CPTileBlock<V extends BlockEntity> extends EntityBlock{
+public interface CPTileBlock<V extends BlockEntity> extends EntityBlock {
 	@Override
 	public default BlockEntity newBlockEntity(BlockPos p, BlockState s) {
 		return getTile().get().create(p, s);
 	}
+
 	RegistryObject<BlockEntityType<V>> getTile();
+
 	@Override
 	public default <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState,
 			BlockEntityType<T> pBlockEntityType) {
@@ -44,7 +46,7 @@ public interface CPTileBlock<V extends BlockEntity> extends EntityBlock{
 			public void tick(Level pLevel, BlockPos pPos, BlockState pState, BlockEntity pBlockEntity) {
 				if (!pBlockEntity.hasLevel())
 					pBlockEntity.setLevel(pLevel);
-				if(pBlockEntity instanceof CPBaseTile)
+				if (pBlockEntity instanceof CPBaseTile)
 					((CPBaseTile) pBlockEntity).tick();
 			}
 		};

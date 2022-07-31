@@ -34,20 +34,21 @@ import vazkii.patchouli.api.ICustomComponent;
 import vazkii.patchouli.api.IVariable;
 
 public class DensityTooltip implements ICustomComponent {
-	int x,y,w,h;
+	int x, y, w, h;
 	IVariable recipe;
 	transient List<Component> density;
+
 	public DensityTooltip() {
 	}
 
 	@Override
 	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
-		recipe=lookup.apply(recipe);
-		ResourceLocation out=new ResourceLocation(recipe.asString());
-		StewCookingRecipe cr=StewCookingRecipe.recipes.get(ForgeRegistries.FLUIDS.getValue(out));
-		if(cr!=null) {
-			density=new ArrayList<>();
-			density.add(new TranslatableComponent("recipe.caupona.density",cr.getDensity()));
+		recipe = lookup.apply(recipe);
+		ResourceLocation out = new ResourceLocation(recipe.asString());
+		StewCookingRecipe cr = StewCookingRecipe.recipes.get(ForgeRegistries.FLUIDS.getValue(out));
+		if (cr != null) {
+			density = new ArrayList<>();
+			density.add(new TranslatableComponent("recipe.caupona.density", cr.getDensity()));
 		}
 	}
 
@@ -57,7 +58,7 @@ public class DensityTooltip implements ICustomComponent {
 
 	@Override
 	public void render(PoseStack ms, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
-		if(context.isAreaHovered(mouseX, mouseY,x,y,w,h))
+		if (context.isAreaHovered(mouseX, mouseY, x, y, w, h))
 			context.setHoverTooltipComponents(density);
 	}
 

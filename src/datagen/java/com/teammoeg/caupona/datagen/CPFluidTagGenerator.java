@@ -42,14 +42,12 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 		super(dataGenerator, Registry.FLUID, modId, existingFileHelper);
 	}
 
-
-
 	@Override
 	protected void addTags() {
 
 		tag("stews").add(CPFluids.getAll().collect(Collectors.toList()).toArray(new Fluid[0]));
 		tag("pumice_bloom_grow_on").add(Fluids.WATER);
-		tag(new ResourceLocation("watersource","drink")).add(ForgeRegistries.FLUIDS.getValue(mrl("nail_soup")));
+		tag(new ResourceLocation("watersource", "drink")).add(ForgeRegistries.FLUIDS.getValue(mrl("nail_soup")));
 	}
 
 	private TagAppender<Fluid> tag(String s) {
@@ -83,7 +81,6 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 	private ResourceLocation frl(String s) {
 		return new ResourceLocation("forge", s);
 	}
-
 
 	private ResourceLocation mcrl(String s) {
 		return new ResourceLocation(s);

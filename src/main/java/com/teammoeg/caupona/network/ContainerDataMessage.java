@@ -36,7 +36,7 @@ public class ContainerDataMessage {
 	}
 
 	ContainerDataMessage(FriendlyByteBuf buffer) {
-		nbt=buffer.readNbt();
+		nbt = buffer.readNbt();
 	}
 
 	void encode(FriendlyByteBuf buffer) {
@@ -45,8 +45,8 @@ public class ContainerDataMessage {
 
 	void handle(Supplier<NetworkEvent.Context> context) {
 		context.get().enqueueWork(() -> {
-			ClientProxy.data=nbt;
-			DistExecutor.safeRunWhenOn(Dist.CLIENT,()->ClientProxy::run);
+			ClientProxy.data = nbt;
+			DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientProxy::run);
 		});
 		context.get().setPacketHandled(true);
 	}

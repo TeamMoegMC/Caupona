@@ -24,7 +24,7 @@ import com.teammoeg.caupona.CPTileTypes;
 public class CaliductBlock extends BathHeatingBlock<CaliductTile> {
 
 	public CaliductBlock(Properties blockProps) {
-		super(CPTileTypes.CALIDUCT,blockProps);
+		super(CPTileTypes.CALIDUCT, blockProps);
 		CPBlocks.caliduct.add(this);
 	}
 

@@ -73,7 +73,7 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotTileEntity> {
 			matrixStack.translate(0, yy, 0);
 			matrixStack.mulPose(new Quaternion(90, 0, 0, true));
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
-			FluidAttributes attr0=fs.getFluid().getAttributes();
+			FluidAttributes attr0 = fs.getFluid().getAttributes();
 			TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
 			TextureAtlasSprite sprite = atlas.getSprite(attr0.getStillTexture(fs));
 			int col = attr0.getColor(fs);
@@ -83,7 +83,7 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotTileEntity> {
 				Vector3f clr;
 				float alp = 1f;
 				if (te.become != null && te.processMax > 0) {
-					FluidAttributes attr1=te.become.getAttributes();
+					FluidAttributes attr1 = te.become.getAttributes();
 					TextureAtlasSprite sprite2 = atlas.getSprite(attr1.getStillTexture(fs));
 					float proc = te.process * 1f / te.processMax;
 					clr = clr(col, attr1.getColor(fs), proc);

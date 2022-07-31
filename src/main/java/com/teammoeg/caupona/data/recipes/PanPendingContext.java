@@ -28,7 +28,7 @@ public class PanPendingContext extends IPendingContext {
 
 	public PanPendingContext(SauteedFoodInfo info) {
 		items = new ArrayList<>(info.stacks.size());
-		for(FloatemStack fs:info.stacks) {
+		for (FloatemStack fs : info.stacks) {
 			super.items.add(new FloatemTagStack(fs));
 			totalItems += fs.getCount();
 		}

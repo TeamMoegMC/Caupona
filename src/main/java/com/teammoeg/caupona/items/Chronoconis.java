@@ -41,17 +41,19 @@ public class Chronoconis extends CPItem {
 
 	@Override
 	public void fillItemCategory(CreativeModeTab pCategory, NonNullList<ItemStack> pItems) {
-		
+
 	}
 
 	@Override
 	public InteractionResult useOn(UseOnContext pContext) {
-		InteractionResult def= super.useOn(pContext);
-		if(!pContext.getLevel().isClientSide) {
-			BlockEntity te=pContext.getLevel().getBlockEntity(pContext.getClickedPos());
-			if(te instanceof IInfinitable) {
-				pContext.getPlayer().sendMessage(new TranslatableComponent("message.caupona.chronoconis",((IInfinitable) te).setInfinity()),pContext.getPlayer().getUUID());
-				
+		InteractionResult def = super.useOn(pContext);
+		if (!pContext.getLevel().isClientSide) {
+			BlockEntity te = pContext.getLevel().getBlockEntity(pContext.getClickedPos());
+			if (te instanceof IInfinitable) {
+				pContext.getPlayer().sendMessage(
+						new TranslatableComponent("message.caupona.chronoconis", ((IInfinitable) te).setInfinity()),
+						pContext.getPlayer().getUUID());
+
 				return InteractionResult.SUCCESS;
 			}
 		}
@@ -63,7 +65,7 @@ public class Chronoconis extends CPItem {
 			TooltipFlag pIsAdvanced) {
 		pTooltipComponents.add(new TranslatableComponent("tooltip.caupona.chronoconis"));
 		super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-		
+
 	}
 
 }

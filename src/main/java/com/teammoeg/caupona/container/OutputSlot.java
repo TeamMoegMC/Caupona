@@ -31,5 +31,5 @@ public class OutputSlot extends SlotItemHandler {
 	public boolean mayPlace(ItemStack stack) {
 		return false;
 	}
-	
+
 }
