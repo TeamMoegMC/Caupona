@@ -45,6 +45,7 @@ public class Main {
 	public static final String MODID = "caupona";
 	public static final String MODNAME = "Caupona";
 	public static final Logger logger = LogManager.getLogger(MODNAME);
+	public static final String BOOK_NBT_TAG=Main.MODID+":book_given";
 	public static final CreativeModeTab mainGroup = new CreativeModeTab(MODID) {
 		@Override
 		@Nonnull

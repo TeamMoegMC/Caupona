@@ -18,8 +18,8 @@
 
 package com.teammoeg.caupona.event;
 
-import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.CPItems;
+import javax.annotation.Nonnull;
+
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.api.CauponaApi;
@@ -29,8 +29,8 @@ import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.util.ITickableContainer;
 import com.teammoeg.caupona.util.SoupInfo;
 import com.teammoeg.caupona.worldgen.CPPlacements;
-
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
@@ -66,6 +66,7 @@ import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.ItemHandlerHelper;
+import vazkii.patchouli.api.PatchouliAPI;
 
 @Mod.EventBusSubscriber
 public class ForgeEvent {
@@ -93,7 +94,21 @@ public class ForgeEvent {
 
 		}
 	}
+	@SubscribeEvent
+	public static void addManualToPlayer(@Nonnull PlayerEvent.PlayerLoggedInEvent event) {
+		CompoundTag nbt = event.getPlayer().getPersistentData();
+		CompoundTag persistent;
 
+		if (nbt.contains(Player.PERSISTED_NBT_TAG)) {
+			persistent = nbt.getCompound(Player.PERSISTED_NBT_TAG);
+		} else {
+			nbt.put(Player.PERSISTED_NBT_TAG, (persistent = new CompoundTag()));
+		}
+		if (!persistent.contains(Main.BOOK_NBT_TAG)) {
+			persistent.putBoolean(Main.BOOK_NBT_TAG,true);
+			ItemHandlerHelper.giveItemToPlayer(event.getPlayer(),PatchouliAPI.get().getBookStack(new ResourceLocation(Main.MODID,"book")));
+		}
+	}
 	@SubscribeEvent
 	public static void onBlockClick(PlayerInteractEvent.RightClickBlock event) {
 		ItemStack is = event.getItemStack();

@@ -18,7 +18,8 @@
 
 package com.teammoeg.caupona.data.recipes;
 
-//Must implement this if one of this calculation contains many types of calculations
+//Must implement this if one of this calculation would call other calculation.
+//Or would lower the performance
 public interface ComplexCalculated {
 
 }
