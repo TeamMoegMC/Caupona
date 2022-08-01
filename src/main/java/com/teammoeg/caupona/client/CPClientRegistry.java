@@ -75,7 +75,7 @@ public class CPClientRegistry {
 			ItemBlockRenderTypes.setRenderLayer(bl, RenderType.cutout());
 		BlockEntityRenderers.register(CPTileTypes.STEW_POT.get(), StewPotRenderer::new);
 		BlockEntityRenderers.register(CPTileTypes.BOWL.get(), BowlRenderer::new);
-		BlockEntityRenderers.register(CPTileTypes.SIGN.get(), CPSignRenderer::new);
+		BlockEntityRenderers.register(CPTileTypes.SIGN.get(), SignRenderer::new);
 		BlockEntityRenderers.register(CPTileTypes.DOLIUM.get(), CounterDoliumRenderer::new);
 		BlockEntityRenderers.register(CPTileTypes.PAN.get(), PanRenderer::new);
 		Sheets.addWoodType(CPBlocks.WALNUT);
