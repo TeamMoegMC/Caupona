@@ -50,7 +50,19 @@ public class PanContainer extends AbstractContainerMenu {
 		this.addSlot(new SlotItemHandler(te.inv, 9, 147, 13));
 
 		this.addSlot(new OutputSlot(te.inv, 10, 136, 47));
-		this.addSlot(new SlotItemHandler(te.inv, 11, 125, 13));
+		this.addSlot(new SlotItemHandler(te.inv, 11, 125, 13) {
+
+			@Override
+			public boolean mayPlace(ItemStack stack) {
+				if((!inv.player.getAbilities().instabuild&&tile.isInfinite))return false;
+				return super.mayPlace(stack);
+			}
+
+			@Override
+			public boolean mayPickup(Player playerIn) {
+				if((!inv.player.getAbilities().instabuild&&tile.isInfinite))return false;
+				return super.mayPickup(playerIn);
+			}});
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 9; j++)
 				addSlot(new Slot(inv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));

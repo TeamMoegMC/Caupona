@@ -135,7 +135,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 	public boolean operate = false;
 	public short proctype = 0;
 	public boolean rsstate = false;
-	private boolean isInfinite = false;
+	boolean isInfinite = false;
 
 	public Fluid become;
 	public ResourceLocation nextbase;

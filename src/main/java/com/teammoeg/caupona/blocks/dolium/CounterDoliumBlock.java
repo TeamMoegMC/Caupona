@@ -109,7 +109,7 @@ public class CounterDoliumBlock extends CPHorizontalTileBlock<CounterDoliumTileE
 			return InteractionResult.SUCCESS;
 
 		if (handIn == InteractionHand.MAIN_HAND) {
-			if (tileEntity != null && !worldIn.isClientSide)
+			if (tileEntity != null && !worldIn.isClientSide&&(player.getAbilities().instabuild||!tileEntity.isInfinite))
 				NetworkHooks.openGui((ServerPlayer) player, tileEntity, tileEntity.getBlockPos());
 			return InteractionResult.SUCCESS;
 		}

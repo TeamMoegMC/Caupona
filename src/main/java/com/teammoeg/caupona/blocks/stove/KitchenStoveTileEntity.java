@@ -59,7 +59,7 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 	public BlockPos attachedChimney;
 	private int chimneyTicks = 0;
 	private int chimneyCheckTicks = 20;
-	private boolean isInfinite = false;
+	boolean isInfinite = false;
 	public FuelType last = FuelType.OTHER;
 
 	public KitchenStoveTileEntity(BlockEntityType<KitchenStoveTileEntity> tet, BlockPos p, BlockState s, int spd) {
