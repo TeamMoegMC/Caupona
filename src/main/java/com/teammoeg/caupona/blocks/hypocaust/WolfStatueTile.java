@@ -70,6 +70,8 @@ public class WolfStatueTile extends CPBaseTile {
 			if (bheat != nh) {
 				flag = true;
 			}
+			if(!isVeryHot)
+				this.setChanged();
 			isVeryHot = nh > 0;
 			if (isVeryHot && bs.getValue(WolfStatueBlock.WATERLOGGED)) {
 				bs = bs.setValue(WolfStatueBlock.WATERLOGGED, false);

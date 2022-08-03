@@ -90,9 +90,11 @@ public class FumaroleVentTileEntity extends CPBaseTile implements IStove {
 				if (!this.getBlockState().getValue(FumaroleVentBlock.WATERLOGGED))
 					placeFumarole(this.getLevel(), this.getBlockPos());
 			}
+			this.setChanged();
 		}
 		if (check < checkmax) {
 			check++;
+			
 		} else {
 			check = 0;
 			BlockState below = this.getLevel().getBlockState(this.getBlockPos().below(2));
@@ -109,7 +111,7 @@ public class FumaroleVentTileEntity extends CPBaseTile implements IStove {
 				this.getLevel().setBlockAndUpdate(getBlockPos(), bs.setValue(FumaroleVentBlock.HEAT, 0));
 			}
 		}
-		this.setChanged();
+		
 	}
 
 	public static void placeFumarole(Level pLevel, BlockPos pPos) {

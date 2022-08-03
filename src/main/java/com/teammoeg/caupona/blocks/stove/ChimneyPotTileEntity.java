@@ -61,13 +61,15 @@ public class ChimneyPotTileEntity extends CPBaseTile {
 
 	@Override
 	public void tick() {
-		if (process >= processMax) {
-			if (countSoot < maxStore) {
-				countSoot++;
-				this.syncData();
+		if(!level.isClientSide)
+			if (process >= processMax) {
+				if (countSoot < maxStore) {
+					countSoot++;
+					this.syncData();
+				}
+				process = 0;
+				this.setChanged();
 			}
-			process = 0;
-		}
 	}
 
 }

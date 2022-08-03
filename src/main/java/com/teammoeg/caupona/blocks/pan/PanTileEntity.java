@@ -178,12 +178,15 @@ public class PanTileEntity extends CPBaseTile implements MenuProvider,IInfinitab
 				if (te instanceof IStove) {
 					int rh = ((IStove) te).requestHeat();
 					process += rh;
-					if (rh > 0)
+					if (rh > 0) {
 						working = true;
+						this.syncData();
+					}
 					if (process >= processMax) {
 						process = 0;
 						processMax = 0;
 						doWork();
+						this.setChanged();
 					}
 				} else
 					return;
@@ -195,12 +198,17 @@ public class PanTileEntity extends CPBaseTile implements MenuProvider,IInfinitab
 						inv.setStackInSlot(10, tryAddSpice(sout.split(1)));
 					else
 						inv.setStackInSlot(10, tryAddSpice(ItemHandlerHelper.copyStackWithSize(sout, 1)));
+					
+					if(sout.isEmpty())
+						this.syncData();
+					else
+						this.setChanged();
 				}
 			} else {
 				prepareWork();
 			}
 		}
-		this.syncData();
+		
 	}
 
 	private void prepareWork() {
@@ -305,6 +313,7 @@ public class PanTileEntity extends CPBaseTile implements MenuProvider,IInfinitab
 		if (this.getBlockState().is(CPBlocks.STONE_PAN))
 			tpt *= 2;
 		processMax = tpt;
+		this.syncData();
 		return;
 	}
 

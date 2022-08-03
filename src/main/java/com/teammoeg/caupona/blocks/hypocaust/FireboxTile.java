@@ -119,7 +119,7 @@ public class FireboxTile extends BathHeatingTile {
 					((BathHeatingTile) hte).setHeat(heat);
 			}
 		}
-
+		this.setChanged();
 		super.tick();
 
 	}

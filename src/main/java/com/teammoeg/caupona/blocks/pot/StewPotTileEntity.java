@@ -146,6 +146,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 
 	@Override
 	public void tick() {
+		boolean syncNeeded=false;
 		if (!level.isClientSide) {
 			working = false;
 			if (processMax > 0) {
@@ -153,14 +154,18 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 				BlockEntity te = level.getBlockEntity(worldPosition.below());
 				if (te instanceof IStove) {
 					int rh = ((IStove) te).requestHeat();
-					if (!isInfinite)
+					if (!isInfinite) {
 						process += rh;
+						if(rh>0)
+							syncNeeded=true;
+					}
 					if (rh > 0)
 						working = true;
 					if (process >= processMax) {
 						process = 0;
 						processMax = 0;
 						doWork();
+						syncNeeded=true;
 					}
 				} else
 					return;
@@ -170,6 +175,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 					nowork++;
 					if (nowork >= stillticks) {
 						nowork = 0;
+						syncNeeded=true;
 						if (inv.getStackInSlot(10).isEmpty()) {
 							DoliumRecipe recipe = DoliumRecipe.testPot(getTank().getFluid());
 							if (recipe != null) {
@@ -179,10 +185,14 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 							}
 
 						}
-					}
+					}else
+						this.setChanged();
 				}
-				if (!isInfinite)
+				if (!isInfinite&&proctype<=1) {
 					prepareWork();
+					if(proctype!=0)
+						syncNeeded=true;
+				}
 				container++;
 				if (container >= contTicks) {
 					container = 0;
@@ -195,12 +205,16 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 						if (canAddFluid())
 							tryContianFluid();
 					}
+					syncNeeded=true;
+				}else this.setChanged();
 
-				}
-
+				
 			}
+			if(syncNeeded)
+				this.syncData();
 		}
-		this.syncData();
+		
+		
 	}
 
 	private FluidStack tryAddSpice(FluidStack fs) {
@@ -300,7 +314,6 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 			current = nbt.contains("current") ? new SoupInfo(nbt.getCompound("current")) : null;
 			nextbase = nbt.contains("resultBase") ? new ResourceLocation(nbt.getString("resultBase")) : null;
 			nowork = nbt.getInt("nowork");
-			container = nbt.getInt("containerTicks");
 			isInfinite = nbt.getBoolean("inf");
 		}
 	}
@@ -324,16 +337,15 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 				nbt.put("current", current.save());
 			if (nextbase != null)
 				nbt.putString("resultBase", nextbase.toString());
-			nbt.putInt("containerTicks", container);
 			nbt.putBoolean("inf", isInfinite);
 		}
 	}
 
 	private void prepareWork() {
-		if (rsstate && proctype == 0 && !operate && level.hasNeighborSignal(this.worldPosition))
+		if (rsstate&&proctype==0&& !operate && level.hasNeighborSignal(this.worldPosition))
 			operate = true;
 
-		if (operate && proctype == 0) {
+		if (operate&&proctype==0) {
 			operate = false;
 			BlockEntity te = level.getBlockEntity(worldPosition.below());
 			if (!(te instanceof IStove) || !((IStove) te).canEmitHeat())

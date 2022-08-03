@@ -127,7 +127,6 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 		process = nbt.getInt("process");
 		tank.readFromNBT(nbt.getCompound("tank"));
 		if (!isClient) {
-			container = nbt.getInt("containerTicks");
 			inner = ItemStack.of(nbt.getCompound("inner"));
 			inv.deserializeNBT(nbt.getCompound("inventory"));
 			isInfinite = nbt.getBoolean("inf");
@@ -143,7 +142,6 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 		if (!isClient) {
 			nbt.put("inventory", inv.serializeNBT());
 			nbt.put("inner", inner.serializeNBT());
-			nbt.putInt("containerTicks", container);
 			nbt.putBoolean("inf", isInfinite);
 		}
 
@@ -153,6 +151,12 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 	public void tick() {
 		if (this.level.isClientSide)
 			return;
+		if (!inner.isEmpty()) {
+			inner = Utils.insertToOutput(inv, 5, inner);
+			this.setChanged();
+			return;
+		}
+		boolean updateNeeded = false;
 		container++;
 		if (container >= contTicks) {
 			container = 0;
@@ -162,18 +166,20 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 				tank.setFluid(fs);
 			} else
 				tryContianFluid();
+			updateNeeded=true;
 		}
-		if (!inner.isEmpty()) {
-			inner = Utils.insertToOutput(inv, 5, inner);
-			this.syncData();
-			return;
-		}
+		
+		
 		if ((process < 0 || process % 20 == 0) && !isInfinite) {
 			if (DoliumRecipe.testDolium(tank.getFluid(), inv) != null) {
-				if (process == -1)
+				if (process == -1) {
 					process = 0;
-			} else
+					updateNeeded=true;
+				}
+			} else if(process!=-1) {
 				process = -1;
+				updateNeeded=true;
+			}
 		}
 		if (process >= 0 && !isInfinite) {
 			process++;
@@ -187,8 +193,10 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 
 				}
 			}
+			updateNeeded=true;
 		}
-		this.syncData();
+		if(updateNeeded)
+			this.syncData();
 	}
 
 	boolean tryAddFluid(FluidStack fs) {

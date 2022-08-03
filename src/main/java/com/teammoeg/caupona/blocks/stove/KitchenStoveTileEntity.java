@@ -18,7 +18,9 @@
 
 package com.teammoeg.caupona.blocks.stove;
 
+import java.util.Objects;
 import java.util.Random;
+
 
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.FuelType;
@@ -186,10 +188,17 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 	public void tick() {
 		if (!level.isClientSide) {// server logic
 			BlockState bs = this.getBlockState();
+			boolean syncNeeded=false;
 			chimneyTicks++;
 			if (chimneyTicks >= chimneyCheckTicks) {
 				chimneyTicks = 0;
-				attachedChimney = ChimneyHelper.getNearestChimney(this.getLevel(), this.getBlockPos(), 2);
+				BlockPos newChimney=ChimneyHelper.getNearestChimney(this.getLevel(), this.getBlockPos(), 2);
+				
+				if(!Objects.equals(newChimney, attachedChimney)) {
+					
+					attachedChimney = newChimney;
+					syncNeeded=true;
+				}
 			}
 			boolean flag = false;
 			if (process <= 0 && (bs.getValue(KitchenStove.LIT) || bs.getValue(KitchenStove.ASH))) {
@@ -214,8 +223,10 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 				}
 				if (bs.getValue(KitchenStove.LIT)) {
 					cd--;
-					if (!isInfinite)
+					if (!isInfinite) {
 						process--;
+						syncNeeded=true;
+					}
 					if (attachedChimney != null) {
 						BlockEntity te = this.getLevel().getBlockEntity(attachedChimney);
 						if (te instanceof ChimneyPotTileEntity) {
@@ -230,7 +241,8 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 			}
 			if (flag)
 				this.level.setBlockAndUpdate(this.getBlockPos(), bs);
-			this.syncData();
+			if(syncNeeded)
+				this.syncData();
 		} else {// client particles
 			if (this.getBlockState().getValue(KitchenStove.LIT)) {
 				double d0 = this.getBlockPos().getX();

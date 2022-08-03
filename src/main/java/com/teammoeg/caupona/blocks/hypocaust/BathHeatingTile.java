@@ -53,7 +53,10 @@ public abstract class BathHeatingTile extends CPBaseTile {
 			process = mp;
 		else
 			process = 0;
-		heat = val;
+		if(heat!=val) {
+			heat = val;
+			this.syncData();
+		}else this.setChanged();
 	}
 
 	@Override
@@ -74,6 +77,7 @@ public abstract class BathHeatingTile extends CPBaseTile {
 
 	@Override
 	public void tick() {
+		if(level.isClientSide)return;
 		int heat = getHeat();
 		if (val > 0 && heat > 0 && this.level.random.nextDouble() < rate
 				&& this.getLevel().getFluidState(this.getBlockPos().above()).is(FluidTags.WATER)) {
@@ -88,11 +92,14 @@ public abstract class BathHeatingTile extends CPBaseTile {
 				}
 			}
 		}
-		if (process > 0)
+		if (process > 0) {
 			process--;
-		else
+			this.setChanged();
+		}else if(this.heat!=0) {
 			this.heat = 0;
-		this.syncData();
+			this.syncData();
+		}
+		
 	}
 
 }
