@@ -164,9 +164,10 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 				FluidStack fs = new FluidStack(tank.getFluid(), tank.getFluidAmount());
 				tryContianFluid();
 				tank.setFluid(fs);
-			} else
-				tryContianFluid();
-			updateNeeded=true;
+			} else {
+				if(tryContianFluid())
+					updateNeeded=true;
+			}
 		}
 		
 		
@@ -214,7 +215,7 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 		return false;
 	}
 
-	private void tryContianFluid() {
+	private boolean tryContianFluid() {
 		ItemStack is = inv.getStackInSlot(4);
 		if (!is.isEmpty() && inv.getStackInSlot(5).isEmpty()) {
 			if (is.getItem() == Items.BOWL && tank.getFluidAmount() >= 250) {
@@ -223,7 +224,7 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 					is.shrink(1);
 					inv.setStackInSlot(5, recipe.handle(tryAddSpice(tank.drain(250, FluidAction.EXECUTE))));
 					process = -1;
-					return;
+					return true;
 				}
 			}
 
@@ -234,7 +235,7 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 					process = -1;
 					inv.setStackInSlot(5, ret);
 				}
-				return;
+				return true;
 			}
 			FluidActionResult far = FluidUtil.tryFillContainer(is, this.tank, 1250, null, true);
 			if (far.isSuccess()) {
@@ -243,7 +244,7 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 					process = -1;
 					inv.setStackInSlot(5, far.getResult());
 				}
-				return;
+				return true;
 			}
 			if (!isInfinite) {
 				far = FluidUtil.tryEmptyContainer(is, this.tank, 1250, null, true);
@@ -253,10 +254,11 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 						process = -1;
 						inv.setStackInSlot(5, far.getResult());
 					}
-					return;
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 
 	@Override

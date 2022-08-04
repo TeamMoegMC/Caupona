@@ -202,10 +202,12 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 							tryContianFluid();
 						tank.setFluid(fs);
 					} else {
-						if (canAddFluid())
-							tryContianFluid();
+						if (canAddFluid()) {
+							if(tryContianFluid())
+								syncNeeded=true;
+						}
 					}
-					syncNeeded=true;
+					
 				}else this.setChanged();
 
 				
@@ -240,7 +242,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 
 	}
 
-	private void tryContianFluid() {
+	private boolean tryContianFluid() {
 		ItemStack is = inv.getStackInSlot(9);
 		if (!is.isEmpty() && inv.getStackInSlot(10).isEmpty()) {
 			if (is.getItem() == Items.BOWL && tank.getFluidAmount() >= 250) {
@@ -249,7 +251,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 					is.shrink(1);
 					inv.setStackInSlot(10, recipe.handle(tryAddSpice(tank.drain(250, FluidAction.EXECUTE))));
 					nowork = 0;
-					return;
+					return true;
 				}
 			}
 
@@ -259,8 +261,9 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 					is.shrink(1);
 					nowork = 0;
 					inv.setStackInSlot(10, ret);
+					return true;
 				}
-				return;
+				return false;
 			}
 			if (!isInfinite) {
 				AspicMeltingRecipe amr = AspicMeltingRecipe.find(is);
@@ -275,8 +278,9 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 						is.shrink(produce);
 						nowork = 0;
 						inv.setStackInSlot(10, ret);
+						return true;
 					}
-					return;
+					return false;
 				}
 			}
 			FluidActionResult far = FluidUtil.tryFillContainer(is, this.tank, 1250, null, true);
@@ -288,6 +292,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 				}
 			}
 		}
+		return false;
 	}
 
 	public boolean canAddFluid() {
