@@ -314,12 +314,13 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 			become = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(nbt.getString("result")));
 		else
 			become = null;
+		isInfinite = nbt.getBoolean("inf");
 		if (!isClient) {
 			inv.deserializeNBT(nbt.getCompound("inv"));
 			current = nbt.contains("current") ? new SoupInfo(nbt.getCompound("current")) : null;
 			nextbase = nbt.contains("resultBase") ? new ResourceLocation(nbt.getString("resultBase")) : null;
 			nowork = nbt.getInt("nowork");
-			isInfinite = nbt.getBoolean("inf");
+			
 		}
 	}
 
@@ -333,8 +334,10 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 			nbt.putBoolean("working", working);
 
 		tank.writeToNBT(nbt);
+		
 		if (become != null)
 			nbt.putString("result", become.getRegistryName().toString());
+		nbt.putBoolean("inf", isInfinite);
 		if (!isClient) {
 			nbt.put("inv", inv.serializeNBT());
 			nbt.putInt("nowork", nowork);
@@ -342,7 +345,7 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 				nbt.put("current", current.save());
 			if (nextbase != null)
 				nbt.putString("resultBase", nextbase.toString());
-			nbt.putBoolean("inf", isInfinite);
+			
 		}
 	}
 

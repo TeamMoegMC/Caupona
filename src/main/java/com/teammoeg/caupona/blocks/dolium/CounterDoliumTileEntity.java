@@ -126,10 +126,11 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 	public void readCustomNBT(CompoundTag nbt, boolean isClient) {
 		process = nbt.getInt("process");
 		tank.readFromNBT(nbt.getCompound("tank"));
+		isInfinite = nbt.getBoolean("inf");
 		if (!isClient) {
 			inner = ItemStack.of(nbt.getCompound("inner"));
 			inv.deserializeNBT(nbt.getCompound("inventory"));
-			isInfinite = nbt.getBoolean("inf");
+			
 		}
 
 	}
@@ -138,11 +139,11 @@ public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider,
 	public void writeCustomNBT(CompoundTag nbt, boolean isClient) {
 		nbt.putInt("process", process);
 		nbt.put("tank", tank.writeToNBT(new CompoundTag()));
-
+		nbt.putBoolean("inf", isInfinite);
 		if (!isClient) {
 			nbt.put("inventory", inv.serializeNBT());
 			nbt.put("inner", inner.serializeNBT());
-			nbt.putBoolean("inf", isInfinite);
+			
 		}
 
 	}
