@@ -18,6 +18,7 @@
 
 package com.teammoeg.caupona.data;
 
+import java.awt.Container;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -51,6 +52,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -91,13 +93,16 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 	}
 
 	static int generated_fv = 0;
-
+	
 	private static FoodValueRecipe addCookingTime(Item i, ItemStack iis, List<SmokingRecipe> irs, boolean force) {
 		if (FoodValueRecipe.recipes.containsKey(i))
 			return FoodValueRecipe.recipes.get(i);
 		for (SmokingRecipe sr : irs) {
+			if(sr.getIngredients().size()>0)
 			if (sr.getIngredients().get(0).test(iis)) {
-				ItemStack reslt = sr.assemble(null);
+				SimpleContainer fake=new SimpleContainer(3);
+				fake.setItem(0,iis);
+				ItemStack reslt = sr.assemble(fake);
 				if (DissolveRecipe.recipes.stream().anyMatch(e -> e.test(reslt)))
 					continue;
 				FoodValueRecipe ret = addCookingTime(reslt.getItem(), reslt, irs, true);
