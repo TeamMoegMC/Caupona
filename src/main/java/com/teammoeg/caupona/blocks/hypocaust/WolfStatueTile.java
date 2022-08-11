@@ -87,19 +87,22 @@ public class WolfStatueTile extends CPBaseTile {
 		if (ticks >= checkTicks) {
 			ticks = 0;
 			BlockPos bp = this.getBlockPos();
-
+			BlockState bs = this.getBlockState();
+			int bheat = bs.getValue(WolfStatueBlock.HEAT);
 			for (int i = 0; i < 4; i++) {
 				bp = bp.below();
 				BlockEntity te = this.getLevel().getBlockEntity(bp);
 				if (te instanceof BathHeatingTile) {
 					int cheat = Math.min(((BathHeatingTile) te).getHeat(), 2);
-					BlockState bs = this.getBlockState();
-					int bheat = bs.getValue(WolfStatueBlock.HEAT);
+					
+					
 					if (cheat != bheat)
 						this.getLevel().setBlockAndUpdate(this.getBlockPos(), bs.setValue(WolfStatueBlock.HEAT, cheat));
 					return;
 				}
 			}
+			if(bheat!=0)
+				this.getLevel().setBlockAndUpdate(this.getBlockPos(), bs.setValue(WolfStatueBlock.HEAT,0));
 		}
 	}
 
