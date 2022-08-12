@@ -75,7 +75,7 @@ public class StewItem extends EdibleBlock {
 					new TranslatableComponent("spice." + rl.getNamespace() + "." + rl.getPath())));
 		;
 		ResourceLocation base = info.base;
-		if (base != null)
+		if (base != null&&!info.stacks.isEmpty())
 			tooltip.add(new TranslatableComponent("tooltip.caupona.base", new TranslatableComponent(
 					ForgeRegistries.FLUIDS.getValue(base).getAttributes().getTranslationKey())));
 		addPotionTooltip(info.effects, tooltip, 1);
