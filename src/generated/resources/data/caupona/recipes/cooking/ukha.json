@@ -32,7 +32,7 @@
   "time": 200,
   "base": [
     {
-      "tag": "caupona:water"
+      "fluid": "caupona:nail_soup"
     }
   ],
   "output": "caupona:ukha"

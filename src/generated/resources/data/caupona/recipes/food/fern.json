@@ -4,10 +4,10 @@
   "sat": 0.3,
   "items": [
     {
-      "item": "minecraft:fern"
+      "item": "minecraft:large_fern"
     },
     {
-      "item": "minecraft:large_fern"
+      "item": "minecraft:fern"
     }
   ],
   "item": {

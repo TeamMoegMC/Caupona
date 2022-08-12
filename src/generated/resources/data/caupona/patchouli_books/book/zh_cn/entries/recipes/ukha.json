@@ -7,7 +7,7 @@
       "type": "caupona:cookrecipe",
       "img": "caupona:textures/gui/recipes/ukha.png",
       "result": "caupona:ukha",
-      "base": "caupona:water_or_stock_based"
+      "base": "caupona:any_based"
     }
   ]
 }

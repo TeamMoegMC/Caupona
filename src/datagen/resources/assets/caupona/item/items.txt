@@ -1,3 +1,4 @@
+"bone_gelatin.png",
 "chives_spice_jar.png",
 "chronoconis.png",
 "clay_portable_brazier.png",

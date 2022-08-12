@@ -273,7 +273,7 @@ public class CPRecipeProvider extends RecipeProvider {
 				.and().not().any().of(meats).of(seafood).of(vegetables).of(mrl("wolfberries")).and().then().finish(out);
 		cook("goji_tongsui").special().med().base().type(water).and().require().mainly().of(sugar).and().any()
 				.of(mrl("wolfberries")).and().not().any().of(meats).of(seafood).of(vegetables).and().then().finish(out);
-		cook("ukha").special().med().base().tag(anyWater).and().require().half().of(fish).plus(roots).and().any()
+		cook("ukha").special().med().base().type(water).and().require().half().of(fish).plus(roots).and().any()
 				.of(fish).of(roots).and().not().any().of(meats).of(cereals).and().then().finish(out);
 		cook("goulash").special().high().base().type(stock).and().require().mainly().of(ftag("raw_beef")).and().any()
 				.of(vegetables).and().not().any().of(seafood).of(cereals).and().then().finish(out);
