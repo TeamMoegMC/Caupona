@@ -1,0 +1,26 @@
+{
+	"type": "caupona:dolium",
+	"items": [
+		{
+			"item": {
+				"tag": "minecraft:sand"
+			},
+			"count": 8
+		},
+		{
+			"item": {
+				"tag": "minecraft:dead_brain_coral_block"
+			},
+			"count": 4
+		}
+	],
+	"fluid": "minecraft:water",
+	"density": 1,
+	"amount": 1000,
+	"keepInfo": false,
+	"output": {
+		"type": "forge:nbt",
+		"item": "minecraft:light_gray_concrete",
+		"count": 16
+	}
+}
