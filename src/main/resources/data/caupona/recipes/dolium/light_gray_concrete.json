@@ -3,19 +3,19 @@
 	"items": [
 		{
 			"item": {
-				"tag": "minecraft:sand"
+				"item": "minecraft:sand"
 			},
 			"count": 8
 		},
 		{
 			"item": {
-				"tag": "minecraft:calcite"
+				"item": "minecraft:calcite"
 			},
 			"count": 4
 		}
 	],
 	"fluid": "minecraft:water",
-	"density": 1,
+	"density": 1.0,
 	"amount": 1000,
 	"keepInfo": false,
 	"output": {
