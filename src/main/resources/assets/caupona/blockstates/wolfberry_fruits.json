@@ -4,6 +4,9 @@
 		"age=1": {"model": "caupona:block/wolfberry_fruits_stage_1"},
 		"age=2": {"model": "caupona:block/wolfberry_fruits_stage_2"},
 		"age=3": {"model": "caupona:block/wolfberry_fruits_stage_2"},
-		"age=4": {"model": "caupona:block/wolfberry_fruits_stage_3"}
+		"age=4": {"model": "caupona:block/wolfberry_fruits_stage_3"},
+		"age=5": {"model": "caupona:block/wolfberry_fruits_stage_3"},
+		"age=6": {"model": "caupona:block/wolfberry_fruits_stage_3"},
+		"age=7": {"model": "caupona:block/wolfberry_fruits_stage_3"}
 	}
 }

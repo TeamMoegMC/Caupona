@@ -9,7 +9,7 @@
 		},
 		{
 			"item": {
-				"tag": "minecraft:dead_tube_coral_block"
+				"item": "minecraft:dead_tube_coral_block"
 			},
 			"count": 4
 		}

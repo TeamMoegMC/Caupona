@@ -168,7 +168,7 @@ public class CPRecipeProvider extends RecipeProvider {
 		simpleFood(out, 3, 4f, Items.EGG);
 		for (String s : ImmutableSet.of("bisque", "borscht", "dilute_soup", "egg_drop_soup", "fish_soup", "goulash",
 				"hodgepodge", "meat_soup", "mushroom_soup", "nettle_soup", "poultry_soup", "pumpkin_soup",
-				"seaweed_soup", "stock", "stracciatella", "ukha", "vegetable_soup")) {
+				"seaweed_soup", "stock", "stracciatella", "vegetable_soup")) {
 			aspic(s, out);
 		}
 		spice(cpitem("garum_spice_jar"), MobEffects.JUMP, out);

@@ -19,6 +19,18 @@
 		"age=4": [
 			{"model": "caupona:block/walnut_fruits_stage_3"},
 			{"model": "caupona:block/walnut_fruits_stage_3", "y": 90}
+		],
+		"age=5": [
+			{"model": "caupona:block/walnut_fruits_stage_3"},
+			{"model": "caupona:block/walnut_fruits_stage_3", "y": 90}
+		],
+		"age=6": [
+			{"model": "caupona:block/walnut_fruits_stage_3"},
+			{"model": "caupona:block/walnut_fruits_stage_3", "y": 90}
+		],
+		"age=7": [
+			{"model": "caupona:block/walnut_fruits_stage_3"},
+			{"model": "caupona:block/walnut_fruits_stage_3", "y": 90}
 		]
 	}
 }
