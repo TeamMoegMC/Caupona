@@ -194,7 +194,7 @@ public class SoupInfo extends SpicedFoodInfo {
 			FoodProperties f = fs.getStack().getFoodProperties(null);
 			if (f != null) {
 				nh += fs.count * f.getNutrition();
-				ns += fs.count * f.getSaturationModifier();
+				ns += fs.count * f.getSaturationModifier()* f.getNutrition();
 				foodeffect.addAll(f.getEffects());
 			}
 		}
