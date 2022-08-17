@@ -221,7 +221,7 @@ artifacts {
 }
 String getChangelogText() {
     def changelogFile = file('changelog.txt')
-    String str = ''
+    String str = "<span style=\"font-size: 18px; color: #333399;\">Caupona v${mod_version}</span>&nbsp;&nbsp;<em>for Minecraft ${minecraft_version}</em><br/>"
     int lineCount = 0
     boolean done = false
     changelogFile.eachLine {
@@ -230,12 +230,6 @@ String getChangelogText() {
         }
         if (it.size() > 1) {
             def temp = it
-            if (lineCount == 0) {
-                temp = "Caupona ${version}"
-                temp = "<span style=\"font-size: 18px; color: #333399;\">caupona v${mod_version}</span>&nbsp;&nbsp;<em>for Minecraft ${minecraft_version}</em><br/>"
-            }else {
-                temp = "<h4>$temp</h4>"
-            }
             str += temp
             lineCount++
         }
@@ -251,25 +245,22 @@ license {
     include '**/*.java'
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-            artifact deobfJar
-            artifact sourcesJar
-        }
-    }
-    repositories {
-        maven {
-            name = "TeamMoeg"
-            url = "http://server.teammoeg.com:8888/releases"
-            credentials {
-                username = System.getenv('TEAMMOEG_USER')
-                password = System.getenv('TEAMMOEG_TOKEN')
-            }
-            authentication {
-                basic(BasicAuthentication)
-            }
+curseforge {
+    project {
+        def envApiKey = System.getenv('CURSEFORGE_API_KEY')
+        apiKey = envApiKey == null ? 'nope' : envApiKey
+
+        id = project.projectId
+        changelog = getChangelogText()
+        changelogType = 'html'
+        releaseType = project.curse_type
+        addGameVersion project.minecraft_version
+		
+        mainArtifact (jar) {
+        	relations{
+				optionalDependency "patchouli"
+				optionalDependency "jei"
+			}
         }
     }
 }
