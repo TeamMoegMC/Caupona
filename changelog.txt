@@ -1,1 +1,1 @@
-minor improve recipes and balance
+Hypocaust in water check configurable

@@ -82,6 +82,7 @@ public class Config {
 		public ConfigValue<Integer> wolfTick;
 		public ConfigValue<Integer> bathRange;
 		public ConfigValue<Boolean> genCH;
+		public ConfigValue<Boolean> strictWater;
 
 		Server(ForgeConfigSpec.Builder builder) {
 			builder.push("recipes");
@@ -132,6 +133,7 @@ public class Config {
 					Integer.MAX_VALUE);
 			bathRange = builder.comment("Firebox heat conduct radius").defineInRange("FireboxRadius", 4, 0,
 					Integer.MAX_VALUE);
+			strictWater = builder.comment("Strict player in water check, player must be in water to get bouns.").define("StrictInWaterCheck",false);
 			builder.pop();
 
 			builder.push("worldgen");
