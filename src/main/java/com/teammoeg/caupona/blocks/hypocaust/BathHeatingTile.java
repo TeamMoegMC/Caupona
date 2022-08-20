@@ -76,6 +76,9 @@ public abstract class BathHeatingTile extends CPBaseTile {
 	protected static boolean inRange(int pos, double d) {
 		return d >= pos && d < pos + 1;
 	}
+	protected static boolean inRange(double pos, double d,double dmax) {
+		return d >= pos && d < pos + dmax;
+	}
 	protected boolean isInWater(Player p) {
 		if(water)return true;
 		if(p.isInWaterOrBubble())return true;
@@ -97,7 +100,7 @@ public abstract class BathHeatingTile extends CPBaseTile {
 			int posZ = this.getBlockPos().getZ();
 			int addExp = val * heat;
 			for (Player p : this.getLevel().players()) {
-				if (inRange(posX, p.getX()) && inRange(posZ, p.getZ()) && inRange(posY + 1, p.getY())&&isInWater(p)) {
+				if (inRange(posX, p.getX()) && inRange(posZ, p.getZ()) && inRange(posY, p.getY(),2)&&isInWater(p)) {
 				
 					p.giveExperiencePoints(addExp);
 				}

@@ -133,7 +133,7 @@ public class Config {
 					Integer.MAX_VALUE);
 			bathRange = builder.comment("Firebox heat conduct radius").defineInRange("FireboxRadius", 4, 0,
 					Integer.MAX_VALUE);
-			strictWater = builder.comment("Strict player in water check, player must be in water to get bouns.").define("StrictInWaterCheck",false);
+			strictWater = builder.comment("Strict player in water check, player must be in water to get bonus.").define("StrictInWaterCheck",true);
 			builder.pop();
 
 			builder.push("worldgen");
