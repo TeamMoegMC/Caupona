@@ -19,7 +19,7 @@
 		},
 		{
 			"type": "text",
-			"text": "In building hypocaust systems, firebox and caliducts should be connected horizontally and the firebox should be put on heat source, like $(l:intro/stove)stoves$(/l) or $(l:worldgen/volcanic_fumarole)fumarole vent$(/l). "
+			"text": "In building hypocaust systems, firebox and caliducts should be connected horizontally and the firebox should be put on heat source, like $(l:intro/stove)stoves$(/l) or $(l:worldgen/volcanic_fumarole)fumarole vent$(/l). A hypocaust system can be heated by multiple fireboxes, but their range won't add up."
 		},
 		{
 			"type": "text",
