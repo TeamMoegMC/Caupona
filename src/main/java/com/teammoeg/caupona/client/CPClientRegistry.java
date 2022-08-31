@@ -83,7 +83,7 @@ public class CPClientRegistry {
 
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "unused", "resource" })
 	@SubscribeEvent
 	public static void registerParticleFactories(ParticleFactoryRegisterEvent event) {
 		Minecraft.getInstance().particleEngine.register(Particles.STEAM.get(), SteamParticle.Factory::new);

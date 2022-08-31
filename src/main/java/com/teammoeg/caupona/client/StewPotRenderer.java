@@ -39,6 +39,9 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class StewPotRenderer implements BlockEntityRenderer<StewPotTileEntity> {
 
+	/**
+	 * @param rendererDispatcherIn  
+	 */
 	public StewPotRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
 	}
 
@@ -54,7 +57,7 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotTileEntity> {
 		return new Vector3f((col >> 16 & 255) / 255.0f, (col >> 8 & 255) / 255.0f, (col & 255) / 255.0f);
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "resource" })
 	@Override
 	public void render(StewPotTileEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer,
 			int combinedLightIn, int combinedOverlayIn) {

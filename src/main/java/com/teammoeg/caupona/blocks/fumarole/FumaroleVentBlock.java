@@ -72,16 +72,19 @@ public class FumaroleVentBlock extends CPBaseTileBlock<FumaroleVentTileEntity> i
 		builder.add(HEAT).add(WATERLOGGED);
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(HEAT, 0).setValue(WATERLOGGED,
 				context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER);
 	}
 
+	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState pState) {
 		return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel,
 			BlockPos pCurrentPos, BlockPos pFacingPos) {

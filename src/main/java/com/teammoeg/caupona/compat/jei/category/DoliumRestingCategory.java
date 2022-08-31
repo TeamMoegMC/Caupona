@@ -25,10 +25,8 @@ import java.util.List;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 
 import mezz.jei.api.constants.VanillaTypes;
@@ -47,7 +45,6 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.crafting.NBTIngredient;
 import net.minecraftforge.fluids.FluidStack;
@@ -78,6 +75,7 @@ public class DoliumRestingCategory implements IRecipeCategory<DoliumRecipe> {
 		return new TranslatableComponent("gui.jei.category." + Main.MODID + ".resting.title");
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public void draw(DoliumRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
 			double mouseY) {

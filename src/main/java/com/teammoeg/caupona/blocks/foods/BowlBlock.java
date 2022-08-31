@@ -21,7 +21,6 @@ package com.teammoeg.caupona.blocks.foods;
 import java.util.function.BiFunction;
 
 import com.teammoeg.caupona.blocks.CPBaseTileBlock;
-import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
 import com.teammoeg.caupona.items.StewItem;
 
 import net.minecraft.core.BlockPos;
@@ -72,6 +71,7 @@ public class BowlBlock extends CPBaseTileBlock<BowlTileEntity> {
 		return shape;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		BlockEntity tileEntity = worldIn.getBlockEntity(pos);
@@ -82,6 +82,7 @@ public class BowlBlock extends CPBaseTileBlock<BowlTileEntity> {
 		super.onRemove(state, worldIn, pos, newState, isMoving);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
 			BlockHitResult hit) {

@@ -70,6 +70,7 @@ public class StewPot extends CPBaseTileBlock<StewPotTileEntity> implements Liqui
 		return shape;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
 			BlockHitResult hit) {
@@ -138,6 +139,7 @@ public class StewPot extends CPBaseTileBlock<StewPotTileEntity> implements Liqui
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		BlockEntity tileEntity = worldIn.getBlockEntity(pos);

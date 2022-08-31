@@ -104,6 +104,7 @@ public class DishBlock extends CPBaseTileBlock<DishTileEntity> {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
 			BlockHitResult hit) {

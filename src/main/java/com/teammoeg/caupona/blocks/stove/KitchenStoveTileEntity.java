@@ -184,6 +184,7 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 		return true;
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public void tick() {
 		if (!level.isClientSide) {// server logic

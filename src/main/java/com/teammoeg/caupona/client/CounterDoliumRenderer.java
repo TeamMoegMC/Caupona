@@ -37,22 +37,18 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumTileEntity> {
 
+	/**
+	 * @param rendererDispatcherIn  
+	 */
 	public CounterDoliumRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
 	}
 
-	private static Vector3f clr(int fromcol, int tocol, float proc) {
-		float fcolr = (fromcol >> 16 & 255) / 255.0f, fcolg = (fromcol >> 8 & 255) / 255.0f,
-				fcolb = (fromcol & 255) / 255.0f, tcolr = (tocol >> 16 & 255) / 255.0f,
-				tcolg = (tocol >> 8 & 255) / 255.0f, tcolb = (tocol & 255) / 255.0f;
-		return new Vector3f(fcolr + (tcolr - fcolr) * proc, fcolg + (tcolg - fcolg) * proc,
-				fcolb + (tcolb - fcolb) * proc);
-	}
 
 	private static Vector3f clr(int col) {
 		return new Vector3f((col >> 16 & 255) / 255.0f, (col >> 8 & 255) / 255.0f, (col & 255) / 255.0f);
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "resource" })
 	@Override
 	public void render(CounterDoliumTileEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer,
 			int combinedLightIn, int combinedOverlayIn) {

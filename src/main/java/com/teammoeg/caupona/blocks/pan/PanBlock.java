@@ -21,11 +21,8 @@ package com.teammoeg.caupona.blocks.pan;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPTileTypes;
 import com.teammoeg.caupona.blocks.CPHorizontalTileBlock;
-import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -56,6 +53,7 @@ public class PanBlock extends CPHorizontalTileBlock<PanTileEntity> {
 		return sshape;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
 			BlockHitResult hit) {
@@ -71,6 +69,7 @@ public class PanBlock extends CPHorizontalTileBlock<PanTileEntity> {
 		return p;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		BlockEntity tileEntity = worldIn.getBlockEntity(pos);

@@ -22,8 +22,6 @@ import java.util.List;
 
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
-import com.teammoeg.caupona.blocks.foods.BowlTileEntity;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.NonNullList;
@@ -34,7 +32,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -113,6 +110,7 @@ public class GravyBoatBlock extends CPHorizontalBlock {
 		pItems.add(is);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public List<ItemStack> getDrops(BlockState pState,
 			net.minecraft.world.level.storage.loot.LootContext.Builder pBuilder) {

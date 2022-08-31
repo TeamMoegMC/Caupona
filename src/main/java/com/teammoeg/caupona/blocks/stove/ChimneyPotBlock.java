@@ -53,6 +53,7 @@ public class ChimneyPotBlock extends CPHorizontalTileBlock<ChimneyPotTileEntity>
 		return shape;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
 			BlockHitResult hit) {

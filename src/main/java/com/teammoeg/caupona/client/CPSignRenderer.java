@@ -65,6 +65,7 @@ public class CPSignRenderer implements BlockEntityRenderer<CPSignTileEntity> {
 		this.font = pContext.getFont();
 	}
 
+	@SuppressWarnings("resource")
 	public void render(CPSignTileEntity pBlockEntity, float pPartialTick, PoseStack pPoseStack,
 			MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay) {
 		BlockState blockstate = pBlockEntity.getBlockState();
@@ -124,6 +125,7 @@ public class CPSignRenderer implements BlockEntityRenderer<CPSignTileEntity> {
 		pPoseStack.popPose();
 	}
 
+	@SuppressWarnings("resource")
 	private static boolean isOutlineVisible(CPSignTileEntity pBlockEntity, int pTextColor) {
 		if (pTextColor == DyeColor.BLACK.getTextColor()) {
 			return true;

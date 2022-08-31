@@ -89,6 +89,7 @@ public abstract class BathHeatingTile extends CPBaseTile {
 		}
 		return false;
 	}
+	@SuppressWarnings("resource")
 	@Override
 	public void tick() {
 		if(level.isClientSide)return;

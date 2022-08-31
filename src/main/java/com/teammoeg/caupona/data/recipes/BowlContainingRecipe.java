@@ -42,7 +42,7 @@ public class BowlContainingRecipe extends IDataRecipe {
 	public static Map<Fluid, BowlContainingRecipe> recipes;
 	public static RecipeType<?> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
-
+ 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER.get();

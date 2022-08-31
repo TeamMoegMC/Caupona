@@ -53,8 +53,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -233,6 +231,7 @@ public class PanTileEntity extends CPBaseTile implements MenuProvider,IInfinitab
 		sout = is;
 	}
 
+	@SuppressWarnings("resource")
 	private void make() {
 		int itms = 0;
 		for (int i = 0; i < 9; i++) {

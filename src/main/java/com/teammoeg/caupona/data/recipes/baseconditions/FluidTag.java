@@ -49,6 +49,7 @@ public class FluidTag implements StewBaseCondition {
 		return test(u) ? 2 : test(t) ? 1 : 0;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean test(ResourceLocation t) {
 		Fluid f = ForgeRegistries.FLUIDS.getValue(t);
@@ -58,6 +59,7 @@ public class FluidTag implements StewBaseCondition {
 		return f.is(this.f);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean test(Fluid f) {
 		if (f == null)

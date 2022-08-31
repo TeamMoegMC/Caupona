@@ -44,6 +44,7 @@ public class Chronoconis extends CPItem {
 
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public InteractionResult useOn(UseOnContext pContext) {
 		InteractionResult def = super.useOn(pContext);

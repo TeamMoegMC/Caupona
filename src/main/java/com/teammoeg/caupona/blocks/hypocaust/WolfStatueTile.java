@@ -25,7 +25,6 @@ import com.teammoeg.caupona.network.CPBaseTile;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -55,6 +54,7 @@ public class WolfStatueTile extends CPBaseTile {
 		nbt.putBoolean("very_hot", isVeryHot);
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public void tick() {
 		if (this.level.isClientSide)

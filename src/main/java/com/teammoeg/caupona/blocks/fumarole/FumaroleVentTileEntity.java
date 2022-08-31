@@ -79,6 +79,7 @@ public class FumaroleVentTileEntity extends CPBaseTile implements IStove {
 	int update;
 	int check;
 
+	@SuppressWarnings("resource")
 	@Override
 	public void tick() {
 		BlockState bs = this.getBlockState();
@@ -136,6 +137,7 @@ public class FumaroleVentTileEntity extends CPBaseTile implements IStove {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public static boolean shouldPlacePumice(Level pLevel, BlockPos pPos) {
 		if (!pLevel.isAreaLoaded(pPos, 1))
 			return false;

@@ -22,7 +22,6 @@ import java.util.Random;
 import java.util.function.BiFunction;
 
 import com.teammoeg.caupona.blocks.CPBaseTileBlock;
-import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -86,6 +85,7 @@ public class KitchenStove extends CPBaseTileBlock<KitchenStoveTileEntity> {
 		return true;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
 			BlockHitResult hit) {
@@ -110,7 +110,6 @@ public class KitchenStove extends CPBaseTileBlock<KitchenStoveTileEntity> {
 
 	@Override
 	public void animateTick(BlockState stateIn, Level worldIn, BlockPos bp, Random rand) {
-		BlockEntity te = worldIn.getBlockEntity(bp);
 		if (stateIn.getValue(LIT)) {
 			double d0 = bp.getX();
 			double d1 = bp.getY();
@@ -124,6 +123,7 @@ public class KitchenStove extends CPBaseTileBlock<KitchenStoveTileEntity> {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		BlockEntity tileEntity = worldIn.getBlockEntity(pos);

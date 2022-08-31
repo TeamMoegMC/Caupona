@@ -39,6 +39,9 @@ public class SmokerBlockMixin {
 	public SmokerBlockMixin() {
 	}
 
+	/**
+	 * @param pState  
+	 */
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)V", remap = true, ordinal = 0), method = "animateTick", remap = true, cancellable = true, require = 1, allow = 1)
 	public void cp$animateTick(BlockState pState, Level pLevel, BlockPos pPos, Random pRandom, CallbackInfo cbi) {
 		BlockPos bp = ChimneyHelper.getNearestChimney(pLevel, pPos, 2);

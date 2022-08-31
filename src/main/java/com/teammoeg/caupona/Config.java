@@ -83,7 +83,8 @@ public class Config {
 		public ConfigValue<Integer> bathRange;
 		public ConfigValue<Boolean> genCH;
 		public ConfigValue<Boolean> strictWater;
-
+		
+		public ConfigValue<Boolean> addManual;
 		Server(ForgeConfigSpec.Builder builder) {
 			builder.push("recipes");
 
@@ -143,6 +144,7 @@ public class Config {
 			builder.pop();
 			builder.push("misc");
 			genCH = builder.comment("Super secret special content").define("specialContents", true);
+			addManual=builder.comment("Add manual to player on start").define("addManual", true);
 			builder.pop();
 		}
 	}

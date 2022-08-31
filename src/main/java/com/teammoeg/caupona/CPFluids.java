@@ -35,14 +35,17 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class CPFluids {
-	private static class TAC {
-		ResourceLocation t;
+	private static class TextureColorPair {
+		ResourceLocation texture;
 		int c;
 
-		public TAC(ResourceLocation t, int c) {
+		public TextureColorPair(ResourceLocation t, int c) {
 			super();
-			this.t = t;
+			this.texture = t;
 			this.c = c;
+		}
+		public SoupAttributes.Builder create(){
+			return SoupAttributes.builder(texture, texture).color(c);
 		}
 	}
 
@@ -50,18 +53,18 @@ public class CPFluids {
 	private static final ResourceLocation STILL_SOUP_TEXTURE = new ResourceLocation(Main.MODID, "fluid/soup_fluid");
 	private static final ResourceLocation STILL_MILK_TEXTURE = new ResourceLocation("forge", "block/milk_still");
 	static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Main.MODID);
-	private static final Map<String, TAC> soupfluids = new HashMap<>();
+	private static final Map<String, TextureColorPair> soupfluids = new HashMap<>();
 
-	public static TAC soup(int c) {
-		return new TAC(STILL_SOUP_TEXTURE, c);
+	public static TextureColorPair soup(int c) {
+		return new TextureColorPair(STILL_SOUP_TEXTURE, c);
 	}
 
-	public static TAC water(int c) {
-		return new TAC(STILL_WATER_TEXTURE, c);
+	public static TextureColorPair water(int c) {
+		return new TextureColorPair(STILL_WATER_TEXTURE, c);
 	}
 
-	public static TAC milk(int c) {
-		return new TAC(STILL_MILK_TEXTURE, c);
+	public static TextureColorPair milk(int c) {
+		return new TextureColorPair(STILL_MILK_TEXTURE, c);
 	}
 
 	public static Stream<Fluid> getAll() {
@@ -109,10 +112,10 @@ public class CPFluids {
 		soupfluids.put("vegetable_chowder", soup(0xffa39a42));
 		soupfluids.put("vegetable_soup", soup(0xff848929));
 		soupfluids.put("walnut_soup", soup(0xffdcb072));
-		for (Entry<String, TAC> i : soupfluids.entrySet()) {
+		for (Entry<String, TextureColorPair> i : soupfluids.entrySet()) {
 			FLUIDS.register(i.getKey(),
 					() -> new SoupFluid(new ForgeFlowingFluid.Properties(null, null,
-							SoupAttributes.builder(i.getValue().t, i.getValue().t).viscosity(1200).color(i.getValue().c)
+							i.getValue().create().viscosity(1200)
 									.temperature(333).rarity(Rarity.UNCOMMON)).slopeFindDistance(1)
 											.explosionResistance(100F)));
 		}

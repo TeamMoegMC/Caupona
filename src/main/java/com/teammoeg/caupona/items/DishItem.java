@@ -91,6 +91,7 @@ public class DishItem extends EdibleBlock {
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public FoodProperties getFoodProperties(ItemStack stack, LivingEntity entity) {
 		SauteedFoodInfo si = getInfo(stack);

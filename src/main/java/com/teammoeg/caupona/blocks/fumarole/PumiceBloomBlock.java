@@ -28,7 +28,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
@@ -69,6 +68,7 @@ public class PumiceBloomBlock extends Block implements SimpleWaterloggedBlock {
 		return true;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel,
 			BlockPos pCurrentPos, BlockPos pFacingPos) {
@@ -92,6 +92,7 @@ public class PumiceBloomBlock extends Block implements SimpleWaterloggedBlock {
 		builder.add(WATERLOGGED);
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(WATERLOGGED,
@@ -99,6 +100,7 @@ public class PumiceBloomBlock extends Block implements SimpleWaterloggedBlock {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState pState) {
 		return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
 	}

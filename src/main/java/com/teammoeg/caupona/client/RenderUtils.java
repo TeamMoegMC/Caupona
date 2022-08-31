@@ -52,7 +52,6 @@ public class RenderUtils {
 	private RenderUtils() {
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void handleGuiTank(PoseStack transform, IFluidTank tank, int x, int y, int w, int h) {
 		FluidStack fluid = tank.getFluid();
 		transform.pushPose();
@@ -78,6 +77,7 @@ public class RenderUtils {
 				.normal(transform.last().normal(), 1, 1, 1).endVertex();
 	}
 
+	@SuppressWarnings("resource")
 	public static void drawRepeatedFluidSpriteGui(MultiBufferSource.BufferSource buffer, PoseStack transform,
 			FluidStack fluid, float x, float y, float w, float h) {
 		RenderType renderType = GUI_CUTOUT.apply(InventoryMenu.BLOCK_ATLAS);

@@ -61,6 +61,7 @@ public class EdibleBlock extends CPBlockItem {
 	/**
 	 * Called when this item is used when targetting a Block
 	 */
+	@SuppressWarnings("resource")
 	public InteractionResult useOn(UseOnContext pContext) {
 		InteractionResult interactionresult = InteractionResult.PASS;
 		if (pContext.getPlayer().isShiftKeyDown())

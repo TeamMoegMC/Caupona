@@ -62,6 +62,7 @@ public class BrazierCategory implements IRecipeCategory<AspicMeltingRecipe> {
 		return new TranslatableComponent("gui.jei.category." + Main.MODID + ".thawing_brazier.title");
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public void draw(AspicMeltingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
 			double mouseY) {

@@ -74,6 +74,9 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 	public int process;
 	public int processMax;
 
+	/**
+	 * @param data  
+	 */
 	public PortableBrazierContainer(int id, Inventory playerInventory, FriendlyByteBuf data) {
 		this(id, playerInventory);
 	}

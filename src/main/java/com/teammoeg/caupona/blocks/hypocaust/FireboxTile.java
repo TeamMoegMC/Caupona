@@ -87,6 +87,7 @@ public class FireboxTile extends BathHeatingTile {
 		}
 	}
 
+	@SuppressWarnings("resource")
 	public Set<BlockPos> getAll() {
 		Set<BlockPos> poss = new HashSet<>();
 		findNext(this.getLevel(), this.getBlockPos(), this.getBlockPos(), poss);

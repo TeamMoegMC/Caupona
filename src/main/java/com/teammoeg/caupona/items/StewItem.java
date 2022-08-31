@@ -207,6 +207,7 @@ public class StewItem extends EdibleBlock {
 		this.fluid = fluid;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public FoodProperties getFoodProperties(ItemStack stack, LivingEntity entity) {
 		SoupInfo si = getInfo(stack);

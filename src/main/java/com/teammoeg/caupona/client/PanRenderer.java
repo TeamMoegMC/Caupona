@@ -19,7 +19,6 @@
 package com.teammoeg.caupona.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.foods.DishBlock;
 import com.teammoeg.caupona.blocks.pan.PanTileEntity;
@@ -40,14 +39,14 @@ import net.minecraftforge.client.model.data.IModelData;
 
 public class PanRenderer implements BlockEntityRenderer<PanTileEntity> {
 
+	/**
+	 * @param rendererDispatcherIn  
+	 */
 	public PanRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
 	}
 
-	private static Vector3f clr(int col) {
-		return new Vector3f((col >> 16 & 255) / 255.0f, (col >> 8 & 255) / 255.0f, (col & 255) / 255.0f);
-	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "resource" })
 	@Override
 	public void render(PanTileEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer,
 			int combinedLightIn, int combinedOverlayIn) {

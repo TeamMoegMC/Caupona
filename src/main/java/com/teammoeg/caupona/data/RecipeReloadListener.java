@@ -18,7 +18,6 @@
 
 package com.teammoeg.caupona.data;
 
-import java.awt.Container;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -81,6 +80,9 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 
 	RecipeManager clientRecipeManager;
 
+	/**
+	 * @param event  
+	 */
 	@SubscribeEvent
 	public static void onTagsUpdated(TagsUpdatedEvent event) {
 		if (FoodValueRecipe.recipeset != null)

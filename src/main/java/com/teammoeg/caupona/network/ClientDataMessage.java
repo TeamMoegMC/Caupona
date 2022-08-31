@@ -50,6 +50,7 @@ public class ClientDataMessage {
 		buffer.writeInt(message);
 	}
 
+	@SuppressWarnings({ "deprecation", "resource" })
 	void handle(Supplier<NetworkEvent.Context> context) {
 		context.get().enqueueWork(() -> {
 			ServerLevel world = Objects.requireNonNull(context.get().getSender()).getLevel();

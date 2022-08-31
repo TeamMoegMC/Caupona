@@ -21,7 +21,7 @@ package com.teammoeg.caupona.network;
 import java.util.function.Supplier;
 
 import com.teammoeg.caupona.client.ClientProxy;
-import com.teammoeg.caupona.client.ClientUtils;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;

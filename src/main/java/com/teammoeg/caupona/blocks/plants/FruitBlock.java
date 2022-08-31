@@ -63,6 +63,7 @@ public class FruitBlock extends CropBlock {
 	/**
 	 * Performs a random tick on a block.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 
 	public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, Random pRandom) {

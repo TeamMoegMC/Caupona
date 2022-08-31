@@ -23,13 +23,13 @@ import com.teammoeg.caupona.util.INetworkContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.fml.DistExecutor.SafeRunnable;
 
 public class ClientUtils {
 
 	public ClientUtils() {
 	}
 
+	@SuppressWarnings("resource")
 	public static void syncContainerInfo(CompoundTag nbt) {
 		Player p = Minecraft.getInstance().player;
 		if (p != null && p.containerMenu instanceof INetworkContainer) {
