@@ -1,1 +1,1 @@
-Support seats in water
+Add config key for giving book at start
