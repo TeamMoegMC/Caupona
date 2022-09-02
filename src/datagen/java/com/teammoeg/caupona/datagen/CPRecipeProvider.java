@@ -164,8 +164,8 @@ public class CPRecipeProvider extends RecipeProvider {
 		 * simpleFood(out,3,5f,ItemRegistry.soybeanitem);
 		 */
 		simpleFood(out, 0, .5f, Items.BONE_MEAL);
-		simpleFood(out, 1, 1f, Items.BONE);
-		simpleFood(out, 3, 4f, Items.EGG);
+		simpleFood(out, 1, .5f, Items.BONE);
+		simpleFood(out, 3, .5f, Items.EGG);
 		for (String s : ImmutableSet.of("bisque", "borscht", "dilute_soup", "egg_drop_soup", "fish_soup", "goulash",
 				"hodgepodge", "meat_soup", "mushroom_soup", "nettle_soup", "poultry_soup", "pumpkin_soup",
 				"seaweed_soup", "stock", "stracciatella", "vegetable_soup")) {
