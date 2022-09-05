@@ -89,6 +89,8 @@ public class CPBookGenerator implements DataProvider {
 		this.helper = efh;
 	}
 
+	String[] allangs = { "zh_cn", "en_us", "es_es", "ru_ru" };
+
 	@Override
 	public void run(HashCache cache) throws IOException {
 		bookmain = this.generator.getOutputFolder().resolve("data/" + Main.MODID + "/patchouli_books/book/");
@@ -97,8 +99,9 @@ public class CPBookGenerator implements DataProvider {
 				.collect(Collectors.toMap(e -> e.output.getRegistryName().getPath(), e -> e));
 		frecipes = CPRecipeProvider.recipes.stream().filter(i -> i instanceof FryingRecipe).map(e -> ((FryingRecipe) e))
 				.collect(Collectors.toMap(e -> e.output.getRegistryName().getPath(), e -> e));
-		loadLang("zh_cn");
-		loadLang("en_us");
+		for (String lang : allangs)
+			loadLang(lang);
+
 		for (String s : CPItems.soups)
 			if (helper.exists(new ResourceLocation(Main.MODID, "textures/gui/recipes/" + s + ".png"),
 					PackType.CLIENT_RESOURCES))
@@ -129,13 +132,14 @@ public class CPBookGenerator implements DataProvider {
 	}
 
 	private void defaultPage(HashCache cache, String name) {
-		saveEntry(name, "en_us", cache, createRecipe(name, "en_us"));
-		saveEntry(name, "zh_cn", cache, createRecipe(name, "zh_cn"));
+		for (String lang : allangs)
+			saveEntry(name, lang, cache, createRecipe(name, lang));
 	}
 
 	private void defaultFryPage(HashCache cache, String name) {
-		saveFryEntry(name, "en_us", cache, createFryingRecipe(name, "en_us"));
-		saveFryEntry(name, "zh_cn", cache, createFryingRecipe(name, "zh_cn"));
+		for (String lang : allangs)
+			saveFryEntry(name, lang, cache, createFryingRecipe(name, lang));
+
 	}
 
 	StewBaseCondition anyW = new FluidTag(CPRecipeProvider.anyWater);

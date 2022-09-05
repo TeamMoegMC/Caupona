@@ -1,0 +1,13 @@
+{
+  "name": "Borscht",
+  "icon": "caupona:borscht",
+  "category": "caupona:cook_recipes",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "img": "caupona:textures/gui/recipes/borscht.png",
+      "result": "caupona:borscht",
+      "base": "caupona:water_or_stock_based"
+    }
+  ]
+}

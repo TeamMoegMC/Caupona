@@ -1,0 +1,13 @@
+{
+  "name": "Gulash",
+  "icon": "caupona:goulash",
+  "category": "caupona:cook_recipes",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "img": "caupona:textures/gui/recipes/goulash.png",
+      "result": "caupona:goulash",
+      "base": "caupona:stock_based"
+    }
+  ]
+}

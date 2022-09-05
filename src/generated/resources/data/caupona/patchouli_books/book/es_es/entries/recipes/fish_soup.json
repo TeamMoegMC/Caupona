@@ -1,0 +1,13 @@
+{
+  "name": "Sopa de pescado",
+  "icon": "caupona:fish_soup",
+  "category": "caupona:cook_recipes",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "img": "caupona:textures/gui/recipes/fish_soup.png",
+      "result": "caupona:fish_soup",
+      "base": "caupona:water_or_stock_based"
+    }
+  ]
+}

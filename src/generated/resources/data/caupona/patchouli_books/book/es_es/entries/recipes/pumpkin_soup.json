@@ -1,0 +1,13 @@
+{
+  "name": "Sopa de calabaza",
+  "icon": "caupona:pumpkin_soup",
+  "category": "caupona:cook_recipes",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "img": "caupona:textures/gui/recipes/pumpkin_soup.png",
+      "result": "caupona:pumpkin_soup",
+      "base": "caupona:water_or_stock_based"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "Huevo Tongsui",
+  "icon": "caupona:egg_tongsui",
+  "category": "caupona:cook_recipes",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "img": "caupona:textures/gui/recipes/egg_tongsui.png",
+      "result": "caupona:egg_tongsui",
+      "base": "caupona:any_based"
+    }
+  ]
+}
