@@ -1,1 +1,1 @@
-Add config key for giving book at start
+Add ru_ru translations (cr.@tuturox91)
