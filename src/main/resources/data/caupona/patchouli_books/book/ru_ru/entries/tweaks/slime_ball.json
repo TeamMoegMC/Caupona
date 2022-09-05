@@ -1,0 +1,13 @@
+{
+  "name": "Новый рецепт Сгустков Слизи",
+  "icon": "minecraft:slime_ball",
+  "category": "caupona:tweaks",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "crafting",
+      "recipe": "caupona:crafting/slime_ball",
+      "text": "Сгусток слизи можно изготовить из костного желатина и морских водорослей."
+    }
+  ]
+}

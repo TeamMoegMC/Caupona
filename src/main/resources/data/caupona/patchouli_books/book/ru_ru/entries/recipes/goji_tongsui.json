@@ -1,0 +1,13 @@
+{
+  "name": "Годзи Тонгсуй",
+  "icon": "caupona:goji_tongsui",
+  "category": "caupona:cook_recipes",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "img": "caupona:textures/gui/recipes/goji_tongsui.png",
+      "result": "caupona:goji_tongsui",
+      "base": "caupona:any_based"
+    }
+  ]
+}

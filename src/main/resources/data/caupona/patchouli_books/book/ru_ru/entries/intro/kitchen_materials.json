@@ -1,0 +1,37 @@
+{
+	"name": "Кухонные Материалы",
+	"icon": "caupona:opus_latericium_chimney_flue",
+	"category": "caupona:intro",
+	"sortnum": 30,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Кухонное оборудование включает в себя счетчики, печи, дымоходы, подходящие для различных конструкций."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:mud_counter",
+			"text": "Грязевые и каменные - самые дешевые. Для них требуется только грязь и булыжник. Они ничем не отличаются от других, за исключением того, что грязевая печка медленнее."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:stone_brick_counter",
+			"text": "Каменные - из каменного кирпича и каменных плит, но не из каменных кирпичных плит."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:brick_counter",
+			"text": "Кирпичные - из кирпича и кирпичных плит."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:opus_latericium_counter",
+			"text": "Опус Инсертум сделан из Опус Ласертума и его плит. Они похожи на кирпичные, но с открытым бетоном."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:opus_incertum_counter",
+			"text": "Опус Инсертум изготавливаются из Опус Ласертума и его плит."
+		}
+	]
+}

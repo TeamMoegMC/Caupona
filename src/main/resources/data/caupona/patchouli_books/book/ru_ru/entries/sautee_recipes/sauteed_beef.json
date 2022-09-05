@@ -1,0 +1,13 @@
+{
+  "name": "Жареная Говядина",
+  "icon": "caupona:sauteed_beef",
+  "category": "caupona:sautee_recipes",
+  "pages": [
+    {
+      "type": "caupona:fryrecipe",
+      "img": "caupona:textures/gui/recipes/sauteed_beef.png",
+      "result": "caupona:sauteed_beef",
+      "base": "caupona:gravy_boat"
+    }
+  ]
+}

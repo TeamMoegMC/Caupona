@@ -1,0 +1,13 @@
+{
+  "name": "Колумбийский Омлет",
+  "icon": "caupona:huevos_pericos",
+  "category": "caupona:sautee_recipes",
+  "pages": [
+    {
+      "type": "caupona:fryrecipe",
+      "img": "caupona:textures/gui/recipes/huevos_pericos.png",
+      "result": "caupona:huevos_pericos",
+      "base": "caupona:gravy_boat"
+    }
+  ]
+}

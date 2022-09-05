@@ -1,0 +1,38 @@
+{
+	"name": "Строительные материалы",
+	"icon": "caupona:opus_incertum",
+	"category": "caupona:intro",
+	"sortnum": 29,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Мы также добавляем некоторые строительные материалы."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/mixed_bricks"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/felsic_tuff",
+			"text": "Фельзитовый туф состоит из $(l:worldgen/volcanic_fumarole)вулканического фумарола$(/l) и туфа, является одним из основных строительных материалов этого мода."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/felsic_tuff_bricks",
+			"text": "Из этих блоков можно создавать лестницы, перекрытия, стены и т.д."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_incertum"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_reticulatum"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_latericium"
+		}
+	]
+}

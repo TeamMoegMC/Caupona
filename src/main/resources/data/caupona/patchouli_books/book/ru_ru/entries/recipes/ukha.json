@@ -1,0 +1,13 @@
+{
+  "name": "Уха",
+  "icon": "caupona:ukha",
+  "category": "caupona:cook_recipes",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "img": "caupona:textures/gui/recipes/ukha.png",
+      "result": "caupona:ukha",
+      "base": "caupona:any_based"
+    }
+  ]
+}

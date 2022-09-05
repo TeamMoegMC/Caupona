@@ -1,0 +1,17 @@
+{
+  "name": "Mod Integration",
+  "icon": "minecraft:grass_block",
+  "category": "caupona:intro",
+  "sortnum": 101,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Что касается динамических значений пищи, то некоторые моды могут не показывать правильные значения."
+    },
+     {
+      "type": "text",
+      "text": "Его диетическая ценность - это сумма всех его ингредиентов.",
+      "flag": "mod:diet"
+    }
+  ]
+}

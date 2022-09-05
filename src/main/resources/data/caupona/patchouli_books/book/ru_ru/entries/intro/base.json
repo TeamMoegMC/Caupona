@@ -1,0 +1,27 @@
+{
+  "name": "Суповые основы",
+  "icon": "caupona:water_or_stock_based",
+  "category": "caupona:intro",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Разные основы по-разному влияют на результат"
+    },
+    {
+      "type": "spotlight",
+      "item": "caupona:water",
+      "text": "Вода не представляет собой ничего особенного и не имеет специальных эффектов"
+    },
+    {
+      "type": "spotlight",
+      "item": "caupona:milk",
+      "text": "Молоко обеспечивает дополнительную насыщенность"
+    },
+    {
+      "type": "spotlight",
+      "item": "caupona:stock",
+      "text": "Бульон обеспечивает дополнительные очки питания и насыщения"
+    }
+  ]
+}
