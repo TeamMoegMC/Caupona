@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -24,7 +27,7 @@ import java.util.stream.Collectors;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.api.GameTranslation;
-import com.teammoeg.caupona.data.recipes.FryingRecipe;
+import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.IConditionalRecipe;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
@@ -53,7 +56,7 @@ public class AllowenceTooltip implements ICustomComponent {
 		ResourceLocation out = new ResourceLocation(recipe.asString());
 		IConditionalRecipe cr = StewCookingRecipe.recipes.get(ForgeRegistries.FLUIDS.getValue(out));
 		if (cr == null) {
-			cr = FryingRecipe.recipes.get(ForgeRegistries.ITEMS.getValue(out));
+			cr = SauteedRecipe.recipes.get(ForgeRegistries.ITEMS.getValue(out));
 		}
 		if (cr != null) {
 			List<IngredientCondition> conds;

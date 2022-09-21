@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -20,7 +23,7 @@ package com.teammoeg.caupona.blocks.dolium;
 
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPTileTypes;
-import com.teammoeg.caupona.blocks.CPHorizontalTileBlock;
+import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.items.StewItem;
 
@@ -50,7 +53,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.network.NetworkHooks;
 
-public class CounterDoliumBlock extends CPHorizontalTileBlock<CounterDoliumTileEntity> implements LiquidBlockContainer {
+public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumTileEntity> implements LiquidBlockContainer {
 
 	public CounterDoliumBlock(Properties p) {
 		super(CPTileTypes.DOLIUM, p);

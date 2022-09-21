@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -30,7 +33,7 @@ import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.items.StewItem;
-import com.teammoeg.caupona.util.SoupInfo;
+import com.teammoeg.caupona.util.StewInfo;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -155,7 +158,7 @@ public class DoliumRecipe extends IDataRecipe {
 			return false;
 
 		if (density != 0 || base != null) {
-			SoupInfo info = SoupFluid.getInfo(f);
+			StewInfo info = SoupFluid.getInfo(f);
 			if (base != null && !info.base.equals(base))
 				return false;
 			if (info.getDensity() < density)
@@ -182,7 +185,7 @@ public class DoliumRecipe extends IDataRecipe {
 		ItemStack out = output.copy();
 		out.setCount(out.getCount() * times);
 		if (keepInfo) {
-			SoupInfo info = SoupFluid.getInfo(f);
+			StewInfo info = SoupFluid.getInfo(f);
 			StewItem.setInfo(out, info);
 		}
 		f.shrink(times * amount);
@@ -223,7 +226,7 @@ public class DoliumRecipe extends IDataRecipe {
 		ItemStack out = output.copy();
 		out.setCount(out.getCount() * times);
 		if (keepInfo) {
-			SoupInfo info = SoupFluid.getInfo(f);
+			StewInfo info = SoupFluid.getInfo(f);
 			StewItem.setInfo(out, info);
 		}
 		if (amount > 0)

@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -27,7 +30,7 @@ import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.util.ITickableContainer;
-import com.teammoeg.caupona.util.SoupInfo;
+import com.teammoeg.caupona.util.StewInfo;
 import com.teammoeg.caupona.worldgen.CPPlacements;
 
 import net.minecraft.core.BlockPos;
@@ -182,7 +185,7 @@ public class ForgeEvent {
 			if (cap.isPresent() && stack.is(container)) {
 				IFluidHandlerItem data = cap.resolve().get();
 				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid) {
-					SoupInfo si = SoupFluid.getInfo(data.getFluidInTank(0));
+					StewInfo si = SoupFluid.getInfo(data.getFluidInTank(0));
 					if (!event.getPlayer().canEat(si.canAlwaysEat())) {
 						event.setCancellationResult(InteractionResult.FAIL);
 						event.setCanceled(true);
@@ -202,7 +205,7 @@ public class ForgeEvent {
 			if (cap.isPresent() && stack.is(container)) {
 				IFluidHandlerItem data = cap.resolve().get();
 				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid)
-					CauponaApi.applyStew(event.getEntityLiving().level, event.getEntityLiving(),
+					CauponaApi.apply(event.getEntityLiving().level, event.getEntityLiving(),
 							SoupFluid.getInfo(data.getFluidInTank(0)));
 			}
 		}

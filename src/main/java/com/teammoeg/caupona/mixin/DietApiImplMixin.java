@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -33,7 +36,7 @@ import com.teammoeg.caupona.api.CauponaHooks;
 import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.util.FloatemStack;
-import com.teammoeg.caupona.util.SoupInfo;
+import com.teammoeg.caupona.util.StewInfo;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -67,7 +70,7 @@ public class DietApiImplMixin extends DietApi {
 								me.getValue() * sx.getCount() * (me.getKey().isBeneficial() ? goodMod : harmMod),
 								Float::sum);
 			}
-			if(ois instanceof SoupInfo si) {
+			if(ois instanceof StewInfo si) {
 				FluidFoodValueRecipe ffvr = FluidFoodValueRecipe.recipes.get(si.base);
 				if (ffvr != null && ffvr.getRepersent() != null) {
 					IDietResult dr = DietApiImpl.getInstance().get(player, ffvr.getRepersent());

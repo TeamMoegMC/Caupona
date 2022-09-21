@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -28,7 +31,7 @@ import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.items.StewItem;
 import com.teammoeg.caupona.util.FloatemStack;
-import com.teammoeg.caupona.util.SoupInfo;
+import com.teammoeg.caupona.util.StewInfo;
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -97,7 +100,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 		if (te.proctype < 2 && !te.getTank().isEmpty()) {
 			if (isMouseIn(mouseX, mouseY, 105, 20, 16, 46)) {
 				tooltip.add(te.getTank().getFluid().getDisplayName());
-				SoupInfo si = SoupFluid.getInfo(te.getTank().getFluid());
+				StewInfo si = SoupFluid.getInfo(te.getTank().getFluid());
 				FloatemStack fs = si.stacks.stream()
 						.max((t1, t2) -> t1.getCount() > t2.getCount() ? 1 : (t1.getCount() == t2.getCount() ? 0 : -1))
 						.orElse(null);

@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -20,7 +23,7 @@ package com.teammoeg.caupona.blocks.foods;
 
 import java.util.function.BiFunction;
 
-import com.teammoeg.caupona.blocks.CPBaseTileBlock;
+import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 import com.teammoeg.caupona.items.StewItem;
 
 import net.minecraft.core.BlockPos;
@@ -46,7 +49,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.RegistryObject;
 
-public class BowlBlock extends CPBaseTileBlock<BowlTileEntity> {
+public class BowlBlock extends CPRegisteredEntityBlock<BowlTileEntity> {
 
 	public BowlBlock(String name, Properties blockProps, RegistryObject<BlockEntityType<BowlTileEntity>> ste,
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {

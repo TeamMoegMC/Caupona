@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -24,8 +27,11 @@ import java.util.Random;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.fluid.SoupFluid;
+import com.teammoeg.caupona.items.DishItem;
 import com.teammoeg.caupona.items.StewItem;
-import com.teammoeg.caupona.util.SoupInfo;
+import com.teammoeg.caupona.util.IFoodInfo;
+import com.teammoeg.caupona.util.SauteedFoodInfo;
+import com.teammoeg.caupona.util.StewInfo;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -42,44 +48,51 @@ public class CauponaApi {
 	private CauponaApi() {
 	}
 
-	public static SoupInfo getInfo(ItemStack item) {
+	public static StewInfo getStewInfo(ItemStack item) {
 		return StewItem.getInfo(item);
 	}
 
-	public static SoupInfo getInfo(FluidStack item) {
+	public static StewInfo getStewInfo(FluidStack item) {
 		return SoupFluid.getInfo(item);
 	}
 
-	public static SoupInfo getInfo(CompoundTag nbt) {
-		return new SoupInfo(nbt);
+	public static StewInfo getStewInfo(CompoundTag nbt) {
+		return new StewInfo(nbt);
+	}
+	public static SauteedFoodInfo getSauteedInfo(ItemStack item) {
+		return DishItem.getInfo(item);
 	}
 
-	public static void setInfo(ItemStack item, SoupInfo info) {
+	public static SauteedFoodInfo getSauteedInfo(CompoundTag nbt) {
+		return new SauteedFoodInfo(nbt);
+	}
+	public static void setInfo(ItemStack item, StewInfo info) {
 		StewItem.setInfo(item, info);
 	}
 
-	public static void setInfo(FluidStack item, SoupInfo info) {
+	public static void setInfo(FluidStack item, StewInfo info) {
 		SoupFluid.setInfo(item, info);
 	}
 
-	public static void setInfo(CompoundTag nbt, SoupInfo info) {
+	public static void setInfo(CompoundTag nbt, StewInfo info) {
+		info.write(nbt);
+	}
+	public static void setInfo(ItemStack item, SauteedFoodInfo info) {
+		DishItem.setInfo(item, info);
+	}
+	public static void setInfo(CompoundTag nbt, SauteedFoodInfo info) {
 		info.write(nbt);
 	}
 
-	public static void applyStew(Level worldIn, LivingEntity entityLiving, SoupInfo info) {
+	public static void apply(Level worldIn, LivingEntity entityLiving, IFoodInfo info) {
 		if (!worldIn.isClientSide) {
-			for (MobEffectInstance eff : info.effects) {
-				if (eff != null) {
-					entityLiving.addEffect(eff);
-				}
-			}
 			Random r = entityLiving.getRandom();
 			for (Pair<MobEffectInstance, Float> ef : info.foodeffect) {
 				if (r.nextFloat() < ef.getSecond())
 					entityLiving.addEffect(ef.getFirst());
 			}
 			if (entityLiving instanceof Player player) {
-				player.getFoodData().eat(info.healing, info.saturation);
+				player.getFoodData().eat(info.getHealing(), info.getSaturation());
 			}
 		}
 	}

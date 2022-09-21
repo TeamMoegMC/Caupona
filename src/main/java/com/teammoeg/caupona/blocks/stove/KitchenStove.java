@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -21,7 +24,7 @@ package com.teammoeg.caupona.blocks.stove;
 import java.util.Random;
 import java.util.function.BiFunction;
 
-import com.teammoeg.caupona.blocks.CPBaseTileBlock;
+import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -55,7 +58,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
 
-public class KitchenStove extends CPBaseTileBlock<KitchenStoveTileEntity> {
+public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveTileEntity> {
 
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;

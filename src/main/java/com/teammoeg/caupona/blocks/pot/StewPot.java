@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -21,7 +24,7 @@ package com.teammoeg.caupona.blocks.pot;
 import java.util.Random;
 import java.util.function.BiFunction;
 
-import com.teammoeg.caupona.blocks.CPBaseTileBlock;
+import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.items.StewItem;
@@ -55,7 +58,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
 
-public class StewPot extends CPBaseTileBlock<StewPotTileEntity> implements LiquidBlockContainer {
+public class StewPot extends CPRegisteredEntityBlock<StewPotTileEntity> implements LiquidBlockContainer {
 	public static final EnumProperty<Axis> FACING = BlockStateProperties.HORIZONTAL_AXIS;
 
 	public StewPot(String name, Properties blockProps, RegistryObject<BlockEntityType<StewPotTileEntity>> ste,

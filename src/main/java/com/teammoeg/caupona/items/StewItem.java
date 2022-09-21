@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -30,7 +33,7 @@ import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.RegistryEvents;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.util.FloatemStack;
-import com.teammoeg.caupona.util.SoupInfo;
+import com.teammoeg.caupona.util.StewInfo;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
@@ -63,7 +66,7 @@ public class StewItem extends EdibleBlock {
 
 	@Override
 	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		SoupInfo info = StewItem.getInfo(stack);
+		StewInfo info = StewItem.getInfo(stack);
 		FloatemStack fs = info.stacks.stream()
 				.max((t1, t2) -> t1.getCount() > t2.getCount() ? 1 : (t1.getCount() == t2.getCount() ? 0 : -1))
 				.orElse(null);
@@ -149,16 +152,16 @@ public class StewItem extends EdibleBlock {
 
 	}
 
-	public static SoupInfo getInfo(ItemStack stack) {
+	public static StewInfo getInfo(ItemStack stack) {
 		if (stack.hasTag()) {
 			CompoundTag soupTag = stack.getTagElement("soup");
-			return soupTag == null ? new SoupInfo(new ResourceLocation(stack.getTag().getString("type")))
-					: new SoupInfo(soupTag);
+			return soupTag == null ? new StewInfo(new ResourceLocation(stack.getTag().getString("type")))
+					: new StewInfo(soupTag);
 		}
-		return new SoupInfo();
+		return new StewInfo();
 	}
 
-	public static void setInfo(ItemStack stack, SoupInfo si) {
+	public static void setInfo(ItemStack stack, StewInfo si) {
 		if (!si.isEmpty())
 			stack.getOrCreateTag().put("soup", si.save());
 	}
@@ -167,7 +170,7 @@ public class StewItem extends EdibleBlock {
 		if (stack.hasTag()) {
 			CompoundTag nbt = stack.getTagElement("soup");
 			if (nbt != null)
-				return SoupInfo.getStacks(nbt);
+				return StewInfo.getStacks(nbt);
 		}
 		return Lists.newArrayList();
 	}
@@ -176,7 +179,7 @@ public class StewItem extends EdibleBlock {
 		if (stack.hasTag()) {
 			CompoundTag nbt = stack.getTagElement("soup");
 			if (nbt != null)
-				return new ResourceLocation(SoupInfo.getRegName(nbt));
+				return new ResourceLocation(StewInfo.getRegName(nbt));
 		}
 		return BowlContainingRecipe.extractFluid(stack).getFluid().getRegistryName();
 	}
@@ -186,6 +189,7 @@ public class StewItem extends EdibleBlock {
 		if (this.allowdedIn(group)) {
 			ItemStack is = new ItemStack(this);
 			is.getOrCreateTag().putString("type", fluid.toString());
+			super.addCreativeHints(is);
 			items.add(is);
 		}
 	}

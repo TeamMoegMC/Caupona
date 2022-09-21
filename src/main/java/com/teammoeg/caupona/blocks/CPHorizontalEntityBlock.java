@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -22,10 +25,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.RegistryObject;
 
-public class CPHorizontalTileBlock<V extends BlockEntity> extends CPHorizontalBlock implements CPEntityBlock<V> {
+public class CPHorizontalEntityBlock<V extends BlockEntity> extends CPHorizontalBlock implements CPEntityBlock<V> {
 	private final RegistryObject<BlockEntityType<V>> te;
 
-	public CPHorizontalTileBlock(RegistryObject<BlockEntityType<V>> te, Properties p_54120_) {
+	public CPHorizontalEntityBlock(RegistryObject<BlockEntityType<V>> te, Properties p_54120_) {
 		super(p_54120_);
 		this.te = te;
 	}

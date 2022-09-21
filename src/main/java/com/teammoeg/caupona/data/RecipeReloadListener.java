@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -43,7 +46,7 @@ import com.teammoeg.caupona.data.recipes.DissolveRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
-import com.teammoeg.caupona.data.recipes.FryingRecipe;
+import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 
@@ -174,12 +177,12 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 				.collect(Collectors.toSet());
 		// CountingTags.tags.forEach(System.out::println);
 
-		FryingRecipe.recipes = filterRecipes(recipes, FryingRecipe.class, FryingRecipe.TYPE)
+		SauteedRecipe.recipes = filterRecipes(recipes, SauteedRecipe.class, SauteedRecipe.TYPE)
 				.collect(Collectors.toMap(e -> e.output, UnaryOperator.identity()));
-		FryingRecipe.cookables = FryingRecipe.recipes.values().stream().flatMap(FryingRecipe::getAllNumbers)
+		SauteedRecipe.cookables = SauteedRecipe.recipes.values().stream().flatMap(SauteedRecipe::getAllNumbers)
 				.collect(Collectors.toSet());
-		FryingRecipe.sorted = new ArrayList<>(FryingRecipe.recipes.values());
-		FryingRecipe.sorted.sort((t2, t1) -> t1.getPriority() - t2.getPriority());
+		SauteedRecipe.sorted = new ArrayList<>(SauteedRecipe.recipes.values());
+		SauteedRecipe.sorted.sort((t2, t1) -> t1.getPriority() - t2.getPriority());
 
 		DoliumRecipe.recipes = filterRecipes(recipes, DoliumRecipe.class, DoliumRecipe.TYPE)
 				.collect(Collectors.toList());

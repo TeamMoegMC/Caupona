@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -20,7 +23,7 @@ package com.teammoeg.caupona.blocks.foods;
 
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPTileTypes;
-import com.teammoeg.caupona.blocks.CPBaseTileBlock;
+import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 import com.teammoeg.caupona.items.DishItem;
 
 import net.minecraft.core.BlockPos;
@@ -46,7 +49,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class DishBlock extends CPBaseTileBlock<DishTileEntity> {
+public class DishBlock extends CPRegisteredEntityBlock<DishTileEntity> {
 	public static final IntegerProperty PAN = IntegerProperty.create("pan", 0, 2);
 
 	public DishBlock(String name, Properties blockProps) {

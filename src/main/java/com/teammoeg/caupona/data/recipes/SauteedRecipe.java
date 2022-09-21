@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -41,10 +44,10 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class FryingRecipe extends IDataRecipe implements IConditionalRecipe {
+public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 	public static Set<CookIngredients> cookables;
-	public static Map<Item, FryingRecipe> recipes;
-	public static List<FryingRecipe> sorted;
+	public static Map<Item, SauteedRecipe> recipes;
+	public static List<SauteedRecipe> sorted;
 	public static RecipeType<?> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
 	public static final TagKey<Item> cookable = ItemTags.create(new ResourceLocation(Main.MODID, "cookable"));
@@ -71,11 +74,11 @@ public class FryingRecipe extends IDataRecipe implements IConditionalRecipe {
 	public int time;
 	public Item output;
 
-	public FryingRecipe(ResourceLocation id) {
+	public SauteedRecipe(ResourceLocation id) {
 		super(id);
 	}
 
-	public FryingRecipe(ResourceLocation id, JsonObject data) {
+	public SauteedRecipe(ResourceLocation id, JsonObject data) {
 		super(id);
 		if (data.has("allow"))
 			allow = SerializeUtil.parseJsonList(data.get("allow"), SerializeUtil::ofCondition);
@@ -89,7 +92,7 @@ public class FryingRecipe extends IDataRecipe implements IConditionalRecipe {
 			throw new InvalidRecipeException();
 	}
 
-	public FryingRecipe(ResourceLocation id, FriendlyByteBuf data) {
+	public SauteedRecipe(ResourceLocation id, FriendlyByteBuf data) {
 		super(id);
 		allow = SerializeUtil.readList(data, SerializeUtil::ofCondition);
 		deny = SerializeUtil.readList(data, SerializeUtil::ofCondition);
@@ -98,7 +101,7 @@ public class FryingRecipe extends IDataRecipe implements IConditionalRecipe {
 		output = data.readRegistryIdUnsafe(ForgeRegistries.ITEMS);
 	}
 
-	public FryingRecipe(ResourceLocation id, List<IngredientCondition> allow, List<IngredientCondition> deny,
+	public SauteedRecipe(ResourceLocation id, List<IngredientCondition> allow, List<IngredientCondition> deny,
 			int priority, int time, Item output) {
 		super(id);
 		this.allow = allow;

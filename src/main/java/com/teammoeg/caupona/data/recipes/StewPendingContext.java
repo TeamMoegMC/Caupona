@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -23,7 +26,7 @@ import java.util.ArrayList;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.FloatemTagStack;
 import com.teammoeg.caupona.util.ResultCachingMap;
-import com.teammoeg.caupona.util.SoupInfo;
+import com.teammoeg.caupona.util.StewInfo;
 
 import net.minecraft.resources.ResourceLocation;
 
@@ -31,7 +34,7 @@ import net.minecraft.resources.ResourceLocation;
  * For caching data and reduce calculation
  */
 public class StewPendingContext extends IPendingContext {
-	private SoupInfo info;
+	private StewInfo info;
 	ResourceLocation cur;
 	private ResultCachingMap<StewBaseCondition, Integer> basetypes = new ResultCachingMap<>(
 			e -> e.apply(info.base, cur));
@@ -40,7 +43,7 @@ public class StewPendingContext extends IPendingContext {
 		return cur;
 	}
 
-	public StewPendingContext(SoupInfo info, ResourceLocation current) {
+	public StewPendingContext(StewInfo info, ResourceLocation current) {
 		super();
 		this.info = info;
 		items = new ArrayList<>(info.stacks.size());
@@ -57,7 +60,7 @@ public class StewPendingContext extends IPendingContext {
 		return basetypes.compute(sbc);
 	}
 
-	public SoupInfo getInfo() {
+	public StewInfo getInfo() {
 		return info;
 	}
 }

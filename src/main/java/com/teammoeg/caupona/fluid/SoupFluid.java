@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -22,7 +25,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.teammoeg.caupona.util.FloatemStack;
-import com.teammoeg.caupona.util.SoupInfo;
+import com.teammoeg.caupona.util.StewInfo;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -70,16 +73,16 @@ public class SoupFluid extends ForgeFlowingFluid {
 		return true;
 	}
 
-	public static SoupInfo getInfo(FluidStack stack) {
+	public static StewInfo getInfo(FluidStack stack) {
 		if (stack.hasTag()) {
 			CompoundTag nbt = stack.getChildTag("soup");
 			if (nbt != null)
-				return new SoupInfo(nbt);
+				return new StewInfo(nbt);
 		}
-		return new SoupInfo(stack.getFluid().getRegistryName());
+		return new StewInfo(stack.getFluid().getRegistryName());
 	}
 
-	public static void setInfo(FluidStack stack, SoupInfo si) {
+	public static void setInfo(FluidStack stack, StewInfo si) {
 		if (!si.isEmpty())
 			stack.getOrCreateTag().put("soup", si.save());
 	}
@@ -88,7 +91,7 @@ public class SoupFluid extends ForgeFlowingFluid {
 		if (stack.hasTag()) {
 			CompoundTag nbt = stack.getChildTag("soup");
 			if (nbt != null)
-				return SoupInfo.getStacks(nbt);
+				return StewInfo.getStacks(nbt);
 		}
 		return Lists.newArrayList();
 	}
@@ -151,7 +154,7 @@ public class SoupFluid extends ForgeFlowingFluid {
 		if (stack.hasTag()) {
 			CompoundTag nbt = stack.getChildTag("soup");
 			if (nbt != null)
-				return new ResourceLocation(SoupInfo.getRegName(nbt));
+				return new ResourceLocation(StewInfo.getRegName(nbt));
 		}
 		return stack.getFluid().getRegistryName();
 	}

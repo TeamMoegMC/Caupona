@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -27,7 +30,7 @@ import com.teammoeg.caupona.data.recipes.DissolveRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
-import com.teammoeg.caupona.data.recipes.FryingRecipe;
+import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 
@@ -44,8 +47,8 @@ public class CPRecipes {
 		StewCookingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("cooking",
 				() -> new CPRecipeSerializer<StewCookingRecipe>(StewCookingRecipe::new, StewCookingRecipe::new,
 						StewCookingRecipe::write));
-		FryingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("frying",
-				() -> new CPRecipeSerializer<FryingRecipe>(FryingRecipe::new, FryingRecipe::new, FryingRecipe::write));
+		SauteedRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("frying",
+				() -> new CPRecipeSerializer<SauteedRecipe>(SauteedRecipe::new, SauteedRecipe::new, SauteedRecipe::write));
 		DoliumRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("dolium",
 				() -> new CPRecipeSerializer<DoliumRecipe>(DoliumRecipe::new, DoliumRecipe::new, DoliumRecipe::write));
 		BoilingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("boiling",
@@ -80,7 +83,7 @@ public class CPRecipes {
 		CountingTags.TYPE = RecipeType.register(Main.MODID + ":tags");
 		FoodValueRecipe.TYPE = RecipeType.register(Main.MODID + ":food");
 		FluidFoodValueRecipe.TYPE = RecipeType.register(Main.MODID + ":fluid_food");
-		FryingRecipe.TYPE = RecipeType.register(Main.MODID + ":frying");
+		SauteedRecipe.TYPE = RecipeType.register(Main.MODID + ":frying");
 		DoliumRecipe.TYPE = RecipeType.register(Main.MODID + ":dolium");
 		AspicMeltingRecipe.TYPE = RecipeType.register(Main.MODID + ":aspic_melt");
 		SpiceRecipe.TYPE = RecipeType.register(Main.MODID + ":aspic_spice");

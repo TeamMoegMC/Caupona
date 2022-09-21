@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -26,7 +29,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.api.GameTranslation;
-import com.teammoeg.caupona.data.recipes.FryingRecipe;
+import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -42,7 +45,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-public class FryingCategory implements IRecipeCategory<FryingRecipe> {
+public class FryingCategory implements IRecipeCategory<SauteedRecipe> {
 	public static ResourceLocation UID = new ResourceLocation(Main.MODID, "frying");
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
@@ -60,8 +63,8 @@ public class FryingCategory implements IRecipeCategory<FryingRecipe> {
 	}
 
 	@Override
-	public Class<? extends FryingRecipe> getRecipeClass() {
-		return FryingRecipe.class;
+	public Class<? extends SauteedRecipe> getRecipeClass() {
+		return SauteedRecipe.class;
 	}
 
 	public Component getTitle() {
@@ -69,7 +72,7 @@ public class FryingCategory implements IRecipeCategory<FryingRecipe> {
 	}
 
 	@Override
-	public void draw(FryingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
+	public void draw(SauteedRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
 			double mouseY) {
 		stack.pushPose();
 		stack.scale(0.5f, 0.5f, 0);
@@ -90,7 +93,7 @@ public class FryingCategory implements IRecipeCategory<FryingRecipe> {
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, FryingRecipe recipe, IFocusGroup focuses) {
+	public void setRecipe(IRecipeLayoutBuilder builder, SauteedRecipe recipe, IFocusGroup focuses) {
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 13).addIngredient(VanillaTypes.ITEM,
 				new ItemStack(CPItems.gravy_boat));
@@ -103,7 +106,7 @@ public class FryingCategory implements IRecipeCategory<FryingRecipe> {
 	}
 
 	@Override
-	public List<Component> getTooltipStrings(FryingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX,
+	public List<Component> getTooltipStrings(SauteedRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX,
 			double mouseY) {
 		if (inRange(mouseX, mouseY, 0, 50, 100, 50)) {
 			List<Component> allowence = null;

@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -20,7 +23,7 @@ package com.teammoeg.caupona.blocks.pan;
 
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPTileTypes;
-import com.teammoeg.caupona.blocks.CPHorizontalTileBlock;
+import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -37,7 +40,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
 
-public class PanBlock extends CPHorizontalTileBlock<PanTileEntity> {
+public class PanBlock extends CPHorizontalEntityBlock<PanTileEntity> {
 
 	public PanBlock(Properties p_54120_) {
 		super(CPTileTypes.PAN, p_54120_);

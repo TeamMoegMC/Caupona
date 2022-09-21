@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -22,7 +25,7 @@ import java.util.Random;
 import java.util.function.BiFunction;
 
 import com.teammoeg.caupona.CPTileTypes;
-import com.teammoeg.caupona.blocks.CPBaseTileBlock;
+import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -49,7 +52,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class FumaroleVentBlock extends CPBaseTileBlock<FumaroleVentTileEntity> implements SimpleWaterloggedBlock {
+public class FumaroleVentBlock extends CPRegisteredEntityBlock<FumaroleVentTileEntity> implements SimpleWaterloggedBlock {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final IntegerProperty HEAT = IntegerProperty.create("heat", 0, 2);
 	static final VoxelShape shape = Block.box(0, 0, 0, 16, 6, 16);

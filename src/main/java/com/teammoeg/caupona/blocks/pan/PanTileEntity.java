@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -25,7 +28,7 @@ import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
-import com.teammoeg.caupona.data.recipes.FryingRecipe;
+import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.PanPendingContext;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.items.DishItem;
@@ -65,7 +68,7 @@ public class PanTileEntity extends CPBaseBlockEntity implements MenuProvider,IIn
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
 			if (slot < 9)
-				return FryingRecipe.isCookable(stack);
+				return SauteedRecipe.isCookable(stack);
 			if (slot == 9) {
 				return stack.is(Items.BOWL);
 			}
@@ -237,7 +240,7 @@ public class PanTileEntity extends CPBaseBlockEntity implements MenuProvider,IIn
 		for (int i = 0; i < 9; i++) {
 			ItemStack is = inv.getStackInSlot(i);
 			if (!is.isEmpty()) {
-				if (FryingRecipe.isCookable(is))
+				if (SauteedRecipe.isCookable(is))
 					itms++;
 				else
 					return;
@@ -301,7 +304,7 @@ public class PanTileEntity extends CPBaseBlockEntity implements MenuProvider,IIn
 		PanPendingContext ctx = new PanPendingContext(current);
 		oamount = cook;
 
-		for (FryingRecipe cr : FryingRecipe.sorted) {
+		for (SauteedRecipe cr : SauteedRecipe.sorted) {
 			if (cr.matches(ctx)) {
 				processMax = Math.max(cr.time, tpt);
 				preout = cr.output;

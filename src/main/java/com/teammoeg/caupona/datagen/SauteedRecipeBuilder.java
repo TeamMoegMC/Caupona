@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -23,13 +26,13 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.data.recipes.FryingRecipe;
+import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
-public class FryingRecipeBuilder {
+public class SauteedRecipeBuilder {
 
 	private List<IngredientCondition> allow = new ArrayList<>();
 	private List<IngredientCondition> deny = new ArrayList<>();
@@ -38,59 +41,59 @@ public class FryingRecipeBuilder {
 	private Item output;
 	private ResourceLocation id;
 
-	public FryingRecipeBuilder(ResourceLocation id, Item out) {
+	public SauteedRecipeBuilder(ResourceLocation id, Item out) {
 		output = out;
 		this.id = id;
 	}
 
-	public static FryingRecipeBuilder start(Item out) {
-		return new FryingRecipeBuilder(new ResourceLocation(Main.MODID, "frying/" + out.getRegistryName().getPath()),
+	public static SauteedRecipeBuilder start(Item out) {
+		return new SauteedRecipeBuilder(new ResourceLocation(Main.MODID, "frying/" + out.getRegistryName().getPath()),
 				out);
 	}
 
-	public IngredientConditionsBuilder<FryingRecipeBuilder> require() {
-		return new IngredientConditionsBuilder<FryingRecipeBuilder>(this, allow, allow, deny);
+	public IngredientConditionsBuilder<SauteedRecipeBuilder> require() {
+		return new IngredientConditionsBuilder<SauteedRecipeBuilder>(this, allow, allow, deny);
 	}
 
-	public IngredientConditionsBuilder<FryingRecipeBuilder> not() {
-		return new IngredientConditionsBuilder<FryingRecipeBuilder>(this, deny, allow, deny);
+	public IngredientConditionsBuilder<SauteedRecipeBuilder> not() {
+		return new IngredientConditionsBuilder<SauteedRecipeBuilder>(this, deny, allow, deny);
 	}
 
-	public FryingRecipeBuilder prio(int p) {
+	public SauteedRecipeBuilder prio(int p) {
 		priority = p;
 		return this;
 	}
 
-	public FryingRecipeBuilder special() {
+	public SauteedRecipeBuilder special() {
 		priority |= 1024;
 		return this;
 	}
 
-	public FryingRecipeBuilder high() {
+	public SauteedRecipeBuilder high() {
 		priority |= 128;
 		return this;
 	}
 
-	public FryingRecipeBuilder med() {
+	public SauteedRecipeBuilder med() {
 		priority |= 64;
 		return this;
 	}
 
-	public FryingRecipeBuilder low() {
+	public SauteedRecipeBuilder low() {
 		return this;
 	}
 
-	public FryingRecipeBuilder time(int t) {
+	public SauteedRecipeBuilder time(int t) {
 		time = t;
 		return this;
 	}
 
-	public FryingRecipe end() {
-		return new FryingRecipe(id, allow, deny, priority, time, output);
+	public SauteedRecipe end() {
+		return new SauteedRecipe(id, allow, deny, priority, time, output);
 	}
 
-	public FryingRecipe finish(Consumer<? super FryingRecipe> csr) {
-		FryingRecipe r = end();
+	public SauteedRecipe finish(Consumer<? super SauteedRecipe> csr) {
+		SauteedRecipe r = end();
 		csr.accept(r);
 		return r;
 	}

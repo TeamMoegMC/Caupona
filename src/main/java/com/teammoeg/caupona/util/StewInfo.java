@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -37,7 +40,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class SoupInfo extends SpicedFoodInfo implements IFoodInfo {
+public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 	public List<FloatemStack> stacks;
 	public List<MobEffectInstance> effects;
 	public List<Pair<MobEffectInstance, Float>> foodeffect = new ArrayList<>();
@@ -46,7 +49,7 @@ public class SoupInfo extends SpicedFoodInfo implements IFoodInfo {
 	public float shrinkedFluid = 0;
 	public ResourceLocation base;
 
-	public SoupInfo(List<FloatemStack> stacks, List<MobEffectInstance> effects, int healing, float saturation,
+	public StewInfo(List<FloatemStack> stacks, List<MobEffectInstance> effects, int healing, float saturation,
 			ResourceLocation base) {
 		super();
 		this.stacks = stacks;
@@ -56,7 +59,7 @@ public class SoupInfo extends SpicedFoodInfo implements IFoodInfo {
 		this.base = base;
 	}
 
-	public SoupInfo() {
+	public StewInfo() {
 		this(new ArrayList<>(), new ArrayList<>(), 0, 0, new ResourceLocation("minecraft:water"));
 	}
 
@@ -73,7 +76,7 @@ public class SoupInfo extends SpicedFoodInfo implements IFoodInfo {
 		return healing <= 1 || getDensity() <= 0.5;
 	}
 
-	public SoupInfo(CompoundTag nbt) {
+	public StewInfo(CompoundTag nbt) {
 		super(nbt);
 		stacks = nbt.getList("items", 10).stream().map(e -> (CompoundTag) e).map(FloatemStack::new)
 				.collect(Collectors.toList());
@@ -93,18 +96,18 @@ public class SoupInfo extends SpicedFoodInfo implements IFoodInfo {
 		return stacks.isEmpty() && effects.isEmpty();
 	}
 
-	public boolean canMerge(SoupInfo f, float cparts, float oparts) {
+	public boolean canMerge(StewInfo f, float cparts, float oparts) {
 		return (this.getDensity() * cparts + f.getDensity() * oparts) / (cparts + oparts) <= 3;
 	}
 
-	public boolean merge(SoupInfo f, float cparts, float oparts) {
+	public boolean merge(StewInfo f, float cparts, float oparts) {
 		if (!canMerge(f, cparts, oparts))
 			return false;
 		forceMerge(f, cparts, oparts);
 		return true;
 	}
 
-	public void forceMerge(SoupInfo f, float cparts, float oparts) {
+	public void forceMerge(StewInfo f, float cparts, float oparts) {
 
 		for (MobEffectInstance es : f.effects) {
 			boolean added = false;
@@ -236,7 +239,7 @@ public class SoupInfo extends SpicedFoodInfo implements IFoodInfo {
 		saturation = saturation * oparts / parts;
 	}
 
-	public SoupInfo(ResourceLocation base) {
+	public StewInfo(ResourceLocation base) {
 		this(new ArrayList<>(), new ArrayList<>(), 0, 0, base);
 	}
 

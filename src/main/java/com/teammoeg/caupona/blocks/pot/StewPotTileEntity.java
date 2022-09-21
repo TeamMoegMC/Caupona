@@ -12,6 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.
+ * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.
+ *
  * You should have received a copy of the GNU General Public License
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
@@ -38,7 +41,7 @@ import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.items.StewItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
-import com.teammoeg.caupona.util.SoupInfo;
+import com.teammoeg.caupona.util.StewInfo;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -101,7 +104,7 @@ public class StewPotTileEntity extends CPBaseBlockEntity implements MenuProvider
 		return inv;
 	}
 
-	public SoupInfo current;
+	public StewInfo current;
 	private FluidTank tank = new FluidTank(1250, StewCookingRecipe::isBoilable) {
 		protected void onContentsChanged() {
 			// all fluid emptied
@@ -226,7 +229,7 @@ public class StewPotTileEntity extends CPBaseBlockEntity implements MenuProvider
 		if (fs.getAmount() % 250 == 0 && fs.getFluid() instanceof SoupFluid)
 			spice = SpiceRecipe.find(spi);
 		if (spice != null) {
-			SoupInfo si = SoupFluid.getInfo(fs);
+			StewInfo si = SoupFluid.getInfo(fs);
 			if (!si.canAddSpice())
 				return fs;
 			if (!isInfinite) {
@@ -317,7 +320,7 @@ public class StewPotTileEntity extends CPBaseBlockEntity implements MenuProvider
 		isInfinite = nbt.getBoolean("inf");
 		if (!isClient) {
 			inv.deserializeNBT(nbt.getCompound("inv"));
-			current = nbt.contains("current") ? new SoupInfo(nbt.getCompound("current")) : null;
+			current = nbt.contains("current") ? new StewInfo(nbt.getCompound("current")) : null;
 			nextbase = nbt.contains("resultBase") ? new ResourceLocation(nbt.getString("resultBase")) : null;
 			nowork = nbt.getInt("nowork");
 			
@@ -428,7 +431,7 @@ public class StewPotTileEntity extends CPBaseBlockEntity implements MenuProvider
 				if (is.getItem() == Items.POTION) {
 					outer: for (MobEffectInstance n : PotionUtils.getMobEffects(is)) {
 						for (MobEffectInstance eff : cr) {
-							if (SoupInfo.isEffectEquals(eff, n))
+							if (StewInfo.isEffectEquals(eff, n))
 								continue outer;
 						}
 						cr.add(n);
@@ -558,7 +561,7 @@ public class StewPotTileEntity extends CPBaseBlockEntity implements MenuProvider
 		BlockEntity te = level.getBlockEntity(worldPosition.below());
 		if (!(te instanceof IStove) || !((IStove) te).canEmitHeat())
 			return false;
-		SoupInfo n = SoupFluid.getInfo(fs);
+		StewInfo n = SoupFluid.getInfo(fs);
 		if (!getCurrent().base.equals(n.base) && !current.base.equals(fs.getFluid().getRegistryName())
 				&& !n.base.equals(tank.getFluid().getFluid().getRegistryName())) {
 			BoilingRecipe bnx = BoilingRecipe.recipes.get(fs.getFluid());
@@ -608,7 +611,7 @@ public class StewPotTileEntity extends CPBaseBlockEntity implements MenuProvider
 		BlockEntity te = level.getBlockEntity(worldPosition.below());
 		if (!(te instanceof IStove) || !((IStove) te).canEmitHeat())
 			return false;
-		SoupInfo n = SoupFluid.getInfo(fs);
+		StewInfo n = SoupFluid.getInfo(fs);
 		int pm = 0;
 
 		if (!getCurrent().base.equals(n.base) && !current.base.equals(fs.getFluid().getRegistryName())
@@ -755,7 +758,7 @@ public class StewPotTileEntity extends CPBaseBlockEntity implements MenuProvider
 		return super.getCapability(cap, side);
 	}
 
-	public SoupInfo getCurrent() {
+	public StewInfo getCurrent() {
 		if (current == null)
 			current = SoupFluid.getInfo(tank.getFluid());
 		return current;
