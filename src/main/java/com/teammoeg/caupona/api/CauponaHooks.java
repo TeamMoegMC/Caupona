@@ -23,8 +23,10 @@ import java.util.Optional;
 
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.fluid.SoupFluid;
+import com.teammoeg.caupona.items.DishItem;
 import com.teammoeg.caupona.items.StewItem;
 import com.teammoeg.caupona.util.FloatemStack;
+import com.teammoeg.caupona.util.IFoodInfo;
 import com.teammoeg.caupona.util.SoupInfo;
 
 import net.minecraft.resources.ResourceLocation;
@@ -52,6 +54,8 @@ public class CauponaHooks {
 			// TODO: CHECK STEW TAG
 			return Optional.of(SoupFluid.getItems(fs));
 		}
+		if(stack.getItem() instanceof DishItem)
+			return Optional.of(DishItem.getItems(stack));
 		return Optional.empty();
 	}
 
@@ -67,15 +71,18 @@ public class CauponaHooks {
 		return new ResourceLocation("water");
 	}
 
-	public static SoupInfo getInfo(ItemStack stack) {
+	public static Optional<IFoodInfo> getInfo(ItemStack stack) {
 		if (stack.getItem() instanceof StewItem) {
-			return StewItem.getInfo(stack);
+			return Optional.of(StewItem.getInfo(stack));
 		}
 		LazyOptional<IFluidHandlerItem> cap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
 		if (cap.isPresent()) {
 			IFluidHandlerItem data = cap.resolve().get();
-			return SoupFluid.getInfo(data.getFluidInTank(0));
+			return Optional.of(SoupFluid.getInfo(data.getFluidInTank(0)));
 		}
-		return null;
+		if(stack.getItem() instanceof DishItem)
+			return Optional.of(DishItem.getInfo(stack));
+		return Optional.empty();
 	}
+	
 }

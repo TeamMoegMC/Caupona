@@ -21,14 +21,14 @@ package com.teammoeg.caupona.blocks.hypocaust;
 import com.teammoeg.caupona.CPTileTypes;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.blocks.stove.IStove;
-import com.teammoeg.caupona.network.CPBaseTile;
+import com.teammoeg.caupona.network.CPBaseBlockEntity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class WolfStatueTile extends CPBaseTile {
+public class WolfStatueTile extends CPBaseBlockEntity {
 	int ticks;
 	private int checkTicks;
 	boolean isVeryHot;
@@ -61,9 +61,9 @@ public class WolfStatueTile extends CPBaseTile {
 			return;
 
 		BlockEntity ste = level.getBlockEntity(this.getBlockPos().below());
-		if (ste instanceof IStove) {
+		if (ste instanceof IStove stove) {
 			BlockState bs = this.getBlockState();
-			int nh = ((IStove) ste).requestHeat();
+			int nh =stove.requestHeat();
 			int bheat = bs.getValue(WolfStatueBlock.HEAT);
 			boolean flag = false;
 			bs = bs.setValue(WolfStatueBlock.HEAT, nh);
@@ -92,8 +92,8 @@ public class WolfStatueTile extends CPBaseTile {
 			for (int i = 0; i < 4; i++) {
 				bp = bp.below();
 				BlockEntity te = this.getLevel().getBlockEntity(bp);
-				if (te instanceof BathHeatingTile) {
-					int cheat = Math.min(((BathHeatingTile) te).getHeat(), 2);
+				if (te instanceof BathHeatingTile bath) {
+					int cheat = Math.min(bath.getHeat(), 2);
 					
 					
 					if (cheat != bheat)

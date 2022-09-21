@@ -84,9 +84,8 @@ public class ForgeEvent {
 	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		if (event.phase == Phase.START) {
 			AbstractContainerMenu acm = event.player.containerMenu;
-			if (acm instanceof ITickableContainer) {
-				((ITickableContainer) acm).tick(event.side == LogicalSide.SERVER);
-			}
+			if (acm instanceof ITickableContainer container) 
+				container.tick(event.side == LogicalSide.SERVER);
 		}
 	}
 	@SubscribeEvent

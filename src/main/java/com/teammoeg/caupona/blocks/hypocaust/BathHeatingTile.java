@@ -19,7 +19,7 @@
 package com.teammoeg.caupona.blocks.hypocaust;
 
 import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.network.CPBaseTile;
+import com.teammoeg.caupona.network.CPBaseBlockEntity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -29,7 +29,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class BathHeatingTile extends CPBaseTile {
+public abstract class BathHeatingTile extends CPBaseBlockEntity {
 	private double rate;
 	private int val;
 	protected int process;//

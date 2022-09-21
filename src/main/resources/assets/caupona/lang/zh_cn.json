@@ -270,6 +270,8 @@
 	"tag.caupona.wolfberries":"枸杞",
 	"tag.caupona.bone":"骨头",
 	"tag.forge.raw_beef":"牛肉",
+	"tooltip.caupona.display_only":"仅供创造模式展示",
+	"tooltip.caupona.cook_required":"请自行烹饪取得实际效果",
 	"recipe.caupona.cond.mainly":"主要是%s",
 	"recipe.caupona.cond.half":"过半数是%s",
 	"recipe.caupona.cond.any":"任意%s",

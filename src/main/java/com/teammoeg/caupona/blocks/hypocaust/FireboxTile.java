@@ -99,8 +99,8 @@ public class FireboxTile extends BathHeatingTile {
 		if (this.level.isClientSide)
 			return;
 		BlockEntity te = level.getBlockEntity(worldPosition.below());
-		if (te instanceof IStove) {
-			int nh = ((IStove) te).requestHeat();
+		if (te instanceof IStove stove) {
+			int nh = stove.requestHeat();
 			if (heat != nh) {
 				process = 0;
 				heat = nh;
@@ -116,8 +116,8 @@ public class FireboxTile extends BathHeatingTile {
 			Set<BlockPos> pss = getAll();
 			for (BlockPos pos : pss) {
 				BlockEntity hte = level.getBlockEntity(pos);
-				if (hte instanceof BathHeatingTile)
-					((BathHeatingTile) hte).setHeat(heat);
+				if (hte instanceof BathHeatingTile bath)
+					bath.setHeat(heat);
 			}
 		}
 		this.setChanged();

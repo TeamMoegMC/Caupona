@@ -73,8 +73,7 @@ public class PanBlock extends CPHorizontalTileBlock<PanTileEntity> {
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-		if (tileEntity instanceof PanTileEntity && state.getBlock() != newState.getBlock()) {
-			PanTileEntity te = (PanTileEntity) tileEntity;
+		if (tileEntity instanceof PanTileEntity te && state.getBlock() != newState.getBlock()) {
 			if (te.processMax == 0)
 				for (int i = 0; i < 9; i++) {
 					ItemStack is = te.inv.getStackInSlot(i);

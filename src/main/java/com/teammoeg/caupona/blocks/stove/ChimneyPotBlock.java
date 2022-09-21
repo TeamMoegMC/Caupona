@@ -61,14 +61,13 @@ public class ChimneyPotBlock extends CPHorizontalTileBlock<ChimneyPotTileEntity>
 		if (p.consumesAction())
 			return p;
 		BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-		if (tileEntity instanceof ChimneyPotTileEntity
+		if (tileEntity instanceof ChimneyPotTileEntity chimneyPot
 				&& player.getItemInHand(handIn).getItem() instanceof ShovelItem) {
-			ChimneyPotTileEntity cpte = (ChimneyPotTileEntity) tileEntity;
-			if (cpte.countSoot > 0) {
+			if (chimneyPot.countSoot > 0) {
 				if (!worldIn.isClientSide) {
 					player.getItemInHand(handIn).hurtAndBreak(1, player, t -> t.broadcastBreakEvent(handIn));
-					ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(CPItems.soot, cpte.countSoot));
-					cpte.countSoot = 0;
+					ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(CPItems.soot, chimneyPot.countSoot));
+					chimneyPot.countSoot = 0;
 				}
 				return InteractionResult.sidedSuccess(worldIn.isClientSide);
 			}

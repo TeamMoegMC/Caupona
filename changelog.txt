@@ -1,1 +1,2 @@
-Add ru_ru translations (cr.@tuturox91)
+Added creative display item hint
+Added config and more support for diet mod

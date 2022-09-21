@@ -20,6 +20,7 @@ package com.teammoeg.caupona.items;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.blocks.foods.DishBlock;
 import com.teammoeg.caupona.util.FloatemStack;
@@ -61,6 +62,14 @@ public class DishItem extends EdibleBlock {
 		return UseAnim.EAT;
 	}
 
+	public static List<FloatemStack> getItems(ItemStack stack) {
+		if (stack.hasTag()) {
+			CompoundTag soupTag = stack.getTagElement("dish");
+			if (soupTag != null)
+				return SauteedFoodInfo.getStacks(soupTag);
+		}
+		return Lists.newArrayList();
+	}
 	public static SauteedFoodInfo getInfo(ItemStack stack) {
 		if (stack.hasTag()) {
 			CompoundTag soupTag = stack.getTagElement("dish");
@@ -91,19 +100,9 @@ public class DishItem extends EdibleBlock {
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public FoodProperties getFoodProperties(ItemStack stack, LivingEntity entity) {
-		SauteedFoodInfo si = getInfo(stack);
-		FoodProperties.Builder b = new FoodProperties.Builder();
-
-		if (si.spice != null)
-			b.effect(si.spice, 1);
-		for (Pair<MobEffectInstance, Float> ef : si.foodeffect) {
-			b.effect(ef.getFirst(), ef.getSecond());
-		}
-		b.nutrition(si.healing);
-		b.saturationMod(si.saturation);
-		return b.build();
+		return getInfo(stack).getFood();
+		
 	}
 }

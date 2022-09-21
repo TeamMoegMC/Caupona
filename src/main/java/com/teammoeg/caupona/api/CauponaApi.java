@@ -78,8 +78,7 @@ public class CauponaApi {
 				if (r.nextFloat() < ef.getSecond())
 					entityLiving.addEffect(ef.getFirst());
 			}
-			if (entityLiving instanceof Player) {
-				Player player = (Player) entityLiving;
+			if (entityLiving instanceof Player player) {
 				player.getFoodData().eat(info.healing, info.saturation);
 			}
 		}

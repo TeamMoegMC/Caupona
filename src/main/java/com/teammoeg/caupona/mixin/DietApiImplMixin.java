@@ -28,6 +28,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.api.CauponaHooks;
 import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
@@ -45,33 +46,39 @@ import top.theillusivec4.diet.common.util.DietResult;
 //As Diet's author didn't add such a more flexible api, I have to resort to mixin.
 @Mixin(DietApiImpl.class)
 public class DietApiImplMixin extends DietApi {
-
 	private static void CP$getResult(Player player, ItemStack input, CallbackInfoReturnable<IDietResult> result) {
-		SoupInfo ois = CauponaHooks.getInfo(input);
-		if (ois == null)
-			return;
-		List<FloatemStack> is = ois.stacks;
-		Map<IDietGroup, Float> groups = new HashMap<>();
-		for (FloatemStack sx : is) {
-			FoodValueRecipe fvr = FoodValueRecipe.recipes.get(sx.getItem());
-			ItemStack stack;
-			if (fvr == null || fvr.getRepersent() == null)
-				stack = sx.getStack();
-			else
-				stack = fvr.getRepersent();
-			IDietResult dr = DietApiImpl.getInstance().get(player, stack);
-			if (dr != DietResult.EMPTY)
-				for (Entry<IDietGroup, Float> me : dr.get().entrySet())
-					groups.merge(me.getKey(), me.getValue() * sx.getCount() * 1.3f, Float::sum);
-		}
-		FluidFoodValueRecipe ffvr = FluidFoodValueRecipe.recipes.get(ois.base);
-		if (ffvr != null && ffvr.getRepersent() != null) {
-			IDietResult dr = DietApiImpl.getInstance().get(player, ffvr.getRepersent());
-			if (dr != DietResult.EMPTY)
-				for (Entry<IDietGroup, Float> me : dr.get().entrySet())
-					groups.merge(me.getKey(), me.getValue() * (ois.shrinkedFluid + 1) / ffvr.parts * 1.3f, Float::sum);
-		}
-		result.setReturnValue(new DietResult(groups));
+		CauponaHooks.getInfo(input).ifPresent(ois -> {
+
+			float harmMod = Config.SERVER.harmfulMod.get();
+			float goodMod = Config.SERVER.benefitialMod.get();
+			List<FloatemStack> is = ois.getStacks();
+			Map<IDietGroup, Float> groups = new HashMap<>();
+			for (FloatemStack sx : is) {
+				FoodValueRecipe fvr = FoodValueRecipe.recipes.get(sx.getItem());
+				ItemStack stack;
+				if (fvr == null || fvr.getRepersent() == null)
+					stack = sx.getStack();
+				else
+					stack = fvr.getRepersent();
+				IDietResult dr = DietApiImpl.getInstance().get(player, stack);
+				if (dr != DietResult.EMPTY)
+					for (Entry<IDietGroup, Float> me : dr.get().entrySet())
+						groups.merge(me.getKey(),
+								me.getValue() * sx.getCount() * (me.getKey().isBeneficial() ? goodMod : harmMod),
+								Float::sum);
+			}
+			if(ois instanceof SoupInfo si) {
+				FluidFoodValueRecipe ffvr = FluidFoodValueRecipe.recipes.get(si.base);
+				if (ffvr != null && ffvr.getRepersent() != null) {
+					IDietResult dr = DietApiImpl.getInstance().get(player, ffvr.getRepersent());
+					if (dr != DietResult.EMPTY)
+						for (Entry<IDietGroup, Float> me : dr.get().entrySet())
+							groups.merge(me.getKey(), me.getValue() * (si.shrinkedFluid + 1) / ffvr.parts
+									* (me.getKey().isBeneficial() ? goodMod : harmMod), Float::sum);
+				}
+			}
+			result.setReturnValue(new DietResult(groups));
+		});
 	}
 
 	@Inject(at = @At("HEAD"), require = 1, method = "get(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;)Ltop/theillusivec4/diet/api/IDietResult;", cancellable = true, remap = false)
@@ -83,14 +90,10 @@ public class DietApiImplMixin extends DietApi {
 	 * @param heal
 	 * @param sat
 	 */
-	/*
-	 * @Inject(at = @At("HEAD"), require = 1, method =
-	 * "get(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/item/ItemStack;IF)Ltop/theillusivec4/diet/api/IDietResult;",
-	 * cancellable = true, remap = false)
-	 * public void get(Player player, ItemStack input, int heal, float sat,
-	 * CallbackInfoReturnable<IDietResult> result) {
-	 * CP$getResult(player,input,result);
-	 * }
-	 */
+
+	@Inject(at = @At("HEAD"), require = 1, method = "get(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;IF)Ltop/theillusivec4/diet/api/IDietResult;", cancellable = true, remap = false)
+	public void get(Player player, ItemStack input, int heal, float sat, CallbackInfoReturnable<IDietResult> result) {
+		CP$getResult(player, input, result);
+	}
 
 }

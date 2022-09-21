@@ -270,6 +270,8 @@
 	"tag.caupona.wolfberries": "Волчьи ягоды",
 	"tag.caupona.bone": "Кости",
 	"tag.forge.raw_beef": "Говядина",
+	"tooltip.caupona.display_only":"For creative display only",
+	"tooltip.caupona.cook_required":"Cook to get actual effects",
 	"recipe.caupona.cond.mainly": "Большинство %s",
 	"recipe.caupona.cond.half": "Половина %s",
 	"recipe.caupona.cond.any": "Содержит %s",

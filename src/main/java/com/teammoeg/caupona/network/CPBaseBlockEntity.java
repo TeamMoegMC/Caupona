@@ -26,9 +26,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class CPBaseTile extends BlockEntity {
+public abstract class CPBaseBlockEntity extends BlockEntity {
 
-	public CPBaseTile(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
+	public CPBaseBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
 		super(pType, pWorldPosition, pBlockState);
 	}
 

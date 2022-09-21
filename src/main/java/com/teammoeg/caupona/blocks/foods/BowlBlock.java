@@ -75,8 +75,7 @@ public class BowlBlock extends CPBaseTileBlock<BowlTileEntity> {
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-		if (tileEntity instanceof BowlTileEntity && state.getBlock() != newState.getBlock()) {
-			BowlTileEntity te = (BowlTileEntity) tileEntity;
+		if (tileEntity instanceof BowlTileEntity te && state.getBlock() != newState.getBlock()) {
 			super.popResource(worldIn, pos, te.internal);
 		}
 		super.onRemove(state, worldIn, pos, newState, isMoving);
@@ -115,8 +114,7 @@ public class BowlBlock extends CPBaseTileBlock<BowlTileEntity> {
 	public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, LivingEntity pPlacer, ItemStack pStack) {
 		super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
 		BlockEntity tileEntity = pLevel.getBlockEntity(pPos);
-		if (tileEntity instanceof BowlTileEntity) {
-			BowlTileEntity te = (BowlTileEntity) tileEntity;
+		if (tileEntity instanceof BowlTileEntity te) {
 			te.internal = ItemHandlerHelper.copyStackWithSize(pStack, 1);
 		}
 	}
@@ -124,8 +122,7 @@ public class BowlBlock extends CPBaseTileBlock<BowlTileEntity> {
 	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos,
 			Player player) {
 		BlockEntity tileEntity = level.getBlockEntity(pos);
-		if (tileEntity instanceof BowlTileEntity) {
-			BowlTileEntity te = (BowlTileEntity) tileEntity;
+		if (tileEntity instanceof BowlTileEntity te) {
 			if (te.internal == null)
 				return ItemStack.EMPTY;
 			return te.internal.copy();

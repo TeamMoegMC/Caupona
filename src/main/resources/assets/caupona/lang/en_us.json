@@ -270,6 +270,8 @@
 	"tag.caupona.wolfberries": "Wolfberries",
 	"tag.caupona.bone": "Bone",
 	"tag.forge.raw_beef": "Beef",
+	"tooltip.caupona.display_only":"For creative display only",
+	"tooltip.caupona.cook_required":"Cook to get actual effects",
 	"recipe.caupona.cond.mainly": "Majority of %s",
 	"recipe.caupona.cond.half": "More than half of %s",
 	"recipe.caupona.cond.any": "Any of %s",

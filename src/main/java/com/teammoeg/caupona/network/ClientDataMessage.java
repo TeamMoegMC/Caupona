@@ -56,8 +56,8 @@ public class ClientDataMessage {
 			ServerLevel world = Objects.requireNonNull(context.get().getSender()).getLevel();
 			if (world.isAreaLoaded(pos, 1)) {
 				BlockEntity tile = world.getBlockEntity(pos);
-				if (tile instanceof CPBaseTile)
-					((CPBaseTile) tile).handleMessage(type, message);
+				if (tile instanceof CPBaseBlockEntity entity)
+					entity.handleMessage(type, message);
 			}
 		});
 		context.get().setPacketHandled(true);

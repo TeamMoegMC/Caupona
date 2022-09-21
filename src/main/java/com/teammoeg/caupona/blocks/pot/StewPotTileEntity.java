@@ -36,7 +36,7 @@ import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.data.recipes.StewPendingContext;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.items.StewItem;
-import com.teammoeg.caupona.network.CPBaseTile;
+import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
 import com.teammoeg.caupona.util.SoupInfo;
 
@@ -74,7 +74,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfinitable {
+public class StewPotTileEntity extends CPBaseBlockEntity implements MenuProvider, IInfinitable {
 	private ItemStackHandler inv = new ItemStackHandler(12) {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
@@ -152,8 +152,8 @@ public class StewPotTileEntity extends CPBaseTile implements MenuProvider, IInfi
 			if (processMax > 0) {
 				nowork = 0;
 				BlockEntity te = level.getBlockEntity(worldPosition.below());
-				if (te instanceof IStove) {
-					int rh = ((IStove) te).requestHeat();
+				if (te instanceof IStove stove) {
+					int rh = stove.requestHeat();
 					if (!isInfinite) {
 						process += rh;
 						if(rh>0)

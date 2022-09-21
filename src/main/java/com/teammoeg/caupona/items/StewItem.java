@@ -207,25 +207,9 @@ public class StewItem extends EdibleBlock {
 		this.fluid = fluid;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public FoodProperties getFoodProperties(ItemStack stack, LivingEntity entity) {
-		SoupInfo si = getInfo(stack);
-		FoodProperties.Builder b = new FoodProperties.Builder();
-		for (MobEffectInstance eff : si.effects) {
-			if (eff != null) {
-				b.effect(eff, 1);
-			}
-		}
-		if (si.spice != null)
-			b.effect(si.spice, 1);
-		for (Pair<MobEffectInstance, Float> ef : si.foodeffect) {
-			b.effect(ef.getFirst(), ef.getSecond());
-		}
-		b.nutrition(si.healing);
-		b.saturationMod(si.saturation);
-		if (si.canAlwaysEat())
-			b.alwaysEat();
-		return b.build();
+		return getInfo(stack).getFood();
+		
 	}
 }

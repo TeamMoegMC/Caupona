@@ -26,7 +26,7 @@ import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.items.StewItem;
-import com.teammoeg.caupona.network.CPBaseTile;
+import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
 import com.teammoeg.caupona.util.SoupInfo;
 import com.teammoeg.caupona.util.Utils;
@@ -57,7 +57,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 
-public class CounterDoliumTileEntity extends CPBaseTile implements MenuProvider, IInfinitable {
+public class CounterDoliumTileEntity extends CPBaseBlockEntity implements MenuProvider, IInfinitable {
 	ItemStackHandler inv = new ItemStackHandler(6) {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {

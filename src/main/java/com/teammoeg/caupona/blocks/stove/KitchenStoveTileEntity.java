@@ -26,7 +26,7 @@ import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.FuelType;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.client.Particles;
-import com.teammoeg.caupona.network.CPBaseTile;
+import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.ChimneyHelper;
 import com.teammoeg.caupona.util.IInfinitable;
 
@@ -50,7 +50,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
 
-public class KitchenStoveTileEntity extends CPBaseTile implements Container, MenuProvider, IStove, IInfinitable {
+public class KitchenStoveTileEntity extends CPBaseBlockEntity implements Container, MenuProvider, IStove, IInfinitable {
 	private NonNullList<ItemStack> fuel = NonNullList.withSize(1, ItemStack.EMPTY);
 	public int process;
 	public int processMax;
@@ -230,8 +230,8 @@ public class KitchenStoveTileEntity extends CPBaseTile implements Container, Men
 					}
 					if (attachedChimney != null) {
 						BlockEntity te = this.getLevel().getBlockEntity(attachedChimney);
-						if (te instanceof ChimneyPotTileEntity) {
-							((ChimneyPotTileEntity) te).addAsh(speed);
+						if (te instanceof ChimneyPotTileEntity chimney) {
+							chimney.addAsh(speed);
 						}
 					}
 					if (cd <= 0) {

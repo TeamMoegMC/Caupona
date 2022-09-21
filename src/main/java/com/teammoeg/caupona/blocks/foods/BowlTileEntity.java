@@ -19,7 +19,7 @@
 package com.teammoeg.caupona.blocks.foods;
 
 import com.teammoeg.caupona.CPTileTypes;
-import com.teammoeg.caupona.network.CPBaseTile;
+import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
 
 import net.minecraft.core.BlockPos;
@@ -27,7 +27,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BowlTileEntity extends CPBaseTile implements IInfinitable {
+public class BowlTileEntity extends CPBaseBlockEntity implements IInfinitable {
 	public ItemStack internal;
 	boolean isInfinite = false;
 

@@ -127,9 +127,8 @@ public class KitchenStove extends CPBaseTileBlock<KitchenStoveTileEntity> {
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-		if (tileEntity instanceof KitchenStoveTileEntity && state.getBlock() != newState.getBlock()) {
-			KitchenStoveTileEntity te = (KitchenStoveTileEntity) tileEntity;
-			ItemStack is = te.getItem(0);
+		if (tileEntity instanceof KitchenStoveTileEntity stove && state.getBlock() != newState.getBlock()) {
+			ItemStack is = stove.getItem(0);
 			if (!is.isEmpty())
 				super.popResource(worldIn, pos, is);
 		}

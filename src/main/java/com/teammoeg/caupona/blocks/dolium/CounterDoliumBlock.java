@@ -135,9 +135,7 @@ public class CounterDoliumBlock extends CPHorizontalTileBlock<CounterDoliumTileE
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-		if (tileEntity instanceof CounterDoliumTileEntity && state.getBlock() != newState.getBlock()) {
-			CounterDoliumTileEntity te = (CounterDoliumTileEntity) tileEntity;
-
+		if (tileEntity instanceof CounterDoliumTileEntity te && state.getBlock() != newState.getBlock()) {
 			for (int i = 0; i < 6; i++) {
 				ItemStack is = te.inv.getStackInSlot(i);
 				if (!is.isEmpty())

@@ -37,7 +37,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class SoupInfo extends SpicedFoodInfo {
+public class SoupInfo extends SpicedFoodInfo implements IFoodInfo {
 	public List<FloatemStack> stacks;
 	public List<MobEffectInstance> effects;
 	public List<Pair<MobEffectInstance, Float>> foodeffect = new ArrayList<>();
@@ -64,7 +64,6 @@ public class SoupInfo extends SpicedFoodInfo {
 		return nbt.getList("items", 10).stream().map(e -> (CompoundTag) e).map(FloatemStack::new)
 				.collect(Collectors.toList());
 	}
-
 
 	public float getDensity() {
 		return stacks.stream().map(FloatemStack::getCount).reduce(0f, Float::sum);
@@ -194,7 +193,7 @@ public class SoupInfo extends SpicedFoodInfo {
 			FoodProperties f = fs.getStack().getFoodProperties(null);
 			if (f != null) {
 				nh += fs.count * f.getNutrition();
-				ns += fs.count * f.getSaturationModifier()* f.getNutrition();
+				ns += fs.count * f.getSaturationModifier() * f.getNutrition();
 				foodeffect.addAll(f.getEffects());
 			}
 		}
@@ -282,4 +281,37 @@ public class SoupInfo extends SpicedFoodInfo {
 
 	}
 
+	@Override
+	public List<FloatemStack> getStacks() {
+		return stacks;
+	}
+
+	public int getHealing() {
+		return healing;
+	}
+
+	public float getSaturation() {
+		return saturation;
+	}
+
+	@SuppressWarnings("deprecation")
+	public FoodProperties getFood() {
+
+		FoodProperties.Builder b = new FoodProperties.Builder();
+		for (MobEffectInstance eff : effects) {
+			if (eff != null) {
+				b.effect(eff, 1);
+			}
+		}
+		if (spice != null)
+			b.effect(spice, 1);
+		for (Pair<MobEffectInstance, Float> ef : foodeffect) {
+			b.effect(ef.getFirst(), ef.getSecond());
+		}
+		b.nutrition(healing);
+		b.saturationMod(saturation);
+		if (canAlwaysEat())
+			b.alwaysEat();
+		return b.build();
+	}
 }

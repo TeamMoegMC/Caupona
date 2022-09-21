@@ -26,7 +26,7 @@ import com.teammoeg.caupona.CPTileTypes;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.stove.IStove;
-import com.teammoeg.caupona.network.CPBaseTile;
+import com.teammoeg.caupona.network.CPBaseBlockEntity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -40,7 +40,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 
-public class FumaroleVentTileEntity extends CPBaseTile implements IStove {
+public class FumaroleVentTileEntity extends CPBaseBlockEntity implements IStove {
 	private final int heat;
 	private final int checkmax;
 	private final int updatemax;

@@ -34,7 +34,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class SauteedFoodInfo extends SpicedFoodInfo {
+public class SauteedFoodInfo extends SpicedFoodInfo implements IFoodInfo{
 	public List<FloatemStack> stacks;
 	public List<Pair<MobEffectInstance, Float>> foodeffect = new ArrayList<>();
 	public int healing;
@@ -149,5 +149,30 @@ public class SauteedFoodInfo extends SpicedFoodInfo {
 		nbt.putInt("heal", healing);
 		nbt.putFloat("sat", saturation);
 	}
+	@Override
+	public List<FloatemStack> getStacks() {
+		return stacks;
+	}
 
+	public int getHealing() {
+		return healing;
+	}
+
+	public float getSaturation() {
+		return saturation;
+	}
+	@SuppressWarnings("deprecation")
+	public FoodProperties getFood() {
+		
+		FoodProperties.Builder b = new FoodProperties.Builder();
+
+		if (spice != null)
+			b.effect(spice, 1);
+		for (Pair<MobEffectInstance, Float> ef : foodeffect) {
+			b.effect(ef.getFirst(), ef.getSecond());
+		}
+		b.nutrition(healing);
+		b.saturationMod(saturation);
+		return b.build();
+	}
 }

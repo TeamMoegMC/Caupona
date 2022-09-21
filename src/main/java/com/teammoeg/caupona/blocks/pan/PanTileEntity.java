@@ -29,7 +29,7 @@ import com.teammoeg.caupona.data.recipes.FryingRecipe;
 import com.teammoeg.caupona.data.recipes.PanPendingContext;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.items.DishItem;
-import com.teammoeg.caupona.network.CPBaseTile;
+import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
 import com.teammoeg.caupona.util.SauteedFoodInfo;
 import com.teammoeg.caupona.util.Utils;
@@ -60,7 +60,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class PanTileEntity extends CPBaseTile implements MenuProvider,IInfinitable {
+public class PanTileEntity extends CPBaseBlockEntity implements MenuProvider,IInfinitable {
 	public ItemStackHandler inv = new ItemStackHandler(12) {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
@@ -173,8 +173,8 @@ public class PanTileEntity extends CPBaseTile implements MenuProvider,IInfinitab
 			working = false;
 			if (processMax > 0) {
 				BlockEntity te = level.getBlockEntity(worldPosition.below());
-				if (te instanceof IStove) {
-					int rh = ((IStove) te).requestHeat();
+				if (te instanceof IStove stove) {
+					int rh =stove.requestHeat();
 					process += rh;
 					if (rh > 0) {
 						working = true;

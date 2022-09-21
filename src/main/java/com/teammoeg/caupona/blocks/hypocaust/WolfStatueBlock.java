@@ -112,8 +112,7 @@ public class WolfStatueBlock extends CPHorizontalTileBlock<WolfStatueTile> imple
 	public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
 		super.entityInside(pState, pLevel, pPos, pEntity);
 		BlockEntity te = pLevel.getBlockEntity(pPos);
-		if (te instanceof WolfStatueTile) {
-			WolfStatueTile wst = (WolfStatueTile) te;
+		if (te instanceof WolfStatueTile wst) {
 			if (wst.isVeryHot)
 				pEntity.hurt(DamageSource.HOT_FLOOR, pState.getValue(HEAT));
 		}
@@ -122,8 +121,7 @@ public class WolfStatueBlock extends CPHorizontalTileBlock<WolfStatueTile> imple
 	@Override
 	public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
 		BlockEntity te = pLevel.getBlockEntity(pPos);
-		if (te instanceof WolfStatueTile) {
-			WolfStatueTile wst = (WolfStatueTile) te;
+		if (te instanceof WolfStatueTile wst) {
 			if (wst.isVeryHot)
 				pEntity.hurt(DamageSource.HOT_FLOOR, pState.getValue(HEAT));
 		}
@@ -155,8 +153,7 @@ public class WolfStatueBlock extends CPHorizontalTileBlock<WolfStatueTile> imple
 	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
 		BlockEntity te = pLevel.getBlockEntity(pPos);
 		int ret=pState.getValue(HEAT)*3;
-		if (te instanceof WolfStatueTile) {
-			WolfStatueTile wst = (WolfStatueTile) te;
+		if (te instanceof WolfStatueTile wst) {
 			if (wst.isVeryHot)
 				ret+=9;
 		}

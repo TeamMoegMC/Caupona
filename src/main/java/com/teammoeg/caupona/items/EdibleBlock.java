@@ -19,6 +19,10 @@
 package com.teammoeg.caupona.items;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.CreativeModeTab;
@@ -42,7 +46,12 @@ public class EdibleBlock extends CPBlockItem {
 	@Override
 	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
 		if (this.allowdedIn(group)) {
-			items.add(new ItemStack(this));
+			ItemStack is=new ItemStack(this);
+			ListTag lt=new ListTag();
+			lt.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("tooltip.caupona.display_only"))));
+			lt.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("tooltip.caupona.cook_required"))));
+			is.getOrCreateTag().put(ItemStack.TAG_LORE,lt);
+			items.add(is);
 		}
 	}
 

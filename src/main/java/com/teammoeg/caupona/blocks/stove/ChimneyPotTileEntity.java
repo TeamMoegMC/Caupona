@@ -20,13 +20,13 @@ package com.teammoeg.caupona.blocks.stove;
 
 import com.teammoeg.caupona.CPTileTypes;
 import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.network.CPBaseTile;
+import com.teammoeg.caupona.network.CPBaseBlockEntity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ChimneyPotTileEntity extends CPBaseTile {
+public class ChimneyPotTileEntity extends CPBaseBlockEntity {
 	private int process;
 	private int processMax;
 	int countSoot;

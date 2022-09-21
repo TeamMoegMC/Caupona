@@ -125,15 +125,12 @@ public class StewPot extends CPBaseTileBlock<StewPotTileEntity> implements Liqui
 	@Override
 	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand) {
 		BlockEntity te = worldIn.getBlockEntity(pos);
-		if (te instanceof StewPotTileEntity) {
-			StewPotTileEntity pot = (StewPotTileEntity) te;
+		if (te instanceof StewPotTileEntity pot) {
 			if (pot.proctype == 2 && pot.working) {
-				double d0 = pos.getX();
-				double d1 = pos.getY() + 1;
-				double d2 = pos.getZ();
+
 				int count = 2;
 				while (--count != 0)
-					worldIn.addParticle(Particles.STEAM.get(), d0 + rand.nextFloat(), d1, d2 + rand.nextFloat(), 0.0D,
+					worldIn.addParticle(Particles.STEAM.get(), pos.getX() + rand.nextFloat(), pos.getY() + 1,pos.getZ() + rand.nextFloat(), 0.0D,
 							0.0D, 0.0D);
 			}
 		}
@@ -142,17 +139,16 @@ public class StewPot extends CPBaseTileBlock<StewPotTileEntity> implements Liqui
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-		if (tileEntity instanceof StewPotTileEntity && state.getBlock() != newState.getBlock()) {
-			StewPotTileEntity te = (StewPotTileEntity) tileEntity;
-			if (te.proctype != 2)
+		BlockEntity blockEntity = worldIn.getBlockEntity(pos);
+		if (blockEntity instanceof StewPotTileEntity pot && state.getBlock() != newState.getBlock()) {
+			if (pot.proctype != 2)
 				for (int i = 0; i < 9; i++) {
-					ItemStack is = te.getInv().getStackInSlot(i);
+					ItemStack is = pot.getInv().getStackInSlot(i);
 					if (!is.isEmpty())
 						super.popResource(worldIn, pos, is);
 				}
 			for (int i = 9; i < 12; i++) {
-				ItemStack is = te.getInv().getStackInSlot(i);
+				ItemStack is = pot.getInv().getStackInSlot(i);
 				if (!is.isEmpty())
 					super.popResource(worldIn, pos, is);
 			}

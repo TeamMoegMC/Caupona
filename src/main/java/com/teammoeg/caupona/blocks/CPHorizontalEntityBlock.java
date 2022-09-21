@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.RegistryObject;
 
-public class CPHorizontalTileBlock<V extends BlockEntity> extends CPHorizontalBlock implements CPTileBlock<V> {
+public class CPHorizontalTileBlock<V extends BlockEntity> extends CPHorizontalBlock implements CPEntityBlock<V> {
 	private final RegistryObject<BlockEntityType<V>> te;
 
 	public CPHorizontalTileBlock(RegistryObject<BlockEntityType<V>> te, Properties p_54120_) {

@@ -32,8 +32,8 @@ public class ClientUtils {
 	@SuppressWarnings("resource")
 	public static void syncContainerInfo(CompoundTag nbt) {
 		Player p = Minecraft.getInstance().player;
-		if (p != null && p.containerMenu instanceof INetworkContainer) {
-			((INetworkContainer) p.containerMenu).handle(nbt);
+		if (p != null && p.containerMenu instanceof INetworkContainer container) {
+			container.handle(nbt);
 		}
 	}
 

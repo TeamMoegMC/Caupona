@@ -46,8 +46,8 @@ public class PortableBrazierItem extends CPItem implements MenuProvider {
 		if (ret.getResult().consumesAction())
 			return ret;
 		if (!pPlayer.isShiftKeyDown()) {
-			if (pPlayer instanceof ServerPlayer) {
-				NetworkHooks.openGui((ServerPlayer) pPlayer, this);
+			if (pPlayer instanceof ServerPlayer player) {
+				NetworkHooks.openGui(player, this);
 			}
 			return InteractionResultHolder.sidedSuccess(pPlayer.getItemInHand(pUsedHand), pLevel.isClientSide);
 		}

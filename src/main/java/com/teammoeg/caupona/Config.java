@@ -84,6 +84,9 @@ public class Config {
 		public ConfigValue<Boolean> genCH;
 		public ConfigValue<Boolean> strictWater;
 		
+		public ConfigValue<Float> benefitialMod;
+		public ConfigValue<Float> harmfulMod;
+		
 		public ConfigValue<Boolean> addManual;
 		Server(ForgeConfigSpec.Builder builder) {
 			builder.push("recipes");
@@ -145,6 +148,13 @@ public class Config {
 			builder.push("misc");
 			genCH = builder.comment("Super secret special content").define("specialContents", true);
 			addManual=builder.comment("Add manual to player on start").define("addManual", true);
+			builder.pop();
+			builder.push("compat");
+			builder.push("diet");
+			builder.comment("You would only need to modify this when diet mod installed, otherwist this does not take effect");
+			benefitialMod=builder.comment("Benefitial diet value modifier for cooking food into stew").define("benefitialModifier",1.2f);
+			harmfulMod=builder.comment("Harmful diet value modifier for cooking food into stew").define("harmfulModifier",0.8f);
+			builder.pop();
 			builder.pop();
 		}
 	}

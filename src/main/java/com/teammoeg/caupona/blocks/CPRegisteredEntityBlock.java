@@ -30,7 +30,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.RegistryObject;
 
-public class CPBaseTileBlock<T extends BlockEntity> extends Block implements CPTileBlock<T> {
+public class CPBaseTileBlock<T extends BlockEntity> extends Block implements CPEntityBlock<T> {
 	public final String name;
 	private final RegistryObject<BlockEntityType<T>> te;
 

@@ -125,11 +125,10 @@ public class RegistryEvents {
 							if (bp.<DispenserBlockEntity>getEntity().addItem(ret) == -1)
 								this.defaultBehaviour.dispense(bp, ret);
 						}
-					} else if (te instanceof PanTileEntity) {
-						PanTileEntity pt = (PanTileEntity) te;
-						ItemStack out = pt.inv.getStackInSlot(10);
+					} else if (te instanceof PanTileEntity pan) {
+						ItemStack out = pan.inv.getStackInSlot(10);
 						if (!out.isEmpty()) {
-							pt.inv.setStackInSlot(10, ItemStack.EMPTY);
+							pan.inv.setStackInSlot(10, ItemStack.EMPTY);
 							if (bp.<DispenserBlockEntity>getEntity().addItem(out) == -1)
 								this.defaultBehaviour.dispense(bp, out);
 						}
@@ -215,8 +214,8 @@ public class RegistryEvents {
 				BlockEntity te = source.getLevel().getBlockEntity(front);
 
 				if (!fs.isEmpty()) {
-					if (te instanceof StewPotTileEntity) {
-						if (((StewPotTileEntity) te).tryAddFluid(fs)) {
+					if (te instanceof StewPotTileEntity pot) {
+						if (pot.tryAddFluid(fs)) {
 							ItemStack ret = stack.getContainerItem();
 							if (stack.getCount() == 1)
 								return ret;
@@ -259,17 +258,17 @@ public class RegistryEvents {
 				BlockPos front = source.getPos().relative(d);
 				BlockEntity te = source.getLevel().getBlockEntity(front);
 
-				if (te instanceof StewPotTileEntity) {
-					ItemStack ospice = ((StewPotTileEntity) te).getInv().getStackInSlot(11);
-					((StewPotTileEntity) te).getInv().setStackInSlot(11, stack);
+				if (te instanceof StewPotTileEntity pot) {
+					ItemStack ospice = pot.getInv().getStackInSlot(11);
+					pot.getInv().setStackInSlot(11, stack);
 					return ospice;
-				} else if (te instanceof PanTileEntity) {
+				} else if (te instanceof PanTileEntity pan) {
 					ItemStack ospice = ((PanTileEntity) te).getInv().getStackInSlot(11);
-					((PanTileEntity) te).getInv().setStackInSlot(11, stack);
+					pan.getInv().setStackInSlot(11, stack);
 					return ospice;
-				} else if (te instanceof CounterDoliumTileEntity) {
-					ItemStack ospice = ((CounterDoliumTileEntity) te).getInv().getStackInSlot(3);
-					((CounterDoliumTileEntity) te).getInv().setStackInSlot(3, stack);
+				} else if (te instanceof CounterDoliumTileEntity dolium) {
+					ItemStack ospice = dolium.getInv().getStackInSlot(3);
+					dolium.getInv().setStackInSlot(3, stack);
 					return ospice;
 				}
 
@@ -287,21 +286,21 @@ public class RegistryEvents {
 				BlockPos front = source.getPos().relative(d);
 				BlockEntity te = source.getLevel().getBlockEntity(front);
 
-				if (te instanceof StewPotTileEntity) {
-					ItemStack ospice = ((StewPotTileEntity) te).getInv().getStackInSlot(11);
-					((StewPotTileEntity) te).getInv().setStackInSlot(11, ItemStack.EMPTY);
+				if (te instanceof StewPotTileEntity pot) {
+					ItemStack ospice = pot.getInv().getStackInSlot(11);
+					pot.getInv().setStackInSlot(11, ItemStack.EMPTY);
 					if (source.<DispenserBlockEntity>getEntity().addItem(ospice) == -1)
 						this.defaultBehaviour.dispense(source, ospice);
 					return stack;
-				} else if (te instanceof PanTileEntity) {
-					ItemStack ospice = ((PanTileEntity) te).getInv().getStackInSlot(11);
-					((PanTileEntity) te).getInv().setStackInSlot(11, ItemStack.EMPTY);
+				} else if (te instanceof PanTileEntity pan) {
+					ItemStack ospice = pan.getInv().getStackInSlot(11);
+					pan.getInv().setStackInSlot(11, ItemStack.EMPTY);
 					if (source.<DispenserBlockEntity>getEntity().addItem(ospice) == -1)
 						this.defaultBehaviour.dispense(source, ospice);
 					return stack;
-				} else if (te instanceof CounterDoliumTileEntity) {
-					ItemStack ospice = ((CounterDoliumTileEntity) te).getInv().getStackInSlot(3);
-					((CounterDoliumTileEntity) te).getInv().setStackInSlot(3, ItemStack.EMPTY);
+				} else if (te instanceof CounterDoliumTileEntity dolium) {
+					ItemStack ospice = dolium.getInv().getStackInSlot(3);
+					dolium.getInv().setStackInSlot(3, ItemStack.EMPTY);
 					if (source.<DispenserBlockEntity>getEntity().addItem(ospice) == -1)
 						this.defaultBehaviour.dispense(source, ospice);
 					return stack;
