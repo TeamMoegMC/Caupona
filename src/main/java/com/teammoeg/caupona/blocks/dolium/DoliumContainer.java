@@ -33,25 +33,25 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class DoliumContainer extends AbstractContainerMenu {
-	public final CounterDoliumTileEntity tile;
+	public final CounterDoliumBlockEntity tile;
 
-	public CounterDoliumTileEntity getTile() {
+	public CounterDoliumBlockEntity getBlock() {
 		return tile;
 	}
 
 	public DoliumContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
-		this(id, inv, (CounterDoliumTileEntity) inv.player.level.getBlockEntity(buffer.readBlockPos()));
+		this(id, inv, (CounterDoliumBlockEntity) inv.player.level.getBlockEntity(buffer.readBlockPos()));
 	}
 
-	public DoliumContainer(int id, Inventory inv, CounterDoliumTileEntity te) {
+	public DoliumContainer(int id, Inventory inv, CounterDoliumBlockEntity blockEntity) {
 		super(CPGui.DOLIUM.get(), id);
-		tile = te;
-		this.addSlot(new SlotItemHandler(te.inv, 0, 153, 4));
-		this.addSlot(new SlotItemHandler(te.inv, 1, 134, 8));
-		this.addSlot(new SlotItemHandler(te.inv, 2, 115, 12));
-		this.addSlot(new SlotItemHandler(te.inv, 3, 132, 35));
-		this.addSlot(new SlotItemHandler(te.inv, 4, 132, 53));
-		this.addSlot(new OutputSlot(te.inv, 5, 152, 51));
+		tile = blockEntity;
+		this.addSlot(new SlotItemHandler(blockEntity.inv, 0, 153, 4));
+		this.addSlot(new SlotItemHandler(blockEntity.inv, 1, 134, 8));
+		this.addSlot(new SlotItemHandler(blockEntity.inv, 2, 115, 12));
+		this.addSlot(new SlotItemHandler(blockEntity.inv, 3, 132, 35));
+		this.addSlot(new SlotItemHandler(blockEntity.inv, 4, 132, 53));
+		this.addSlot(new OutputSlot(blockEntity.inv, 5, 152, 51));
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 9; j++)
 				addSlot(new Slot(inv, j + i * 9 + 9, 8 + j * 18, 83 + i * 18));

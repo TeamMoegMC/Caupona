@@ -35,10 +35,10 @@ import net.minecraftforge.registries.RegistryObject;
 public interface CPEntityBlock<V extends BlockEntity> extends EntityBlock {
 	@Override
 	public default BlockEntity newBlockEntity(BlockPos p, BlockState s) {
-		return getTile().get().create(p, s);
+		return getBlock().get().create(p, s);
 	}
 
-	RegistryObject<BlockEntityType<V>> getTile();
+	RegistryObject<BlockEntityType<V>> getBlock();
 
 	@Override
 	public default <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState,

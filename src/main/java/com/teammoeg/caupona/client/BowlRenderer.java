@@ -26,7 +26,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.blocks.foods.BowlTileEntity;
+import com.teammoeg.caupona.blocks.foods.BowlBlockEntity;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.items.StewItem;
 
@@ -38,9 +38,10 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.FluidStack;
 
-public class BowlRenderer implements BlockEntityRenderer<BowlTileEntity> {
+public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity> {
 
 	/**
 	 * @param rendererDispatcherIn  
@@ -55,26 +56,26 @@ public class BowlRenderer implements BlockEntityRenderer<BowlTileEntity> {
 
 	@SuppressWarnings({ "deprecation", "resource" })
 	@Override
-	public void render(BowlTileEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer,
+	public void render(BowlBlockEntity blockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer,
 			int combinedLightIn, int combinedOverlayIn) {
-		if (!te.getLevel().hasChunkAt(te.getBlockPos()))
+		if (!blockEntity.getLevel().hasChunkAt(blockEntity.getBlockPos()))
 			return;
-		BlockState state = te.getBlockState();
+		BlockState state = blockEntity.getBlockState();
 		if (state.getBlock() != CPBlocks.bowl)
 			return;
 
-		if (te.internal == null || !(te.internal.getItem() instanceof StewItem))
+		if (blockEntity.internal == null || !(blockEntity.internal.getItem() instanceof StewItem))
 			return;
-		FluidStack fs = BowlContainingRecipe.extractFluid(te.internal);
+		FluidStack fs = BowlContainingRecipe.extractFluid(blockEntity.internal);
 		matrixStack.pushPose();
 		if (fs != null && !fs.isEmpty() && fs.getFluid() != null) {
 			matrixStack.translate(0, .28125f, 0);
 			matrixStack.mulPose(new Quaternion(90, 0, 0, true));
-
+			FluidAttributes attr=fs.getFluid().getAttributes();
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
 			TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS)
-					.getSprite(fs.getFluid().getAttributes().getStillTexture(fs));
-			int col = fs.getFluid().getAttributes().getColor(fs);
+					.getSprite(attr.getStillTexture(fs));
+			int col = attr.getColor(fs);
 			int iW = sprite.getWidth();
 			int iH = sprite.getHeight();
 			if (iW > 0 && iH > 0) {

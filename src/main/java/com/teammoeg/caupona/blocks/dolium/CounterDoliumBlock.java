@@ -22,7 +22,7 @@
 package com.teammoeg.caupona.blocks.dolium;
 
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.items.StewItem;
@@ -53,10 +53,10 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.network.NetworkHooks;
 
-public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumTileEntity> implements LiquidBlockContainer {
+public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlockEntity> implements LiquidBlockContainer {
 
 	public CounterDoliumBlock(Properties p) {
-		super(CPTileTypes.DOLIUM, p);
+		super(CPBlockEntityTypes.DOLIUM, p);
 		CPBlocks.dolium.add(this);
 	}
 
@@ -91,56 +91,55 @@ public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumTil
 		InteractionResult p = super.use(state, worldIn, pos, player, handIn, hit);
 		if (p.consumesAction())
 			return p;
-		CounterDoliumTileEntity tileEntity = (CounterDoliumTileEntity) worldIn.getBlockEntity(pos);
-
-		ItemStack held = player.getItemInHand(handIn);
-		if (held.isEmpty() && player.isShiftKeyDown()) {
-			tileEntity.tank.setFluid(FluidStack.EMPTY);
-			return InteractionResult.SUCCESS;
-		}
-		if (held.getItem() instanceof StewItem) {
-			if (tileEntity.tryAddFluid(BowlContainingRecipe.extractFluid(held))) {
-				ItemStack ret = held.getContainerItem();
-				held.shrink(1);
-				if (!player.addItem(ret))
-					player.drop(ret, false);
+		if(worldIn.getBlockEntity(pos) instanceof CounterDoliumBlockEntity dolium) {
+			ItemStack held = player.getItemInHand(handIn);
+			if (held.isEmpty() && player.isShiftKeyDown()) {
+				dolium.tank.setFluid(FluidStack.EMPTY);
+				return InteractionResult.SUCCESS;
 			}
-
-			return InteractionResult.sidedSuccess(worldIn.isClientSide);
-		}
-		if (FluidUtil.interactWithFluidHandler(player, handIn, tileEntity.tank))
-			return InteractionResult.SUCCESS;
-
-		if (handIn == InteractionHand.MAIN_HAND) {
-			if (tileEntity != null && !worldIn.isClientSide&&(player.getAbilities().instabuild||!tileEntity.isInfinite))
-				NetworkHooks.openGui((ServerPlayer) player, tileEntity, tileEntity.getBlockPos());
-			return InteractionResult.SUCCESS;
+			if (held.getItem() instanceof StewItem) {
+				if (dolium.tryAddFluid(BowlContainingRecipe.extractFluid(held))) {
+					ItemStack ret = held.getContainerItem();
+					held.shrink(1);
+					if (!player.addItem(ret))
+						player.drop(ret, false);
+				}
+	
+				return InteractionResult.sidedSuccess(worldIn.isClientSide);
+			}
+			if (FluidUtil.interactWithFluidHandler(player, handIn, dolium.tank))
+				return InteractionResult.SUCCESS;
+	
+			if (handIn == InteractionHand.MAIN_HAND) {
+				if (!worldIn.isClientSide&&(player.getAbilities().instabuild||!dolium.isInfinite))
+					NetworkHooks.openGui((ServerPlayer) player, dolium, dolium.getBlockPos());
+				return InteractionResult.SUCCESS;
+			}
 		}
 		return p;
 	}
 
 	@Override
 	public boolean canPlaceLiquid(BlockGetter w, BlockPos p, BlockState s, Fluid f) {
-		CounterDoliumTileEntity te = (CounterDoliumTileEntity) w.getBlockEntity(p);
-		return te.tank.fill(new FluidStack(f, 1000), FluidAction.SIMULATE) == 1000;
+		if(w.getBlockEntity(p) instanceof CounterDoliumBlockEntity dolium)
+			return dolium.tank.fill(new FluidStack(f, 1000), FluidAction.SIMULATE) == 1000;
+		return false;
 	}
 
 	@Override
 	public boolean placeLiquid(LevelAccessor w, BlockPos p, BlockState s, FluidState f) {
-		CounterDoliumTileEntity te = (CounterDoliumTileEntity) w.getBlockEntity(p);
-		if (te.tryAddFluid(new FluidStack(f.getType(), 1000))) {
+		if(w.getBlockEntity(p) instanceof CounterDoliumBlockEntity dolium)
+		if (dolium.tryAddFluid(new FluidStack(f.getType(), 1000)))
 			return true;
-		}
 		return false;
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-		if (tileEntity instanceof CounterDoliumTileEntity te && state.getBlock() != newState.getBlock()) {
+		if (state.getBlock() != newState.getBlock() && worldIn.getBlockEntity(pos) instanceof CounterDoliumBlockEntity dolium) {
 			for (int i = 0; i < 6; i++) {
-				ItemStack is = te.inv.getStackInSlot(i);
+				ItemStack is = dolium.inv.getStackInSlot(i);
 				if (!is.isEmpty())
 					super.popResource(worldIn, pos, is);
 			}

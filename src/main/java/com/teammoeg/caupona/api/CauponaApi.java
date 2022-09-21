@@ -23,6 +23,7 @@ package com.teammoeg.caupona.api;
 
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Supplier;
 
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
@@ -87,9 +88,9 @@ public class CauponaApi {
 	public static void apply(Level worldIn, LivingEntity entityLiving, IFoodInfo info) {
 		if (!worldIn.isClientSide) {
 			Random r = entityLiving.getRandom();
-			for (Pair<MobEffectInstance, Float> ef : info.foodeffect) {
+			for (Pair<Supplier<MobEffectInstance>, Float> ef : info.getEffects()) {
 				if (r.nextFloat() < ef.getSecond())
-					entityLiving.addEffect(ef.getFirst());
+					entityLiving.addEffect(ef.getFirst().get());
 			}
 			if (entityLiving instanceof Player player) {
 				player.getFoodData().eat(info.getHealing(), info.getSaturation());

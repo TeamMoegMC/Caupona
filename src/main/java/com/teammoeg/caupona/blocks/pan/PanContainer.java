@@ -35,25 +35,25 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class PanContainer extends AbstractContainerMenu {
 
-	PanTileEntity tile;
+	PanBlockEntity tile;
 
-	public PanTileEntity getTile() {
+	public PanBlockEntity getBlock() {
 		return tile;
 	}
 
 	public PanContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
-		this(id, inv, (PanTileEntity) inv.player.level.getBlockEntity(buffer.readBlockPos()));
+		this(id, inv, (PanBlockEntity) inv.player.level.getBlockEntity(buffer.readBlockPos()));
 	}
 
-	public PanContainer(int id, Inventory inv, PanTileEntity te) {
+	public PanContainer(int id, Inventory inv, PanBlockEntity blockEntity) {
 		super(CPGui.PAN.get(), id);
-		tile = te;
+		tile = blockEntity;
 		for (int i = 0; i < 9; i++)
-			this.addSlot(new HidableSlot(te.inv, i, 62 + (i % 3) * 18, 13 + (i / 3) * 18, () -> te.processMax == 0));
-		this.addSlot(new SlotItemHandler(te.inv, 9, 147, 13));
+			this.addSlot(new HidableSlot(blockEntity.inv, i, 62 + (i % 3) * 18, 13 + (i / 3) * 18, () -> blockEntity.processMax == 0));
+		this.addSlot(new SlotItemHandler(blockEntity.inv, 9, 147, 13));
 
-		this.addSlot(new OutputSlot(te.inv, 10, 136, 47));
-		this.addSlot(new SlotItemHandler(te.inv, 11, 125, 13) {
+		this.addSlot(new OutputSlot(blockEntity.inv, 10, 136, 47));
+		this.addSlot(new SlotItemHandler(blockEntity.inv, 11, 125, 13) {
 
 			@Override
 			public boolean mayPlace(ItemStack stack) {

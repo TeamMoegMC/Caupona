@@ -19,22 +19,30 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.blocks.others;
+package com.teammoeg.caupona.blocks.hypocaust;
 
-import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.CPBlockEntityTypes;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CPSignTileEntity extends SignBlockEntity {
-	public CPSignTileEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-		super(pWorldPosition, pBlockState);
+public class CaliductBlockEntity extends BathHeatingBlockEntity {
+
+	public CaliductBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
+		super(CPBlockEntityTypes.CALIDUCT.get(), pWorldPosition, pBlockState);
+
 	}
 
 	@Override
-	public BlockEntityType<CPSignTileEntity> getType() {
-		return CPTileTypes.SIGN.get();
+	public void handleMessage(short type, int data) {
 	}
+
+	@Override
+	public void tick() {
+		if (this.level.isClientSide)
+			return;
+		super.tick();
+
+	}
+
 }

@@ -25,10 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.teammoeg.caupona.api.CauponaApi;
-import com.teammoeg.caupona.blocks.dolium.CounterDoliumTileEntity;
+import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
-import com.teammoeg.caupona.blocks.pan.PanTileEntity;
-import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
+import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
+import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.worldgen.CPFeatures;
 import com.teammoeg.caupona.worldgen.CPPlacements;
@@ -93,21 +93,9 @@ public class RegistryEvents {
 		}
 
 	}
-
-	@SubscribeEvent
-	public static void registerItems(RegistryEvent.Register<Item> event) {
-		CPItems.init();
-		for (Item item : RegistryEvents.registeredItems) {
-			try {
-				event.getRegistry().register(item);
-			} catch (Throwable e) {
-				Main.logger.error("Failed to register an item. ({}, {})", item, item.getRegistryName());
-				throw e;
-			}
-		}
+	public static void registerDispensers() {
 		DispenserBlock.registerBehavior(Items.BOWL, new DefaultDispenseItemBehavior() {
 			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
-
 			@SuppressWarnings("resource")
 			@Override
 			protected ItemStack execute(BlockSource bp, ItemStack is) {
@@ -115,9 +103,9 @@ public class RegistryEvents {
 				Direction d = bp.getBlockState().getValue(DispenserBlock.FACING);
 				BlockPos front = bp.getPos().relative(d);
 				FluidState fs = bp.getLevel().getBlockState(front).getFluidState();
-				BlockEntity te = bp.getLevel().getBlockEntity(front);
-				if (te != null) {
-					LazyOptional<IFluidHandler> ip = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
+				BlockEntity blockEntity = bp.getLevel().getBlockEntity(front);
+				if (blockEntity != null) {
+					LazyOptional<IFluidHandler> ip = blockEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
 							d.getOpposite());
 					if (ip.isPresent()) {
 						ItemStack ret = CauponaApi.fillBowl(ip.resolve().get()).orElse(null);
@@ -128,7 +116,7 @@ public class RegistryEvents {
 							if (bp.<DispenserBlockEntity>getEntity().addItem(ret) == -1)
 								this.defaultBehaviour.dispense(bp, ret);
 						}
-					} else if (te instanceof PanTileEntity pan) {
+					} else if (blockEntity instanceof PanBlockEntity pan) {
 						ItemStack out = pan.inv.getStackInSlot(10);
 						if (!out.isEmpty()) {
 							pan.inv.setStackInSlot(10, ItemStack.EMPTY);
@@ -185,9 +173,9 @@ public class RegistryEvents {
 				Level world = source.getLevel();
 				Direction d = source.getBlockState().getValue(DispenserBlock.FACING);
 				BlockPos front = source.getPos().relative(d);
-				BlockEntity te = world.getBlockEntity(front);
-				if (te != null) {
-					LazyOptional<IFluidHandler> ip = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
+				BlockEntity blockEntity = world.getBlockEntity(front);
+				if (blockEntity != null) {
+					LazyOptional<IFluidHandler> ip = blockEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
 							d.getOpposite());
 					if (ip.isPresent()) {
 						FluidActionResult fa = FluidUtil.tryEmptyContainerAndStow(stack, ip.resolve().get(), null, 1250,
@@ -214,10 +202,10 @@ public class RegistryEvents {
 				FluidStack fs = BowlContainingRecipe.extractFluid(stack);
 				Direction d = source.getBlockState().getValue(DispenserBlock.FACING);
 				BlockPos front = source.getPos().relative(d);
-				BlockEntity te = source.getLevel().getBlockEntity(front);
+				BlockEntity blockEntity = source.getLevel().getBlockEntity(front);
 
 				if (!fs.isEmpty()) {
-					if (te instanceof StewPotTileEntity pot) {
+					if (blockEntity instanceof StewPotBlockEntity pot) {
 						if (pot.tryAddFluid(fs)) {
 							ItemStack ret = stack.getContainerItem();
 							if (stack.getCount() == 1)
@@ -226,8 +214,8 @@ public class RegistryEvents {
 							if (source.<DispenserBlockEntity>getEntity().addItem(ret) == -1)
 								this.defaultBehaviour.dispense(source, ret);
 						}
-					} else if (te != null) {
-						LazyOptional<IFluidHandler> ip = te
+					} else if (blockEntity != null) {
+						LazyOptional<IFluidHandler> ip = blockEntity
 								.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, d.getOpposite());
 						if (ip.isPresent()) {
 							IFluidHandler handler = ip.resolve().get();
@@ -259,17 +247,17 @@ public class RegistryEvents {
 			protected ItemStack execute(BlockSource source, ItemStack stack) {
 				Direction d = source.getBlockState().getValue(DispenserBlock.FACING);
 				BlockPos front = source.getPos().relative(d);
-				BlockEntity te = source.getLevel().getBlockEntity(front);
+				BlockEntity blockEntity = source.getLevel().getBlockEntity(front);
 
-				if (te instanceof StewPotTileEntity pot) {
+				if (blockEntity instanceof StewPotBlockEntity pot) {
 					ItemStack ospice = pot.getInv().getStackInSlot(11);
 					pot.getInv().setStackInSlot(11, stack);
 					return ospice;
-				} else if (te instanceof PanTileEntity pan) {
-					ItemStack ospice = ((PanTileEntity) te).getInv().getStackInSlot(11);
+				} else if (blockEntity instanceof PanBlockEntity pan) {
+					ItemStack ospice = ((PanBlockEntity) blockEntity).getInv().getStackInSlot(11);
 					pan.getInv().setStackInSlot(11, stack);
 					return ospice;
-				} else if (te instanceof CounterDoliumTileEntity dolium) {
+				} else if (blockEntity instanceof CounterDoliumBlockEntity dolium) {
 					ItemStack ospice = dolium.getInv().getStackInSlot(3);
 					dolium.getInv().setStackInSlot(3, stack);
 					return ospice;
@@ -287,21 +275,21 @@ public class RegistryEvents {
 			protected ItemStack execute(BlockSource source, ItemStack stack) {
 				Direction d = source.getBlockState().getValue(DispenserBlock.FACING);
 				BlockPos front = source.getPos().relative(d);
-				BlockEntity te = source.getLevel().getBlockEntity(front);
+				BlockEntity blockEntity = source.getLevel().getBlockEntity(front);
 
-				if (te instanceof StewPotTileEntity pot) {
+				if (blockEntity instanceof StewPotBlockEntity pot) {
 					ItemStack ospice = pot.getInv().getStackInSlot(11);
 					pot.getInv().setStackInSlot(11, ItemStack.EMPTY);
 					if (source.<DispenserBlockEntity>getEntity().addItem(ospice) == -1)
 						this.defaultBehaviour.dispense(source, ospice);
 					return stack;
-				} else if (te instanceof PanTileEntity pan) {
+				} else if (blockEntity instanceof PanBlockEntity pan) {
 					ItemStack ospice = pan.getInv().getStackInSlot(11);
 					pan.getInv().setStackInSlot(11, ItemStack.EMPTY);
 					if (source.<DispenserBlockEntity>getEntity().addItem(ospice) == -1)
 						this.defaultBehaviour.dispense(source, ospice);
 					return stack;
-				} else if (te instanceof CounterDoliumTileEntity dolium) {
+				} else if (blockEntity instanceof CounterDoliumBlockEntity dolium) {
 					ItemStack ospice = dolium.getInv().getStackInSlot(3);
 					dolium.getInv().setStackInSlot(3, ItemStack.EMPTY);
 					if (source.<DispenserBlockEntity>getEntity().addItem(ospice) == -1)
@@ -317,6 +305,19 @@ public class RegistryEvents {
 		for (Item i : CPItems.spicesItems) {
 			DispenserBlock.registerBehavior(i, spice);
 		}
+	}
+	@SubscribeEvent
+	public static void registerItems(RegistryEvent.Register<Item> event) {
+		CPItems.init();
+		for (Item item : RegistryEvents.registeredItems) {
+			try {
+				event.getRegistry().register(item);
+			} catch (Throwable e) {
+				Main.logger.error("Failed to register an item. ({}, {})", item, item.getRegistryName());
+				throw e;
+			}
+		}
+		registerDispensers();
 	}
 
 	@SubscribeEvent

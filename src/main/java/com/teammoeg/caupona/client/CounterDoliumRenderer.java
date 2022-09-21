@@ -26,7 +26,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.blocks.dolium.CounterDoliumTileEntity;
+import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -38,7 +38,7 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
 
-public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumTileEntity> {
+public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumBlockEntity> {
 
 	/**
 	 * @param rendererDispatcherIn  
@@ -53,17 +53,17 @@ public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumT
 
 	@SuppressWarnings({ "deprecation", "resource" })
 	@Override
-	public void render(CounterDoliumTileEntity te, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer,
+	public void render(CounterDoliumBlockEntity blockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer,
 			int combinedLightIn, int combinedOverlayIn) {
-		if (!te.getLevel().hasChunkAt(te.getBlockPos()))
+		if (!blockEntity.getLevel().hasChunkAt(blockEntity.getBlockPos()))
 			return;
-		BlockState state = te.getBlockState();
+		BlockState state = blockEntity.getBlockState();
 		if (!CPBlocks.dolium.contains(state.getBlock()))
 			return;
 
-		if (te.tank.isEmpty())
+		if (blockEntity.tank.isEmpty())
 			return;
-		FluidStack fs = te.tank.getFluid();
+		FluidStack fs = blockEntity.tank.getFluid();
 		matrixStack.pushPose();
 		if (fs != null && !fs.isEmpty() && fs.getFluid() != null) {
 			float rr = (fs.getAmount() / 1250f) * 0.5f + 0.375f;

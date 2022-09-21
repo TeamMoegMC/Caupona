@@ -19,23 +19,26 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.blocks.foods;
+package com.teammoeg.caupona.blocks.stove;
 
-import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
-import com.teammoeg.caupona.util.IInfinitable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class DishTileEntity extends CPBaseBlockEntity implements IInfinitable {
-	public ItemStack internal = ItemStack.EMPTY;
-	boolean isInfinite = false;
+public class ChimneyPotBlockEntity extends CPBaseBlockEntity {
+	private int process;
+	private int processMax;
+	int countSoot;
+	private int maxStore;
 
-	public DishTileEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-		super(CPTileTypes.DISH.get(), pWorldPosition, pBlockState);
+	public ChimneyPotBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
+		super(CPBlockEntityTypes.CHIMNEY.get(), pWorldPosition, pBlockState);
+		processMax = Config.SERVER.chimneyTicks.get();
+		maxStore = Config.SERVER.chimneyStorage.get();
 	}
 
 	@Override
@@ -44,23 +47,32 @@ public class DishTileEntity extends CPBaseBlockEntity implements IInfinitable {
 
 	@Override
 	public void readCustomNBT(CompoundTag nbt, boolean isClient) {
-		internal = ItemStack.of(nbt.getCompound("bowl"));
-		isInfinite = nbt.getBoolean("inf");
+		process = nbt.getInt("process");
+		countSoot = nbt.getInt("soot");
 	}
 
 	@Override
 	public void writeCustomNBT(CompoundTag nbt, boolean isClient) {
-		nbt.put("bowl", internal.serializeNBT());
-		nbt.putBoolean("inf", isInfinite);
+		nbt.putInt("process", process);
+		nbt.putInt("soot", countSoot);
+	}
+
+	public void addAsh(int val) {
+		process += val;
+		this.setChanged();
 	}
 
 	@Override
 	public void tick() {
-	}
-
-	@Override
-	public boolean setInfinity() {
-		return isInfinite = !isInfinite;
+		if(!level.isClientSide)
+			if (process >= processMax) {
+				if (countSoot < maxStore) {
+					countSoot++;
+					this.syncData();
+				}
+				process = 0;
+				this.setChanged();
+			}
 	}
 
 }

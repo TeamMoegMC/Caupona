@@ -24,7 +24,7 @@ package com.teammoeg.caupona.blocks.pot;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.stove.IStove;
@@ -77,7 +77,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class StewPotTileEntity extends CPBaseBlockEntity implements MenuProvider, IInfinitable {
+public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvider, IInfinitable {
 	private ItemStackHandler inv = new ItemStackHandler(12) {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
@@ -115,8 +115,8 @@ public class StewPotTileEntity extends CPBaseBlockEntity implements MenuProvider
 
 	};
 
-	public StewPotTileEntity(BlockPos p, BlockState s) {
-		super(CPTileTypes.STEW_POT.get(), p, s);
+	public StewPotBlockEntity(BlockPos p, BlockState s) {
+		super(CPBlockEntityTypes.STEW_POT.get(), p, s);
 		stillticks = Config.COMMON.staticTime.get();
 		contTicks = Config.SERVER.containerTick.get();
 	}
@@ -154,8 +154,7 @@ public class StewPotTileEntity extends CPBaseBlockEntity implements MenuProvider
 			working = false;
 			if (processMax > 0) {
 				nowork = 0;
-				BlockEntity te = level.getBlockEntity(worldPosition.below());
-				if (te instanceof IStove stove) {
+				if (level.getBlockEntity(worldPosition.below()) instanceof IStove stove) {
 					int rh = stove.requestHeat();
 					if (!isInfinite) {
 						process += rh;
@@ -358,8 +357,7 @@ public class StewPotTileEntity extends CPBaseBlockEntity implements MenuProvider
 
 		if (operate&&proctype==0) {
 			operate = false;
-			BlockEntity te = level.getBlockEntity(worldPosition.below());
-			if (!(te instanceof IStove) || !((IStove) te).canEmitHeat())
+			if (!(level.getBlockEntity(worldPosition.below()) instanceof IStove stove) || !stove.canEmitHeat())
 				return;
 			if (doBoil())
 				proctype = 1;
@@ -558,8 +556,7 @@ public class StewPotTileEntity extends CPBaseBlockEntity implements MenuProvider
 		}
 		if (tank.getCapacity() - tank.getFluidAmount() < fs.getAmount())
 			return false;
-		BlockEntity te = level.getBlockEntity(worldPosition.below());
-		if (!(te instanceof IStove) || !((IStove) te).canEmitHeat())
+		if (!(level.getBlockEntity(worldPosition.below()) instanceof IStove stove) || !stove.canEmitHeat())
 			return false;
 		StewInfo n = SoupFluid.getInfo(fs);
 		if (!getCurrent().base.equals(n.base) && !current.base.equals(fs.getFluid().getRegistryName())
@@ -608,8 +605,7 @@ public class StewPotTileEntity extends CPBaseBlockEntity implements MenuProvider
 		}
 		if (tank.getCapacity() - tank.getFluidAmount() < fs.getAmount())
 			return false;
-		BlockEntity te = level.getBlockEntity(worldPosition.below());
-		if (!(te instanceof IStove) || !((IStove) te).canEmitHeat())
+		if (!(level.getBlockEntity(worldPosition.below()) instanceof IStove stove) || !stove.canEmitHeat())
 			return false;
 		StewInfo n = SoupFluid.getInfo(fs);
 		int pm = 0;

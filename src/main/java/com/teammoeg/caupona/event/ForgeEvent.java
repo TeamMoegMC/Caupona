@@ -86,8 +86,7 @@ public class ForgeEvent {
 	@SubscribeEvent
 	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		if (event.phase == Phase.START) {
-			AbstractContainerMenu acm = event.player.containerMenu;
-			if (acm instanceof ITickableContainer container) 
+			if (event.player.containerMenu instanceof ITickableContainer container) 
 				container.tick(event.side == LogicalSide.SERVER);
 		}
 	}
@@ -116,9 +115,9 @@ public class ForgeEvent {
 			Player playerIn = event.getPlayer();
 			Level worldIn = event.getWorld();
 			BlockPos blockpos = event.getPos();
-			BlockEntity te = worldIn.getBlockEntity(blockpos);
-			if (te != null) {
-				te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, event.getFace())
+			BlockEntity blockEntity = worldIn.getBlockEntity(blockpos);
+			if (blockEntity != null) {
+				blockEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, event.getFace())
 						.ifPresent(handler -> {
 							FluidStack stack = handler.drain(250, FluidAction.SIMULATE);
 							BowlContainingRecipe recipe = BowlContainingRecipe.recipes.get(stack.getFluid());

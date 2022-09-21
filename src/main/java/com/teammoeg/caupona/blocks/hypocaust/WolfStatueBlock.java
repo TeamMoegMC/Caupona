@@ -22,7 +22,7 @@
 package com.teammoeg.caupona.blocks.hypocaust;
 
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
 import net.minecraft.core.BlockPos;
@@ -53,13 +53,13 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class WolfStatueBlock extends CPHorizontalEntityBlock<WolfStatueTile> implements SimpleWaterloggedBlock {
+public class WolfStatueBlock extends CPHorizontalEntityBlock<WolfStatueBlockEntity> implements SimpleWaterloggedBlock {
 	public static final IntegerProperty HEAT = IntegerProperty.create("heat", 0, 2);
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	private boolean gch;
 
 	public WolfStatueBlock(Properties blockProps) {
-		super(CPTileTypes.WOLF, blockProps);
+		super(CPBlockEntityTypes.WOLF, blockProps);
 		super.registerDefaultState(this.defaultBlockState().setValue(HEAT, 0).setValue(WATERLOGGED, false));
 		gch = Config.SERVER.genCH.get();
 	}
@@ -114,8 +114,7 @@ public class WolfStatueBlock extends CPHorizontalEntityBlock<WolfStatueTile> imp
 	@Override
 	public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
 		super.entityInside(pState, pLevel, pPos, pEntity);
-		BlockEntity te = pLevel.getBlockEntity(pPos);
-		if (te instanceof WolfStatueTile wst) {
+		if (pLevel.getBlockEntity(pPos) instanceof WolfStatueBlockEntity wst) {
 			if (wst.isVeryHot)
 				pEntity.hurt(DamageSource.HOT_FLOOR, pState.getValue(HEAT));
 		}
@@ -123,8 +122,7 @@ public class WolfStatueBlock extends CPHorizontalEntityBlock<WolfStatueTile> imp
 
 	@Override
 	public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
-		BlockEntity te = pLevel.getBlockEntity(pPos);
-		if (te instanceof WolfStatueTile wst) {
+		if (pLevel.getBlockEntity(pPos) instanceof WolfStatueBlockEntity wst) {
 			if (wst.isVeryHot)
 				pEntity.hurt(DamageSource.HOT_FLOOR, pState.getValue(HEAT));
 		}
@@ -154,9 +152,8 @@ public class WolfStatueBlock extends CPHorizontalEntityBlock<WolfStatueTile> imp
 
 	@Override
 	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
-		BlockEntity te = pLevel.getBlockEntity(pPos);
 		int ret=pState.getValue(HEAT)*3;
-		if (te instanceof WolfStatueTile wst) {
+		if (pLevel.getBlockEntity(pPos) instanceof WolfStatueBlockEntity wst) {
 			if (wst.isVeryHot)
 				ret+=9;
 		}

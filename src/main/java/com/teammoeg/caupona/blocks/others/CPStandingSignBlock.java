@@ -38,6 +38,6 @@ public class CPStandingSignBlock extends StandingSignBlock {
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return new CPSignTileEntity(pPos, pState);
+		return new CPSignBlockEntity(pPos, pState);
 	}
 }

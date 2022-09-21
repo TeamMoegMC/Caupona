@@ -27,7 +27,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.pot.StewPotContainer;
-import com.teammoeg.caupona.blocks.pot.StewPotTileEntity;
+import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.items.StewItem;
 import com.teammoeg.caupona.util.FloatemStack;
@@ -43,7 +43,7 @@ import net.minecraft.world.entity.player.Inventory;
 public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 	private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID, "textures/gui/stew_pot.png");
 
-	StewPotTileEntity te;
+	StewPotBlockEntity blockEntity;
 
 	public StewPotScreen(StewPotContainer container, Inventory inv, Component titleIn) {
 		super(container, inv, titleIn);
@@ -51,7 +51,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 		this.titleLabelX = 7;
 		this.inventoryLabelY = this.imageHeight - 92;
 		this.inventoryLabelX = 4;
-		te = container.getTile();
+		blockEntity = container.getBlock();
 	}
 
 	public static TranslatableComponent start = new TranslatableComponent("gui." + Main.MODID + ".stewpot.canstart");
@@ -76,7 +76,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 						tooltip.add(started);
 				}, btn -> {
 					if (btn1.state == 0)
-						te.sendMessage((short) 0, 0);
+						blockEntity.sendMessage((short) 0, 0);
 
 				}));
 		this.addRenderableWidget(
@@ -86,7 +86,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 					else
 						tooltip.add(rs);
 				}, btn -> {
-					te.sendMessage((short) 1, btn2.state);
+					blockEntity.sendMessage((short) 1, btn2.state);
 				}));
 
 	}
@@ -94,13 +94,13 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 	@Override
 	public void render(PoseStack transform, int mouseX, int mouseY, float partial) {
 		tooltip.clear();
-		btn1.state = te.proctype > 0 ? 1 : 0;
-		btn2.state = te.rsstate ? 1 : 2;
+		btn1.state = blockEntity.proctype > 0 ? 1 : 0;
+		btn2.state = blockEntity.rsstate ? 1 : 2;
 		super.render(transform, mouseX, mouseY, partial);
-		if (te.proctype < 2 && !te.getTank().isEmpty()) {
+		if (blockEntity.proctype < 2 && !blockEntity.getTank().isEmpty()) {
 			if (isMouseIn(mouseX, mouseY, 105, 20, 16, 46)) {
-				tooltip.add(te.getTank().getFluid().getDisplayName());
-				StewInfo si = SoupFluid.getInfo(te.getTank().getFluid());
+				tooltip.add(blockEntity.getTank().getFluid().getDisplayName());
+				StewInfo si = SoupFluid.getInfo(blockEntity.getTank().getFluid());
 				FloatemStack fs = si.stacks.stream()
 						.max((t1, t2) -> t1.getCount() > t2.getCount() ? 1 : (t1.getCount() == t2.getCount() ? 0 : -1))
 						.orElse(null);
@@ -109,7 +109,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 							fs.getStack().getDisplayName()));
 				StewItem.addPotionTooltip(si.effects, tooltip, 1);
 			}
-			RenderUtils.handleGuiTank(transform, te.getTank(), leftPos + 105, topPos + 20, 16, 46);
+			RenderUtils.handleGuiTank(transform, blockEntity.getTank(), leftPos + 105, topPos + 20, 16, 46);
 		}
 		if (!tooltip.isEmpty())
 			super.renderComponentTooltip(transform, tooltip, mouseX, mouseY);
@@ -134,12 +134,12 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 		RenderSystem.setShaderTexture(0, TEXTURE);
 
 		this.blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
-		if (te.processMax > 0 && te.process > 0) {
-			int h = (int) (29 * (te.process / (float) te.processMax));
+		if (blockEntity.processMax > 0 && blockEntity.process > 0) {
+			int h = (int) (29 * (blockEntity.process / (float) blockEntity.processMax));
 			this.blit(transform, leftPos + 9, topPos + 17 + h, 176, 54 + h, 16, 29 - h);
 		}
-		if (te.proctype > 1) {
-			if (te.proctype == 2)
+		if (blockEntity.proctype > 1) {
+			if (blockEntity.proctype == 2)
 				this.blit(transform, leftPos + 44, topPos + 16, 176, 0, 54, 54);
 			this.blit(transform, leftPos + 102, topPos + 17, 230, 0, 21, 51);
 		}

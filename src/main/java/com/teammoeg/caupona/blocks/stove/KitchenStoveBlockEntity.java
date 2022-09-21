@@ -53,7 +53,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
 
-public class KitchenStoveTileEntity extends CPBaseBlockEntity implements Container, MenuProvider, IStove, IInfinitable {
+public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Container, MenuProvider, IStove, IInfinitable {
 	private NonNullList<ItemStack> fuel = NonNullList.withSize(1, ItemStack.EMPTY);
 	public int process;
 	public int processMax;
@@ -67,7 +67,7 @@ public class KitchenStoveTileEntity extends CPBaseBlockEntity implements Contain
 	boolean isInfinite = false;
 	public FuelType last = FuelType.OTHER;
 
-	public KitchenStoveTileEntity(BlockEntityType<KitchenStoveTileEntity> tet, BlockPos p, BlockState s, int spd) {
+	public KitchenStoveBlockEntity(BlockEntityType<KitchenStoveBlockEntity> tet, BlockPos p, BlockState s, int spd) {
 		super(tet, p, s);
 		this.speed = spd;
 		maxcd = Config.SERVER.stoveCD.get() / speed;
@@ -232,8 +232,7 @@ public class KitchenStoveTileEntity extends CPBaseBlockEntity implements Contain
 						syncNeeded=true;
 					}
 					if (attachedChimney != null) {
-						BlockEntity te = this.getLevel().getBlockEntity(attachedChimney);
-						if (te instanceof ChimneyPotTileEntity chimney) {
+						if (this.getLevel().getBlockEntity(attachedChimney) instanceof ChimneyPotBlockEntity chimney) {
 							chimney.addAsh(speed);
 						}
 					}

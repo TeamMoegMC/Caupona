@@ -24,7 +24,7 @@ package com.teammoeg.caupona.blocks.hypocaust;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.stove.IStove;
@@ -42,15 +42,15 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class FireboxTile extends BathHeatingTile {
+public class FireboxBlockEntity extends BathHeatingBlockEntity {
 	TagKey<Block> HEAT_CONDUCTOR = BlockTags.create(new ResourceLocation(Main.MODID, "heat_conductor"));
 	int process;
 	int heat;
 	private int r;
 	private int mp;
 
-	public FireboxTile(BlockPos pWorldPosition, BlockState pBlockState) {
-		super(CPTileTypes.FIREBOX.get(), pWorldPosition, pBlockState);
+	public FireboxBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
+		super(CPBlockEntityTypes.FIREBOX.get(), pWorldPosition, pBlockState);
 		r = Config.SERVER.bathRange.get();
 		mp = Config.SERVER.bathPath.get() / 2;
 	}
@@ -101,8 +101,7 @@ public class FireboxTile extends BathHeatingTile {
 	public void tick() {
 		if (this.level.isClientSide)
 			return;
-		BlockEntity te = level.getBlockEntity(worldPosition.below());
-		if (te instanceof IStove stove) {
+		if (level.getBlockEntity(worldPosition.below()) instanceof IStove stove) {
 			int nh = stove.requestHeat();
 			if (heat != nh) {
 				process = 0;
@@ -118,8 +117,7 @@ public class FireboxTile extends BathHeatingTile {
 			process = mp;
 			Set<BlockPos> pss = getAll();
 			for (BlockPos pos : pss) {
-				BlockEntity hte = level.getBlockEntity(pos);
-				if (hte instanceof BathHeatingTile bath)
+				if (level.getBlockEntity(pos) instanceof BathHeatingBlockEntity bath)
 					bath.setHeat(heat);
 			}
 		}

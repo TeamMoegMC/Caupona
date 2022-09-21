@@ -58,10 +58,10 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
 
-public class StewPot extends CPRegisteredEntityBlock<StewPotTileEntity> implements LiquidBlockContainer {
+public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> implements LiquidBlockContainer {
 	public static final EnumProperty<Axis> FACING = BlockStateProperties.HORIZONTAL_AXIS;
 
-	public StewPot(String name, Properties blockProps, RegistryObject<BlockEntityType<StewPotTileEntity>> ste,
+	public StewPot(String name, Properties blockProps, RegistryObject<BlockEntityType<StewPotBlockEntity>> ste,
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {
 		super(name, blockProps, ste, createItemBlock);
 	}
@@ -80,16 +80,16 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotTileEntity> implemen
 		InteractionResult p = super.use(state, worldIn, pos, player, handIn, hit);
 		if (p.consumesAction())
 			return p;
-		StewPotTileEntity tileEntity = (StewPotTileEntity) worldIn.getBlockEntity(pos);
-		if (tileEntity.canAddFluid()) {
+		StewPotBlockEntity blockEntity = (StewPotBlockEntity) worldIn.getBlockEntity(pos);
+		if (blockEntity.canAddFluid()) {
 			ItemStack held = player.getItemInHand(handIn);
 			if (held.isEmpty() && player.isShiftKeyDown()) {
-				tileEntity.getTank().setFluid(FluidStack.EMPTY);
-				tileEntity.current = null;
+				blockEntity.getTank().setFluid(FluidStack.EMPTY);
+				blockEntity.current = null;
 				return InteractionResult.SUCCESS;
 			}
 			if (held.getItem() instanceof StewItem) {
-				if (tileEntity.tryAddFluid(BowlContainingRecipe.extractFluid(held))) {
+				if (blockEntity.tryAddFluid(BowlContainingRecipe.extractFluid(held))) {
 					ItemStack ret = held.getContainerItem();
 					held.shrink(1);
 					if (!player.addItem(ret))
@@ -98,13 +98,13 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotTileEntity> implemen
 
 				return InteractionResult.sidedSuccess(worldIn.isClientSide);
 			}
-			if (FluidUtil.interactWithFluidHandler(player, handIn, tileEntity.getTank()))
+			if (FluidUtil.interactWithFluidHandler(player, handIn, blockEntity.getTank()))
 				return InteractionResult.SUCCESS;
 
 		}
 		if (handIn == InteractionHand.MAIN_HAND) {
-			if (tileEntity != null && !worldIn.isClientSide&&(player.getAbilities().instabuild||!tileEntity.isInfinite))
-				NetworkHooks.openGui((ServerPlayer) player, tileEntity, tileEntity.getBlockPos());
+			if (blockEntity != null && !worldIn.isClientSide&&(player.getAbilities().instabuild||!blockEntity.isInfinite))
+				NetworkHooks.openGui((ServerPlayer) player, blockEntity, blockEntity.getBlockPos());
 			return InteractionResult.SUCCESS;
 		}
 		return p;
@@ -112,14 +112,14 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotTileEntity> implemen
 
 	@Override
 	public boolean canPlaceLiquid(BlockGetter w, BlockPos p, BlockState s, Fluid f) {
-		StewPotTileEntity te = (StewPotTileEntity) w.getBlockEntity(p);
-		return te.canAddFluid(new FluidStack(f, 1000));
+		StewPotBlockEntity blockEntity = (StewPotBlockEntity) w.getBlockEntity(p);
+		return blockEntity.canAddFluid(new FluidStack(f, 1000));
 	}
 
 	@Override
 	public boolean placeLiquid(LevelAccessor w, BlockPos p, BlockState s, FluidState f) {
-		StewPotTileEntity te = (StewPotTileEntity) w.getBlockEntity(p);
-		if (te.tryAddFluid(new FluidStack(f.getType(), 1000))) {
+		StewPotBlockEntity blockEntity = (StewPotBlockEntity) w.getBlockEntity(p);
+		if (blockEntity.tryAddFluid(new FluidStack(f.getType(), 1000))) {
 			return true;
 		}
 		return false;
@@ -127,8 +127,7 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotTileEntity> implemen
 
 	@Override
 	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand) {
-		BlockEntity te = worldIn.getBlockEntity(pos);
-		if (te instanceof StewPotTileEntity pot) {
+		if (worldIn.getBlockEntity(pos) instanceof StewPotBlockEntity pot) {
 			if (pot.proctype == 2 && pot.working) {
 
 				int count = 2;
@@ -142,8 +141,7 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotTileEntity> implemen
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		BlockEntity blockEntity = worldIn.getBlockEntity(pos);
-		if (blockEntity instanceof StewPotTileEntity pot && state.getBlock() != newState.getBlock()) {
+		if (worldIn.getBlockEntity(pos) instanceof StewPotBlockEntity pot && state.getBlock() != newState.getBlock()) {
 			if (pot.proctype != 2)
 				for (int i = 0; i < 9; i++) {
 					ItemStack is = pot.getInv().getStackInSlot(i);
@@ -179,16 +177,16 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotTileEntity> implemen
 
 	@Override
 	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
-		StewPotTileEntity te = (StewPotTileEntity) pLevel.getBlockEntity(pPos);
-		if (te.proctype == 0) {
+		StewPotBlockEntity blockEntity = (StewPotBlockEntity) pLevel.getBlockEntity(pPos);
+		if (blockEntity.proctype == 0) {
 			int ret = 1;
 			for (int i = 0; i < 9; i++) {
-				ItemStack is = te.getInv().getStackInSlot(i);
+				ItemStack is = blockEntity.getInv().getStackInSlot(i);
 				if (!is.isEmpty())
 					ret++;
 
 			}
-			ret += te.getTank().getFluidAmount() / 250;
+			ret += blockEntity.getTank().getFluidAmount() / 250;
 			return ret;
 		}
 		return 0;

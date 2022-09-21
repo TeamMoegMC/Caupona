@@ -112,7 +112,7 @@ public class BowlContainingRecipe extends IDataRecipe {
 			CompoundTag tag = item.getTag();
 			if (tag.contains("type")) {
 				Fluid f = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
-				if (f != null) {
+				if (f != null&&f!=Fluids.EMPTY) {
 					FluidStack res = new FluidStack(f, 250);
 					CompoundTag ntag = tag.copy();
 					ntag.remove("type");
@@ -124,5 +124,14 @@ public class BowlContainingRecipe extends IDataRecipe {
 		}
 		return FluidStack.EMPTY;
 	}
-
+	public static Fluid getFluidType(ItemStack item) {
+		if (item.hasTag()) {
+			CompoundTag tag = item.getTag();
+			if (tag.contains("type")) {
+				return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
+				
+			}
+		}
+		return Fluids.EMPTY;
+	}
 }

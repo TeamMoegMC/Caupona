@@ -58,14 +58,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
 
-public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveTileEntity> {
+public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntity> {
 
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
 	public static final BooleanProperty ASH = BooleanProperty.create("ash");
 	public static final IntegerProperty FUELED = IntegerProperty.create("fueled", 0, 3);
 
-	public KitchenStove(String name, Properties blockProps, RegistryObject<BlockEntityType<KitchenStoveTileEntity>> ste,
+	public KitchenStove(String name, Properties blockProps, RegistryObject<BlockEntityType<KitchenStoveBlockEntity>> ste,
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {
 		super(name, blockProps, ste, createItemBlock);
 	}
@@ -95,7 +95,7 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveTileEntity
 		InteractionResult p = super.use(state, worldIn, pos, player, handIn, hit);
 		if (p.consumesAction())
 			return p;
-		KitchenStoveTileEntity tileEntity = (KitchenStoveTileEntity) worldIn.getBlockEntity(pos);
+		KitchenStoveBlockEntity blockEntity = (KitchenStoveBlockEntity) worldIn.getBlockEntity(pos);
 		/*
 		 * for(Item i:ForgeRegistries.ITEMS) {
 		 * if(CountingTags.tags.stream().anyMatch(i.getTags()::contains)&&!i.isFood()&&
@@ -104,8 +104,8 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveTileEntity
 		 * }
 		 */
 		if (handIn == InteractionHand.MAIN_HAND) {
-			if (tileEntity != null && !worldIn.isClientSide&&(player.getAbilities().instabuild||!tileEntity.isInfinite))
-				NetworkHooks.openGui((ServerPlayer) player, tileEntity, tileEntity.getBlockPos());
+			if (blockEntity != null && !worldIn.isClientSide&&(player.getAbilities().instabuild||!blockEntity.isInfinite))
+				NetworkHooks.openGui((ServerPlayer) player, blockEntity, blockEntity.getBlockPos());
 			return InteractionResult.SUCCESS;
 		}
 		return p;
@@ -129,8 +129,7 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveTileEntity
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-		if (tileEntity instanceof KitchenStoveTileEntity stove && state.getBlock() != newState.getBlock()) {
+		if (state.getBlock() != newState.getBlock()&&worldIn.getBlockEntity(pos) instanceof KitchenStoveBlockEntity stove) {
 			ItemStack is = stove.getItem(0);
 			if (!is.isEmpty())
 				super.popResource(worldIn, pos, is);

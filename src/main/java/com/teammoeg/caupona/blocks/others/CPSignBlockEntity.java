@@ -19,16 +19,22 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.blocks.hypocaust;
+package com.teammoeg.caupona.blocks.others;
 
-import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPBlockEntityTypes;
 
-public class FireboxBlock extends BathHeatingBlock<FireboxBlockEntity> {
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.SignBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
-	public FireboxBlock(Properties blockProps) {
-		super(CPBlockEntityTypes.FIREBOX, blockProps);
-		CPBlocks.firebox.add(this);
+public class CPSignBlockEntity extends SignBlockEntity {
+	public CPSignBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
+		super(pWorldPosition, pBlockState);
 	}
 
+	@Override
+	public BlockEntityType<CPSignBlockEntity> getType() {
+		return CPBlockEntityTypes.SIGN.get();
+	}
 }

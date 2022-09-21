@@ -26,16 +26,16 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CPHorizontalEntityBlock<V extends BlockEntity> extends CPHorizontalBlock implements CPEntityBlock<V> {
-	private final RegistryObject<BlockEntityType<V>> te;
+	private final RegistryObject<BlockEntityType<V>> blockEntity;
 
-	public CPHorizontalEntityBlock(RegistryObject<BlockEntityType<V>> te, Properties p_54120_) {
+	public CPHorizontalEntityBlock(RegistryObject<BlockEntityType<V>> blockEntity, Properties p_54120_) {
 		super(p_54120_);
-		this.te = te;
+		this.blockEntity = blockEntity;
 	}
 
 	@Override
-	public RegistryObject<BlockEntityType<V>> getTile() {
-		return te;
+	public RegistryObject<BlockEntityType<V>> getBlock() {
+		return blockEntity;
 	}
 
 }

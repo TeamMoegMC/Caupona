@@ -73,8 +73,8 @@ public class IngredientNumberBuilder<T> {
 		if (types.size() <= 0)
 			return of(sn);
 		CookIngredients sn2 = types.get(types.size() - 1);
-		if (sn2 instanceof Add) {
-			((Add) sn2).add(sn);
+		if (sn2 instanceof Add add) {
+			add.add(sn);
 		} else {
 			List<CookIngredients> t2s = new ArrayList<>();
 			t2s.add(sn2);

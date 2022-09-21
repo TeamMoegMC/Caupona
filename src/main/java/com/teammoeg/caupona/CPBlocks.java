@@ -38,8 +38,11 @@ import com.teammoeg.caupona.blocks.fumarole.FumaroleBoulderBlock;
 import com.teammoeg.caupona.blocks.fumarole.FumaroleVentBlock;
 import com.teammoeg.caupona.blocks.fumarole.PumiceBloomBlock;
 import com.teammoeg.caupona.blocks.hypocaust.CaliductBlock;
+import com.teammoeg.caupona.blocks.hypocaust.CaliductBlockEntity;
 import com.teammoeg.caupona.blocks.hypocaust.FireboxBlock;
+import com.teammoeg.caupona.blocks.hypocaust.FireboxBlockEntity;
 import com.teammoeg.caupona.blocks.hypocaust.WolfStatueBlock;
+import com.teammoeg.caupona.blocks.hypocaust.WolfStatueBlockEntity;
 import com.teammoeg.caupona.blocks.others.CPStandingSignBlock;
 import com.teammoeg.caupona.blocks.others.CPWallSignBlock;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
@@ -111,22 +114,22 @@ public class CPBlocks {
 
 	// useful blocks
 	public static Block stew_pot = new StewPot("stew_pot", Block.Properties.of(Material.STONE).sound(SoundType.STONE)
-			.requiresCorrectToolForDrops().strength(3.5f, 10).noOcclusion(), CPTileTypes.STEW_POT, CPBlockItem::new);
-	public static Block stove1 = new KitchenStove("mud_kitchen_stove", getStoveProps(), CPTileTypes.STOVE1,
+			.requiresCorrectToolForDrops().strength(3.5f, 10).noOcclusion(), CPBlockEntityTypes.STEW_POT, CPBlockItem::new);
+	public static Block stove1 = new KitchenStove("mud_kitchen_stove", getStoveProps(), CPBlockEntityTypes.STOVE1,
 			CPBlockItem::new);
-	public static Block stove2 = new KitchenStove("brick_kitchen_stove", getStoveProps(), CPTileTypes.STOVE2,
+	public static Block stove2 = new KitchenStove("brick_kitchen_stove", getStoveProps(), CPBlockEntityTypes.STOVE2,
 			CPBlockItem::new);
-	public static Block stove3 = new KitchenStove("opus_incertum_kitchen_stove", getStoveProps(), CPTileTypes.STOVE2,
+	public static Block stove3 = new KitchenStove("opus_incertum_kitchen_stove", getStoveProps(), CPBlockEntityTypes.STOVE2,
 			CPBlockItem::new);
-	public static Block stove4 = new KitchenStove("opus_latericium_kitchen_stove", getStoveProps(), CPTileTypes.STOVE2,
+	public static Block stove4 = new KitchenStove("opus_latericium_kitchen_stove", getStoveProps(), CPBlockEntityTypes.STOVE2,
 			CPBlockItem::new);
-	public static Block stove5 = new KitchenStove("stone_brick_kitchen_stove", getStoveProps(), CPTileTypes.STOVE2,
+	public static Block stove5 = new KitchenStove("stone_brick_kitchen_stove", getStoveProps(), CPBlockEntityTypes.STOVE2,
 			CPBlockItem::new);
 	public static Block bowl = new BowlBlock("bowl",
 			Block.Properties.of(Material.DECORATION).sound(SoundType.WOOD).instabreak().noOcclusion()
 					.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 					.isViewBlocking(CPBlocks::isntSolid),
-			CPTileTypes.BOWL, null);
+			CPBlockEntityTypes.BOWL, null);
 
 	public static Block WALNUT_LOG;
 	public static Block WALNUT_LEAVE;

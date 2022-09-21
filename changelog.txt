@@ -1,2 +1,4 @@
 Added creative display item hint
 Added config and more support for diet mod
+Minor optimize
+Refractor and rename code

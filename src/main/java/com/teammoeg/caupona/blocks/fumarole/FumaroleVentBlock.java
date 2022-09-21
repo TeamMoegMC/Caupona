@@ -24,7 +24,7 @@ package com.teammoeg.caupona.blocks.fumarole;
 import java.util.Random;
 import java.util.function.BiFunction;
 
-import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 
 import net.minecraft.core.BlockPos;
@@ -52,7 +52,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class FumaroleVentBlock extends CPRegisteredEntityBlock<FumaroleVentTileEntity> implements SimpleWaterloggedBlock {
+public class FumaroleVentBlock extends CPRegisteredEntityBlock<FumaroleVentBlockEntity> implements SimpleWaterloggedBlock {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final IntegerProperty HEAT = IntegerProperty.create("heat", 0, 2);
 	static final VoxelShape shape = Block.box(0, 0, 0, 16, 6, 16);
@@ -64,7 +64,7 @@ public class FumaroleVentBlock extends CPRegisteredEntityBlock<FumaroleVentTileE
 
 	public FumaroleVentBlock(String name, Properties blockProps,
 			BiFunction<Block, net.minecraft.world.item.Item.Properties, Item> createItemBlock) {
-		super(name, blockProps, CPTileTypes.FUMAROLE, createItemBlock);
+		super(name, blockProps, CPBlockEntityTypes.FUMAROLE, createItemBlock);
 		this.registerDefaultState(this.defaultBlockState().setValue(HEAT, 0).setValue(WATERLOGGED, false));
 	}
 

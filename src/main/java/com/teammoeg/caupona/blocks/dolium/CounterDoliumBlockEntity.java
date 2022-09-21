@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona.blocks.dolium;
 
-import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
@@ -60,7 +60,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 
-public class CounterDoliumTileEntity extends CPBaseBlockEntity implements MenuProvider, IInfinitable {
+public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuProvider, IInfinitable {
 	ItemStackHandler inv = new ItemStackHandler(6) {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
@@ -115,8 +115,8 @@ public class CounterDoliumTileEntity extends CPBaseBlockEntity implements MenuPr
 	boolean isInfinite = false;
 	ItemStack inner = ItemStack.EMPTY;
 
-	public CounterDoliumTileEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-		super(CPTileTypes.DOLIUM.get(), pWorldPosition, pBlockState);
+	public CounterDoliumBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
+		super(CPBlockEntityTypes.DOLIUM.get(), pWorldPosition, pBlockState);
 		processMax = Config.COMMON.staticTime.get();
 		contTicks = Config.SERVER.containerTick.get();
 	}

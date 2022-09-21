@@ -34,25 +34,25 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class StewPotContainer extends AbstractContainerMenu {
-	StewPotTileEntity tile;
+	StewPotBlockEntity tile;
 
-	public StewPotTileEntity getTile() {
+	public StewPotBlockEntity getBlock() {
 		return tile;
 	}
 
 	public StewPotContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
-		this(id, inv, (StewPotTileEntity) inv.player.level.getBlockEntity(buffer.readBlockPos()));
+		this(id, inv, (StewPotBlockEntity) inv.player.level.getBlockEntity(buffer.readBlockPos()));
 	}
 
-	public StewPotContainer(int id, Inventory inv, StewPotTileEntity te) {
+	public StewPotContainer(int id, Inventory inv, StewPotBlockEntity blockEntity) {
 		super(CPGui.STEWPOT.get(), id);
-		tile = te;
+		tile = blockEntity;
 		for (int i = 0; i < 9; i++)
-			this.addSlot(new HidableSlot(te.getInv(), i, 45 + (i % 3) * 18, 17 + (i / 3) * 18, () -> te.proctype != 2));
-		this.addSlot(new SlotItemHandler(te.getInv(), 9, 154, 17));
+			this.addSlot(new HidableSlot(blockEntity.getInv(), i, 45 + (i % 3) * 18, 17 + (i / 3) * 18, () -> blockEntity.proctype != 2));
+		this.addSlot(new SlotItemHandler(blockEntity.getInv(), 9, 154, 17));
 
-		this.addSlot(new OutputSlot(te.getInv(), 10, 143, 51));
-		this.addSlot(new SlotItemHandler(te.getInv(), 11, 132, 17));
+		this.addSlot(new OutputSlot(blockEntity.getInv(), 10, 143, 51));
+		this.addSlot(new SlotItemHandler(blockEntity.getInv(), 11, 132, 17));
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 9; j++)
 				addSlot(new Slot(inv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));

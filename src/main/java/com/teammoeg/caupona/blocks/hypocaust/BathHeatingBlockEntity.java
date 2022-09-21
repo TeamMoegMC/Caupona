@@ -32,14 +32,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class BathHeatingTile extends CPBaseBlockEntity {
+public abstract class BathHeatingBlockEntity extends CPBaseBlockEntity {
 	private double rate;
 	private int val;
 	protected int process;//
 	private int mp;
 	protected int heat;//
 	private boolean water;
-	public BathHeatingTile(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
+	public BathHeatingBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
 		super(pType, pWorldPosition, pBlockState);
 		rate = Config.SERVER.bathChance.get();
 		val = Config.SERVER.bathExp.get();

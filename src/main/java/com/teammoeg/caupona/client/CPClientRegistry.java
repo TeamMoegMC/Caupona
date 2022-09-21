@@ -24,7 +24,7 @@ package com.teammoeg.caupona.client;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPEntityTypes;
 import com.teammoeg.caupona.CPGui;
-import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.Main;
 
 import net.minecraft.client.Minecraft;
@@ -76,11 +76,11 @@ public class CPClientRegistry {
 
 		for (Block bl : CPBlocks.transparentBlocks)
 			ItemBlockRenderTypes.setRenderLayer(bl, RenderType.cutout());
-		BlockEntityRenderers.register(CPTileTypes.STEW_POT.get(), StewPotRenderer::new);
-		BlockEntityRenderers.register(CPTileTypes.BOWL.get(), BowlRenderer::new);
-		BlockEntityRenderers.register(CPTileTypes.SIGN.get(), SignRenderer::new);
-		BlockEntityRenderers.register(CPTileTypes.DOLIUM.get(), CounterDoliumRenderer::new);
-		BlockEntityRenderers.register(CPTileTypes.PAN.get(), PanRenderer::new);
+		BlockEntityRenderers.register(CPBlockEntityTypes.STEW_POT.get(), StewPotRenderer::new);
+		BlockEntityRenderers.register(CPBlockEntityTypes.BOWL.get(), BowlRenderer::new);
+		BlockEntityRenderers.register(CPBlockEntityTypes.SIGN.get(), SignRenderer::new);
+		BlockEntityRenderers.register(CPBlockEntityTypes.DOLIUM.get(), CounterDoliumRenderer::new);
+		BlockEntityRenderers.register(CPBlockEntityTypes.PAN.get(), PanRenderer::new);
 		Sheets.addWoodType(CPBlocks.WALNUT);
 		EntityRenderers.register(CPEntityTypes.BOAT.get(), CPBoatRenderer::new);
 

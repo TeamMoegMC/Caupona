@@ -22,7 +22,7 @@
 package com.teammoeg.caupona.blocks.pan;
 
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -40,10 +40,10 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
 
-public class PanBlock extends CPHorizontalEntityBlock<PanTileEntity> {
+public class PanBlock extends CPHorizontalEntityBlock<PanBlockEntity> {
 
 	public PanBlock(Properties p_54120_) {
-		super(CPTileTypes.PAN, p_54120_);
+		super(CPBlockEntityTypes.PAN, p_54120_);
 	}
 
 	static final VoxelShape bshape = Block.box(1, 0, 1, 15, 2, 15);
@@ -63,10 +63,10 @@ public class PanBlock extends CPHorizontalEntityBlock<PanTileEntity> {
 		InteractionResult p = super.use(state, worldIn, pos, player, handIn, hit);
 		if (p.consumesAction())
 			return p;
-		PanTileEntity tileEntity = (PanTileEntity) worldIn.getBlockEntity(pos);
+		PanBlockEntity blockEntity = (PanBlockEntity) worldIn.getBlockEntity(pos);
 		if (handIn == InteractionHand.MAIN_HAND) {
-			if (tileEntity != null && !worldIn.isClientSide)
-				NetworkHooks.openGui((ServerPlayer) player, tileEntity, tileEntity.getBlockPos());
+			if (blockEntity != null && !worldIn.isClientSide)
+				NetworkHooks.openGui((ServerPlayer) player, blockEntity, blockEntity.getBlockPos());
 			return InteractionResult.SUCCESS;
 		}
 		return p;
@@ -75,16 +75,15 @@ public class PanBlock extends CPHorizontalEntityBlock<PanTileEntity> {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-		if (tileEntity instanceof PanTileEntity te && state.getBlock() != newState.getBlock()) {
-			if (te.processMax == 0)
+		if (state.getBlock() != newState.getBlock()&&worldIn.getBlockEntity(pos) instanceof PanBlockEntity pan) {
+			if (pan.processMax == 0)
 				for (int i = 0; i < 9; i++) {
-					ItemStack is = te.inv.getStackInSlot(i);
+					ItemStack is = pan.inv.getStackInSlot(i);
 					if (!is.isEmpty())
 						super.popResource(worldIn, pos, is);
 				}
 			for (int i = 9; i < 12; i++) {
-				ItemStack is = te.inv.getStackInSlot(i);
+				ItemStack is = pan.inv.getStackInSlot(i);
 				if (!is.isEmpty())
 					super.popResource(worldIn, pos, is);
 			}
@@ -99,20 +98,21 @@ public class PanBlock extends CPHorizontalEntityBlock<PanTileEntity> {
 
 	@Override
 	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
-		PanTileEntity te = (PanTileEntity) pLevel.getBlockEntity(pPos);
-		if (te.processMax == 0) {
-			int ret = 1;
-			if(!te.sout.isEmpty()||!te.inv.getStackInSlot(10).isEmpty()) {
-				return 15;
+		
+		if(pLevel.getBlockEntity(pPos) instanceof PanBlockEntity pan)
+			if (pan.processMax == 0) {
+				int ret = 1;
+				if(!pan.sout.isEmpty()||!pan.inv.getStackInSlot(10).isEmpty()) {
+					return 15;
+				}
+				for (int i = 0; i < 9; i++) {
+					ItemStack is = pan.getInv().getStackInSlot(i);
+					if (!is.isEmpty())
+						ret++;
+				}
+				
+				return ret;
 			}
-			for (int i = 0; i < 9; i++) {
-				ItemStack is = te.getInv().getStackInSlot(i);
-				if (!is.isEmpty())
-					ret++;
-			}
-			
-			return ret;
-		}
 		return 0;
 	}
 }

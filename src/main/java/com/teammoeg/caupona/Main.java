@@ -73,7 +73,7 @@ public class Main {
 		ForgeMod.enableMilkFluid();
 
 		CPFluids.init();
-		CPTileTypes.REGISTER.register(mod);
+		CPBlockEntityTypes.REGISTER.register(mod);
 		CPGui.CONTAINERS.register(mod);
 		Particles.REGISTER.register(mod);
 		MinecraftForge.EVENT_BUS.register(RecipeReloadListener.class);

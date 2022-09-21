@@ -24,6 +24,7 @@ package com.teammoeg.caupona.util;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import com.mojang.datafixers.util.Pair;
@@ -307,14 +308,29 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 			}
 		}
 		if (spice != null)
-			b.effect(spice, 1);
+			b.effect(()->new MobEffectInstance(spice), 1);
 		for (Pair<MobEffectInstance, Float> ef : foodeffect) {
-			b.effect(ef.getFirst(), ef.getSecond());
+			b.effect(()->new MobEffectInstance(ef.getFirst()), ef.getSecond());
 		}
 		b.nutrition(healing);
 		b.saturationMod(saturation);
 		if (canAlwaysEat())
 			b.alwaysEat();
 		return b.build();
+	}
+	@Override
+	public List<Pair<Supplier<MobEffectInstance>, Float>> getEffects() {
+		List<Pair<Supplier<MobEffectInstance>, Float>> li=new ArrayList<>();
+		for (MobEffectInstance eff : effects) {
+			if (eff != null) {
+				li.add(Pair.of(()->new MobEffectInstance(eff), 1f));
+			}
+		}
+		if (spice != null)
+			li.add(Pair.of(()->new MobEffectInstance(spice), 1f));
+		for (Pair<MobEffectInstance, Float> ef : foodeffect) {
+			li.add(Pair.of(()->new MobEffectInstance(ef.getFirst()), ef.getSecond()));
+		}
+		return null;
 	}
 }

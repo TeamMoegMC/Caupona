@@ -23,7 +23,7 @@ package com.teammoeg.caupona.blocks.pan;
 
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.stove.IStove;
@@ -63,7 +63,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class PanTileEntity extends CPBaseBlockEntity implements MenuProvider,IInfinitable {
+public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,IInfinitable {
 	public ItemStackHandler inv = new ItemStackHandler(12) {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
@@ -94,8 +94,8 @@ public class PanTileEntity extends CPBaseBlockEntity implements MenuProvider,IIn
 	public boolean rsstate = false;
 	public SauteedFoodInfo current;
 	boolean isInfinite = false;
-	public PanTileEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-		super(CPTileTypes.PAN.get(), pWorldPosition, pBlockState);
+	public PanBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
+		super(CPBlockEntityTypes.PAN.get(), pWorldPosition, pBlockState);
 	}
 
 	@Override
@@ -175,8 +175,7 @@ public class PanTileEntity extends CPBaseBlockEntity implements MenuProvider,IIn
 		if (!level.isClientSide) {
 			working = false;
 			if (processMax > 0) {
-				BlockEntity te = level.getBlockEntity(worldPosition.below());
-				if (te instanceof IStove stove) {
+				if (level.getBlockEntity(worldPosition.below()) instanceof IStove stove) {
 					int rh =stove.requestHeat();
 					process += rh;
 					if (rh > 0) {
@@ -218,8 +217,7 @@ public class PanTileEntity extends CPBaseBlockEntity implements MenuProvider,IIn
 
 		if (operate) {
 			operate = false;
-			BlockEntity te = level.getBlockEntity(worldPosition.below());
-			if (!(te instanceof IStove) || !((IStove) te).canEmitHeat())
+			if (!(level.getBlockEntity(worldPosition.below()) instanceof IStove stove) || !stove.canEmitHeat())
 				return;
 			make();
 		}

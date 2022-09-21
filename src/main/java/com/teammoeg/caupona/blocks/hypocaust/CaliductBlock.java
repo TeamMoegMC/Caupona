@@ -22,12 +22,12 @@
 package com.teammoeg.caupona.blocks.hypocaust;
 
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.CPBlockEntityTypes;
 
-public class CaliductBlock extends BathHeatingBlock<CaliductTile> {
+public class CaliductBlock extends BathHeatingBlock<CaliductBlockEntity> {
 
 	public CaliductBlock(Properties blockProps) {
-		super(CPTileTypes.CALIDUCT, blockProps);
+		super(CPBlockEntityTypes.CALIDUCT, blockProps);
 		CPBlocks.caliduct.add(this);
 	}
 

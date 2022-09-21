@@ -27,7 +27,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.pan.PanContainer;
-import com.teammoeg.caupona.blocks.pan.PanTileEntity;
+import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -39,7 +39,7 @@ import net.minecraft.world.entity.player.Inventory;
 public class PanScreen extends AbstractContainerScreen<PanContainer> {
 	static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID, "textures/gui/frying_pan.png");
 
-	PanTileEntity te;
+	PanBlockEntity blockEntity;
 
 	public PanScreen(PanContainer container, Inventory inv, Component titleIn) {
 		super(container, inv, titleIn);
@@ -47,7 +47,7 @@ public class PanScreen extends AbstractContainerScreen<PanContainer> {
 		this.titleLabelX = 7;
 		this.inventoryLabelY = this.imageHeight - 92;
 		this.inventoryLabelX = 4;
-		te = container.getTile();
+		blockEntity = container.getBlock();
 	}
 
 	public static TranslatableComponent start = new TranslatableComponent("gui." + Main.MODID + ".stewpot.canstart");
@@ -72,7 +72,7 @@ public class PanScreen extends AbstractContainerScreen<PanContainer> {
 						tooltip.add(started);
 				}, btn -> {
 					if (btn1.state == 0)
-						te.sendMessage((short) 0, 0);
+						blockEntity.sendMessage((short) 0, 0);
 
 				}));
 		this.addRenderableWidget(
@@ -82,7 +82,7 @@ public class PanScreen extends AbstractContainerScreen<PanContainer> {
 					else
 						tooltip.add(rs);
 				}, btn -> {
-					te.sendMessage((short) 1, btn2.state);
+					blockEntity.sendMessage((short) 1, btn2.state);
 				}));
 
 	}
@@ -90,8 +90,8 @@ public class PanScreen extends AbstractContainerScreen<PanContainer> {
 	@Override
 	public void render(PoseStack transform, int mouseX, int mouseY, float partial) {
 		tooltip.clear();
-		btn1.state = te.processMax > 0 ? 1 : 0;
-		btn2.state = te.rsstate ? 1 : 2;
+		btn1.state = blockEntity.processMax > 0 ? 1 : 0;
+		btn2.state = blockEntity.rsstate ? 1 : 2;
 		super.render(transform, mouseX, mouseY, partial);
 		if (!tooltip.isEmpty())
 			super.renderComponentTooltip(transform, tooltip, mouseX, mouseY);
@@ -116,11 +116,11 @@ public class PanScreen extends AbstractContainerScreen<PanContainer> {
 		RenderSystem.setShaderTexture(0, TEXTURE);
 
 		this.blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
-		if (te.processMax > 0 && te.process > 0) {
-			int h = (int) (29 * (te.process / (float) te.processMax));
+		if (blockEntity.processMax > 0 && blockEntity.process > 0) {
+			int h = (int) (29 * (blockEntity.process / (float) blockEntity.processMax));
 			this.blit(transform, leftPos + 39, topPos + 16 + h, 176, 54 + h, 16, 29 - h);
 		}
-		if (te.processMax > 0) {
+		if (blockEntity.processMax > 0) {
 			this.blit(transform, leftPos + 61, topPos + 12, 176, 0, 54, 54);
 		}
 	}

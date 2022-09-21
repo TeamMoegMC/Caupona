@@ -53,13 +53,12 @@ public class ClientDataMessage {
 		buffer.writeInt(message);
 	}
 
-	@SuppressWarnings({ "deprecation", "resource" })
+	@SuppressWarnings({ "resource" })
 	void handle(Supplier<NetworkEvent.Context> context) {
 		context.get().enqueueWork(() -> {
 			ServerLevel world = Objects.requireNonNull(context.get().getSender()).getLevel();
-			if (world.isAreaLoaded(pos, 1)) {
-				BlockEntity tile = world.getBlockEntity(pos);
-				if (tile instanceof CPBaseBlockEntity entity)
+			if (world.isLoaded(pos)) {
+				if (world.getBlockEntity(pos) instanceof CPBaseBlockEntity entity)
 					entity.handleMessage(type, message);
 			}
 		});

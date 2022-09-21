@@ -19,18 +19,23 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.blocks.hypocaust;
+package com.teammoeg.caupona.blocks.foods;
 
-import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.network.CPBaseBlockEntity;
+import com.teammoeg.caupona.util.IInfinitable;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CaliductTile extends BathHeatingTile {
+public class DishBlockEntity extends CPBaseBlockEntity implements IInfinitable {
+	public ItemStack internal = ItemStack.EMPTY;
+	boolean isInfinite = false;
 
-	public CaliductTile(BlockPos pWorldPosition, BlockState pBlockState) {
-		super(CPTileTypes.CALIDUCT.get(), pWorldPosition, pBlockState);
-
+	public DishBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
+		super(CPBlockEntityTypes.DISH.get(), pWorldPosition, pBlockState);
 	}
 
 	@Override
@@ -38,11 +43,24 @@ public class CaliductTile extends BathHeatingTile {
 	}
 
 	@Override
-	public void tick() {
-		if (this.level.isClientSide)
-			return;
-		super.tick();
+	public void readCustomNBT(CompoundTag nbt, boolean isClient) {
+		internal = ItemStack.of(nbt.getCompound("bowl"));
+		isInfinite = nbt.getBoolean("inf");
+	}
 
+	@Override
+	public void writeCustomNBT(CompoundTag nbt, boolean isClient) {
+		nbt.put("bowl", internal.serializeNBT());
+		nbt.putBoolean("inf", isInfinite);
+	}
+
+	@Override
+	public void tick() {
+	}
+
+	@Override
+	public boolean setInfinity() {
+		return isInfinite = !isInfinite;
 	}
 
 }

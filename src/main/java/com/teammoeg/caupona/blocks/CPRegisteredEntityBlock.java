@@ -35,13 +35,13 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class CPRegisteredEntityBlock<T extends BlockEntity> extends Block implements CPEntityBlock<T> {
 	public final String name;
-	private final RegistryObject<BlockEntityType<T>> te;
+	private final RegistryObject<BlockEntityType<T>> blockEntity;
 
 	public CPRegisteredEntityBlock(String name, Properties blockProps, RegistryObject<BlockEntityType<T>> ste,
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {
 		super(blockProps);
 		this.name = name;
-		te = ste;
+		blockEntity = ste;
 		ResourceLocation registryName = createRegistryName();
 		setRegistryName(registryName);
 
@@ -61,8 +61,8 @@ public class CPRegisteredEntityBlock<T extends BlockEntity> extends Block implem
 	}
 
 	@Override
-	public RegistryObject<BlockEntityType<T>> getTile() {
-		return te;
+	public RegistryObject<BlockEntityType<T>> getBlock() {
+		return blockEntity;
 	}
 
 }

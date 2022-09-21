@@ -21,15 +21,15 @@
 
 package com.teammoeg.caupona.blocks.stove;
 
-import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.CPBlockEntityTypes;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class KitchenStoveT1 extends KitchenStoveTileEntity {
+public class KitchenStoveT1 extends KitchenStoveBlockEntity {
 
 	public KitchenStoveT1(BlockPos p, BlockState s) {
-		super(CPTileTypes.STOVE1.get(), p, s, 1);
+		super(CPBlockEntityTypes.STOVE1.get(), p, s, 1);
 	}
 
 }

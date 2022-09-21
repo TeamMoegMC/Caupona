@@ -49,9 +49,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.RegistryObject;
 
-public class BowlBlock extends CPRegisteredEntityBlock<BowlTileEntity> {
+public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 
-	public BowlBlock(String name, Properties blockProps, RegistryObject<BlockEntityType<BowlTileEntity>> ste,
+	public BowlBlock(String name, Properties blockProps, RegistryObject<BlockEntityType<BowlBlockEntity>> ste,
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {
 		super(name, blockProps, ste, createItemBlock);
 	}
@@ -77,9 +77,8 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlTileEntity> {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-		if (tileEntity instanceof BowlTileEntity te && state.getBlock() != newState.getBlock()) {
-			super.popResource(worldIn, pos, te.internal);
+		if (state.getBlock() != newState.getBlock() && worldIn.getBlockEntity(pos) instanceof BowlBlockEntity bowl) {
+			super.popResource(worldIn, pos, bowl.internal);
 		}
 		super.onRemove(state, worldIn, pos, newState, isMoving);
 	}
@@ -91,21 +90,20 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlTileEntity> {
 		InteractionResult p = super.use(state, worldIn, pos, player, handIn, hit);
 		if (p.consumesAction())
 			return p;
-		BowlTileEntity tileEntity = (BowlTileEntity) worldIn.getBlockEntity(pos);
-		if (tileEntity.internal != null && tileEntity.internal.getItem() instanceof StewItem
-				&& tileEntity.internal.isEdible()) {
-			FoodProperties fp = tileEntity.internal.getFoodProperties(player);
-			if (tileEntity.isInfinite) {
+		if (worldIn.getBlockEntity(pos) instanceof BowlBlockEntity bowl&&bowl.internal != null && bowl.internal.getItem() instanceof StewItem
+				&& bowl.internal.isEdible()) {
+			FoodProperties fp = bowl.internal.getFoodProperties(player);
+			if (bowl.isInfinite) {
 				if (player.canEat(fp.canAlwaysEat())) {
-					player.eat(worldIn, tileEntity.internal.copy());
-					tileEntity.syncData();
+					player.eat(worldIn, bowl.internal.copy());
+					bowl.syncData();
 				}
 			} else {
 				if (player.canEat(fp.canAlwaysEat())) {
-					ItemStack iout = tileEntity.internal.getContainerItem();
-					player.eat(worldIn, tileEntity.internal);
-					tileEntity.internal = iout;
-					tileEntity.syncData();
+					ItemStack iout = bowl.internal.getContainerItem();
+					player.eat(worldIn, bowl.internal);
+					bowl.internal = iout;
+					bowl.syncData();
 				}
 			}
 			return InteractionResult.SUCCESS;
@@ -116,19 +114,17 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlTileEntity> {
 	@Override
 	public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, LivingEntity pPlacer, ItemStack pStack) {
 		super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
-		BlockEntity tileEntity = pLevel.getBlockEntity(pPos);
-		if (tileEntity instanceof BowlTileEntity te) {
-			te.internal = ItemHandlerHelper.copyStackWithSize(pStack, 1);
+		if (pLevel.getBlockEntity(pPos) instanceof BowlBlockEntity bowl) {
+			bowl.internal = ItemHandlerHelper.copyStackWithSize(pStack, 1);
 		}
 	}
 
 	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos,
 			Player player) {
-		BlockEntity tileEntity = level.getBlockEntity(pos);
-		if (tileEntity instanceof BowlTileEntity te) {
-			if (te.internal == null)
+		if (level.getBlockEntity(pos) instanceof BowlBlockEntity bowl) {
+			if (bowl.internal == null)
 				return ItemStack.EMPTY;
-			return te.internal.copy();
+			return bowl.internal.copy();
 		}
 		return this.getCloneItemStack(state, target, level, pos, player);
 	}
@@ -140,10 +136,9 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlTileEntity> {
 
 	@Override
 	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
-		BowlTileEntity te = (BowlTileEntity) pLevel.getBlockEntity(pPos);
-		if (te.internal == null || te.internal.isEmpty() || !te.internal.isEdible()) {
-			return 0;
+		if (pLevel.getBlockEntity(pPos) instanceof BowlBlockEntity bowl&&bowl.internal != null && !bowl.internal.isEmpty() && bowl.internal.isEdible()) {
+			return 15;
 		}
-		return 15;
+		return 0;
 	}
 }

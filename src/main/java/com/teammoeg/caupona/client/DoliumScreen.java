@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.blocks.dolium.CounterDoliumTileEntity;
+import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 import com.teammoeg.caupona.blocks.dolium.DoliumContainer;
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -36,13 +36,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class DoliumScreen extends AbstractContainerScreen<DoliumContainer> {
-	public final CounterDoliumTileEntity te;
+	public final CounterDoliumBlockEntity blockEntity;
 	private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID,
 			"textures/gui/counter_with_dolium.png");
 
 	public DoliumScreen(DoliumContainer screenContainer, Inventory inv, Component titleIn) {
 		super(screenContainer, inv, titleIn);
-		te = screenContainer.tile;
+		blockEntity = screenContainer.tile;
 	}
 
 	private ArrayList<Component> tooltip = new ArrayList<>(2);
@@ -51,11 +51,11 @@ public class DoliumScreen extends AbstractContainerScreen<DoliumContainer> {
 	public void render(PoseStack transform, int mouseX, int mouseY, float partial) {
 		tooltip.clear();
 		super.render(transform, mouseX, mouseY, partial);
-		if (!te.tank.isEmpty()) {
+		if (!blockEntity.tank.isEmpty()) {
 			if (isMouseIn(mouseX, mouseY, 80, 27, 16, 46)) {
-				tooltip.add(te.tank.getFluid().getDisplayName());
+				tooltip.add(blockEntity.tank.getFluid().getDisplayName());
 			}
-			RenderUtils.handleGuiTank(transform, te.tank, leftPos + 80, topPos + 27, 16, 46);
+			RenderUtils.handleGuiTank(transform, blockEntity.tank, leftPos + 80, topPos + 27, 16, 46);
 		}
 		if (!tooltip.isEmpty())
 			super.renderComponentTooltip(transform, tooltip, mouseX, mouseY);
@@ -78,8 +78,8 @@ public class DoliumScreen extends AbstractContainerScreen<DoliumContainer> {
 		RenderSystem.setShaderTexture(0, TEXTURE);
 
 		this.blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
-		if (te.process > 0) {
-			int w = (int) (12 * (te.process / (float) te.processMax));
+		if (blockEntity.process > 0) {
+			int w = (int) (12 * (blockEntity.process / (float) blockEntity.processMax));
 			this.blit(transform, leftPos + 117, topPos + 32, 176, 0, w, 25);
 		}
 	}

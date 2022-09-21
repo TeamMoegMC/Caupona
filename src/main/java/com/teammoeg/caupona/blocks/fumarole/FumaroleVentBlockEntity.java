@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.CPTileTypes;
+import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.stove.IStove;
@@ -43,7 +43,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 
-public class FumaroleVentTileEntity extends CPBaseBlockEntity implements IStove {
+public class FumaroleVentBlockEntity extends CPBaseBlockEntity implements IStove {
 	private final int heat;
 	private final int checkmax;
 	private final int updatemax;
@@ -52,8 +52,8 @@ public class FumaroleVentTileEntity extends CPBaseBlockEntity implements IStove 
 	public static final TagKey<Block> hot = BlockTags.create(new ResourceLocation(Main.MODID, "fumarole_hot"));
 	public static final TagKey<Block> vhot = BlockTags.create(new ResourceLocation(Main.MODID, "fumarole_very_hot"));
 
-	public FumaroleVentTileEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-		super(CPTileTypes.FUMAROLE.get(), pWorldPosition, pBlockState);
+	public FumaroleVentBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
+		super(CPBlockEntityTypes.FUMAROLE.get(), pWorldPosition, pBlockState);
 		heat = Config.SERVER.fumarolePower.get();
 		checkmax = Config.SERVER.fumaroleCheck.get();
 		updatemax = Config.SERVER.fumaroleSpeed.get();
