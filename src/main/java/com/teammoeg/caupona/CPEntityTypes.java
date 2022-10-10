@@ -34,7 +34,7 @@ public class CPEntityTypes {
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES,
 			Main.MODID);
 	public static final RegistryObject<EntityType<CPBoat>> BOAT = ENTITY_TYPES.register("boat",
-			() -> EntityType.Builder.<CPBoat>of(CPBoat::new, MobCategory.MISC).sized(0.5f, 0.5f)
+			() -> EntityType.Builder.<CPBoat>of(CPBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10)
 					.build(new ResourceLocation(Main.MODID, "boat").toString()));
 
 	private CPEntityTypes() {

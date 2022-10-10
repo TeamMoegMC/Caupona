@@ -89,6 +89,7 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
             arg "-mixin.config=" + "caupona.mixins.json"
+            jvmArgs "-Xmx6G"
             mods {
                 caupona {
                     source sourceSets.main
@@ -120,6 +121,7 @@ mixin {
 
 repositories {
     mavenLocal()
+    mavenCentral()
     // JEI and TC Files
     maven {
         name = "DVS1 Maven FS"
@@ -129,6 +131,9 @@ repositories {
     maven {
         name = "latvian maven"
         url = "https://maven.latmod.com/"
+        content {
+            includeGroup "mezz.jei"
+        }
     }
     // Needed for Curios API
     maven {

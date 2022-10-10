@@ -1,4 +1,3 @@
-Added creative display item hint
-Added config and more support for diet mod
-Minor optimize
-Refractor and rename code
+Fixed entity can't get on boat.
+Fixed walnut boat can not be dispensed.
+Fix stripped walnut wood does not create drop.
