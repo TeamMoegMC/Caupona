@@ -22,10 +22,9 @@
 package com.teammoeg.caupona.blocks.fumarole;
 
 import java.util.Iterator;
-import java.util.Random;
 
-import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.stove.IStove;
@@ -37,6 +36,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -119,7 +119,7 @@ public class FumaroleVentBlockEntity extends CPBaseBlockEntity implements IStove
 	}
 
 	public static void placeFumarole(Level pLevel, BlockPos pPos) {
-		Random pRandom = pLevel.getRandom();
+		RandomSource pRandom = pLevel.getRandom();
 		int dx = (pRandom.nextBoolean() ? 1 : -1) * (pRandom.nextInt(6));
 		int dz = (pRandom.nextBoolean() ? 1 : -1) * (pRandom.nextInt(6));
 		if (dx == 0 && dz == 0)

@@ -93,10 +93,10 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 	public String getName() {
 		return Main.MODID + " fluid tags";
 	}
-
+/*
 	@Override
 	protected Path getPath(ResourceLocation id) {
 		return this.generator.getOutputFolder()
 				.resolve("data/" + id.getNamespace() + "/tags/fluids/" + id.getPath() + ".json");
-	}
+	}*/
 }

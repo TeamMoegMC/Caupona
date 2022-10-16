@@ -44,6 +44,7 @@ import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -288,14 +289,14 @@ public class CPRecipeProvider extends RecipeProvider {
 	}
 
 	private void spice(Item spice, MobEffect eff, Consumer<IDataRecipe> out) {
-		out.accept(new SpiceRecipe(new ResourceLocation(Main.MODID, "spice/" + spice.getRegistryName().getPath()),
+		out.accept(new SpiceRecipe(new ResourceLocation(Main.MODID, "spice/" + Utils.getRegistryName(spice).getPath()),
 				Ingredient.of(spice), new MobEffectInstance(eff, 200)));
 
 	}
 
 	private void aspic(String soup, Consumer<IDataRecipe> out) {
 		out.accept(
-				new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/" + soup + "_aspic"), stock.getRegistryName(),
+				new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/" + soup + "_aspic"), Utils.getRegistryName(stock),
 						cpfluid(soup), 250, 0.25F, true, new ItemStack(cpitem(soup + "_aspic")), null));
 		out.accept(new AspicMeltingRecipe(new ResourceLocation(Main.MODID, "melt/" + soup + "_aspic"),
 				Ingredient.of(cpitem(soup + "_aspic")), cpfluid(soup)));
@@ -314,7 +315,7 @@ public class CPRecipeProvider extends RecipeProvider {
 	}
 
 	private void simpleFood(Consumer<IDataRecipe> out, int h, float s, Item i) {
-		out.accept(new FoodValueRecipe(rl("food/" + i.getRegistryName().getPath()), h, s, new ItemStack(i), i));
+		out.accept(new FoodValueRecipe(rl("food/" + Utils.getRegistryName(i).getPath()), h, s, new ItemStack(i), i));
 	}
 
 	private StewRecipeBuilder cook(String s) {

@@ -23,9 +23,9 @@ package com.teammoeg.caupona.items;
 
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.container.PortableBrazierContainer;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -50,7 +50,7 @@ public class PortableBrazierItem extends CPItem implements MenuProvider {
 			return ret;
 		if (!pPlayer.isShiftKeyDown()) {
 			if (pPlayer instanceof ServerPlayer player) {
-				NetworkHooks.openGui(player, this);
+				NetworkHooks.openScreen(player, this);
 			}
 			return InteractionResultHolder.sidedSuccess(pPlayer.getItemInHand(pUsedHand), pLevel.isClientSide);
 		}
@@ -64,7 +64,7 @@ public class PortableBrazierItem extends CPItem implements MenuProvider {
 
 	@Override
 	public Component getDisplayName() {
-		return new TranslatableComponent("container." + Main.MODID + ".portable_brazier.title");
+		return Utils.translate("container." + Main.MODID + ".portable_brazier.title");
 	}
 
 }

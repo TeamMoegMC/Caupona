@@ -2,27 +2,27 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "cond": "half",
       "type": [
         "caupona:vegetables",
         "caupona:meats"
-      ]
+      ],
+      "cond": "half"
     },
     {
-      "cond": "contains",
-      "type": "caupona:vegetables"
+      "type": "caupona:vegetables",
+      "cond": "contains"
     },
     {
-      "cond": "contains",
-      "type": "caupona:meats"
+      "type": "caupona:meats",
+      "cond": "contains"
     },
     {
-      "cond": "contains",
-      "type": "caupona:ice"
+      "type": "caupona:ice",
+      "cond": "contains"
     }
   ],
-  "priority": 1152,
   "density": 0.75,
-  "time": 200,
-  "output": "caupona:okroshka"
+  "output": "caupona:okroshka",
+  "priority": 1152,
+  "time": 200
 }

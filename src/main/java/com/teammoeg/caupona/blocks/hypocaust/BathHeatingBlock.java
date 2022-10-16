@@ -21,15 +21,13 @@
 
 package com.teammoeg.caupona.blocks.hypocaust;
 
-import java.util.Random;
-
 import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
 import com.teammoeg.caupona.client.Particles;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.RegistryObject;
@@ -41,7 +39,7 @@ public abstract class BathHeatingBlock<V extends BathHeatingBlockEntity> extends
 	}
 
 	@Override
-	public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, Random pRandom) {
+	public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
 		super.animateTick(pState, pLevel, pPos, pRandom);
 		if (pRandom.nextDouble() < 0.05 && pLevel.getFluidState(pPos.above()).is(FluidTags.WATER)) {
 			if (pLevel.getBlockEntity(pPos) instanceof BathHeatingBlockEntity bath) {

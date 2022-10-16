@@ -21,7 +21,6 @@
 
 package com.teammoeg.caupona.blocks.stove;
 
-import java.util.Random;
 import java.util.function.BiFunction;
 
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
@@ -31,6 +30,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -42,7 +42,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -105,14 +104,14 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntit
 		 */
 		if (handIn == InteractionHand.MAIN_HAND) {
 			if (blockEntity != null && !worldIn.isClientSide&&(player.getAbilities().instabuild||!blockEntity.isInfinite))
-				NetworkHooks.openGui((ServerPlayer) player, blockEntity, blockEntity.getBlockPos());
+				NetworkHooks.openScreen((ServerPlayer) player, blockEntity, blockEntity.getBlockPos());
 			return InteractionResult.SUCCESS;
 		}
 		return p;
 	}
 
 	@Override
-	public void animateTick(BlockState stateIn, Level worldIn, BlockPos bp, Random rand) {
+	public void animateTick(BlockState stateIn, Level worldIn, BlockPos bp, RandomSource rand) {
 		if (stateIn.getValue(LIT)) {
 			double d0 = bp.getX();
 			double d1 = bp.getY();

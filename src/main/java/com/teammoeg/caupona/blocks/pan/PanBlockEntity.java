@@ -21,15 +21,15 @@
 
 package com.teammoeg.caupona.blocks.pan;
 
+import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
-import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.PanPendingContext;
+import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.items.DishItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
@@ -42,7 +42,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.MenuProvider;
@@ -52,7 +53,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -153,7 +153,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 				nbt.put("cur", current.save());
 
 		}
-		nbt.putString("out", preout.getRegistryName().toString());
+		nbt.putString("out", Utils.getRegistryName(preout).toString());
 
 	}
 
@@ -280,7 +280,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 						break;
 					}
 				}
-				inv.setStackInSlot(i, is.getContainerItem());
+				inv.setStackInSlot(i, is.getCraftingRemainingItem());
 			}
 		}
 		int tpt = 0;
@@ -324,7 +324,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 
 	@Override
 	public Component getDisplayName() {
-		return new TranslatableComponent("container." + Main.MODID + ".pan.title");
+		return MutableComponent.create(new TranslatableContents("container." + Main.MODID + ".pan.title"));
 	}
 
 	RangedWrapper bowl = new RangedWrapper(inv, 9, 12) {

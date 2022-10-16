@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#caupona:gen_walnut",
+  "features": "caupona:trees_walnut",
+  "step": "vegetal_decoration"
+}

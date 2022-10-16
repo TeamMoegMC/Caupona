@@ -22,9 +22,19 @@
 package com.teammoeg.caupona.util;
 
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class Utils {
 
@@ -46,5 +56,34 @@ public class Utils {
 			in.shrink(limit);
 		}
 		return in;
+	}
+	public static MutableComponent translate(String format,Object...objects) {
+		return MutableComponent.create(new TranslatableContents(format,objects));
+	}
+	public static MutableComponent translate(String format) {
+		return MutableComponent.create(new TranslatableContents(format));
+	}
+	public static MutableComponent string(String content) {
+		return MutableComponent.create(new LiteralContents(content));
+	}
+	public static ResourceLocation getRegistryName(Fluid f) {
+		return ForgeRegistries.FLUIDS.getKey(f);
+	}
+	public static ResourceLocation getRegistryName(Item i) {
+		return ForgeRegistries.ITEMS.getKey(i);
+	}
+	public static ResourceLocation getRegistryName(ItemStack i) {
+		return getRegistryName(i.getItem());
+	}
+	public static ResourceLocation getRegistryName(Block b) {
+		return ForgeRegistries.BLOCKS.getKey(b);
+	}
+
+	public static ResourceLocation getRegistryName(FluidStack f) {
+		return getRegistryName(f.getFluid());
+	}
+
+	public static ResourceLocation getRegistryName(MobEffect effect) {
+		return ForgeRegistries.MOB_EFFECTS.getKey(effect);
 	}
 }

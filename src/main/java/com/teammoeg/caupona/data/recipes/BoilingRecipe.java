@@ -26,9 +26,11 @@ import java.util.Map;
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
@@ -39,7 +41,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class BoilingRecipe extends IDataRecipe {
 	public static Map<Fluid, BoilingRecipe> recipes;
-	public static RecipeType<?> TYPE;
+	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
 	public Fluid before;
 	public Fluid after;
@@ -52,7 +54,7 @@ public class BoilingRecipe extends IDataRecipe {
 
 	@Override
 	public RecipeType<?> getType() {
-		return TYPE;
+		return TYPE.get();
 	}
 
 	public BoilingRecipe(ResourceLocation id, JsonObject jo) {
@@ -66,8 +68,8 @@ public class BoilingRecipe extends IDataRecipe {
 
 	public BoilingRecipe(ResourceLocation id, FriendlyByteBuf data) {
 		super(id);
-		before = data.readRegistryId();
-		after = data.readRegistryId();
+		before = data.readRegistryIdUnsafe(ForgeRegistries.FLUIDS);
+		after = data.readRegistryIdUnsafe(ForgeRegistries.FLUIDS);
 		time = data.readVarInt();
 	}
 
@@ -79,15 +81,15 @@ public class BoilingRecipe extends IDataRecipe {
 	}
 
 	public void write(FriendlyByteBuf data) {
-		data.writeRegistryId(before);
-		data.writeRegistryId(after);
+		data.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS,before);
+		data.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS,after);
 		data.writeVarInt(time);
 	}
 
 	@Override
 	public void serializeRecipeData(JsonObject json) {
-		json.addProperty("from", before.getRegistryName().toString());
-		json.addProperty("to", after.getRegistryName().toString());
+		json.addProperty("from", Utils.getRegistryName(before).toString());
+		json.addProperty("to", Utils.getRegistryName(after).toString());
 		json.addProperty("time", time);
 	}
 

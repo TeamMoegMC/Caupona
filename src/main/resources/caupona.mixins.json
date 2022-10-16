@@ -5,8 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "caupona.refmap.json",
   "mixins": [
-  "DietApiImplMixin"
-  
+
   ],
   "client": ["SmokerBlockMixin"],
   "injectors": {

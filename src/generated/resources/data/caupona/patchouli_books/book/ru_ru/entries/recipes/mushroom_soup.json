@@ -1,13 +1,13 @@
 {
-  "name": "Грибной Суп",
-  "icon": "caupona:mushroom_soup",
   "category": "caupona:cook_recipes",
+  "icon": "caupona:mushroom_soup",
+  "name": "Грибной Суп",
   "pages": [
     {
       "type": "caupona:cookrecipe",
+      "base": "caupona:water_or_stock_based",
       "img": "caupona:textures/gui/recipes/mushroom_soup.png",
-      "result": "caupona:mushroom_soup",
-      "base": "caupona:water_or_stock_based"
+      "result": "caupona:mushroom_soup"
     }
   ]
 }

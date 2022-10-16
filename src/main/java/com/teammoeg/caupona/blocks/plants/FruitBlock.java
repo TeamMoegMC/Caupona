@@ -21,8 +21,6 @@
 
 package com.teammoeg.caupona.blocks.plants;
 
-import java.util.Random;
-
 import com.teammoeg.caupona.Main;
 
 import net.minecraft.core.BlockPos;
@@ -30,6 +28,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.LevelReader;
@@ -69,7 +68,7 @@ public class FruitBlock extends CropBlock {
 	@SuppressWarnings("deprecation")
 	@Override
 
-	public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, Random pRandom) {
+	public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
 		if (!pLevel.isAreaLoaded(pPos, 1))
 			return; // Forge: prevent loading unloaded chunks when checking neighbor's light
 		if (pLevel.getRawBrightness(pPos, 0) >= 9) {

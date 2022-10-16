@@ -22,39 +22,51 @@
 package com.teammoeg.caupona.worldgen;
 
 import java.util.Optional;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
-import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
-import net.minecraft.world.level.levelgen.structure.PostPlacementProcessor;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
-import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
-public class FumaroleStructures extends StructureFeature<JigsawConfiguration> {
-
-	public FumaroleStructures() {
-		super(JigsawConfiguration.CODEC, FumaroleStructures::createPiecesGenerator, PostPlacementProcessor.NONE);
-	}
+public class FumaroleStructures extends Structure {
+	  public static final Codec<FumaroleStructures> CODEC = RecordCodecBuilder.<FumaroleStructures>mapCodec((p_227640_) -> {
+	      return p_227640_.group(settingsCodec(p_227640_), StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter((p_227656_) -> {
+	         return p_227656_.startPool;
+	      })).apply(p_227640_, FumaroleStructures::new);
+	   }).codec();
+	public final Holder<StructureTemplatePool> startPool;
 
 	@Override
 	public GenerationStep.Decoration step() {
 		return GenerationStep.Decoration.SURFACE_STRUCTURES;
 	}
 
-	public static Optional<PieceGenerator<JigsawConfiguration>> createPiecesGenerator(
-			PieceGeneratorSupplier.Context<JigsawConfiguration> context) {
 
-		return Optional.of((builder, ctx) -> {
-			BlockPos blockpos = ctx.chunkPos().getBlockAt(ctx.random().nextInt(16), 0, ctx.random().nextInt(16));
-			int topLandY = context.chunkGenerator().getFirstFreeHeight(blockpos.getX(), blockpos.getZ(),
-					Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
-			blockpos = blockpos.atY(topLandY - 4 + ctx.random().nextInt(1));
-			JigsawPlacement.addPieces(context, PoolElementStructurePiece::new, blockpos, false, false)
-					.ifPresent(t -> t.generatePieces(builder, ctx));
-		});
+	@Override
+	public Optional<GenerationStub> findGenerationPoint(GenerationContext ctx) {
+		BlockPos blockpos = ctx.chunkPos().getBlockAt(ctx.random().nextInt(16), 0, ctx.random().nextInt(16));
+		int topLandY = ctx.chunkGenerator().getFirstFreeHeight(blockpos.getX(), blockpos.getZ(),
+				Heightmap.Types.WORLD_SURFACE_WG, ctx.heightAccessor(), ctx.randomState());
+		blockpos = blockpos.atY(topLandY - 4 + ctx.random().nextInt(1));
+		return JigsawPlacement.addPieces(ctx, this.startPool,Optional.empty(), 32, blockpos,false, Optional.empty(), 0);
 	}
+
+	@Override
+	public StructureType<?> type() {
+		return CPStructures.FUMAROLE;
+	}
+
+
+	public FumaroleStructures(StructureSettings p_226558_,Holder<StructureTemplatePool> pool) {
+		super(p_226558_);
+		startPool=pool;
+	}
+
+
 }

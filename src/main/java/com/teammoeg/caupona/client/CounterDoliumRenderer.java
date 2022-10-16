@@ -36,6 +36,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 
 public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumBlockEntity> {
@@ -71,9 +72,10 @@ public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumB
 			matrixStack.mulPose(new Quaternion(90, 0, 0, true));
 
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
+			IClientFluidTypeExtensions attr=IClientFluidTypeExtensions.of(fs.getFluid());
 			TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS)
-					.getSprite(fs.getFluid().getAttributes().getStillTexture(fs));
-			int col = fs.getFluid().getAttributes().getColor(fs);
+					.getSprite(attr.getStillTexture(fs));
+			int col = attr.getTintColor(fs);
 			int iW = sprite.getWidth();
 			int iH = sprite.getHeight();
 			if (iW > 0 && iH > 0) {

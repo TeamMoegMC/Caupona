@@ -2,22 +2,22 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "cond": "mainly",
-      "type": "caupona:vegetables"
+      "type": "caupona:vegetables",
+      "cond": "mainly"
     },
     {
-      "cond": "mainlyOf",
       "type": "caupona:mushroom",
+      "cond": "mainlyOf",
       "tag": "caupona:vegetables"
     }
   ],
-  "priority": 128,
-  "density": 0.75,
-  "time": 200,
   "base": [
     {
       "tag": "caupona:water"
     }
   ],
-  "output": "caupona:mushroom_soup"
+  "density": 0.75,
+  "output": "caupona:mushroom_soup",
+  "priority": 128,
+  "time": 200
 }

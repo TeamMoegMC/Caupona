@@ -1,13 +1,13 @@
 {
-  "name": "嫩煎海鲜",
-  "icon": "caupona:sauteed_seafood",
   "category": "caupona:sautee_recipes",
+  "icon": "caupona:sauteed_seafood",
+  "name": "嫩煎海鲜",
   "pages": [
     {
       "type": "caupona:fryrecipe",
+      "base": "caupona:gravy_boat",
       "img": "caupona:textures/gui/recipes/sauteed_seafood.png",
-      "result": "caupona:sauteed_seafood",
-      "base": "caupona:gravy_boat"
+      "result": "caupona:sauteed_seafood"
     }
   ]
 }

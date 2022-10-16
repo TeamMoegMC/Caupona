@@ -29,6 +29,7 @@ import com.teammoeg.caupona.items.DishItem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -37,8 +38,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.ModelDataManager;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.client.model.data.ModelDataManager;
 
 public class PanRenderer implements BlockEntityRenderer<PanBlockEntity> {
 
@@ -76,9 +77,9 @@ public class PanRenderer implements BlockEntityRenderer<PanBlockEntity> {
 		} else
 			bs = bs.setValue(DishBlock.PAN, 2);
 		BlockRenderDispatcher rd = Minecraft.getInstance().getBlockRenderer();
-		IModelData imd = rd.getBlockModel(bs).getModelData(blockEntity.getLevel(), blockEntity.getBlockPos(), bs,
-				ModelDataManager.getModelData(blockEntity.getLevel(), blockEntity.getBlockPos()));
-		rd.renderSingleBlock(bs, matrixStack, buffer, combinedLightIn, combinedOverlayIn, imd);
+		ModelData imd = rd.getBlockModel(bs).getModelData(blockEntity.getLevel(), blockEntity.getBlockPos(), bs,
+				blockEntity.getLevel().getModelDataManager().getAt((blockEntity.getBlockPos())));
+		rd.renderSingleBlock(bs, matrixStack, buffer, combinedLightIn, combinedOverlayIn, imd,RenderType.cutout());
 
 	}
 

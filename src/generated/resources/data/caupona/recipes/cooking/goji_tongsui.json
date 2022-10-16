@@ -2,35 +2,35 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "cond": "mainly",
-      "type": "caupona:sugar"
+      "type": "caupona:sugar",
+      "cond": "mainly"
     },
     {
-      "cond": "contains",
-      "type": "caupona:wolfberries"
+      "type": "caupona:wolfberries",
+      "cond": "contains"
     }
   ],
-  "deny": [
-    {
-      "cond": "contains",
-      "type": "caupona:meats"
-    },
-    {
-      "cond": "contains",
-      "type": "caupona:seafood"
-    },
-    {
-      "cond": "contains",
-      "type": "caupona:vegetables"
-    }
-  ],
-  "priority": 1088,
-  "density": 0.75,
-  "time": 200,
   "base": [
     {
       "fluid": "caupona:nail_soup"
     }
   ],
-  "output": "caupona:goji_tongsui"
+  "density": 0.75,
+  "deny": [
+    {
+      "type": "caupona:meats",
+      "cond": "contains"
+    },
+    {
+      "type": "caupona:seafood",
+      "cond": "contains"
+    },
+    {
+      "type": "caupona:vegetables",
+      "cond": "contains"
+    }
+  ],
+  "output": "caupona:goji_tongsui",
+  "priority": 1088,
+  "time": 200
 }

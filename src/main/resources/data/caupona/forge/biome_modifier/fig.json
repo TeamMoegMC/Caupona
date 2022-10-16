@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#caupona:gen_fig",
+  "features": "caupona:trees_fig",
+  "step": "vegetal_decoration"
+}

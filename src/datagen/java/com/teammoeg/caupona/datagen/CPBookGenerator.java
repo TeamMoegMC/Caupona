@@ -22,8 +22,10 @@
 package com.teammoeg.caupona.datagen;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -34,6 +36,8 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.common.hash.Hashing;
+import com.google.common.hash.HashingOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -48,11 +52,12 @@ import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidTag;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidType;
+import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
@@ -82,7 +87,7 @@ public class CPBookGenerator implements DataProvider {
 		public String getTranslation(String key, Object... objects) {
 			if (langs.get(lang).has(key))
 				return String.format(langs.get(lang).get(key).getAsString(), objects);
-			return new TranslatableComponent(key, objects).getString();
+			return Utils.translate(key, objects).getString();
 		}
 
 	}
@@ -95,13 +100,13 @@ public class CPBookGenerator implements DataProvider {
 	String[] allangs = { "zh_cn", "en_us", "es_es", "ru_ru" };
 
 	@Override
-	public void run(HashCache cache) throws IOException {
+	public void run(CachedOutput cache) throws IOException {
 		bookmain = this.generator.getOutputFolder().resolve("data/" + Main.MODID + "/patchouli_books/book/");
 		recipes = CPRecipeProvider.recipes.stream().filter(i -> i instanceof StewCookingRecipe)
 				.map(e -> ((StewCookingRecipe) e))
-				.collect(Collectors.toMap(e -> e.output.getRegistryName().getPath(), e -> e));
+				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.output).getPath(), e -> e));
 		frecipes = CPRecipeProvider.recipes.stream().filter(i -> i instanceof SauteedRecipe).map(e -> ((SauteedRecipe) e))
-				.collect(Collectors.toMap(e -> e.output.getRegistryName().getPath(), e -> e));
+				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.output).getPath(), e -> e));
 		for (String lang : allangs)
 			loadLang(lang);
 
@@ -120,7 +125,7 @@ public class CPBookGenerator implements DataProvider {
 		try {
 			Resource rc = helper.getResource(new ResourceLocation(Main.MODID, "lang/" + locale + ".json"),
 					PackType.CLIENT_RESOURCES);
-			JsonObject jo = jp.parse(new InputStreamReader(rc.getInputStream(), "UTF-8")).getAsJsonObject();
+			JsonObject jo = JsonParser.parseReader(new InputStreamReader(rc.open(), "UTF-8")).getAsJsonObject();
 			langs.put(locale, jo);
 
 		} catch (IOException e) {
@@ -134,12 +139,12 @@ public class CPBookGenerator implements DataProvider {
 		return Main.MODID + " recipe patchouli generator";
 	}
 
-	private void defaultPage(HashCache cache, String name) {
+	private void defaultPage(CachedOutput cache, String name) {
 		for (String lang : allangs)
 			saveEntry(name, lang, cache, createRecipe(name, lang));
 	}
 
-	private void defaultFryPage(HashCache cache, String name) {
+	private void defaultFryPage(CachedOutput cache, String name) {
 		for (String lang : allangs)
 			saveFryEntry(name, lang, cache, createFryingRecipe(name, lang));
 
@@ -171,7 +176,7 @@ public class CPBookGenerator implements DataProvider {
 		imgpage.addProperty("img",
 				new ResourceLocation(Main.MODID, "textures/gui/recipes/" + name + ".png").toString());
 		imgpage.addProperty("result", new ResourceLocation(Main.MODID, name).toString());
-		imgpage.addProperty("base", baseType.getRegistryName().toString());
+		imgpage.addProperty("base", Utils.getRegistryName(baseType).toString());
 		pages.add(imgpage);
 		page.add("pages", pages);
 		return page;
@@ -188,35 +193,26 @@ public class CPBookGenerator implements DataProvider {
 		imgpage.addProperty("img",
 				new ResourceLocation(Main.MODID, "textures/gui/recipes/" + name + ".png").toString());
 		imgpage.addProperty("result", new ResourceLocation(Main.MODID, name).toString());
-		imgpage.addProperty("base", CPBlocks.GRAVY_BOAT.getRegistryName().toString());
+		imgpage.addProperty("base", Utils.getRegistryName(CPBlocks.GRAVY_BOAT).toString());
 		pages.add(imgpage);
 		page.add("pages", pages);
 		return page;
 	}
 
-	private void saveEntry(String name, String locale, HashCache cache, JsonObject entry) {
+	private void saveEntry(String name, String locale, CachedOutput cache, JsonObject entry) {
 		saveJson(cache, entry, bookmain.resolve(locale + "/entries/recipes/" + name + ".json"));
 	}
 
-	private void saveFryEntry(String name, String locale, HashCache cache, JsonObject entry) {
+	private void saveFryEntry(String name, String locale, CachedOutput cache, JsonObject entry) {
 		saveJson(cache, entry, bookmain.resolve(locale + "/entries/sautee_recipes/" + name + ".json"));
 	}
 
-	private static void saveJson(HashCache cache, JsonObject recipeJson, Path path) {
+	private static void saveJson(CachedOutput cache, JsonObject recipeJson, Path path) {
 		try {
-			String s = GSON.toJson(recipeJson);
-			String s1 = SHA1.hashUnencodedChars(s).toString();
-			if (!Objects.equals(cache.getHash(path), s1) || !Files.exists(path)) {
-				Files.createDirectories(path.getParent());
-
-				try (BufferedWriter bufferedwriter = Files.newBufferedWriter(path)) {
-					bufferedwriter.write(s);
-				}
-			}
-
-			cache.putNew(path, s1);
-		} catch (IOException ioexception) {
-			LOGGER.error("Couldn't save data json {}", path, ioexception);
+			DataProvider.saveStable(cache, recipeJson, path);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			LOGGER.error("Couldn't save data json {}", path, e);
 		}
 
 	}

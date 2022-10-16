@@ -1,13 +1,13 @@
 {
-  "name": "Тыквенный Суп",
-  "icon": "caupona:pumpkin_soup",
   "category": "caupona:cook_recipes",
+  "icon": "caupona:pumpkin_soup",
+  "name": "Тыквенный Суп",
   "pages": [
     {
       "type": "caupona:cookrecipe",
+      "base": "caupona:water_or_stock_based",
       "img": "caupona:textures/gui/recipes/pumpkin_soup.png",
-      "result": "caupona:pumpkin_soup",
-      "base": "caupona:water_or_stock_based"
+      "result": "caupona:pumpkin_soup"
     }
   ]
 }

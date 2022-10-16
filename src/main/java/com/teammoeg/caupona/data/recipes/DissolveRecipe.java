@@ -30,13 +30,14 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.RegistryObject;
 
 public class DissolveRecipe extends IDataRecipe {
 	public static List<DissolveRecipe> recipes;
-	public static RecipeType<?> TYPE;
+	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
 
 	@Override
@@ -46,7 +47,7 @@ public class DissolveRecipe extends IDataRecipe {
 
 	@Override
 	public RecipeType<?> getType() {
-		return TYPE;
+		return TYPE.get();
 	}
 
 	public Ingredient item;

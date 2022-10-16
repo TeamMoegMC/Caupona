@@ -28,6 +28,7 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.SerializeUtil;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -36,6 +37,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
@@ -44,7 +46,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class FluidFoodValueRecipe extends IDataRecipe {
 	public static Map<ResourceLocation, FluidFoodValueRecipe> recipes;
-	public static RecipeType<?> TYPE;
+	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
 
 	@Override
@@ -54,7 +56,7 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 
 	@Override
 	public RecipeType<?> getType() {
-		return TYPE;
+		return TYPE.get();
 	}
 
 	public int heal;
@@ -70,7 +72,7 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 		this.sat = sat;
 		this.repersent = repersent;
 		this.parts = parts;
-		this.f = f.getRegistryName();
+		this.f = Utils.getRegistryName(f);
 	}
 
 	public FluidFoodValueRecipe(ResourceLocation id, JsonObject jo) {
@@ -118,7 +120,7 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 				JsonObject jo = new JsonObject();
 				jo.addProperty("level", x.getFirst().getAmplifier());
 				jo.addProperty("time", x.getFirst().getDuration());
-				jo.addProperty("effect", x.getFirst().getEffect().getRegistryName().toString());
+				jo.addProperty("effect", Utils.getRegistryName(x.getFirst().getEffect()).toString());
 				jo.addProperty("chance", x.getSecond());
 				return jo;
 			}));

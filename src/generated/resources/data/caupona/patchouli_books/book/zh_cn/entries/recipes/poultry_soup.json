@@ -1,13 +1,13 @@
 {
-  "name": "禽肉汤",
-  "icon": "caupona:poultry_soup",
   "category": "caupona:cook_recipes",
+  "icon": "caupona:poultry_soup",
+  "name": "禽肉汤",
   "pages": [
     {
       "type": "caupona:cookrecipe",
+      "base": "caupona:water_or_stock_based",
       "img": "caupona:textures/gui/recipes/poultry_soup.png",
-      "result": "caupona:poultry_soup",
-      "base": "caupona:water_or_stock_based"
+      "result": "caupona:poultry_soup"
     }
   ]
 }

@@ -21,9 +21,10 @@
 
 package com.teammoeg.caupona.blocks.pan;
 
-import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -33,7 +34,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -66,7 +66,7 @@ public class PanBlock extends CPHorizontalEntityBlock<PanBlockEntity> {
 		PanBlockEntity blockEntity = (PanBlockEntity) worldIn.getBlockEntity(pos);
 		if (handIn == InteractionHand.MAIN_HAND) {
 			if (blockEntity != null && !worldIn.isClientSide)
-				NetworkHooks.openGui((ServerPlayer) player, blockEntity, blockEntity.getBlockPos());
+				NetworkHooks.openScreen((ServerPlayer) player, blockEntity, blockEntity.getBlockPos());
 			return InteractionResult.SUCCESS;
 		}
 		return p;

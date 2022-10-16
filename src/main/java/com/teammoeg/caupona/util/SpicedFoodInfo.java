@@ -52,7 +52,7 @@ public class SpicedFoodInfo {
 			return false;
 		this.spice = new MobEffectInstance(spice);
 		hasSpice = true;
-		this.spiceName = im.getItem().getRegistryName();
+		this.spiceName =Utils.getRegistryName(im);
 		return true;
 	}
 

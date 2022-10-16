@@ -224,10 +224,10 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		Item i = ForgeRegistries.ITEMS.getValue(mrl(s));
 		return i.asItem();// just going to cause trouble if not exists
 	}
-
+/*
 	@Override
 	protected Path getPath(ResourceLocation id) {
 		return this.generator.getOutputFolder()
 				.resolve("data/" + id.getNamespace() + "/tags/items/" + id.getPath() + ".json");
-	}
+	}*/
 }

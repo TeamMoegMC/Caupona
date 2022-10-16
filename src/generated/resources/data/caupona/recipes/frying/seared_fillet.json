@@ -2,11 +2,11 @@
   "type": "caupona:frying",
   "allow": [
     {
-      "cond": "mainly",
-      "type": "caupona:seafood/fish"
+      "type": "caupona:seafood/fish",
+      "cond": "mainly"
     }
   ],
+  "output": "caupona:seared_fillet",
   "priority": 64,
-  "time": 200,
-  "output": "caupona:seared_fillet"
+  "time": 200
 }

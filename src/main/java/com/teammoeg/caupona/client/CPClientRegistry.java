@@ -21,31 +21,27 @@
 
 package com.teammoeg.caupona.client;
 
+import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPEntityTypes;
 import com.teammoeg.caupona.CPGui;
-import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.Main;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.FoliageColor;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -55,7 +51,7 @@ public class CPClientRegistry {
 	@SuppressWarnings("unused")
 	@SubscribeEvent
 	public static void onClientSetupEvent(FMLClientSetupEvent event) {
-		LayerDefinition layer = BoatModel.createBodyModel();
+		LayerDefinition layer = BoatModel.createBodyModel(false);
 		for (String wood : CPBlocks.woods)
 			ForgeHooksClient.registerLayerDefinition(
 					new ModelLayerLocation(new ResourceLocation(Main.MODID, "boat/" + wood), "main"), () -> layer);
@@ -65,45 +61,43 @@ public class CPClientRegistry {
 		MenuScreens.register(CPGui.BRAZIER.get(), PortableBrazierScreen::new);
 		MenuScreens.register(CPGui.PAN.get(), PanScreen::new);
 
-		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stew_pot, RenderType.cutout());
+		/*ItemBlockRenderTypes.setRenderLayer(CPBlocks.stew_pot, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove1, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove2, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove3, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove4, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove5, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.bowl, RenderType.cutout());
-		ItemBlockRenderTypes.setRenderLayer(CPBlocks.GRAVY_BOAT, RenderType.translucent());
+		ItemBlockRenderTypes.setRenderLayer(CPBlocks.GRAVY_BOAT, RenderType.translucent());*/
 
-		for (Block bl : CPBlocks.transparentBlocks)
-			ItemBlockRenderTypes.setRenderLayer(bl, RenderType.cutout());
 		BlockEntityRenderers.register(CPBlockEntityTypes.STEW_POT.get(), StewPotRenderer::new);
 		BlockEntityRenderers.register(CPBlockEntityTypes.BOWL.get(), BowlRenderer::new);
 		BlockEntityRenderers.register(CPBlockEntityTypes.SIGN.get(), SignRenderer::new);
 		BlockEntityRenderers.register(CPBlockEntityTypes.DOLIUM.get(), CounterDoliumRenderer::new);
 		BlockEntityRenderers.register(CPBlockEntityTypes.PAN.get(), PanRenderer::new);
 		Sheets.addWoodType(CPBlocks.WALNUT);
-		EntityRenderers.register(CPEntityTypes.BOAT.get(), CPBoatRenderer::new);
+		EntityRenderers.register(CPEntityTypes.BOAT.get(), c->new CPBoatRenderer(c,false));
 
 	}
 
 	@SuppressWarnings({ "unused", "resource" })
 	@SubscribeEvent
-	public static void registerParticleFactories(ParticleFactoryRegisterEvent event) {
-		Minecraft.getInstance().particleEngine.register(Particles.STEAM.get(), SteamParticle.Factory::new);
-		Minecraft.getInstance().particleEngine.register(Particles.SOOT.get(), SootParticle.Factory::new);
+	public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
+		event.register(Particles.STEAM.get(), SteamParticle.Factory::new);
+		event.register(Particles.SOOT.get(), SootParticle.Factory::new);
 	}
 
 	@SubscribeEvent
-	public static void onTint(ColorHandlerEvent.Block ev) {
-		ev.getBlockColors().register((p_92626_, p_92627_, p_92628_, p_92629_) -> {
+	public static void onTint(RegisterColorHandlersEvent.Block ev) {
+		ev.register((p_92626_, p_92627_, p_92628_, p_92629_) -> {
 			return p_92627_ != null && p_92628_ != null ? BiomeColors.getAverageFoliageColor(p_92627_, p_92628_)
 					: FoliageColor.getDefaultColor();
 		}, CPBlocks.WALNUT_LEAVE, CPBlocks.FIG_LEAVE, CPBlocks.WOLFBERRY_LEAVE);
 	}
 
 	@SubscribeEvent
-	public static void onTint(ColorHandlerEvent.Item ev) {
-		ev.getItemColors().register((i, t) -> 0x5bd449, CPBlocks.WALNUT_LEAVE, CPBlocks.FIG_LEAVE,
+	public static void onTint(RegisterColorHandlersEvent.Item ev) {
+		ev.register((i, t) -> 0x5bd449, CPBlocks.WALNUT_LEAVE, CPBlocks.FIG_LEAVE,
 				CPBlocks.WOLFBERRY_LEAVE);
 	}
 }

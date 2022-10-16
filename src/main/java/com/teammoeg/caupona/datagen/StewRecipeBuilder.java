@@ -32,6 +32,7 @@ import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidTag;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidType;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidTypeType;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
@@ -80,7 +81,7 @@ public class StewRecipeBuilder {
 	}
 
 	public static StewRecipeBuilder start(Fluid out) {
-		return new StewRecipeBuilder(new ResourceLocation(Main.MODID, "cooking/" + out.getRegistryName().getPath()),
+		return new StewRecipeBuilder(new ResourceLocation(Main.MODID, "cooking/" + Utils.getRegistryName(out).getPath()),
 				out);
 	}
 

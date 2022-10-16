@@ -34,6 +34,7 @@ import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.SerializeUtil;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
@@ -46,6 +47,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -53,7 +55,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class FoodValueRecipe extends IDataRecipe {
 	public static Map<Item, FoodValueRecipe> recipes;
-	public static RecipeType<?> TYPE;
+	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
 	public static Set<FoodValueRecipe> recipeset;
 
@@ -64,7 +66,7 @@ public class FoodValueRecipe extends IDataRecipe {
 
 	@Override
 	public RecipeType<?> getType() {
-		return TYPE;
+		return TYPE.get();
 	}
 
 	public int heal;
@@ -140,7 +142,7 @@ public class FoodValueRecipe extends IDataRecipe {
 		if (processtimes != null && !processtimes.isEmpty())
 			json.add("items", SerializeUtil.toJsonList(processtimes.entrySet(), e -> {
 				JsonObject jo = new JsonObject();
-				jo.addProperty("item", e.getKey().getRegistryName().toString());
+				jo.addProperty("item", Utils.getRegistryName(e.getKey()).toString());
 				if (e.getValue() != 0)
 					jo.addProperty("time", e.getValue());
 				return jo;
@@ -150,7 +152,7 @@ public class FoodValueRecipe extends IDataRecipe {
 				JsonObject jo = new JsonObject();
 				jo.addProperty("level", x.getFirst().getAmplifier());
 				jo.addProperty("time", x.getFirst().getDuration());
-				jo.addProperty("effect", x.getFirst().getEffect().getRegistryName().toString());
+				jo.addProperty("effect", Utils.getRegistryName(x.getFirst().getEffect()).toString());
 				jo.addProperty("chance", x.getSecond());
 				return jo;
 			}));
@@ -163,7 +165,7 @@ public class FoodValueRecipe extends IDataRecipe {
 		super(id);
 		heal = data.readVarInt();
 		sat = data.readFloat();
-		processtimes = SerializeUtil.readList(data, d -> new Pair<>(d.<Item>readRegistryId(), d.readVarInt())).stream()
+		processtimes = SerializeUtil.readList(data, d -> new Pair<>(d.readRegistryIdUnsafe(ForgeRegistries.ITEMS), d.readVarInt())).stream()
 				.collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
 		effects = SerializeUtil.readList(data, d -> new Pair<>(MobEffectInstance.load(d.readNbt()), d.readFloat()));
 		repersent = SerializeUtil.readOptional(data, d -> ItemStack.of(d.readNbt())).orElse(null);
@@ -173,7 +175,7 @@ public class FoodValueRecipe extends IDataRecipe {
 		data.writeVarInt(heal);
 		data.writeFloat(sat);
 		SerializeUtil.writeList2(data, processtimes.entrySet(), (d, e) -> {
-			d.writeRegistryId(e.getKey());
+			d.writeRegistryIdUnsafe(ForgeRegistries.ITEMS,e.getKey());
 
 			d.writeVarInt(e.getValue());
 		});

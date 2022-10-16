@@ -1,13 +1,13 @@
 {
-  "name": "Заварной Крем",
-  "icon": "caupona:custard",
   "category": "caupona:cook_recipes",
+  "icon": "caupona:custard",
+  "name": "Заварной Крем",
   "pages": [
     {
       "type": "caupona:cookrecipe",
+      "base": "caupona:milk_based",
       "img": "caupona:textures/gui/recipes/custard.png",
-      "result": "caupona:custard",
-      "base": "caupona:milk_based"
+      "result": "caupona:custard"
     }
   ]
 }

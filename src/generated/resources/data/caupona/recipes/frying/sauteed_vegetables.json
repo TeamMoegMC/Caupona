@@ -2,11 +2,11 @@
   "type": "caupona:frying",
   "allow": [
     {
-      "cond": "mainly",
-      "type": "caupona:vegetables"
+      "type": "caupona:vegetables",
+      "cond": "mainly"
     }
   ],
+  "output": "caupona:sauteed_vegetables",
   "priority": 64,
-  "time": 200,
-  "output": "caupona:sauteed_vegetables"
+  "time": 200
 }

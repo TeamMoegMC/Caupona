@@ -23,6 +23,7 @@ package com.teammoeg.caupona.datagen;
 
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -84,7 +85,7 @@ public class CPItemModelProvider extends ItemModelProvider {
 	}
 
 	public void itemModel(Item item, String name) {
-		super.withExistingParent(item.getRegistryName().getPath(), new ResourceLocation(Main.MODID, "block/" + name));
+		super.withExistingParent(Utils.getRegistryName(item).getPath(), new ResourceLocation(Main.MODID, "block/" + name));
 	}
 
 	public ItemModelBuilder simpleTexture(String name, String par) {

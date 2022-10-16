@@ -2,16 +2,16 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "cond": "mainly",
-      "type": "caupona:vegetables"
+      "type": "caupona:vegetables",
+      "cond": "mainly"
     }
   ],
-  "density": 0.75,
-  "time": 200,
   "base": [
     {
       "fluid": "caupona:scalded_milk"
     }
   ],
-  "output": "caupona:vegetable_chowder"
+  "density": 0.75,
+  "output": "caupona:vegetable_chowder",
+  "time": 200
 }

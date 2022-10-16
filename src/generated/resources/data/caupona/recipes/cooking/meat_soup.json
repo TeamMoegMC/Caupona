@@ -2,16 +2,16 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "cond": "mainly",
-      "type": "caupona:meats/meat"
+      "type": "caupona:meats/meat",
+      "cond": "mainly"
     }
   ],
-  "density": 0.75,
-  "time": 200,
   "base": [
     {
       "tag": "caupona:water"
     }
   ],
-  "output": "caupona:meat_soup"
+  "density": 0.75,
+  "output": "caupona:meat_soup",
+  "time": 200
 }

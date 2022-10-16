@@ -1,5 +1,5 @@
 {
   "type": "caupona:bowl",
-  "item": "caupona:stock",
-  "fluid": "caupona:stock"
+  "fluid": "caupona:stock",
+  "item": "caupona:stock"
 }

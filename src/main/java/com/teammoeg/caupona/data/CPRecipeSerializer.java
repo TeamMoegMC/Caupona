@@ -34,8 +34,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
-public class CPRecipeSerializer<T extends IDataRecipe>
-		extends net.minecraftforge.registries.ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {
+public class CPRecipeSerializer<T extends IDataRecipe> implements RecipeSerializer<T> {
 	BiFunction<ResourceLocation, JsonObject, T> jsfactory;
 	BiFunction<ResourceLocation, FriendlyByteBuf, T> pkfactory;
 	BiConsumer<T, FriendlyByteBuf> writer;

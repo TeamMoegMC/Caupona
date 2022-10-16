@@ -42,13 +42,15 @@ import com.teammoeg.caupona.items.StewItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
 import com.teammoeg.caupona.util.StewInfo;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -59,7 +61,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.capabilities.Capability;
@@ -259,7 +260,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 
 			if (is.getItem() instanceof StewItem) {
 				if (tryAddFluid(BowlContainingRecipe.extractFluid(is))) {
-					ItemStack ret = is.getContainerItem();
+					ItemStack ret = is.getCraftingRemainingItem();
 					is.shrink(1);
 					nowork = 0;
 					inv.setStackInSlot(10, ret);
@@ -275,7 +276,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 					FluidStack fs = amr.handle(is);
 					fs.setAmount(fs.getAmount() * produce);
 					if (tryAddFluid(fs, amr.time, false)) {
-						ItemStack ret = is.getContainerItem();
+						ItemStack ret = is.getCraftingRemainingItem();
 						ret.setCount(produce);
 						is.shrink(produce);
 						nowork = 0;
@@ -338,7 +339,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		tank.writeToNBT(nbt);
 		
 		if (become != null)
-			nbt.putString("result", become.getRegistryName().toString());
+			nbt.putString("result", Utils.getRegistryName(become).toString());
 		nbt.putBoolean("inf", isInfinite);
 		if (!isClient) {
 			nbt.put("inv", inv.serializeNBT());
@@ -466,7 +467,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 							break;
 						}
 					}
-					inv.setStackInSlot(i, is.getContainerItem());
+					inv.setStackInSlot(i, is.getCraftingRemainingItem());
 				}
 				hasItem = true;
 			}
@@ -503,7 +504,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 	private int decideSoup() {
 		become = tank.getFluid().getFluid();
 
-		StewPendingContext ctx = new StewPendingContext(getCurrent(), become.getRegistryName());
+		StewPendingContext ctx = new StewPendingContext(getCurrent(), Utils.getRegistryName(become));
 		nextbase = current.base;
 		if (ctx.getItems().isEmpty()) {
 			return 0;
@@ -518,7 +519,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 			int mt = cr.matches(ctx);
 			if (mt != 0) {
 				if (mt == 2)
-					nextbase = become.getRegistryName();
+					nextbase = Utils.getRegistryName(become);
 				else
 					nextbase = current.base;
 				become = cr.output;
@@ -559,12 +560,12 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		if (!(level.getBlockEntity(worldPosition.below()) instanceof IStove stove) || !stove.canEmitHeat())
 			return false;
 		StewInfo n = SoupFluid.getInfo(fs);
-		if (!getCurrent().base.equals(n.base) && !current.base.equals(fs.getFluid().getRegistryName())
-				&& !n.base.equals(tank.getFluid().getFluid().getRegistryName())) {
+		if (!getCurrent().base.equals(n.base) && !current.base.equals(Utils.getRegistryName(fs))
+				&& !n.base.equals(Utils.getRegistryName(tank.getFluid()))) {
 			BoilingRecipe bnx = BoilingRecipe.recipes.get(fs.getFluid());
 			if (bnx == null)
 				return false;
-			if (!current.base.equals(bnx.after.getRegistryName()))
+			if (!current.base.equals(Utils.getRegistryName(bnx.after)))
 				return false;
 		}
 		return current.canMerge(n, tank.getFluidAmount() / 250f, fs.getAmount() / 250f);
@@ -610,12 +611,12 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		StewInfo n = SoupFluid.getInfo(fs);
 		int pm = 0;
 
-		if (!getCurrent().base.equals(n.base) && !current.base.equals(fs.getFluid().getRegistryName())
-				&& !n.base.equals(tank.getFluid().getFluid().getRegistryName())) {
+		if (!getCurrent().base.equals(n.base) && !current.base.equals(Utils.getRegistryName(fs))
+				&& !n.base.equals(Utils.getRegistryName(tank.getFluid()))) {
 			BoilingRecipe bnx = BoilingRecipe.recipes.get(fs.getFluid());
 			if (bnx == null)
 				return false;
-			if (!getCurrent().base.equals(bnx.after.getRegistryName()))
+			if (!getCurrent().base.equals(Utils.getRegistryName(bnx.after)))
 				return false;
 			fs = bnx.handle(fs);
 			pm = (int) (bnx.time * (fs.getAmount() / 250f));
@@ -641,7 +642,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 
 	@Override
 	public Component getDisplayName() {
-		return new TranslatableComponent("container." + Main.MODID + ".stewpot.title");
+		return MutableComponent.create(new TranslatableContents("container." + Main.MODID + ".stewpot.title"));
 	}
 
 	@Override

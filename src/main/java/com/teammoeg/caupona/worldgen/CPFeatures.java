@@ -37,6 +37,7 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlac
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class CPFeatures {
 	public static final Holder<ConfiguredFeature<TreeConfiguration, ?>> WALNUT = FeatureUtils.register(
@@ -50,15 +51,14 @@ public class CPFeatures {
 			createStraightBlobBush(CPBlocks.WOLFBERRY_LOG, CPBlocks.WOLFBERRY_LEAVE, 4, 2, 0, 2).ignoreVines().build());
 	public static final FoliagePlacerType<BushFoliagePlacer> BUSH_PLACER = new FoliagePlacerType<>(
 			BushFoliagePlacer.CODEC);
-	static {
-		BUSH_PLACER.setRegistryName(new ResourceLocation(Main.MODID, "bush_foliage_placer"));
-	}
+
+
 
 	public CPFeatures() {
 	}
 
 	public static void init() {
-
+		
 	};
 
 	private static TreeConfiguration.TreeConfigurationBuilder createStraightBlobTree(Block log, Block leave, int height,

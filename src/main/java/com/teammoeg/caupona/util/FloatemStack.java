@@ -57,12 +57,12 @@ public class FloatemStack {
 		return stack.copy();
 	}
 
-	public ItemStack getContainerItem() {
-		return stack.getContainerItem();
+	public ItemStack getCraftingRemainingItem() {
+		return stack.getCraftingRemainingItem();
 	}
 
 	public boolean hasContainerItem() {
-		return stack.hasContainerItem();
+		return stack.hasCraftingRemainingItem();
 	}
 
 	public CompoundTag serializeNBT() {

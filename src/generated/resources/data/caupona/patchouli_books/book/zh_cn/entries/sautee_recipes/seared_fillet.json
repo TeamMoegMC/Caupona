@@ -1,13 +1,13 @@
 {
-  "name": "嫩煎鱼",
-  "icon": "caupona:seared_fillet",
   "category": "caupona:sautee_recipes",
+  "icon": "caupona:seared_fillet",
+  "name": "嫩煎鱼",
   "pages": [
     {
       "type": "caupona:fryrecipe",
+      "base": "caupona:gravy_boat",
       "img": "caupona:textures/gui/recipes/seared_fillet.png",
-      "result": "caupona:seared_fillet",
-      "base": "caupona:gravy_boat"
+      "result": "caupona:seared_fillet"
     }
   ]
 }

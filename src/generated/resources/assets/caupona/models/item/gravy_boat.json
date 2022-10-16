@@ -1,43 +1,43 @@
 {
   "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "caupona:item/walnut_oil_0"
-  },
   "overrides": [
     {
+      "model": "caupona:item/walnut_oil_1",
       "predicate": {
-        "minecraft:damaged": 1.0,
-        "minecraft:damage": 0.2
-      },
-      "model": "caupona:item/walnut_oil_1"
+        "minecraft:damage": 0.2,
+        "minecraft:damaged": 1.0
+      }
     },
     {
+      "model": "caupona:item/walnut_oil_2",
       "predicate": {
-        "minecraft:damaged": 1.0,
-        "minecraft:damage": 0.4
-      },
-      "model": "caupona:item/walnut_oil_2"
+        "minecraft:damage": 0.4,
+        "minecraft:damaged": 1.0
+      }
     },
     {
+      "model": "caupona:item/walnut_oil_3",
       "predicate": {
-        "minecraft:damaged": 1.0,
-        "minecraft:damage": 0.6
-      },
-      "model": "caupona:item/walnut_oil_3"
+        "minecraft:damage": 0.6,
+        "minecraft:damaged": 1.0
+      }
     },
     {
+      "model": "caupona:item/walnut_oil_4",
       "predicate": {
-        "minecraft:damaged": 1.0,
-        "minecraft:damage": 0.8
-      },
-      "model": "caupona:item/walnut_oil_4"
+        "minecraft:damage": 0.8,
+        "minecraft:damaged": 1.0
+      }
     },
     {
+      "model": "caupona:item/oil_bottle",
       "predicate": {
-        "minecraft:damaged": 1.0,
-        "minecraft:damage": 1.0
-      },
-      "model": "caupona:item/oil_bottle"
+        "minecraft:damage": 1.0,
+        "minecraft:damaged": 1.0
+      }
     }
-  ]
+  ],
+  "textures": {
+    "layer0": "caupona:item/walnut_oil_0"
+  }
 }

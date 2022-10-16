@@ -23,44 +23,39 @@ package com.teammoeg.caupona.compat.jei.category;
 
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
+import com.teammoeg.caupona.util.Utils;
 
 import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
 
 public class BowlEmptyCategory implements IRecipeCategory<BowlContainingRecipe> {
-	public static ResourceLocation UID = new ResourceLocation(Main.MODID, "bowl_draining");
+
+	public static RecipeType<BowlContainingRecipe> TYPE=RecipeType.create(Main.MODID, "bowl_draining",BowlContainingRecipe.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
 	public BowlEmptyCategory(IGuiHelper guiHelper) {
-		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(Items.BOWL));
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(Items.BOWL));
 		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/container_draining.png");
 		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 	}
 
-	@Override
-	public ResourceLocation getUid() {
-		return UID;
-	}
 
-	@Override
-	public Class<? extends BowlContainingRecipe> getRecipeClass() {
-		return BowlContainingRecipe.class;
-	}
 
 	public Component getTitle() {
-		return new TranslatableComponent("gui.jei.category." + Main.MODID + ".draining.title");
+		return Utils.translate("gui.jei.category." + Main.MODID + ".draining.title");
 	}
 
 	@Override
@@ -75,13 +70,20 @@ public class BowlEmptyCategory implements IRecipeCategory<BowlContainingRecipe> 
 
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, BowlContainingRecipe recipe, IFocusGroup focuses) {
-		builder.addSlot(RecipeIngredientRole.INPUT, 30, 17).addIngredient(VanillaTypes.ITEM,
+		builder.addSlot(RecipeIngredientRole.INPUT, 30, 17).addIngredient(VanillaTypes.ITEM_STACK,
 				new ItemStack(recipe.bowl));
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 56, 37).addIngredient(VanillaTypes.ITEM,
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 56, 37).addIngredient(VanillaTypes.ITEM_STACK,
 				new ItemStack(Items.BOWL));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 9)
-				.addIngredient(VanillaTypes.FLUID, new FluidStack(recipe.fluid, 250))
+				.addIngredient(ForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, 250))
 				.setFluidRenderer(250, true, 16, 46);
+	}
+
+
+
+	@Override
+	public RecipeType<BowlContainingRecipe> getRecipeType() {
+		return TYPE;
 	}
 
 }

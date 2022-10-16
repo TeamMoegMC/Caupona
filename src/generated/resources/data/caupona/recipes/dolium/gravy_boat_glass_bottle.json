@@ -1,29 +1,29 @@
 {
   "type": "caupona:dolium",
+  "amount": 0,
+  "container": {
+    "item": "minecraft:glass_bottle"
+  },
+  "density": 0.0,
   "items": [
     {
+      "count": 8,
       "item": {
         "tag": "caupona:walnut"
-      },
-      "count": 8
+      }
     },
     {
+      "count": 0,
       "item": {
         "tag": "minecraft:anvil"
-      },
-      "count": 0
+      }
     }
   ],
-  "density": 0.0,
-  "amount": 0,
   "keepInfo": false,
   "output": {
     "type": "forge:nbt",
-    "item": "caupona:gravy_boat",
     "count": 1,
+    "item": "caupona:gravy_boat",
     "nbt": "{Damage:0}"
-  },
-  "container": {
-    "item": "minecraft:glass_bottle"
   }
 }

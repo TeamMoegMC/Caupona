@@ -1,13 +1,13 @@
 {
-  "name": "Huevos Pericos",
-  "icon": "caupona:huevos_pericos",
   "category": "caupona:sautee_recipes",
+  "icon": "caupona:huevos_pericos",
+  "name": "Huevos Pericos",
   "pages": [
     {
       "type": "caupona:fryrecipe",
+      "base": "caupona:gravy_boat",
       "img": "caupona:textures/gui/recipes/huevos_pericos.png",
-      "result": "caupona:huevos_pericos",
-      "base": "caupona:gravy_boat"
+      "result": "caupona:huevos_pericos"
     }
   ]
 }

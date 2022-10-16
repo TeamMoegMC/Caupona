@@ -22,7 +22,6 @@
 package com.teammoeg.caupona.api;
 
 import java.util.Optional;
-import java.util.Random;
 import java.util.function.Supplier;
 
 import com.mojang.datafixers.util.Pair;
@@ -35,6 +34,7 @@ import com.teammoeg.caupona.util.SauteedFoodInfo;
 import com.teammoeg.caupona.util.StewInfo;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -87,7 +87,7 @@ public class CauponaApi {
 
 	public static void apply(Level worldIn, LivingEntity entityLiving, IFoodInfo info) {
 		if (!worldIn.isClientSide) {
-			Random r = entityLiving.getRandom();
+			RandomSource r = entityLiving.getRandom();
 			for (Pair<Supplier<MobEffectInstance>, Float> ef : info.getEffects()) {
 				if (r.nextFloat() < ef.getSecond())
 					entityLiving.addEffect(ef.getFirst().get());

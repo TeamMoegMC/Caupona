@@ -27,14 +27,13 @@ import java.util.stream.Collectors;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.api.GameTranslation;
-import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.IConditionalRecipe;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
+import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import vazkii.patchouli.api.IComponentRenderContext;
@@ -65,13 +64,13 @@ public class AllowenceTooltip implements ICustomComponent {
 			else
 				conds = cr.getDeny();
 			if (conds != null)
-				allowence = conds.stream().map(e -> e.getTranslation(GameTranslation.get())).map(TextComponent::new)
+				allowence = conds.stream().map(e -> e.getTranslation(GameTranslation.get())).map(Utils::string)
 						.collect(Collectors.toList());
 			if (allowence != null && !allowence.isEmpty()) {
 				if (allow)
-					allowence.add(0, new TranslatableComponent("recipe.caupona.allow"));
+					allowence.add(0, Utils.translate("recipe.caupona.allow"));
 				else
-					allowence.add(0, new TranslatableComponent("recipe.caupona.deny"));
+					allowence.add(0, Utils.translate("recipe.caupona.deny"));
 			}
 		}
 	}

@@ -21,7 +21,6 @@
 
 package com.teammoeg.caupona.blocks.pot;
 
-import java.util.Random;
 import java.util.function.BiFunction;
 
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
@@ -32,6 +31,7 @@ import com.teammoeg.caupona.items.StewItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -43,7 +43,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlockContainer;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -90,7 +89,7 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 			}
 			if (held.getItem() instanceof StewItem) {
 				if (blockEntity.tryAddFluid(BowlContainingRecipe.extractFluid(held))) {
-					ItemStack ret = held.getContainerItem();
+					ItemStack ret = held.getCraftingRemainingItem();
 					held.shrink(1);
 					if (!player.addItem(ret))
 						player.drop(ret, false);
@@ -104,7 +103,7 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 		}
 		if (handIn == InteractionHand.MAIN_HAND) {
 			if (blockEntity != null && !worldIn.isClientSide&&(player.getAbilities().instabuild||!blockEntity.isInfinite))
-				NetworkHooks.openGui((ServerPlayer) player, blockEntity, blockEntity.getBlockPos());
+				NetworkHooks.openScreen((ServerPlayer) player, blockEntity, blockEntity.getBlockPos());
 			return InteractionResult.SUCCESS;
 		}
 		return p;
@@ -126,7 +125,7 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 	}
 
 	@Override
-	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand) {
+	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
 		if (worldIn.getBlockEntity(pos) instanceof StewPotBlockEntity pot) {
 			if (pot.proctype == 2 && pot.working) {
 

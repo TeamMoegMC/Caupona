@@ -32,6 +32,7 @@ import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.util.FloatemTagStack;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -39,6 +40,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -48,7 +50,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 	public static Set<CookIngredients> cookables;
 	public static Map<Item, SauteedRecipe> recipes;
 	public static List<SauteedRecipe> sorted;
-	public static RecipeType<?> TYPE;
+	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
 	public static final TagKey<Item> cookable = ItemTags.create(new ResourceLocation(Main.MODID, "cookable"));
 
@@ -65,7 +67,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 
 	@Override
 	public RecipeType<?> getType() {
-		return TYPE;
+		return TYPE.get();
 	}
 
 	List<IngredientCondition> allow;
@@ -140,7 +142,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 		if (priority != 0)
 			json.addProperty("priority", priority);
 		json.addProperty("time", time);
-		json.addProperty("output", output.getRegistryName().toString());
+		json.addProperty("output", Utils.getRegistryName(output).toString());
 	}
 
 	public Stream<CookIngredients> getAllNumbers() {

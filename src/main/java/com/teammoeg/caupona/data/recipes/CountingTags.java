@@ -33,13 +33,14 @@ import com.teammoeg.caupona.data.SerializeUtil;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CountingTags extends IDataRecipe {
 	public static Set<ResourceLocation> tags;
-	public static RecipeType<?> TYPE;
+	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
 	public List<ResourceLocation> tag;
 
@@ -50,7 +51,7 @@ public class CountingTags extends IDataRecipe {
 
 	@Override
 	public RecipeType<?> getType() {
-		return TYPE;
+		return TYPE.get();
 	}
 
 	public CountingTags(ResourceLocation id) {

@@ -38,7 +38,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -75,7 +76,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 			return false;
 		}
 	};
-	public final FluidTank tank = new FluidTank(1250, f -> !f.getFluid().getAttributes().isGaseous(f)) {
+	public final FluidTank tank = new FluidTank(1250, f -> !f.getFluid().getFluidType().isLighterThanAir()) {
 
 		@Override
 		protected void onContentsChanged() {
@@ -234,7 +235,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 
 			if (is.getItem() instanceof StewItem) {
 				if (tryAddFluid(BowlContainingRecipe.extractFluid(is))) {
-					ItemStack ret = is.getContainerItem();
+					ItemStack ret = is.getCraftingRemainingItem();
 					is.shrink(1);
 					process = -1;
 					inv.setStackInSlot(5, ret);
@@ -272,7 +273,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 
 	@Override
 	public Component getDisplayName() {
-		return new TranslatableComponent("container." + Main.MODID + ".counter_dolium.title");
+		return MutableComponent.create(new TranslatableContents("container." + Main.MODID + ".counter_dolium.title"));
 	}
 
 	RangedWrapper bowl = new RangedWrapper(inv, 3, 6) {

@@ -2,5 +2,6 @@
 	"parent": "minecraft:block/leaves",
 	"textures": {
 		"all": "caupona:block/walnut_leaves"
-	}
+	},
+	"render_type":"cutout"
 }

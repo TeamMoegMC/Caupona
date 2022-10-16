@@ -25,9 +25,9 @@ import com.teammoeg.caupona.Main;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CPDataGenerator {
@@ -36,15 +36,15 @@ public class CPDataGenerator {
 		DataGenerator gen = event.getGenerator();
 		ExistingFileHelper exHelper = event.getExistingFileHelper();
 
-		if (event.includeServer()) {
-			gen.addProvider(new CPItemModelProvider(gen, Main.MODID, exHelper));
-			gen.addProvider(new CPRecipeProvider(gen));
-			gen.addProvider(new CPItemTagGenerator(gen, Main.MODID, exHelper));
-			gen.addProvider(new CPBlockTagGenerator(gen, Main.MODID, exHelper));
-			gen.addProvider(new CPFluidTagGenerator(gen, Main.MODID, exHelper));
-			gen.addProvider(new CPLootGenerator(gen));
-			gen.addProvider(new CPStatesProvider(gen, Main.MODID, exHelper));
-			gen.addProvider(new CPBookGenerator(gen, exHelper));
-		}
+		
+		gen.addProvider(event.includeClient(),new CPItemModelProvider(gen, Main.MODID, exHelper));
+		gen.addProvider(event.includeServer(),new CPRecipeProvider(gen));
+		gen.addProvider(event.includeServer(),new CPItemTagGenerator(gen, Main.MODID, exHelper));
+		gen.addProvider(event.includeServer(),new CPBlockTagGenerator(gen, Main.MODID, exHelper));
+		gen.addProvider(event.includeServer(),new CPFluidTagGenerator(gen, Main.MODID, exHelper));
+		gen.addProvider(event.includeServer(),new CPLootGenerator(gen));
+		gen.addProvider(event.includeClient()||event.includeServer(),new CPStatesProvider(gen, Main.MODID, exHelper));
+		gen.addProvider(event.includeServer(),new CPBookGenerator(gen, exHelper));
+		
 	}
 }

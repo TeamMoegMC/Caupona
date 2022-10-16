@@ -1,13 +1,13 @@
 {
-  "name": "Яичный Тонгсуи",
-  "icon": "caupona:egg_tongsui",
   "category": "caupona:cook_recipes",
+  "icon": "caupona:egg_tongsui",
+  "name": "Яичный Тонгсуи",
   "pages": [
     {
       "type": "caupona:cookrecipe",
+      "base": "caupona:any_based",
       "img": "caupona:textures/gui/recipes/egg_tongsui.png",
-      "result": "caupona:egg_tongsui",
-      "base": "caupona:any_based"
+      "result": "caupona:egg_tongsui"
     }
   ]
 }

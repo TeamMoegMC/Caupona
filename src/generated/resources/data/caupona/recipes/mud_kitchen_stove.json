@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "DDD",
-    "SSS",
-    "S S"
-  ],
   "key": {
     "D": {
       "item": "minecraft:dirt"
@@ -13,6 +8,11 @@
       "item": "minecraft:cobblestone"
     }
   },
+  "pattern": [
+    "DDD",
+    "SSS",
+    "S S"
+  ],
   "result": {
     "item": "caupona:mud_kitchen_stove"
   }

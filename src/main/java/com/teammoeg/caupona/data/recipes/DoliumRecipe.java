@@ -34,16 +34,18 @@ import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.items.StewItem;
 import com.teammoeg.caupona.util.StewInfo;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.crafting.NBTIngredient;
+import net.minecraftforge.common.crafting.StrictNBTIngredient;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -51,7 +53,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class DoliumRecipe extends IDataRecipe {
 	public static List<DoliumRecipe> recipes;
-	public static RecipeType<?> TYPE;
+	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
 
 	@Override
@@ -61,7 +63,7 @@ public class DoliumRecipe extends IDataRecipe {
 
 	@Override
 	public RecipeType<?> getType() {
-		return TYPE;
+		return TYPE.get();
 	}
 
 	public List<Pair<Ingredient, Integer>> items;
@@ -271,11 +273,11 @@ public class DoliumRecipe extends IDataRecipe {
 		if (base != null)
 			json.addProperty("base", base.toString());
 		if (!fluid.isSame(Fluids.EMPTY))
-			json.addProperty("fluid", fluid.getRegistryName().toString());
+			json.addProperty("fluid", Utils.getRegistryName(fluid).toString());
 		json.addProperty("density", density);
 		json.addProperty("amount", amount);
 		json.addProperty("keepInfo", keepInfo);
-		json.add("output", NBTIngredient.of(output).toJson());
+		json.add("output", StrictNBTIngredient.of(output).toJson());
 		if (extra != null)
 			json.add("container", extra.toJson());
 	}

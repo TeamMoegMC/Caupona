@@ -27,7 +27,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 
 public class ImageButton extends Button {
@@ -46,7 +45,7 @@ public class ImageButton extends Button {
 	public ImageButton(ResourceLocation texture, int xIn, int yIn, int widthIn, int heightIn, int xTexStartIn,
 			int yTexStartIn, Button.OnTooltip tt, Button.OnPress onPressIn) {
 		this(texture, xIn, yIn, widthIn, heightIn, xTexStartIn, yTexStartIn, 256, 256, onPressIn, tt,
-				TextComponent.EMPTY);
+				Component.empty());
 	}
 
 	public ImageButton(ResourceLocation texture, int x, int y, int width, int height, int xTexStart, int yTexStart,

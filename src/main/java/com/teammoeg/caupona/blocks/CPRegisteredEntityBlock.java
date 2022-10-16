@@ -23,6 +23,7 @@ package com.teammoeg.caupona.blocks;
 
 import java.util.function.BiFunction;
 
+import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.RegistryEvents;
 
@@ -43,14 +44,13 @@ public class CPRegisteredEntityBlock<T extends BlockEntity> extends Block implem
 		this.name = name;
 		blockEntity = ste;
 		ResourceLocation registryName = createRegistryName();
-		setRegistryName(registryName);
+		RegistryEvents.registeredBlocks.add(Pair.of(registryName, this));
 
-		RegistryEvents.registeredBlocks.add(this);
 		if (createItemBlock != null) {
 			Item item = createItemBlock.apply(this, new Item.Properties().tab(Main.mainGroup));
 			if (item != null) {
-				item.setRegistryName(registryName);
-				RegistryEvents.registeredItems.add(item);
+				RegistryEvents.registeredItems.add(Pair.of(registryName, item));
+	
 			}
 		}
 

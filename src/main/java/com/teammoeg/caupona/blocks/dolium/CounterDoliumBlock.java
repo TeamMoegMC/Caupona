@@ -21,8 +21,8 @@
 
 package com.teammoeg.caupona.blocks.dolium;
 
-import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.items.StewItem;
@@ -38,7 +38,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlockContainer;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
@@ -99,7 +98,7 @@ public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlo
 			}
 			if (held.getItem() instanceof StewItem) {
 				if (dolium.tryAddFluid(BowlContainingRecipe.extractFluid(held))) {
-					ItemStack ret = held.getContainerItem();
+					ItemStack ret = held.getCraftingRemainingItem();
 					held.shrink(1);
 					if (!player.addItem(ret))
 						player.drop(ret, false);
@@ -112,7 +111,7 @@ public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlo
 	
 			if (handIn == InteractionHand.MAIN_HAND) {
 				if (!worldIn.isClientSide&&(player.getAbilities().instabuild||!dolium.isInfinite))
-					NetworkHooks.openGui((ServerPlayer) player, dolium, dolium.getBlockPos());
+					NetworkHooks.openScreen((ServerPlayer) player, dolium, dolium.getBlockPos());
 				return InteractionResult.SUCCESS;
 			}
 		}

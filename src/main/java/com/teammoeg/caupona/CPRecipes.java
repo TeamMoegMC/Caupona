@@ -34,6 +34,7 @@ import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -42,7 +43,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class CPRecipes {
 	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister
 			.create(ForgeRegistries.RECIPE_SERIALIZERS, Main.MODID);
-
+	public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister
+			.create(ForgeRegistries.RECIPE_TYPES, Main.MODID);
 	static {
 		StewCookingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("cooking",
 				() -> new CPRecipeSerializer<StewCookingRecipe>(StewCookingRecipe::new, StewCookingRecipe::new,
@@ -75,17 +77,17 @@ public class CPRecipes {
 				() -> new CPRecipeSerializer<SpiceRecipe>(SpiceRecipe::new, SpiceRecipe::new, SpiceRecipe::write));
 	}
 
-	public static void registerRecipeTypes() {
-		StewCookingRecipe.TYPE = RecipeType.register(Main.MODID + ":stew");
-		BoilingRecipe.TYPE = RecipeType.register(Main.MODID + ":boil");
-		BowlContainingRecipe.TYPE = RecipeType.register(Main.MODID + ":bowl");
-		DissolveRecipe.TYPE = RecipeType.register(Main.MODID + ":dissolve");
-		CountingTags.TYPE = RecipeType.register(Main.MODID + ":tags");
-		FoodValueRecipe.TYPE = RecipeType.register(Main.MODID + ":food");
-		FluidFoodValueRecipe.TYPE = RecipeType.register(Main.MODID + ":fluid_food");
-		SauteedRecipe.TYPE = RecipeType.register(Main.MODID + ":frying");
-		DoliumRecipe.TYPE = RecipeType.register(Main.MODID + ":dolium");
-		AspicMeltingRecipe.TYPE = RecipeType.register(Main.MODID + ":aspic_melt");
-		SpiceRecipe.TYPE = RecipeType.register(Main.MODID + ":aspic_spice");
+	static {
+		StewCookingRecipe.TYPE = RECIPE_TYPES.register("stew",()->RecipeType.simple(new ResourceLocation(Main.MODID ,"stew")));
+		BoilingRecipe.TYPE = RECIPE_TYPES.register("boil",()->RecipeType.simple(new ResourceLocation(Main.MODID ,"boil")));
+		BowlContainingRecipe.TYPE = RECIPE_TYPES.register("bowl",()->RecipeType.simple(new ResourceLocation(Main.MODID ,"bowl")));
+		DissolveRecipe.TYPE = RECIPE_TYPES.register("dissolve",()->RecipeType.simple(new ResourceLocation(Main.MODID ,"dissolve")));
+		CountingTags.TYPE = RECIPE_TYPES.register("tags",()->RecipeType.simple(new ResourceLocation(Main.MODID ,"tags")));
+		FoodValueRecipe.TYPE = RECIPE_TYPES.register("food",()->RecipeType.simple(new ResourceLocation(Main.MODID ,"food")));
+		FluidFoodValueRecipe.TYPE = RECIPE_TYPES.register("fluid_food",()->RecipeType.simple(new ResourceLocation(Main.MODID ,"fluid_food")));
+		SauteedRecipe.TYPE = RECIPE_TYPES.register("frying",()->RecipeType.simple(new ResourceLocation(Main.MODID ,"frying")));
+		DoliumRecipe.TYPE = RECIPE_TYPES.register("dolium",()->RecipeType.simple(new ResourceLocation(Main.MODID ,"dolium")));
+		AspicMeltingRecipe.TYPE = RECIPE_TYPES.register("aspic_melt",()->RecipeType.simple(new ResourceLocation(Main.MODID ,"aspic_melt")));
+		SpiceRecipe.TYPE = RECIPE_TYPES.register("spice",()->RecipeType.simple(new ResourceLocation(Main.MODID ,"spice")));
 	}
 }

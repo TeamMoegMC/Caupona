@@ -29,6 +29,7 @@ import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -47,7 +48,7 @@ public class ItemType implements CookIngredients {
 	public ItemType(Item type) {
 		super();
 		this.type = type;
-		this.loc = type.getRegistryName();
+		this.loc = Utils.getRegistryName(type);
 	}
 
 	@Override

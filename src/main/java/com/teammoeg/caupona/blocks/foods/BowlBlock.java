@@ -37,7 +37,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -100,7 +99,7 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 				}
 			} else {
 				if (player.canEat(fp.canAlwaysEat())) {
-					ItemStack iout = bowl.internal.getContainerItem();
+					ItemStack iout = bowl.internal.getCraftingRemainingItem();
 					player.eat(worldIn, bowl.internal);
 					bowl.internal = iout;
 					bowl.syncData();

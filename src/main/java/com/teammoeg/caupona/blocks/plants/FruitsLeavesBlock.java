@@ -21,10 +21,9 @@
 
 package com.teammoeg.caupona.blocks.plants;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -41,7 +40,7 @@ public class FruitsLeavesBlock extends LeavesBlock implements BonemealableBlock 
 	}
 
 	@Override
-	public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, Random pRandom) {
+	public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
 		if (!pState.getValue(PERSISTENT)) {
 			if (pState.getValue(DISTANCE) == 7) {
 				dropResources(pState, pLevel, pPos);
@@ -67,12 +66,12 @@ public class FruitsLeavesBlock extends LeavesBlock implements BonemealableBlock 
 	}
 
 	@Override
-	public boolean isBonemealSuccess(Level pLevel, Random pRandom, BlockPos pPos, BlockState pState) {
+	public boolean isBonemealSuccess(Level pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
 		return pRandom.nextInt(4) == 0;
 	}
 
 	@Override
-	public void performBonemeal(ServerLevel pLevel, Random pRandom, BlockPos pPos, BlockState pState) {
+	public void performBonemeal(ServerLevel pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
 		if (pLevel.getBlockState(pPos.below()).isAir()) {
 			pLevel.setBlockAndUpdate(pPos.below(), fruit.defaultBlockState());
 		}

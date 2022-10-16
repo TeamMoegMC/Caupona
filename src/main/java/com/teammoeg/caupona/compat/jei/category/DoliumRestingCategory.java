@@ -31,8 +31,10 @@ import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
+import com.teammoeg.caupona.util.Utils;
 
 import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
@@ -41,41 +43,32 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.crafting.NBTIngredient;
+import net.minecraftforge.common.crafting.AbstractIngredient;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 public class DoliumRestingCategory implements IRecipeCategory<DoliumRecipe> {
-	public static ResourceLocation UID = new ResourceLocation(Main.MODID, "dolium_resting");
+	public static RecipeType<DoliumRecipe> TYPE=RecipeType.create(Main.MODID, "dolium_resting",DoliumRecipe.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
 	public DoliumRestingCategory(IGuiHelper guiHelper) {
-		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(CPBlocks.dolium.get(0)));
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CPBlocks.dolium.get(0)));
 		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/maximum_resting.png");
 		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 	}
 
-	@Override
-	public ResourceLocation getUid() {
-		return UID;
-	}
-
-	@Override
-	public Class<? extends DoliumRecipe> getRecipeClass() {
-		return DoliumRecipe.class;
-	}
 
 	public Component getTitle() {
-		return new TranslatableComponent("gui.jei.category." + Main.MODID + ".resting.title");
+		return Utils.translate("gui.jei.category." + Main.MODID + ".resting.title");
 	}
 
 	@SuppressWarnings("resource")
@@ -104,7 +97,7 @@ public class DoliumRestingCategory implements IRecipeCategory<DoliumRecipe> {
 	}
 
 	private static List<ItemStack> unpack(Ingredient ps) {
-		if (ps instanceof NBTIngredient)
+		if (ps instanceof AbstractIngredient)
 			return Arrays.asList(ps.getItems());
 		List<ItemStack> sl = new ArrayList<>();
 		for (ItemStack is : ps.getItems())
@@ -134,7 +127,7 @@ public class DoliumRestingCategory implements IRecipeCategory<DoliumRecipe> {
 		@Override
 		public void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {
 			if (cnt == 0)
-				tooltip.add(new TranslatableComponent("gui.jei.category.caupona.catalyst"));
+				tooltip.add(Utils.translate("gui.jei.category.caupona.catalyst"));
 		}
 
 	};
@@ -147,29 +140,35 @@ public class DoliumRestingCategory implements IRecipeCategory<DoliumRecipe> {
 	public void setRecipe(IRecipeLayoutBuilder builder, DoliumRecipe recipe, IFocusGroup focuses) {
 		if (recipe.items.size() > 0) {
 			builder.addSlot(type(recipe.items.get(0)), 4, 6)
-					.addIngredients(VanillaTypes.ITEM, unpack(recipe.items.get(0)))
+					.addIngredients(VanillaTypes.ITEM_STACK, unpack(recipe.items.get(0)))
 					.addTooltipCallback(cb(recipe.items.get(0)));
 			if (recipe.items.size() > 1) {
 				builder.addSlot(type(recipe.items.get(1)), 4, 24)
-						.addIngredients(VanillaTypes.ITEM, unpack(recipe.items.get(1)))
+						.addIngredients(VanillaTypes.ITEM_STACK, unpack(recipe.items.get(1)))
 						.addTooltipCallback(cb(recipe.items.get(1)));
 				if (recipe.items.size() > 2) {
 					builder.addSlot(type(recipe.items.get(2)), 4, 42)
-							.addIngredients(VanillaTypes.ITEM, unpack(recipe.items.get(2)))
+							.addIngredients(VanillaTypes.ITEM_STACK, unpack(recipe.items.get(2)))
 							.addTooltipCallback(cb(recipe.items.get(2)));
 				}
 			}
 		}
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 109, 24).addIngredient(VanillaTypes.ITEM, recipe.output);
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 109, 24).addIngredient(VanillaTypes.ITEM_STACK, recipe.output);
 		if (recipe.extra != null) {
-			builder.addSlot(RecipeIngredientRole.INPUT, 89, 10).addIngredients(VanillaTypes.ITEM, unpack(recipe.extra));
+			builder.addSlot(RecipeIngredientRole.INPUT, 89, 10).addIngredients(VanillaTypes.ITEM_STACK, unpack(recipe.extra));
 		}
 		if (!(recipe.fluid == Fluids.EMPTY))
 			builder.addSlot(RecipeIngredientRole.INPUT, 26, 9)
-					.addIngredient(VanillaTypes.FLUID, new FluidStack(recipe.fluid, recipe.amount))
+					.addIngredient(ForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, recipe.amount))
 					.setFluidRenderer(1250, false, 16, 46)
 					.addTooltipCallback(new BaseCallback(recipe.base, recipe.density));
 
+	}
+
+
+	@Override
+	public RecipeType<DoliumRecipe> getRecipeType() {
+		return null;
 	}
 
 }

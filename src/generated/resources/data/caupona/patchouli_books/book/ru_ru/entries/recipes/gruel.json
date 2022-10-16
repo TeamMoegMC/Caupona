@@ -1,13 +1,13 @@
 {
-  "name": "Каша",
-  "icon": "caupona:gruel",
   "category": "caupona:cook_recipes",
+  "icon": "caupona:gruel",
+  "name": "Каша",
   "pages": [
     {
       "type": "caupona:cookrecipe",
+      "base": "caupona:water_or_stock_based",
       "img": "caupona:textures/gui/recipes/gruel.png",
-      "result": "caupona:gruel",
-      "base": "caupona:water_or_stock_based"
+      "result": "caupona:gruel"
     }
   ]
 }

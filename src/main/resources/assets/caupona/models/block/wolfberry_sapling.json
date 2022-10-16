@@ -2,5 +2,6 @@
 	"parent": "minecraft:block/cross",
 	"textures": {
 		"cross": "caupona:block/wolfberry_sapling"
-	}
+	},
+	"render_type":"cutout"
 }

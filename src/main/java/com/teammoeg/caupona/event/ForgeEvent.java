@@ -41,13 +41,11 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ClipContext.Fluid;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
@@ -61,7 +59,6 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
@@ -92,9 +89,10 @@ public class ForgeEvent {
 	}
 	@SubscribeEvent
 	public static void addManualToPlayer(@Nonnull PlayerEvent.PlayerLoggedInEvent event) {
-		if(!ModList.get().isLoaded("patchouli"))return;
+		
 		if(!Config.SERVER.addManual.get())return;
-		CompoundTag nbt = event.getPlayer().getPersistentData();
+		if(!ModList.get().isLoaded("patchouli"))return;
+		CompoundTag nbt = event.getEntity().getPersistentData();
 		CompoundTag persistent;
 
 		if (nbt.contains(Player.PERSISTED_NBT_TAG)) {
@@ -104,7 +102,7 @@ public class ForgeEvent {
 		}
 		if (!persistent.contains(Main.BOOK_NBT_TAG)) {
 			persistent.putBoolean(Main.BOOK_NBT_TAG,true);
-			ItemHandlerHelper.giveItemToPlayer(event.getPlayer(),PatchouliAPI.get().getBookStack(new ResourceLocation(Main.MODID,"book")));
+			ItemHandlerHelper.giveItemToPlayer(event.getEntity(),PatchouliAPI.get().getBookStack(new ResourceLocation(Main.MODID,"book")));
 		}
 	}
 	@SuppressWarnings("resource")
@@ -112,8 +110,8 @@ public class ForgeEvent {
 	public static void onBlockClick(PlayerInteractEvent.RightClickBlock event) {
 		ItemStack is = event.getItemStack();
 		if (is.getItem() == Items.BOWL) {
-			Player playerIn = event.getPlayer();
-			Level worldIn = event.getWorld();
+			Player playerIn = event.getEntity();
+			Level worldIn = event.getLevel();
 			BlockPos blockpos = event.getPos();
 			BlockEntity blockEntity = worldIn.getBlockEntity(blockpos);
 			if (blockEntity != null) {
@@ -148,8 +146,8 @@ public class ForgeEvent {
 	public static void onItemUse(PlayerInteractEvent.RightClickItem event) {
 		ItemStack is = event.getItemStack();
 		if (is.getItem() == Items.BOWL) {
-			Level worldIn = event.getWorld();
-			Player playerIn = event.getPlayer();
+			Level worldIn = event.getLevel();
+			Player playerIn = event.getEntity();
 			BlockHitResult ray = Item.getPlayerPOVHitResult(worldIn, playerIn, Fluid.SOURCE_ONLY);
 			if (ray.getType() == Type.BLOCK) {
 				BlockPos blockpos = ray.getBlockPos();
@@ -176,8 +174,8 @@ public class ForgeEvent {
 
 	@SubscribeEvent
 	public static void onBowlUse(PlayerInteractEvent.RightClickItem event) {
-		if (event.getEntityLiving() != null && !event.getEntityLiving().level.isClientSide
-				&& event.getPlayer() instanceof ServerPlayer) {
+		if (event.getEntity() != null && !event.getEntity().level.isClientSide
+				&& event.getEntity() instanceof ServerPlayer) {
 			ItemStack stack = event.getItemStack();
 			LazyOptional<IFluidHandlerItem> cap = stack
 					.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
@@ -185,7 +183,7 @@ public class ForgeEvent {
 				IFluidHandlerItem data = cap.resolve().get();
 				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid) {
 					StewInfo si = SoupFluid.getInfo(data.getFluidInTank(0));
-					if (!event.getPlayer().canEat(si.canAlwaysEat())) {
+					if (!event.getEntity().canEat(si.canAlwaysEat())) {
 						event.setCancellationResult(InteractionResult.FAIL);
 						event.setCanceled(true);
 					}
@@ -196,20 +194,20 @@ public class ForgeEvent {
 
 	@SubscribeEvent
 	public static void onItemUseFinish(LivingEntityUseItemEvent.Finish event) {
-		if (event.getEntityLiving() != null && !event.getEntityLiving().level.isClientSide
-				&& event.getEntityLiving() instanceof ServerPlayer) {
+		if (event.getEntity() != null && !event.getEntity().level.isClientSide
+				&& event.getEntity() instanceof ServerPlayer) {
 			ItemStack stack = event.getItem();
 			LazyOptional<IFluidHandlerItem> cap = stack
 					.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
 			if (cap.isPresent() && stack.is(container)) {
 				IFluidHandlerItem data = cap.resolve().get();
 				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid)
-					CauponaApi.apply(event.getEntityLiving().level, event.getEntityLiving(),
+					CauponaApi.apply(event.getEntity().level, event.getEntity(),
 							SoupFluid.getInfo(data.getFluidInTank(0)));
 			}
 		}
 	}
-
+/*
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void addFeatures(BiomeLoadingEvent event) {
 		if (event.getName() != null) {
@@ -232,5 +230,5 @@ public class ForgeEvent {
 			// Structures
 
 		}
-	}
+	}*/
 }

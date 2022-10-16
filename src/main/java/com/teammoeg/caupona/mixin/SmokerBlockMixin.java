@@ -21,8 +21,6 @@
 
 package com.teammoeg.caupona.mixin;
 
-import java.util.Random;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -32,6 +30,7 @@ import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.util.ChimneyHelper;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SmokerBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -46,7 +45,7 @@ public class SmokerBlockMixin {
 	 * @param pState  
 	 */
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)V", remap = true, ordinal = 0), method = "animateTick", remap = true, cancellable = true, require = 1, allow = 1)
-	public void cp$animateTick(BlockState pState, Level pLevel, BlockPos pPos, Random pRandom, CallbackInfo cbi) {
+	public void cp$animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom, CallbackInfo cbi) {
 		BlockPos bp = ChimneyHelper.getNearestChimney(pLevel, pPos, 2);
 		if (bp != null) {
 			double motY = -0.3, delY = .5;

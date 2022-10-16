@@ -2,16 +2,16 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "cond": "half",
-      "type": "caupona:cereals"
+      "type": "caupona:cereals",
+      "cond": "half"
     }
   ],
-  "density": 0.25,
-  "time": 200,
   "base": [
     {
       "tag": "caupona:water"
     }
   ],
-  "output": "caupona:gruel"
+  "density": 0.25,
+  "output": "caupona:gruel",
+  "time": 200
 }

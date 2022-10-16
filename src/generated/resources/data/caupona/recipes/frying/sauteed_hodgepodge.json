@@ -1,5 +1,5 @@
 {
   "type": "caupona:frying",
-  "time": 200,
-  "output": "caupona:sauteed_hodgepodge"
+  "output": "caupona:sauteed_hodgepodge",
+  "time": 200
 }

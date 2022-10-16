@@ -26,13 +26,14 @@ import java.util.ArrayList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.blocks.pan.PanContainer;
 import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
+import com.teammoeg.caupona.blocks.pan.PanContainer;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -50,11 +51,11 @@ public class PanScreen extends AbstractContainerScreen<PanContainer> {
 		blockEntity = container.getBlock();
 	}
 
-	public static TranslatableComponent start = new TranslatableComponent("gui." + Main.MODID + ".stewpot.canstart");
-	public static TranslatableComponent started = new TranslatableComponent("gui." + Main.MODID + ".stewpot.started");
-	public static TranslatableComponent nostart = new TranslatableComponent("gui." + Main.MODID + ".stewpot.cantstart");
-	public static TranslatableComponent nors = new TranslatableComponent("gui." + Main.MODID + ".stewpot.noredstone");
-	public static TranslatableComponent rs = new TranslatableComponent("gui." + Main.MODID + ".stewpot.redstone");
+	public static MutableComponent start = Utils.translate("gui." + Main.MODID + ".stewpot.canstart");
+	public static MutableComponent started = Utils.translate("gui." + Main.MODID + ".stewpot.started");
+	public static MutableComponent nostart = Utils.translate("gui." + Main.MODID + ".stewpot.cantstart");
+	public static MutableComponent nors = Utils.translate("gui." + Main.MODID + ".stewpot.noredstone");
+	public static MutableComponent rs = Utils.translate("gui." + Main.MODID + ".stewpot.redstone");
 	private ArrayList<Component> tooltip = new ArrayList<>(2);
 	ImageButton btn1;
 	ImageButton btn2;

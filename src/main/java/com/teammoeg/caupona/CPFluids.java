@@ -25,17 +25,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import com.teammoeg.caupona.fluid.SoupFluid;
-import com.teammoeg.caupona.fluid.SoupFluid.SoupAttributes;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistries.Keys;
+import net.minecraftforge.registries.RegistryObject;
 
 public class CPFluids {
 	private static class TextureColorPair {
@@ -47,8 +52,35 @@ public class CPFluids {
 			this.texture = t;
 			this.c = c;
 		}
-		public SoupAttributes.Builder create(){
-			return SoupAttributes.builder(texture, texture).color(c);
+		public FluidType create(){
+			FluidType ft=new FluidType(FluidType.Properties.create().viscosity(1200)
+					.temperature(333).rarity(Rarity.UNCOMMON)) {
+
+						@Override
+						public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
+							consumer.accept(new IClientFluidTypeExtensions() {
+
+								@Override
+								public int getTintColor() {
+									return c;
+								}
+
+								@Override
+								public ResourceLocation getStillTexture() {
+									return texture;
+								}
+
+								@Override
+								public ResourceLocation getFlowingTexture() {
+									return texture;
+								}
+								
+							});
+						}
+				
+			};
+
+			return ft;
 		}
 	}
 
@@ -56,6 +88,7 @@ public class CPFluids {
 	private static final ResourceLocation STILL_SOUP_TEXTURE = new ResourceLocation(Main.MODID, "fluid/soup_fluid");
 	private static final ResourceLocation STILL_MILK_TEXTURE = new ResourceLocation("forge", "block/milk_still");
 	static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Main.MODID);
+	static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(Keys.FLUID_TYPES, Main.MODID);
 	private static final Map<String, TextureColorPair> soupfluids = new HashMap<>();
 
 	public static TextureColorPair soup(int c) {
@@ -116,14 +149,27 @@ public class CPFluids {
 		soupfluids.put("vegetable_soup", soup(0xff848929));
 		soupfluids.put("walnut_soup", soup(0xffdcb072));
 		for (Entry<String, TextureColorPair> i : soupfluids.entrySet()) {
-			FLUIDS.register(i.getKey(),
-					() -> new SoupFluid(new ForgeFlowingFluid.Properties(null, null,
-							i.getValue().create().viscosity(1200)
-									.temperature(333).rarity(Rarity.UNCOMMON)).slopeFindDistance(1)
-											.explosionResistance(100F)));
+			RegistryObject<FluidType> type=FLUID_TYPES.register(i.getKey(),i.getValue()::create);
+			LazySupplier<Fluid> crf=new LazySupplier<>();
+			crf.setVal(FLUIDS.register(i.getKey(),
+					() -> new SoupFluid(new ForgeFlowingFluid.Properties(type, crf,
+							crf).slopeFindDistance(1)
+											.explosionResistance(100F))));
 		}
 	}
-
+	public static class LazySupplier<T> implements Supplier<T>{
+		Supplier<T> val;
+		@Override
+		public T get() {
+			if(val==null)return null;
+			return val.get();
+		}
+		public void setVal(Supplier<T> val) {
+			this.val = val;
+		}
+		
+		
+	} 
 	public static Set<String> getSoupfluids() {
 		return soupfluids.keySet();
 	}

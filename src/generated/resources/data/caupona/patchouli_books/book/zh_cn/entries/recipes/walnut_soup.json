@@ -1,13 +1,13 @@
 {
-  "name": "核桃露",
-  "icon": "caupona:walnut_soup",
   "category": "caupona:cook_recipes",
+  "icon": "caupona:walnut_soup",
+  "name": "核桃露",
   "pages": [
     {
       "type": "caupona:cookrecipe",
+      "base": "caupona:any_based",
       "img": "caupona:textures/gui/recipes/walnut_soup.png",
-      "result": "caupona:walnut_soup",
-      "base": "caupona:any_based"
+      "result": "caupona:walnut_soup"
     }
   ]
 }

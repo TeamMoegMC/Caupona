@@ -43,11 +43,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class CPBoatRenderer extends BoatRenderer {
 	private final Map<String, Pair<ResourceLocation, BoatModel>> boatResources;
 
-	public CPBoatRenderer(Context p_173936_) {
-		super(p_173936_);
+	public CPBoatRenderer(Context p_173936_,boolean b) {
+		super(p_173936_, b);
 		boatResources = Stream.of(CPBlocks.woods).collect(ImmutableMap.toImmutableMap(s -> s, s -> Pair
 				.of(new ResourceLocation(Main.MODID, "textures/entity/boat/" + s + ".png"), new BoatModel(p_173936_
-						.bakeLayer(new ModelLayerLocation(new ResourceLocation(Main.MODID, "boat/" + s), "main"))))));
+						.bakeLayer(new ModelLayerLocation(new ResourceLocation(Main.MODID, "boat/" + s), "main")), b))));
 
 	}
 

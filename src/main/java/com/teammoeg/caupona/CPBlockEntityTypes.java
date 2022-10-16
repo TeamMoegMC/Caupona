@@ -35,9 +35,9 @@ import com.teammoeg.caupona.blocks.others.CPSignBlockEntity;
 import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.blocks.stove.ChimneyPotBlockEntity;
+import com.teammoeg.caupona.blocks.stove.KitchenStoveBlockEntity;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveT1;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveT2;
-import com.teammoeg.caupona.blocks.stove.KitchenStoveBlockEntity;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -49,7 +49,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class CPBlockEntityTypes {
 	public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister
-			.create(ForgeRegistries.BLOCK_ENTITIES, Main.MODID);
+			.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Main.MODID);
 
 	public static final RegistryObject<BlockEntityType<StewPotBlockEntity>> STEW_POT = REGISTER.register("stew_pot",
 			makeType(StewPotBlockEntity::new, () -> CPBlocks.stew_pot));

@@ -34,14 +34,13 @@ import com.teammoeg.caupona.RegistryEvents;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.StewInfo;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -71,16 +70,16 @@ public class StewItem extends EdibleBlock {
 				.max((t1, t2) -> t1.getCount() > t2.getCount() ? 1 : (t1.getCount() == t2.getCount() ? 0 : -1))
 				.orElse(null);
 		if (fs != null)
-			tooltip.add(new TranslatableComponent("tooltip.caupona.main_ingredient", fs.getStack().getDisplayName()));
+			tooltip.add(Utils.translate("tooltip.caupona.main_ingredient", fs.getStack().getDisplayName()));
 		ResourceLocation rl = info.spiceName;
 		if (rl != null)
-			tooltip.add(new TranslatableComponent("tooltip.caupona.spice",
-					new TranslatableComponent("spice." + rl.getNamespace() + "." + rl.getPath())));
+			tooltip.add(Utils.translate("tooltip.caupona.spice",
+					Utils.translate("spice." + rl.getNamespace() + "." + rl.getPath())));
 		;
 		ResourceLocation base = info.base;
 		if (base != null&&!info.stacks.isEmpty())
-			tooltip.add(new TranslatableComponent("tooltip.caupona.base", new TranslatableComponent(
-					ForgeRegistries.FLUIDS.getValue(base).getAttributes().getTranslationKey())));
+			tooltip.add(Utils.translate("tooltip.caupona.base", 
+					ForgeRegistries.FLUIDS.getValue(base).getFluidType().getDescription()));
 		addPotionTooltip(info.effects, tooltip, 1);
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
@@ -89,7 +88,7 @@ public class StewItem extends EdibleBlock {
 		List<Pair<Attribute, AttributeModifier>> list1 = Lists.newArrayList();
 		if (!list.isEmpty()) {
 			for (MobEffectInstance effectinstance : list) {
-				MutableComponent iformattabletextcomponent = new TranslatableComponent(
+				MutableComponent iformattabletextcomponent = Utils.translate(
 						effectinstance.getDescriptionId());
 				MobEffect effect = effectinstance.getEffect();
 				Map<Attribute, AttributeModifier> map = effect.getAttributeModifiers();
@@ -104,13 +103,13 @@ public class StewItem extends EdibleBlock {
 				}
 
 				if (effectinstance.getAmplifier() > 0) {
-					iformattabletextcomponent = new TranslatableComponent("potion.withAmplifier",
+					iformattabletextcomponent = Utils.translate("potion.withAmplifier",
 							iformattabletextcomponent,
-							new TranslatableComponent("potion.potency." + effectinstance.getAmplifier()));
+							Utils.translate("potion.potency." + effectinstance.getAmplifier()));
 				}
 
 				if (effectinstance.getDuration() > 20) {
-					iformattabletextcomponent = new TranslatableComponent("potion.withDuration",
+					iformattabletextcomponent = Utils.translate("potion.withDuration",
 							iformattabletextcomponent, MobEffectUtil.formatDuration(effectinstance, durationFactor));
 				}
 
@@ -119,8 +118,8 @@ public class StewItem extends EdibleBlock {
 		}
 
 		if (!list1.isEmpty()) {
-			lores.add(TextComponent.EMPTY);
-			lores.add((new TranslatableComponent("potion.whenDrank")).withStyle(ChatFormatting.DARK_PURPLE));
+			lores.add(Component.empty());
+			lores.add((Utils.translate("potion.whenDrank")).withStyle(ChatFormatting.DARK_PURPLE));
 
 			for (Pair<Attribute, AttributeModifier> pair : list1) {
 				AttributeModifier attributemodifier2 = pair.getSecond();
@@ -134,17 +133,17 @@ public class StewItem extends EdibleBlock {
 				}
 
 				if (d0 > 0.0D) {
-					lores.add((new TranslatableComponent(
+					lores.add((Utils.translate(
 							"attribute.modifier.plus." + attributemodifier2.getOperation().toValue(),
 							ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
-							new TranslatableComponent(pair.getFirst().getDescriptionId())))
+							Utils.translate(pair.getFirst().getDescriptionId())))
 									.withStyle(ChatFormatting.BLUE));
 				} else if (d0 < 0.0D) {
 					d1 = d1 * -1.0D;
-					lores.add((new TranslatableComponent(
+					lores.add((Utils.translate(
 							"attribute.modifier.take." + attributemodifier2.getOperation().toValue(),
 							ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
-							new TranslatableComponent(pair.getFirst().getDescriptionId())))
+							Utils.translate(pair.getFirst().getDescriptionId())))
 									.withStyle(ChatFormatting.RED));
 				}
 			}
@@ -181,12 +180,12 @@ public class StewItem extends EdibleBlock {
 			if (nbt != null)
 				return new ResourceLocation(StewInfo.getRegName(nbt));
 		}
-		return BowlContainingRecipe.extractFluid(stack).getFluid().getRegistryName();
+		return Utils.getRegistryName(BowlContainingRecipe.extractFluid(stack));
 	}
 
 	@Override
 	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-		if (this.allowdedIn(group)) {
+		if (this.allowedIn(group)) {
 			ItemStack is = new ItemStack(this);
 			is.getOrCreateTag().putString("type", fluid.toString());
 			super.addCreativeHints(is);
@@ -205,8 +204,7 @@ public class StewItem extends EdibleBlock {
 
 	public StewItem(String name, ResourceLocation fluid, Properties properties) {
 		super(CPBlocks.bowl, properties.food(fakefood));
-		setRegistryName(Main.MODID, name);
-		RegistryEvents.registeredItems.add(this);
+		RegistryEvents.registeredItems.add(Pair.of(new ResourceLocation(Main.MODID, name), this));
 		CPItems.stews.add(this);
 		this.fluid = fluid;
 	}

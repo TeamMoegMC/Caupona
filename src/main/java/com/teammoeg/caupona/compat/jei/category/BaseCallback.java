@@ -23,10 +23,11 @@ package com.teammoeg.caupona.compat.jei.category;
 
 import java.util.List;
 
+import com.teammoeg.caupona.util.Utils;
+
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -43,10 +44,10 @@ class BaseCallback implements IRecipeSlotTooltipCallback {
 	@Override
 	public void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {
 		if (base != null)
-			tooltip.add(new TranslatableComponent("recipe.caupona.base", new TranslatableComponent(
-					ForgeRegistries.FLUIDS.getValue(base).getAttributes().getTranslationKey())));
+			tooltip.add(Utils.translate("recipe.caupona.base",
+					ForgeRegistries.FLUIDS.getValue(base).getFluidType().getDescription()));
 		if (dense != 0)
-			tooltip.add(new TranslatableComponent("recipe.caupona.density", dense));
+			tooltip.add(Utils.translate("recipe.caupona.density", dense));
 	}
 
 }

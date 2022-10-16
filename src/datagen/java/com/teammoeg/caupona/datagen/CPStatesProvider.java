@@ -33,6 +33,7 @@ import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.stove.KitchenStove;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -110,9 +111,9 @@ public class CPStatesProvider extends BlockStateProvider {
 
 			blockItemModel("stripped_" + wood + "_log");
 			blockItemModel("stripped_" + wood + "_wood");
-			blockItemModel(CPBlocks.STONE_PAN.getRegistryName().getPath());
-			blockItemModel(CPBlocks.COPPER_PAN.getRegistryName().getPath());
-			blockItemModel(CPBlocks.IRON_PAN.getRegistryName().getPath());
+			blockItemModel(Utils.getRegistryName(CPBlocks.STONE_PAN).getPath());
+			blockItemModel(Utils.getRegistryName(CPBlocks.COPPER_PAN).getPath());
+			blockItemModel(Utils.getRegistryName(CPBlocks.IRON_PAN).getPath());
 			// blockItemModel(wood+"_trapdoor","_top");
 
 		}
@@ -149,7 +150,7 @@ public class CPStatesProvider extends BlockStateProvider {
 				horizontalMultipart(
 						horizontalMultipart(
 								horizontalMultipart(this.getMultipartBuilder(block),
-										bmf(block.getRegistryName().getPath())).part()
+										bmf(Utils.getRegistryName(block).getPath())).part()
 												.modelFile(bmf("kitchen_stove_cold_ash")).addModel()
 												.condition(KitchenStove.LIT, false).condition(KitchenStove.ASH, true)
 												.end().part().modelFile(bmf("kitchen_stove_hot_ash")).addModel()
@@ -157,7 +158,7 @@ public class CPStatesProvider extends BlockStateProvider {
 								bmf("kitchen_stove_charcoal"), i -> i.condition(KitchenStove.FUELED, 1)),
 						bmf("kitchen_stove_firewoods"), i -> i.condition(KitchenStove.FUELED, 2)),
 				bmf("kitchen_stove_coal"), i -> i.condition(KitchenStove.FUELED, 3));
-		itemModel(block, bmf(block.getRegistryName().getPath()));
+		itemModel(block, bmf(Utils.getRegistryName(block).getPath()));
 
 	}
 
@@ -205,6 +206,6 @@ public class CPStatesProvider extends BlockStateProvider {
 	}
 
 	protected void itemModel(Block block, ModelFile model) {
-		itemModels().getBuilder(block.getRegistryName().getPath()).parent(model);
+		itemModels().getBuilder(Utils.getRegistryName(block).getPath()).parent(model);
 	}
 }

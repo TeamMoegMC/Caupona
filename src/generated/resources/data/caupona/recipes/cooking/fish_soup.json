@@ -2,16 +2,16 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "cond": "mainly",
-      "type": "caupona:seafood/fish"
+      "type": "caupona:seafood/fish",
+      "cond": "mainly"
     }
   ],
-  "density": 0.75,
-  "time": 200,
   "base": [
     {
       "tag": "caupona:water"
     }
   ],
-  "output": "caupona:fish_soup"
+  "density": 0.75,
+  "output": "caupona:fish_soup",
+  "time": 200
 }

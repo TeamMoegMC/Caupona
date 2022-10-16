@@ -26,6 +26,7 @@ import java.util.Map;
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -33,6 +34,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
@@ -43,7 +45,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class BowlContainingRecipe extends IDataRecipe {
 	public static Map<Fluid, BowlContainingRecipe> recipes;
-	public static RecipeType<?> TYPE;
+	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
  
 	@Override
@@ -53,7 +55,7 @@ public class BowlContainingRecipe extends IDataRecipe {
 
 	@Override
 	public RecipeType<?> getType() {
-		return TYPE;
+		return TYPE.get();
 	}
 
 	public Item bowl;
@@ -85,13 +87,13 @@ public class BowlContainingRecipe extends IDataRecipe {
 	}
 
 	public void serializeRecipeData(JsonObject jo) {
-		jo.addProperty("item", bowl.getRegistryName().toString());
-		jo.addProperty("fluid", fluid.getRegistryName().toString());
+		jo.addProperty("item", Utils.getRegistryName(bowl).toString());
+		jo.addProperty("fluid", Utils.getRegistryName(fluid).toString());
 	}
 
 	public ItemStack handle(Fluid f) {
 		ItemStack is = new ItemStack(bowl);
-		is.getOrCreateTag().putString("type", f.getRegistryName().toString());
+		is.getOrCreateTag().putString("type", Utils.getRegistryName(f).toString());
 		return is;
 	}
 
@@ -103,7 +105,7 @@ public class BowlContainingRecipe extends IDataRecipe {
 		ItemStack is = new ItemStack(bowl);
 		if (stack.hasTag())
 			is.setTag(stack.getTag());
-		is.getOrCreateTag().putString("type", stack.getFluid().getRegistryName().toString());
+		is.getOrCreateTag().putString("type", Utils.getRegistryName(stack).toString());
 		return is;
 	}
 

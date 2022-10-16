@@ -2,11 +2,11 @@
   "type": "caupona:frying",
   "allow": [
     {
-      "cond": "mainly",
-      "type": "caupona:mushroom"
+      "type": "caupona:mushroom",
+      "cond": "mainly"
     }
   ],
+  "output": "caupona:sauteed_mushrooms",
   "priority": 64,
-  "time": 200,
-  "output": "caupona:sauteed_mushrooms"
+  "time": 200
 }

@@ -2,16 +2,16 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "cond": "mainly",
-      "type": "caupona:meats/poultry"
+      "type": "caupona:meats/poultry",
+      "cond": "mainly"
     }
   ],
-  "density": 0.75,
-  "time": 200,
   "base": [
     {
       "fluid": "caupona:scalded_milk"
     }
   ],
-  "output": "caupona:fricassee"
+  "density": 0.75,
+  "output": "caupona:fricassee",
+  "time": 200
 }

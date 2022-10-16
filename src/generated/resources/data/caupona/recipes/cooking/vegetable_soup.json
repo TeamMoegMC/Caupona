@@ -2,16 +2,16 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "cond": "mainly",
-      "type": "caupona:vegetables"
+      "type": "caupona:vegetables",
+      "cond": "mainly"
     }
   ],
-  "density": 0.75,
-  "time": 200,
   "base": [
     {
       "tag": "caupona:water"
     }
   ],
-  "output": "caupona:vegetable_soup"
+  "density": 0.75,
+  "output": "caupona:vegetable_soup",
+  "time": 200
 }

@@ -26,8 +26,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
+import com.teammoeg.caupona.data.recipes.SauteedRecipe;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -47,7 +48,7 @@ public class SauteedRecipeBuilder {
 	}
 
 	public static SauteedRecipeBuilder start(Item out) {
-		return new SauteedRecipeBuilder(new ResourceLocation(Main.MODID, "frying/" + out.getRegistryName().getPath()),
+		return new SauteedRecipeBuilder(new ResourceLocation(Main.MODID, "frying/" + Utils.getRegistryName(out).getPath()),
 				out);
 	}
 

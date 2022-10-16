@@ -1,7 +1,7 @@
 {
   "type": "caupona:cooking",
-  "priority": -1,
   "density": 0.75,
-  "time": 200,
-  "output": "caupona:hodgepodge"
+  "output": "caupona:hodgepodge",
+  "priority": -1,
+  "time": 200
 }

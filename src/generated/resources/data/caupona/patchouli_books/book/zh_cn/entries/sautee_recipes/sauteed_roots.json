@@ -1,13 +1,13 @@
 {
-  "name": "炒根茎",
-  "icon": "caupona:sauteed_roots",
   "category": "caupona:sautee_recipes",
+  "icon": "caupona:sauteed_roots",
+  "name": "炒根茎",
   "pages": [
     {
       "type": "caupona:fryrecipe",
+      "base": "caupona:gravy_boat",
       "img": "caupona:textures/gui/recipes/sauteed_roots.png",
-      "result": "caupona:sauteed_roots",
-      "base": "caupona:gravy_boat"
+      "result": "caupona:sauteed_roots"
     }
   ]
 }

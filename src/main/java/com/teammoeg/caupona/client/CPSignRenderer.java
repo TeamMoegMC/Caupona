@@ -22,12 +22,14 @@
 package com.teammoeg.caupona.client;
 
 import java.util.List;
+
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.others.CPSignBlockEntity;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.model.geom.EntityModelSet;

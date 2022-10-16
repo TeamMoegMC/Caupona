@@ -40,6 +40,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 
@@ -84,9 +85,10 @@ public class RenderUtils {
 			FluidStack fluid, float x, float y, float w, float h) {
 		RenderType renderType = GUI_CUTOUT.apply(InventoryMenu.BLOCK_ATLAS);
 		VertexConsumer builder = buffer.getBuffer(renderType);
+		IClientFluidTypeExtensions attr=IClientFluidTypeExtensions.of(fluid.getFluid());
 		TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS)
-				.getSprite(fluid.getFluid().getAttributes().getStillTexture(fluid));
-		int col = fluid.getFluid().getAttributes().getColor(fluid);
+				.getSprite(attr.getStillTexture(fluid));
+		int col = attr.getTintColor(fluid);
 		int iW = sprite.getWidth();
 		int iH = sprite.getHeight();
 		if (iW > 0 && iH > 0)

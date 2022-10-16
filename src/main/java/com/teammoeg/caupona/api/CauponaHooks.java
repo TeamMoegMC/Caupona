@@ -30,7 +30,6 @@ import com.teammoeg.caupona.items.DishItem;
 import com.teammoeg.caupona.items.StewItem;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.IFoodInfo;
-import com.teammoeg.caupona.util.StewInfo;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

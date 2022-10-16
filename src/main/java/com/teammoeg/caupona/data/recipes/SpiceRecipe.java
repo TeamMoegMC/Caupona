@@ -26,6 +26,7 @@ import java.util.List;
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.SerializeUtil;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -34,6 +35,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -41,7 +43,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class SpiceRecipe extends IDataRecipe {
 	public static List<SpiceRecipe> recipes;
-	public static RecipeType<?> TYPE;
+	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
 
 	@Override
@@ -51,7 +53,7 @@ public class SpiceRecipe extends IDataRecipe {
 
 	@Override
 	public RecipeType<?> getType() {
-		return TYPE;
+		return TYPE.get();
 	}
 
 	public Ingredient spice;
@@ -99,7 +101,7 @@ public class SpiceRecipe extends IDataRecipe {
 			JsonObject jo = new JsonObject();
 			jo.addProperty("level", effect.getAmplifier());
 			jo.addProperty("time", effect.getDuration());
-			jo.addProperty("effect", effect.getEffect().getRegistryName().toString());
+			jo.addProperty("effect", Utils.getRegistryName(effect.getEffect()).toString());
 			jx.add("effect", jo);
 		}
 	}
@@ -112,7 +114,7 @@ public class SpiceRecipe extends IDataRecipe {
 		int cdmg = spice.getDamageValue();
 		cdmg += cnt;
 		if (cdmg >= spice.getMaxDamage()) {
-			return spice.getContainerItem();
+			return spice.getCraftingRemainingItem();
 		}
 		spice.setDamageValue(cdmg);
 		return spice;

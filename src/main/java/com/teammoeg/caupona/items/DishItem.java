@@ -24,16 +24,14 @@ package com.teammoeg.caupona.items;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.blocks.foods.DishBlock;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.SauteedFoodInfo;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
@@ -94,11 +92,11 @@ public class DishItem extends EdibleBlock {
 				.max((t1, t2) -> t1.getCount() > t2.getCount() ? 1 : (t1.getCount() == t2.getCount() ? 0 : -1))
 				.orElse(null);
 		if (fs != null)
-			tooltip.add(new TranslatableComponent("tooltip.caupona.main_ingredient", fs.getStack().getDisplayName()));
+			tooltip.add(Utils.translate("tooltip.caupona.main_ingredient", fs.getStack().getDisplayName()));
 		ResourceLocation rl = info.spiceName;
 		if (rl != null)
-			tooltip.add(new TranslatableComponent("tooltip.caupona.spice",
-					new TranslatableComponent("spice." + rl.getNamespace() + "." + rl.getPath())));
+			tooltip.add(Utils.translate("tooltip.caupona.spice",
+					Utils.translate("spice." + rl.getNamespace() + "." + rl.getPath())));
 		;
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}

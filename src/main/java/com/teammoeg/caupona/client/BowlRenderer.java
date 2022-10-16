@@ -38,7 +38,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 
 public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity> {
@@ -71,11 +71,12 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity> {
 		if (fs != null && !fs.isEmpty() && fs.getFluid() != null) {
 			matrixStack.translate(0, .28125f, 0);
 			matrixStack.mulPose(new Quaternion(90, 0, 0, true));
-			FluidAttributes attr=fs.getFluid().getAttributes();
+			
+			IClientFluidTypeExtensions attr=IClientFluidTypeExtensions.of(fs.getFluid());
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
 			TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS)
 					.getSprite(attr.getStillTexture(fs));
-			int col = attr.getColor(fs);
+			int col = attr.getTintColor(fs);
 			int iW = sprite.getWidth();
 			int iH = sprite.getHeight();
 			if (iW > 0 && iH > 0) {

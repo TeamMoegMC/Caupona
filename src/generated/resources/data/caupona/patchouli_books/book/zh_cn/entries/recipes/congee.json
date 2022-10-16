@@ -1,13 +1,13 @@
 {
-  "name": "米粥",
-  "icon": "caupona:congee",
   "category": "caupona:cook_recipes",
+  "icon": "caupona:congee",
+  "name": "米粥",
   "pages": [
     {
       "type": "caupona:cookrecipe",
+      "base": "caupona:water_or_stock_based",
       "img": "caupona:textures/gui/recipes/congee.png",
-      "result": "caupona:congee",
-      "base": "caupona:water_or_stock_based"
+      "result": "caupona:congee"
     }
   ]
 }

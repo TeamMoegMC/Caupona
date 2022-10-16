@@ -52,7 +52,7 @@ import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.constants.VanillaRecipeCategoryUid;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.gui.handlers.IGuiClickableArea;
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -63,6 +63,7 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
 import mezz.jei.api.runtime.IJeiRuntime;
+import mezz.jei.common.plugins.vanilla.crafting.VanillaRecipes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -76,29 +77,29 @@ public class JEICompat implements IModPlugin {
 
 	@Override
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-		registration.addRecipeCatalyst(new ItemStack(CPItems.pbrazier), BrazierCategory.UID);
-		registration.addRecipeCatalyst(new ItemStack(CPBlocks.stew_pot), PotCategory.UID, BoilingCategory.UID,
-				PotRestingCategory.UID, StewCookingCategory.UID);
+		registration.addRecipeCatalyst(new ItemStack(CPItems.pbrazier), BrazierCategory.TYPE);
+		registration.addRecipeCatalyst(new ItemStack(CPBlocks.stew_pot), PotCategory.TYPE, BoilingCategory.TYPE,
+				PotRestingCategory.TYPE, StewCookingCategory.TYPE);
 		for (Block bl : CPBlocks.dolium)
-			registration.addRecipeCatalyst(new ItemStack(bl), DoliumRestingCategory.UID, PotRestingCategory.UID);
-		registration.addRecipeCatalyst(new ItemStack(CPBlocks.STONE_PAN), FryingCategory.UID);
-		registration.addRecipeCatalyst(new ItemStack(CPBlocks.COPPER_PAN), FryingCategory.UID);
-		registration.addRecipeCatalyst(new ItemStack(CPBlocks.IRON_PAN), FryingCategory.UID);
+			registration.addRecipeCatalyst(new ItemStack(bl), DoliumRestingCategory.TYPE, PotRestingCategory.TYPE);
+		registration.addRecipeCatalyst(new ItemStack(CPBlocks.STONE_PAN), FryingCategory.TYPE);
+		registration.addRecipeCatalyst(new ItemStack(CPBlocks.COPPER_PAN), FryingCategory.TYPE);
+		registration.addRecipeCatalyst(new ItemStack(CPBlocks.IRON_PAN), FryingCategory.TYPE);
 	}
 
 	@Override
 	public void registerRecipes(IRecipeRegistration registration) {
-		registration.addRecipes(new ArrayList<>(AspicMeltingRecipe.recipes), BrazierCategory.UID);
-		registration.addRecipes(new ArrayList<>(AspicMeltingRecipe.recipes), PotCategory.UID);
-		registration.addRecipes(new ArrayList<>(BoilingRecipe.recipes.values()), BoilingCategory.UID);
-		registration.addRecipes(new ArrayList<>(BowlContainingRecipe.recipes.values()), BowlEmptyCategory.UID);
-		registration.addRecipes(new ArrayList<>(BowlContainingRecipe.recipes.values()), BowlFillCategory.UID);
-		registration.addRecipes(new ArrayList<>(DoliumRecipe.recipes), DoliumRestingCategory.UID);
-		registration.addRecipes(new ArrayList<>(StewCookingRecipe.sorted), StewCookingCategory.UID);
-		registration.addRecipes(new ArrayList<>(SauteedRecipe.sorted), FryingCategory.UID);
-		registration.addRecipes(
-				DoliumRecipe.recipes.stream().filter(e -> e.items.size() == 0).collect(Collectors.toList()),
-				PotRestingCategory.UID);
+		registration.addRecipes(BrazierCategory.TYPE,new ArrayList<>(AspicMeltingRecipe.recipes));
+		registration.addRecipes(PotCategory.TYPE,new ArrayList<>(AspicMeltingRecipe.recipes));
+		registration.addRecipes(BoilingCategory.TYPE,new ArrayList<>(BoilingRecipe.recipes.values()));
+		registration.addRecipes(BowlEmptyCategory.TYPE,new ArrayList<>(BowlContainingRecipe.recipes.values()));
+		registration.addRecipes(BowlFillCategory.TYPE,new ArrayList<>(BowlContainingRecipe.recipes.values()));
+		registration.addRecipes(DoliumRestingCategory.TYPE,new ArrayList<>(DoliumRecipe.recipes));
+		registration.addRecipes(StewCookingCategory.TYPE,new ArrayList<>(StewCookingRecipe.sorted));
+		registration.addRecipes(FryingCategory.TYPE,new ArrayList<>(SauteedRecipe.sorted));
+		registration.addRecipes(PotRestingCategory.TYPE,
+				DoliumRecipe.recipes.stream().filter(e -> e.items.size() == 0).collect(Collectors.toList())
+				);
 	}
 
 	@Override
@@ -124,17 +125,17 @@ public class JEICompat implements IModPlugin {
 			@Override
 			public Collection<IGuiClickableArea> getGuiClickableAreas(PortableBrazierScreen containerScreen,
 					double mouseX, double mouseY) {
-				IGuiClickableArea clickableArea1 = IGuiClickableArea.createBasic(60, 11, 14, 16, BrazierCategory.UID);
-				IGuiClickableArea clickableArea2 = IGuiClickableArea.createBasic(90, 11, 14, 16, BrazierCategory.UID);
+				IGuiClickableArea clickableArea1 = IGuiClickableArea.createBasic(60, 11, 14, 16, BrazierCategory.TYPE);
+				IGuiClickableArea clickableArea2 = IGuiClickableArea.createBasic(90, 11, 14, 16, BrazierCategory.TYPE);
 				return List.of(clickableArea1, clickableArea2);
 			}
 		});
 
-		registry.addRecipeClickArea(DoliumScreen.class, 118, 32, 10, 25, DoliumRestingCategory.UID);
-		registry.addRecipeClickArea(StewPotScreen.class, 132, 34, 38, 16, PotCategory.UID, BoilingCategory.UID,
-				PotRestingCategory.UID, StewCookingCategory.UID);
-		registry.addRecipeClickArea(KitchenStoveScreen.class, 61, 0, 54, 28, VanillaRecipeCategoryUid.FUEL);
-		registry.addRecipeClickArea(PanScreen.class, 125, 30, 38, 16, FryingCategory.UID);
+		registry.addRecipeClickArea(DoliumScreen.class, 118, 32, 10, 25, DoliumRestingCategory.TYPE);
+		registry.addRecipeClickArea(StewPotScreen.class, 132, 34, 38, 16, PotCategory.TYPE, BoilingCategory.TYPE,
+				PotRestingCategory.TYPE, StewCookingCategory.TYPE);
+		registry.addRecipeClickArea(KitchenStoveScreen.class, 61, 0, 54, 28, RecipeTypes.FUELING);
+		registry.addRecipeClickArea(PanScreen.class, 125, 30, 38, 16, FryingCategory.TYPE);
 	}
 
 	@Override

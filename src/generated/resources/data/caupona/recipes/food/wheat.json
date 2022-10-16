@@ -1,7 +1,9 @@
 {
   "type": "caupona:food",
   "heal": 3,
-  "sat": 0.6,
+  "item": {
+    "item": "minecraft:wheat"
+  },
   "items": [
     {
       "item": "minecraft:wheat_seeds"
@@ -10,7 +12,5 @@
       "item": "minecraft:wheat"
     }
   ],
-  "item": {
-    "item": "minecraft:wheat"
-  }
+  "sat": 0.6
 }

@@ -23,18 +23,11 @@ package com.teammoeg.caupona.worldgen;
 
 import com.teammoeg.caupona.Main;
 
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.core.Registry;
+import net.minecraft.world.level.levelgen.structure.StructureType;
 
 public class CPStructures {
-	public static final DeferredRegister<StructureFeature<?>> STRUCTURES = DeferredRegister
-			.create(ForgeRegistries.STRUCTURE_FEATURES, Main.MODID);
-
-	public static final RegistryObject<StructureFeature<?>> SKY_STRUCTURES = STRUCTURES.register("fumarole",
-			FumaroleStructures::new);
-
+	public static final StructureType<FumaroleStructures> FUMAROLE = Registry.register(Registry.STRUCTURE_TYPES,Main.MODID+":fumarole",()->FumaroleStructures.CODEC);
 	public CPStructures() {
 	}
 

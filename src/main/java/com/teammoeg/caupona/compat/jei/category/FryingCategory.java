@@ -29,8 +29,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.api.GameTranslation;
-import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
+import com.teammoeg.caupona.data.recipes.SauteedRecipe;
+import com.teammoeg.caupona.util.Utils;
+
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -38,37 +40,27 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class FryingCategory implements IRecipeCategory<SauteedRecipe> {
-	public static ResourceLocation UID = new ResourceLocation(Main.MODID, "frying");
+	public static RecipeType<SauteedRecipe> TYPE=RecipeType.create(Main.MODID, "frying",SauteedRecipe.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 	private IGuiHelper helper;
 
 	public FryingCategory(IGuiHelper guiHelper) {
-		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(CPItems.gravy_boat));
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CPItems.gravy_boat));
 		this.BACKGROUND = guiHelper.createBlankDrawable(100, 105);
 		this.helper = guiHelper;
 	}
 
-	@Override
-	public ResourceLocation getUid() {
-		return UID;
-	}
-
-	@Override
-	public Class<? extends SauteedRecipe> getRecipeClass() {
-		return SauteedRecipe.class;
-	}
 
 	public Component getTitle() {
-		return new TranslatableComponent("gui.jei.category." + Main.MODID + ".frying.title");
+		return Utils.translate("gui.jei.category." + Main.MODID + ".frying.title");
 	}
 
 	@Override
@@ -76,8 +68,8 @@ public class FryingCategory implements IRecipeCategory<SauteedRecipe> {
 			double mouseY) {
 		stack.pushPose();
 		stack.scale(0.5f, 0.5f, 0);
-		helper.createDrawable(new ResourceLocation(recipe.output.getRegistryName().getNamespace(),
-				"textures/gui/recipes/" + recipe.output.getRegistryName().getPath() + ".png"), 0, 0, 200, 210)
+		helper.createDrawable(new ResourceLocation(Utils.getRegistryName(recipe.output).getNamespace(),
+				"textures/gui/recipes/" + Utils.getRegistryName(recipe.output).getPath() + ".png"), 0, 0, 200, 210)
 				.draw(stack);
 		stack.popPose();
 	}
@@ -95,9 +87,9 @@ public class FryingCategory implements IRecipeCategory<SauteedRecipe> {
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, SauteedRecipe recipe, IFocusGroup focuses) {
 
-		builder.addSlot(RecipeIngredientRole.INPUT, 30, 13).addIngredient(VanillaTypes.ITEM,
+		builder.addSlot(RecipeIngredientRole.INPUT, 30, 13).addIngredient(VanillaTypes.ITEM_STACK,
 				new ItemStack(CPItems.gravy_boat));
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 61, 18).addIngredient(VanillaTypes.ITEM,
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 61, 18).addIngredient(VanillaTypes.ITEM_STACK,
 				new ItemStack(recipe.output));
 	}
 
@@ -116,18 +108,24 @@ public class FryingCategory implements IRecipeCategory<SauteedRecipe> {
 			else
 				conds = recipe.getDeny();
 			if (conds != null)
-				allowence = conds.stream().map(e -> e.getTranslation(GameTranslation.get())).map(TextComponent::new)
+				allowence = conds.stream().map(e -> e.getTranslation(GameTranslation.get())).map(Utils::string)
 						.collect(Collectors.toList());
 			if (allowence != null && !allowence.isEmpty()) {
 				if (mouseX < 50)
-					allowence.add(0, new TranslatableComponent("recipe.caupona.allow"));
+					allowence.add(0, Utils.translate("recipe.caupona.allow"));
 				else
-					allowence.add(0, new TranslatableComponent("recipe.caupona.deny"));
+					allowence.add(0, Utils.translate("recipe.caupona.deny"));
 				return allowence;
 			}
 
 		}
 		return Arrays.asList();
+	}
+
+
+	@Override
+	public RecipeType<SauteedRecipe> getRecipeType() {
+		return null;
 	}
 
 }

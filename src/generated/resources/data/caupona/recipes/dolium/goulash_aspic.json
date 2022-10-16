@@ -1,14 +1,14 @@
 {
   "type": "caupona:dolium",
-  "items": [],
-  "base": "caupona:stock",
-  "fluid": "caupona:goulash",
-  "density": 0.25,
   "amount": 250,
+  "base": "caupona:stock",
+  "density": 0.25,
+  "fluid": "caupona:goulash",
+  "items": [],
   "keepInfo": true,
   "output": {
     "type": "forge:nbt",
-    "item": "caupona:goulash_aspic",
-    "count": 1
+    "count": 1,
+    "item": "caupona:goulash_aspic"
   }
 }

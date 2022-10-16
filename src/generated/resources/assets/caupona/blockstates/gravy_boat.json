@@ -1,233 +1,233 @@
 {
   "multipart": [
     {
+      "apply": {
+        "model": "caupona:block/gravy_boat",
+        "y": 180
+      },
       "when": {
         "facing": "north"
-      },
-      "apply": {
-        "model": "caupona:block/gravy_boat",
-        "y": 180
       }
     },
     {
-      "when": {
-        "facing": "south"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat"
+      },
+      "when": {
+        "facing": "south"
       }
     },
     {
+      "apply": {
+        "model": "caupona:block/gravy_boat",
+        "y": 90
+      },
       "when": {
         "facing": "west"
-      },
-      "apply": {
-        "model": "caupona:block/gravy_boat",
-        "y": 90
       }
     },
     {
+      "apply": {
+        "model": "caupona:block/gravy_boat",
+        "y": 270
+      },
       "when": {
         "facing": "east"
-      },
-      "apply": {
-        "model": "caupona:block/gravy_boat",
-        "y": 270
       }
     },
     {
-      "when": {
-        "facing": "north",
-        "damage": "0"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_0",
         "y": 180
+      },
+      "when": {
+        "damage": "0",
+        "facing": "north"
       }
     },
     {
-      "when": {
-        "facing": "south",
-        "damage": "0"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_0"
+      },
+      "when": {
+        "damage": "0",
+        "facing": "south"
       }
     },
     {
-      "when": {
-        "facing": "west",
-        "damage": "0"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_0",
         "y": 90
+      },
+      "when": {
+        "damage": "0",
+        "facing": "west"
       }
     },
     {
-      "when": {
-        "facing": "east",
-        "damage": "0"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_0",
         "y": 270
+      },
+      "when": {
+        "damage": "0",
+        "facing": "east"
       }
     },
     {
-      "when": {
-        "facing": "north",
-        "damage": "1"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_1",
         "y": 180
+      },
+      "when": {
+        "damage": "1",
+        "facing": "north"
       }
     },
     {
-      "when": {
-        "facing": "south",
-        "damage": "1"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_1"
+      },
+      "when": {
+        "damage": "1",
+        "facing": "south"
       }
     },
     {
-      "when": {
-        "facing": "west",
-        "damage": "1"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_1",
         "y": 90
+      },
+      "when": {
+        "damage": "1",
+        "facing": "west"
       }
     },
     {
-      "when": {
-        "facing": "east",
-        "damage": "1"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_1",
         "y": 270
+      },
+      "when": {
+        "damage": "1",
+        "facing": "east"
       }
     },
     {
-      "when": {
-        "facing": "north",
-        "damage": "2"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_2",
         "y": 180
+      },
+      "when": {
+        "damage": "2",
+        "facing": "north"
       }
     },
     {
-      "when": {
-        "facing": "south",
-        "damage": "2"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_2"
+      },
+      "when": {
+        "damage": "2",
+        "facing": "south"
       }
     },
     {
-      "when": {
-        "facing": "west",
-        "damage": "2"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_2",
         "y": 90
+      },
+      "when": {
+        "damage": "2",
+        "facing": "west"
       }
     },
     {
-      "when": {
-        "facing": "east",
-        "damage": "2"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_2",
         "y": 270
+      },
+      "when": {
+        "damage": "2",
+        "facing": "east"
       }
     },
     {
-      "when": {
-        "facing": "north",
-        "damage": "3"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_3",
         "y": 180
+      },
+      "when": {
+        "damage": "3",
+        "facing": "north"
       }
     },
     {
-      "when": {
-        "facing": "south",
-        "damage": "3"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_3"
+      },
+      "when": {
+        "damage": "3",
+        "facing": "south"
       }
     },
     {
-      "when": {
-        "facing": "west",
-        "damage": "3"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_3",
         "y": 90
+      },
+      "when": {
+        "damage": "3",
+        "facing": "west"
       }
     },
     {
-      "when": {
-        "facing": "east",
-        "damage": "3"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_3",
         "y": 270
+      },
+      "when": {
+        "damage": "3",
+        "facing": "east"
       }
     },
     {
-      "when": {
-        "facing": "north",
-        "damage": "4"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_4",
         "y": 180
+      },
+      "when": {
+        "damage": "4",
+        "facing": "north"
       }
     },
     {
-      "when": {
-        "facing": "south",
-        "damage": "4"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_4"
+      },
+      "when": {
+        "damage": "4",
+        "facing": "south"
       }
     },
     {
-      "when": {
-        "facing": "west",
-        "damage": "4"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_4",
         "y": 90
+      },
+      "when": {
+        "damage": "4",
+        "facing": "west"
       }
     },
     {
-      "when": {
-        "facing": "east",
-        "damage": "4"
-      },
       "apply": {
         "model": "caupona:block/gravy_boat_oil_4",
         "y": 270
+      },
+      "when": {
+        "damage": "4",
+        "facing": "east"
       }
     }
   ]

@@ -2,26 +2,26 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "cond": "half",
-      "type": "caupona:fern"
+      "type": "caupona:fern",
+      "cond": "half"
     }
   ],
+  "density": 0.75,
   "deny": [
     {
-      "cond": "contains",
-      "type": "caupona:seafood"
+      "type": "caupona:seafood",
+      "cond": "contains"
     },
     {
-      "cond": "contains",
-      "type": "caupona:meats"
+      "type": "caupona:meats",
+      "cond": "contains"
     },
     {
-      "cond": "contains",
-      "type": "caupona:cereals"
+      "type": "caupona:cereals",
+      "cond": "contains"
     }
   ],
+  "output": "caupona:nettle_soup",
   "priority": 1088,
-  "density": 0.75,
-  "time": 200,
-  "output": "caupona:nettle_soup"
+  "time": 200
 }

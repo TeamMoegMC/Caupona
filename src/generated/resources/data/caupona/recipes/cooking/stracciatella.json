@@ -2,20 +2,20 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "cond": "mainly",
-      "type": "caupona:eggs"
+      "type": "caupona:eggs",
+      "cond": "mainly"
     },
     {
-      "cond": "contains",
-      "type": "caupona:vegetables"
+      "type": "caupona:vegetables",
+      "cond": "contains"
     }
   ],
-  "density": 0.5,
-  "time": 200,
   "base": [
     {
       "tag": "caupona:water"
     }
   ],
-  "output": "caupona:stracciatella"
+  "density": 0.5,
+  "output": "caupona:stracciatella",
+  "time": 200
 }

@@ -22,8 +22,6 @@
 package com.teammoeg.caupona.blocks.stove;
 
 import java.util.Objects;
-import java.util.Random;
-
 
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.FuelType;
@@ -38,8 +36,10 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
@@ -48,7 +48,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
@@ -157,7 +156,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 	@Override
 	public boolean canPlaceItem(int index, ItemStack stack) {
 		ItemStack itemstack = fuel.get(0);
-		return ForgeHooks.getBurnTime(stack, null) > 0 && itemstack.getContainerItem().isEmpty();
+		return ForgeHooks.getBurnTime(stack, null) > 0 && itemstack.getCraftingRemainingItem().isEmpty();
 	}
 
 	@Override
@@ -167,7 +166,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 
 	@Override
 	public Component getDisplayName() {
-		return new TranslatableComponent("container." + Main.MODID + ".kitchen_stove.title");
+		return MutableComponent.create(new TranslatableContents("container." + Main.MODID + ".kitchen_stove.title"));
 	}
 
 	private boolean consumeFuel() {
@@ -251,7 +250,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 				double d0 = this.getBlockPos().getX();
 				double d1 = this.getBlockPos().getY();
 				double d2 = this.getBlockPos().getZ();
-				Random rand = this.getLevel().random;
+				RandomSource rand = this.getLevel().random;
 				if (attachedChimney == null) {
 					if (rand.nextDouble() < 0.25D * speed) {
 						this.getLevel().addParticle(ParticleTypes.SMOKE, d0 + .5, d1 + 1, d2 + .5,

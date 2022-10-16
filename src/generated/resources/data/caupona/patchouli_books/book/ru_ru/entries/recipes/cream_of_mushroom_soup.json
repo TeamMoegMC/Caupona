@@ -1,13 +1,13 @@
 {
-  "name": "Кремовый Грибной Суп",
-  "icon": "caupona:cream_of_mushroom_soup",
   "category": "caupona:cook_recipes",
+  "icon": "caupona:cream_of_mushroom_soup",
+  "name": "Кремовый Грибной Суп",
   "pages": [
     {
       "type": "caupona:cookrecipe",
+      "base": "caupona:milk_based",
       "img": "caupona:textures/gui/recipes/cream_of_mushroom_soup.png",
-      "result": "caupona:cream_of_mushroom_soup",
-      "base": "caupona:milk_based"
+      "result": "caupona:cream_of_mushroom_soup"
     }
   ]
 }

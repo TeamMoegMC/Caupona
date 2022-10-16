@@ -1,13 +1,13 @@
 {
-  "name": "炒蔬菜",
-  "icon": "caupona:sauteed_vegetables",
   "category": "caupona:sautee_recipes",
+  "icon": "caupona:sauteed_vegetables",
+  "name": "炒蔬菜",
   "pages": [
     {
       "type": "caupona:fryrecipe",
+      "base": "caupona:gravy_boat",
       "img": "caupona:textures/gui/recipes/sauteed_vegetables.png",
-      "result": "caupona:sauteed_vegetables",
-      "base": "caupona:gravy_boat"
+      "result": "caupona:sauteed_vegetables"
     }
   ]
 }

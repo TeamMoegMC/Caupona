@@ -24,6 +24,7 @@ package com.teammoeg.caupona;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
@@ -39,6 +40,7 @@ import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
@@ -50,12 +52,9 @@ import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
@@ -64,41 +63,64 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries.Keys;
+import net.minecraftforge.registries.RegisterEvent;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryEvents {
-	public static List<Block> registeredBlocks = new ArrayList<>();
-	public static List<Item> registeredItems = new ArrayList<>();
-	public static List<Fluid> registeredFluids = new ArrayList<>();
+	public static List<Pair<ResourceLocation, Block>> registeredBlocks = new ArrayList<>();
+	public static List<Pair<ResourceLocation, Item>> registeredItems = new ArrayList<>();
 
 	@SubscribeEvent
-	public static void registerBlocks(RegistryEvent.Register<Block> event) {
-		CPBlocks.init();
-		CPRecipes.registerRecipeTypes();
-		for (Block block : RegistryEvents.registeredBlocks) {
+	public static void registerAll(RegisterEvent event) {
+		
+
+		event.register(Keys.BLOCKS, helper -> {
+			CPBlocks.init();
+			
+			for (Pair<ResourceLocation, Block> block : RegistryEvents.registeredBlocks) {
+				try {
+					helper.register(block.getFirst(), block.getSecond());
+				} catch (Throwable e) {
+					Main.logger.error("Failed to register a block. ({})", block);
+					throw e;
+				}
+			}
+		});
+		event.register(Keys.ITEMS, helper -> {
+			CPItems.init();
+			for (Pair<ResourceLocation, Item> item : RegistryEvents.registeredItems) {
+				try {
+					helper.register(item.getFirst(),item.getSecond());
+				} catch (Throwable e) {
+					Main.logger.error("Failed to register an item. ({})", item);
+					throw e;
+				}
+			}
+			registerDispensers();
+		});
+		event.register(Keys.FEATURES, helper -> {
+			CPFeatures.init();
+			CPPlacements.init();
+		});
+
+		event.register(Keys.FOLIAGE_PLACER_TYPES, helper -> {
+			CPFeatures.init();
 			try {
-				event.getRegistry().register(block);
+				helper.register(new ResourceLocation(Main.MODID, "bush_foliage_placer"),CPFeatures.BUSH_PLACER);
 			} catch (Throwable e) {
-				Main.logger.error("Failed to register a block. ({})", block);
+				Main.logger.error("Failed to register a foliage placer. ({})", CPFeatures.BUSH_PLACER);
 				throw e;
 			}
-		}
+		});
+		
 	}
 
-	@SubscribeEvent
-	public static void registerFoliagePlacer(RegistryEvent.Register<FoliagePlacerType<?>> event) {
-		CPFeatures.init();
-		try {
-			event.getRegistry().register(CPFeatures.BUSH_PLACER);
-		} catch (Throwable e) {
-			Main.logger.error("Failed to register a foliage placer. ({})", CPFeatures.BUSH_PLACER);
-			throw e;
-		}
 
-	}
 	public static void registerDispensers() {
 		DispenserBlock.registerBehavior(Items.BOWL, new DefaultDispenseItemBehavior() {
 			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
+
 			@SuppressWarnings("resource")
 			@Override
 			protected ItemStack execute(BlockSource bp, ItemStack is) {
@@ -108,8 +130,8 @@ public class RegistryEvents {
 				FluidState fs = bp.getLevel().getBlockState(front).getFluidState();
 				BlockEntity blockEntity = bp.getLevel().getBlockEntity(front);
 				if (blockEntity != null) {
-					LazyOptional<IFluidHandler> ip = blockEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
-							d.getOpposite());
+					LazyOptional<IFluidHandler> ip = blockEntity
+							.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, d.getOpposite());
 					if (ip.isPresent()) {
 						ItemStack ret = CauponaApi.fillBowl(ip.resolve().get()).orElse(null);
 						if (ret != null) {
@@ -144,36 +166,39 @@ public class RegistryEvents {
 			}
 
 		});
-		DispenserBlock.registerBehavior(CPItems.walnut_boat,new DefaultDispenseItemBehavior(){
-			   private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
-			   public ItemStack execute(BlockSource pSource, ItemStack pStack) {
-			      Direction direction = pSource.getBlockState().getValue(DispenserBlock.FACING);
-			      Level level = pSource.getLevel();
-			      double d0 = pSource.x() + direction.getStepX() * 1.125F;
-			      double d1 = pSource.y() + direction.getStepY() * 1.125F;
-			      double d2 = pSource.z() + direction.getStepZ() * 1.125F;
-			      BlockPos blockpos = pSource.getPos().relative(direction);
-			      double d3;
-			      if (level.getFluidState(blockpos).is(FluidTags.WATER)) {
-			         d3 = 1.0D;
-			      } else {
-			         if (!level.getBlockState(blockpos).isAir() || !level.getFluidState(blockpos.below()).is(FluidTags.WATER)) {
-			            return this.defaultDispenseItemBehavior.dispense(pSource, pStack);
-			         }
+		DispenserBlock.registerBehavior(CPItems.walnut_boat, new DefaultDispenseItemBehavior() {
+			private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
 
-			         d3 = 0.0D;
-			      }
+			public ItemStack execute(BlockSource pSource, ItemStack pStack) {
+				Direction direction = pSource.getBlockState().getValue(DispenserBlock.FACING);
+				Level level = pSource.getLevel();
+				double d0 = pSource.x() + direction.getStepX() * 1.125F;
+				double d1 = pSource.y() + direction.getStepY() * 1.125F;
+				double d2 = pSource.z() + direction.getStepZ() * 1.125F;
+				BlockPos blockpos = pSource.getPos().relative(direction);
+				double d3;
+				if (level.getFluidState(blockpos).is(FluidTags.WATER)) {
+					d3 = 1.0D;
+				} else {
+					if (!level.getBlockState(blockpos).isAir()
+							|| !level.getFluidState(blockpos.below()).is(FluidTags.WATER)) {
+						return this.defaultDispenseItemBehavior.dispense(pSource, pStack);
+					}
 
-			      Boat boat = new CPBoat(level, d0, d1 + d3, d2);
-			      boat.setYRot(direction.toYRot());
-			      level.addFreshEntity(boat);
-			      pStack.shrink(1);
-			      return pStack;
-			   }
-			   protected void playSound(BlockSource pSource) {
-			      pSource.getLevel().levelEvent(1000, pSource.getPos(), 0);
-			   }
-			});
+					d3 = 0.0D;
+				}
+
+				Boat boat = new CPBoat(level, d0, d1 + d3, d2);
+				boat.setYRot(direction.toYRot());
+				level.addFreshEntity(boat);
+				pStack.shrink(1);
+				return pStack;
+			}
+
+			protected void playSound(BlockSource pSource) {
+				pSource.getLevel().levelEvent(1000, pSource.getPos(), 0);
+			}
+		});
 		DispenserBlock.registerBehavior(CPItems.gravy_boat, new DefaultDispenseItemBehavior() {
 			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
 
@@ -208,8 +233,8 @@ public class RegistryEvents {
 				BlockPos front = source.getPos().relative(d);
 				BlockEntity blockEntity = world.getBlockEntity(front);
 				if (blockEntity != null) {
-					LazyOptional<IFluidHandler> ip = blockEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
-							d.getOpposite());
+					LazyOptional<IFluidHandler> ip = blockEntity
+							.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, d.getOpposite());
 					if (ip.isPresent()) {
 						FluidActionResult fa = FluidUtil.tryEmptyContainerAndStow(stack, ip.resolve().get(), null, 1250,
 								null, true);
@@ -240,7 +265,7 @@ public class RegistryEvents {
 				if (!fs.isEmpty()) {
 					if (blockEntity instanceof StewPotBlockEntity pot) {
 						if (pot.tryAddFluid(fs)) {
-							ItemStack ret = stack.getContainerItem();
+							ItemStack ret = stack.getCraftingRemainingItem();
 							if (stack.getCount() == 1)
 								return ret;
 							stack.shrink(1);
@@ -254,7 +279,7 @@ public class RegistryEvents {
 							IFluidHandler handler = ip.resolve().get();
 							if (handler.fill(fs, FluidAction.SIMULATE) == fs.getAmount()) {
 								handler.fill(fs, FluidAction.EXECUTE);
-								ItemStack ret = stack.getContainerItem();
+								ItemStack ret = stack.getCraftingRemainingItem();
 								if (stack.getCount() == 1)
 									return ret;
 								stack.shrink(1);
@@ -339,38 +364,8 @@ public class RegistryEvents {
 			DispenserBlock.registerBehavior(i, spice);
 		}
 	}
-	@SubscribeEvent
-	public static void registerItems(RegistryEvent.Register<Item> event) {
-		CPItems.init();
-		for (Item item : RegistryEvents.registeredItems) {
-			try {
-				event.getRegistry().register(item);
-			} catch (Throwable e) {
-				Main.logger.error("Failed to register an item. ({}, {})", item, item.getRegistryName());
-				throw e;
-			}
-		}
-		registerDispensers();
-	}
 
-	@SubscribeEvent
-	public static void registerFluids(RegistryEvent.Register<Fluid> event) {
 
-		for (Fluid fluid : RegistryEvents.registeredFluids) {
-			try {
-				event.getRegistry().register(fluid);
-			} catch (Throwable e) {
-				Main.logger.error("Failed to register a fluid. ({}, {})", fluid, fluid.getRegistryName());
-				throw e;
-			}
-		}
-	}
 
-	@SuppressWarnings("unused")
-	@SubscribeEvent
-	public static void registerFeatures(RegistryEvent.Register<Feature<?>> event) {
-		CPFeatures.init();
-		CPPlacements.init();
-	}
 
 }

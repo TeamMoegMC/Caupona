@@ -2,16 +2,16 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "cond": "mainly",
-      "type": "caupona:seafood/crustaceans"
+      "type": "caupona:seafood/crustaceans",
+      "cond": "mainly"
     }
   ],
-  "density": 0.75,
-  "time": 200,
   "base": [
     {
       "tag": "caupona:water"
     }
   ],
-  "output": "caupona:bisque"
+  "density": 0.75,
+  "output": "caupona:bisque",
+  "time": 200
 }

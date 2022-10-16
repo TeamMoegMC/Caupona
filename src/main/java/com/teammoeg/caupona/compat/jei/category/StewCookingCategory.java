@@ -33,17 +33,19 @@ import com.teammoeg.caupona.api.GameTranslation;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
+import com.teammoeg.caupona.util.Utils;
+
 import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
@@ -51,29 +53,19 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class StewCookingCategory implements IRecipeCategory<StewCookingRecipe> {
-	public static ResourceLocation UID = new ResourceLocation(Main.MODID, "stew_cooking");
+	public static RecipeType<StewCookingRecipe> TYPE=RecipeType.create(Main.MODID, "stew_cooking",StewCookingRecipe.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 	private IGuiHelper helper;
 
 	public StewCookingCategory(IGuiHelper guiHelper) {
-		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(CPItems.anyWater));
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CPItems.anyWater));
 		this.BACKGROUND = guiHelper.createBlankDrawable(100, 105);
 		this.helper = guiHelper;
 	}
 
-	@Override
-	public ResourceLocation getUid() {
-		return UID;
-	}
-
-	@Override
-	public Class<? extends StewCookingRecipe> getRecipeClass() {
-		return StewCookingRecipe.class;
-	}
-
 	public Component getTitle() {
-		return new TranslatableComponent("gui.jei.category." + Main.MODID + ".stew_cooking.title");
+		return Utils.translate("gui.jei.category." + Main.MODID + ".stew_cooking.title");
 	}
 
 	@Override
@@ -81,8 +73,8 @@ public class StewCookingCategory implements IRecipeCategory<StewCookingRecipe> {
 			double mouseY) {
 		stack.pushPose();
 		stack.scale(0.5f, 0.5f, 0);
-		helper.createDrawable(new ResourceLocation(recipe.output.getRegistryName().getNamespace(),
-				"textures/gui/recipes/" + recipe.output.getRegistryName().getPath() + ".png"), 0, 0, 200, 210)
+		helper.createDrawable(new ResourceLocation(Utils.getRegistryName(recipe.output).getNamespace(),
+				"textures/gui/recipes/" + Utils.getRegistryName(recipe.output).getPath() + ".png"), 0, 0, 200, 210)
 				.draw(stack);
 		stack.popPose();
 	}
@@ -106,13 +98,13 @@ public class StewCookingCategory implements IRecipeCategory<StewCookingRecipe> {
 					if (base.test(f))
 						fss.add(new FluidStack(f, 250));
 			}
-			builder.addSlot(RecipeIngredientRole.INPUT, 30, 13).addIngredients(VanillaTypes.FLUID, fss)
+			builder.addSlot(RecipeIngredientRole.INPUT, 30, 13).addIngredients(ForgeTypes.FLUID_STACK, fss)
 					.setFluidRenderer(250, false, 16, 16);
 		} else
-			builder.addSlot(RecipeIngredientRole.INPUT, 30, 13).addIngredient(VanillaTypes.ITEM,
+			builder.addSlot(RecipeIngredientRole.INPUT, 30, 13).addIngredient(VanillaTypes.ITEM_STACK,
 					new ItemStack(CPItems.any));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 61, 18)
-				.addIngredient(VanillaTypes.FLUID, new FluidStack(recipe.output, 250))
+				.addIngredient(ForgeTypes.FLUID_STACK, new FluidStack(recipe.output, 250))
 				.setFluidRenderer(250, false, 16, 16);
 	}
 
@@ -124,7 +116,7 @@ public class StewCookingCategory implements IRecipeCategory<StewCookingRecipe> {
 	public List<Component> getTooltipStrings(StewCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX,
 			double mouseY) {
 		if (inRange(mouseX, mouseY, 21, 6, 34, 30)) {
-			return Arrays.asList(new TranslatableComponent("recipe.caupona.density", recipe.getDensity()));
+			return Arrays.asList(Utils.translate("recipe.caupona.density", recipe.getDensity()));
 		}
 		if (inRange(mouseX, mouseY, 0, 50, 100, 50)) {
 			List<Component> allowence = null;
@@ -134,18 +126,23 @@ public class StewCookingCategory implements IRecipeCategory<StewCookingRecipe> {
 			else
 				conds = recipe.getDeny();
 			if (conds != null)
-				allowence = conds.stream().map(e -> e.getTranslation(GameTranslation.get())).map(TextComponent::new)
+				allowence = conds.stream().map(e -> e.getTranslation(GameTranslation.get())).map(Utils::string)
 						.collect(Collectors.toList());
 			if (allowence != null && !allowence.isEmpty()) {
 				if (mouseX < 50)
-					allowence.add(0, new TranslatableComponent("recipe.caupona.allow"));
+					allowence.add(0, Utils.translate("recipe.caupona.allow"));
 				else
-					allowence.add(0, new TranslatableComponent("recipe.caupona.deny"));
+					allowence.add(0, Utils.translate("recipe.caupona.deny"));
 				return allowence;
 			}
 
 		}
 		return Arrays.asList();
+	}
+
+	@Override
+	public RecipeType<StewCookingRecipe> getRecipeType() {
+		return null;
 	}
 
 }

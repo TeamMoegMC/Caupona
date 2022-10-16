@@ -24,46 +24,40 @@ package com.teammoeg.caupona.compat.jei.category;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
+import com.teammoeg.caupona.util.Utils;
+
 import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class PotCategory implements IRecipeCategory<AspicMeltingRecipe> {
-	public static ResourceLocation UID = new ResourceLocation(Main.MODID, "aspic_thawing_pot");
+	public static RecipeType<AspicMeltingRecipe> TYPE=RecipeType.create(Main.MODID, "aspic_thawing_pot",AspicMeltingRecipe.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
 	public PotCategory(IGuiHelper guiHelper) {
-		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM,
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK,
 				new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, "goulash"))));
 		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/aspic_thawing_pot.png");
 		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 	}
 
-	@Override
-	public ResourceLocation getUid() {
-		return UID;
-	}
-
-	@Override
-	public Class<? extends AspicMeltingRecipe> getRecipeClass() {
-		return AspicMeltingRecipe.class;
-	}
 
 	public Component getTitle() {
-		return new TranslatableComponent("gui.jei.category." + Main.MODID + ".thawing_pot.title");
+		return Utils.translate("gui.jei.category." + Main.MODID + ".thawing_pot.title");
 	}
 
 	@SuppressWarnings("resource")
@@ -88,8 +82,14 @@ public class PotCategory implements IRecipeCategory<AspicMeltingRecipe> {
 	public void setRecipe(IRecipeLayoutBuilder builder, AspicMeltingRecipe recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 28).addIngredients(recipe.aspic);
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 9)
-				.addIngredient(VanillaTypes.FLUID, new FluidStack(recipe.fluid, recipe.amount))
+				.addIngredient(ForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, recipe.amount))
 				.setFluidRenderer(1250, false, 16, 46);
+	}
+
+
+	@Override
+	public RecipeType<AspicMeltingRecipe> getRecipeType() {
+		return TYPE;
 	}
 
 }

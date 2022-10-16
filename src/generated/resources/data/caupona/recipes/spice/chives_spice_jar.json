@@ -1,11 +1,11 @@
 {
   "type": "caupona:spice",
+  "effect": {
+    "effect": "minecraft:slow_falling",
+    "level": 0,
+    "time": 200
+  },
   "spice": {
     "item": "caupona:chives_spice_jar"
-  },
-  "effect": {
-    "level": 0,
-    "time": 200,
-    "effect": "minecraft:slow_falling"
   }
 }

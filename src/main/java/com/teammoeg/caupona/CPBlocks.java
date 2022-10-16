@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.blocks.BaseColumnBlock;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 import com.teammoeg.caupona.blocks.ColumnCapitalBlock;
@@ -38,11 +39,8 @@ import com.teammoeg.caupona.blocks.fumarole.FumaroleBoulderBlock;
 import com.teammoeg.caupona.blocks.fumarole.FumaroleVentBlock;
 import com.teammoeg.caupona.blocks.fumarole.PumiceBloomBlock;
 import com.teammoeg.caupona.blocks.hypocaust.CaliductBlock;
-import com.teammoeg.caupona.blocks.hypocaust.CaliductBlockEntity;
 import com.teammoeg.caupona.blocks.hypocaust.FireboxBlock;
-import com.teammoeg.caupona.blocks.hypocaust.FireboxBlockEntity;
 import com.teammoeg.caupona.blocks.hypocaust.WolfStatueBlock;
-import com.teammoeg.caupona.blocks.hypocaust.WolfStatueBlockEntity;
 import com.teammoeg.caupona.blocks.others.CPStandingSignBlock;
 import com.teammoeg.caupona.blocks.others.CPWallSignBlock;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
@@ -105,7 +103,6 @@ public class CPBlocks {
 	// Dynamic block types
 	public static final List<Block> signs = new ArrayList<>();
 	public static final Map<String, Block> stoneBlocks = new HashMap<>();
-	public static final List<Block> transparentBlocks = new ArrayList<>();
 	public static final List<Block> chimney = new ArrayList<>();
 	public static final List<Block> dolium = new ArrayList<>();
 	public static final List<Block> dishes = new ArrayList<>();
@@ -141,8 +138,8 @@ public class CPBlocks {
 	public static Block WOLFBERRY_LOG;
 	public static Block WOLFBERRY_LEAVE;
 	public static Block WOLFBERRY_SAPLINGS;
-	public static final Block FUMAROLE_BOULDER = register("fumarole_boulder", transparent(new FumaroleBoulderBlock(
-			getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion().isSuffocating(CPBlocks::isntSolid))));
+	public static final Block FUMAROLE_BOULDER = register("fumarole_boulder", new FumaroleBoulderBlock(
+			getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion().isSuffocating(CPBlocks::isntSolid)));
 	public static final Block FUMAROLE_VENT = new FumaroleVentBlock("fumarole_vent", getStoneProps().strength(4.5f, 10)
 			.isViewBlocking(CPBlocks::isntSolid).noOcclusion().isSuffocating(CPBlocks::isntSolid), CPBlockItem::new);
 	public static final Block PUMICE = register("pumice", new Block(getStoneProps()));
@@ -178,8 +175,7 @@ public class CPBlocks {
 			register(mat + "_chimney_flue", new Block(getTransparentProps()));
 			register(mat + "_chimney_pot", new ChimneyPotBlock(getTransparentProps()));
 			register(mat + "_counter", new CPHorizontalBlock(getStoneProps()));
-			transparentBlocks
-					.add(register(mat + "_counter_with_dolium", new CounterDoliumBlock(getTransparentProps())));
+			register(mat + "_counter_with_dolium", new CounterDoliumBlock(getTransparentProps()));
 		}
 		for (String mat : hypocaust_materials) {
 			register(mat + "_caliduct", new CaliductBlock(getTransparentProps()));
@@ -223,11 +219,10 @@ public class CPBlocks {
 				new BushLogBlock(BlockBehaviour.Properties.of(Material.WOOD, (p_152624_) -> MaterialColor.WOOD)
 						.strength(2.0F).noOcclusion().sound(SoundType.WOOD))));
 		gleave.accept(register(wood + "_leaves",
-				leaves(SoundType.GRASS, transparent(register(wood + "_fruits", new FruitBlock(BlockBehaviour.Properties
-						.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP)))))));
+				leaves(SoundType.GRASS, register(wood + "_fruits", new FruitBlock(BlockBehaviour.Properties
+						.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP))))));
 		Block sapling = register(wood + "_sapling", new SaplingBlock(growth.get(), BlockBehaviour.Properties
 				.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
-		transparentBlocks.add(sapling);
 		gsap.accept(sapling);
 
 	}
@@ -246,8 +241,8 @@ public class CPBlocks {
 		register(wood + "_fence_gate", new FenceGateBlock(BlockBehaviour.Properties
 				.of(Material.WOOD, planks.defaultMaterialColor()).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
 		gleave.accept(register(wood + "_leaves",
-				leaves(SoundType.GRASS, transparent(register(wood + "_fruits", new FruitBlock(BlockBehaviour.Properties
-						.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP)))))));
+				leaves(SoundType.GRASS, register(wood + "_fruits", new FruitBlock(BlockBehaviour.Properties
+						.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP))))));
 		glog.accept(register(wood + "_log", log(MaterialColor.WOOD, MaterialColor.PODZOL,
 				register("stripped_" + wood + "_log", log(MaterialColor.WOOD, MaterialColor.WOOD, null)))));
 
@@ -257,7 +252,6 @@ public class CPBlocks {
 								.strength(0.5F).sound(SoundType.WOOD)));
 		Block sapling = register(wood + "_sapling", new SaplingBlock(growth.get(), BlockBehaviour.Properties
 				.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
-		transparentBlocks.add(sapling);
 		gsap.accept(sapling);
 		register(wood + "_sign", new SignItem((new Item.Properties()).stacksTo(16).tab(Main.mainGroup),
 				registerBlock(wood + "_sign",
@@ -279,9 +273,9 @@ public class CPBlocks {
 	}
 
 	private static LeavesBlock leaves(SoundType p_152615_, Block fruit) {
-		return transparent(new FruitsLeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F)
+		return new FruitsLeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F)
 				.randomTicks().sound(p_152615_).noOcclusion().isValidSpawn(CPBlocks::ocelotOrParrot)
-				.isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid), fruit));
+				.isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid), fruit);
 	}
 
 	private static RotatedPillarBlock log(MaterialColor pTopColor, MaterialColor pBarkColor, Block st) {
@@ -297,33 +291,25 @@ public class CPBlocks {
 	public static <T extends Item> T register(String name, T item) {
 
 		ResourceLocation registryName = new ResourceLocation(Main.MODID, name);
-		item.setRegistryName(registryName);
-		RegistryEvents.registeredItems.add(item);
+		
+		RegistryEvents.registeredItems.add(Pair.of(registryName, item));
 		return item;
 
 	}
 
 	public static <T extends Block> T register(String name, T bl) {
 		ResourceLocation registryName = new ResourceLocation(Main.MODID, name);
-		bl.setRegistryName(registryName);
+		RegistryEvents.registeredBlocks.add(Pair.of(registryName, bl));
 
-		RegistryEvents.registeredBlocks.add(bl);
 		Item item = new BlockItem(bl, new Item.Properties().tab(Main.mainGroup));
-		item.setRegistryName(registryName);
-		RegistryEvents.registeredItems.add(item);
+		RegistryEvents.registeredItems.add(Pair.of(registryName, item));
 		return bl;
 	}
 
-	public static <T extends Block> T transparent(T bl) {
-		transparentBlocks.add(bl);
-		return bl;
-	}
 
 	public static <T extends Block> T registerBlock(String name, T bl) {
 		ResourceLocation registryName = new ResourceLocation(Main.MODID, name);
-		bl.setRegistryName(registryName);
-
-		RegistryEvents.registeredBlocks.add(bl);
+		RegistryEvents.registeredBlocks.add(Pair.of(registryName, bl));
 		return bl;
 	}
 

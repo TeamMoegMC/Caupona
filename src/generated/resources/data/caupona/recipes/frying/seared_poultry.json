@@ -2,11 +2,11 @@
   "type": "caupona:frying",
   "allow": [
     {
-      "cond": "mainly",
-      "type": "caupona:meats/poultry"
+      "type": "caupona:meats/poultry",
+      "cond": "mainly"
     }
   ],
+  "output": "caupona:seared_poultry",
   "priority": 128,
-  "time": 200,
-  "output": "caupona:seared_poultry"
+  "time": 200
 }

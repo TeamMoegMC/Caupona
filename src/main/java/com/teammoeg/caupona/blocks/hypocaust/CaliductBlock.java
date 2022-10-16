@@ -21,8 +21,8 @@
 
 package com.teammoeg.caupona.blocks.hypocaust;
 
-import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.CPBlocks;
 
 public class CaliductBlock extends BathHeatingBlock<CaliductBlockEntity> {
 

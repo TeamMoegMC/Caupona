@@ -1,11 +1,11 @@
 {
   "type": "caupona:spice",
+  "effect": {
+    "effect": "minecraft:night_vision",
+    "level": 0,
+    "time": 200
+  },
   "spice": {
     "item": "caupona:vinegar_spice_jar"
-  },
-  "effect": {
-    "level": 0,
-    "time": 200,
-    "effect": "minecraft:night_vision"
   }
 }

@@ -1,13 +1,13 @@
 {
-  "name": "面包汤",
-  "icon": "caupona:acquacotta",
   "category": "caupona:cook_recipes",
+  "icon": "caupona:acquacotta",
+  "name": "面包汤",
   "pages": [
     {
       "type": "caupona:cookrecipe",
+      "base": "caupona:water_or_stock_based",
       "img": "caupona:textures/gui/recipes/acquacotta.png",
-      "result": "caupona:acquacotta",
-      "base": "caupona:water_or_stock_based"
+      "result": "caupona:acquacotta"
     }
   ]
 }

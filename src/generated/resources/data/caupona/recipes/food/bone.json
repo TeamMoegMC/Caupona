@@ -1,13 +1,13 @@
 {
   "type": "caupona:food",
   "heal": 1,
-  "sat": 0.5,
+  "item": {
+    "item": "minecraft:bone"
+  },
   "items": [
     {
       "item": "minecraft:bone"
     }
   ],
-  "item": {
-    "item": "minecraft:bone"
-  }
+  "sat": 0.5
 }

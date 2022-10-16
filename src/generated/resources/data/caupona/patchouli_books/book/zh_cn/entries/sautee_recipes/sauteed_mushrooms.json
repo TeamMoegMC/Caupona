@@ -1,13 +1,13 @@
 {
-  "name": "炒蘑菇",
-  "icon": "caupona:sauteed_mushrooms",
   "category": "caupona:sautee_recipes",
+  "icon": "caupona:sauteed_mushrooms",
+  "name": "炒蘑菇",
   "pages": [
     {
       "type": "caupona:fryrecipe",
+      "base": "caupona:gravy_boat",
       "img": "caupona:textures/gui/recipes/sauteed_mushrooms.png",
-      "result": "caupona:sauteed_mushrooms",
-      "base": "caupona:gravy_boat"
+      "result": "caupona:sauteed_mushrooms"
     }
   ]
 }

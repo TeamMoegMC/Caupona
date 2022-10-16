@@ -186,9 +186,8 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 		return Main.MODID + " block tags";
 	}
 
-	@Override
+	/*@Override
 	protected Path getPath(ResourceLocation id) {
-		return this.generator.getOutputFolder()
-				.resolve("data/" + id.getNamespace() + "/tags/blocks/" + id.getPath() + ".json");
-	}
+		return super.pathProvider.json("data/" + id.getNamespace() + "/tags/blocks/" + id.getPath() + ".json");
+	}*/
 }

@@ -80,7 +80,7 @@ public class Main {
 		CPFluids.FLUIDS.register(mod);
 		CPRecipes.RECIPE_SERIALIZERS.register(mod);
 		CPEntityTypes.ENTITY_TYPES.register(mod);
-		CPStructures.STRUCTURES.register(mod);
+		CPRecipes.RECIPE_TYPES.register(mod);
 		Config.register();
 		PacketHandler.register();
 	}

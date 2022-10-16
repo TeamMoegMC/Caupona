@@ -143,11 +143,11 @@ public class Config {
 			strictWater = builder.comment("Strict player in water check, player must be in water to get bonus.").define("StrictInWaterCheck",true);
 			builder.pop();
 
-			builder.push("worldgen");
+			/*builder.push("worldgen");
 			genWalnut = builder.comment("Generate Walnut trees").define("generateWalnut", true);
 			genWolfberry = builder.comment("Generate Wolfberry trees").define("generateWolfberry", true);
 			genFig = builder.comment("Fig Walnut trees").define("generateFig", true);
-			builder.pop();
+			builder.pop();*/
 			builder.push("misc");
 			genCH = builder.comment("Super secret special content").define("specialContents", true);
 			addManual=builder.comment("Add manual to player on start").define("addManual", true);

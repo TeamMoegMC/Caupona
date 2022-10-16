@@ -25,47 +25,40 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
+import com.teammoeg.caupona.util.Utils;
 
 import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class PotRestingCategory implements IRecipeCategory<DoliumRecipe> {
-	public static ResourceLocation UID = new ResourceLocation(Main.MODID, "pot_resting");
+	public static RecipeType<DoliumRecipe> TYPE=RecipeType.create(Main.MODID, "pot_resting",DoliumRecipe.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
 	public PotRestingCategory(IGuiHelper guiHelper) {
-		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM,
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK,
 				new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, "goulash_aspic"))));
 		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/fluid_resting.png");
 		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 	}
 
-	@Override
-	public ResourceLocation getUid() {
-		return UID;
-	}
-
-	@Override
-	public Class<? extends DoliumRecipe> getRecipeClass() {
-		return DoliumRecipe.class;
-	}
 
 	public Component getTitle() {
-		return new TranslatableComponent("gui.jei.category." + Main.MODID + ".resting_aspic.title");
+		return Utils.translate("gui.jei.category." + Main.MODID + ".resting_aspic.title");
 	}
 
 	@SuppressWarnings("resource")
@@ -88,11 +81,17 @@ public class PotRestingCategory implements IRecipeCategory<DoliumRecipe> {
 
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, DoliumRecipe recipe, IFocusGroup focuses) {
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 24).addIngredient(VanillaTypes.ITEM, recipe.output);
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 24).addIngredient(VanillaTypes.ITEM_STACK, recipe.output);
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 9)
-				.addIngredient(VanillaTypes.FLUID, new FluidStack(recipe.fluid, recipe.amount))
+				.addIngredient(ForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, recipe.amount))
 				.setFluidRenderer(1250, false, 16, 46)
 				.addTooltipCallback(new BaseCallback(recipe.base, recipe.density));
+	}
+
+
+	@Override
+	public RecipeType<DoliumRecipe> getRecipeType() {
+		return TYPE;
 	}
 
 }

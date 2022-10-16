@@ -37,7 +37,7 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 
 public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity> {
@@ -79,20 +79,20 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity> 
 			matrixStack.translate(0, yy, 0);
 			matrixStack.mulPose(new Quaternion(90, 0, 0, true));
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
-			FluidAttributes attr0 = fs.getFluid().getAttributes();
+			IClientFluidTypeExtensions attr0=IClientFluidTypeExtensions.of(fs.getFluid());
 			TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
 			TextureAtlasSprite sprite = atlas.getSprite(attr0.getStillTexture(fs));
-			int col = attr0.getColor(fs);
+			int col = attr0.getTintColor(fs);
 			int iW = sprite.getWidth();
 			int iH = sprite.getHeight();
 			if (iW > 0 && iH > 0) {
 				Vector3f clr;
 				float alp = 1f;
 				if (blockEntity.become != null && blockEntity.processMax > 0) {
-					FluidAttributes attr1 = blockEntity.become.getAttributes();
+					IClientFluidTypeExtensions attr1=IClientFluidTypeExtensions.of(blockEntity.become);
 					TextureAtlasSprite sprite2 = atlas.getSprite(attr1.getStillTexture(fs));
 					float proc = blockEntity.process * 1f / blockEntity.processMax;
-					clr = clr(col, attr1.getColor(fs), proc);
+					clr = clr(col, attr1.getTintColor(fs), proc);
 					if (sprite2.getWidth() > 0 && sprite2.getHeight() > 0) {
 						alp = 1 - proc;
 						RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(),

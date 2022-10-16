@@ -23,7 +23,8 @@ package com.teammoeg.caupona.api;
 
 import com.teammoeg.caupona.data.TranslationProvider;
 
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 
 public class GameTranslation implements TranslationProvider {
 	private static GameTranslation INSTANCE;
@@ -39,7 +40,7 @@ public class GameTranslation implements TranslationProvider {
 
 	@Override
 	public String getTranslation(String key, Object... objects) {
-		return new TranslatableComponent(key, objects).getString();
+		return MutableComponent.create(new TranslatableContents(key, objects)).getString();
 	}
 
 }

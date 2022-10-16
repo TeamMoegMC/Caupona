@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#caupona:gen_wolfberries",
+  "features": "caupona:trees_wolfberry",
+  "step": "vegetal_decoration"
+}

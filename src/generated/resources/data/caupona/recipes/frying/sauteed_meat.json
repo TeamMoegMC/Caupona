@@ -2,11 +2,11 @@
   "type": "caupona:frying",
   "allow": [
     {
-      "cond": "mainly",
-      "type": "caupona:meats/meat"
+      "type": "caupona:meats/meat",
+      "cond": "mainly"
     }
   ],
+  "output": "caupona:sauteed_meat",
   "priority": 64,
-  "time": 200,
-  "output": "caupona:sauteed_meat"
+  "time": 200
 }

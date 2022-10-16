@@ -29,11 +29,13 @@ import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.items.StewItem;
 import com.teammoeg.caupona.util.StewInfo;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
@@ -44,7 +46,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class AspicMeltingRecipe extends IDataRecipe {
 	public static List<AspicMeltingRecipe> recipes;
-	public static RecipeType<?> TYPE;
+	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
 
 	@Override
@@ -54,7 +56,7 @@ public class AspicMeltingRecipe extends IDataRecipe {
 
 	@Override
 	public RecipeType<?> getType() {
-		return TYPE;
+		return TYPE.get();
 	}
 
 	public Ingredient aspic;
@@ -97,7 +99,7 @@ public class AspicMeltingRecipe extends IDataRecipe {
 
 	public void serializeRecipeData(JsonObject jo) {
 		jo.add("aspic", aspic.toJson());
-		jo.addProperty("fluid", fluid.getRegistryName().toString());
+		jo.addProperty("fluid", Utils.getRegistryName(fluid).toString());
 		jo.addProperty("amount", amount);
 		jo.addProperty("time", time);
 	}

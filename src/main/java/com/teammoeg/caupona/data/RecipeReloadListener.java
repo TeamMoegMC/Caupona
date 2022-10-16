@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -67,6 +68,7 @@ import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public class RecipeReloadListener implements ResourceManagerReloadListener {
 	ReloadableServerResources data;
@@ -213,7 +215,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 	}
 
 	static <R extends Recipe<?>> Stream<R> filterRecipes(Collection<Recipe<?>> recipes, Class<R> recipeClass,
-			RecipeType<?> recipeType) {
-		return recipes.stream().filter(iRecipe -> iRecipe.getType() == recipeType).map(recipeClass::cast);
+			RegistryObject<RecipeType<Recipe<?>>> recipeType) {
+		return recipes.stream().filter(iRecipe -> iRecipe.getType() == recipeType.get()).map(recipeClass::cast);
 	}
 }

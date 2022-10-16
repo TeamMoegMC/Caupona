@@ -1,13 +1,13 @@
 {
-  "name": "Sopa de gota de huevo",
-  "icon": "caupona:egg_drop_soup",
   "category": "caupona:cook_recipes",
+  "icon": "caupona:egg_drop_soup",
+  "name": "Sopa de gota de huevo",
   "pages": [
     {
       "type": "caupona:cookrecipe",
+      "base": "caupona:water_or_stock_based",
       "img": "caupona:textures/gui/recipes/egg_drop_soup.png",
-      "result": "caupona:egg_drop_soup",
-      "base": "caupona:water_or_stock_based"
+      "result": "caupona:egg_drop_soup"
     }
   ]
 }

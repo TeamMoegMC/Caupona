@@ -21,13 +21,13 @@
 
 package com.teammoeg.caupona.items;
 
+import com.teammoeg.caupona.util.Utils;
+
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.TagType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.CreativeModeTab;
@@ -50,7 +50,7 @@ public class EdibleBlock extends CPBlockItem {
 
 	@Override
 	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-		if (this.allowdedIn(group)) {
+		if (this.allowedIn(group)) {
 			ItemStack is=new ItemStack(this);
 			
 			
@@ -62,8 +62,8 @@ public class EdibleBlock extends CPBlockItem {
 		CompoundTag tags=stack.getOrCreateTag();
 		CompoundTag display=tags.getCompound(ItemStack.TAG_DISPLAY);
 		ListTag lt=display.getList(ItemStack.TAG_LORE,8);
-		lt.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("tooltip.caupona.display_only"))));
-		lt.add(StringTag.valueOf(Component.Serializer.toJson(new TranslatableComponent("tooltip.caupona.cook_required"))));
+		lt.add(StringTag.valueOf(Component.Serializer.toJson(Utils.translate("tooltip.caupona.display_only"))));
+		lt.add(StringTag.valueOf(Component.Serializer.toJson(Utils.translate("tooltip.caupona.cook_required"))));
 		display.put(ItemStack.TAG_LORE,lt);
 		tags.put(ItemStack.TAG_DISPLAY, display);
 	}

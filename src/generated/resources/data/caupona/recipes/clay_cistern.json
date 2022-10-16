@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "CCC",
-    "CSC",
-    "CCC"
-  ],
   "key": {
     "C": {
       "item": "minecraft:clay_ball"
@@ -13,6 +8,11 @@
       "item": "minecraft:stick"
     }
   },
+  "pattern": [
+    "CCC",
+    "CSC",
+    "CCC"
+  ],
   "result": {
     "item": "caupona:clay_cistern"
   }

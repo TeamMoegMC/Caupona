@@ -24,6 +24,7 @@ package com.teammoeg.caupona.data.recipes.baseconditions;
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -44,7 +45,7 @@ public class FluidTypeType implements StewBaseCondition {
 
 	public FluidTypeType(Fluid of) {
 		super();
-		this.of = of.getRegistryName();
+		this.of = Utils.getRegistryName(of);
 	}
 
 	@Override
@@ -58,7 +59,7 @@ public class FluidTypeType implements StewBaseCondition {
 
 	@Override
 	public boolean test(Fluid f) {
-		return f.getRegistryName().equals(of);
+		return Utils.getRegistryName(f).equals(of);
 	}
 
 	public JsonObject serialize() {
@@ -106,7 +107,7 @@ public class FluidTypeType implements StewBaseCondition {
 
 	@Override
 	public String getTranslation(TranslationProvider p) {
-		return p.getTranslation("fluid." + ForgeRegistries.FLUIDS.getValue(of).getAttributes().getTranslationKey());
+		return p.getTranslation(ForgeRegistries.FLUIDS.getValue(of).getFluidType().getDescriptionId());
 	}
 
 }

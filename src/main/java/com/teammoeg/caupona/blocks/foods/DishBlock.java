@@ -21,8 +21,8 @@
 
 package com.teammoeg.caupona.blocks.foods;
 
-import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 import com.teammoeg.caupona.items.DishItem;
 
@@ -38,7 +38,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
@@ -122,7 +121,7 @@ public class DishBlock extends CPRegisteredEntityBlock<DishBlockEntity> {
 				}
 			} else {
 				if (player.canEat(fp.canAlwaysEat())) {
-					ItemStack iout = dish.internal.getContainerItem();
+					ItemStack iout = dish.internal.getCraftingRemainingItem();
 					player.eat(worldIn, dish.internal);
 					dish.internal = iout;
 					if (dish.internal.is(Items.BOWL)) {

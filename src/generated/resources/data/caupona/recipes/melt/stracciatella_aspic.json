@@ -1,9 +1,9 @@
 {
   "type": "caupona:aspic_melt",
+  "amount": 250,
   "aspic": {
     "item": "caupona:stracciatella_aspic"
   },
   "fluid": "caupona:stracciatella",
-  "amount": 250,
   "time": 100
 }

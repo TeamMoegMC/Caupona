@@ -40,6 +40,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
 
 public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 	public List<FloatemStack> stacks;
@@ -243,6 +244,8 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 	public StewInfo(ResourceLocation base) {
 		this(new ArrayList<>(), new ArrayList<>(), 0, 0, base);
 	}
+
+
 
 	public static String getRegName(CompoundTag nbt) {
 		return nbt.getString("base");
