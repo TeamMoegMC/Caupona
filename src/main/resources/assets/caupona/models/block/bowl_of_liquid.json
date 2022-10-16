@@ -6,6 +6,7 @@
 		"0": "caupona:block/bowl_with_liquid",
 		"particle": "caupona:block/bowl_with_liquid"
 	},
+	"render_type":"cutout",
 	"elements": [
 		{
 			"name": "BBase",

@@ -10,6 +10,7 @@
 		"0": "caupona:block/fumarole",
 		"particle": "caupona:block/fumarole"
 	},
+	"render_type":"cutout",
 	"elements": [
 		{
 			"name": "stoneChunk6",

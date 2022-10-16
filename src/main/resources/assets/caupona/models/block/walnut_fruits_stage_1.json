@@ -5,6 +5,7 @@
 		"1": "caupona:block/walnut_fruit",
 		"particle": "caupona:block/walnut_fruit"
 	},
+	"render_type":"cutout",
 	"elements": [
 		{
 			"name": "walnutStem0",

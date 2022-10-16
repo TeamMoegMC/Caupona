@@ -142,7 +142,7 @@ public class StewCookingCategory implements IRecipeCategory<StewCookingRecipe> {
 
 	@Override
 	public RecipeType<StewCookingRecipe> getRecipeType() {
-		return null;
+		return TYPE;
 	}
 
 }

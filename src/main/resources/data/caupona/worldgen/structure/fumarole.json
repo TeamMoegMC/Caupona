@@ -1,0 +1,7 @@
+{
+	"type": "caupona:fumarole",
+	"start_pool": "caupona:fumarole",
+	"biomes": "#caupona:has_structure/fumarole",
+	"step":"surface_structures",
+	"spawn_overrides":{}
+}

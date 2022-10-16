@@ -125,7 +125,7 @@ public class FryingCategory implements IRecipeCategory<SauteedRecipe> {
 
 	@Override
 	public RecipeType<SauteedRecipe> getRecipeType() {
-		return null;
+		return TYPE;
 	}
 
 }

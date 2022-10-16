@@ -52,9 +52,9 @@ public class CPFluids {
 			this.texture = t;
 			this.c = c;
 		}
-		public FluidType create(){
+		public FluidType create(String n){
 			FluidType ft=new FluidType(FluidType.Properties.create().viscosity(1200)
-					.temperature(333).rarity(Rarity.UNCOMMON)) {
+					.temperature(333).rarity(Rarity.UNCOMMON).descriptionId("item."+Main.MODID+"."+n)) {
 
 						@Override
 						public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
@@ -149,7 +149,7 @@ public class CPFluids {
 		soupfluids.put("vegetable_soup", soup(0xff848929));
 		soupfluids.put("walnut_soup", soup(0xffdcb072));
 		for (Entry<String, TextureColorPair> i : soupfluids.entrySet()) {
-			RegistryObject<FluidType> type=FLUID_TYPES.register(i.getKey(),i.getValue()::create);
+			RegistryObject<FluidType> type=FLUID_TYPES.register(i.getKey(),()->i.getValue().create(i.getKey()));
 			LazySupplier<Fluid> crf=new LazySupplier<>();
 			crf.setVal(FLUIDS.register(i.getKey(),
 					() -> new SoupFluid(new ForgeFlowingFluid.Properties(type, crf,

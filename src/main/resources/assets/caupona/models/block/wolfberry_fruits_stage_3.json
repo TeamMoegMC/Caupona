@@ -5,6 +5,7 @@
 		"0": "caupona:block/wolfberry_fruit_stage_3",
 		"particle": "caupona:block/wolfberry_fruit_stage_3"
 	},
+	"render_type":"cutout",
 	"elements": [
 		{
 			"name": "fruit1",

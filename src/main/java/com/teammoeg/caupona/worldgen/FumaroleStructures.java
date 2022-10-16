@@ -59,7 +59,7 @@ public class FumaroleStructures extends Structure {
 
 	@Override
 	public StructureType<?> type() {
-		return CPStructures.FUMAROLE;
+		return CPStructures.FUMAROLE.get();
 	}
 
 

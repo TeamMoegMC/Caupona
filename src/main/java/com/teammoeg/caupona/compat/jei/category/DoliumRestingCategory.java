@@ -168,7 +168,7 @@ public class DoliumRestingCategory implements IRecipeCategory<DoliumRecipe> {
 
 	@Override
 	public RecipeType<DoliumRecipe> getRecipeType() {
-		return null;
+		return TYPE;
 	}
 
 }

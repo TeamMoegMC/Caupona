@@ -25,9 +25,14 @@ import com.teammoeg.caupona.Main;
 
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraftforge.fluids.FluidType;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries.Keys;
+import net.minecraftforge.registries.RegistryObject;
 
 public class CPStructures {
-	public static final StructureType<FumaroleStructures> FUMAROLE = Registry.register(Registry.STRUCTURE_TYPES,Main.MODID+":fumarole",()->FumaroleStructures.CODEC);
+	public static final DeferredRegister<StructureType<?>> TYPES = DeferredRegister.create(Registry.STRUCTURE_TYPE_REGISTRY, Main.MODID);
+	public static final RegistryObject<StructureType<FumaroleStructures>> FUMAROLE = TYPES.register("fumarole",()->()->FumaroleStructures.CODEC);
 
 	public CPStructures() {
 	}

@@ -82,6 +82,7 @@ public class Main {
 		CPRecipes.RECIPE_SERIALIZERS.register(mod);
 		CPEntityTypes.ENTITY_TYPES.register(mod);
 		CPRecipes.RECIPE_TYPES.register(mod);
+		CPStructures.TYPES.register(mod);
 		Config.register();
 		PacketHandler.register();
 	}
