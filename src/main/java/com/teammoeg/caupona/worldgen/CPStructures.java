@@ -28,6 +28,7 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 
 public class CPStructures {
 	public static final StructureType<FumaroleStructures> FUMAROLE = Registry.register(Registry.STRUCTURE_TYPES,Main.MODID+":fumarole",()->FumaroleStructures.CODEC);
+
 	public CPStructures() {
 	}
 

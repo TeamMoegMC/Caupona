@@ -78,6 +78,7 @@ public class Main {
 		Particles.REGISTER.register(mod);
 		MinecraftForge.EVENT_BUS.register(RecipeReloadListener.class);
 		CPFluids.FLUIDS.register(mod);
+		CPFluids.FLUID_TYPES.register(mod);
 		CPRecipes.RECIPE_SERIALIZERS.register(mod);
 		CPEntityTypes.ENTITY_TYPES.register(mod);
 		CPRecipes.RECIPE_TYPES.register(mod);
