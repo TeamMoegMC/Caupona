@@ -29,8 +29,6 @@ public class CPGravyBoatItem extends CPBlockItem {
 		super(block, props);
 	}
 
-	public CPGravyBoatItem(Block block, Properties props, String name) {
-		super(block, props, name);
-	}
+
 
 }

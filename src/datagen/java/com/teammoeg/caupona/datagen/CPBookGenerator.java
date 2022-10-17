@@ -160,15 +160,15 @@ public class CPBookGenerator implements DataProvider {
 		page.addProperty("icon", new ResourceLocation(Main.MODID, name).toString());
 		page.addProperty("category", "caupona:cook_recipes");
 		StewCookingRecipe r = recipes.get(name);
-		Item baseType = CPItems.any;
+		Item baseType = CPItems.any.get();
 		if (r.getBase() != null && !r.getBase().isEmpty()) {
 			StewBaseCondition sbc = r.getBase().get(0);
 			if (sbc.equals(anyW))
-				baseType = CPItems.anyWater;
+				baseType = CPItems.anyWater.get();
 			else if (sbc.equals(stock))
-				baseType = CPItems.stock;
+				baseType = CPItems.stock.get();
 			else if (sbc.equals(milk))
-				baseType = CPItems.milk;
+				baseType = CPItems.milk.get();
 		}
 		JsonArray pages = new JsonArray();
 		JsonObject imgpage = new JsonObject();

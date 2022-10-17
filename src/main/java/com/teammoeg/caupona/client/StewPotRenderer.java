@@ -67,7 +67,7 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity> 
 		if (!blockEntity.getLevel().hasChunkAt(blockEntity.getBlockPos()))
 			return;
 		BlockState state = blockEntity.getBlockState();
-		if (state.getBlock() != CPBlocks.stew_pot)
+		if (state.getBlock() != CPBlocks.stew_pot.get())
 			return;
 		matrixStack.pushPose();
 		FluidStack fs = blockEntity.getTank().getFluid();

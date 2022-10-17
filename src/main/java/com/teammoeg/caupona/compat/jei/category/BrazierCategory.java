@@ -49,7 +49,7 @@ public class BrazierCategory implements IRecipeCategory<AspicMeltingRecipe> {
 	private IDrawable ICON;
 
 	public BrazierCategory(IGuiHelper guiHelper) {
-		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CPItems.pbrazier));
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CPItems.pbrazier.get()));
 		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/aspic_thawing_brazier.png");
 		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 	}
@@ -81,7 +81,7 @@ public class BrazierCategory implements IRecipeCategory<AspicMeltingRecipe> {
 	public void setRecipe(IRecipeLayoutBuilder builder, AspicMeltingRecipe recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 28).addIngredients(recipe.aspic);
 		builder.addSlot(RecipeIngredientRole.INPUT, 57, 14).addIngredient(VanillaTypes.ITEM_STACK,
-				new ItemStack(CPItems.water_bowl));
+				new ItemStack(CPItems.water_bowl.get()));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 9)
 				.addIngredient(ForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, recipe.amount))
 				.setFluidRenderer(1250, false, 16, 46);

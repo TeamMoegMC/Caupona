@@ -92,12 +92,12 @@ public class CPClientRegistry {
 		ev.register((p_92626_, p_92627_, p_92628_, p_92629_) -> {
 			return p_92627_ != null && p_92628_ != null ? BiomeColors.getAverageFoliageColor(p_92627_, p_92628_)
 					: FoliageColor.getDefaultColor();
-		}, CPBlocks.WALNUT_LEAVE, CPBlocks.FIG_LEAVE, CPBlocks.WOLFBERRY_LEAVE);
+		}, CPBlocks.WALNUT_LEAVE.get(), CPBlocks.FIG_LEAVE.get(), CPBlocks.WOLFBERRY_LEAVE.get());
 	}
 
 	@SubscribeEvent
 	public static void onTint(RegisterColorHandlersEvent.Item ev) {
-		ev.register((i, t) -> 0x5bd449, CPBlocks.WALNUT_LEAVE, CPBlocks.FIG_LEAVE,
-				CPBlocks.WOLFBERRY_LEAVE);
+		ev.register((i, t) -> 0x5bd449, CPBlocks.WALNUT_LEAVE.get(), CPBlocks.FIG_LEAVE.get(),
+				CPBlocks.WOLFBERRY_LEAVE.get());
 	}
 }

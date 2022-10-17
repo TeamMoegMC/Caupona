@@ -50,9 +50,9 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 	@Override
 	protected void addTags() {
 		TagAppender<Block> pickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
-		tag("stoves").add(CPBlocks.stove1, CPBlocks.stove2, CPBlocks.stove3, CPBlocks.stove4, CPBlocks.stove5);
-		pickaxe.add(CPBlocks.stove1, CPBlocks.stove2, CPBlocks.stove3, CPBlocks.stove4, CPBlocks.stove5,
-				CPBlocks.stew_pot);
+		tag("stoves").add(CPBlocks.stove1.get(), CPBlocks.stove2.get(), CPBlocks.stove3.get(), CPBlocks.stove4.get(), CPBlocks.stove5.get());
+		pickaxe.add(CPBlocks.stove1.get(), CPBlocks.stove2.get(), CPBlocks.stove3.get(), CPBlocks.stove4.get(), CPBlocks.stove5.get(),
+				CPBlocks.stew_pot.get());
 		for (String wood : CPBlocks.woods) {
 			for (String type : ImmutableSet.of("_button", "_door", "_fence", "_fence_gate", "_log", "_planks",
 					"_pressure_plate", "_sapling", "_sign", "_wall_sign", "_slab", "_stairs", "_trapdoor", "_wood"))
@@ -108,13 +108,13 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag("chimney").add(cp(mat + "_chimney_flue"));
 			tag("chimney_pot").add(cp(mat + "_chimney_pot"));
 		}
-		tag("pans").add(CPBlocks.STONE_PAN, CPBlocks.COPPER_PAN, CPBlocks.IRON_PAN);
+		tag("pans").add(CPBlocks.STONE_PAN.get(), CPBlocks.COPPER_PAN.get(), CPBlocks.IRON_PAN.get());
 		tag("chimney_ignore")
 				.addTags(otag("pans"), BlockTags.SIGNS, BlockTags.BUTTONS, BlockTags.LEAVES, BlockTags.BANNERS,
 						BlockTags.CANDLES, BlockTags.WALL_SIGNS, BlockTags.STANDING_SIGNS, BlockTags.CANDLES,
 						BlockTags.CORAL_PLANTS, BlockTags.FENCES, BlockTags.WALLS, BlockTags.TRAPDOORS, BlockTags.DOORS,
 						BlockTags.FLOWER_POTS, BlockTags.WALL_POST_OVERRIDE, BlockTags.FLOWERS)
-				.add(Blocks.AIR, Blocks.VINE, Blocks.CAVE_VINES, CPBlocks.stew_pot, CPBlocks.WOLF);
+				.add(Blocks.AIR, Blocks.VINE, Blocks.CAVE_VINES, CPBlocks.stew_pot.get(), CPBlocks.WOLF.get());
 		tag("fumarole_hot").add(Blocks.MAGMA_BLOCK);
 		tag("fumarole_very_hot").add(Blocks.LAVA);
 		for (String bush : ImmutableSet.of("wolfberry", "fig")) {
@@ -126,15 +126,15 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag(BlockTags.MINEABLE_WITH_AXE).add(cp(bush + "_log"));
 			tag(BlockTags.MINEABLE_WITH_HOE).add(cp(bush + "_leaves")).add(cp(bush + "_fruits"));
 		}
-		pickaxe.add(CPBlocks.PUMICE_BLOOM, CPBlocks.FUMAROLE_BOULDER, CPBlocks.FUMAROLE_VENT, CPBlocks.PUMICE);
+		pickaxe.add(CPBlocks.PUMICE_BLOOM.get(), CPBlocks.FUMAROLE_BOULDER.get(), CPBlocks.FUMAROLE_VENT.get(), CPBlocks.PUMICE.get());
 		for (String s : CPBlocks.hypocaust_materials) {
 			tag("caliducts").add(cp(s + "_caliduct"));
 			tag("heat_conductor").add(cp(s + "_hypocaust_firebox"));
 			tag("chimney_ignore").add(cp(s + "_hypocaust_firebox"));
 			pickaxe.add(cp(s + "_caliduct")).add(cp(s + "_hypocaust_firebox"));
 		}
-		pickaxe.add(CPBlocks.WOLF, CPBlocks.STONE_PAN, CPBlocks.COPPER_PAN, CPBlocks.IRON_PAN);
-		tag(BlockTags.NEEDS_STONE_TOOL).add(CPBlocks.WOLF, CPBlocks.COPPER_PAN, CPBlocks.IRON_PAN);
+		pickaxe.add(CPBlocks.WOLF.get(), CPBlocks.STONE_PAN.get(), CPBlocks.COPPER_PAN.get(), CPBlocks.IRON_PAN.get());
+		tag(BlockTags.NEEDS_STONE_TOOL).add(CPBlocks.WOLF.get(), CPBlocks.COPPER_PAN.get(), CPBlocks.IRON_PAN.get());
 		tag("heat_conductor").addTag(otag("caliducts"));
 
 	}

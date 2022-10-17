@@ -35,6 +35,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public class Utils {
 
@@ -68,6 +69,9 @@ public class Utils {
 	}
 	public static ResourceLocation getRegistryName(Fluid f) {
 		return ForgeRegistries.FLUIDS.getKey(f);
+	}
+	public static ResourceLocation getRegistryName(RegistryObject<?> r) {
+		return r.getId();
 	}
 	public static ResourceLocation getRegistryName(Item i) {
 		return ForgeRegistries.ITEMS.getKey(i);

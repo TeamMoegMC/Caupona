@@ -71,7 +71,7 @@ public class PanRenderer implements BlockEntityRenderer<PanBlockEntity> {
 		if (!(torender instanceof DishItem))
 			return;
 		BlockState bs = ((DishItem) torender).bl.defaultBlockState();
-		if (b == CPBlocks.STONE_PAN) {
+		if (b == CPBlocks.STONE_PAN.get()) {
 			bs = bs.setValue(DishBlock.PAN, 1);
 		} else
 			bs = bs.setValue(DishBlock.PAN, 2);

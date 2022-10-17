@@ -69,15 +69,15 @@ public class CPStatesProvider extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		horizontalAxisBlock(CPBlocks.stew_pot, bmf("stew_pot"));
+		horizontalAxisBlock(CPBlocks.stew_pot.get(), bmf("stew_pot"));
 
-		stove(CPBlocks.stove1);
-		stove(CPBlocks.stove2);
-		stove(CPBlocks.stove3);
-		stove(CPBlocks.stove4);
-		stove(CPBlocks.stove5);
-		itemModel(CPBlocks.stew_pot, bmf("stew_pot"));
-		simpleBlock(CPBlocks.bowl, bmf("bowl_of_liquid"));
+		stove(CPBlocks.stove1.get());
+		stove(CPBlocks.stove2.get());
+		stove(CPBlocks.stove3.get());
+		stove(CPBlocks.stove4.get());
+		stove(CPBlocks.stove5.get());
+		itemModel(CPBlocks.stew_pot.get(), bmf("stew_pot"));
+		simpleBlock(CPBlocks.bowl.get(), bmf("bowl_of_liquid"));
 		for (String stone : CPBlocks.stones) {
 			for (String type : ImmutableSet.of("", "_slab", "_stairs"))
 				blockItemModel(stone + type);
@@ -93,7 +93,7 @@ public class CPStatesProvider extends BlockStateProvider {
 					"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital", "_acanthine_column_capital"))
 				blockItemModel(str + type);
 		}
-		MultiPartBlockStateBuilder boat = horizontalMultipart(this.getMultipartBuilder(CPBlocks.GRAVY_BOAT),
+		MultiPartBlockStateBuilder boat = horizontalMultipart(this.getMultipartBuilder(CPBlocks.GRAVY_BOAT.get()),
 				bmf("gravy_boat"));
 		int i = 0;
 		for (String s : ImmutableSet.of("_oil_0", "_oil_1", "_oil_2", "_oil_3", "_oil_4")) {

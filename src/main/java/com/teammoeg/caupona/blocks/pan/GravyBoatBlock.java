@@ -120,7 +120,7 @@ public class GravyBoatBlock extends CPHorizontalBlock {
 			net.minecraft.world.level.storage.loot.LootContext.Builder pBuilder) {
 		List<ItemStack> sep = super.getDrops(pState, pBuilder);
 		for (ItemStack is : sep)
-			if (is.is(CPItems.gravy_boat))
+			if (is.is(CPItems.gravy_boat.get()))
 				is.setDamageValue(pState.getValue(LEVEL));
 		return sep;
 
@@ -128,7 +128,7 @@ public class GravyBoatBlock extends CPHorizontalBlock {
 
 	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos,
 			Player player) {
-		ItemStack is = new ItemStack(CPItems.gravy_boat);
+		ItemStack is = new ItemStack(CPItems.gravy_boat.get());
 		is.setDamageValue(state.getValue(LEVEL));
 		return is;
 	}

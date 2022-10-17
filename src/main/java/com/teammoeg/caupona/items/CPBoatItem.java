@@ -47,7 +47,7 @@ public class CPBoatItem extends CPItem {
 	private final String type;
 
 	public CPBoatItem(String pType, Item.Properties pProperties) {
-		super(pType + "_boat", pProperties);
+		super(pProperties);
 		this.type = pType;
 	}
 

@@ -36,13 +36,13 @@ public class CPPlacements {
 			.create(Registry.PLACED_FEATURE_REGISTRY, Main.MODID);
 	public static final RegistryObject<PlacedFeature> TREES_WALNUT = PLACEMENTS.register("trees_walnut",
 			() -> new PlacedFeature(CPFeatures.WALNUT.getHolder().get(), VegetationPlacements
-					.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.WALNUT_SAPLINGS)));
+					.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.WALNUT_SAPLINGS.get())));
 	public static final RegistryObject<PlacedFeature> TREES_FIG = PLACEMENTS.register("trees_fig",
 			() -> new PlacedFeature(CPFeatures.FIG.getHolder().get(), VegetationPlacements
-					.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.FIG_SAPLINGS)));
+					.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.FIG_SAPLINGS.get())));
 	public static final RegistryObject<PlacedFeature> TREES_WOLFBERRY = PLACEMENTS.register("trees_wolfberry",
 			() -> new PlacedFeature(CPFeatures.WOLFBERRY.getHolder().get(), VegetationPlacements
-					.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.WOLFBERRY_SAPLINGS)));
+					.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.WOLFBERRY_SAPLINGS.get())));
 
 	public CPPlacements() {
 	}

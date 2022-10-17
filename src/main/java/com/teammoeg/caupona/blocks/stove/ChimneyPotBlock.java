@@ -67,7 +67,7 @@ public class ChimneyPotBlock extends CPHorizontalEntityBlock<ChimneyPotBlockEnti
 			if (chimneyPot.countSoot > 0) {
 				if (!worldIn.isClientSide) {
 					player.getItemInHand(handIn).hurtAndBreak(1, player, t -> t.broadcastBreakEvent(handIn));
-					ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(CPItems.soot, chimneyPot.countSoot));
+					ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(CPItems.soot.get(), chimneyPot.countSoot));
 					chimneyPot.countSoot = 0;
 				}
 				return InteractionResult.sidedSuccess(worldIn.isClientSide);

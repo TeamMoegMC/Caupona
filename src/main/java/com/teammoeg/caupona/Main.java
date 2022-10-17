@@ -53,7 +53,7 @@ public class Main {
 		@Override
 		@Nonnull
 		public ItemStack makeIcon() {
-			return new ItemStack(CPBlocks.stew_pot);
+			return new ItemStack(CPBlocks.stew_pot.get());
 		}
 
 	};
@@ -61,7 +61,7 @@ public class Main {
 		@Override
 		@Nonnull
 		public ItemStack makeIcon() {
-			return new ItemStack(CPItems.gravy_boat);
+			return new ItemStack(CPItems.gravy_boat.get());
 		}
 
 	};
@@ -91,6 +91,7 @@ public class Main {
 		CPFeatures.TRUNK_TYPES.register(mod);
 		Config.register();
 		PacketHandler.register();
+		
 	}
 
 }

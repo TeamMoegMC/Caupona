@@ -39,8 +39,8 @@ import net.minecraftforge.network.NetworkHooks;
 
 public class PortableBrazierItem extends CPItem implements MenuProvider {
 
-	public PortableBrazierItem(String name, Properties properties) {
-		super(name, properties);
+	public PortableBrazierItem(Properties properties) {
+		super(properties);
 	}
 
 	@Override

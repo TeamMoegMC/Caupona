@@ -53,15 +53,15 @@ public class CPFeatures {
 	public static final RegistryObject<ConfiguredFeature<?,?>> WALNUT = FEATURES
 			.register("walnut",
 					() -> new ConfiguredFeature<>(Feature.TREE,
-							createStraightBlobTree(CPBlocks.WALNUT_LOG, CPBlocks.WALNUT_LEAVE, 4, 2, 0, 2).ignoreVines()
+							createStraightBlobTree(CPBlocks.WALNUT_LOG.get(), CPBlocks.WALNUT_LEAVE.get(), 4, 2, 0, 2).ignoreVines()
 									.build()));
 	public static final RegistryObject<ConfiguredFeature<?,?>> FIG = FEATURES
 			.register("fig", () -> new ConfiguredFeature<>(Feature.TREE,
-					createStraightBlobBush(CPBlocks.FIG_LOG, CPBlocks.FIG_LEAVE, 4, 2, 0, 2).ignoreVines().build()));
+					createStraightBlobBush(CPBlocks.FIG_LOG.get(), CPBlocks.FIG_LEAVE.get(), 4, 2, 0, 2).ignoreVines().build()));
 	public static final RegistryObject<ConfiguredFeature<?,?>> WOLFBERRY = FEATURES
 			.register("wolfberry",
 					() -> new ConfiguredFeature<>(Feature.TREE,
-							createStraightBlobBush(CPBlocks.WOLFBERRY_LOG, CPBlocks.WOLFBERRY_LEAVE, 4, 2, 0, 2)
+							createStraightBlobBush(CPBlocks.WOLFBERRY_LOG.get(), CPBlocks.WOLFBERRY_LEAVE.get(), 4, 2, 0, 2)
 									.ignoreVines().build()));
 	
 	public static final RegistryObject<FoliagePlacerType<BushFoliagePlacer>> BUSH_PLACER = FOILAGE_TYPES

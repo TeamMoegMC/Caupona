@@ -253,7 +253,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		for (Direction d : Utils.horizontals) {
 			BlockPos bp = this.getBlockPos().relative(d);
 			BlockState bs = this.getLevel().getBlockState(bp);
-			if (bs.is(CPBlocks.GRAVY_BOAT)) {
+			if (bs.is(CPBlocks.GRAVY_BOAT.get())) {
 				int oil = GravyBoatBlock.getOil(bs);
 				if (oil > 0) {
 					GravyBoatBlock.drawOil(getLevel(), bp, bs, 1);
@@ -306,11 +306,10 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 			if (cr.matches(ctx)) {
 				processMax = Math.max(cr.time, tpt);
 				preout = cr.output;
-				return;
+				break;
 			}
 		}
-		preout = CPItems.ddish;
-		if (this.getBlockState().is(CPBlocks.STONE_PAN))
+		if (this.getBlockState().is(CPBlocks.STONE_PAN.get()))
 			tpt *= 2;
 		processMax = tpt;
 		this.syncData();

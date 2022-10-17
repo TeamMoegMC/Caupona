@@ -49,10 +49,7 @@ public class DishItem extends EdibleBlock {
 		bl = block;
 	}
 
-	public DishItem(DishBlock block, Properties props, String name) {
-		super(block, props.food(fakefood), name);
-		bl = block;
-	}
+
 
 	@Override
 	public int getUseDuration(ItemStack stack) {

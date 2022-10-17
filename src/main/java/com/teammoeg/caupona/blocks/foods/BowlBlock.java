@@ -50,9 +50,8 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 
-	public BowlBlock(String name, Properties blockProps, RegistryObject<BlockEntityType<BowlBlockEntity>> ste,
-			BiFunction<Block, Item.Properties, Item> createItemBlock) {
-		super(name, blockProps, ste, createItemBlock);
+	public BowlBlock(Properties blockProps, RegistryObject<BlockEntityType<BowlBlockEntity>> ste) {
+		super( blockProps, ste);
 	}
 
 	static final VoxelShape shape = Block.box(2.8, 0, 2.8, 13.2, 5.2, 13.2);

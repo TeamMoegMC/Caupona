@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona.items;
 
-import com.teammoeg.caupona.CPItems;
+import com.teammoeg.caupona.CPDispenserBehaviour;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -32,8 +32,4 @@ public class CPBlockItem extends BlockItem {
 		super(block, props);
 	}
 
-	public CPBlockItem(Block block, Item.Properties props, String name) {
-		this(block, props);
-		CPItems.ITEMS.register(name,()->this);
-	}
 }

@@ -55,7 +55,7 @@ public class CPItemModelProvider extends ItemModelProvider {
 		simpleTexture("any_based", "bases/");
 		simpleTexture("water_or_stock_based", "bases/");
 		texture("book", "vade_mecum_for_innkeepers");
-		itemModel(CPItems.clay_pot, "clay_stew_pot");
+		itemModel(CPItems.clay_pot.get(), "clay_stew_pot");
 		texture("culinary_heat_haze");
 		texture("soot");
 		texture("portable_brazier");

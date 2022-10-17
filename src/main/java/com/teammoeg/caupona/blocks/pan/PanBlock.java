@@ -51,7 +51,7 @@ public class PanBlock extends CPHorizontalEntityBlock<PanBlockEntity> {
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		if (state.getBlock() == CPBlocks.STONE_PAN)
+		if (state.getBlock() == CPBlocks.STONE_PAN.get())
 			return bshape;
 		return sshape;
 	}

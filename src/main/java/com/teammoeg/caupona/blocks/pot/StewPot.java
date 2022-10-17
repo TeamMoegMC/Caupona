@@ -21,8 +21,6 @@
 
 package com.teammoeg.caupona.blocks.pot;
 
-import java.util.function.BiFunction;
-
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
@@ -35,7 +33,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -60,9 +57,8 @@ import net.minecraftforge.registries.RegistryObject;
 public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> implements LiquidBlockContainer {
 	public static final EnumProperty<Axis> FACING = BlockStateProperties.HORIZONTAL_AXIS;
 
-	public StewPot(String name, Properties blockProps, RegistryObject<BlockEntityType<StewPotBlockEntity>> ste,
-			BiFunction<Block, Item.Properties, Item> createItemBlock) {
-		super(name, blockProps, ste, createItemBlock);
+	public StewPot(Properties blockProps, RegistryObject<BlockEntityType<StewPotBlockEntity>> ste) {
+		super(blockProps, ste);
 	}
 
 	static final VoxelShape shape = Block.box(1, 0, 1, 15, 12, 15);

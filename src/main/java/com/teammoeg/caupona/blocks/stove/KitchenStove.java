@@ -21,8 +21,6 @@
 
 package com.teammoeg.caupona.blocks.stove;
 
-import java.util.function.BiFunction;
-
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 
 import net.minecraft.core.BlockPos;
@@ -36,7 +34,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -64,9 +61,8 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntit
 	public static final BooleanProperty ASH = BooleanProperty.create("ash");
 	public static final IntegerProperty FUELED = IntegerProperty.create("fueled", 0, 3);
 
-	public KitchenStove(String name, Properties blockProps, RegistryObject<BlockEntityType<KitchenStoveBlockEntity>> ste,
-			BiFunction<Block, Item.Properties, Item> createItemBlock) {
-		super(name, blockProps, ste, createItemBlock);
+	public KitchenStove(Properties blockProps, RegistryObject<BlockEntityType<KitchenStoveBlockEntity>> ste) {
+		super(blockProps, ste);
 	}
 
 	/*

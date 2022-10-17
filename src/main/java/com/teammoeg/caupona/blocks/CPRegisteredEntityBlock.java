@@ -21,13 +21,6 @@
 
 package com.teammoeg.caupona.blocks;
 
-import java.util.function.BiFunction;
-
-import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.Main;
-
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -36,19 +29,10 @@ import net.minecraftforge.registries.RegistryObject;
 public class CPRegisteredEntityBlock<T extends BlockEntity> extends Block implements CPEntityBlock<T> {
 	private final RegistryObject<BlockEntityType<T>> blockEntity;
 
-	public CPRegisteredEntityBlock(String name, Properties blockProps, RegistryObject<BlockEntityType<T>> ste,
-			BiFunction<Block, Item.Properties, Item> createItemBlock) {
+	public CPRegisteredEntityBlock(Properties blockProps, RegistryObject<BlockEntityType<T>> ste ){
 		super(blockProps);
 		blockEntity = ste;
-		CPBlocks.BLOCKS.register(name,()->this);
-
-		if (createItemBlock != null) {
-			Item item = createItemBlock.apply(this, new Item.Properties().tab(Main.mainGroup));
-			if (item != null) {
-				CPItems.ITEMS.register(name,()->item);
-	
-			}
-		}
+		
 
 	}
 

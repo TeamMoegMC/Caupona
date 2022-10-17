@@ -21,8 +21,6 @@
 
 package com.teammoeg.caupona.blocks.fumarole;
 
-import java.util.function.BiFunction;
-
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 
@@ -34,7 +32,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -62,9 +59,8 @@ public class FumaroleVentBlock extends CPRegisteredEntityBlock<FumaroleVentBlock
 		return shape;
 	}
 
-	public FumaroleVentBlock(String name, Properties blockProps,
-			BiFunction<Block, net.minecraft.world.item.Item.Properties, Item> createItemBlock) {
-		super(name, blockProps, CPBlockEntityTypes.FUMAROLE, createItemBlock);
+	public FumaroleVentBlock(Properties blockProps) {
+		super(blockProps, CPBlockEntityTypes.FUMAROLE);
 		this.registerDefaultState(this.defaultBlockState().setValue(HEAT, 0).setValue(WATERLOGGED, false));
 	}
 

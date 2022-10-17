@@ -21,15 +21,12 @@
 
 package com.teammoeg.caupona.items;
 
-import com.teammoeg.caupona.CPItems;
-
 import net.minecraft.world.item.Item;
 
 public class CPItem extends Item {
 
-	public CPItem(String name, Properties properties) {
+	public CPItem( Properties properties) {
 		super(properties);
-		CPItems.ITEMS.register(name,()->this);
 	}
 
 }

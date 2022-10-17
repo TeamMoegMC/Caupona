@@ -134,15 +134,15 @@ public class CPRecipeProvider extends RecipeProvider {
 		out.accept(new FoodValueRecipe(rl("food/allium"), 1, 0.2f, new ItemStack(Items.ALLIUM), Items.ALLIUM));
 		// System.out.println(CPBlocks.stove1.asItem());
 		// System.out.println(CPBlocks.stove1.asItem().getItemCategory());
-		ShapedRecipeBuilder.shaped(CPBlocks.stove1).define('D', Items.DIRT).define('S', Items.COBBLESTONE)
+		ShapedRecipeBuilder.shaped(CPBlocks.stove1.get()).define('D', Items.DIRT).define('S', Items.COBBLESTONE)
 				.pattern("DDD").pattern("SSS").pattern("S S").unlockedBy("has_cobblestone", has(Blocks.COBBLESTONE))
 				.save(outx);
 		// ShapedRecipeBuilder.shaped(CPBlocks.stove2).define('T',Items.BRICK_SLAB).define('B',Items.BRICKS).define('C',Items.CLAY).pattern("TTT").pattern("BCB").pattern("B
 		// B").unlockedBy("has_bricks", has(Blocks.BRICKS)).save(outx);
-		ShapedRecipeBuilder.shaped(CPItems.clay_pot).define('C', Items.CLAY_BALL).define('S', Items.STICK)
+		ShapedRecipeBuilder.shaped(CPItems.clay_pot.get()).define('C', Items.CLAY_BALL).define('S', Items.STICK)
 				.pattern("CCC").pattern("CSC").pattern("CCC").unlockedBy("has_clay", has(Items.CLAY_BALL)).save(outx);
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(CPItems.clay_pot), CPBlocks.stew_pot, 0.35f, 200)
-				.unlockedBy("has_claypot", has(CPItems.clay_pot)).save(outx);
+		SimpleCookingRecipeBuilder.smelting(Ingredient.of(CPItems.clay_pot.get()), CPBlocks.stew_pot.get(), 0.35f, 200)
+				.unlockedBy("has_claypot", has(CPItems.clay_pot.get())).save(outx);
 		// ShapedRecipeBuilder.shapedRecipe(THPBlocks.stew_pot).key('B',Items.BRICK).key('C',Items.CLAY_BALL).patternLine("BCB").patternLine("B
 		// B").patternLine("BBB").unlockedBy("has_brick",
 		// hasItem(Items.BRICK)).build(out);
@@ -197,12 +197,12 @@ public class CPRecipeProvider extends RecipeProvider {
 						Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "vinegar_fruits_small"))), 16)),
 				Ingredient.of(Items.FLOWER_POT)));
 		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/gravy_boat"), null, Fluids.EMPTY, 0, 0f,
-				false, new ItemStack(CPItems.gravy_boat),
+				false, new ItemStack(CPItems.gravy_boat.get()),
 				Arrays.asList(Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "walnut"))), 8),
 						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
-				Ingredient.of(CPItems.gravy_boat)));
+				Ingredient.of(CPItems.gravy_boat.get())));
 		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/gravy_boat_glass_bottle"), null,
-				Fluids.EMPTY, 0, 0f, false, new ItemStack(CPItems.gravy_boat),
+				Fluids.EMPTY, 0, 0f, false, new ItemStack(CPItems.gravy_boat.get()),
 				Arrays.asList(Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "walnut"))), 8),
 						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
 				Ingredient.of(Items.GLASS_BOTTLE)));

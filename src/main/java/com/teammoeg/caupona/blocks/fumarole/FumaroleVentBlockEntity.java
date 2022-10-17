@@ -132,7 +132,7 @@ public class FumaroleVentBlockEntity extends CPBaseBlockEntity implements IStove
 			if (b0.isAir()) {
 				if (b1.getFluidState().is(pumice)) {
 					if (shouldPlacePumice(pLevel, pendPos))
-						pLevel.setBlockAndUpdate(pendPos, CPBlocks.PUMICE_BLOOM.defaultBlockState());
+						pLevel.setBlockAndUpdate(pendPos, CPBlocks.PUMICE_BLOOM.get().defaultBlockState());
 					return;
 				}
 			}
@@ -148,7 +148,7 @@ public class FumaroleVentBlockEntity extends CPBaseBlockEntity implements IStove
 		AABB aabb = new AABB(pPos.offset(-1, 0, -1), pPos.offset(1, 0, 1));
 		Iterator<BlockState> it = pLevel.getBlockStates(aabb).iterator();
 		while (it.hasNext()) {
-			if (it.next().getBlock() == CPBlocks.PUMICE_BLOOM)
+			if (it.next().getBlock() == CPBlocks.PUMICE_BLOOM.get())
 				cnt++;
 			if (cnt >= 2)
 				return false;

@@ -28,8 +28,8 @@ import net.minecraft.world.item.ItemStack;
 
 public class IconItem extends CPItem {
 
-	public IconItem(String name) {
-		super(name, new Item.Properties());
+	public IconItem() {
+		super( new Item.Properties());
 	}
 
 	// omit to avoid display in JEI and CT

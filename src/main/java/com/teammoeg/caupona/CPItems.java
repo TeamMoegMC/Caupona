@@ -36,9 +36,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.world.item.Items;
 
 public class CPItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Main.MODID);
@@ -57,48 +58,51 @@ public class CPItems {
 			"sauteed_vegetables", "seared_fillet", "seared_poultry" };
 	public static final String[] spices = new String[] { "chives_spice_jar", "garum_spice_jar", "sugar_spice_jar",
 			"vinegar_spice_jar" };
-	public static final List<Item> spicesItems = new ArrayList<>();
+	public static final List<RegistryObject<Item>> spicesItems = new ArrayList<>();
 	public static final String[] food_material = new String[] { "fig", "walnut", "wolfberries" };
 	public static final String[] base_material = new String[] { "lateres", "clay_portable_brazier", "vivid_charcoal" };
 
 	public static final List<Item> stews = new ArrayList<>();
-	public static Item anyWater = new IconItem("water_or_stock_based");
-	public static Item stock = new IconItem("stock_based");
-	public static Item milk = new IconItem("milk_based");
-	public static Item any = new IconItem("any_based");
-	public static Item water_bowl = new StewItem("water", new ResourceLocation("water"), createSoupProps());
-	public static Item milk_bowl = new StewItem("milk", new ResourceLocation("milk"), createSoupProps());
-	public static Item clay_pot = new CPItem("clay_cistern", createProps());
-	public static Item soot = new CPItem("soot", createProps());
-	public static Item pbrazier = new PortableBrazierItem("portable_brazier", createProps());
-	public static Item gravy_boat = new CPBlockItem(CPBlocks.GRAVY_BOAT, createFoodProps().durability(5).setNoRepair(),
-			"gravy_boat");
-	public static Item walnut_boat = new CPBoatItem("walnut", createProps());
-	public static Item chronoconis = new Chronoconis("chronoconis", createFoodProps());
-	public static Item haze = new IconItem("culinary_heat_haze");
-	public static Item ddish;
-	public static Item acquacotta;
-
-	public static void init() {
+	
+	public static RegistryObject<Item> anyWater = icon("water_or_stock_based");
+	public static RegistryObject<Item> stock = icon("stock_based");
+	public static RegistryObject<Item> milk = icon("milk_based");
+	public static RegistryObject<Item> any = icon("any_based");
+	public static RegistryObject<Item> water_bowl = stew("water", new ResourceLocation("water"), createSoupProps());
+	public static RegistryObject<Item> milk_bowl = stew("milk", new ResourceLocation("milk"), createSoupProps());
+	public static RegistryObject<Item> clay_pot = item("clay_cistern", createProps());
+	public static RegistryObject<Item> soot = item("soot", createProps());
+	public static RegistryObject<PortableBrazierItem> pbrazier = ITEMS.register("portable_brazier",()->new PortableBrazierItem( createProps()));
+	public static RegistryObject<CPBlockItem> gravy_boat = ITEMS.register("gravy_boat",()->new CPBlockItem(CPBlocks.GRAVY_BOAT.get(), createFoodProps().durability(5).setNoRepair()));
+	public static RegistryObject<CPBoatItem> walnut_boat = ITEMS.register("walnut_boat", ()->new CPBoatItem("walnut", createProps()));
+	public static RegistryObject<Chronoconis> chronoconis = ITEMS.register("chronoconis",()->new Chronoconis( createFoodProps()));
+	//public static Item haze = icon("culinary_heat_haze");
+	public static RegistryObject<Item> icon(String name){
+		return ITEMS.register(name,IconItem::new);
+	}
+	public static RegistryObject<Item> item(String name,Properties props){
+		return ITEMS.register(name,()->new CPItem(props));
+	}
+	public static RegistryObject<Item> stew(String name,ResourceLocation base,Properties props){
+		return ITEMS.register(name,()->new StewItem(base,props));
+	}
+	static{
 		for (String s : soups) {
-			Item it = new StewItem(s, new ResourceLocation(Main.MODID, s), createSoupProps());
-			if (s.equals("acquacotta"))
-				acquacotta = it;
+			RegistryObject<Item> it = stew(s, new ResourceLocation(Main.MODID, s), createSoupProps());
 		}
 
 		for (String s : aspics)
-			new CPItem(s, createFoodProps());
+			item(s, createFoodProps());
 
 		for (String s : spices) {
 			spicesItems.add(
-					new CPItem(s, createFoodProps().durability(16).craftRemainder(Items.FLOWER_POT).setNoRepair()));
+					item(s, createFoodProps().durability(16).craftRemainder(Items.FLOWER_POT).setNoRepair()));
 		}
 		for (String s : base_material) {
-			new CPItem(s, createProps());
+			item(s, createProps());
 		}
 		for (String s : food_material) {
-			new CPItem(s,
-					createFoodProps().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3f).build()));
+			item(s,createFoodProps().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3f).build()));
 		}
 	}
 

@@ -28,9 +28,6 @@ import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.entity.CPBoat;
-import com.teammoeg.caupona.worldgen.CPFeatures;
-import com.teammoeg.caupona.worldgen.CPPlacements;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
@@ -58,6 +55,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries.Keys;
 import net.minecraftforge.registries.RegisterEvent;
+import net.minecraftforge.registries.RegistryObject;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CPDispenserBehaviour {
@@ -66,7 +64,9 @@ public class CPDispenserBehaviour {
 	public static void registerAll(RegisterEvent event) {
 		
 		event.register(Keys.ITEMS, helper -> {
-		registerDispensers();
+			
+			registerDispensers();
+		
 		});
 	}
 
@@ -120,7 +120,7 @@ public class CPDispenserBehaviour {
 			}
 
 		});
-		DispenserBlock.registerBehavior(CPItems.walnut_boat, new DefaultDispenseItemBehavior() {
+		DispenserBlock.registerBehavior(CPItems.walnut_boat.get(), new DefaultDispenseItemBehavior() {
 			private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
 
 			public ItemStack execute(BlockSource pSource, ItemStack pStack) {
@@ -153,7 +153,7 @@ public class CPDispenserBehaviour {
 				pSource.getLevel().levelEvent(1000, pSource.getPos(), 0);
 			}
 		});
-		DispenserBlock.registerBehavior(CPItems.gravy_boat, new DefaultDispenseItemBehavior() {
+		DispenserBlock.registerBehavior(CPItems.gravy_boat.get(), new DefaultDispenseItemBehavior() {
 			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
 
 			@SuppressWarnings("resource")
@@ -163,7 +163,7 @@ public class CPDispenserBehaviour {
 				Direction d = bp.getBlockState().getValue(DispenserBlock.FACING);
 				BlockPos front = bp.getPos().relative(d);
 				BlockState bs = bp.getLevel().getBlockState(front);
-				if (bs.is(CPBlocks.GRAVY_BOAT)) {
+				if (bs.is(CPBlocks.GRAVY_BOAT.get())) {
 					int idmg = is.getDamageValue();
 					is.setDamageValue(bs.getValue(GravyBoatBlock.LEVEL));
 					bp.getLevel().setBlockAndUpdate(front, bs.setValue(GravyBoatBlock.LEVEL, idmg));
@@ -314,8 +314,12 @@ public class CPDispenserBehaviour {
 
 		};
 		DispenserBlock.registerBehavior(Items.FLOWER_POT, pot);
-		for (Item i : CPItems.spicesItems) {
-			DispenserBlock.registerBehavior(i, spice);
+		for (RegistryObject<Item> i : CPItems.spicesItems) {
+			DispenserBlock.registerBehavior(i.get(), spice);
 		}
 	}
+
+
+	
+	
 }

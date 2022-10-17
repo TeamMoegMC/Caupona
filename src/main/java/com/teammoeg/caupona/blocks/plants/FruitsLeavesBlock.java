@@ -30,13 +30,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.RegistryObject;
 
 public class FruitsLeavesBlock extends LeavesBlock implements BonemealableBlock {
-	Block fruit;
+	RegistryObject<Block> fruit;
 
-	public FruitsLeavesBlock(Properties p_54422_, Block f) {
+	public FruitsLeavesBlock(Properties p_54422_, RegistryObject<Block> fruit2) {
 		super(p_54422_);
-		this.fruit = f;
+		this.fruit = fruit2;
 	}
 
 	@Override
@@ -49,7 +50,7 @@ public class FruitsLeavesBlock extends LeavesBlock implements BonemealableBlock 
 				BlockPos below = pPos.below();
 				if (pRandom.nextInt(51) == 0 && pLevel.getRawBrightness(below, 0) >= 9) {
 					if (pLevel.getBlockState(below).isAir()) {
-						pLevel.setBlockAndUpdate(below, fruit.defaultBlockState());
+						pLevel.setBlockAndUpdate(below, fruit.get().defaultBlockState());
 					}
 				}
 			}
@@ -73,7 +74,7 @@ public class FruitsLeavesBlock extends LeavesBlock implements BonemealableBlock 
 	@Override
 	public void performBonemeal(ServerLevel pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
 		if (pLevel.getBlockState(pPos.below()).isAir()) {
-			pLevel.setBlockAndUpdate(pPos.below(), fruit.defaultBlockState());
+			pLevel.setBlockAndUpdate(pPos.below(), fruit.get().defaultBlockState());
 		}
 	}
 

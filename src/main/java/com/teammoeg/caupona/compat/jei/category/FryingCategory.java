@@ -53,7 +53,7 @@ public class FryingCategory implements IRecipeCategory<SauteedRecipe> {
 	private IGuiHelper helper;
 
 	public FryingCategory(IGuiHelper guiHelper) {
-		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CPItems.gravy_boat));
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CPItems.gravy_boat.get()));
 		this.BACKGROUND = guiHelper.createBlankDrawable(100, 105);
 		this.helper = guiHelper;
 	}
@@ -88,7 +88,7 @@ public class FryingCategory implements IRecipeCategory<SauteedRecipe> {
 	public void setRecipe(IRecipeLayoutBuilder builder, SauteedRecipe recipe, IFocusGroup focuses) {
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 13).addIngredient(VanillaTypes.ITEM_STACK,
-				new ItemStack(CPItems.gravy_boat));
+				new ItemStack(CPItems.gravy_boat.get()));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 61, 18).addIngredient(VanillaTypes.ITEM_STACK,
 				new ItemStack(recipe.output));
 	}

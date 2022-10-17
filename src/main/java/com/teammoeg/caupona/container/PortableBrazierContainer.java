@@ -59,7 +59,7 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 			if (slot == INGREDIENT)
 				return AspicMeltingRecipe.find(stack) != null;
 			if (slot == CONTAINER)
-				return stack.is(CPItems.water_bowl);
+				return stack.is(CPItems.water_bowl.get());
 			if (slot == FUEL)
 				return stack.is(fueltype);
 			return false;

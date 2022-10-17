@@ -44,9 +44,6 @@ public class EdibleBlock extends CPBlockItem {
 		super(block, props);
 	}
 
-	public EdibleBlock(Block block, Properties props, String name) {
-		super(block, props, name);
-	}
 
 	@Override
 	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {

@@ -59,7 +59,7 @@ public class StewCookingCategory implements IRecipeCategory<StewCookingRecipe> {
 	private IGuiHelper helper;
 
 	public StewCookingCategory(IGuiHelper guiHelper) {
-		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CPItems.anyWater));
+		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CPItems.anyWater.get()));
 		this.BACKGROUND = guiHelper.createBlankDrawable(100, 105);
 		this.helper = guiHelper;
 	}
@@ -102,7 +102,7 @@ public class StewCookingCategory implements IRecipeCategory<StewCookingRecipe> {
 					.setFluidRenderer(250, false, 16, 16);
 		} else
 			builder.addSlot(RecipeIngredientRole.INPUT, 30, 13).addIngredient(VanillaTypes.ITEM_STACK,
-					new ItemStack(CPItems.any));
+					new ItemStack(CPItems.any.get()));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 61, 18)
 				.addIngredient(ForgeTypes.FLUID_STACK, new FluidStack(recipe.output, 250))
 				.setFluidRenderer(250, false, 16, 16);

@@ -51,8 +51,8 @@ import net.minecraftforge.items.ItemHandlerHelper;
 public class DishBlock extends CPRegisteredEntityBlock<DishBlockEntity> {
 	public static final IntegerProperty PAN = IntegerProperty.create("pan", 0, 2);
 
-	public DishBlock(String name, Properties blockProps) {
-		super(name, blockProps, CPBlockEntityTypes.DISH, null);
+	public DishBlock(Properties blockProps) {
+		super(blockProps, CPBlockEntityTypes.DISH);
 		this.registerDefaultState(this.defaultBlockState().setValue(PAN, 0));
 		CPBlocks.dishes.add(this);
 	}
@@ -125,7 +125,7 @@ public class DishBlock extends CPRegisteredEntityBlock<DishBlockEntity> {
 					player.eat(worldIn, dish.internal);
 					dish.internal = iout;
 					if (dish.internal.is(Items.BOWL)) {
-						worldIn.setBlockAndUpdate(pos, CPBlocks.DISH.defaultBlockState());
+						worldIn.setBlockAndUpdate(pos, CPBlocks.DISH.get().defaultBlockState());
 					} else {
 						worldIn.removeBlock(pos, false);
 					}

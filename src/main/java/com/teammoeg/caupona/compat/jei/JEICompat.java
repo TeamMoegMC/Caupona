@@ -76,14 +76,14 @@ public class JEICompat implements IModPlugin {
 
 	@Override
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-		registration.addRecipeCatalyst(new ItemStack(CPItems.pbrazier), BrazierCategory.TYPE);
-		registration.addRecipeCatalyst(new ItemStack(CPBlocks.stew_pot), PotCategory.TYPE, BoilingCategory.TYPE,
+		registration.addRecipeCatalyst(new ItemStack(CPItems.pbrazier.get()), BrazierCategory.TYPE);
+		registration.addRecipeCatalyst(new ItemStack(CPBlocks.stew_pot.get()), PotCategory.TYPE, BoilingCategory.TYPE,
 				PotRestingCategory.TYPE, StewCookingCategory.TYPE);
 		for (Block bl : CPBlocks.dolium)
 			registration.addRecipeCatalyst(new ItemStack(bl), DoliumRestingCategory.TYPE, PotRestingCategory.TYPE);
-		registration.addRecipeCatalyst(new ItemStack(CPBlocks.STONE_PAN), FryingCategory.TYPE);
-		registration.addRecipeCatalyst(new ItemStack(CPBlocks.COPPER_PAN), FryingCategory.TYPE);
-		registration.addRecipeCatalyst(new ItemStack(CPBlocks.IRON_PAN), FryingCategory.TYPE);
+		registration.addRecipeCatalyst(new ItemStack(CPBlocks.STONE_PAN.get()), FryingCategory.TYPE);
+		registration.addRecipeCatalyst(new ItemStack(CPBlocks.COPPER_PAN.get()), FryingCategory.TYPE);
+		registration.addRecipeCatalyst(new ItemStack(CPBlocks.IRON_PAN.get()), FryingCategory.TYPE);
 	}
 
 	@Override

@@ -37,8 +37,8 @@ import net.minecraft.world.level.Level;
 
 public class Chronoconis extends CPItem {
 
-	public Chronoconis(String name, Properties properties) {
-		super(name, properties);
+	public Chronoconis( Properties properties) {
+		super( properties);
 	}
 
 	@Override

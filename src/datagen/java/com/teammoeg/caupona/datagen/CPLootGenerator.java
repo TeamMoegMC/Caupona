@@ -69,15 +69,15 @@ public class CPLootGenerator extends LootTableProvider {
 	private static class LTBuilder extends BlockLoot {
 		@Override
 		protected void addTables() {
-			dropSelf(CPBlocks.stew_pot);
-			dropSelf(CPBlocks.STONE_PAN);
-			dropSelf(CPBlocks.COPPER_PAN);
-			dropSelf(CPBlocks.IRON_PAN);
-			add(CPBlocks.FUMAROLE_VENT, BlockLoot.createSilkTouchDispatchTable(CPBlocks.FUMAROLE_VENT,
+			dropSelf(CPBlocks.stew_pot.get());
+			dropSelf(CPBlocks.STONE_PAN.get());
+			dropSelf(CPBlocks.COPPER_PAN.get());
+			dropSelf(CPBlocks.IRON_PAN.get());
+			add(CPBlocks.FUMAROLE_VENT.get(), BlockLoot.createSilkTouchDispatchTable(CPBlocks.FUMAROLE_VENT.get(),
 					LootItem.lootTableItem(Blocks.BASALT)));
-			add(CPBlocks.PUMICE_BLOOM, BlockLoot.createSilkTouchDispatchTable(CPBlocks.PUMICE_BLOOM,
-					LootItem.lootTableItem(CPBlocks.PUMICE)));
-			dropSelf(CPBlocks.PUMICE);
+			add(CPBlocks.PUMICE_BLOOM.get(), BlockLoot.createSilkTouchDispatchTable(CPBlocks.PUMICE_BLOOM.get(),
+					LootItem.lootTableItem(CPBlocks.PUMICE.get())));
+			dropSelf(CPBlocks.PUMICE.get());
 			/*
 			 * dropSelf(CPBlocks.stove1);
 			 * dropSelf(CPBlocks.stove2);
@@ -115,7 +115,7 @@ public class CPLootGenerator extends LootTableProvider {
 						"_acanthine_column_capital"))
 					dropSelf(cp(str + type));
 			}
-			dropSelf(CPBlocks.GRAVY_BOAT);
+			dropSelf(CPBlocks.GRAVY_BOAT.get());
 			for (String wood : ImmutableSet.of("fig", "wolfberry")) {
 				dropSelf(cp(wood + "_sapling"));
 				add(cp(wood + "_leaves"), createLeavesDrops(cp(wood + "_leaves"), cp(wood + "_sapling"), 0.05F, 0.0625F,

@@ -61,7 +61,7 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity> {
 		if (!blockEntity.getLevel().hasChunkAt(blockEntity.getBlockPos()))
 			return;
 		BlockState state = blockEntity.getBlockState();
-		if (state.getBlock() != CPBlocks.bowl)
+		if (state.getBlock() != CPBlocks.bowl.get())
 			return;
 
 		if (blockEntity.internal == null || !(blockEntity.internal.getItem() instanceof StewItem))
