@@ -1,3 +1,2 @@
-Fixed entity can't get on boat.
-Fixed walnut boat can not be dispensed.
-Fix stripped walnut wood does not create drop.
+Change to forge registry(experimental)
+If this cause problems, use previous version

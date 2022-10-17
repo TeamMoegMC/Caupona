@@ -74,6 +74,7 @@ public class Main {
 		IEventBus mod = FMLJavaModLoadingContext.get().getModEventBus();
 		ForgeMod.enableMilkFluid();
 		MinecraftForge.EVENT_BUS.register(RecipeReloadListener.class);
+		
 		CPBlockEntityTypes.REGISTER.register(mod);
 		CPGui.CONTAINERS.register(mod);
 		Particles.REGISTER.register(mod);
