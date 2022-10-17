@@ -29,8 +29,6 @@ import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.RegistryEvents;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.StewInfo;
@@ -204,7 +202,7 @@ public class StewItem extends EdibleBlock {
 
 	public StewItem(String name, ResourceLocation fluid, Properties properties) {
 		super(CPBlocks.bowl, properties.food(fakefood));
-		RegistryEvents.registeredItems.add(Pair.of(new ResourceLocation(Main.MODID, name), this));
+		CPItems.ITEMS.register(name,()->this);
 		CPItems.stews.add(this);
 		this.fluid = fluid;
 	}

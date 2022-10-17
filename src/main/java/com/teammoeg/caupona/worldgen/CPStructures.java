@@ -25,9 +25,7 @@ import com.teammoeg.caupona.Main;
 
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries.Keys;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CPStructures {

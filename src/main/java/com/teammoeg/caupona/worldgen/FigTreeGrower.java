@@ -33,6 +33,6 @@ public class FigTreeGrower extends AbstractTreeGrower {
 	 *         of this tree
 	 */
 	protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource p_204329_, boolean p_204330_) {
-		return CPFeatures.FIG;
+		return CPFeatures.FIG.getHolder().get();
 	}
 }

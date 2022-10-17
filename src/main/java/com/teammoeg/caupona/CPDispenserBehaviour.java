@@ -21,10 +21,6 @@
 
 package com.teammoeg.caupona;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
@@ -40,19 +36,16 @@ import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -67,53 +60,14 @@ import net.minecraftforge.registries.ForgeRegistries.Keys;
 import net.minecraftforge.registries.RegisterEvent;
 
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class RegistryEvents {
-	public static List<Pair<ResourceLocation, Block>> registeredBlocks = new ArrayList<>();
-	public static List<Pair<ResourceLocation, Item>> registeredItems = new ArrayList<>();
+public class CPDispenserBehaviour {
 
 	@SubscribeEvent
 	public static void registerAll(RegisterEvent event) {
 		
-
-		event.register(Keys.BLOCKS, helper -> {
-			CPBlocks.init();
-			
-			for (Pair<ResourceLocation, Block> block : RegistryEvents.registeredBlocks) {
-				try {
-					helper.register(block.getFirst(), block.getSecond());
-				} catch (Throwable e) {
-					Main.logger.error("Failed to register a block. ({})", block);
-					throw e;
-				}
-			}
-		});
 		event.register(Keys.ITEMS, helper -> {
-			CPItems.init();
-			for (Pair<ResourceLocation, Item> item : RegistryEvents.registeredItems) {
-				try {
-					helper.register(item.getFirst(),item.getSecond());
-				} catch (Throwable e) {
-					Main.logger.error("Failed to register an item. ({})", item);
-					throw e;
-				}
-			}
-			registerDispensers();
+		registerDispensers();
 		});
-		event.register(Keys.FEATURES, helper -> {
-			CPFeatures.init();
-			CPPlacements.init();
-		});
-
-		event.register(Keys.FOLIAGE_PLACER_TYPES, helper -> {
-			CPFeatures.init();
-			try {
-				helper.register(new ResourceLocation(Main.MODID, "bush_foliage_placer"),CPFeatures.BUSH_PLACER);
-			} catch (Throwable e) {
-				Main.logger.error("Failed to register a foliage placer. ({})", CPFeatures.BUSH_PLACER);
-				throw e;
-			}
-		});
-		
 	}
 
 
@@ -364,8 +318,4 @@ public class RegistryEvents {
 			DispenserBlock.registerBehavior(i, spice);
 		}
 	}
-
-
-
-
 }

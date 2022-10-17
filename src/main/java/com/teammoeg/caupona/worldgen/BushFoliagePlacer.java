@@ -42,7 +42,7 @@ public class BushFoliagePlacer extends BlobFoliagePlacer {
 	});
 
 	protected FoliagePlacerType<?> type() {
-		return CPFeatures.BUSH_PLACER;
+		return CPFeatures.BUSH_PLACER.get();
 	}
 
 	public BushFoliagePlacer(IntProvider p_161356_, IntProvider p_161357_, int p_161358_) {

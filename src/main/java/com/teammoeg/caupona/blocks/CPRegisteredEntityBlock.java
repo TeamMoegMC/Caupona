@@ -23,11 +23,10 @@ package com.teammoeg.caupona.blocks;
 
 import java.util.function.BiFunction;
 
-import com.mojang.datafixers.util.Pair;
+import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.RegistryEvents;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -35,30 +34,24 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CPRegisteredEntityBlock<T extends BlockEntity> extends Block implements CPEntityBlock<T> {
-	public final String name;
 	private final RegistryObject<BlockEntityType<T>> blockEntity;
 
 	public CPRegisteredEntityBlock(String name, Properties blockProps, RegistryObject<BlockEntityType<T>> ste,
 			BiFunction<Block, Item.Properties, Item> createItemBlock) {
 		super(blockProps);
-		this.name = name;
 		blockEntity = ste;
-		ResourceLocation registryName = createRegistryName();
-		RegistryEvents.registeredBlocks.add(Pair.of(registryName, this));
+		CPBlocks.BLOCKS.register(name,()->this);
 
 		if (createItemBlock != null) {
 			Item item = createItemBlock.apply(this, new Item.Properties().tab(Main.mainGroup));
 			if (item != null) {
-				RegistryEvents.registeredItems.add(Pair.of(registryName, item));
+				CPItems.ITEMS.register(name,()->item);
 	
 			}
 		}
 
 	}
 
-	public ResourceLocation createRegistryName() {
-		return new ResourceLocation(Main.MODID, name);
-	}
 
 	@Override
 	public RegistryObject<BlockEntityType<T>> getBlock() {

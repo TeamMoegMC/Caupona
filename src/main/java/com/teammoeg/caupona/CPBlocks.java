@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.blocks.BaseColumnBlock;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 import com.teammoeg.caupona.blocks.ColumnCapitalBlock;
@@ -60,7 +59,6 @@ import com.teammoeg.caupona.worldgen.WolfberryTreeGrower;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -87,9 +85,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class CPBlocks {
-
+	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Main.MODID);
 	// static string data
 	public static final String[] counters = new String[] { "brick", "opus_incertum", "opus_latericium", "mud",
 			"stone_brick" };
@@ -163,7 +163,7 @@ public class CPBlocks {
 					.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 					.isViewBlocking(CPBlocks::isntSolid));
 
-	public static void init() {
+	static {
 		for (String stone : stones) {
 			Block base = register(stone, new Block(getStoneProps()));
 			stoneBlocks.put(stone, base);
@@ -289,27 +289,22 @@ public class CPBlocks {
 	}
 
 	public static <T extends Item> T register(String name, T item) {
-
-		ResourceLocation registryName = new ResourceLocation(Main.MODID, name);
-		
-		RegistryEvents.registeredItems.add(Pair.of(registryName, item));
+		CPItems.ITEMS.register(name,()->item);
 		return item;
 
 	}
 
 	public static <T extends Block> T register(String name, T bl) {
-		ResourceLocation registryName = new ResourceLocation(Main.MODID, name);
-		RegistryEvents.registeredBlocks.add(Pair.of(registryName, bl));
+		BLOCKS.register(name,()->bl);
 
 		Item item = new BlockItem(bl, new Item.Properties().tab(Main.mainGroup));
-		RegistryEvents.registeredItems.add(Pair.of(registryName, item));
+		CPItems.ITEMS.register(name,()->item);
 		return bl;
 	}
 
 
 	public static <T extends Block> T registerBlock(String name, T bl) {
-		ResourceLocation registryName = new ResourceLocation(Main.MODID, name);
-		RegistryEvents.registeredBlocks.add(Pair.of(registryName, bl));
+		BLOCKS.register(name,()->bl);
 		return bl;
 	}
 

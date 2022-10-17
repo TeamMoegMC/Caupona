@@ -108,7 +108,7 @@ public class CPFluids {
 				.map(ForgeRegistries.FLUIDS::getValue);
 	}
 
-	public static void init() {
+	static {
 		soupfluids.put("acquacotta", soup(0xffdcb259));
 		soupfluids.put("bisque", soup(0xffb87246));
 		soupfluids.put("bone_gelatin", soup(0xffe3a14a));

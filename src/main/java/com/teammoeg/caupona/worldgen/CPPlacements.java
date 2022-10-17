@@ -24,25 +24,27 @@ package com.teammoeg.caupona.worldgen;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.Main;
 
-import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 
 public class CPPlacements {
-	public static final Holder<PlacedFeature> TREES_WALNUT = PlacementUtils.register(Main.MODID + ":trees_walnut",
-			CPFeatures.WALNUT,
-			VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.WALNUT_SAPLINGS));
-	public static final Holder<PlacedFeature> TREES_FIG = PlacementUtils.register(Main.MODID + ":trees_fig",
-			CPFeatures.FIG,
-			VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.FIG_SAPLINGS));
-	public static final Holder<PlacedFeature> TREES_WOLFBERRY = PlacementUtils.register(Main.MODID + ":trees_wolfberry",
-			CPFeatures.WOLFBERRY,
-			VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.WOLFBERRY_SAPLINGS));
+	public static final DeferredRegister<PlacedFeature> PLACEMENTS = DeferredRegister
+			.create(Registry.PLACED_FEATURE_REGISTRY, Main.MODID);
+	public static final RegistryObject<PlacedFeature> TREES_WALNUT = PLACEMENTS.register("trees_walnut",
+			() -> new PlacedFeature(CPFeatures.WALNUT.getHolder().get(), VegetationPlacements
+					.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.WALNUT_SAPLINGS)));
+	public static final RegistryObject<PlacedFeature> TREES_FIG = PLACEMENTS.register("trees_fig",
+			() -> new PlacedFeature(CPFeatures.FIG.getHolder().get(), VegetationPlacements
+					.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.FIG_SAPLINGS)));
+	public static final RegistryObject<PlacedFeature> TREES_WOLFBERRY = PLACEMENTS.register("trees_wolfberry",
+			() -> new PlacedFeature(CPFeatures.WOLFBERRY.getHolder().get(), VegetationPlacements
+					.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.WOLFBERRY_SAPLINGS)));
 
 	public CPPlacements() {
 	}
 
-	public static void init() {
-	}
 }

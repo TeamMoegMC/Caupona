@@ -21,18 +21,15 @@
 
 package com.teammoeg.caupona.items;
 
-import com.mojang.datafixers.util.Pair;
-import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.RegistryEvents;
+import com.teammoeg.caupona.CPItems;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
 public class CPItem extends Item {
 
 	public CPItem(String name, Properties properties) {
 		super(properties);
-		RegistryEvents.registeredItems.add(Pair.of(new ResourceLocation(Main.MODID, name), this));
+		CPItems.ITEMS.register(name,()->this);
 	}
 
 }

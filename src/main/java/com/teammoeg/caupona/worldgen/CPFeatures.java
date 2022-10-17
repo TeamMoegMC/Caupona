@@ -25,8 +25,8 @@ import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.Main;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.features.FeatureUtils;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -37,29 +37,43 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlac
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 
 public class CPFeatures {
-	public static final Holder<ConfiguredFeature<TreeConfiguration, ?>> WALNUT = FeatureUtils.register(
-			Main.MODID + ":walnut", Feature.TREE,
-			createStraightBlobTree(CPBlocks.WALNUT_LOG, CPBlocks.WALNUT_LEAVE, 4, 2, 0, 2).ignoreVines().build());
-	public static final Holder<ConfiguredFeature<TreeConfiguration, ?>> FIG = FeatureUtils.register(Main.MODID + ":fig",
-			Feature.TREE,
-			createStraightBlobBush(CPBlocks.FIG_LOG, CPBlocks.FIG_LEAVE, 4, 2, 0, 2).ignoreVines().build());
-	public static final Holder<ConfiguredFeature<TreeConfiguration, ?>> WOLFBERRY = FeatureUtils.register(
-			Main.MODID + ":wolfberry", Feature.TREE,
-			createStraightBlobBush(CPBlocks.WOLFBERRY_LOG, CPBlocks.WOLFBERRY_LEAVE, 4, 2, 0, 2).ignoreVines().build());
-	public static final FoliagePlacerType<BushFoliagePlacer> BUSH_PLACER = new FoliagePlacerType<>(
-			BushFoliagePlacer.CODEC);
-
-
+	public static final DeferredRegister<ConfiguredFeature<?, ?>> FEATURES = DeferredRegister
+			.create(Registry.CONFIGURED_FEATURE_REGISTRY, Main.MODID);
+	public static final DeferredRegister<FoliagePlacerType<?>> FOILAGE_TYPES = DeferredRegister
+			.create(Registry.FOLIAGE_PLACER_TYPE_REGISTRY, Main.MODID);
+	public static final DeferredRegister<TrunkPlacerType<?>> TRUNK_TYPES = DeferredRegister
+			.create(Registry.TRUNK_PLACER_TYPE_REGISTRY, Main.MODID);
+	
+	
+	public static final RegistryObject<ConfiguredFeature<?,?>> WALNUT = FEATURES
+			.register("walnut",
+					() -> new ConfiguredFeature<>(Feature.TREE,
+							createStraightBlobTree(CPBlocks.WALNUT_LOG, CPBlocks.WALNUT_LEAVE, 4, 2, 0, 2).ignoreVines()
+									.build()));
+	public static final RegistryObject<ConfiguredFeature<?,?>> FIG = FEATURES
+			.register("fig", () -> new ConfiguredFeature<>(Feature.TREE,
+					createStraightBlobBush(CPBlocks.FIG_LOG, CPBlocks.FIG_LEAVE, 4, 2, 0, 2).ignoreVines().build()));
+	public static final RegistryObject<ConfiguredFeature<?,?>> WOLFBERRY = FEATURES
+			.register("wolfberry",
+					() -> new ConfiguredFeature<>(Feature.TREE,
+							createStraightBlobBush(CPBlocks.WOLFBERRY_LOG, CPBlocks.WOLFBERRY_LEAVE, 4, 2, 0, 2)
+									.ignoreVines().build()));
+	
+	public static final RegistryObject<FoliagePlacerType<BushFoliagePlacer>> BUSH_PLACER = FOILAGE_TYPES
+			.register("bush_foliage_placer", () -> new FoliagePlacerType<>(BushFoliagePlacer.CODEC));
+	
+	public static final RegistryObject<TrunkPlacerType<BushStraightTrunkPlacer>> BUSH_TRUNK = TRUNK_TYPES
+			.register("bush_chunk", () -> new TrunkPlacerType<>(BushStraightTrunkPlacer.CODEC));
 
 	public CPFeatures() {
 	}
 
-	public static void init() {
-		
-	};
+
 
 	private static TreeConfiguration.TreeConfigurationBuilder createStraightBlobTree(Block log, Block leave, int height,
 			int randA, int randB, int foliage) {
@@ -72,7 +86,7 @@ public class CPFeatures {
 	private static TreeConfiguration.TreeConfigurationBuilder createStraightBlobBush(Block log, Block leave, int height,
 			int randA, int randB, int foliage) {
 		return new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(log),
-				new StraightTrunkPlacer(height, randA, randB), BlockStateProvider.simple(leave),
+				new BushStraightTrunkPlacer(height, randA, randB), BlockStateProvider.simple(leave),
 				new BushFoliagePlacer(ConstantInt.of(foliage), ConstantInt.of(0), 3),
 				new TwoLayersFeatureSize(1, 0, 1));
 	}

@@ -29,6 +29,8 @@ import org.apache.logging.log4j.Logger;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.network.PacketHandler;
+import com.teammoeg.caupona.worldgen.CPFeatures;
+import com.teammoeg.caupona.worldgen.CPPlacements;
 import com.teammoeg.caupona.worldgen.CPStructures;
 
 import net.minecraft.resources.ResourceLocation;
@@ -71,18 +73,22 @@ public class Main {
 	public Main() {
 		IEventBus mod = FMLJavaModLoadingContext.get().getModEventBus();
 		ForgeMod.enableMilkFluid();
-
-		CPFluids.init();
+		MinecraftForge.EVENT_BUS.register(RecipeReloadListener.class);
 		CPBlockEntityTypes.REGISTER.register(mod);
 		CPGui.CONTAINERS.register(mod);
 		Particles.REGISTER.register(mod);
-		MinecraftForge.EVENT_BUS.register(RecipeReloadListener.class);
 		CPFluids.FLUIDS.register(mod);
 		CPFluids.FLUID_TYPES.register(mod);
+		CPBlocks.BLOCKS.register(mod);
+		CPItems.ITEMS.register(mod);
+		CPFeatures.FEATURES.register(mod);
+		CPPlacements.PLACEMENTS.register(mod);
 		CPRecipes.RECIPE_SERIALIZERS.register(mod);
 		CPEntityTypes.ENTITY_TYPES.register(mod);
 		CPRecipes.RECIPE_TYPES.register(mod);
 		CPStructures.TYPES.register(mod);
+		CPFeatures.FOILAGE_TYPES.register(mod);
+		CPFeatures.TRUNK_TYPES.register(mod);
 		Config.register();
 		PacketHandler.register();
 	}
