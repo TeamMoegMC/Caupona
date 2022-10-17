@@ -24,9 +24,7 @@ package com.teammoeg.caupona.worldgen;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.Main;
 
-import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;

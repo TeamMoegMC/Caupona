@@ -23,7 +23,6 @@ package com.teammoeg.caupona.blocks.pan;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.stove.IStove;

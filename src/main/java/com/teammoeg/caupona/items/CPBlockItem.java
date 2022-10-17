@@ -21,8 +21,6 @@
 
 package com.teammoeg.caupona.items;
 
-import com.teammoeg.caupona.CPDispenserBehaviour;
-
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
