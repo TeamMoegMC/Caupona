@@ -82,7 +82,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
 			if (slot < 9)
-				return stack.getItem() == Items.POTION || StewCookingRecipe.isCookable(stack);
+				return (stack.getItem() == Items.POTION&&!(PotionUtils.getMobEffects(stack).stream().anyMatch(t->t.getDuration()==1))) || StewCookingRecipe.isCookable(stack);
 			if (slot == 9) {
 				Item i = stack.getItem();
 				return i == Items.BOWL || i instanceof StewItem || AspicMeltingRecipe.find(stack) != null;
@@ -366,8 +366,10 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		} else if (proctype == 1) {
 			if (makeSoup())
 				proctype = 2;
-			else
+			else {
 				proctype = 0;
+				this.syncData();
+			}
 		}
 	}
 

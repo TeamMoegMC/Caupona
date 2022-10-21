@@ -1,3 +1,2 @@
-Fixed entity can't get on boat.
-Fixed walnut boat can not be dispensed.
-Fix stripped walnut wood does not create drop.
+Fix drinking hot water cause wrong hunger value
+Fix display issues
