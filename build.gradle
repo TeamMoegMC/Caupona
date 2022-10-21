@@ -235,7 +235,7 @@ String getChangelogText() {
         }
         if (it.size() > 1) {
             def temp = it
-            str += temp
+            str += temp+"<br />"
             lineCount++
         }
     }

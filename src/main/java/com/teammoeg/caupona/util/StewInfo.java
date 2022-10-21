@@ -215,7 +215,10 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 		int conv = (int) (Mth.clamp((dense - 1) / 2f, 0, 1) * 0.3 * nh);
 		this.healing = (int) Math.ceil(nh - conv);
 		ns += conv / 2f;
-		this.saturation = Math.max(0.7f, ns / this.healing);
+		if(this.healing>0)
+			this.saturation = Math.max(0.7f, ns / this.healing);
+		else
+			this.saturation=0;
 	}
 
 	public void adjustParts(float oparts, float parts) {
@@ -237,6 +240,7 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 		clearSpice();
 		shrinkedFluid = (shrinkedFluid * oparts + delta) / parts;
 		healing = (int) (healing * oparts / parts);
+		
 		saturation = saturation * oparts / parts;
 	}
 
@@ -315,7 +319,10 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 			b.effect(()->new MobEffectInstance(ef.getFirst()), ef.getSecond());
 		}
 		b.nutrition(healing);
-		b.saturationMod(saturation);
+		if(Float.isNaN(saturation))
+			b.saturationMod(0);
+		else
+			b.saturationMod(saturation);
 		if (canAlwaysEat())
 			b.alwaysEat();
 		return b.build();

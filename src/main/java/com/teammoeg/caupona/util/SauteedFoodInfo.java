@@ -112,7 +112,10 @@ public class SauteedFoodInfo extends SpicedFoodInfo implements IFoodInfo{
 		int conv = (int) (0.075 * nh);
 		this.healing = (int) Math.ceil(nh - conv);
 		ns += conv / 2f;
-		this.saturation = Math.max(0.6f, ns / this.healing);
+		if(this.healing>0)
+			this.saturation = Math.max(0.6f, ns / this.healing);
+		else
+			this.saturation =0;
 	}
 
 	public CompoundTag save() {
@@ -175,7 +178,10 @@ public class SauteedFoodInfo extends SpicedFoodInfo implements IFoodInfo{
 			b.effect(()->new MobEffectInstance(ef.getFirst()), ef.getSecond());
 		}
 		b.nutrition(healing);
-		b.saturationMod(saturation);
+		if(Float.isNaN(saturation))
+			b.saturationMod(0);
+		else
+			b.saturationMod(saturation);
 		return b.build();
 	}
 

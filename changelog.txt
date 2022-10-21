@@ -1,2 +1,2 @@
-Change to forge registry(experimental)
-If this cause problems, use previous version
+Fix some display issues
+Fix some wrong value
