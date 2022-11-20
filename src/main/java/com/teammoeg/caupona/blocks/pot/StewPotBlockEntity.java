@@ -689,8 +689,12 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 
 		@Override
 		public int fill(FluidStack resource, FluidAction action) {
-			if (canAddFluid() && !isInfinite)
-				return tank.fill(resource, action);
+			if (canAddFluid() && !isInfinite) {
+				int filled=tank.fill(resource, action);
+				if(filled>0&&action.execute())
+					syncData();
+				return filled;
+			}
 			return 0;
 		}
 
@@ -700,7 +704,10 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 			if (canAddFluid()) {
 				if (isInfinite)
 					return action.simulate() ? resource : tryAddSpice(resource);
-				return action.simulate() ? tank.drain(resource, action) : tryAddSpice(tank.drain(resource, action));
+				FluidStack ret=action.simulate() ? tank.drain(resource, action) : tryAddSpice(tank.drain(resource, action));
+				if(!ret.isEmpty()&&action.execute())
+					syncData();
+				return ret;
 			}
 			return FluidStack.EMPTY;
 		}
@@ -712,7 +719,10 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				if (isInfinite)
 					return action.simulate() ? new FluidStack(tank.getFluid(), maxDrain)
 							: tryAddSpice(new FluidStack(tank.getFluid(), maxDrain));
-				return action.simulate() ? tank.drain(maxDrain, action) : tryAddSpice(tank.drain(maxDrain, action));
+				FluidStack ret=action.simulate() ? tank.drain(maxDrain, action) : tryAddSpice(tank.drain(maxDrain, action));
+				if(!ret.isEmpty()&&action.execute())
+					syncData();
+				return ret;
 			}
 			return FluidStack.EMPTY;
 		}

@@ -53,7 +53,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.network.NetworkHooks;
 
-public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlockEntity> implements LiquidBlockContainer {
+public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlockEntity> {
 
 	public CounterDoliumBlock(Properties p) {
 		super(CPBlockEntityTypes.DOLIUM, p);
@@ -119,20 +119,6 @@ public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlo
 		return p;
 	}
 
-	@Override
-	public boolean canPlaceLiquid(BlockGetter w, BlockPos p, BlockState s, Fluid f) {
-		if(w.getBlockEntity(p) instanceof CounterDoliumBlockEntity dolium)
-			return dolium.tank.fill(new FluidStack(f, 1000), FluidAction.SIMULATE) == 1000;
-		return false;
-	}
-
-	@Override
-	public boolean placeLiquid(LevelAccessor w, BlockPos p, BlockState s, FluidState f) {
-		if(w.getBlockEntity(p) instanceof CounterDoliumBlockEntity dolium)
-		if (dolium.tryAddFluid(new FluidStack(f.getType(), 1000)))
-			return true;
-		return false;
-	}
 
 	@SuppressWarnings("deprecation")
 	@Override
