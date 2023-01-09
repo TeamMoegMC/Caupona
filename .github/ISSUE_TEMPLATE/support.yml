@@ -2,6 +2,8 @@ name: Mod Support
 description: Any relavent mods you want us to support? Use this.
 title: "[Support] "
 labels: enhancement
+assignees: 
+  - khjxiaogu
 body:
   - type: markdown
     attributes:
