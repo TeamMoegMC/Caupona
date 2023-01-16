@@ -135,8 +135,7 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag(meats).addTag(atag(poultry)).addTag(atag(meat));
 		tag(seafood).addTag(atag(fish)).addTag(atag(crustaceans));
 		tag(pumpkin).addOptional(rl(fd + ":pumpkin_slice")).add(Items.PUMPKIN, Items.CARVED_PUMPKIN);
-		tag(vegetables).addTag(atag(mushrooms)).addTag(atag(roots)).addTag(ftag("salad_ingredients"))
-				.addTag(atag(pumpkin));
+	
 		tag(frl("raw_beef")).add(Items.BEEF);
 		tag(walnut).add(cp("walnut"));
 		tag(baked).add(Items.BREAD).addTag(ftag("pasta")).addOptional(rl(fd + ":pie_crust"));
@@ -144,8 +143,10 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 				.addTag(ftag("bread"));
 		tag(rice).addTag(ftag("grain/rice"));
 		tag(roots).add(Items.POTATO, Items.BAKED_POTATO).addTag(ftag("rootvegetables"));
-		tag(vegetables).add(Items.CARROT, Items.BEETROOT, Items.PUMPKIN).addTag(atag(mushrooms))
-				.addTag(ftag("vegetables")).addTag(ftag("vegetable"));
+		tag(vegetables).add(Items.CARROT, Items.BEETROOT, Items.PUMPKIN)
+				.addTag(ftag("vegetables")).addTag(ftag("vegetable")).addTag(atag(greens))
+				.addTag(atag(mushrooms)).addTag(atag(roots)).addTag(ftag("salad_ingredients"))
+				.addTag(atag(pumpkin));
 		tag(greens).addTag(ftag("vegetables/asparagus")).add(Items.FERN, Items.LARGE_FERN, Items.ALLIUM);
 		tag(eggs).add(Items.EGG).addTag(ftag("cooked_eggs"));
 		tag(crustaceans).add(Items.NAUTILUS_SHELL);
@@ -170,7 +171,7 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag("garum_fish").add(Items.COD, Items.SALMON);
 		tag("vinegar_fruits").add(Items.APPLE).add(cp("fig"));
 		tag("vinegar_fruits_small").add(Items.SWEET_BERRIES).add(cp("wolfberries"));
-
+		tag(frl("nuts")).add(cp("walnut"));
 	}
 
 	private TagAppender<Item> tag(String s) {

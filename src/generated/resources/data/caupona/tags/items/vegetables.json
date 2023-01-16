@@ -1,15 +1,15 @@
 {
   "replace": false,
   "values": [
-    "#caupona:mushroom",
-    "#caupona:vegetables/roots",
-    "#forge:salad_ingredients",
-    "#caupona:vegetables/pumpkin",
     "minecraft:carrot",
     "minecraft:beetroot",
     "minecraft:pumpkin",
-    "#caupona:mushroom",
     "#forge:vegetables",
-    "#forge:vegetable"
+    "#forge:vegetable",
+    "#caupona:vegetables/greens",
+    "#caupona:mushroom",
+    "#caupona:vegetables/roots",
+    "#forge:salad_ingredients",
+    "#caupona:vegetables/pumpkin"
   ]
 }
