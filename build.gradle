@@ -171,7 +171,7 @@ dependencies {
     
 	implementation fg.deobf("curse.maven:kiwi-303657:3974084")
 	
-	//implementation fg.deobf("curse.maven:treechop-421377:3907904")
+	implementation fg.deobf("curse.maven:treechop-421377:4167152")
 	//compile fg.deobf("curse.maven:farmers-delight-398521:3573686")
 	//implementation fg.deobf("curse.maven:farmers-delight-398521:3573686")
 	

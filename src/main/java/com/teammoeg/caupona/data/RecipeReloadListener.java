@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -100,9 +101,10 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 
 	static int generated_fv = 0;
 	
-	private static FoodValueRecipe addCookingTime(Item i, ItemStack iis, List<SmokingRecipe> irs, boolean force) {
+	private static FoodValueRecipe addCookingTime(Item i, ItemStack iis,Set<Item> added, List<SmokingRecipe> irs, boolean force) {
 		if (FoodValueRecipe.recipes.containsKey(i))
 			return FoodValueRecipe.recipes.get(i);
+		added.add(i);
 		for (SmokingRecipe sr : irs) {
 			if(sr.getIngredients().size()>0)
 			if (sr.getIngredients().get(0).test(iis)) {
@@ -111,7 +113,9 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 				ItemStack reslt = sr.assemble(fake);
 				if (DissolveRecipe.recipes.stream().anyMatch(e -> e.test(reslt)))
 					continue;
-				FoodValueRecipe ret = addCookingTime(reslt.getItem(), reslt, irs, true);
+				if(added.contains(reslt.getItem()))
+					break;
+				FoodValueRecipe ret = addCookingTime(reslt.getItem(), reslt,added, irs, true);
 				FoodProperties of = reslt.getFoodProperties(null);
 				if (of != null && of.getNutrition() > ret.heal) {
 					ret.effects = of.getEffects();
@@ -197,14 +201,14 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 				.collect(Collectors.toList());
 
 		SpiceRecipe.recipes = filterRecipes(recipes, SpiceRecipe.class, SpiceRecipe.TYPE).collect(Collectors.toList());
-
+		Set<Item> is=new HashSet<>();
 		for (Item i : ForgeRegistries.ITEMS) {
 			ItemStack iis = new ItemStack(i);
 			if (FoodValueRecipe.recipes.containsKey(i))
 				continue;
 			if (DissolveRecipe.recipes.stream().anyMatch(e -> e.test(iis)))
 				continue;
-			addCookingTime(i, iis, irs, false);
+			addCookingTime(i, iis,is, irs, false);
 		}
 
 		FoodValueRecipe.recipeset = new HashSet<>(FoodValueRecipe.recipes.values());
