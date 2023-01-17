@@ -1,1 +1,1 @@
-Optimize tag system and fix some tag error.
+Fix a startup crash
