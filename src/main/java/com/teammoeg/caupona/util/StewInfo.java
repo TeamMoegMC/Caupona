@@ -33,6 +33,7 @@ import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
@@ -120,8 +121,11 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 				}
 			}
 			if (!added) {
-				if (effects.size() < 3)
-					effects.add(es);
+				if (effects.size() < 3) {
+					MobEffectInstance copy=new MobEffectInstance(es);
+					copy.duration=(int) (copy.duration*oparts/cparts);
+					effects.add(copy);
+				}
 			}
 		}
 		for (Pair<MobEffectInstance, Float> es : f.foodeffect) {
