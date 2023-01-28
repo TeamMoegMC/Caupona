@@ -1,2 +1,3 @@
-Fix some display issues
-Fix some wrong value
+Fix potion dilute issue
+Add compat to treechop
+Fix some tag errors

@@ -166,22 +166,18 @@ dependencies {
     //implementation fg.deobf("curse.maven:diet-443570:3758891")
 
 	//compileOnly fg.deobf("mezz.jei:jei-1.19.2-common-api:11.2.0.247")
-	// at runtime, use the full JEI jar
 	implementation fg.deobf("mezz.jei:jei-1.19.2-forge:11.2.0.247")
     
 	implementation fg.deobf("curse.maven:kiwi-303657:3974084")
 	
-	implementation fg.deobf("curse.maven:treechop-421377:4167152")
-	//compile fg.deobf("curse.maven:farmers-delight-398521:3573686")
+	implementation fg.deobf("curse.maven:treechop-421377:4365698")
+
 	//implementation fg.deobf("curse.maven:farmers-delight-398521:3573686")
 	
-	//compile fg.deobf("curse.maven:pams-harvestcraft-2-crops-361385:3276350")
 	//implementation fg.deobf("curse.maven:pams-harvestcraft-2-crops-361385:3276350")
 	
-	//compile fg.deobf("curse.maven:crock-pot-404523:3568413")
 	//implementation fg.deobf("curse.maven:crock-pot-404523:3782459")
 	
-	//compile fg.deobf("curse.maven:simple-farming-327554:3400041")
 	//implementation fg.deobf("curse.maven:simple-farming-327554:3400041")
 
 	

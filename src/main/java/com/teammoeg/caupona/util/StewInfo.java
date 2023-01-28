@@ -120,8 +120,11 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 				}
 			}
 			if (!added) {
-				if (effects.size() < 3)
-					effects.add(es);
+				if (effects.size() < 3) {
+					MobEffectInstance copy=new MobEffectInstance(es);
+					copy.duration=(int) (copy.duration*oparts/cparts);
+					effects.add(copy);
+				}
 			}
 		}
 		for (Pair<MobEffectInstance, Float> es : f.foodeffect) {

@@ -11,23 +11,15 @@ public class SlimTreeHandler implements ISimpleChoppableBlock,IStrippableBlock {
 
 	@Override
 	public int getRadius(BlockGetter level, BlockPos blockPos, BlockState blockState) {
-		return 2;
+		return 4;
 	}
 
-	@Override
-	public int getNumChops(BlockGetter level, BlockPos pos, BlockState blockState) {
-		return 0;
-	}
 
 	@Override
 	public BlockState getStrippedState(BlockGetter arg0, BlockPos arg1, BlockState arg2) {
 		return Blocks.STRIPPED_BIRCH_LOG.defaultBlockState();
 	}
 
-	@Override
-	public int getMaxNumChops(BlockGetter level, BlockPos pos, BlockState blockState) {
-		return ISimpleChoppableBlock.super.getMaxNumChops(level, pos, blockState);
-	}
 
 
 
