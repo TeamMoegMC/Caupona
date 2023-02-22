@@ -1,0 +1,16 @@
+{
+  "name": "Definition",
+  "icon": "minecraft:bowl",
+  "category": "caupona:cook_recipes",
+  "priority": true,
+  "pages": [
+     {
+      "type": "text",
+      "text": "Top left of the picture tells the fluid ingredient requirement and density(items per bowl of soup) requirement. Below of which are item requirements, every requirement of the left should be fulfilled while any of the right ones should not be fulfilled."
+    },
+    {
+      "type": "text",
+      "text": "In the item requirement, Majority means this ingredient should excess one thrid of the total and more than any other kinds.$(br) Half means this ingredient should more than half of the total.$(br) Any means this ingredient should be contained."
+    }
+  ]
+}

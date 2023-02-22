@@ -1,0 +1,13 @@
+{
+  "name": "Borscht with Cream",
+  "icon": "caupona:borscht_cream",
+  "category": "caupona:cook_recipes",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "img": "caupona:textures/gui/recipes/borscht_cream.png",
+      "result": "caupona:borscht_cream",
+      "base": "caupona:milk_based"
+    }
+  ]
+}

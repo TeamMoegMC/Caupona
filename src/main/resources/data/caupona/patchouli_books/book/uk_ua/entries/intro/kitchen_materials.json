@@ -1,0 +1,37 @@
+{
+	"name": "Матеріали для кухні",
+	"icon": "caupona:opus_latericium_chimney_flue",
+	"category": "caupona:intro",
+	"sortnum": 30,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Кухонні пристосування включають стійки, плити, димарі, які підходять до різних конструкцій."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:mud_counter",
+			"text": "Найдешевшими є грязьокам'яні. Потрібні лише земля та кругляк. Вони нічим не відрізняються від інших, хіба що грязьова піч працює повільніше."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:stone_brick_counter",
+			"text": "Кам'яні складаються з кам'яної цегли та кам'яних плит, а не плит з кам'яної цегли."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:brick_counter",
+			"text": "Цегляні виготовляють з цегли та цегляних плит."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:opus_latericium_counter",
+			"text": "Опус Латерічіумні створені з Опус Латерічіуму та його плит. Це так само, як цегляні, але з відкритим бетоном."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:opus_incertum_counter",
+			"text": "Опус Інчертумні створені з Опус Інчертуму та його плит."
+		}
+	]
+}

@@ -1,0 +1,38 @@
+{
+	"name": "Будівельні Матеріали",
+	"icon": "caupona:opus_incertum",
+	"category": "caupona:intro",
+	"sortnum": 29,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Ми також додаємо деякі будівельні матеріали"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/mixed_bricks"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/felsic_tuff",
+			"text": "Кислий туф виготовлений з $(l:worldgen/volcanic_fumarole)пемзи$(/l) і туфу, є одним з основних будівельних матеріалів цього моду."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/felsic_tuff_bricks",
+			"text": "З цих блоків також можна створювати сходи, плити, стіни тощо."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_incertum"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_reticulatum"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_latericium"
+		}
+	]
+}
