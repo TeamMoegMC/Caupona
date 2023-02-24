@@ -1,0 +1,13 @@
+{
+  "name": "Seared Fillet",
+  "icon": "caupona:seared_fillet",
+  "category": "caupona:sautee_recipes",
+  "pages": [
+    {
+      "type": "caupona:fryrecipe",
+      "img": "caupona:textures/gui/recipes/seared_fillet.png",
+      "result": "caupona:seared_fillet",
+      "base": "caupona:gravy_boat"
+    }
+  ]
+}

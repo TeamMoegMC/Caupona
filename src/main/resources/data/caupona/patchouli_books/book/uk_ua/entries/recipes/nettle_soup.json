@@ -1,0 +1,13 @@
+{
+  "name": "Nettle Soup",
+  "icon": "caupona:nettle_soup",
+  "category": "caupona:cook_recipes",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "img": "caupona:textures/gui/recipes/nettle_soup.png",
+      "result": "caupona:nettle_soup",
+      "base": "caupona:any_based"
+    }
+  ]
+}

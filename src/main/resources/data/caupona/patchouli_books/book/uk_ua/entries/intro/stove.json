@@ -1,0 +1,26 @@
+{
+  "name": "Кухонна Плити",
+  "icon": "caupona:brick_kitchen_stove",
+  "category": "caupona:intro",
+  "sortnum": 3,
+  "pages": [
+     {
+      "type": "text",
+      "text": "Кухонні плити можна використовувати для розігріву приладів для приготування їжі."
+    },
+    {
+      "type": "text",
+      "text": "Кухонні плити перестають працювати після деякого простою. "
+    },
+    {
+      "type": "crafting",
+      "recipe": "caupona:mud_kitchen_stove",
+      "text": "Кам'яна плита дешева й корисна. Але її швидкість вдічі меньша, ніж у інших плит, приблизно як у $(l:worldgen/volcanic_fumarole)фумаролового отвору$(/l)."
+    },
+    {
+      "type": "crafting",
+      "recipe": "caupona:crafting/brick_kitchen_stove",
+      "text": "Також є плити з $(l:intro/kitchen_materials)інших матеріалів$(/l). Вони швидші, але використовують більше палива."
+    }
+  ]
+}
