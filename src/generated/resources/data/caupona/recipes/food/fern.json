@@ -6,10 +6,10 @@
   },
   "items": [
     {
-      "item": "minecraft:large_fern"
+      "item": "minecraft:fern"
     },
     {
-      "item": "minecraft:fern"
+      "item": "minecraft:large_fern"
     }
   ],
   "sat": 0.3

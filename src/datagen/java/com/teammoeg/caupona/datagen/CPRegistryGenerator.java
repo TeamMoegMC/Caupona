@@ -19,6 +19,7 @@ import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -30,6 +31,7 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
@@ -48,17 +50,17 @@ public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
 	public static void bootstrapPFeatures(BootstapContext<PlacedFeature> pContext) {
 		HolderGetter<ConfiguredFeature<?, ?>> holder=pContext.lookup(Registries.CONFIGURED_FEATURE);
 		PlacementUtils.register(pContext, CPPlacements.TREES_WALNUT,holder.getOrThrow(CPFeatures.WALNUT),VegetationPlacements
-				.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.WALNUT_SAPLINGS.get()));
+				.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), sap("walnut")));
 		PlacementUtils.register(pContext, CPPlacements.TREES_FIG,holder.getOrThrow(CPFeatures.FIG),VegetationPlacements
-				.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.FIG_SAPLINGS.get()));
+				.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), sap("fig")));
 		PlacementUtils.register(pContext, CPPlacements.TREES_WOLFBERRY,holder.getOrThrow(CPFeatures.WOLFBERRY),VegetationPlacements
-				.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.WOLFBERRY_SAPLINGS.get()));
+				.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), sap("wolfberry")));
 
 	}
 	public static void bootstrapCFeatures(BootstapContext<ConfiguredFeature<?,?>> pContext) {
-		FeatureUtils.register(pContext,CPFeatures.WALNUT,Feature.TREE,createStraightBlobTree(CPBlocks.WALNUT_LOG.get(), CPBlocks.WALNUT_LEAVE.get(), 4, 2, 0, 2).ignoreVines().build());
-		FeatureUtils.register(pContext,CPFeatures.FIG,Feature.TREE,createStraightBlobBush(CPBlocks.FIG_LOG.get(), CPBlocks.FIG_LEAVE.get(), 4, 2, 0, 2).ignoreVines().build());
-		FeatureUtils.register(pContext,CPFeatures.WOLFBERRY,Feature.TREE,createStraightBlobBush(CPBlocks.WOLFBERRY_LOG.get(), CPBlocks.WOLFBERRY_LEAVE.get(), 4, 2, 0, 2).ignoreVines().build());
+		FeatureUtils.register(pContext,CPFeatures.WALNUT,Feature.TREE,createStraightBlobTree(log("walnut"),leave("walnut"), 4, 2, 0, 2).ignoreVines().build());
+		FeatureUtils.register(pContext,CPFeatures.FIG,Feature.TREE,createStraightBlobBush(log("fig"), leave("fig"), 4, 2, 0, 2).ignoreVines().build());
+		FeatureUtils.register(pContext,CPFeatures.WOLFBERRY,Feature.TREE,createStraightBlobBush(log("wolfberry"),leave("wolfberry"), 4, 2, 0, 2).ignoreVines().build());
 	}
 	private static TreeConfiguration.TreeConfigurationBuilder createStraightBlobTree(Block log, Block leave, int height,
 			int randA, int randB, int foliage) {
@@ -75,8 +77,18 @@ public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
 				new BushFoliagePlacer(ConstantInt.of(foliage), ConstantInt.of(0), 3),
 				new TwoLayersFeatureSize(1, 0, 1));
 	}
-
-
+	public static Block leave(String type) {
+		return block(type+"_leaves");
+	}
+	public static Block sap(String type) {
+		return block(type+"_sapling");
+	}
+	public static Block log(String type) {
+		return block(type+"_log");
+	}
+	public static Block block(String type) {
+		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Main.MODID,type));
+	}
 	@Override
 	public String getName() {
 		return "Caupona Registry Generator";

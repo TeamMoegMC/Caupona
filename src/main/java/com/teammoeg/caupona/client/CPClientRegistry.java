@@ -38,6 +38,7 @@ import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.FoliageColor;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
@@ -45,6 +46,7 @@ import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.RegistryObject;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CPClientRegistry {
@@ -80,7 +82,6 @@ public class CPClientRegistry {
 
 	}
 
-	@SuppressWarnings({ "unused", "resource" })
 	@SubscribeEvent
 	public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
 		event.register(Particles.STEAM.get(), SteamParticle.Factory::new);
@@ -92,12 +93,11 @@ public class CPClientRegistry {
 		ev.register((p_92626_, p_92627_, p_92628_, p_92629_) -> {
 			return p_92627_ != null && p_92628_ != null ? BiomeColors.getAverageFoliageColor(p_92627_, p_92628_)
 					: FoliageColor.getDefaultColor();
-		}, CPBlocks.WALNUT_LEAVE.get(), CPBlocks.FIG_LEAVE.get(), CPBlocks.WOLFBERRY_LEAVE.get());
+		}, CPBlocks.leaves.stream().map(RegistryObject<Block>::get).toArray(Block[]::new));
 	}
 
 	@SubscribeEvent
 	public static void onTint(RegisterColorHandlersEvent.Item ev) {
-		ev.register((i, t) -> 0x5bd449, CPBlocks.WALNUT_LEAVE.get(), CPBlocks.FIG_LEAVE.get(),
-				CPBlocks.WOLFBERRY_LEAVE.get());
+		ev.register((i, t) -> 0x5bd449,CPBlocks.leaves.stream().map(RegistryObject<Block>::get).toArray(Block[]::new));
 	}
 }
