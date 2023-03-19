@@ -1,8 +1,8 @@
 {
   "values": [
+    "caupona:stone_brick_caliduct",
     "caupona:brick_caliduct",
     "caupona:opus_incertum_caliduct",
-    "caupona:opus_latericium_caliduct",
-    "caupona:stone_brick_caliduct"
+    "caupona:opus_latericium_caliduct"
   ]
 }

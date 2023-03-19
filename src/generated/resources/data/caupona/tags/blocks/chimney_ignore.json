@@ -1,5 +1,9 @@
 {
   "values": [
+    "caupona:stone_brick_hypocaust_firebox",
+    "caupona:brick_hypocaust_firebox",
+    "caupona:opus_incertum_hypocaust_firebox",
+    "caupona:opus_latericium_hypocaust_firebox",
     "#caupona:pans",
     "#minecraft:signs",
     "#minecraft:buttons",
@@ -21,10 +25,6 @@
     "minecraft:vine",
     "minecraft:cave_vines",
     "caupona:stew_pot",
-    "caupona:wolf_statue",
-    "caupona:brick_hypocaust_firebox",
-    "caupona:opus_incertum_hypocaust_firebox",
-    "caupona:opus_latericium_hypocaust_firebox",
-    "caupona:stone_brick_hypocaust_firebox"
+    "caupona:wolf_statue"
   ]
 }
