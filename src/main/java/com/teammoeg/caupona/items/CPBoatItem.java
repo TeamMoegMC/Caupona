@@ -24,6 +24,7 @@ package com.teammoeg.caupona.items;
 import java.util.List;
 import java.util.function.Predicate;
 
+import com.teammoeg.caupona.TabType;
 import com.teammoeg.caupona.entity.CPBoat;
 
 import net.minecraft.core.BlockPos;
@@ -47,7 +48,7 @@ public class CPBoatItem extends CPItem {
 	private final String type;
 
 	public CPBoatItem(String pType, Item.Properties pProperties) {
-		super(pProperties);
+		super(pProperties,TabType.MAIN);
 		this.type = pType;
 	}
 
@@ -86,7 +87,8 @@ public class CPBoatItem extends CPItem {
 			}
 			if (!pLevel.isClientSide) {
 				pLevel.addFreshEntity(boat);
-				pLevel.gameEvent(pPlayer, GameEvent.ENTITY_PLACE, new BlockPos(hitresult.getLocation()));
+				Vec3 hitpos=hitresult.getLocation();
+				pLevel.gameEvent(pPlayer, GameEvent.ENTITY_PLACE, new BlockPos((int)hitpos.x(),(int)hitpos.y(),(int)hitpos.z()));
 				if (!pPlayer.getAbilities().instabuild) {
 					itemstack.shrink(1);
 				}

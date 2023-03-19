@@ -21,13 +21,27 @@
 
 package com.teammoeg.caupona.items;
 
+import com.teammoeg.caupona.TabType;
+import com.teammoeg.caupona.util.CreativeItemHelper;
+import com.teammoeg.caupona.util.ICreativeModeTabItem;
+
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
-public class CPBlockItem extends BlockItem {
-	public CPBlockItem(Block block, Item.Properties props) {
+public class CPBlockItem extends BlockItem implements ICreativeModeTabItem{
+	TabType tab;
+	public CPBlockItem(Block block, Item.Properties props,TabType tab) {
 		super(block, props);
+		this.tab=tab;
+	}
+
+	@Override
+	public void fillItemCategory(CreativeItemHelper helper) {
+		if(super.getBlock() instanceof ICreativeModeTabItem item) {
+			item.fillItemCategory(helper);
+		}else if(helper.isType(tab))
+			helper.accept(this);
 	}
 
 }

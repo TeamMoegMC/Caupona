@@ -21,16 +21,16 @@
 
 package com.teammoeg.caupona.items;
 
+import com.teammoeg.caupona.TabType;
+import com.teammoeg.caupona.util.CreativeItemHelper;
 import com.teammoeg.caupona.util.Utils;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -41,18 +41,18 @@ import net.minecraft.world.level.block.Block;
 public class EdibleBlock extends CPBlockItem {
 
 	public EdibleBlock(Block block, Properties props) {
-		super(block, props);
+		super(block, props,TabType.FOODS);
 	}
 
 
 	@Override
-	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-		if (this.allowedIn(group)) {
+	public void fillItemCategory(CreativeItemHelper helper) {
+		if (helper.isFoodTab()) {
 			ItemStack is=new ItemStack(this);
 			
 			
 			addCreativeHints(is);
-			items.add(is);
+			helper.accept(is);
 		}
 	}
 	public void addCreativeHints(ItemStack stack) {

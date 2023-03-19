@@ -51,6 +51,8 @@ import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -110,7 +112,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 			if (sr.getIngredients().get(0).test(iis)) {
 				SimpleContainer fake=new SimpleContainer(3);
 				fake.setItem(0,iis);
-				ItemStack reslt = sr.assemble(fake);
+				ItemStack reslt = sr.assemble(fake,RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY));
 				if (DissolveRecipe.recipes.stream().anyMatch(e -> e.test(reslt)))
 					continue;
 				if(added.contains(reslt.getItem()))
@@ -149,7 +151,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 		Collection<Recipe<?>> recipes = recipeManager.getRecipes();
 		if (recipes.size() == 0)
 			return;
-
+	
 		logger.info("Building recipes...");
 		Stopwatch sw = Stopwatch.createStarted();
 		BowlContainingRecipe.recipes = filterRecipes(recipes, BowlContainingRecipe.class, BowlContainingRecipe.TYPE)

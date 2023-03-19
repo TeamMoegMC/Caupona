@@ -22,6 +22,7 @@
 package com.teammoeg.caupona.items;
 
 import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.TabType;
 import com.teammoeg.caupona.container.PortableBrazierContainer;
 import com.teammoeg.caupona.util.Utils;
 
@@ -40,7 +41,7 @@ import net.minecraftforge.network.NetworkHooks;
 public class PortableBrazierItem extends CPItem implements MenuProvider {
 
 	public PortableBrazierItem(Properties properties) {
-		super(properties);
+		super(properties,TabType.MAIN);
 	}
 
 	@Override

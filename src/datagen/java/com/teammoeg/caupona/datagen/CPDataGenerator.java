@@ -21,9 +21,17 @@
 
 package com.teammoeg.caupona.datagen;
 
-import com.teammoeg.caupona.Main;
+import java.util.concurrent.CompletableFuture;
 
+import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.util.Utils;
+
+import net.minecraft.Util;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.metadata.PackMetadataGenerator;
+import net.minecraft.data.registries.VanillaRegistries;
+import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -35,16 +43,17 @@ public class CPDataGenerator {
 	public static void gatherData(GatherDataEvent event) {
 		DataGenerator gen = event.getGenerator();
 		ExistingFileHelper exHelper = event.getExistingFileHelper();
-
 		
+		CompletableFuture<HolderLookup.Provider> completablefuture = CompletableFuture.supplyAsync(VanillaRegistries::createLookup, Util.backgroundExecutor());
 		gen.addProvider(event.includeClient(),new CPItemModelProvider(gen, Main.MODID, exHelper));
 		gen.addProvider(event.includeServer(),new CPRecipeProvider(gen));
-		gen.addProvider(event.includeServer(),new CPItemTagGenerator(gen, Main.MODID, exHelper));
-		gen.addProvider(event.includeServer(),new CPBlockTagGenerator(gen, Main.MODID, exHelper));
-		gen.addProvider(event.includeServer(),new CPFluidTagGenerator(gen, Main.MODID, exHelper));
+		gen.addProvider(event.includeServer(),new CPItemTagGenerator(gen, Main.MODID, exHelper,event.getLookupProvider()));
+		gen.addProvider(event.includeServer(),new CPBlockTagGenerator(gen, Main.MODID, exHelper,event.getLookupProvider()));
+		gen.addProvider(event.includeServer(),new CPFluidTagGenerator(gen, Main.MODID, exHelper,event.getLookupProvider()));
 		gen.addProvider(event.includeServer(),new CPLootGenerator(gen));
 		gen.addProvider(event.includeClient()||event.includeServer(),new CPStatesProvider(gen, Main.MODID, exHelper));
 		gen.addProvider(event.includeServer(),new CPBookGenerator(gen, exHelper));
-		
+		gen.addProvider(event.includeServer()||event.includeClient(),new PackMetadataGenerator(gen.getPackOutput()).add(PackMetadataSection.TYPE,new PackMetadataSection(Utils.string("Caupona Resources"),6)));
+		gen.addProvider(event.includeServer(),new CPRegistryGenerator(gen.getPackOutput(),completablefuture));
 	}
 }

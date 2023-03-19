@@ -21,10 +21,10 @@
 
 package com.teammoeg.caupona.client;
 
+import org.joml.Vector3f;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 
@@ -69,24 +69,21 @@ public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumB
 		if (fs != null && !fs.isEmpty() && fs.getFluid() != null) {
 			float rr = (fs.getAmount() / 1250f) * 0.5f + 0.375f;
 			matrixStack.translate(0, rr, 0);
-			matrixStack.mulPose(new Quaternion(90, 0, 0, true));
+			matrixStack.mulPose(RenderUtils.rotate90);
 
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
 			IClientFluidTypeExtensions attr=IClientFluidTypeExtensions.of(fs.getFluid());
 			TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS)
 					.getSprite(attr.getStillTexture(fs));
 			int col = attr.getTintColor(fs);
-			int iW = sprite.getWidth();
-			int iH = sprite.getHeight();
-			if (iW > 0 && iH > 0) {
-				Vector3f clr;
-				float alp = 1f;
-				clr = clr(col);
-				RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(), clr.y(),
-						clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), combinedLightIn,
-						combinedOverlayIn);
+			Vector3f clr;
+			float alp = 1f;
+			clr = clr(col);
+			RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(), clr.y(),
+					clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), combinedLightIn,
+					combinedOverlayIn);
 
-			}
+			
 		}
 
 		matrixStack.popPose();

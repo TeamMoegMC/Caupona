@@ -70,52 +70,48 @@ public class CPItems {
 	public static RegistryObject<Item> any = icon("any_based");
 	public static RegistryObject<Item> water_bowl = stew("water", new ResourceLocation("water"), createSoupProps());
 	public static RegistryObject<Item> milk_bowl = stew("milk", new ResourceLocation("milk"), createSoupProps());
-	public static RegistryObject<Item> clay_pot = item("clay_cistern", createProps());
-	public static RegistryObject<Item> soot = item("soot", createProps());
+	public static RegistryObject<Item> clay_pot = item("clay_cistern", createProps(),TabType.MAIN);
+	public static RegistryObject<Item> soot = item("soot", createProps(),TabType.MAIN);
 	public static RegistryObject<PortableBrazierItem> pbrazier = ITEMS.register("portable_brazier",()->new PortableBrazierItem( createProps()));
-	public static RegistryObject<CPBlockItem> gravy_boat = ITEMS.register("gravy_boat",()->new CPBlockItem(CPBlocks.GRAVY_BOAT.get(), createFoodProps().durability(5).setNoRepair()));
+	public static RegistryObject<CPBlockItem> gravy_boat = ITEMS.register("gravy_boat",()->new CPBlockItem(CPBlocks.GRAVY_BOAT.get(), createProps().durability(5).setNoRepair(),TabType.FOODS));
 	public static RegistryObject<CPBoatItem> walnut_boat = ITEMS.register("walnut_boat", ()->new CPBoatItem("walnut", createProps()));
-	public static RegistryObject<Chronoconis> chronoconis = ITEMS.register("chronoconis",()->new Chronoconis( createFoodProps()));
+	public static RegistryObject<Chronoconis> chronoconis = ITEMS.register("chronoconis",()->new Chronoconis( createProps()));
 	//public static Item haze = icon("culinary_heat_haze");
 	public static RegistryObject<Item> icon(String name){
 		return ITEMS.register(name,IconItem::new);
 	}
-	public static RegistryObject<Item> item(String name,Properties props){
-		return ITEMS.register(name,()->new CPItem(props));
+	public static RegistryObject<Item> item(String name,Properties props,TabType tab){
+		return ITEMS.register(name,()->new CPItem(props,tab));
 	}
 	public static RegistryObject<Item> stew(String name,ResourceLocation base,Properties props){
 		return ITEMS.register(name,()->new StewItem(base,props));
 	}
 	static{
 		for (String s : soups) {
-			RegistryObject<Item> it = stew(s, new ResourceLocation(Main.MODID, s), createSoupProps());
+			stew(s, new ResourceLocation(Main.MODID, s), createSoupProps());
 		}
 
 		for (String s : aspics)
-			item(s, createFoodProps());
+			item(s, createProps(),TabType.FOODS);
 
 		for (String s : spices) {
 			spicesItems.add(
-					item(s, createFoodProps().durability(16).craftRemainder(Items.FLOWER_POT).setNoRepair()));
+					item(s, createProps().durability(16).craftRemainder(Items.FLOWER_POT).setNoRepair(),TabType.FOODS));
 		}
 		for (String s : base_material) {
-			item(s, createProps());
+			item(s, createProps(),TabType.MAIN);
 		}
 		for (String s : food_material) {
-			item(s,createFoodProps().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3f).build()));
+			item(s,createProps().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3f).build()),TabType.FOODS);
 		}
 	}
 
-	static Properties createSoupProps() {
-		return new Item.Properties().tab(Main.foodGroup).craftRemainder(Items.BOWL).stacksTo(1)
+	private static Properties createSoupProps() {
+		return new Item.Properties().craftRemainder(Items.BOWL).stacksTo(1)
 				.craftRemainder(Items.BOWL);
 	}
 
-	static Properties createFoodProps() {
-		return new Item.Properties().tab(Main.foodGroup);
-	}
-
 	static Properties createProps() {
-		return new Item.Properties().tab(Main.mainGroup);
+		return new Item.Properties();
 	}
 }

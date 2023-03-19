@@ -29,8 +29,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
@@ -100,8 +103,9 @@ public class CPBookGenerator implements DataProvider {
 	String[] allangs = { "zh_cn", "en_us", "es_es", "ru_ru" };
 
 	@Override
-	public void run(CachedOutput cache) throws IOException {
-		bookmain = this.generator.getOutputFolder().resolve("data/" + Main.MODID + "/patchouli_books/book/");
+	public CompletableFuture<?> run(CachedOutput cache) {
+		List<CompletableFuture<?>> list=new LinkedList<>();
+		bookmain = this.generator.getPackOutput().getOutputFolder().resolve("data/" + Main.MODID + "/patchouli_books/book/");
 		recipes = CPRecipeProvider.recipes.stream().filter(i -> i instanceof StewCookingRecipe)
 				.map(e -> ((StewCookingRecipe) e))
 				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.output).getPath(), e -> e));
@@ -113,12 +117,13 @@ public class CPBookGenerator implements DataProvider {
 		for (String s : CPItems.soups)
 			if (helper.exists(new ResourceLocation(Main.MODID, "textures/gui/recipes/" + s + ".png"),
 					PackType.CLIENT_RESOURCES))
-				defaultPage(cache, s);
+				defaultPage(cache, s,list);
 		for (String s : CPItems.dishes) {
 			if (helper.exists(new ResourceLocation(Main.MODID, "textures/gui/recipes/" + s + ".png"),
 					PackType.CLIENT_RESOURCES))
-				defaultFryPage(cache, s);
+				defaultFryPage(cache, s,list);
 		}
+		return CompletableFuture.allOf(list.toArray(CompletableFuture[]::new));
 	}
 
 	private void loadLang(String locale) {
@@ -139,15 +144,15 @@ public class CPBookGenerator implements DataProvider {
 		return Main.MODID + " recipe patchouli generator";
 	}
 
-	private void defaultPage(CachedOutput cache, String name) {
+	private void defaultPage(CachedOutput cache, String name,List<CompletableFuture<?>> futures) {
 		for (String lang : allangs)
-			saveEntry(name, lang, cache, createRecipe(name, lang));
+			futures.add(saveEntry(name, lang, cache, createRecipe(name, lang)));
 	}
 
-	private void defaultFryPage(CachedOutput cache, String name) {
+	private void defaultFryPage(CachedOutput cache, String name,List<CompletableFuture<?>> futures) {
 		for (String lang : allangs)
-			saveFryEntry(name, lang, cache, createFryingRecipe(name, lang));
-
+			futures.add(saveFryEntry(name, lang, cache, createFryingRecipe(name, lang)));
+		
 	}
 
 	StewBaseCondition anyW = new FluidTag(CPRecipeProvider.anyWater);
@@ -199,21 +204,15 @@ public class CPBookGenerator implements DataProvider {
 		return page;
 	}
 
-	private void saveEntry(String name, String locale, CachedOutput cache, JsonObject entry) {
-		saveJson(cache, entry, bookmain.resolve(locale + "/entries/recipes/" + name + ".json"));
+	private CompletableFuture<?> saveEntry(String name, String locale, CachedOutput cache, JsonObject entry) {
+		return saveJson(cache, entry, bookmain.resolve(locale + "/entries/recipes/" + name + ".json"));
 	}
 
-	private void saveFryEntry(String name, String locale, CachedOutput cache, JsonObject entry) {
-		saveJson(cache, entry, bookmain.resolve(locale + "/entries/sautee_recipes/" + name + ".json"));
+	private CompletableFuture<?> saveFryEntry(String name, String locale, CachedOutput cache, JsonObject entry) {
+		return saveJson(cache, entry, bookmain.resolve(locale + "/entries/sautee_recipes/" + name + ".json"));
 	}
 
-	private static void saveJson(CachedOutput cache, JsonObject recipeJson, Path path) {
-		try {
-			DataProvider.saveStable(cache, recipeJson, path);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Couldn't save data json {}", path, e);
-		}
-
+	private static CompletableFuture<?> saveJson(CachedOutput cache, JsonObject recipeJson, Path path) {
+		return DataProvider.saveStable(cache, recipeJson, path);
 	}
 }

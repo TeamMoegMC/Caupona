@@ -23,13 +23,12 @@ package com.teammoeg.caupona.items;
 
 import java.util.List;
 
+import com.teammoeg.caupona.TabType;
 import com.teammoeg.caupona.util.IInfinitable;
 import com.teammoeg.caupona.util.Utils;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
@@ -38,12 +37,7 @@ import net.minecraft.world.level.Level;
 public class Chronoconis extends CPItem {
 
 	public Chronoconis( Properties properties) {
-		super( properties);
-	}
-
-	@Override
-	public void fillItemCategory(CreativeModeTab pCategory, NonNullList<ItemStack> pItems) {
-
+		super(properties,TabType.HIDDEN);
 	}
 
 	@SuppressWarnings("resource")

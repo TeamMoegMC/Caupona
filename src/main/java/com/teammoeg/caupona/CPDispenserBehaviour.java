@@ -45,12 +45,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fml.common.Mod;
@@ -86,7 +86,7 @@ public class CPDispenserBehaviour {
 				BlockEntity blockEntity = bp.getLevel().getBlockEntity(front);
 				if (blockEntity != null) {
 					LazyOptional<IFluidHandler> ip = blockEntity
-							.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, d.getOpposite());
+							.getCapability(ForgeCapabilities.FLUID_HANDLER, d.getOpposite());
 					if (ip.isPresent()) {
 						ItemStack ret = CauponaApi.fillBowl(ip.resolve().get()).orElse(null);
 						if (ret != null) {
@@ -189,7 +189,7 @@ public class CPDispenserBehaviour {
 				BlockEntity blockEntity = world.getBlockEntity(front);
 				if (blockEntity != null) {
 					LazyOptional<IFluidHandler> ip = blockEntity
-							.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, d.getOpposite());
+							.getCapability(ForgeCapabilities.FLUID_HANDLER, d.getOpposite());
 					if (ip.isPresent()) {
 						FluidActionResult fa = FluidUtil.tryEmptyContainerAndStow(stack, ip.resolve().get(), null, 1250,
 								null, true);
@@ -229,7 +229,7 @@ public class CPDispenserBehaviour {
 						}
 					} else if (blockEntity != null) {
 						LazyOptional<IFluidHandler> ip = blockEntity
-								.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, d.getOpposite());
+								.getCapability(ForgeCapabilities.FLUID_HANDLER, d.getOpposite());
 						if (ip.isPresent()) {
 							IFluidHandler handler = ip.resolve().get();
 							if (handler.fill(fs, FluidAction.SIMULATE) == fs.getAmount()) {

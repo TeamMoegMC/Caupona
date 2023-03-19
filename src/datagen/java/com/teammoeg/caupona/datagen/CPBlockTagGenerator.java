@@ -21,15 +21,18 @@
 
 package com.teammoeg.caupona.datagen;
 
-import java.nio.file.Path;
+import java.util.concurrent.CompletableFuture;
 
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.Main;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -43,16 +46,17 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class CPBlockTagGenerator extends TagsProvider<Block> {
 
-	public CPBlockTagGenerator(DataGenerator dataGenerator, String modId, ExistingFileHelper existingFileHelper) {
-		super(dataGenerator, Registry.BLOCK, modId, existingFileHelper);
+	public CPBlockTagGenerator(DataGenerator dataGenerator, String modId, ExistingFileHelper existingFileHelper,CompletableFuture<HolderLookup.Provider> provider) {
+		super(dataGenerator.getPackOutput(), Registries.BLOCK,provider,modId, existingFileHelper);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	protected void addTags() {
+	protected void addTags(Provider pProvider) {
 		TagAppender<Block> pickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
-		tag("stoves").add(CPBlocks.stove1.get(), CPBlocks.stove2.get(), CPBlocks.stove3.get(), CPBlocks.stove4.get(), CPBlocks.stove5.get());
-		pickaxe.add(CPBlocks.stove1.get(), CPBlocks.stove2.get(), CPBlocks.stove3.get(), CPBlocks.stove4.get(), CPBlocks.stove5.get(),
-				CPBlocks.stew_pot.get());
+		adds(tag("stoves"),CPBlocks.stove1.getKey(), CPBlocks.stove2.getKey(), CPBlocks.stove3.getKey(), CPBlocks.stove4.getKey(), CPBlocks.stove5.getKey());
+		adds(pickaxe,CPBlocks.stove1.getKey(), CPBlocks.stove2.getKey(), CPBlocks.stove3.getKey(), CPBlocks.stove4.getKey(), CPBlocks.stove5.getKey(),
+				CPBlocks.stew_pot.getKey());
 		for (String wood : CPBlocks.woods) {
 			for (String type : ImmutableSet.of("_button", "_door", "_fence", "_fence_gate", "_log", "_planks",
 					"_pressure_plate", "_sapling", "_sign", "_wall_sign", "_slab", "_stairs", "_trapdoor", "_wood"))
@@ -108,15 +112,15 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag("chimney").add(cp(mat + "_chimney_flue"));
 			tag("chimney_pot").add(cp(mat + "_chimney_pot"));
 		}
-		tag("pans").add(CPBlocks.STONE_PAN.get(), CPBlocks.COPPER_PAN.get(), CPBlocks.IRON_PAN.get());
-		tag("chimney_ignore")
+		adds(tag("pans"),CPBlocks.STONE_PAN.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey());
+		adds(tag("chimney_ignore")
 				.addTags(otag("pans"), BlockTags.SIGNS, BlockTags.BUTTONS, BlockTags.LEAVES, BlockTags.BANNERS,
 						BlockTags.CANDLES, BlockTags.WALL_SIGNS, BlockTags.STANDING_SIGNS, BlockTags.CANDLES,
 						BlockTags.CORAL_PLANTS, BlockTags.FENCES, BlockTags.WALLS, BlockTags.TRAPDOORS, BlockTags.DOORS,
 						BlockTags.FLOWER_POTS, BlockTags.WALL_POST_OVERRIDE, BlockTags.FLOWERS)
-				.add(Blocks.AIR, Blocks.VINE, Blocks.CAVE_VINES, CPBlocks.stew_pot.get(), CPBlocks.WOLF.get());
-		tag("fumarole_hot").add(Blocks.MAGMA_BLOCK);
-		tag("fumarole_very_hot").add(Blocks.LAVA);
+				,rk(Blocks.AIR), rk(Blocks.VINE), rk(Blocks.CAVE_VINES), CPBlocks.stew_pot.getKey(), CPBlocks.WOLF.getKey());
+		tag("fumarole_hot").add(rk(Blocks.MAGMA_BLOCK));
+		tag("fumarole_very_hot").add(rk(Blocks.LAVA));
 		for (String bush : ImmutableSet.of("wolfberry", "fig")) {
 			tag(BlockTags.LOGS).add(cp(bush + "_log"));
 			tag(BlockTags.LOGS_THAT_BURN).add(cp(bush + "_log"));
@@ -126,29 +130,33 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag(BlockTags.MINEABLE_WITH_AXE).add(cp(bush + "_log"));
 			tag(BlockTags.MINEABLE_WITH_HOE).add(cp(bush + "_leaves")).add(cp(bush + "_fruits"));
 		}
-		pickaxe.add(CPBlocks.PUMICE_BLOOM.get(), CPBlocks.FUMAROLE_BOULDER.get(), CPBlocks.FUMAROLE_VENT.get(), CPBlocks.PUMICE.get());
+		adds(pickaxe,CPBlocks.PUMICE_BLOOM.getKey(), CPBlocks.FUMAROLE_BOULDER.getKey(), CPBlocks.FUMAROLE_VENT.getKey(), CPBlocks.PUMICE.getKey());
 		for (String s : CPBlocks.hypocaust_materials) {
 			tag("caliducts").add(cp(s + "_caliduct"));
 			tag("heat_conductor").add(cp(s + "_hypocaust_firebox"));
 			tag("chimney_ignore").add(cp(s + "_hypocaust_firebox"));
 			pickaxe.add(cp(s + "_caliduct")).add(cp(s + "_hypocaust_firebox"));
 		}
-		pickaxe.add(CPBlocks.WOLF.get(), CPBlocks.STONE_PAN.get(), CPBlocks.COPPER_PAN.get(), CPBlocks.IRON_PAN.get());
-		tag(BlockTags.NEEDS_STONE_TOOL).add(CPBlocks.WOLF.get(), CPBlocks.COPPER_PAN.get(), CPBlocks.IRON_PAN.get());
+		adds(pickaxe,CPBlocks.WOLF.getKey(), CPBlocks.STONE_PAN.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey());
+		adds(tag(BlockTags.NEEDS_STONE_TOOL),CPBlocks.WOLF.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey());
 		tag("heat_conductor").addTag(otag("caliducts"));
 
 	}
-
+	@SafeVarargs
+	private void adds(TagAppender<Block> ta,ResourceKey<? extends Block>... keys) {
+		ResourceKey[] rk=keys;
+		ta.add(rk);
+	}
 	private TagAppender<Block> tag(String s) {
 		return this.tag(BlockTags.create(mrl(s)));
 	}
 
-	private Block cp(String s) {
-		Block bl = ForgeRegistries.BLOCKS.getValue(mrl(s));
-		bl.asItem();// just going to cause trouble if not exists
-		return bl;
+	private ResourceKey<Block> cp(String s) {
+		return ResourceKey.create(Registries.BLOCK,mrl(s));
 	}
-
+	private ResourceKey<Block> rk(Block  b) {
+		return ForgeRegistries.BLOCKS.getResourceKey(b).orElseGet(()->b.builtInRegistryHolder().key());
+	}
 	private TagAppender<Block> tag(ResourceLocation s) {
 		return this.tag(BlockTags.create(s));
 	}
@@ -185,6 +193,7 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 	public String getName() {
 		return Main.MODID + " block tags";
 	}
+
 
 	/*@Override
 	protected Path getPath(ResourceLocation id) {

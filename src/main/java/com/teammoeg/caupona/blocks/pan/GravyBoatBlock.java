@@ -25,12 +25,12 @@ import java.util.List;
 
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
+import com.teammoeg.caupona.util.CreativeItemHelper;
+import com.teammoeg.caupona.util.ICreativeModeTabItem;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -45,7 +45,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class GravyBoatBlock extends CPHorizontalBlock {
+public class GravyBoatBlock extends CPHorizontalBlock implements ICreativeModeTabItem{
 	public static final IntegerProperty LEVEL = IntegerProperty.create("damage", 0, 5);
 
 	public GravyBoatBlock(Properties p_54120_) {
@@ -107,11 +107,13 @@ public class GravyBoatBlock extends CPHorizontalBlock {
 	}
 
 	@Override
-	public void fillItemCategory(CreativeModeTab pGroup, NonNullList<ItemStack> pItems) {
-		super.fillItemCategory(pGroup, pItems);
-		ItemStack is = new ItemStack(this);
-		is.setDamageValue(is.getMaxDamage());
-		pItems.add(is);
+	public void fillItemCategory(CreativeItemHelper helper) {
+		if(helper.isFoodTab()) {
+			helper.accept(this);
+			ItemStack is = new ItemStack(this);
+			is.setDamageValue(is.getMaxDamage());
+			helper.accept(is);
+		}
 	}
 
 	@SuppressWarnings("deprecation")

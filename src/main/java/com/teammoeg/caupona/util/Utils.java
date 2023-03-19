@@ -59,10 +59,10 @@ public class Utils {
 		return in;
 	}
 	public static MutableComponent translate(String format,Object...objects) {
-		return MutableComponent.create(new TranslatableContents(format,objects));
+		return MutableComponent.create(new TranslatableContents(format,null,objects));
 	}
 	public static MutableComponent translate(String format) {
-		return MutableComponent.create(new TranslatableContents(format));
+		return MutableComponent.create(new TranslatableContents(format,null,new Object[0]));
 	}
 	public static MutableComponent string(String content) {
 		return MutableComponent.create(new LiteralContents(content));

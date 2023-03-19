@@ -21,28 +21,30 @@
 
 package com.teammoeg.caupona;
 
-import java.util.function.Consumer;
-
-import javax.annotation.Nonnull;
+import java.util.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.teammoeg.caupona.client.Particles;
-import com.teammoeg.caupona.compat.treechop.TreechopCompat;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.network.PacketHandler;
+import com.teammoeg.caupona.util.CreativeItemHelper;
+import com.teammoeg.caupona.util.ICreativeModeTabItem;
+import com.teammoeg.caupona.util.Utils;
 import com.teammoeg.caupona.worldgen.CPFeatures;
 import com.teammoeg.caupona.worldgen.CPPlacements;
 import com.teammoeg.caupona.worldgen.CPStructures;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -54,22 +56,7 @@ public class Main {
 	public static final String MODNAME = "Caupona";
 	public static final Logger logger = LogManager.getLogger(MODNAME);
 	public static final String BOOK_NBT_TAG=Main.MODID+":book_given";
-	public static final CreativeModeTab mainGroup = new CreativeModeTab(MODID) {
-		@Override
-		@Nonnull
-		public ItemStack makeIcon() {
-			return new ItemStack(CPBlocks.stew_pot.get());
-		}
 
-	};
-	public static final CreativeModeTab foodGroup = new CreativeModeTab(MODID + "_foods") {
-		@Override
-		@Nonnull
-		public ItemStack makeIcon() {
-			return new ItemStack(CPItems.gravy_boat.get());
-		}
-
-	};
 
 	public static ResourceLocation rl(String path) {
 		return new ResourceLocation(MODID, path);
@@ -80,6 +67,8 @@ public class Main {
 		ForgeMod.enableMilkFluid();
 		MinecraftForge.EVENT_BUS.register(RecipeReloadListener.class);
 		mod.addListener(this::enqueueIMC);
+		mod.addListener(this::onCreativeTabCreate);
+		mod.addListener(this::onCreativeTabContents);
 		CPBlockEntityTypes.REGISTER.register(mod);
 		CPGui.CONTAINERS.register(mod);
 		Particles.REGISTER.register(mod);
@@ -87,8 +76,6 @@ public class Main {
 		CPFluids.FLUID_TYPES.register(mod);
 		CPBlocks.BLOCKS.register(mod);
 		CPItems.ITEMS.register(mod);
-		CPFeatures.FEATURES.register(mod);
-		CPPlacements.PLACEMENTS.register(mod);
 		CPRecipes.RECIPE_SERIALIZERS.register(mod);
 		CPEntityTypes.ENTITY_TYPES.register(mod);
 		CPRecipes.RECIPE_TYPES.register(mod);
@@ -99,8 +86,27 @@ public class Main {
 		PacketHandler.register();
 		
 	}
-
+	public static CreativeModeTab main;
+	public static CreativeModeTab foods;
+	@SubscribeEvent
+	public void onCreativeTabCreate(CreativeModeTabEvent.Register event) {
+		main=event.registerCreativeModeTab(rl("main"),Arrays.asList(),Arrays.asList(CreativeModeTabs.SPAWN_EGGS),e->e.icon(()->new ItemStack(CPBlocks.stew_pot.get())).title(Utils.translate("itemGroup.caupona")));
+		foods=event.registerCreativeModeTab(rl("food"),Arrays.asList(),Arrays.asList(rl("main")),e->e.icon(()->new ItemStack(CPItems.gravy_boat.get())).title(Utils.translate("itemGroup.caupona_foods")));
+	}
+	@SubscribeEvent
+	public void onCreativeTabContents(CreativeModeTabEvent.BuildContents event) {
+		CreativeItemHelper helper=new CreativeItemHelper(event);
+			
+			CPItems.ITEMS.getEntries().forEach(e->{
+				if(e.get() instanceof ICreativeModeTabItem item) {
+					item.fillItemCategory(helper);
+				}
+				
+			});
+		
+	}
+	@SuppressWarnings("unused")
 	public void enqueueIMC(InterModEnqueueEvent event) {
-	    InterModComms.sendTo("treechop", "getTreeChopAPI", () -> (Consumer)TreechopCompat::new);
+	   // InterModComms.sendTo("treechop", "getTreeChopAPI", () -> (Consumer)TreechopCompat::new);
 	}
 }

@@ -27,8 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
-import javax.annotation.Nonnull;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
@@ -48,6 +46,7 @@ import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
@@ -79,11 +78,11 @@ public class CPRecipeProvider extends RecipeProvider {
 	public static List<IDataRecipe> recipes = new ArrayList<>();
 
 	public CPRecipeProvider(DataGenerator generatorIn) {
-		super(generatorIn);
+		super(generatorIn.getPackOutput());
 	}
 
 	@Override
-	protected void buildCraftingRecipes(@Nonnull Consumer<FinishedRecipe> outx) {
+	protected void buildRecipes(Consumer<FinishedRecipe> outx) {
 		Consumer<IDataRecipe> out = r -> {
 			outx.accept(new FinishedRecipe() {
 
@@ -134,14 +133,14 @@ public class CPRecipeProvider extends RecipeProvider {
 		out.accept(new FoodValueRecipe(rl("food/allium"), 1, 0.2f, new ItemStack(Items.ALLIUM), Items.ALLIUM));
 		// System.out.println(CPBlocks.stove1.asItem());
 		// System.out.println(CPBlocks.stove1.asItem().getItemCategory());
-		ShapedRecipeBuilder.shaped(CPBlocks.stove1.get()).define('D', Items.DIRT).define('S', Items.COBBLESTONE)
+		ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,CPBlocks.stove1.get()).define('D', Items.DIRT).define('S', Items.COBBLESTONE)
 				.pattern("DDD").pattern("SSS").pattern("S S").unlockedBy("has_cobblestone", has(Blocks.COBBLESTONE))
 				.save(outx);
 		// ShapedRecipeBuilder.shaped(CPBlocks.stove2).define('T',Items.BRICK_SLAB).define('B',Items.BRICKS).define('C',Items.CLAY).pattern("TTT").pattern("BCB").pattern("B
 		// B").unlockedBy("has_bricks", has(Blocks.BRICKS)).save(outx);
-		ShapedRecipeBuilder.shaped(CPItems.clay_pot.get()).define('C', Items.CLAY_BALL).define('S', Items.STICK)
+		ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,CPItems.clay_pot.get()).define('C', Items.CLAY_BALL).define('S', Items.STICK)
 				.pattern("CCC").pattern("CSC").pattern("CCC").unlockedBy("has_clay", has(Items.CLAY_BALL)).save(outx);
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(CPItems.clay_pot.get()), CPBlocks.stew_pot.get(), 0.35f, 200)
+		SimpleCookingRecipeBuilder.smelting(Ingredient.of(CPItems.clay_pot.get()),RecipeCategory.DECORATIONS, CPBlocks.stew_pot.get(), 0.35f, 200)
 				.unlockedBy("has_claypot", has(CPItems.clay_pot.get())).save(outx);
 		// ShapedRecipeBuilder.shapedRecipe(THPBlocks.stew_pot).key('B',Items.BRICK).key('C',Items.CLAY_BALL).patternLine("BCB").patternLine("B
 		// B").patternLine("BBB").unlockedBy("has_brick",
@@ -357,4 +356,6 @@ public class CPRecipeProvider extends RecipeProvider {
 		PATH_COUNT.put(s, 1);
 		return new ResourceLocation(Main.MODID, s);
 	}
+
+
 }

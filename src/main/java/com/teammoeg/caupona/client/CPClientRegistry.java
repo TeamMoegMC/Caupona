@@ -51,7 +51,7 @@ public class CPClientRegistry {
 	@SuppressWarnings("unused")
 	@SubscribeEvent
 	public static void onClientSetupEvent(FMLClientSetupEvent event) {
-		LayerDefinition layer = BoatModel.createBodyModel(false);
+		LayerDefinition layer = BoatModel.createBodyModel();
 		for (String wood : CPBlocks.woods)
 			ForgeHooksClient.registerLayerDefinition(
 					new ModelLayerLocation(new ResourceLocation(Main.MODID, "boat/" + wood), "main"), () -> layer);

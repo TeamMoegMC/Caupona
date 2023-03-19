@@ -31,6 +31,8 @@ import java.util.stream.Stream;
 
 import com.teammoeg.caupona.fluid.SoupFluid;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.material.Fluid;
@@ -85,7 +87,7 @@ public class CPFluids {
 	}
 
 	private static final ResourceLocation STILL_WATER_TEXTURE = new ResourceLocation("block/water_still");
-	private static final ResourceLocation STILL_SOUP_TEXTURE = new ResourceLocation(Main.MODID, "fluid/soup_fluid");
+	private static final ResourceLocation STILL_SOUP_TEXTURE = new ResourceLocation(Main.MODID, "block/soup_fluid");
 	private static final ResourceLocation STILL_MILK_TEXTURE = new ResourceLocation("forge", "block/milk_still");
 	static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Main.MODID);
 	static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(Keys.FLUID_TYPES, Main.MODID);
@@ -107,7 +109,10 @@ public class CPFluids {
 		return soupfluids.keySet().stream().map(e -> new ResourceLocation(Main.MODID, e))
 				.map(ForgeRegistries.FLUIDS::getValue);
 	}
-
+	public static Stream<ResourceKey<Fluid>> getAllKeys() {
+		return soupfluids.keySet().stream().map(e -> new ResourceLocation(Main.MODID, e))
+				.map(e->ResourceKey.create(Registries.FLUID,e));
+	}
 	static {
 		soupfluids.put("acquacotta", soup(0xffdcb259));
 		soupfluids.put("bisque", soup(0xffb87246));

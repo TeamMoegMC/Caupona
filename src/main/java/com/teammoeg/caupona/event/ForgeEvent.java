@@ -50,6 +50,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TickEvent;
@@ -59,7 +60,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.LogicalSide;
@@ -112,7 +112,7 @@ public class ForgeEvent {
 			BlockPos blockpos = event.getPos();
 			BlockEntity blockEntity = worldIn.getBlockEntity(blockpos);
 			if (blockEntity != null) {
-				blockEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, event.getFace())
+				blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER, event.getFace())
 						.ifPresent(handler -> {
 							FluidStack stack = handler.drain(250, FluidAction.SIMULATE);
 							BowlContainingRecipe recipe = BowlContainingRecipe.recipes.get(stack.getFluid());
@@ -175,7 +175,7 @@ public class ForgeEvent {
 				&& event.getEntity() instanceof ServerPlayer) {
 			ItemStack stack = event.getItemStack();
 			LazyOptional<IFluidHandlerItem> cap = stack
-					.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
+					.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
 			if (cap.isPresent() && stack.is(container)) {
 				IFluidHandlerItem data = cap.resolve().get();
 				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid) {
@@ -195,7 +195,7 @@ public class ForgeEvent {
 				&& event.getEntity() instanceof ServerPlayer) {
 			ItemStack stack = event.getItem();
 			LazyOptional<IFluidHandlerItem> cap = stack
-					.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
+					.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
 			if (cap.isPresent() && stack.is(container)) {
 				IFluidHandlerItem data = cap.resolve().get();
 				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid)

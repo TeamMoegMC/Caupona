@@ -26,7 +26,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CPHorizontalBlock extends HorizontalDirectionalBlock {
+public class CPHorizontalBlock extends HorizontalDirectionalBlock{
 
 	public CPHorizontalBlock(Properties p_54120_) {
 		super(p_54120_);

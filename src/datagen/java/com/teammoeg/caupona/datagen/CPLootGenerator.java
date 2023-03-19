@@ -25,40 +25,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
+import java.util.Set;
 import com.google.common.collect.ImmutableSet;
-import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.Main;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.loot.packs.VanillaBlockLoot;
+import net.minecraft.data.loot.packs.VanillaLootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTable.Builder;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class CPLootGenerator extends LootTableProvider {
 
 	public CPLootGenerator(DataGenerator dataGeneratorIn) {
-		super(dataGeneratorIn);
+		super(dataGeneratorIn.getPackOutput(), Set.of(), VanillaLootTableProvider.create(dataGeneratorIn.getPackOutput()).getTables());
 	}
 
 	@Override
-	protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, Builder>>>, LootContextParamSet>> getTables() {
-		return Arrays.asList(Pair.of(() -> new LTBuilder(), LootContextParamSets.BLOCK));
+	public List<SubProviderEntry> getTables() {
+		return Arrays.asList(new SubProviderEntry(() -> new LTBuilder(), LootContextParamSets.BLOCK));
 	}
 
 	@Override
@@ -66,16 +61,20 @@ public class CPLootGenerator extends LootTableProvider {
 		map.forEach((name, table) -> LootTables.validate(validationtracker, name, table));
 	}
 
-	private static class LTBuilder extends BlockLoot {
+	private static class LTBuilder extends VanillaBlockLoot {
+		protected LTBuilder() {
+			super();
+		}
+
 		@Override
-		protected void addTables() {
+		protected void generate() {
 			dropSelf(CPBlocks.stew_pot.get());
 			dropSelf(CPBlocks.STONE_PAN.get());
 			dropSelf(CPBlocks.COPPER_PAN.get());
 			dropSelf(CPBlocks.IRON_PAN.get());
-			add(CPBlocks.FUMAROLE_VENT.get(), BlockLoot.createSilkTouchDispatchTable(CPBlocks.FUMAROLE_VENT.get(),
+			add(CPBlocks.FUMAROLE_VENT.get(), createSilkTouchDispatchTable(CPBlocks.FUMAROLE_VENT.get(),
 					LootItem.lootTableItem(Blocks.BASALT)));
-			add(CPBlocks.PUMICE_BLOOM.get(), BlockLoot.createSilkTouchDispatchTable(CPBlocks.PUMICE_BLOOM.get(),
+			add(CPBlocks.PUMICE_BLOOM.get(), createSilkTouchDispatchTable(CPBlocks.PUMICE_BLOOM.get(),
 					LootItem.lootTableItem(CPBlocks.PUMICE.get())));
 			dropSelf(CPBlocks.PUMICE.get());
 			/*
@@ -148,6 +147,7 @@ public class CPLootGenerator extends LootTableProvider {
 			added.add(pBlock);
 			super.add(pBlock, pLootTableBuilder);
 		}
+
 
 	}
 }

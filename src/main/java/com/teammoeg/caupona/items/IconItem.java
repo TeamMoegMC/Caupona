@@ -21,20 +21,14 @@
 
 package com.teammoeg.caupona.items;
 
-import net.minecraft.core.NonNullList;
-import net.minecraft.world.item.CreativeModeTab;
+import com.teammoeg.caupona.TabType;
+
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 
 public class IconItem extends CPItem {
 
 	public IconItem() {
-		super( new Item.Properties());
-	}
-
-	// omit to avoid display in JEI and CT
-	@Override
-	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+		super(new Item.Properties(),TabType.HIDDEN);
 	}
 
 }

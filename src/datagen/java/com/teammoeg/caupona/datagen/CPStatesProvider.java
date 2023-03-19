@@ -62,7 +62,7 @@ public class CPStatesProvider extends BlockStateProvider {
 	String modid;
 
 	public CPStatesProvider(DataGenerator gen, String modid, ExistingFileHelper exFileHelper) {
-		super(gen, modid, exFileHelper);
+		super(gen.getPackOutput(), modid, exFileHelper);
 		this.modid = modid;
 		this.existingFileHelper = exFileHelper;
 	}

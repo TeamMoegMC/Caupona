@@ -23,7 +23,6 @@ package com.teammoeg.caupona.blocks.fumarole;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -97,7 +96,7 @@ public class FumaroleBoulderBlock extends Block implements SimpleWaterloggedBloc
 	@Override
 	public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
 		if (pEntity instanceof LivingEntity)
-			pEntity.hurt(DamageSource.SWEET_BERRY_BUSH, 1.0f);
+			pEntity.hurt(pLevel.damageSources().sweetBerryBush(), 1.0f);
 		super.stepOn(pLevel, pPos, pState, pEntity);
 	}
 

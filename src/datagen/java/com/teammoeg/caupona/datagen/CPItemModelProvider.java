@@ -35,7 +35,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 public class CPItemModelProvider extends ItemModelProvider {
 
 	public CPItemModelProvider(DataGenerator generator, String modid, ExistingFileHelper existingFileHelper) {
-		super(generator, modid, existingFileHelper);
+		super(generator.getPackOutput(), modid, existingFileHelper);
 	}
 
 	@Override

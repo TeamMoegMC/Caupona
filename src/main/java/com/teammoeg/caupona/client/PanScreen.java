@@ -30,6 +30,9 @@ import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
 import com.teammoeg.caupona.blocks.pan.PanContainer;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -63,28 +66,16 @@ public class PanScreen extends AbstractContainerScreen<PanContainer> {
 	@Override
 	public void init() {
 		super.init();
-
 		this.clearWidgets();
-		this.addRenderableWidget(
-				btn1 = new ImageButton(TEXTURE, leftPos + 7, topPos + 48, 20, 12, 176, 83, (b, s, x, y) -> {
-					if (btn1.state == 0)
-						tooltip.add(start);
-					else
-						tooltip.add(started);
-				}, btn -> {
-					if (btn1.state == 0)
-						blockEntity.sendMessage((short) 0, 0);
-
-				}));
-		this.addRenderableWidget(
-				btn2 = new ImageButton(TEXTURE, leftPos + 7, topPos + 61, 20, 20, 176, 107, (b, s, x, y) -> {
-					if (btn2.state == 1)
-						tooltip.add(nors);
-					else
-						tooltip.add(rs);
-				}, btn -> {
-					blockEntity.sendMessage((short) 1, btn2.state);
-				}));
+		this.addRenderableWidget(btn1 = new ImageButton(Button.builder(start, btn -> {
+			if (btn1.state == 0)
+				blockEntity.sendMessage((short) 0, 0);
+		}).pos(leftPos + 7, topPos + 48).size(20, 12), 176, 83, 256, 256, TEXTURE,
+				() -> (btn1.state == 0 ? Tooltip.create(start) : Tooltip.create(started))));
+		this.addRenderableWidget(btn2 = new ImageButton(Button.builder(rs, btn -> {
+			blockEntity.sendMessage((short) 1, btn2.state);
+		}).pos(leftPos + 7, topPos + 61).size(20, 20), 176, 107, 256, 256, TEXTURE,
+				() -> (btn2.state == 2 ? Tooltip.create(rs) : Tooltip.create(nors))));
 
 	}
 
@@ -116,13 +107,13 @@ public class PanScreen extends AbstractContainerScreen<PanContainer> {
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.setShaderTexture(0, TEXTURE);
 
-		this.blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+		GuiComponent.blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (blockEntity.processMax > 0 && blockEntity.process > 0) {
 			int h = (int) (29 * (blockEntity.process / (float) blockEntity.processMax));
-			this.blit(transform, leftPos + 39, topPos + 16 + h, 176, 54 + h, 16, 29 - h);
+			GuiComponent.blit(transform, leftPos + 39, topPos + 16 + h, 176, 54 + h, 16, 29 - h);
 		}
 		if (blockEntity.processMax > 0) {
-			this.blit(transform, leftPos + 61, topPos + 12, 176, 0, 54, 54);
+			GuiComponent.blit(transform, leftPos + 61, topPos + 12, 176, 0, 54, 54);
 		}
 	}
 

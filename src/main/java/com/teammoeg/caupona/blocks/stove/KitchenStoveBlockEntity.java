@@ -30,14 +30,13 @@ import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.ChimneyHelper;
 import com.teammoeg.caupona.util.IInfinitable;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
@@ -166,7 +165,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 
 	@Override
 	public Component getDisplayName() {
-		return MutableComponent.create(new TranslatableContents("container." + Main.MODID + ".kitchen_stove.title"));
+		return Utils.translate("container." + Main.MODID + ".kitchen_stove.title");
 	}
 
 	private boolean consumeFuel() {

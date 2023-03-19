@@ -27,7 +27,6 @@ import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -106,7 +105,7 @@ public class WolfStatueBlock extends CPHorizontalEntityBlock<WolfStatueBlockEnti
 		super.entityInside(pState, pLevel, pPos, pEntity);
 		if (pLevel.getBlockEntity(pPos) instanceof WolfStatueBlockEntity wst) {
 			if (wst.isVeryHot)
-				pEntity.hurt(DamageSource.HOT_FLOOR, pState.getValue(HEAT));
+				pEntity.hurt(pLevel.damageSources().hotFloor(), pState.getValue(HEAT));
 		}
 	}
 
@@ -114,7 +113,7 @@ public class WolfStatueBlock extends CPHorizontalEntityBlock<WolfStatueBlockEnti
 	public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
 		if (pLevel.getBlockEntity(pPos) instanceof WolfStatueBlockEntity wst) {
 			if (wst.isVeryHot)
-				pEntity.hurt(DamageSource.HOT_FLOOR, pState.getValue(HEAT));
+				pEntity.hurt(pLevel.damageSources().hotFloor(), pState.getValue(HEAT));
 		}
 		super.stepOn(pLevel, pPos, pState, pEntity);
 	}

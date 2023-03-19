@@ -21,12 +21,14 @@
 
 package com.teammoeg.caupona.client;
 
+import java.util.function.Supplier;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public class ImageButton extends Button {
@@ -36,55 +38,42 @@ public class ImageButton extends Button {
 	private final int textureHeight;
 	int state;
 	ResourceLocation texture;
+	Supplier<Tooltip> tooltipProvider;
+	private int laststate=-1;
 
-	public ImageButton(ResourceLocation texture, int xIn, int yIn, int widthIn, int heightIn, int xTexStartIn,
-			int yTexStartIn, Button.OnPress onPressIn) {
-		this(texture, xIn, yIn, widthIn, heightIn, xTexStartIn, yTexStartIn, NO_TOOLTIP, onPressIn);
-	}
 
-	public ImageButton(ResourceLocation texture, int xIn, int yIn, int widthIn, int heightIn, int xTexStartIn,
-			int yTexStartIn, Button.OnTooltip tt, Button.OnPress onPressIn) {
-		this(texture, xIn, yIn, widthIn, heightIn, xTexStartIn, yTexStartIn, 256, 256, onPressIn, tt,
-				Component.empty());
-	}
 
-	public ImageButton(ResourceLocation texture, int x, int y, int width, int height, int xTexStart, int yTexStart,
-			int textureWidth, int textureHeight, Button.OnPress onPress, Component title) {
-		this(texture, x, y, width, height, xTexStart, yTexStart, textureWidth, textureHeight, onPress, NO_TOOLTIP,
-				title);
-	}
-
-	public ImageButton(ResourceLocation texture, int p_i244513_1_, int p_i244513_2_, int p_i244513_3_, int p_i244513_4_,
-			int p_i244513_5_, int p_i244513_6_, int p_i244513_9_, int p_i244513_10_, Button.OnPress p_i244513_11_,
-			Button.OnTooltip p_i244513_12_, Component p_i244513_13_) {
-		super(p_i244513_1_, p_i244513_2_, p_i244513_3_, p_i244513_4_, p_i244513_13_, p_i244513_11_, p_i244513_12_);
-		this.textureWidth = p_i244513_9_;
-		this.textureHeight = p_i244513_10_;
-		this.xTexStart = p_i244513_5_;
-		this.yTexStart = p_i244513_6_;
+	public ImageButton(Button.Builder builder, int xTexStart, int yTexStart, int textureWidth, int textureHeight,
+			ResourceLocation texture, Supplier<Tooltip> tooltipProvider) {
+		super(builder);
+		this.xTexStart = xTexStart;
+		this.yTexStart = yTexStart;
+		this.textureWidth = textureWidth;
+		this.textureHeight = textureHeight;
 		this.texture = texture;
+		this.tooltipProvider = tooltipProvider;
 	}
-
 	public void setPosition(int xIn, int yIn) {
-		this.x = xIn;
-		this.y = yIn;
+		super.setX(xIn);
+		super.setY(yIn);
 	}
-
-	public void renderButton(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	
+	public void renderWidget(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		int i = 0, j = state * this.height;
-
+		if(state!=laststate)
+			super.setTooltip(tooltipProvider.get());
+		laststate=state;
 		if (this.isHoveredOrFocused()) {
 			i += this.width;
+			
 		}
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F,this.alpha);
 		RenderSystem.setShaderTexture(0, texture);
 		RenderSystem.enableDepthTest();
-		blit(matrixStack, this.x, this.y, this.xTexStart + i, this.yTexStart + j, this.width, this.height,
+		blit(matrixStack, this.getX(), this.getY(), this.xTexStart + i, this.yTexStart + j, this.width, this.height,
 				this.textureWidth, this.textureHeight);
-		if (this.isHoveredOrFocused()) {
-			this.renderToolTip(matrixStack, mouseX, mouseY);
-		}
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
 	}
 }

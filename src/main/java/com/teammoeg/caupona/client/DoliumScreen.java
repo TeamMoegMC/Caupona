@@ -29,6 +29,7 @@ import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 import com.teammoeg.caupona.blocks.dolium.DoliumContainer;
 
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -77,10 +78,10 @@ public class DoliumScreen extends AbstractContainerScreen<DoliumContainer> {
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.setShaderTexture(0, TEXTURE);
 
-		this.blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+		GuiComponent.blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (blockEntity.process > 0) {
 			int w = (int) (12 * (blockEntity.process / (float) blockEntity.processMax));
-			this.blit(transform, leftPos + 117, topPos + 32, 176, 0, w, 25);
+			GuiComponent.blit(transform, leftPos + 117, topPos + 32, 176, 0, w, 25);
 		}
 	}
 

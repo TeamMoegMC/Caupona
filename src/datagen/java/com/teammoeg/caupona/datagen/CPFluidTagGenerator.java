@@ -21,36 +21,37 @@
 
 package com.teammoeg.caupona.datagen;
 
-import java.nio.file.Path;
-import java.util.stream.Collectors;
-
+import java.util.concurrent.CompletableFuture;
 import com.teammoeg.caupona.CPFluids;
 import com.teammoeg.caupona.Main;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 
-	public CPFluidTagGenerator(DataGenerator dataGenerator, String modId, ExistingFileHelper existingFileHelper) {
-		super(dataGenerator, Registry.FLUID, modId, existingFileHelper);
+	public CPFluidTagGenerator(DataGenerator dataGenerator, String modId, ExistingFileHelper existingFileHelper,CompletableFuture<HolderLookup.Provider> provider) {
+		super(dataGenerator.getPackOutput(), Registries.FLUID, provider,modId,existingFileHelper);
 	}
 
 	@Override
-	protected void addTags() {
-
-		tag("stews").add(CPFluids.getAll().collect(Collectors.toList()).toArray(new Fluid[0]));
-		tag("pumice_bloom_grow_on").add(Fluids.WATER);
-		tag(new ResourceLocation("watersource", "drink")).add(ForgeRegistries.FLUIDS.getValue(mrl("nail_soup")));
+	protected void addTags(Provider p) {
+		
+		TagAppender<Fluid> stews=tag("stews");
+		CPFluids.getAllKeys().forEach(e->stews.add(e));
+		tag("pumice_bloom_grow_on").add(Fluids.WATER.builtInRegistryHolder().key());
+		tag(new ResourceLocation("watersource", "drink")).add(ResourceKey.create(Registries.FLUID,mrl("nail_soup")));
 	}
 
 	private TagAppender<Fluid> tag(String s) {
@@ -99,4 +100,5 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 		return this.generator.getOutputFolder()
 				.resolve("data/" + id.getNamespace() + "/tags/fluids/" + id.getPath() + ".json");
 	}*/
+
 }

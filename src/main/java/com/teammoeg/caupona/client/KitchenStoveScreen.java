@@ -27,6 +27,7 @@ import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveBlockEntity;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveContainer;
 
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -62,19 +63,19 @@ public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveCont
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.setShaderTexture(0, TEXTURE);
 
-		this.blit(matrixStack, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+		GuiComponent.blit(matrixStack, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (blockEntity.processMax > 0 && blockEntity.process > 0) {
 			int h = (int) (26 * (1 - blockEntity.process / (float) blockEntity.processMax));
-			this.blit(matrixStack, leftPos + 61, topPos + h, 176, h, 54, 26 - h);
+			GuiComponent.blit(matrixStack, leftPos + 61, topPos + h, 176, h, 54, 26 - h);
 			switch (blockEntity.last) {
 			case CHARCOAL:
-				this.blit(matrixStack, leftPos + 61, topPos + 13, 176, 42, 54, 16);
+				GuiComponent.blit(matrixStack, leftPos + 61, topPos + 13, 176, 42, 54, 16);
 				break;
 			case WOODS:
-				this.blit(matrixStack, leftPos + 61, topPos + 13, 176, 58, 54, 16);
+				GuiComponent.blit(matrixStack, leftPos + 61, topPos + 13, 176, 58, 54, 16);
 				break;
 			default:
-				this.blit(matrixStack, leftPos + 61, topPos + 13, 176, 26, 54, 16);
+				GuiComponent.blit(matrixStack, leftPos + 61, topPos + 13, 176, 26, 54, 16);
 				break;
 			}
 		}

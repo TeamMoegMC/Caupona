@@ -21,10 +21,10 @@
 
 package com.teammoeg.caupona.client;
 
+import org.joml.Vector3f;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 
@@ -43,7 +43,7 @@ import net.minecraftforge.fluids.FluidStack;
 public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity> {
 
 	/**
-	 * @param rendererDispatcherIn  
+	 * @param rendererDispatcherIn
 	 */
 	public StewPotRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
 	}
@@ -62,8 +62,8 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity> 
 
 	@SuppressWarnings({ "deprecation", "resource" })
 	@Override
-	public void render(StewPotBlockEntity blockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer,
-			int combinedLightIn, int combinedOverlayIn) {
+	public void render(StewPotBlockEntity blockEntity, float partialTicks, PoseStack matrixStack,
+			MultiBufferSource buffer, int combinedLightIn, int combinedOverlayIn) {
 		if (!blockEntity.getLevel().hasChunkAt(blockEntity.getBlockPos()))
 			return;
 		BlockState state = blockEntity.getBlockState();
@@ -77,37 +77,33 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity> 
 				rr += 250f * (1 - blockEntity.process * 1f / blockEntity.processMax);
 			float yy = Math.min(1, rr / blockEntity.getTank().getCapacity()) * .5f + .1875f;
 			matrixStack.translate(0, yy, 0);
-			matrixStack.mulPose(new Quaternion(90, 0, 0, true));
+			matrixStack.mulPose(RenderUtils.rotate90);
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
-			IClientFluidTypeExtensions attr0=IClientFluidTypeExtensions.of(fs.getFluid());
+			IClientFluidTypeExtensions attr0 = IClientFluidTypeExtensions.of(fs.getFluid());
 			TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
 			TextureAtlasSprite sprite = atlas.getSprite(attr0.getStillTexture(fs));
 			int col = attr0.getTintColor(fs);
-			int iW = sprite.getWidth();
-			int iH = sprite.getHeight();
-			if (iW > 0 && iH > 0) {
-				Vector3f clr;
-				float alp = 1f;
-				if (blockEntity.become != null && blockEntity.processMax > 0) {
-					IClientFluidTypeExtensions attr1=IClientFluidTypeExtensions.of(blockEntity.become);
-					TextureAtlasSprite sprite2 = atlas.getSprite(attr1.getStillTexture(fs));
-					float proc = blockEntity.process * 1f / blockEntity.processMax;
-					clr = clr(col, attr1.getTintColor(fs), proc);
-					if (sprite2.getWidth() > 0 && sprite2.getHeight() > 0) {
-						alp = 1 - proc;
-						RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(),
-								clr.y(), clr.z(), proc, sprite2.getU0(), sprite2.getU1(), sprite2.getV0(),
-								sprite2.getV1(), combinedLightIn, combinedOverlayIn);
-					}
-				} else {
-					clr = clr(col);
+			Vector3f clr;
+			float alp = 1f;
+			if (blockEntity.become != null && blockEntity.processMax > 0) {
+				IClientFluidTypeExtensions attr1 = IClientFluidTypeExtensions.of(blockEntity.become);
+				TextureAtlasSprite sprite2 = atlas.getSprite(attr1.getStillTexture(fs));
+				float proc = blockEntity.process * 1f / blockEntity.processMax;
+				clr = clr(col, attr1.getTintColor(fs), proc);
 
-				}
+				alp = 1 - proc;
 				RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(), clr.y(),
-						clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), combinedLightIn,
-						combinedOverlayIn);
+						clr.z(), proc, sprite2.getU0(), sprite2.getU1(), sprite2.getV0(), sprite2.getV1(),
+						combinedLightIn, combinedOverlayIn);
+
+			} else {
+				clr = clr(col);
 
 			}
+			RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(), clr.y(),
+					clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), combinedLightIn,
+					combinedOverlayIn);
+
 		}
 
 		matrixStack.popPose();

@@ -21,10 +21,10 @@
 
 package com.teammoeg.caupona.client;
 
+import org.joml.Vector3f;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.foods.BowlBlockEntity;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
@@ -44,11 +44,10 @@ import net.minecraftforge.fluids.FluidStack;
 public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity> {
 
 	/**
-	 * @param rendererDispatcherIn  
+	 * @param rendererDispatcherIn
 	 */
 	public BowlRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
 	}
-
 
 	private static Vector3f clr(int col) {
 		return new Vector3f((col >> 16 & 255) / 255.0f, (col >> 8 & 255) / 255.0f, (col & 255) / 255.0f);
@@ -70,24 +69,21 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity> {
 		matrixStack.pushPose();
 		if (fs != null && !fs.isEmpty() && fs.getFluid() != null) {
 			matrixStack.translate(0, .28125f, 0);
-			matrixStack.mulPose(new Quaternion(90, 0, 0, true));
-			
-			IClientFluidTypeExtensions attr=IClientFluidTypeExtensions.of(fs.getFluid());
+			matrixStack.mulPose(RenderUtils.rotate90);
+
+			IClientFluidTypeExtensions attr = IClientFluidTypeExtensions.of(fs.getFluid());
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
 			TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS)
 					.getSprite(attr.getStillTexture(fs));
 			int col = attr.getTintColor(fs);
-			int iW = sprite.getWidth();
-			int iH = sprite.getHeight();
-			if (iW > 0 && iH > 0) {
-				Vector3f clr;
-				float alp = 1f;
-				clr = clr(col);
-				RenderUtils.drawTexturedColoredRect(builder, matrixStack, .28125f, .28125f, .4375f, .4375f, clr.x(),
-						clr.y(), clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(),
-						combinedLightIn, combinedOverlayIn);
 
-			}
+			Vector3f clr;
+			float alp = 1f;
+			clr = clr(col);
+			RenderUtils.drawTexturedColoredRect(builder, matrixStack, .28125f, .28125f, .4375f, .4375f,clr.x(),
+					clr.y(), clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(),
+					combinedLightIn, combinedOverlayIn);
+
 		}
 
 		matrixStack.popPose();

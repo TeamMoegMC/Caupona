@@ -21,12 +21,23 @@
 
 package com.teammoeg.caupona.items;
 
+import com.teammoeg.caupona.TabType;
+import com.teammoeg.caupona.util.CreativeItemHelper;
+import com.teammoeg.caupona.util.ICreativeModeTabItem;
+
 import net.minecraft.world.item.Item;
 
-public class CPItem extends Item {
-
-	public CPItem( Properties properties) {
+public class CPItem extends Item implements ICreativeModeTabItem{
+	TabType tab;
+	public CPItem(Properties properties,TabType tab) {
 		super(properties);
+		this.tab=tab;
+	}
+
+	@Override
+	public void fillItemCategory(CreativeItemHelper helper) {
+		if(helper.isType(tab))
+			helper.accept(this);
 	}
 
 }

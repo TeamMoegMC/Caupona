@@ -31,7 +31,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -158,7 +157,7 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntit
 	@Override
 	public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
 		if (pState.getValue(LIT)) {
-			pEntity.hurt(DamageSource.HOT_FLOOR, 1);
+			pEntity.hurt(pLevel.damageSources().hotFloor(), 1);
 		}
 		super.stepOn(pLevel, pPos, pState, pEntity);
 	}

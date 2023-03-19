@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona.worldgen;
 
-import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -32,7 +32,7 @@ public class FigTreeGrower extends AbstractTreeGrower {
 	 *         {@link net.minecraft.world.level.levelgen.feature.ConfiguredFeature}
 	 *         of this tree
 	 */
-	protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource p_204329_, boolean p_204330_) {
-		return CPFeatures.FIG.getHolder().get();
+	protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource p_204329_, boolean p_204330_) {
+		return CPFeatures.FIG;
 	}
 }

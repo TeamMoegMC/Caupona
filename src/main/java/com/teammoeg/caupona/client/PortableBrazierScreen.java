@@ -26,6 +26,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.container.PortableBrazierContainer;
 
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -55,10 +56,10 @@ public class PortableBrazierScreen extends AbstractContainerScreen<PortableBrazi
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.setShaderTexture(0, TEXTURE);
 
-		this.blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+		GuiComponent.blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (container.processMax > 0) {
 			int h = (int) (29 * (container.process / (float) container.processMax));
-			this.blit(transform, leftPos + 116, topPos + 36 + h, 176, 1 + h, 16, 29 - h);
+			GuiComponent.blit(transform, leftPos + 116, topPos + 36 + h, 176, 1 + h, 16, 29 - h);
 		}
 	}
 

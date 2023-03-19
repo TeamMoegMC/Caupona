@@ -23,6 +23,7 @@ package com.teammoeg.caupona.data;
 
 import com.google.gson.JsonObject;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -47,19 +48,19 @@ public abstract class IDataRecipe implements Recipe<Container> {
 	}
 
 	@Override
-	public ItemStack assemble(Container inv) {
-		return ItemStack.EMPTY;
-	}
-
-	@Override
 	public boolean canCraftInDimensions(int width, int height) {
 		return false;
 	}
 
+	public abstract void serializeRecipeData(JsonObject json);
+
 	@Override
-	public ItemStack getResultItem() {
+	public ItemStack assemble(Container p_44001_, RegistryAccess p_267165_) {
 		return ItemStack.EMPTY;
 	}
 
-	public abstract void serializeRecipeData(JsonObject json);
+	@Override
+	public ItemStack getResultItem(RegistryAccess p_267052_) {
+		return ItemStack.EMPTY;
+	}
 }

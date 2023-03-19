@@ -33,9 +33,9 @@ import com.teammoeg.caupona.util.IFoodInfo;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 
 public class CauponaHooks {
@@ -49,7 +49,7 @@ public class CauponaHooks {
 		if (stack.getItem() instanceof StewItem) {
 			return Optional.of(StewItem.getItems(stack));
 		}
-		LazyOptional<IFluidHandlerItem> cap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
+		LazyOptional<IFluidHandlerItem> cap = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
 		if (cap.isPresent()) {
 			IFluidHandlerItem data = cap.resolve().get();
 			FluidStack fs = data.getFluidInTank(0);
@@ -65,7 +65,7 @@ public class CauponaHooks {
 		if (stack.getItem() instanceof StewItem) {
 			return StewItem.getBase(stack);
 		}
-		LazyOptional<IFluidHandlerItem> cap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
+		LazyOptional<IFluidHandlerItem> cap = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
 		if (cap.isPresent()) {
 			IFluidHandlerItem data = cap.resolve().get();
 			return SoupFluid.getBase(data.getFluidInTank(0));
@@ -77,7 +77,7 @@ public class CauponaHooks {
 		if (stack.getItem() instanceof StewItem) {
 			return Optional.of(StewItem.getInfo(stack));
 		}
-		LazyOptional<IFluidHandlerItem> cap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
+		LazyOptional<IFluidHandlerItem> cap = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
 		if (cap.isPresent()) {
 			IFluidHandlerItem data = cap.resolve().get();
 			return Optional.of(SoupFluid.getInfo(data.getFluidInTank(0)));

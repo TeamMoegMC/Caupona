@@ -1,0 +1,84 @@
+package com.teammoeg.caupona.datagen;
+
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+
+import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.worldgen.BushFoliagePlacer;
+import com.teammoeg.caupona.worldgen.BushStraightTrunkPlacer;
+import com.teammoeg.caupona.worldgen.CPFeatures;
+import com.teammoeg.caupona.worldgen.CPPlacements;
+
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.features.FeatureUtils;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.data.worldgen.placement.VegetationPlacements;
+import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
+import net.minecraftforge.registries.RegistryObject;
+
+public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
+
+	@SuppressWarnings("unchecked")
+	public CPRegistryGenerator(PackOutput output, CompletableFuture<Provider> registries) {
+		super(output, registries,new RegistrySetBuilder()
+				
+				.add(Registries.CONFIGURED_FEATURE,(RegistrySetBuilder.RegistryBootstrap)CPRegistryGenerator::bootstrapCFeatures)
+				.add(Registries.PLACED_FEATURE,CPRegistryGenerator::bootstrapPFeatures),
+				Set.of(Main.MODID));
+		
+	}
+	
+	
+	public static void bootstrapPFeatures(BootstapContext<PlacedFeature> pContext) {
+		HolderGetter<ConfiguredFeature<?, ?>> holder=pContext.lookup(Registries.CONFIGURED_FEATURE);
+		PlacementUtils.register(pContext, CPPlacements.TREES_WALNUT,holder.getOrThrow(CPFeatures.WALNUT),VegetationPlacements
+				.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.WALNUT_SAPLINGS.get()));
+		PlacementUtils.register(pContext, CPPlacements.TREES_FIG,holder.getOrThrow(CPFeatures.FIG),VegetationPlacements
+				.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.FIG_SAPLINGS.get()));
+		PlacementUtils.register(pContext, CPPlacements.TREES_WOLFBERRY,holder.getOrThrow(CPFeatures.WOLFBERRY),VegetationPlacements
+				.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), CPBlocks.WOLFBERRY_SAPLINGS.get()));
+
+	}
+	public static void bootstrapCFeatures(BootstapContext<ConfiguredFeature<?,?>> pContext) {
+		FeatureUtils.register(pContext,CPFeatures.WALNUT,Feature.TREE,createStraightBlobTree(CPBlocks.WALNUT_LOG.get(), CPBlocks.WALNUT_LEAVE.get(), 4, 2, 0, 2).ignoreVines().build());
+		FeatureUtils.register(pContext,CPFeatures.FIG,Feature.TREE,createStraightBlobBush(CPBlocks.FIG_LOG.get(), CPBlocks.FIG_LEAVE.get(), 4, 2, 0, 2).ignoreVines().build());
+		FeatureUtils.register(pContext,CPFeatures.WOLFBERRY,Feature.TREE,createStraightBlobBush(CPBlocks.WOLFBERRY_LOG.get(), CPBlocks.WOLFBERRY_LEAVE.get(), 4, 2, 0, 2).ignoreVines().build());
+	}
+	private static TreeConfiguration.TreeConfigurationBuilder createStraightBlobTree(Block log, Block leave, int height,
+			int randA, int randB, int foliage) {
+		return new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(log),
+				new StraightTrunkPlacer(height, randA, randB), BlockStateProvider.simple(leave),
+				new BlobFoliagePlacer(ConstantInt.of(foliage), ConstantInt.of(0), 3),
+				new TwoLayersFeatureSize(1, 0, 1));
+	}
+
+	private static TreeConfiguration.TreeConfigurationBuilder createStraightBlobBush(Block log, Block leave, int height,
+			int randA, int randB, int foliage) {
+		return new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(log),
+				new BushStraightTrunkPlacer(height, randA, randB), BlockStateProvider.simple(leave),
+				new BushFoliagePlacer(ConstantInt.of(foliage), ConstantInt.of(0), 3),
+				new TwoLayersFeatureSize(1, 0, 1));
+	}
+
+
+	@Override
+	public String getName() {
+		return "Caupona Registry Generator";
+	}
+}

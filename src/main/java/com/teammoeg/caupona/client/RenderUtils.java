@@ -23,6 +23,9 @@ package com.teammoeg.caupona.client;
 
 import java.util.function.Function;
 
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
+
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
@@ -55,7 +58,7 @@ public class RenderUtils {
 
 	private RenderUtils() {
 	}
-
+	public static Quaternionf rotate90=new Quaternionf(new AxisAngle4f((float) (Math.PI/2),1,0,0));
 	public static void handleGuiTank(PoseStack transform, IFluidTank tank, int x, int y, int w, int h) {
 		FluidStack fluid = tank.getFluid();
 		transform.pushPose();
@@ -89,12 +92,10 @@ public class RenderUtils {
 		TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS)
 				.getSprite(attr.getStillTexture(fluid));
 		int col = attr.getTintColor(fluid);
-		int iW = sprite.getWidth();
-		int iH = sprite.getHeight();
-		if (iW > 0 && iH > 0)
-			drawRepeatedSprite(builder, transform, x, y, w, h, iW, iH, sprite.getU0(), sprite.getU1(), sprite.getV0(),
-					sprite.getV1(), (col >> 16 & 255) / 255.0f, (col >> 8 & 255) / 255.0f, (col & 255) / 255.0f, 0.8f,
-					LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY);
+
+		drawRepeatedSprite(builder, transform, x, y, w, h,16,16, sprite.getU0(), sprite.getU1(), sprite.getV0(),
+				sprite.getV1(), (col >> 16 & 255) / 255.0f, (col >> 8 & 255) / 255.0f, (col & 255) / 255.0f, 0.8f,
+				LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY);
 		buffer.endBatch(renderType);
 	}
 

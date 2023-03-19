@@ -137,9 +137,6 @@ public class FloatemStack {
 		return stack.sameItem(other);
 	}
 
-	public boolean isItemEqualIgnoreDurability(ItemStack stack) {
-		return stack.sameItemStackIgnoreDurability(stack);
-	}
 
 	public String getTranslationKey() {
 		return stack.getDescriptionId();

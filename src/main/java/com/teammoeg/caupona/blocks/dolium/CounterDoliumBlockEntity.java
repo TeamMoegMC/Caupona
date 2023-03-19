@@ -38,8 +38,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -48,15 +46,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
@@ -273,7 +270,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 
 	@Override
 	public Component getDisplayName() {
-		return MutableComponent.create(new TranslatableContents("container." + Main.MODID + ".counter_dolium.title"));
+		return Utils.translate("container." + Main.MODID + ".counter_dolium.title");
 	}
 
 	RangedWrapper bowl = new RangedWrapper(inv, 3, 6) {
@@ -358,12 +355,12 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+		if (cap == ForgeCapabilities.ITEM_HANDLER) {
 			if (side == Direction.UP)
 				return up.cast();
 			return this.side.cast();
 		}
-		if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+		if (cap == ForgeCapabilities.FLUID_HANDLER)
 			return fl.cast();
 		return super.getCapability(cap, side);
 	}
