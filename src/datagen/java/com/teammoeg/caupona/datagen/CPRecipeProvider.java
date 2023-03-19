@@ -133,7 +133,7 @@ public class CPRecipeProvider extends RecipeProvider {
 		out.accept(new FoodValueRecipe(rl("food/allium"), 1, 0.2f, new ItemStack(Items.ALLIUM), Items.ALLIUM));
 		// System.out.println(CPBlocks.stove1.asItem());
 		// System.out.println(CPBlocks.stove1.asItem().getItemCategory());
-		ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,CPBlocks.stove1.get()).define('D', Items.DIRT).define('S', Items.COBBLESTONE)
+		ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,cpitem("mud_kitchen_stove")).define('D', Items.DIRT).define('S', Items.COBBLESTONE)
 				.pattern("DDD").pattern("SSS").pattern("S S").unlockedBy("has_cobblestone", has(Blocks.COBBLESTONE))
 				.save(outx);
 		// ShapedRecipeBuilder.shaped(CPBlocks.stove2).define('T',Items.BRICK_SLAB).define('B',Items.BRICKS).define('C',Items.CLAY).pattern("TTT").pattern("BCB").pattern("B

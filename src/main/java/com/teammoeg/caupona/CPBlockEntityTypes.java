@@ -56,10 +56,9 @@ public class CPBlockEntityTypes {
 	public static final RegistryObject<BlockEntityType<StewPotBlockEntity>> STEW_POT = REGISTER.register("stew_pot",
 			makeType(StewPotBlockEntity::new, ()->CPBlocks.stew_pot));
 	public static final RegistryObject<BlockEntityType<KitchenStoveBlockEntity>> STOVE1 = REGISTER
-			.register("kitchen_stove_basic", makeType(KitchenStoveT1::new,()->CPBlocks.stove1));
+			.register("kitchen_stove_basic", makeTypes(KitchenStoveT1::new,()->CPBlocks.stoves.stream().map(e->e.get()).filter(e->e.getBlock()==CPBlockEntityTypes.STOVE1).collect(Collectors.toList())));
 	public static final RegistryObject<BlockEntityType<KitchenStoveBlockEntity>> STOVE2 = REGISTER
-			.register("kitchen_stove_fast", makeTypes2(KitchenStoveT2::new,
-					()->List.of( CPBlocks.stove2, CPBlocks.stove3, CPBlocks.stove4, CPBlocks.stove5 )));
+			.register("kitchen_stove_fast", makeTypes(KitchenStoveT2::new,()->CPBlocks.stoves.stream().map(e->e.get()).filter(e->e.getBlock()==CPBlockEntityTypes.STOVE2).collect(Collectors.toList())));
 	public static final RegistryObject<BlockEntityType<BowlBlockEntity>> BOWL = REGISTER.register("bowl",
 			makeType(BowlBlockEntity::new, ()->CPBlocks.bowl));
 	public static final RegistryObject<BlockEntityType<CPSignBlockEntity>> SIGN = REGISTER.register("sign",

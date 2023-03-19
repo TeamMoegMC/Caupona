@@ -31,6 +31,7 @@ import java.util.function.UnaryOperator;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPMaterialType;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.stove.KitchenStove;
 import com.teammoeg.caupona.util.Utils;
@@ -70,28 +71,31 @@ public class CPStatesProvider extends BlockStateProvider {
 	@Override
 	protected void registerStatesAndModels() {
 		horizontalAxisBlock(CPBlocks.stew_pot.get(), bmf("stew_pot"));
+		CPBlocks.stoves.forEach(e->stove(e.get()));
 
-		stove(CPBlocks.stove1.get());
-		stove(CPBlocks.stove2.get());
-		stove(CPBlocks.stove3.get());
-		stove(CPBlocks.stove4.get());
-		stove(CPBlocks.stove5.get());
 		itemModel(CPBlocks.stew_pot.get(), bmf("stew_pot"));
 		simpleBlock(CPBlocks.bowl.get(), bmf("bowl_of_liquid"));
-		for (String stone : CPBlocks.stones) {
-			for (String type : ImmutableSet.of("", "_slab", "_stairs"))
-				blockItemModel(stone + type);
-			blockItemModel(stone + "_wall", "_inventory");
-		}
-		for (String mat : CPBlocks.counters) {
-			for (String type : ImmutableSet.of("_chimney_flue", "_chimney_pot", "_counter", "_counter_with_dolium"))
-				blockItemModel(mat + type);
-		}
-
-		for (String str : CPBlocks.pillar_materials) {
-			for (String type : ImmutableSet.of("_column_fluted_plinth", "_column_fluted_shaft", "_column_shaft",
-					"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital", "_acanthine_column_capital"))
-				blockItemModel(str + type);
+		for(CPMaterialType rtype:CPBlocks.all_materials) {
+			String stone=rtype.getName();
+			if (rtype.isHasDeco()) {
+				for (String type : ImmutableSet.of("", "_slab", "_stairs"))
+					blockItemModel(stone + type);
+				blockItemModel(stone + "_wall", "_inventory");
+			}
+			if (rtype.getCounterGrade()!=0) {
+				for (String type : ImmutableSet.of("_chimney_flue", "_chimney_pot", "_counter", "_counter_with_dolium"))
+					blockItemModel(stone + type);
+			}
+	
+			if (rtype.isHasPill()) {
+				for (String type : ImmutableSet.of("_column_fluted_plinth", "_column_fluted_shaft", "_column_shaft",
+						"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital", "_acanthine_column_capital"))
+					blockItemModel(stone + type);
+			}
+			if (rtype.isHasHypo()) {
+				blockItemModel(stone + "_hypocaust_firebox");
+				blockItemModel(stone + "_caliduct");
+			}
 		}
 		MultiPartBlockStateBuilder boat = horizontalMultipart(this.getMultipartBuilder(CPBlocks.GRAVY_BOAT.get()),
 				bmf("gravy_boat"));
@@ -117,10 +121,7 @@ public class CPStatesProvider extends BlockStateProvider {
 			// blockItemModel(wood+"_trapdoor","_top");
 
 		}
-		for (String s : CPBlocks.hypocaust_materials) {
-			blockItemModel(s + "_hypocaust_firebox");
-			blockItemModel(s + "_caliduct");
-		}
+		
 		blockItemModel("wolf_statue", "_1");
 		blockItemModel("fumarole_boulder");
 		blockItemModel("fumarole_vent");

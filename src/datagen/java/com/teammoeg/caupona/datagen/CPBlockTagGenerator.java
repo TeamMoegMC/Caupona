@@ -25,6 +25,7 @@ import java.util.concurrent.CompletableFuture;
 
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPMaterialType;
 import com.teammoeg.caupona.Main;
 
 import net.minecraft.core.HolderLookup.Provider;
@@ -54,9 +55,9 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 	@Override
 	protected void addTags(Provider pProvider) {
 		TagAppender<Block> pickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
-		adds(tag("stoves"),CPBlocks.stove1.getKey(), CPBlocks.stove2.getKey(), CPBlocks.stove3.getKey(), CPBlocks.stove4.getKey(), CPBlocks.stove5.getKey());
-		adds(pickaxe,CPBlocks.stove1.getKey(), CPBlocks.stove2.getKey(), CPBlocks.stove3.getKey(), CPBlocks.stove4.getKey(), CPBlocks.stove5.getKey(),
-				CPBlocks.stew_pot.getKey());
+		adds(tag("stoves"),CPBlocks.stoves.stream().map(e->e.getKey()).toArray(ResourceKey[]::new));
+		adds(pickaxe,CPBlocks.stoves.stream().map(e->e.getKey()).toArray(ResourceKey[]::new));
+		pickaxe.add((ResourceKey)CPBlocks.stew_pot.getKey());
 		for (String wood : CPBlocks.woods) {
 			for (String type : ImmutableSet.of("_button", "_door", "_fence", "_fence_gate", "_log", "_planks",
 					"_pressure_plate", "_sapling", "_sign", "_wall_sign", "_slab", "_stairs", "_trapdoor", "_wood"))
@@ -93,24 +94,32 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag(frl("fence_gates/wooden")).add(cp(wood + "_fence_gate"));
 		}
 
-		for (String str : CPBlocks.pillar_materials) {
-			for (String type : ImmutableSet.of("_column_fluted_plinth", "_column_fluted_shaft", "_column_shaft",
-					"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital", "_acanthine_column_capital"))
-				pickaxe.add(cp(str + type));
-		}
-		for (String stone : CPBlocks.stones) {
-			pickaxe.add(cp(stone), cp(stone + "_slab"), cp(stone + "_stairs"), cp(stone + "_wall"));
-			tag(BlockTags.SLABS).add(cp(stone + "_slab"));
-			tag(BlockTags.STAIRS).add(cp(stone + "_stairs"));
-			tag(BlockTags.WALLS).add(cp(stone + "_wall"));
-		}
-		for (String mat : CPBlocks.counters) {
-			pickaxe.add(cp(mat + "_chimney_flue"), cp(mat + "_chimney_pot"), cp(mat + "_counter"),
-					cp(mat + "_counter_with_dolium"));
-			tag("counter").add(cp(mat + "_chimney_flue"), cp(mat + "_chimney_pot"), cp(mat + "_counter"),
-					cp(mat + "_counter_with_dolium"));
-			tag("chimney").add(cp(mat + "_chimney_flue"));
-			tag("chimney_pot").add(cp(mat + "_chimney_pot"));
+		for (CPMaterialType tye : CPBlocks.all_materials) {
+			String str=tye.getName();
+			if(tye.isHasPill())
+				for (String type : ImmutableSet.of("_column_fluted_plinth", "_column_fluted_shaft", "_column_shaft",
+						"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital", "_acanthine_column_capital"))
+					pickaxe.add(cp(str + type));
+			if(tye.isHasDeco()) {
+				pickaxe.add(cp(str), cp(str + "_slab"), cp(str + "_stairs"), cp(str + "_wall"));
+				tag(BlockTags.SLABS).add(cp(str + "_slab"));
+				tag(BlockTags.STAIRS).add(cp(str + "_stairs"));
+				tag(BlockTags.WALLS).add(cp(str + "_wall"));
+			}
+			if(tye.getCounterGrade()!=0) {
+				pickaxe.add(cp(str + "_chimney_flue"), cp(str + "_chimney_pot"), cp(str + "_counter"),
+						cp(str + "_counter_with_dolium"));
+				tag("counter").add(cp(str + "_chimney_flue"), cp(str + "_chimney_pot"), cp(str + "_counter"),
+						cp(str + "_counter_with_dolium"));
+				tag("chimney").add(cp(str + "_chimney_flue"));
+				tag("chimney_pot").add(cp(str + "_chimney_pot"));
+			}
+			if(tye.isHasHypo()) {
+				tag("caliducts").add(cp(str + "_caliduct"));
+				tag("heat_conductor").add(cp(str + "_hypocaust_firebox"));
+				tag("chimney_ignore").add(cp(str + "_hypocaust_firebox"));
+				pickaxe.add(cp(str + "_caliduct")).add(cp(str + "_hypocaust_firebox"));
+			}
 		}
 		adds(tag("pans"),CPBlocks.STONE_PAN.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey());
 		adds(tag("chimney_ignore")
@@ -131,12 +140,6 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag(BlockTags.MINEABLE_WITH_HOE).add(cp(bush + "_leaves")).add(cp(bush + "_fruits"));
 		}
 		adds(pickaxe,CPBlocks.PUMICE_BLOOM.getKey(), CPBlocks.FUMAROLE_BOULDER.getKey(), CPBlocks.FUMAROLE_VENT.getKey(), CPBlocks.PUMICE.getKey());
-		for (String s : CPBlocks.hypocaust_materials) {
-			tag("caliducts").add(cp(s + "_caliduct"));
-			tag("heat_conductor").add(cp(s + "_hypocaust_firebox"));
-			tag("chimney_ignore").add(cp(s + "_hypocaust_firebox"));
-			pickaxe.add(cp(s + "_caliduct")).add(cp(s + "_hypocaust_firebox"));
-		}
 		adds(pickaxe,CPBlocks.WOLF.getKey(), CPBlocks.STONE_PAN.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey());
 		adds(tag(BlockTags.NEEDS_STONE_TOOL),CPBlocks.WOLF.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey());
 		tag("heat_conductor").addTag(otag("caliducts"));

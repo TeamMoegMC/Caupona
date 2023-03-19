@@ -45,6 +45,7 @@ import java.util.concurrent.CompletableFuture;
 import com.google.common.collect.ImmutableList;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
+import com.teammoeg.caupona.CPMaterialType;
 import com.teammoeg.caupona.Main;
 
 import net.minecraft.core.HolderLookup;
@@ -125,7 +126,9 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 			tag(ItemTags.SAPLINGS).add(cp(wood + "_sapling"));
 			tag(ItemTags.LOGS).add(cp(wood + "_log"));
 		}
-		for (String stone : CPBlocks.stones) {
+		for (CPMaterialType typ : CPBlocks.all_materials) {
+			if(!typ.isHasDeco())continue;
+			String stone=typ.getName();
 			tag(ItemTags.SLABS).add(cp(stone + "_slab"));
 			tag(ItemTags.STAIRS).add(cp(stone + "_stairs"));
 			tag(ItemTags.WALLS).add(cp(stone + "_wall"));
@@ -173,8 +176,7 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag("fern").add(rk(Items.FERN), rk(Items.LARGE_FERN));
 		tag("wolfberries").add(cp("wolfberries"));
 		tag("stews").add(CPItems.stews.stream().map(this::rk).toArray(i->new ResourceKey[i]));
-		tag("stoves").add(rk(CPBlocks.stove1.get().asItem()), rk(CPBlocks.stove2.get().asItem()), rk(CPBlocks.stove3.get().asItem()),
-				rk(CPBlocks.stove4.get().asItem()), rk(CPBlocks.stove5.get().asItem()));
+		tag("stoves").add(CPBlocks.stoves.stream().map(e->rk(e.get().asItem())).toArray(ResourceKey[]::new));
 		tag("portable_brazier_fuel").add(rk(Items.MAGMA_CREAM)).add(cp("vivid_charcoal"));
 		tag("garum_fish").add(rk(Items.COD), rk(Items.SALMON));
 		tag("vinegar_fruits").add(rk(Items.APPLE)).add(cp("fig"));

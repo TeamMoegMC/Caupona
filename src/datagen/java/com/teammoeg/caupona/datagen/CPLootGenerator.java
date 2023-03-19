@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPMaterialType;
 import com.teammoeg.caupona.Main;
 
 import net.minecraft.data.DataGenerator;
@@ -97,32 +98,33 @@ public class CPLootGenerator extends LootTableProvider {
 				dropSelf(cp("stripped_"+wood+"_wood"));
 				dropOther(cp(wood + "_wall_sign"), cp(wood + "_sign"));
 			}
-
-			for (String stone : CPBlocks.stones) {
-				for (String type : ImmutableSet.of("", "_slab", "_stairs", "_wall"))
-					dropSelf(cp(stone + type));
-			}
-
-			for (String stone : CPBlocks.counters) {
-				for (String type : ImmutableSet.of("_chimney_flue", "_chimney_pot", "_counter", "_counter_with_dolium",
-						"_kitchen_stove"))
-					dropSelf(cp(stone + type));
-			}
-			for (String str : CPBlocks.pillar_materials) {
-				for (String type : ImmutableSet.of("_column_fluted_plinth", "_column_fluted_shaft", "_column_shaft",
-						"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital",
-						"_acanthine_column_capital"))
-					dropSelf(cp(str + type));
+			for(CPMaterialType rtype:CPBlocks.all_materials) {
+				String stone=rtype.getName();
+				if(rtype.isHasDeco()) {
+					for (String type : ImmutableSet.of("", "_slab", "_stairs", "_wall"))
+						dropSelf(cp(stone + type));
+				}
+				if(rtype.getCounterGrade()!=0) {
+					for (String type : ImmutableSet.of("_chimney_flue", "_chimney_pot", "_counter", "_counter_with_dolium",
+							"_kitchen_stove"))
+						dropSelf(cp(stone + type));
+				}
+				if(rtype.isHasPill()) {
+					for (String type : ImmutableSet.of("_column_fluted_plinth", "_column_fluted_shaft", "_column_shaft",
+							"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital",
+							"_acanthine_column_capital"))
+						dropSelf(cp(stone + type));
+				}
+				if(rtype.isHasHypo()) {
+					dropSelf(cp(stone + "_caliduct"));
+					dropSelf(cp(stone + "_hypocaust_firebox"));
+				}
 			}
 			dropSelf(CPBlocks.GRAVY_BOAT.get());
 			for (String wood : ImmutableSet.of("fig", "wolfberry")) {
 				dropSelf(cp(wood + "_sapling"));
 				add(cp(wood + "_leaves"), createLeavesDrops(cp(wood + "_leaves"), cp(wood + "_sapling"), 0.05F, 0.0625F,
 						0.083333336F, 0.1F));
-			}
-			for (String s : CPBlocks.hypocaust_materials) {
-				dropSelf(cp(s + "_caliduct"));
-				dropSelf(cp(s + "_hypocaust_firebox"));
 			}
 		}
 
