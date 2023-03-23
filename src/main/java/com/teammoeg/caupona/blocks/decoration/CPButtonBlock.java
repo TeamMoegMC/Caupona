@@ -1,4 +1,4 @@
-package com.teammoeg.caupona.blocks;
+package com.teammoeg.caupona.blocks.decoration;
 
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.state.properties.BlockSetType;

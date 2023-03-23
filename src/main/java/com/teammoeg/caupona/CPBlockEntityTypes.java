@@ -26,6 +26,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableSet;
+import com.teammoeg.caupona.blocks.decoration.CPSignBlockEntity;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 import com.teammoeg.caupona.blocks.foods.BowlBlockEntity;
 import com.teammoeg.caupona.blocks.foods.DishBlockEntity;
@@ -33,7 +34,6 @@ import com.teammoeg.caupona.blocks.fumarole.FumaroleVentBlockEntity;
 import com.teammoeg.caupona.blocks.hypocaust.CaliductBlockEntity;
 import com.teammoeg.caupona.blocks.hypocaust.FireboxBlockEntity;
 import com.teammoeg.caupona.blocks.hypocaust.WolfStatueBlockEntity;
-import com.teammoeg.caupona.blocks.others.CPSignBlockEntity;
 import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.blocks.stove.ChimneyPotBlockEntity;

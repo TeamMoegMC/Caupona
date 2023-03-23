@@ -19,22 +19,25 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.blocks.others;
+package com.teammoeg.caupona.blocks.decoration;
 
-import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.CPBlocks;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.SignBlockEntity;
+import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.WoodType;
 
-public class CPSignBlockEntity extends SignBlockEntity {
-	public CPSignBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-		super(pWorldPosition, pBlockState);
+public class CPStandingSignBlock extends StandingSignBlock {
+
+	public CPStandingSignBlock(Properties propertiesIn, WoodType woodTypeIn) {
+		super(propertiesIn, woodTypeIn);
+		CPBlocks.signs.add(this);
 	}
 
 	@Override
-	public BlockEntityType<CPSignBlockEntity> getType() {
-		return CPBlockEntityTypes.SIGN.get();
+	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+		return new CPSignBlockEntity(pPos, pState);
 	}
 }

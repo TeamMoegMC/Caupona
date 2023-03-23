@@ -19,25 +19,31 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.blocks.others;
+package com.teammoeg.caupona.blocks.decoration;
 
-import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.WallSignBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class CPWallSignBlock extends WallSignBlock {
+public class ColumnCapitalBlock extends CPHorizontalBlock {
+	static final VoxelShape shaft = Block.box(2, 0, 2, 14, 16, 14);
+	boolean isLarge;
+	static final VoxelShape small = Shapes.or(shaft, Block.box(0, 12, 0, 16, 16, 16));
+	static final VoxelShape large = Shapes.or(shaft, Block.box(0, 9, 0, 16, 16, 16));
 
-	public CPWallSignBlock(Properties propertiesIn, WoodType woodTypeIn) {
-		super(propertiesIn, woodTypeIn);
-		CPBlocks.signs.add(this);
+	public ColumnCapitalBlock(Properties p_54120_, boolean isLarge) {
+		super(p_54120_);
+		this.isLarge = isLarge;
 	}
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return new CPSignBlockEntity(pPos, pState);
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+		return isLarge ? large : small;
 	}
 }

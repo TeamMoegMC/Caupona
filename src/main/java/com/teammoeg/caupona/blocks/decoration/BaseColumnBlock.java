@@ -19,25 +19,28 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.blocks.others;
-
-import com.teammoeg.caupona.CPBlocks;
+package com.teammoeg.caupona.blocks.decoration;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.StandingSignBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class CPStandingSignBlock extends StandingSignBlock {
+public class BaseColumnBlock extends Block {
+	static final VoxelShape shaft = Block.box(2, 0, 2, 14, 16, 14);
+	boolean isPlinth;
+	static final VoxelShape plinth = Shapes.or(shaft, Block.box(0, 0, 0, 16, 4, 16));
 
-	public CPStandingSignBlock(Properties propertiesIn, WoodType woodTypeIn) {
-		super(propertiesIn, woodTypeIn);
-		CPBlocks.signs.add(this);
+	public BaseColumnBlock(Properties p_49795_, boolean isPlinth) {
+		super(p_49795_);
+		this.isPlinth = isPlinth;
 	}
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return new CPSignBlockEntity(pPos, pState);
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+		return isPlinth ? plinth : shaft;
 	}
 }
