@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona.blocks.hypocaust;
 
-import com.teammoeg.caupona.Config;
+import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 
 import net.minecraft.core.BlockPos;
@@ -41,10 +41,10 @@ public abstract class BathHeatingBlockEntity extends CPBaseBlockEntity {
 	private boolean water;
 	public BathHeatingBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
 		super(pType, pWorldPosition, pBlockState);
-		rate = Config.SERVER.bathChance.get();
-		val = Config.SERVER.bathExp.get();
-		mp = Config.SERVER.bathPath.get();
-		water=!Config.SERVER.strictWater.get();
+		rate = CPConfig.SERVER.bathChance.get();
+		val = CPConfig.SERVER.bathExp.get();
+		mp = CPConfig.SERVER.bathPath.get();
+		water=!CPConfig.SERVER.strictWater.get();
 	}
 
 	public int getHeat() {

@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona.client;
 
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -31,7 +31,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class CPParticles {
 	public static final DeferredRegister<ParticleType<?>> REGISTER = DeferredRegister
-			.create(ForgeRegistries.PARTICLE_TYPES, Main.MODID);
+			.create(ForgeRegistries.PARTICLE_TYPES, CPMain.MODID);
 
 	public static final RegistryObject<SimpleParticleType> STEAM = REGISTER.register("steam",
 			() -> new SimpleParticleType(false));

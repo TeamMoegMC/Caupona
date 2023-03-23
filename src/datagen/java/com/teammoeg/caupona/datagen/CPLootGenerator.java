@@ -28,8 +28,8 @@ import java.util.Map;
 import java.util.Set;
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.CPMaterialType;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.util.MaterialType;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.LootTableProvider;
@@ -98,24 +98,24 @@ public class CPLootGenerator extends LootTableProvider {
 				dropSelf(cp("stripped_"+wood+"_wood"));
 				dropOther(cp(wood + "_wall_sign"), cp(wood + "_sign"));
 			}
-			for(CPMaterialType rtype:CPBlocks.all_materials) {
+			for(MaterialType rtype:CPBlocks.all_materials) {
 				String stone=rtype.getName();
-				if(rtype.isHasDeco()) {
+				if(rtype.isDecorationMaterial()) {
 					for (String type : ImmutableSet.of("", "_slab", "_stairs", "_wall"))
 						dropSelf(cp(stone + type));
 				}
-				if(rtype.getCounterGrade()!=0) {
+				if(rtype.isCounterMaterial()) {
 					for (String type : ImmutableSet.of("_chimney_flue", "_chimney_pot", "_counter", "_counter_with_dolium",
 							"_kitchen_stove"))
 						dropSelf(cp(stone + type));
 				}
-				if(rtype.isHasPill()) {
+				if(rtype.isPillarMaterial()) {
 					for (String type : ImmutableSet.of("_column_fluted_plinth", "_column_fluted_shaft", "_column_shaft",
 							"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital",
 							"_acanthine_column_capital"))
 						dropSelf(cp(stone + type));
 				}
-				if(rtype.isHasHypo()) {
+				if(rtype.isHypocaustMaterial()) {
 					dropSelf(cp(stone + "_caliduct"));
 					dropSelf(cp(stone + "_hypocaust_firebox"));
 				}
@@ -129,7 +129,7 @@ public class CPLootGenerator extends LootTableProvider {
 		}
 
 		private Block cp(String name) {
-			return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Main.MODID, name));
+			return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(CPMain.MODID, name));
 		}
 
 		ArrayList<Block> added = new ArrayList<>();

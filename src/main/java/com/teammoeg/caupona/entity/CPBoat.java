@@ -22,7 +22,7 @@
 package com.teammoeg.caupona.entity;
 
 import com.teammoeg.caupona.CPEntityTypes;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -82,7 +82,7 @@ public class CPBoat extends Boat {
 
 	@Override
 	public Item getDropItem() {
-		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, getWoodType() + "_boat"));
+		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID, getWoodType() + "_boat"));
 	}
 
 	/*@Override

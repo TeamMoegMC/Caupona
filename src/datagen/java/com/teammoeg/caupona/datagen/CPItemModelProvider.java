@@ -22,7 +22,7 @@
 package com.teammoeg.caupona.datagen;
 
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.data.DataGenerator;
@@ -63,11 +63,11 @@ public class CPItemModelProvider extends ItemModelProvider {
 		texture("chronoconis");
 
 		super.singleTexture("walnut_sapling", new ResourceLocation("minecraft", "item/generated"), "layer0",
-				new ResourceLocation(Main.MODID, "block/walnut_sapling"));
+				new ResourceLocation(CPMain.MODID, "block/walnut_sapling"));
 		super.singleTexture("fig_sapling", new ResourceLocation("minecraft", "item/generated"), "layer0",
-				new ResourceLocation(Main.MODID, "block/fig_sapling"));
+				new ResourceLocation(CPMain.MODID, "block/fig_sapling"));
 		super.singleTexture("wolfberry_sapling", new ResourceLocation("minecraft", "item/generated"), "layer0",
-				new ResourceLocation(Main.MODID, "block/wolfberry_sapling"));
+				new ResourceLocation(CPMain.MODID, "block/wolfberry_sapling"));
 		// super.withExistingParent("clay_cistern",new
 		// ResourceLocation(Main.MODID,"block/clay_cistern"));
 		for (String s : CPItems.spices)
@@ -85,12 +85,12 @@ public class CPItemModelProvider extends ItemModelProvider {
 	}
 
 	public void itemModel(Item item, String name) {
-		super.withExistingParent(Utils.getRegistryName(item).getPath(), new ResourceLocation(Main.MODID, "block/" + name));
+		super.withExistingParent(Utils.getRegistryName(item).getPath(), new ResourceLocation(CPMain.MODID, "block/" + name));
 	}
 
 	public ItemModelBuilder simpleTexture(String name, String par) {
 		return super.singleTexture(name, new ResourceLocation("minecraft", "item/generated"), "layer0",
-				new ResourceLocation(Main.MODID, "item/" + par + name));
+				new ResourceLocation(CPMain.MODID, "item/" + par + name));
 	}
 
 	public ItemModelBuilder texture(String name) {
@@ -99,6 +99,6 @@ public class CPItemModelProvider extends ItemModelProvider {
 
 	public ItemModelBuilder texture(String name, String par) {
 		return super.singleTexture(name, new ResourceLocation("minecraft", "item/generated"), "layer0",
-				new ResourceLocation(Main.MODID, "item/" + par));
+				new ResourceLocation(CPMain.MODID, "item/" + par));
 	}
 }

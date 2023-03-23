@@ -36,7 +36,6 @@ public class CPRegisteredEntityBlock<T extends BlockEntity> extends Block implem
 
 	}
 
-
 	@Override
 	public RegistryObject<BlockEntityType<T>> getBlock() {
 		return blockEntity;

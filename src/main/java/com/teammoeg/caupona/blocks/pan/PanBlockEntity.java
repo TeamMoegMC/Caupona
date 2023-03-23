@@ -23,8 +23,8 @@ package com.teammoeg.caupona.blocks.pan;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPConfig;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.PanPendingContext;
@@ -294,7 +294,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 
 		current.completeAll();
 		current.recalculateHAS();
-		tpt = Math.max(Config.SERVER.fryTimeBase.get(), tpt);
+		tpt = Math.max(CPConfig.SERVER.fryTimeBase.get(), tpt);
 		interninv.clear();
 		PanPendingContext ctx = new PanPendingContext(current);
 		oamount = cook;
@@ -320,7 +320,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 
 	@Override
 	public Component getDisplayName() {
-		return Utils.translate("container." + Main.MODID + ".pan.title");
+		return Utils.translate("container." + CPMain.MODID + ".pan.title");
 	}
 
 	RangedWrapper bowl = new RangedWrapper(inv, 9, 12) {

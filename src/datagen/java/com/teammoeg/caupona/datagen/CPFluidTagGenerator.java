@@ -23,7 +23,7 @@ package com.teammoeg.caupona.datagen;
 
 import java.util.concurrent.CompletableFuture;
 import com.teammoeg.caupona.CPFluids;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
@@ -79,7 +79,7 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 	}
 
 	private ResourceLocation mrl(String s) {
-		return new ResourceLocation(Main.MODID, s);
+		return new ResourceLocation(CPMain.MODID, s);
 	}
 
 	private ResourceLocation frl(String s) {
@@ -92,7 +92,7 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 
 	@Override
 	public String getName() {
-		return Main.MODID + " fluid tags";
+		return CPMain.MODID + " fluid tags";
 	}
 /*
 	@Override

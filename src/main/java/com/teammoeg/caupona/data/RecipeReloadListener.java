@@ -38,7 +38,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.base.Stopwatch;
 import com.mojang.datafixers.util.Pair;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
@@ -74,7 +74,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class RecipeReloadListener implements ResourceManagerReloadListener {
 	ReloadableServerResources data;
-	public static final Logger logger = LogManager.getLogger(Main.MODNAME + " recipe generator");
+	public static final Logger logger = LogManager.getLogger(CPMain.MODNAME + " recipe generator");
 
 	public RecipeReloadListener(ReloadableServerResources dpr) {
 		data = dpr;
@@ -133,7 +133,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 		if (force) {
 			FoodProperties of = iis.getFoodProperties(null);
 			FoodValueRecipe ret = FoodValueRecipe.recipes.computeIfAbsent(i,
-					e -> new FoodValueRecipe(new ResourceLocation(Main.MODID, "food/generated/" + (generated_fv++)), 0,
+					e -> new FoodValueRecipe(new ResourceLocation(CPMain.MODID, "food/generated/" + (generated_fv++)), 0,
 							0, iis, e));
 			if (of != null && of.getNutrition() > ret.heal) {
 				ret.effects = of.getEffects();

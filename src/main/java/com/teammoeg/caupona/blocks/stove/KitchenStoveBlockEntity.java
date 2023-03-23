@@ -23,8 +23,8 @@ package com.teammoeg.caupona.blocks.stove;
 
 import java.util.Objects;
 
-import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPConfig;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.client.CPParticles;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.ChimneyHelper;
@@ -68,9 +68,9 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 	public KitchenStoveBlockEntity(BlockEntityType<KitchenStoveBlockEntity> tet, BlockPos p, BlockState s, int spd) {
 		super(tet, p, s);
 		this.speed = spd;
-		maxcd = Config.SERVER.stoveCD.get() / speed;
-		fuelMod = Config.SERVER.stoveFuel.get();
-		chimneyCheckTicks = Config.SERVER.chimneyCheck.get();
+		maxcd = CPConfig.SERVER.stoveCD.get() / speed;
+		fuelMod = CPConfig.SERVER.stoveFuel.get();
+		chimneyCheckTicks = CPConfig.SERVER.chimneyCheck.get();
 	}
 
 	@Override
@@ -165,7 +165,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 
 	@Override
 	public Component getDisplayName() {
-		return Utils.translate("container." + Main.MODID + ".kitchen_stove.title");
+		return Utils.translate("container." + CPMain.MODID + ".kitchen_stove.title");
 	}
 
 	private boolean consumeFuel() {

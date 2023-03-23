@@ -12,7 +12,7 @@ import net.minecraft.world.item.CreativeModeTab.TabVisibility;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 
-public class CreativeItemHelper implements Output{
+public class CreativeTabItemHelper implements Output{
 	private static class Entry{
 		public ItemStack is;
 		public CreativeModeTab.TabVisibility tab;
@@ -38,7 +38,7 @@ public class CreativeItemHelper implements Output{
 	public CreativeModeTab getTab() {
 		return tab;
 	}
-	public CreativeItemHelper(CreativeModeTab tab) {
+	public CreativeTabItemHelper(CreativeModeTab tab) {
 		super();
 		this.tab = tab;
 	}

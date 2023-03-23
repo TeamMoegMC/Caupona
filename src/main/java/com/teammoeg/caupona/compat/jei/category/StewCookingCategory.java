@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.api.GameTranslation;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
@@ -53,7 +53,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class StewCookingCategory implements IRecipeCategory<StewCookingRecipe> {
-	public static RecipeType<StewCookingRecipe> TYPE=RecipeType.create(Main.MODID, "stew_cooking",StewCookingRecipe.class);
+	public static RecipeType<StewCookingRecipe> TYPE=RecipeType.create(CPMain.MODID, "stew_cooking",StewCookingRecipe.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 	private IGuiHelper helper;
@@ -65,7 +65,7 @@ public class StewCookingCategory implements IRecipeCategory<StewCookingRecipe> {
 	}
 
 	public Component getTitle() {
-		return Utils.translate("gui.jei.category." + Main.MODID + ".stew_cooking.title");
+		return Utils.translate("gui.jei.category." + CPMain.MODID + ".stew_cooking.title");
 	}
 
 	@Override

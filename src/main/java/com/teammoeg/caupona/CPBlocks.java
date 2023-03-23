@@ -59,6 +59,7 @@ import com.teammoeg.caupona.blocks.stove.KitchenStoveBlockEntity;
 import com.teammoeg.caupona.item.CPBlockItem;
 import com.teammoeg.caupona.item.CPSignItem;
 import com.teammoeg.caupona.item.DishItem;
+import com.teammoeg.caupona.util.MaterialType;
 import com.teammoeg.caupona.util.TabType;
 import com.teammoeg.caupona.worldgen.DefaultTreeGrower;
 import net.minecraft.core.BlockPos;
@@ -91,20 +92,20 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CPBlocks {
-	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Main.MODID);
+	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, CPMain.MODID);
 	// static string data
 	public static final String[] woods = new String[] { "walnut" };
 	// Dynamic block types
-	public static final CPMaterialType[] all_materials = new CPMaterialType[] { new CPMaterialType("mud").hasCounter(1),
-			new CPMaterialType("stone_brick").hasCounter(2).hasHypocaust(), new CPMaterialType("stone").hasPillar(),
-			new CPMaterialType("brick").hasCounter(2).hasHypocaust(),
-			new CPMaterialType("mixed_bricks").hasDecoration(),
-			new CPMaterialType("opus_incertum").hasCounter(2).hasDecoration().hasHypocaust(),
-			new CPMaterialType("opus_latericium").hasCounter(2).hasDecoration().hasHypocaust(),
-			new CPMaterialType("opus_reticulatum").hasDecoration(),
-			new CPMaterialType("felsic_tuff_bricks").hasDecoration(),
-			new CPMaterialType("felsic_tuff").hasDecoration().hasPillar(), new CPMaterialType("quartz").hasPillar(),
-			new CPMaterialType("calcite").hasPillar() };
+	public static final MaterialType[] all_materials = new MaterialType[] { new MaterialType("mud").makeCounter(1),
+			new MaterialType("stone_brick").makeCounter(2).makeHypocaust(), new MaterialType("stone").makePillar(),
+			new MaterialType("brick").makeCounter(2).makeHypocaust(),
+			new MaterialType("mixed_bricks").makeDecoration(),
+			new MaterialType("opus_incertum").makeCounter(2).makeDecoration().makeHypocaust(),
+			new MaterialType("opus_latericium").makeCounter(2).makeDecoration().makeHypocaust(),
+			new MaterialType("opus_reticulatum").makeDecoration(),
+			new MaterialType("felsic_tuff_bricks").makeDecoration(),
+			new MaterialType("felsic_tuff").makeDecoration().makePillar(), new MaterialType("quartz").makePillar(),
+			new MaterialType("calcite").makePillar() };
 	// Block Lists for use in other registries
 	public static final List<RegistryObject<KitchenStove>> stoves = new ArrayList<>();
 	public static final List<Block> signs = new ArrayList<>();
@@ -155,28 +156,28 @@ public class CPBlocks {
 	//Bulk register blocks
 	static {
 
-		for (CPMaterialType type : all_materials) {
+		for (MaterialType type : all_materials) {
 			String name = type.getName();
-			if (type.isHasDeco()) {
+			if (type.isDecorationMaterial()) {
 				RegistryObject<Block> base = block(name, getStoneProps());
 				stoneBlocks.put(name, base);
 				baseblock(name + "_slab", () -> new SlabBlock(getStoneProps()));
 				baseblock(name + "_stairs", () -> new StairBlock(base.get()::defaultBlockState, getStoneProps()));
 				baseblock(name + "_wall", () -> new WallBlock(getStoneProps()));
 			}
-			if (type.getCounterGrade() != 0) {
+			if (type.isCounterMaterial()) {
 				stove(name + "_kitchen_stove", getStoveProps(),
-						type.getCounterGrade() == 1 ? CPBlockEntityTypes.STOVE1 : CPBlockEntityTypes.STOVE2);
+						type.getCounterGrade() == 1 ? CPBlockEntityTypes.STOVE_T1 : CPBlockEntityTypes.STOVE_T2);
 				block(name + "_chimney_flue", getTransparentProps());
 				baseblock(name + "_chimney_pot", () -> new ChimneyPotBlock(getTransparentProps()));
 				baseblock(name + "_counter", () -> new CPHorizontalBlock(getStoneProps()));
 				baseblock(name + "_counter_with_dolium", () -> new CounterDoliumBlock(getTransparentProps()));
 			}
-			if (type.isHasHypo()) {
+			if (type.isHypocaustMaterial()) {
 				baseblock(name + "_caliduct", () -> new CaliductBlock(getTransparentProps()));
 				baseblock(name + "_hypocaust_firebox", () -> new FireboxBlock(getTransparentProps()));
 			}
-			if (type.isHasPill()) {
+			if (type.isPillarMaterial()) {
 				baseblock(name + "_column_fluted_plinth",
 						() -> new BaseColumnBlock(getTransparentProps().strength(2f, 6f), true));
 				baseblock(name + "_column_fluted_shaft",

@@ -29,7 +29,7 @@ import org.apache.logging.log4j.Logger;
 import com.teammoeg.caupona.client.CPParticles;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.network.PacketHandler;
-import com.teammoeg.caupona.util.CreativeItemHelper;
+import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.ICreativeModeTabItem;
 import com.teammoeg.caupona.util.Utils;
 
@@ -46,20 +46,20 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(Main.MODID)
-public class Main {
+@Mod(CPMain.MODID)
+public class CPMain {
 
 	public static final String MODID = "caupona";
 	public static final String MODNAME = "Caupona";
 	public static final Logger logger = LogManager.getLogger(MODNAME);
-	public static final String BOOK_NBT_TAG=Main.MODID+":book_given";
+	public static final String BOOK_NBT_TAG=CPMain.MODID+":book_given";
 
 
 	public static ResourceLocation rl(String path) {
 		return new ResourceLocation(MODID, path);
 	}
 
-	public Main() {
+	public CPMain() {
 		IEventBus mod = FMLJavaModLoadingContext.get().getModEventBus();
 		ForgeMod.enableMilkFluid();
 		MinecraftForge.EVENT_BUS.register(RecipeReloadListener.class);
@@ -79,20 +79,18 @@ public class Main {
 		CPWorldGen.STRUCTURE_TYPES.register(mod);
 		CPWorldGen.FOILAGE_TYPES.register(mod);
 		CPWorldGen.TRUNK_TYPES.register(mod);
-		Config.register();
+		CPConfig.register();
 		PacketHandler.register();
 		
 	}
 	public static CreativeModeTab main;
 	public static CreativeModeTab foods;
-	@SubscribeEvent
 	public void onCreativeTabCreate(CreativeModeTabEvent.Register event) {
 		main=event.registerCreativeModeTab(rl("main"),Arrays.asList(),Arrays.asList(CreativeModeTabs.SPAWN_EGGS),e->e.icon(()->new ItemStack(CPBlocks.stew_pot.get())).title(Utils.translate("itemGroup.caupona")));
 		foods=event.registerCreativeModeTab(rl("food"),Arrays.asList(),Arrays.asList(rl("main")),e->e.icon(()->new ItemStack(CPItems.gravy_boat.get())).title(Utils.translate("itemGroup.caupona_foods")));
 	}
-	@SubscribeEvent
 	public void onCreativeTabContents(CreativeModeTabEvent.BuildContents event) {
-		CreativeItemHelper helper=new CreativeItemHelper(event.getTab());
+		CreativeTabItemHelper helper=new CreativeTabItemHelper(event.getTab());
 		CPItems.ITEMS.getEntries().forEach(e->{
 			if(e.get() instanceof ICreativeModeTabItem item) {
 				item.fillItemCategory(helper);

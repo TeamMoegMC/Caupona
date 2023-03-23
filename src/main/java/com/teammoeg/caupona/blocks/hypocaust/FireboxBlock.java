@@ -27,7 +27,7 @@ import com.teammoeg.caupona.CPBlocks;
 public class FireboxBlock extends BathHeatingBlock<FireboxBlockEntity> {
 
 	public FireboxBlock(Properties blockProps) {
-		super(CPBlockEntityTypes.FIREBOX, blockProps);
+		super(CPBlockEntityTypes.HYPOCAUST_FIREBOX, blockProps);
 		CPBlocks.firebox.add(this);
 	}
 

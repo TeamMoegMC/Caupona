@@ -28,13 +28,13 @@ import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 
-public class Config {
+public class CPConfig {
 
 	public static void register() {
 		// ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT,
 		// Config.CLIENT_CONFIG);
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);
-		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SERVER_CONFIG);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CPConfig.COMMON_CONFIG);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, CPConfig.SERVER_CONFIG);
 	}
 
 	public static class Client {

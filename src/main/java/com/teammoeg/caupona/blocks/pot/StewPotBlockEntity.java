@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
-import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPConfig;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
@@ -115,8 +115,8 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 
 	public StewPotBlockEntity(BlockPos p, BlockState s) {
 		super(CPBlockEntityTypes.STEW_POT.get(), p, s);
-		stillticks = Config.COMMON.staticTime.get();
-		contTicks = Config.SERVER.containerTick.get();
+		stillticks = CPConfig.COMMON.staticTime.get();
+		contTicks = CPConfig.SERVER.containerTick.get();
 	}
 
 	public FluidTank getTank() {
@@ -474,10 +474,10 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 
 		if (!hasItem) {// just reduce water
 			current.completeEffects();
-			processMax = Math.max(Config.SERVER.potCookTimeBase.get(), decideSoup());
+			processMax = Math.max(CPConfig.SERVER.potCookTimeBase.get(), decideSoup());
 			return true;
 		}
-		int tpt = Config.SERVER.potMixTimeBase.get();
+		int tpt = CPConfig.SERVER.potMixTimeBase.get();
 		outer: for (int i = 0; i < 9; i++) {
 			ItemStack is = interninv.get(i);
 			if (is.isEmpty())
@@ -494,7 +494,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				tpt += fvr.processtimes.getOrDefault(is.getItem(), 0);
 		}
 		current.completeAll();
-		tpt = Math.max(Config.SERVER.potCookTimeBase.get(), tpt);
+		tpt = Math.max(CPConfig.SERVER.potCookTimeBase.get(), tpt);
 		interninv.clear();
 		processMax = Math.max(decideSoup(), tpt);
 		return true;
@@ -571,7 +571,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 	}
 
 	public boolean tryAddFluid(FluidStack fs) {
-		return tryAddFluid(fs, Config.SERVER.potMixTimeBase.get(), true);
+		return tryAddFluid(fs, CPConfig.SERVER.potMixTimeBase.get(), true);
 	}
 
 	public boolean tryAddFluid(FluidStack fs, int extraTime, boolean canIgnoreHeat) {
@@ -641,7 +641,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 
 	@Override
 	public Component getDisplayName() {
-		return Utils.translate("container." + Main.MODID + ".stewpot.title");
+		return Utils.translate("container." + CPMain.MODID + ".stewpot.title");
 	}
 
 	@Override

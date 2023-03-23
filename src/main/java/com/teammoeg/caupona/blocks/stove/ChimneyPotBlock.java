@@ -44,7 +44,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 public class ChimneyPotBlock extends CPHorizontalEntityBlock<ChimneyPotBlockEntity> {
 
 	public ChimneyPotBlock(Properties p_54120_) {
-		super(CPBlockEntityTypes.CHIMNEY, p_54120_);
+		super(CPBlockEntityTypes.CHIMNEY_POT, p_54120_);
 		CPBlocks.chimney.add(this);
 	}
 

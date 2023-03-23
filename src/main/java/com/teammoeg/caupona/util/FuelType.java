@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona.util;
 
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -38,7 +38,7 @@ public enum FuelType {
 
 	private FuelType(int modelId, String tagname) {
 		this.modelId = modelId;
-		it = ItemTags.create(new ResourceLocation(Main.MODID, tagname));
+		it = ItemTags.create(new ResourceLocation(CPMain.MODID, tagname));
 	}
 
 	public static FuelType getType(ItemStack is) {

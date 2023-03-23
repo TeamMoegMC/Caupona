@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona.util;
 
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -33,10 +33,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 
 public class ChimneyHelper {
-	public static final TagKey<Block> chimney = BlockTags.create(new ResourceLocation(Main.MODID, "chimney"));
-	public static final TagKey<Block> chimney_pot = BlockTags.create(new ResourceLocation(Main.MODID, "chimney_pot"));
+	public static final TagKey<Block> chimney = BlockTags.create(new ResourceLocation(CPMain.MODID, "chimney"));
+	public static final TagKey<Block> chimney_pot = BlockTags.create(new ResourceLocation(CPMain.MODID, "chimney_pot"));
 	public static final TagKey<Block> chimney_ignore = BlockTags
-			.create(new ResourceLocation(Main.MODID, "chimney_ignore"));
+			.create(new ResourceLocation(CPMain.MODID, "chimney_ignore"));
 
 	public ChimneyHelper() {
 	}

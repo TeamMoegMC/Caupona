@@ -25,8 +25,8 @@ import java.util.Iterator;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPConfig;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 
@@ -48,15 +48,15 @@ public class FumaroleVentBlockEntity extends CPBaseBlockEntity implements IStove
 	private final int checkmax;
 	private final int updatemax;
 	public static final TagKey<Fluid> pumice = FluidTags
-			.create(new ResourceLocation(Main.MODID, "pumice_bloom_grow_on"));
-	public static final TagKey<Block> hot = BlockTags.create(new ResourceLocation(Main.MODID, "fumarole_hot"));
-	public static final TagKey<Block> vhot = BlockTags.create(new ResourceLocation(Main.MODID, "fumarole_very_hot"));
+			.create(new ResourceLocation(CPMain.MODID, "pumice_bloom_grow_on"));
+	public static final TagKey<Block> hot = BlockTags.create(new ResourceLocation(CPMain.MODID, "fumarole_hot"));
+	public static final TagKey<Block> vhot = BlockTags.create(new ResourceLocation(CPMain.MODID, "fumarole_very_hot"));
 
 	public FumaroleVentBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPBlockEntityTypes.FUMAROLE.get(), pWorldPosition, pBlockState);
-		heat = Config.SERVER.fumarolePower.get();
-		checkmax = Config.SERVER.fumaroleCheck.get();
-		updatemax = Config.SERVER.fumaroleSpeed.get();
+		heat = CPConfig.SERVER.fumarolePower.get();
+		checkmax = CPConfig.SERVER.fumaroleCheck.get();
+		updatemax = CPConfig.SERVER.fumaroleSpeed.get();
 	}
 
 	@Override

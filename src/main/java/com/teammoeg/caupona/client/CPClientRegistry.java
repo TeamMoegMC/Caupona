@@ -25,7 +25,7 @@ import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPEntityTypes;
 import com.teammoeg.caupona.CPGui;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.client.gui.DoliumScreen;
 import com.teammoeg.caupona.client.gui.KitchenStoveScreen;
 import com.teammoeg.caupona.client.gui.PanScreen;
@@ -60,7 +60,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = CPMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CPClientRegistry {
 	@SuppressWarnings("unused")
 	@SubscribeEvent
@@ -68,7 +68,7 @@ public class CPClientRegistry {
 		LayerDefinition layer = BoatModel.createBodyModel();
 		for (String wood : CPBlocks.woods)
 			ForgeHooksClient.registerLayerDefinition(
-					new ModelLayerLocation(new ResourceLocation(Main.MODID, "boat/" + wood), "main"), () -> layer);
+					new ModelLayerLocation(new ResourceLocation(CPMain.MODID, "boat/" + wood), "main"), () -> layer);
 		MenuScreens.register(CPGui.STEWPOT.get(), StewPotScreen::new);
 		MenuScreens.register(CPGui.STOVE.get(), KitchenStoveScreen::new);
 		MenuScreens.register(CPGui.DOLIUM.get(), DoliumScreen::new);

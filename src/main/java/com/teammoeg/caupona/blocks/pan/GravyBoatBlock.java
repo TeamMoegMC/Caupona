@@ -25,7 +25,7 @@ import java.util.List;
 
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
-import com.teammoeg.caupona.util.CreativeItemHelper;
+import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.ICreativeModeTabItem;
 
 import net.minecraft.core.BlockPos;
@@ -107,7 +107,7 @@ public class GravyBoatBlock extends CPHorizontalBlock implements ICreativeModeTa
 	}
 
 	@Override
-	public void fillItemCategory(CreativeItemHelper helper) {
+	public void fillItemCategory(CreativeTabItemHelper helper) {
 		if(helper.isFoodTab()) {
 			helper.accept(this);
 			ItemStack is = new ItemStack(this);

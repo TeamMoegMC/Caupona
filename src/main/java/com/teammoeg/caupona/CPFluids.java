@@ -56,7 +56,7 @@ public class CPFluids {
 		}
 		public FluidType create(String n){
 			FluidType ft=new FluidType(FluidType.Properties.create().viscosity(1200)
-					.temperature(333).rarity(Rarity.UNCOMMON).descriptionId("item."+Main.MODID+"."+n)) {
+					.temperature(333).rarity(Rarity.UNCOMMON).descriptionId("item."+CPMain.MODID+"."+n)) {
 
 						@Override
 						public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
@@ -87,10 +87,10 @@ public class CPFluids {
 	}
 
 	private static final ResourceLocation STILL_WATER_TEXTURE = new ResourceLocation("block/water_still");
-	private static final ResourceLocation STILL_SOUP_TEXTURE = new ResourceLocation(Main.MODID, "block/soup_fluid");
+	private static final ResourceLocation STILL_SOUP_TEXTURE = new ResourceLocation(CPMain.MODID, "block/soup_fluid");
 	private static final ResourceLocation STILL_MILK_TEXTURE = new ResourceLocation("forge", "block/milk_still");
-	static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Main.MODID);
-	static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(Keys.FLUID_TYPES, Main.MODID);
+	static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, CPMain.MODID);
+	static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(Keys.FLUID_TYPES, CPMain.MODID);
 	private static final Map<String, TextureColorPair> soupfluids = new HashMap<>();
 
 	public static TextureColorPair soup(int c) {
@@ -106,11 +106,11 @@ public class CPFluids {
 	}
 
 	public static Stream<Fluid> getAll() {
-		return soupfluids.keySet().stream().map(e -> new ResourceLocation(Main.MODID, e))
+		return soupfluids.keySet().stream().map(e -> new ResourceLocation(CPMain.MODID, e))
 				.map(ForgeRegistries.FLUIDS::getValue);
 	}
 	public static Stream<ResourceKey<Fluid>> getAllKeys() {
-		return soupfluids.keySet().stream().map(e -> new ResourceLocation(Main.MODID, e))
+		return soupfluids.keySet().stream().map(e -> new ResourceLocation(CPMain.MODID, e))
 				.map(e->ResourceKey.create(Registries.FLUID,e));
 	}
 	static {

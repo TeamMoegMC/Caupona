@@ -73,7 +73,7 @@ public class CPCommonEvents {
 		event.addListener(new RecipeReloadListener(event.getServerResources()));
 	}
 
-	private static TagKey<Item> container = ItemTags.create(new ResourceLocation(Main.MODID, "container"));
+	private static TagKey<Item> container = ItemTags.create(new ResourceLocation(CPMain.MODID, "container"));
 
 	@SubscribeEvent
 	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
@@ -85,7 +85,7 @@ public class CPCommonEvents {
 	@SubscribeEvent
 	public static void addManualToPlayer(@Nonnull PlayerEvent.PlayerLoggedInEvent event) {
 		
-		if(!Config.SERVER.addManual.get())return;
+		if(!CPConfig.SERVER.addManual.get())return;
 		if(!ModList.get().isLoaded("patchouli"))return;
 		CompoundTag nbt = event.getEntity().getPersistentData();
 		CompoundTag persistent;
@@ -95,9 +95,9 @@ public class CPCommonEvents {
 		} else {
 			nbt.put(Player.PERSISTED_NBT_TAG, (persistent = new CompoundTag()));
 		}
-		if (!persistent.contains(Main.BOOK_NBT_TAG)) {
-			persistent.putBoolean(Main.BOOK_NBT_TAG,true);
-			ItemHandlerHelper.giveItemToPlayer(event.getEntity(),PatchouliAPI.get().getBookStack(new ResourceLocation(Main.MODID,"book")));
+		if (!persistent.contains(CPMain.BOOK_NBT_TAG)) {
+			persistent.putBoolean(CPMain.BOOK_NBT_TAG,true);
+			ItemHandlerHelper.giveItemToPlayer(event.getEntity(),PatchouliAPI.get().getBookStack(new ResourceLocation(CPMain.MODID,"book")));
 		}
 	}
 	@SuppressWarnings("resource")

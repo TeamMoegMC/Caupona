@@ -23,7 +23,7 @@ package com.teammoeg.caupona.container;
 
 import com.teammoeg.caupona.CPGui;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.util.INetworkContainer;
@@ -52,7 +52,7 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 	private static final int OUT = 3;
 	private final Player player;
 	public static final TagKey<Item> fueltype = ItemTags
-			.create(new ResourceLocation(Main.MODID, "portable_brazier_fuel"));
+			.create(new ResourceLocation(CPMain.MODID, "portable_brazier_fuel"));
 	ItemStackHandler items = new ItemStackHandler(4) {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {

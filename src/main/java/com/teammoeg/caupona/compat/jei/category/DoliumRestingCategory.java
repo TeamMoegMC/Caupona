@@ -28,8 +28,8 @@ import java.util.List;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPConfig;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.util.Utils;
 
@@ -56,26 +56,26 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 public class DoliumRestingCategory implements IRecipeCategory<DoliumRecipe> {
-	public static RecipeType<DoliumRecipe> TYPE=RecipeType.create(Main.MODID, "dolium_resting",DoliumRecipe.class);
+	public static RecipeType<DoliumRecipe> TYPE=RecipeType.create(CPMain.MODID, "dolium_resting",DoliumRecipe.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
 	public DoliumRestingCategory(IGuiHelper guiHelper) {
 		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CPBlocks.dolium.get(0)));
-		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/maximum_resting.png");
+		ResourceLocation guiMain = new ResourceLocation(CPMain.MODID, "textures/gui/jei/maximum_resting.png");
 		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 	}
 
 
 	public Component getTitle() {
-		return Utils.translate("gui.jei.category." + Main.MODID + ".resting.title");
+		return Utils.translate("gui.jei.category." + CPMain.MODID + ".resting.title");
 	}
 
 	@SuppressWarnings("resource")
 	@Override
 	public void draw(DoliumRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
 			double mouseY) {
-		String burnTime = String.valueOf(Config.COMMON.staticTime.get() / 20f) + "s";
+		String burnTime = String.valueOf(CPConfig.COMMON.staticTime.get() / 20f) + "s";
 		Minecraft.getInstance().font.drawShadow(stack, burnTime, 100, 55, 0xFFFFFF);
 	}
 

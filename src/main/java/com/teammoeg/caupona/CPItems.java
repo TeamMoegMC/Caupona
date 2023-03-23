@@ -43,7 +43,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CPItems {
-	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Main.MODID);
+	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, CPMain.MODID);
 	public static final String[] soups = new String[] { "acquacotta", "bisque", "borscht", "borscht_cream", "congee",
 			"cream_of_meat_soup", "cream_of_mushroom_soup", "custard", "dilute_soup", "egg_drop_soup", "egg_tongsui",
 			"fish_chowder", "fish_soup", "fricassee", "goji_tongsui", "goulash", "gruel", "hodgepodge", "meat_soup",
@@ -76,7 +76,7 @@ public class CPItems {
 	public static RegistryObject<PortableBrazierItem> pbrazier = ITEMS.register("portable_brazier",()->new PortableBrazierItem( createProps()));
 	static{
 		for (String s : soups) {
-			stew(s, new ResourceLocation(Main.MODID, s), createSoupProps());
+			stew(s, new ResourceLocation(CPMain.MODID, s), createSoupProps());
 		}
 
 		for (String s : aspics)

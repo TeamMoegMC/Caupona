@@ -29,7 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class KitchenStoveT1 extends KitchenStoveBlockEntity {
 
 	public KitchenStoveT1(BlockPos p, BlockState s) {
-		super(CPBlockEntityTypes.STOVE1.get(), p, s, 1);
+		super(CPBlockEntityTypes.STOVE_T1.get(), p, s, 1);
 	}
 
 }

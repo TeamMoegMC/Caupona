@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona.item;
 
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.container.PortableBrazierContainer;
 import com.teammoeg.caupona.util.TabType;
 import com.teammoeg.caupona.util.Utils;
@@ -65,7 +65,7 @@ public class PortableBrazierItem extends CPItem implements MenuProvider {
 
 	@Override
 	public Component getDisplayName() {
-		return Utils.translate("container." + Main.MODID + ".portable_brazier.title");
+		return Utils.translate("container." + CPMain.MODID + ".portable_brazier.title");
 	}
 
 }

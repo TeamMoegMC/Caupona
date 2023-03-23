@@ -27,7 +27,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import com.google.gson.JsonObject;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.SerializeUtil;
@@ -52,7 +52,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 	public static List<SauteedRecipe> sorted;
 	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
-	public static final TagKey<Item> cookable = ItemTags.create(new ResourceLocation(Main.MODID, "cookable"));
+	public static final TagKey<Item> cookable = ItemTags.create(new ResourceLocation(CPMain.MODID, "cookable"));
 
 	public static boolean isCookable(ItemStack stack) {
 		FloatemTagStack s = new FloatemTagStack(stack);

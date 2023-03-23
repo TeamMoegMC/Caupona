@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona.item;
 
-import com.teammoeg.caupona.util.CreativeItemHelper;
+import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.ICreativeModeTabItem;
 import com.teammoeg.caupona.util.TabType;
 
@@ -35,7 +35,7 @@ public class CPItem extends Item implements ICreativeModeTabItem{
 	}
 
 	@Override
-	public void fillItemCategory(CreativeItemHelper helper) {
+	public void fillItemCategory(CreativeTabItemHelper helper) {
 		if(helper.isType(tab))
 			helper.accept(this);
 	}

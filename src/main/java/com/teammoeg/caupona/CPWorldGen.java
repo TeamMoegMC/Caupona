@@ -38,9 +38,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CPWorldGen {
-	public static final DeferredRegister<FoliagePlacerType<?>> FOILAGE_TYPES = DeferredRegister.create(Registries.FOLIAGE_PLACER_TYPE, Main.MODID);
-	public static final DeferredRegister<TrunkPlacerType<?>> TRUNK_TYPES = DeferredRegister.create(Registries.TRUNK_PLACER_TYPE, Main.MODID);
-	public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES = DeferredRegister.create(Registries.STRUCTURE_TYPE, Main.MODID);
+	public static final DeferredRegister<FoliagePlacerType<?>> FOILAGE_TYPES = DeferredRegister.create(Registries.FOLIAGE_PLACER_TYPE, CPMain.MODID);
+	public static final DeferredRegister<TrunkPlacerType<?>> TRUNK_TYPES = DeferredRegister.create(Registries.TRUNK_PLACER_TYPE, CPMain.MODID);
+	public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES = DeferredRegister.create(Registries.STRUCTURE_TYPE, CPMain.MODID);
 	
 	public static final RegistryObject<FoliagePlacerType<BushFoliagePlacer>> BUSH_PLACER = FOILAGE_TYPES.register("bush_foliage_placer", () -> new FoliagePlacerType<>(BushFoliagePlacer.CODEC));
 	

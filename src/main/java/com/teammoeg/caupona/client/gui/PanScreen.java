@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
 import com.teammoeg.caupona.blocks.pan.PanContainer;
 import com.teammoeg.caupona.util.Utils;
@@ -41,7 +41,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class PanScreen extends AbstractContainerScreen<PanContainer> {
-	static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID, "textures/gui/frying_pan.png");
+	static final ResourceLocation TEXTURE = new ResourceLocation(CPMain.MODID, "textures/gui/frying_pan.png");
 
 	PanBlockEntity blockEntity;
 
@@ -54,11 +54,11 @@ public class PanScreen extends AbstractContainerScreen<PanContainer> {
 		blockEntity = container.getBlock();
 	}
 
-	public static MutableComponent start = Utils.translate("gui." + Main.MODID + ".stewpot.canstart");
-	public static MutableComponent started = Utils.translate("gui." + Main.MODID + ".stewpot.started");
-	public static MutableComponent nostart = Utils.translate("gui." + Main.MODID + ".stewpot.cantstart");
-	public static MutableComponent nors = Utils.translate("gui." + Main.MODID + ".stewpot.noredstone");
-	public static MutableComponent rs = Utils.translate("gui." + Main.MODID + ".stewpot.redstone");
+	public static MutableComponent start = Utils.translate("gui." + CPMain.MODID + ".stewpot.canstart");
+	public static MutableComponent started = Utils.translate("gui." + CPMain.MODID + ".stewpot.started");
+	public static MutableComponent nostart = Utils.translate("gui." + CPMain.MODID + ".stewpot.cantstart");
+	public static MutableComponent nors = Utils.translate("gui." + CPMain.MODID + ".stewpot.noredstone");
+	public static MutableComponent rs = Utils.translate("gui." + CPMain.MODID + ".stewpot.redstone");
 	private ArrayList<Component> tooltip = new ArrayList<>(2);
 	ImageButton btn1;
 	ImageButton btn2;

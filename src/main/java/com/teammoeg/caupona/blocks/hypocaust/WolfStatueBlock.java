@@ -49,7 +49,7 @@ public class WolfStatueBlock extends CPHorizontalEntityBlock<WolfStatueBlockEnti
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
 	public WolfStatueBlock(Properties blockProps) {
-		super(CPBlockEntityTypes.WOLF, blockProps);
+		super(CPBlockEntityTypes.WOLF_STATUE, blockProps);
 		super.registerDefaultState(this.defaultBlockState().setValue(HEAT, 0).setValue(WATERLOGGED, false));
 	}
 

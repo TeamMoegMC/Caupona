@@ -25,8 +25,8 @@ import java.util.concurrent.CompletableFuture;
 
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.CPMaterialType;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.util.MaterialType;
 
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.HolderLookup;
@@ -94,19 +94,19 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag(frl("fence_gates/wooden")).add(cp(wood + "_fence_gate"));
 		}
 
-		for (CPMaterialType tye : CPBlocks.all_materials) {
+		for (MaterialType tye : CPBlocks.all_materials) {
 			String str=tye.getName();
-			if(tye.isHasPill())
+			if(tye.isPillarMaterial())
 				for (String type : ImmutableSet.of("_column_fluted_plinth", "_column_fluted_shaft", "_column_shaft",
 						"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital", "_acanthine_column_capital"))
 					pickaxe.add(cp(str + type));
-			if(tye.isHasDeco()) {
+			if(tye.isDecorationMaterial()) {
 				pickaxe.add(cp(str), cp(str + "_slab"), cp(str + "_stairs"), cp(str + "_wall"));
 				tag(BlockTags.SLABS).add(cp(str + "_slab"));
 				tag(BlockTags.STAIRS).add(cp(str + "_stairs"));
 				tag(BlockTags.WALLS).add(cp(str + "_wall"));
 			}
-			if(tye.getCounterGrade()!=0) {
+			if(tye.isCounterMaterial()) {
 				pickaxe.add(cp(str + "_chimney_flue"), cp(str + "_chimney_pot"), cp(str + "_counter"),
 						cp(str + "_counter_with_dolium"));
 				tag("counter").add(cp(str + "_chimney_flue"), cp(str + "_chimney_pot"), cp(str + "_counter"),
@@ -114,7 +114,7 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 				tag("chimney").add(cp(str + "_chimney_flue"));
 				tag("chimney_pot").add(cp(str + "_chimney_pot"));
 			}
-			if(tye.isHasHypo()) {
+			if(tye.isHypocaustMaterial()) {
 				tag("caliducts").add(cp(str + "_caliduct"));
 				tag("heat_conductor").add(cp(str + "_hypocaust_firebox"));
 				tag("chimney_ignore").add(cp(str + "_hypocaust_firebox"));
@@ -181,7 +181,7 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 	}
 
 	private ResourceLocation mrl(String s) {
-		return new ResourceLocation(Main.MODID, s);
+		return new ResourceLocation(CPMain.MODID, s);
 	}
 
 	private ResourceLocation frl(String s) {
@@ -194,7 +194,7 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 
 	@Override
 	public String getName() {
-		return Main.MODID + " block tags";
+		return CPMain.MODID + " block tags";
 	}
 
 

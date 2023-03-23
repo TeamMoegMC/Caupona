@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona.item;
 
-import com.teammoeg.caupona.util.CreativeItemHelper;
+import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.TabType;
 import com.teammoeg.caupona.util.Utils;
 
@@ -46,7 +46,7 @@ public class EdibleBlock extends CPBlockItem {
 
 
 	@Override
-	public void fillItemCategory(CreativeItemHelper helper) {
+	public void fillItemCategory(CreativeTabItemHelper helper) {
 		if (helper.isFoodTab()) {
 			ItemStack is=new ItemStack(this);
 			

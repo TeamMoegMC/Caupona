@@ -24,7 +24,7 @@ package com.teammoeg.caupona.api;
 import java.util.List;
 import java.util.Optional;
 
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.item.DishItem;
 import com.teammoeg.caupona.item.StewItem;
@@ -43,7 +43,7 @@ public class CauponaHooks {
 	private CauponaHooks() {
 	}
 
-	public static final ResourceLocation stew = new ResourceLocation(Main.MODID, "stews");
+	public static final ResourceLocation stew = new ResourceLocation(CPMain.MODID, "stews");
 
 	public static Optional<List<FloatemStack>> getItems(ItemStack stack) {
 		if (stack.getItem() instanceof StewItem) {

@@ -30,7 +30,7 @@ import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
-import com.teammoeg.caupona.util.CreativeItemHelper;
+import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.StewInfo;
 import com.teammoeg.caupona.util.Utils;
@@ -181,7 +181,7 @@ public class StewItem extends EdibleBlock{
 	}
 
 	@Override
-	public void fillItemCategory(CreativeItemHelper helper) {
+	public void fillItemCategory(CreativeTabItemHelper helper) {
 		if (helper.isFoodTab()) {
 			ItemStack is = new ItemStack(this);
 			is.getOrCreateTag().putString("type", fluid.toString());

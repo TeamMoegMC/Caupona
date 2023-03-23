@@ -45,8 +45,8 @@ import java.util.concurrent.CompletableFuture;
 import com.google.common.collect.ImmutableList;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.CPMaterialType;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.util.MaterialType;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
@@ -126,8 +126,8 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 			tag(ItemTags.SAPLINGS).add(cp(wood + "_sapling"));
 			tag(ItemTags.LOGS).add(cp(wood + "_log"));
 		}
-		for (CPMaterialType typ : CPBlocks.all_materials) {
-			if(!typ.isHasDeco())continue;
+		for (MaterialType typ : CPBlocks.all_materials) {
+			if(!typ.isDecorationMaterial())continue;
 			String stone=typ.getName();
 			tag(ItemTags.SLABS).add(cp(stone + "_slab"));
 			tag(ItemTags.STAIRS).add(cp(stone + "_stairs"));
@@ -212,7 +212,7 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 	}
 
 	private ResourceLocation mrl(String s) {
-		return new ResourceLocation(Main.MODID, s);
+		return new ResourceLocation(CPMain.MODID, s);
 	}
 
 	private ResourceLocation frl(String s) {
@@ -231,7 +231,7 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 
 	@Override
 	public String getName() {
-		return Main.MODID + " item tags";
+		return CPMain.MODID + " item tags";
 	}
 
 	private ResourceKey<Item> cp(String s) {

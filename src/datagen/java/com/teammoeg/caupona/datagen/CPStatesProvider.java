@@ -31,9 +31,9 @@ import java.util.function.UnaryOperator;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.CPMaterialType;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.stove.KitchenStove;
+import com.teammoeg.caupona.util.MaterialType;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
@@ -75,24 +75,24 @@ public class CPStatesProvider extends BlockStateProvider {
 
 		itemModel(CPBlocks.stew_pot.get(), bmf("stew_pot"));
 		simpleBlock(CPBlocks.bowl.get(), bmf("bowl_of_liquid"));
-		for(CPMaterialType rtype:CPBlocks.all_materials) {
+		for(MaterialType rtype:CPBlocks.all_materials) {
 			String stone=rtype.getName();
-			if (rtype.isHasDeco()) {
+			if (rtype.isDecorationMaterial()) {
 				for (String type : ImmutableSet.of("", "_slab", "_stairs"))
 					blockItemModel(stone + type);
 				blockItemModel(stone + "_wall", "_inventory");
 			}
-			if (rtype.getCounterGrade()!=0) {
+			if (rtype.isCounterMaterial()) {
 				for (String type : ImmutableSet.of("_chimney_flue", "_chimney_pot", "_counter", "_counter_with_dolium"))
 					blockItemModel(stone + type);
 			}
 	
-			if (rtype.isHasPill()) {
+			if (rtype.isPillarMaterial()) {
 				for (String type : ImmutableSet.of("_column_fluted_plinth", "_column_fluted_shaft", "_column_shaft",
 						"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital", "_acanthine_column_capital"))
 					blockItemModel(stone + type);
 			}
-			if (rtype.isHasHypo()) {
+			if (rtype.isHypocaustMaterial()) {
 				blockItemModel(stone + "_hypocaust_firebox");
 				blockItemModel(stone + "_caliduct");
 			}

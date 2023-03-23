@@ -22,7 +22,7 @@
 package com.teammoeg.caupona.compat.jei.category;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.util.Utils;
 
@@ -44,20 +44,20 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class PotCategory implements IRecipeCategory<AspicMeltingRecipe> {
-	public static RecipeType<AspicMeltingRecipe> TYPE=RecipeType.create(Main.MODID, "aspic_thawing_pot",AspicMeltingRecipe.class);
+	public static RecipeType<AspicMeltingRecipe> TYPE=RecipeType.create(CPMain.MODID, "aspic_thawing_pot",AspicMeltingRecipe.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
 	public PotCategory(IGuiHelper guiHelper) {
 		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK,
-				new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, "goulash"))));
-		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/aspic_thawing_pot.png");
+				new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID, "goulash"))));
+		ResourceLocation guiMain = new ResourceLocation(CPMain.MODID, "textures/gui/jei/aspic_thawing_pot.png");
 		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 	}
 
 
 	public Component getTitle() {
-		return Utils.translate("gui.jei.category." + Main.MODID + ".thawing_pot.title");
+		return Utils.translate("gui.jei.category." + CPMain.MODID + ".thawing_pot.title");
 	}
 
 	@SuppressWarnings("resource")

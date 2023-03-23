@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona.blocks.plants;
 
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -39,7 +39,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class FruitBlock extends CropBlock {
-	public static final TagKey<Block> growable = BlockTags.create(new ResourceLocation(Main.MODID, "fruits_growable"));
+	public static final TagKey<Block> growable = BlockTags.create(new ResourceLocation(CPMain.MODID, "fruits_growable"));
 
 	public FruitBlock(Properties p_52247_) {
 		super(p_52247_);

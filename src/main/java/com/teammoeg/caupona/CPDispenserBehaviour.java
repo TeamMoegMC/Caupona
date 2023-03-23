@@ -58,7 +58,7 @@ import net.minecraftforge.registries.ForgeRegistries.Keys;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 
-@Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = CPMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CPDispenserBehaviour {
 
 	@SubscribeEvent

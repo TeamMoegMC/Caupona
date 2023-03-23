@@ -25,8 +25,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
-import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPConfig;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.util.Utils;
 
@@ -42,16 +42,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class FireboxBlockEntity extends BathHeatingBlockEntity {
-	TagKey<Block> HEAT_CONDUCTOR = BlockTags.create(new ResourceLocation(Main.MODID, "heat_conductor"));
+	TagKey<Block> HEAT_CONDUCTOR = BlockTags.create(new ResourceLocation(CPMain.MODID, "heat_conductor"));
 	int process;
 	int heat;
 	private int r;
 	private int mp;
 
 	public FireboxBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-		super(CPBlockEntityTypes.FIREBOX.get(), pWorldPosition, pBlockState);
-		r = Config.SERVER.bathRange.get();
-		mp = Config.SERVER.bathPath.get() / 2;
+		super(CPBlockEntityTypes.HYPOCAUST_FIREBOX.get(), pWorldPosition, pBlockState);
+		r = CPConfig.SERVER.bathRange.get();
+		mp = CPConfig.SERVER.bathPath.get() / 2;
 	}
 
 	@Override

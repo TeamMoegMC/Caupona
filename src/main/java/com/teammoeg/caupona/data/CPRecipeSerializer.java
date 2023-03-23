@@ -28,7 +28,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.gson.JsonObject;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -38,7 +38,7 @@ public class CPRecipeSerializer<T extends IDataRecipe> implements RecipeSerializ
 	BiFunction<ResourceLocation, JsonObject, T> jsfactory;
 	BiFunction<ResourceLocation, FriendlyByteBuf, T> pkfactory;
 	BiConsumer<T, FriendlyByteBuf> writer;
-	static final Logger logger = LogManager.getLogger(Main.MODID + " recipe serialize");
+	static final Logger logger = LogManager.getLogger(CPMain.MODID + " recipe serialize");
 
 	@Override
 	public T fromJson(ResourceLocation recipeId, JsonObject json) {

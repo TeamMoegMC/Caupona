@@ -22,7 +22,7 @@
 package com.teammoeg.caupona.blocks.stove;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
-import com.teammoeg.caupona.Config;
+import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 
 import net.minecraft.core.BlockPos;
@@ -36,9 +36,9 @@ public class ChimneyPotBlockEntity extends CPBaseBlockEntity {
 	private int maxStore;
 
 	public ChimneyPotBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-		super(CPBlockEntityTypes.CHIMNEY.get(), pWorldPosition, pBlockState);
-		processMax = Config.SERVER.chimneyTicks.get();
-		maxStore = Config.SERVER.chimneyStorage.get();
+		super(CPBlockEntityTypes.CHIMNEY_POT.get(), pWorldPosition, pBlockState);
+		processMax = CPConfig.SERVER.chimneyTicks.get();
+		maxStore = CPConfig.SERVER.chimneyStorage.get();
 	}
 
 	@Override

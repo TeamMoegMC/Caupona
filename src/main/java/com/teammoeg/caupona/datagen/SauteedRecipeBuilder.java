@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.util.Utils;
@@ -48,7 +48,7 @@ public class SauteedRecipeBuilder {
 	}
 
 	public static SauteedRecipeBuilder start(Item out) {
-		return new SauteedRecipeBuilder(new ResourceLocation(Main.MODID, "frying/" + Utils.getRegistryName(out).getPath()),
+		return new SauteedRecipeBuilder(new ResourceLocation(CPMain.MODID, "frying/" + Utils.getRegistryName(out).getPath()),
 				out);
 	}
 

@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.api.GameTranslation;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
@@ -47,7 +47,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class FryingCategory implements IRecipeCategory<SauteedRecipe> {
-	public static RecipeType<SauteedRecipe> TYPE=RecipeType.create(Main.MODID, "frying",SauteedRecipe.class);
+	public static RecipeType<SauteedRecipe> TYPE=RecipeType.create(CPMain.MODID, "frying",SauteedRecipe.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 	private IGuiHelper helper;
@@ -60,7 +60,7 @@ public class FryingCategory implements IRecipeCategory<SauteedRecipe> {
 
 
 	public Component getTitle() {
-		return Utils.translate("gui.jei.category." + Main.MODID + ".frying.title");
+		return Utils.translate("gui.jei.category." + CPMain.MODID + ".frying.title");
 	}
 
 	@Override

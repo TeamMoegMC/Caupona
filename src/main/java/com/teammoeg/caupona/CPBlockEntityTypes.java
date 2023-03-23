@@ -26,6 +26,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableSet;
+import com.teammoeg.caupona.blocks.CPEntityBlock;
 import com.teammoeg.caupona.blocks.decoration.CPSignBlockEntity;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 import com.teammoeg.caupona.blocks.foods.BowlBlockEntity;
@@ -51,40 +52,40 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class CPBlockEntityTypes {
 	public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister
-			.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Main.MODID);
+			.create(ForgeRegistries.BLOCK_ENTITY_TYPES, CPMain.MODID);
 
-	public static final RegistryObject<BlockEntityType<StewPotBlockEntity>> STEW_POT = REGISTER.register("stew_pot",
-			makeType(StewPotBlockEntity::new, ()->CPBlocks.stew_pot));
-	public static final RegistryObject<BlockEntityType<KitchenStoveBlockEntity>> STOVE1 = REGISTER
-			.register("kitchen_stove_basic", makeTypes(KitchenStoveT1::new,()->CPBlocks.stoves.stream().map(e->e.get()).filter(e->e.getBlock()==CPBlockEntityTypes.STOVE1).collect(Collectors.toList())));
-	public static final RegistryObject<BlockEntityType<KitchenStoveBlockEntity>> STOVE2 = REGISTER
-			.register("kitchen_stove_fast", makeTypes(KitchenStoveT2::new,()->CPBlocks.stoves.stream().map(e->e.get()).filter(e->e.getBlock()==CPBlockEntityTypes.STOVE2).collect(Collectors.toList())));
-	public static final RegistryObject<BlockEntityType<BowlBlockEntity>> BOWL = REGISTER.register("bowl",
-			makeType(BowlBlockEntity::new, ()->CPBlocks.bowl));
-	public static final RegistryObject<BlockEntityType<CPSignBlockEntity>> SIGN = REGISTER.register("sign",
-			makeTypes(CPSignBlockEntity::new, ()->CPBlocks.signs));
-	public static final RegistryObject<BlockEntityType<ChimneyPotBlockEntity>> CHIMNEY = REGISTER.register("chimney_pot",
-			makeTypes(ChimneyPotBlockEntity::new,  ()->CPBlocks.chimney));
-	public static final RegistryObject<BlockEntityType<FumaroleVentBlockEntity>> FUMAROLE = REGISTER
-			.register("fumarole_vent", makeType(FumaroleVentBlockEntity::new, ()->CPBlocks.FUMAROLE_VENT));
-	public static final RegistryObject<BlockEntityType<PanBlockEntity>> PAN = REGISTER.register("pan", makeTypes2(
-			PanBlockEntity::new, ()->List.of(CPBlocks.STONE_PAN, CPBlocks.COPPER_PAN, CPBlocks.IRON_PAN )));
-	public static final RegistryObject<BlockEntityType<CounterDoliumBlockEntity>> DOLIUM = REGISTER.register("dolium",
-			makeTypes(CounterDoliumBlockEntity::new,  ()->CPBlocks.dolium));
-	public static final RegistryObject<BlockEntityType<DishBlockEntity>> DISH = REGISTER.register("dish",
-			makeTypes(DishBlockEntity::new, ()->CPBlocks.dishes));
-	public static final RegistryObject<BlockEntityType<CaliductBlockEntity>> CALIDUCT = REGISTER.register("caliduct",
-			makeTypes(CaliductBlockEntity::new, ()->CPBlocks.caliduct));
-	public static final RegistryObject<BlockEntityType<FireboxBlockEntity>> FIREBOX = REGISTER.register("hypocast_firebox",
-			makeTypes(FireboxBlockEntity::new,  ()->CPBlocks.firebox));
-	public static final RegistryObject<BlockEntityType<WolfStatueBlockEntity>> WOLF = REGISTER.register("wolf_statue",
-			makeType(WolfStatueBlockEntity::new, ()->CPBlocks.WOLF));
+	public static final RegistryObject<BlockEntityType<StewPotBlockEntity>> STEW_POT = REGISTER.register("stew_pot",makeType(StewPotBlockEntity::new, 
+					()->CPBlocks.stew_pot));
+	public static final RegistryObject<BlockEntityType<KitchenStoveBlockEntity>> STOVE_T1 = REGISTER.register("kitchen_stove_basic", makeTypes(KitchenStoveT1::new,
+					()->CPBlocks.stoves.stream().map(e->e.get()).filter(e->e.getBlock()==CPBlockEntityTypes.STOVE_T1).collect(Collectors.toList())));
+	public static final RegistryObject<BlockEntityType<KitchenStoveBlockEntity>> STOVE_T2 = REGISTER
+			.register("kitchen_stove_fast", makeTypes(KitchenStoveT2::new,
+					()->CPBlocks.stoves.stream().map(e->e.get()).filter(e->e.getBlock()==CPBlockEntityTypes.STOVE_T2).collect(Collectors.toList())));
+	public static final RegistryObject<BlockEntityType<BowlBlockEntity>> BOWL = REGISTER.register("bowl",makeType(BowlBlockEntity::new, 
+					()->CPBlocks.bowl));
+	public static final RegistryObject<BlockEntityType<CPSignBlockEntity>> SIGN = REGISTER.register("sign",makeTypes(CPSignBlockEntity::new,
+					()->CPBlocks.signs));
+	public static final RegistryObject<BlockEntityType<ChimneyPotBlockEntity>> CHIMNEY_POT = REGISTER.register("chimney_pot",makeTypes(ChimneyPotBlockEntity::new,  
+					()->CPBlocks.chimney));
+	public static final RegistryObject<BlockEntityType<FumaroleVentBlockEntity>> FUMAROLE = REGISTER.register("fumarole_vent", makeType(FumaroleVentBlockEntity::new, 
+					()->CPBlocks.FUMAROLE_VENT));
+	public static final RegistryObject<BlockEntityType<PanBlockEntity>> PAN = REGISTER.register("pan", makeTypes2(PanBlockEntity::new, 
+					()->List.of(CPBlocks.STONE_PAN, CPBlocks.COPPER_PAN, CPBlocks.IRON_PAN )));
+	public static final RegistryObject<BlockEntityType<CounterDoliumBlockEntity>> DOLIUM = REGISTER.register("dolium",makeTypes(CounterDoliumBlockEntity::new,  
+					()->CPBlocks.dolium));
+	public static final RegistryObject<BlockEntityType<DishBlockEntity>> DISH = REGISTER.register("dish",makeTypes(DishBlockEntity::new, 
+					()->CPBlocks.dishes));
+	public static final RegistryObject<BlockEntityType<CaliductBlockEntity>> CALIDUCT = REGISTER.register("caliduct",makeTypes(CaliductBlockEntity::new, 
+					()->CPBlocks.caliduct));
+	public static final RegistryObject<BlockEntityType<FireboxBlockEntity>> HYPOCAUST_FIREBOX = REGISTER.register("hypocast_firebox",makeTypes(FireboxBlockEntity::new,  
+					()->CPBlocks.firebox));
+	public static final RegistryObject<BlockEntityType<WolfStatueBlockEntity>> WOLF_STATUE = REGISTER.register("wolf_statue",makeType(WolfStatueBlockEntity::new, 
+					()->CPBlocks.WOLF));
 
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntitySupplier<T> create,
 			Supplier<RegistryObject<? extends Block>> valid) {
 		return () -> new BlockEntityType<>(create, ImmutableSet.of(valid.get().get()), null);
 	}
-
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeTypes2(BlockEntitySupplier<T> create,
 			Supplier<List<RegistryObject<? extends Block>>> valid) {
 		return () -> new BlockEntityType<>(create, valid.get().stream().map(RegistryObject<? extends Block>::get).collect(Collectors.toSet()), null);

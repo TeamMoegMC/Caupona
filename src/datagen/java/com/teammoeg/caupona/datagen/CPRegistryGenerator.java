@@ -5,7 +5,7 @@ import java.util.concurrent.CompletableFuture;
 
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPWorldGen;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.worldgen.BushFoliagePlacer;
 import com.teammoeg.caupona.worldgen.BushStraightTrunkPlacer;
 
@@ -41,7 +41,7 @@ public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
 				
 				.add(Registries.CONFIGURED_FEATURE,(RegistrySetBuilder.RegistryBootstrap)CPRegistryGenerator::bootstrapCFeatures)
 				.add(Registries.PLACED_FEATURE,CPRegistryGenerator::bootstrapPFeatures),
-				Set.of(Main.MODID));
+				Set.of(CPMain.MODID));
 		
 	}
 	
@@ -86,7 +86,7 @@ public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
 		return block(type+"_log");
 	}
 	public static Block block(String type) {
-		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Main.MODID,type));
+		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(CPMain.MODID,type));
 	}
 	@Override
 	public String getName() {

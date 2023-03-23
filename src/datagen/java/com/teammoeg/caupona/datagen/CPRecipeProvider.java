@@ -33,7 +33,7 @@ import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPFluids;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
@@ -148,9 +148,9 @@ public class CPRecipeProvider extends RecipeProvider {
 		// ShapelessRecipeBuilder.shapelessRecipe(THPItems.BOOK).addIngredient(Items.BOOK).addIngredient(Items.BOWL).unlockedBy("has_bowl",
 		// hasItem(Items.BOWL)).build(out);
 		out.accept(new FluidFoodValueRecipe(rl("fluid_food/milk"), 0, 1f, new ItemStack(Items.MILK_BUCKET), 4,
-				new ResourceLocation(Main.MODID, "scalded_milk")));
+				new ResourceLocation(CPMain.MODID, "scalded_milk")));
 		out.accept(new FluidFoodValueRecipe(rl("fluid_food/stock"), 2, 1f, null, 4,
-				new ResourceLocation(Main.MODID, "stock")));
+				new ResourceLocation(CPMain.MODID, "stock")));
 		simpleFood(out, 2, 0.4f, Items.HONEYCOMB);
 		/*
 		 * simpleFood(out,3,5f,ItemRegistry.amaranthitem);
@@ -180,32 +180,32 @@ public class CPRecipeProvider extends RecipeProvider {
 		spice(cpitem("vinegar_spice_jar"), MobEffects.NIGHT_VISION, out);
 		stewCooking(out);
 		frying(out);
-		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/garum_spice_jar"), null, Fluids.EMPTY, 0,
+		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/garum_spice_jar"), null, Fluids.EMPTY, 0,
 				0f, false, new ItemStack(cpitem("garum_spice_jar")),
 				Arrays.asList(
-						Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "garum_fish"))), 4)),
+						Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(CPMain.MODID, "garum_fish"))), 4)),
 				Ingredient.of(Items.FLOWER_POT)));
-		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/vinegar_spice_jar_from_fruits"), null,
+		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/vinegar_spice_jar_from_fruits"), null,
 				Fluids.EMPTY, 0, 0f, false, new ItemStack(cpitem("vinegar_spice_jar")),
 				Arrays.asList(
-						Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "vinegar_fruits"))), 4)),
+						Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(CPMain.MODID, "vinegar_fruits"))), 4)),
 				Ingredient.of(Items.FLOWER_POT)));
-		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/vinegar_spice_jar_from_berries"), null,
+		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/vinegar_spice_jar_from_berries"), null,
 				Fluids.EMPTY, 0, 0f, false, new ItemStack(cpitem("vinegar_spice_jar")),
 				Arrays.asList(Pair.of(
-						Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "vinegar_fruits_small"))), 16)),
+						Ingredient.of(ItemTags.create(new ResourceLocation(CPMain.MODID, "vinegar_fruits_small"))), 16)),
 				Ingredient.of(Items.FLOWER_POT)));
-		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/gravy_boat"), null, Fluids.EMPTY, 0, 0f,
+		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/gravy_boat"), null, Fluids.EMPTY, 0, 0f,
 				false, new ItemStack(CPItems.gravy_boat.get()),
-				Arrays.asList(Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "walnut"))), 8),
+				Arrays.asList(Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(CPMain.MODID, "walnut"))), 8),
 						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
 				Ingredient.of(CPItems.gravy_boat.get())));
-		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/gravy_boat_glass_bottle"), null,
+		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/gravy_boat_glass_bottle"), null,
 				Fluids.EMPTY, 0, 0f, false, new ItemStack(CPItems.gravy_boat.get()),
-				Arrays.asList(Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(Main.MODID, "walnut"))), 8),
+				Arrays.asList(Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(CPMain.MODID, "walnut"))), 8),
 						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
 				Ingredient.of(Items.GLASS_BOTTLE)));
-		out.accept(new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/vivid_charcoal"), null, Fluids.LAVA, 250,
+		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/vivid_charcoal"), null, Fluids.LAVA, 250,
 				0f, false, new ItemStack(cpitem("vivid_charcoal"), 8),
 				Arrays.asList(Pair.of(Ingredient.of(ItemTags.COALS), 3), Pair.of(Ingredient.of(Items.SLIME_BALL), 1)),
 				null));
@@ -288,25 +288,25 @@ public class CPRecipeProvider extends RecipeProvider {
 	}
 
 	private void spice(Item spice, MobEffect eff, Consumer<IDataRecipe> out) {
-		out.accept(new SpiceRecipe(new ResourceLocation(Main.MODID, "spice/" + Utils.getRegistryName(spice).getPath()),
+		out.accept(new SpiceRecipe(new ResourceLocation(CPMain.MODID, "spice/" + Utils.getRegistryName(spice).getPath()),
 				Ingredient.of(spice), new MobEffectInstance(eff, 200)));
 
 	}
 
 	private void aspic(String soup, Consumer<IDataRecipe> out) {
 		out.accept(
-				new DoliumRecipe(new ResourceLocation(Main.MODID, "dolium/" + soup + "_aspic"), Utils.getRegistryName(stock),
+				new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/" + soup + "_aspic"), Utils.getRegistryName(stock),
 						cpfluid(soup), 250, 0.25F, true, new ItemStack(cpitem(soup + "_aspic")), null));
-		out.accept(new AspicMeltingRecipe(new ResourceLocation(Main.MODID, "melt/" + soup + "_aspic"),
+		out.accept(new AspicMeltingRecipe(new ResourceLocation(CPMain.MODID, "melt/" + soup + "_aspic"),
 				Ingredient.of(cpitem(soup + "_aspic")), cpfluid(soup)));
 	}
 
 	private Fluid cpfluid(String name) {
-		return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(Main.MODID, name));
+		return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(CPMain.MODID, name));
 	}
 
 	private Item cpitem(String name) {
-		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, name));
+		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID, name));
 	}
 
 	private Item mitem(String name) {
@@ -334,7 +334,7 @@ public class CPRecipeProvider extends RecipeProvider {
 	}
 
 	private static ResourceLocation mrl(String s) {
-		return new ResourceLocation(Main.MODID, s);
+		return new ResourceLocation(CPMain.MODID, s);
 	}
 
 	private ResourceLocation ftag(String s) {
@@ -351,10 +351,10 @@ public class CPRecipeProvider extends RecipeProvider {
 		if (PATH_COUNT.containsKey(s)) {
 			int count = PATH_COUNT.get(s) + 1;
 			PATH_COUNT.put(s, count);
-			return new ResourceLocation(Main.MODID, s + count);
+			return new ResourceLocation(CPMain.MODID, s + count);
 		}
 		PATH_COUNT.put(s, 1);
-		return new ResourceLocation(Main.MODID, s);
+		return new ResourceLocation(CPMain.MODID, s);
 	}
 
 

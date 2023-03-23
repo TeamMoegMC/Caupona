@@ -22,7 +22,7 @@
 package com.teammoeg.caupona.blocks.hypocaust;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
-import com.teammoeg.caupona.Config;
+import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 
@@ -36,8 +36,8 @@ public class WolfStatueBlockEntity extends CPBaseBlockEntity {
 	boolean isVeryHot;
 
 	public WolfStatueBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-		super(CPBlockEntityTypes.WOLF.get(), pWorldPosition, pBlockState);
-		checkTicks = Config.SERVER.wolfTick.get();
+		super(CPBlockEntityTypes.WOLF_STATUE.get(), pWorldPosition, pBlockState);
+		checkTicks = CPConfig.SERVER.wolfTick.get();
 	}
 
 	@Override

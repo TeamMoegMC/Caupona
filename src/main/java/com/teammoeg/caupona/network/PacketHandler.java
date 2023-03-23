@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona.network;
 
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
@@ -31,7 +31,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 public class PacketHandler {
 	private static final String VERSION = Integer.toString(1);
 	private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-			new ResourceLocation(Main.MODID, "network"), () -> VERSION, VERSION::equals, VERSION::equals);
+			new ResourceLocation(CPMain.MODID, "network"), () -> VERSION, VERSION::equals, VERSION::equals);
 
 	public static void send(PacketDistributor.PacketTarget target, Object message) {
 		CHANNEL.send(target, message);
