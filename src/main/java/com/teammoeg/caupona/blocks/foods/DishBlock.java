@@ -24,7 +24,7 @@ package com.teammoeg.caupona.blocks.foods;
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
-import com.teammoeg.caupona.items.DishItem;
+import com.teammoeg.caupona.item.DishItem;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;

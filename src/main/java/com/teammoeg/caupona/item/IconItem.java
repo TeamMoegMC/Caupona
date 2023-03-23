@@ -19,19 +19,16 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.client;
+package com.teammoeg.caupona.item;
 
-import com.teammoeg.caupona.client.util.ClientUtils;
+import com.teammoeg.caupona.util.TabType;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.Item;
 
-public class ClientProxy {
-	public static CompoundTag data;
+public class IconItem extends CPItem {
 
-	public ClientProxy() {
+	public IconItem() {
+		super(new Item.Properties(),TabType.HIDDEN);
 	}
 
-	public static void run() {
-		ClientUtils.syncContainerInfo(data);
-	}
 }

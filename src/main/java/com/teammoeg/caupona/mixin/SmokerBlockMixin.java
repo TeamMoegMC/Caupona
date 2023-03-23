@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.teammoeg.caupona.client.Particles;
+import com.teammoeg.caupona.client.CPParticles;
 import com.teammoeg.caupona.util.ChimneyHelper;
 
 import net.minecraft.core.BlockPos;
@@ -53,7 +53,7 @@ public class SmokerBlockMixin {
 				motY = pRandom.nextDouble() * .25;
 				delY = 0;
 			}
-			pLevel.addParticle(Particles.SOOT.get(), bp.getX() + .5, bp.getY() + delY, bp.getZ() + .5,
+			pLevel.addParticle(CPParticles.SOOT.get(), bp.getX() + .5, bp.getY() + delY, bp.getZ() + .5,
 					pRandom.nextDouble() * .5 - .25, motY, pRandom.nextDouble() * .5 - .25);
 			cbi.cancel();
 		}

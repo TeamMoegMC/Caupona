@@ -19,19 +19,29 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.client;
+package com.teammoeg.caupona.item;
 
-import com.teammoeg.caupona.client.util.ClientUtils;
+import com.teammoeg.caupona.util.CreativeItemHelper;
+import com.teammoeg.caupona.util.ICreativeModeTabItem;
+import com.teammoeg.caupona.util.TabType;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 
-public class ClientProxy {
-	public static CompoundTag data;
-
-	public ClientProxy() {
+public class CPBlockItem extends BlockItem implements ICreativeModeTabItem{
+	TabType tab;
+	public CPBlockItem(Block block, Item.Properties props,TabType tab) {
+		super(block, props);
+		this.tab=tab;
 	}
 
-	public static void run() {
-		ClientUtils.syncContainerInfo(data);
+	@Override
+	public void fillItemCategory(CreativeItemHelper helper) {
+		if(super.getBlock() instanceof ICreativeModeTabItem item) {
+			item.fillItemCategory(helper);
+		}else if(helper.isType(tab))
+			helper.accept(this);
 	}
+
 }

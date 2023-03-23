@@ -38,7 +38,7 @@ import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.data.recipes.StewPendingContext;
 import com.teammoeg.caupona.fluid.SoupFluid;
-import com.teammoeg.caupona.items.StewItem;
+import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
 import com.teammoeg.caupona.util.StewInfo;

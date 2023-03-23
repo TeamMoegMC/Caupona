@@ -6,6 +6,7 @@ import java.util.function.BiConsumer;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.teammoeg.caupona.CPWorldGen;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -26,7 +27,7 @@ public class BushStraightTrunkPlacer extends TrunkPlacer {
    }
 
    protected TrunkPlacerType<?> type() {
-      return CPFeatures.BUSH_TRUNK.get();
+      return CPWorldGen.BUSH_TRUNK.get();
    }
 
    public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader p_226147_, BiConsumer<BlockPos, BlockState> p_226148_, RandomSource p_226149_, int p_226150_, BlockPos p_226151_, TreeConfiguration p_226152_) {

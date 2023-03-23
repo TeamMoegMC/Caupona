@@ -26,8 +26,8 @@ import java.util.Optional;
 
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.fluid.SoupFluid;
-import com.teammoeg.caupona.items.DishItem;
-import com.teammoeg.caupona.items.StewItem;
+import com.teammoeg.caupona.item.DishItem;
+import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.IFoodInfo;
 

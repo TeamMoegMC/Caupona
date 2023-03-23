@@ -24,13 +24,14 @@ package com.teammoeg.caupona;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.teammoeg.caupona.items.CPBlockItem;
-import com.teammoeg.caupona.items.CPBoatItem;
-import com.teammoeg.caupona.items.CPItem;
-import com.teammoeg.caupona.items.Chronoconis;
-import com.teammoeg.caupona.items.IconItem;
-import com.teammoeg.caupona.items.PortableBrazierItem;
-import com.teammoeg.caupona.items.StewItem;
+import com.teammoeg.caupona.item.CPBlockItem;
+import com.teammoeg.caupona.item.CPBoatItem;
+import com.teammoeg.caupona.item.CPItem;
+import com.teammoeg.caupona.item.Chronoconis;
+import com.teammoeg.caupona.item.IconItem;
+import com.teammoeg.caupona.item.PortableBrazierItem;
+import com.teammoeg.caupona.item.StewItem;
+import com.teammoeg.caupona.util.TabType;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;

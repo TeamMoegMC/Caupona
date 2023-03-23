@@ -22,9 +22,9 @@
 package com.teammoeg.caupona.blocks.pot;
 
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
-import com.teammoeg.caupona.client.Particles;
+import com.teammoeg.caupona.client.CPParticles;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
-import com.teammoeg.caupona.items.StewItem;
+import com.teammoeg.caupona.item.StewItem;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
@@ -127,7 +127,7 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 
 				int count = 2;
 				while (--count != 0)
-					worldIn.addParticle(Particles.STEAM.get(), pos.getX() + rand.nextFloat(), pos.getY() + 1,pos.getZ() + rand.nextFloat(), 0.0D,
+					worldIn.addParticle(CPParticles.STEAM.get(), pos.getX() + rand.nextFloat(), pos.getY() + 1,pos.getZ() + rand.nextFloat(), 0.0D,
 							0.0D, 0.0D);
 			}
 		}

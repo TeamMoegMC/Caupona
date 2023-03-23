@@ -30,7 +30,7 @@ import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.PanPendingContext;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
-import com.teammoeg.caupona.items.DishItem;
+import com.teammoeg.caupona.item.DishItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
 import com.teammoeg.caupona.util.SauteedFoodInfo;

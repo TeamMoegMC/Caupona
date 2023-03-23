@@ -19,19 +19,25 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.client;
+package com.teammoeg.caupona.client.util;
 
-import com.teammoeg.caupona.client.util.ClientUtils;
+import com.teammoeg.caupona.util.INetworkContainer;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 
-public class ClientProxy {
-	public static CompoundTag data;
+public class ClientUtils {
 
-	public ClientProxy() {
+	public ClientUtils() {
 	}
 
-	public static void run() {
-		ClientUtils.syncContainerInfo(data);
+	@SuppressWarnings("resource")
+	public static void syncContainerInfo(CompoundTag nbt) {
+		Player p = Minecraft.getInstance().player;
+		if (p != null && p.containerMenu instanceof INetworkContainer container) {
+			container.handle(nbt);
+		}
 	}
+
 }

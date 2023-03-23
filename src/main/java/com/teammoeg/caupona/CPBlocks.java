@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -57,13 +56,11 @@ import com.teammoeg.caupona.blocks.pot.StewPot;
 import com.teammoeg.caupona.blocks.stove.ChimneyPotBlock;
 import com.teammoeg.caupona.blocks.stove.KitchenStove;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveBlockEntity;
-import com.teammoeg.caupona.items.CPBlockItem;
-import com.teammoeg.caupona.items.CPSignItem;
-import com.teammoeg.caupona.items.DishItem;
-import com.teammoeg.caupona.worldgen.FigTreeGrower;
-import com.teammoeg.caupona.worldgen.WalnutTreeGrower;
-import com.teammoeg.caupona.worldgen.WolfberryTreeGrower;
-
+import com.teammoeg.caupona.item.CPBlockItem;
+import com.teammoeg.caupona.item.CPSignItem;
+import com.teammoeg.caupona.item.DishItem;
+import com.teammoeg.caupona.util.TabType;
+import com.teammoeg.caupona.worldgen.DefaultTreeGrower;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
@@ -197,9 +194,9 @@ public class CPBlocks {
 			}
 		}
 
-		registerWood("walnut", WALNUT, WalnutTreeGrower::new);
-		registerBush("fig", FigTreeGrower::new);
-		registerBush("wolfberry", WolfberryTreeGrower::new);
+		registerWood("walnut", WALNUT, DefaultTreeGrower.supply(CPWorldGen.WALNUT));
+		registerBush("fig",DefaultTreeGrower.supply(CPWorldGen.FIG));
+		registerBush("wolfberry",DefaultTreeGrower.supply(CPWorldGen.WOLFBERRY));
 		for (String s : CPItems.dishes) {
 			baseblock(s,
 					() -> new DishBlock(Block.Properties.of(Material.DECORATION).sound(SoundType.WOOD).instabreak()

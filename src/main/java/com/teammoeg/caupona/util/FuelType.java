@@ -19,19 +19,37 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.client;
+package com.teammoeg.caupona.util;
 
-import com.teammoeg.caupona.client.util.ClientUtils;
+import com.teammoeg.caupona.Main;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
-public class ClientProxy {
-	public static CompoundTag data;
+public enum FuelType {
+	WOODS(2, "fuel/woods"), CHARCOAL(1, "fuel/charcoals"), FOSSIL(3, "fuel/fossil"), GEOTHERMAL(0, "fuel/lava"),
+	OTHER(0, "fuel/others");
 
-	public ClientProxy() {
+	private final int modelId;
+	private final TagKey<Item> it;
+
+	private FuelType(int modelId, String tagname) {
+		this.modelId = modelId;
+		it = ItemTags.create(new ResourceLocation(Main.MODID, tagname));
 	}
 
-	public static void run() {
-		ClientUtils.syncContainerInfo(data);
+	public static FuelType getType(ItemStack is) {
+		for (FuelType ft : FuelType.values()) {
+			if (is.is(ft.it))
+				return ft;
+		}
+		return FuelType.OTHER;
+	}
+
+	public int getModelId() {
+		return modelId;
 	}
 }

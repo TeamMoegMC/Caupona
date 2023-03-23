@@ -19,19 +19,26 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.client;
+package com.teammoeg.caupona.item;
 
-import com.teammoeg.caupona.client.util.ClientUtils;
+import java.util.function.Consumer;
 
-import net.minecraft.nbt.CompoundTag;
+import com.teammoeg.caupona.util.TabType;
 
-public class ClientProxy {
-	public static CompoundTag data;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
-	public ClientProxy() {
+public class CPGravyBoatItem extends CPBlockItem {
+
+	public CPGravyBoatItem(Block block, Properties props) {
+		super(block, props,TabType.FOODS);
 	}
 
-	public static void run() {
-		ClientUtils.syncContainerInfo(data);
+	@Override
+	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+		super.initializeClient(consumer);
 	}
+
+
+
 }

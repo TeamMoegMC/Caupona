@@ -4,11 +4,10 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPWorldGen;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.worldgen.BushFoliagePlacer;
 import com.teammoeg.caupona.worldgen.BushStraightTrunkPlacer;
-import com.teammoeg.caupona.worldgen.CPFeatures;
-import com.teammoeg.caupona.worldgen.CPPlacements;
 
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup.Provider;
@@ -49,18 +48,18 @@ public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
 	
 	public static void bootstrapPFeatures(BootstapContext<PlacedFeature> pContext) {
 		HolderGetter<ConfiguredFeature<?, ?>> holder=pContext.lookup(Registries.CONFIGURED_FEATURE);
-		PlacementUtils.register(pContext, CPPlacements.TREES_WALNUT,holder.getOrThrow(CPFeatures.WALNUT),VegetationPlacements
+		PlacementUtils.register(pContext, CPWorldGen.TREES_WALNUT,holder.getOrThrow(CPWorldGen.WALNUT),VegetationPlacements
 				.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), sap("walnut")));
-		PlacementUtils.register(pContext, CPPlacements.TREES_FIG,holder.getOrThrow(CPFeatures.FIG),VegetationPlacements
+		PlacementUtils.register(pContext, CPWorldGen.TREES_FIG,holder.getOrThrow(CPWorldGen.FIG),VegetationPlacements
 				.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), sap("fig")));
-		PlacementUtils.register(pContext, CPPlacements.TREES_WOLFBERRY,holder.getOrThrow(CPFeatures.WOLFBERRY),VegetationPlacements
+		PlacementUtils.register(pContext, CPWorldGen.TREES_WOLFBERRY,holder.getOrThrow(CPWorldGen.WOLFBERRY),VegetationPlacements
 				.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), sap("wolfberry")));
 
 	}
 	public static void bootstrapCFeatures(BootstapContext<ConfiguredFeature<?,?>> pContext) {
-		FeatureUtils.register(pContext,CPFeatures.WALNUT,Feature.TREE,createStraightBlobTree(log("walnut"),leave("walnut"), 4, 2, 0, 2).ignoreVines().build());
-		FeatureUtils.register(pContext,CPFeatures.FIG,Feature.TREE,createStraightBlobBush(log("fig"), leave("fig"), 4, 2, 0, 2).ignoreVines().build());
-		FeatureUtils.register(pContext,CPFeatures.WOLFBERRY,Feature.TREE,createStraightBlobBush(log("wolfberry"),leave("wolfberry"), 4, 2, 0, 2).ignoreVines().build());
+		FeatureUtils.register(pContext,CPWorldGen.WALNUT,Feature.TREE,createStraightBlobTree(log("walnut"),leave("walnut"), 4, 2, 0, 2).ignoreVines().build());
+		FeatureUtils.register(pContext,CPWorldGen.FIG,Feature.TREE,createStraightBlobBush(log("fig"), leave("fig"), 4, 2, 0, 2).ignoreVines().build());
+		FeatureUtils.register(pContext,CPWorldGen.WOLFBERRY,Feature.TREE,createStraightBlobBush(log("wolfberry"),leave("wolfberry"), 4, 2, 0, 2).ignoreVines().build());
 	}
 	private static TreeConfiguration.TreeConfigurationBuilder createStraightBlobTree(Block log, Block leave, int height,
 			int randA, int randB, int foliage) {

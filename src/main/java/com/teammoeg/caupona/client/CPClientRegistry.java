@@ -26,6 +26,18 @@ import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPEntityTypes;
 import com.teammoeg.caupona.CPGui;
 import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.client.gui.DoliumScreen;
+import com.teammoeg.caupona.client.gui.KitchenStoveScreen;
+import com.teammoeg.caupona.client.gui.PanScreen;
+import com.teammoeg.caupona.client.gui.PortableBrazierScreen;
+import com.teammoeg.caupona.client.gui.StewPotScreen;
+import com.teammoeg.caupona.client.particle.SootParticle;
+import com.teammoeg.caupona.client.particle.SteamParticle;
+import com.teammoeg.caupona.client.renderer.BowlRenderer;
+import com.teammoeg.caupona.client.renderer.CPBoatRenderer;
+import com.teammoeg.caupona.client.renderer.CounterDoliumRenderer;
+import com.teammoeg.caupona.client.renderer.PanRenderer;
+import com.teammoeg.caupona.client.renderer.StewPotRenderer;
 
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.BoatModel;
@@ -84,8 +96,8 @@ public class CPClientRegistry {
 
 	@SubscribeEvent
 	public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
-		event.register(Particles.STEAM.get(), SteamParticle.Factory::new);
-		event.register(Particles.SOOT.get(), SootParticle.Factory::new);
+		event.register(CPParticles.STEAM.get(), SteamParticle.Factory::new);
+		event.register(CPParticles.SOOT.get(), SootParticle.Factory::new);
 	}
 
 	@SubscribeEvent

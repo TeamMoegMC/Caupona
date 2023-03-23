@@ -25,7 +25,7 @@ import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
-import com.teammoeg.caupona.items.StewItem;
+import com.teammoeg.caupona.item.StewItem;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;

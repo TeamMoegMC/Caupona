@@ -24,11 +24,11 @@ package com.teammoeg.caupona.blocks.stove;
 import java.util.Objects;
 
 import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.FuelType;
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.client.Particles;
+import com.teammoeg.caupona.client.CPParticles;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.ChimneyHelper;
+import com.teammoeg.caupona.util.FuelType;
 import com.teammoeg.caupona.util.IInfinitable;
 import com.teammoeg.caupona.util.Utils;
 
@@ -262,7 +262,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 							motY = rand.nextDouble() * .25;
 							delY = 0;
 						}
-						this.getLevel().addParticle(Particles.SOOT.get(), attachedChimney.getX() + .5,
+						this.getLevel().addParticle(CPParticles.SOOT.get(), attachedChimney.getX() + .5,
 								attachedChimney.getY() + delY, attachedChimney.getZ() + .5,
 								rand.nextDouble() * .5 - .25, motY, rand.nextDouble() * .5 - .25);
 					}

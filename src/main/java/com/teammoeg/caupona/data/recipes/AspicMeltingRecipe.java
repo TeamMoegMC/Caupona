@@ -27,7 +27,7 @@ import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.fluid.SoupFluid;
-import com.teammoeg.caupona.items.StewItem;
+import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.StewInfo;
 import com.teammoeg.caupona.util.Utils;
 

@@ -23,6 +23,7 @@ package com.teammoeg.caupona.worldgen;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.teammoeg.caupona.CPWorldGen;
 import com.teammoeg.caupona.blocks.plants.BushLogBlock;
 
 import net.minecraft.core.BlockPos;
@@ -39,7 +40,7 @@ public class BushFoliagePlacer extends BlobFoliagePlacer {
 	});
 
 	protected FoliagePlacerType<?> type() {
-		return CPFeatures.BUSH_PLACER.get();
+		return CPWorldGen.BUSH_PLACER.get();
 	}
 
 	public BushFoliagePlacer(IntProvider p_161356_, IntProvider p_161357_, int p_161358_) {

@@ -22,7 +22,7 @@
 package com.teammoeg.caupona.blocks.foods;
 
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
-import com.teammoeg.caupona.items.StewItem;
+import com.teammoeg.caupona.item.StewItem;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;

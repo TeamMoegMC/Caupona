@@ -22,7 +22,7 @@
 package com.teammoeg.caupona.blocks.hypocaust;
 
 import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
-import com.teammoeg.caupona.client.Particles;
+import com.teammoeg.caupona.client.CPParticles;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
@@ -44,7 +44,7 @@ public abstract class BathHeatingBlock<V extends BathHeatingBlockEntity> extends
 		if (pRandom.nextDouble() < 0.05 && pLevel.getFluidState(pPos.above()).is(FluidTags.WATER)) {
 			if (pLevel.getBlockEntity(pPos) instanceof BathHeatingBlockEntity bath) {
 				if (bath.getHeat() > 0) {
-					pLevel.addParticle(Particles.STEAM.get(), pPos.getX() + pRandom.nextFloat(), pPos.getY() + 2,
+					pLevel.addParticle(CPParticles.STEAM.get(), pPos.getX() + pRandom.nextFloat(), pPos.getY() + 2,
 							pPos.getZ() + pRandom.nextFloat(), 0.0D, 0.0D, 0.0D);
 				}
 			}

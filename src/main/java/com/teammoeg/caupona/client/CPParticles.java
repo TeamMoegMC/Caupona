@@ -21,17 +21,20 @@
 
 package com.teammoeg.caupona.client;
 
-import com.teammoeg.caupona.client.util.ClientUtils;
+import com.teammoeg.caupona.Main;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
-public class ClientProxy {
-	public static CompoundTag data;
+public class CPParticles {
+	public static final DeferredRegister<ParticleType<?>> REGISTER = DeferredRegister
+			.create(ForgeRegistries.PARTICLE_TYPES, Main.MODID);
 
-	public ClientProxy() {
-	}
-
-	public static void run() {
-		ClientUtils.syncContainerInfo(data);
-	}
+	public static final RegistryObject<SimpleParticleType> STEAM = REGISTER.register("steam",
+			() -> new SimpleParticleType(false));
+	public static final RegistryObject<SimpleParticleType> SOOT = REGISTER.register("soot_smoke",
+			() -> new SimpleParticleType(false));
 }
