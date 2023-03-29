@@ -21,6 +21,7 @@
 
 package com.teammoeg.caupona;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -29,7 +30,9 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.fluid.SoupFluid;
+import com.teammoeg.caupona.generated.CPStewTexture;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -91,7 +94,7 @@ public class CPFluids {
 	private static final ResourceLocation STILL_MILK_TEXTURE = new ResourceLocation("forge", "block/milk_still");
 	static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, CPMain.MODID);
 	static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(Keys.FLUID_TYPES, CPMain.MODID);
-	private static final Map<String, TextureColorPair> soupfluids = new HashMap<>();
+	//private static final Map<String, TextureColorPair> soupfluids = new HashMap<>();
 
 	public static TextureColorPair soup(int c) {
 		return new TextureColorPair(STILL_SOUP_TEXTURE, c);
@@ -106,15 +109,15 @@ public class CPFluids {
 	}
 
 	public static Stream<Fluid> getAll() {
-		return soupfluids.keySet().stream().map(e -> new ResourceLocation(CPMain.MODID, e))
+		return Arrays.stream(CPItems.soups).map(e -> new ResourceLocation(CPMain.MODID, e))
 				.map(ForgeRegistries.FLUIDS::getValue);
 	}
 	public static Stream<ResourceKey<Fluid>> getAllKeys() {
-		return soupfluids.keySet().stream().map(e -> new ResourceLocation(CPMain.MODID, e))
+		return Arrays.stream(CPItems.soups).map(e -> new ResourceLocation(CPMain.MODID, e))
 				.map(e->ResourceKey.create(Registries.FLUID,e));
 	}
 	static {
-		soupfluids.put("acquacotta", soup(0xffdcb259));
+		/*soupfluids.put("acquacotta", soup(0xffdcb259));
 		soupfluids.put("bisque", soup(0xffb87246));
 		soupfluids.put("bone_gelatin", soup(0xffe3a14a));
 		soupfluids.put("borscht", soup(0xff802629));
@@ -152,11 +155,11 @@ public class CPFluids {
 		soupfluids.put("ukha", soup(0xffb78533));
 		soupfluids.put("vegetable_chowder", soup(0xffa39a42));
 		soupfluids.put("vegetable_soup", soup(0xff848929));
-		soupfluids.put("walnut_soup", soup(0xffdcb072));
-		for (Entry<String, TextureColorPair> i : soupfluids.entrySet()) {
-			RegistryObject<FluidType> type=FLUID_TYPES.register(i.getKey(),()->i.getValue().create(i.getKey()));
+		soupfluids.put("walnut_soup", soup(0xffdcb072));*/
+		for (String i : CPItems.soups) {
+			RegistryObject<FluidType> type=FLUID_TYPES.register(i,()->new TextureColorPair(CPStewTexture.texture.getOrDefault(i, STILL_SOUP_TEXTURE),0xffffffff).create(i));
 			LazySupplier<Fluid> crf=new LazySupplier<>();
-			crf.setVal(FLUIDS.register(i.getKey(),
+			crf.setVal(FLUIDS.register(i,
 					() -> new SoupFluid(new ForgeFlowingFluid.Properties(type, crf,
 							crf).slopeFindDistance(1)
 											.explosionResistance(100F))));
@@ -176,6 +179,6 @@ public class CPFluids {
 		
 	} 
 	public static Set<String> getSoupfluids() {
-		return soupfluids.keySet();
+		return ImmutableSet.copyOf(CPItems.soups);
 	}
 }

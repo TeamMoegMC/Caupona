@@ -1,7 +1,7 @@
 {
   "category": "caupona:cook_recipes",
   "icon": "caupona:fricassee",
-  "name": "Fricassee",
+  "name": "Fricassée",
   "pages": [
     {
       "type": "caupona:cookrecipe",

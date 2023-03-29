@@ -79,9 +79,9 @@ public class CPItems {
 			stew(s, new ResourceLocation(CPMain.MODID, s), createSoupProps());
 		}
 
-		for (String s : aspics)
-			item(s, createProps(),TabType.FOODS);
-
+		for (String s : aspics) {
+			CPCommonBootStrap.asCompositable(item(s, createProps(),TabType.FOODS),1f);
+		}
 		for (String s : spices) {
 			spicesItems.add(
 					item(s, createProps().durability(16).craftRemainder(Items.FLOWER_POT).setNoRepair(),TabType.FOODS));
@@ -90,7 +90,7 @@ public class CPItems {
 			item(s, createProps(),TabType.MAIN);
 		}
 		for (String s : food_material) {
-			item(s,createProps().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3f).build()),TabType.FOODS);
+			CPCommonBootStrap.asCompositable(item(s,createProps().food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3f).build()),TabType.FOODS),0.6F);
 		}
 	}
 	public static RegistryObject<CPBlockItem> gravy_boat = ITEMS.register("gravy_boat",()->new CPBlockItem(CPBlocks.GRAVY_BOAT.get(), createProps().durability(5).setNoRepair(),TabType.FOODS));

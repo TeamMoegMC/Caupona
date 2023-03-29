@@ -21,28 +21,12 @@
 
 package com.teammoeg.caupona.datagen;
 
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.google.common.hash.Hashing;
-import com.google.common.hash.HashingOutputStream;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -57,23 +41,14 @@ import com.teammoeg.caupona.data.recipes.baseconditions.FluidTag;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidType;
 import com.teammoeg.caupona.util.Utils;
 
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
-public class CPBookGenerator implements DataProvider {
-	private static final Logger LOGGER = LogManager.getLogger();
-	private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
-	private JsonParser jp = new JsonParser();
-	protected final DataGenerator generator;
-	private Path bookmain;
-	private ExistingFileHelper helper;
+public class CPBookGenerator extends JsonGenerator {
 	private Map<String, JsonObject> langs = new HashMap<>();
 	private Map<String, StewCookingRecipe> recipes;
 	private Map<String, SauteedRecipe> frecipes;
@@ -95,36 +70,14 @@ public class CPBookGenerator implements DataProvider {
 
 	}
 
-	public CPBookGenerator(DataGenerator generatorIn, ExistingFileHelper efh) {
-		this.generator = generatorIn;
-		this.helper = efh;
+
+
+	public CPBookGenerator(PackOutput output, ExistingFileHelper helper) {
+		super(PackType.SERVER_DATA,output, helper,"Caupona Patchouli");
 	}
 
 	String[] allangs = { "zh_cn", "en_us", "es_es", "ru_ru" };
 
-	@Override
-	public CompletableFuture<?> run(CachedOutput cache) {
-		List<CompletableFuture<?>> list=new LinkedList<>();
-		bookmain = this.generator.getPackOutput().getOutputFolder().resolve("data/" + CPMain.MODID + "/patchouli_books/book/");
-		recipes = CPRecipeProvider.recipes.stream().filter(i -> i instanceof StewCookingRecipe)
-				.map(e -> ((StewCookingRecipe) e))
-				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.output).getPath(), e -> e));
-		frecipes = CPRecipeProvider.recipes.stream().filter(i -> i instanceof SauteedRecipe).map(e -> ((SauteedRecipe) e))
-				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.output).getPath(), e -> e));
-		for (String lang : allangs)
-			loadLang(lang);
-
-		for (String s : CPItems.soups)
-			if (helper.exists(new ResourceLocation(CPMain.MODID, "textures/gui/recipes/" + s + ".png"),
-					PackType.CLIENT_RESOURCES))
-				defaultPage(cache, s,list);
-		for (String s : CPItems.dishes) {
-			if (helper.exists(new ResourceLocation(CPMain.MODID, "textures/gui/recipes/" + s + ".png"),
-					PackType.CLIENT_RESOURCES))
-				defaultFryPage(cache, s,list);
-		}
-		return CompletableFuture.allOf(list.toArray(CompletableFuture[]::new));
-	}
 
 	private void loadLang(String locale) {
 		try {
@@ -138,20 +91,34 @@ public class CPBookGenerator implements DataProvider {
 			e.printStackTrace();
 		}
 	}
-
 	@Override
-	public String getName() {
-		return CPMain.MODID + " recipe patchouli generator";
+	protected void gather(JsonStorage reciver) {
+		recipes = CPRecipeProvider.recipes.stream().filter(i -> i instanceof StewCookingRecipe)
+				.map(e -> ((StewCookingRecipe) e))
+				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.output).getPath(), e -> e));
+		CPRecipeProvider.recipes.stream().filter(i -> i instanceof SauteedRecipe).map(e -> ((SauteedRecipe) e))
+				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.output).getPath(), e -> e));
+		for (String lang : allangs)
+			loadLang(lang);
+
+		for (String s : CPItems.soups)
+			if (helper.exists(new ResourceLocation(CPMain.MODID, "textures/gui/recipes/" + s + ".png"),
+					PackType.CLIENT_RESOURCES))
+				defaultPage(reciver, s);
+		for (String s : CPItems.dishes) {
+			if (helper.exists(new ResourceLocation(CPMain.MODID, "textures/gui/recipes/" + s + ".png"),
+					PackType.CLIENT_RESOURCES))
+				defaultFryPage(reciver, s);
+		}
+	}
+	private void defaultPage(JsonStorage reciver, String name) {
+		for (String lang : allangs)
+			saveEntry(name, lang, reciver, createRecipe(name, lang));
 	}
 
-	private void defaultPage(CachedOutput cache, String name,List<CompletableFuture<?>> futures) {
+	private void defaultFryPage(JsonStorage reciver, String name) {
 		for (String lang : allangs)
-			futures.add(saveEntry(name, lang, cache, createRecipe(name, lang)));
-	}
-
-	private void defaultFryPage(CachedOutput cache, String name,List<CompletableFuture<?>> futures) {
-		for (String lang : allangs)
-			futures.add(saveFryEntry(name, lang, cache, createFryingRecipe(name, lang)));
+			saveFryEntry(name, lang, reciver, createFryingRecipe(name, lang));
 		
 	}
 
@@ -204,15 +171,14 @@ public class CPBookGenerator implements DataProvider {
 		return page;
 	}
 
-	private CompletableFuture<?> saveEntry(String name, String locale, CachedOutput cache, JsonObject entry) {
-		return saveJson(cache, entry, bookmain.resolve(locale + "/entries/recipes/" + name + ".json"));
+	private void saveEntry(String name, String locale,JsonStorage reciver, JsonObject entry) {
+		reciver.accept(new ResourceLocation(CPMain.MODID,"patchouli_books/book/"+locale + "/entries/recipes/" + name + ".json"),entry);
 	}
 
-	private CompletableFuture<?> saveFryEntry(String name, String locale, CachedOutput cache, JsonObject entry) {
-		return saveJson(cache, entry, bookmain.resolve(locale + "/entries/sautee_recipes/" + name + ".json"));
+	private void saveFryEntry(String name, String locale,JsonStorage reciver, JsonObject entry) {
+		reciver.accept(new ResourceLocation(CPMain.MODID,"patchouli_books/book/"+locale + "/entries/sautee_recipes/" + name + ".json"),entry);
 	}
 
-	private static CompletableFuture<?> saveJson(CachedOutput cache, JsonObject recipeJson, Path path) {
-		return DataProvider.saveStable(cache, recipeJson, path);
-	}
+
+
 }

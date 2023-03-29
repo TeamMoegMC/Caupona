@@ -21,6 +21,12 @@
 
 package com.teammoeg.caupona;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Supplier;
+
+import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
@@ -28,6 +34,9 @@ import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.entity.CPBoat;
+import com.teammoeg.caupona.util.CreativeTabItemHelper;
+import com.teammoeg.caupona.util.ICreativeModeTabItem;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
@@ -36,10 +45,14 @@ import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
@@ -47,6 +60,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
@@ -54,21 +68,36 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries.Keys;
-import net.minecraftforge.registries.RegisterEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 @Mod.EventBusSubscriber(modid = CPMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class CPDispenserBehaviour {
-
+public class CPCommonBootStrap {
+	public static final List<Pair<Supplier<? extends ItemLike>,Float>> compositables = new ArrayList<>();
 	@SubscribeEvent
-	public static void registerAll(RegisterEvent event) {
-		
-		event.register(Keys.ITEMS, helper -> {
-			
-			registerDispensers();
-		
+	public static void onCreativeTabCreate(CreativeModeTabEvent.Register event) {
+		CPMain.main=event.registerCreativeModeTab(CPMain.rl("main"),Arrays.asList(),Arrays.asList(CreativeModeTabs.SPAWN_EGGS),e->e.icon(()->new ItemStack(CPBlocks.stew_pot.get())).title(Utils.translate("itemGroup.caupona")));
+		CPMain.foods=event.registerCreativeModeTab(CPMain.rl("food"),Arrays.asList(),Arrays.asList(CPMain.rl("main")),e->e.icon(()->new ItemStack(CPItems.gravy_boat.get())).title(Utils.translate("itemGroup.caupona_foods")));
+	}
+	@SubscribeEvent
+	public static void onCreativeTabContents(CreativeModeTabEvent.BuildContents event) {
+		CreativeTabItemHelper helper=new CreativeTabItemHelper(event.getTab());
+		CPItems.ITEMS.getEntries().forEach(e->{
+			if(e.get() instanceof ICreativeModeTabItem item) {
+				item.fillItemCategory(helper);
+			}
 		});
+		helper.register(event);
+		
+	}
+	public static <T extends ItemLike> RegistryObject<T> asCompositable(RegistryObject<T> obj,float val){
+		compositables.add(Pair.of(obj, val));
+		return obj;
+	} 
+	@SubscribeEvent
+	public static void onCommonSetup(@SuppressWarnings("unused") FMLCommonSetupEvent event) {
+		registerDispensers();
+		compositables.forEach(p->ComposterBlock.COMPOSTABLES.put(p.getFirst().get(),(float)p.getSecond()));
 	}
 
 

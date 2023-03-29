@@ -1,3 +1,1 @@
-Fix potion dilute issue
-Add compat to treechop
-Fix some tag errors
+Reworked texture of all stew fluid.

@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 import com.teammoeg.caupona.blocks.decoration.BaseColumnBlock;
 import com.teammoeg.caupona.blocks.decoration.CPButtonBlock;
@@ -116,7 +117,7 @@ public class CPBlocks {
 	public static final List<Block> caliduct = new ArrayList<>();
 	public static final List<Block> firebox = new ArrayList<>();
 	public static final List<RegistryObject<Block>> leaves = new ArrayList<>();
-
+	
 	// Other useful blocks
 	public static final RegistryObject<FumaroleBoulderBlock> FUMAROLE_BOULDER = baseblock("fumarole_boulder",
 			() -> new FumaroleBoulderBlock(getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion()
@@ -216,9 +217,9 @@ public class CPBlocks {
 						.strength(2.0F).noOcclusion().sound(SoundType.WOOD)));
 		RegistryObject<Block> a = baseblock(wood + "_fruits", () -> new FruitBlock(BlockBehaviour.Properties
 				.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP)));
-		leaves.add(baseblock(wood + "_leaves", () -> leaves(SoundType.GRASS, a)));
-		baseblock(wood + "_sapling", () -> new SaplingBlock(growth.get(), BlockBehaviour.Properties.of(Material.PLANT)
-				.noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
+		leaves.add(CPCommonBootStrap.asCompositable(baseblock(wood + "_leaves", () -> leaves(SoundType.GRASS, a)),0.3F));
+		CPCommonBootStrap.asCompositable(baseblock(wood + "_sapling", () -> new SaplingBlock(growth.get(), BlockBehaviour.Properties.of(Material.PLANT)
+				.noCollission().randomTicks().instabreak().sound(SoundType.GRASS))),0.3F);
 
 	}
 	//create a wood
@@ -236,7 +237,7 @@ public class CPBlocks {
 				.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD), WALNUT));
 		RegistryObject<Block> f = baseblock(wood + "_fruits", () -> new FruitBlock(BlockBehaviour.Properties
 				.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP)));
-		leaves.add(baseblock(wood + "_leaves", () -> leaves(SoundType.GRASS, f)));
+		leaves.add(CPCommonBootStrap.asCompositable(baseblock(wood + "_leaves", () -> leaves(SoundType.GRASS, f)),0.3F));
 		RegistryObject<Block> sl = baseblock("stripped_" + wood + "_log",
 				() -> log(MaterialColor.WOOD, MaterialColor.WOOD, null));
 		baseblock(wood + "_log", () -> log(MaterialColor.WOOD, MaterialColor.PODZOL, sl));
@@ -245,8 +246,8 @@ public class CPBlocks {
 				() -> new CPPressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties
 						.of(Material.WOOD, MaterialColor.WOOD).noCollission().strength(0.5F).sound(SoundType.WOOD),
 						WALNUT_TYPE));
-		baseblock(wood + "_sapling", () -> new SaplingBlock(growth.get(), BlockBehaviour.Properties.of(Material.PLANT)
-				.noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
+		CPCommonBootStrap.asCompositable(baseblock(wood + "_sapling", () -> new SaplingBlock(growth.get(), BlockBehaviour.Properties.of(Material.PLANT)
+				.noCollission().randomTicks().instabreak().sound(SoundType.GRASS))),0.3F);
 		RegistryObject<Block> s = BLOCKS.register(wood + "_sign",
 				() -> new CPStandingSignBlock(
 						BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD),

@@ -64,8 +64,6 @@ public class CPMain {
 		ForgeMod.enableMilkFluid();
 		MinecraftForge.EVENT_BUS.register(RecipeReloadListener.class);
 		mod.addListener(this::enqueueIMC);
-		mod.addListener(this::onCreativeTabCreate);
-		mod.addListener(this::onCreativeTabContents);
 		CPBlockEntityTypes.REGISTER.register(mod);
 		CPGui.CONTAINERS.register(mod);
 		CPParticles.REGISTER.register(mod);
@@ -85,20 +83,7 @@ public class CPMain {
 	}
 	public static CreativeModeTab main;
 	public static CreativeModeTab foods;
-	public void onCreativeTabCreate(CreativeModeTabEvent.Register event) {
-		main=event.registerCreativeModeTab(rl("main"),Arrays.asList(),Arrays.asList(CreativeModeTabs.SPAWN_EGGS),e->e.icon(()->new ItemStack(CPBlocks.stew_pot.get())).title(Utils.translate("itemGroup.caupona")));
-		foods=event.registerCreativeModeTab(rl("food"),Arrays.asList(),Arrays.asList(rl("main")),e->e.icon(()->new ItemStack(CPItems.gravy_boat.get())).title(Utils.translate("itemGroup.caupona_foods")));
-	}
-	public void onCreativeTabContents(CreativeModeTabEvent.BuildContents event) {
-		CreativeTabItemHelper helper=new CreativeTabItemHelper(event.getTab());
-		CPItems.ITEMS.getEntries().forEach(e->{
-			if(e.get() instanceof ICreativeModeTabItem item) {
-				item.fillItemCategory(helper);
-			}
-		});
-		helper.register(event);
-		
-	}
+
 	@SuppressWarnings("unused")
 	public void enqueueIMC(InterModEnqueueEvent event) {
 	   // InterModComms.sendTo("treechop", "getTreeChopAPI", () -> (Consumer)TreechopCompat::new);
