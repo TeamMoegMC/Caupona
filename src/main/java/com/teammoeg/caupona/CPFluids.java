@@ -53,6 +53,8 @@ public class CPFluids {
 			this.c = c;
 		}
 		public FluidType create(String n){
+			ResourceLocation rt=CPStewTexture.texture.getOrDefault(n, texture);
+			int cx=CPStewTexture.texture.containsKey(n)?0xffffffff:c;
 			FluidType ft=new FluidType(FluidType.Properties.create().viscosity(1200)
 					.temperature(333).rarity(Rarity.UNCOMMON).descriptionId("item."+Main.MODID+"."+n)) {
 
@@ -62,17 +64,17 @@ public class CPFluids {
 
 								@Override
 								public int getTintColor() {
-									return c;
+									return cx;
 								}
 
 								@Override
 								public ResourceLocation getStillTexture() {
-									return texture;
+									return rt;
 								}
 
 								@Override
 								public ResourceLocation getFlowingTexture() {
-									return texture;
+									return rt;
 								}
 								
 							});

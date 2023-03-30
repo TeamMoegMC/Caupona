@@ -98,8 +98,8 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 			tag(ItemTags.WOODEN_TRAPDOORS).add(cp(wood + "_trapdoor"));
 
 			tag(ItemTags.WOODEN_PRESSURE_PLATES).add(cp(wood + "_pressure_plate"));
-
-			tag(ItemTags.LOGS).add(cp(wood + "_wood")).add(cp(wood + "_log"));
+			tag(wood+"_log").add(cp(wood + "_wood")).add(cp(wood + "_log")).add(cp("stripped_" + wood + "_wood")).add(cp("stripped_" + wood + "_log"));
+			tag(ItemTags.LOGS).add(cp(wood + "_wood")).add(cp(wood + "_log")).add(cp("stripped_" + wood + "_wood")).add(cp("stripped_" + wood + "_log"));
 
 			tag(ItemTags.SLABS).add(cp(wood + "_slab"));
 			tag(ItemTags.WOODEN_SLABS).add(cp(wood + "_slab"));

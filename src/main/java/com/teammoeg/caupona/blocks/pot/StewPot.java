@@ -83,8 +83,9 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 				blockEntity.current = null;
 				return InteractionResult.SUCCESS;
 			}
-			if (held.getItem() instanceof StewItem) {
-				if (blockEntity.tryAddFluid(BowlContainingRecipe.extractFluid(held))) {
+			FluidStack out=BowlContainingRecipe.extractFluid(held);
+			if (!out.isEmpty()) {
+				if (blockEntity.tryAddFluid(out)) {
 					ItemStack ret = held.getCraftingRemainingItem();
 					held.shrink(1);
 					if (!player.addItem(ret))

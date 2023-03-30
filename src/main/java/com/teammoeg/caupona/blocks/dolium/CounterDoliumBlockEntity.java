@@ -232,9 +232,9 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 					return true;
 				}
 			}
-
-			if (is.getItem() instanceof StewItem) {
-				if (tryAddFluid(BowlContainingRecipe.extractFluid(is))) {
+			FluidStack out=BowlContainingRecipe.extractFluid(is);
+			if (!out.isEmpty()) {
+				if (tryAddFluid(out)) {
 					ItemStack ret = is.getCraftingRemainingItem();
 					is.shrink(1);
 					process = -1;

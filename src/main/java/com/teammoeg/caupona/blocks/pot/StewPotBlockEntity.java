@@ -63,6 +63,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidActionResult;
@@ -86,7 +87,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				return (stack.getItem() == Items.POTION&&!PotionUtils.getMobEffects(stack).stream().anyMatch(t->t.getDuration()==1)) || StewCookingRecipe.isCookable(stack);
 			if (slot == 9) {
 				Item i = stack.getItem();
-				return i == Items.BOWL || i instanceof StewItem || AspicMeltingRecipe.find(stack) != null;
+				return i == Items.BOWL || BowlContainingRecipe.getFluidType(stack)!=Fluids.EMPTY || AspicMeltingRecipe.find(stack) != null;
 			}
 			if (slot == 11)
 				return SpiceRecipe.isValid(stack);
@@ -258,8 +259,9 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				}
 			}
 
-			if (is.getItem() instanceof StewItem) {
-				if (tryAddFluid(BowlContainingRecipe.extractFluid(is))) {
+			FluidStack out=BowlContainingRecipe.extractFluid(is);
+			if (!out.isEmpty()) {
+				if (tryAddFluid(out)) {
 					ItemStack ret = is.getCraftingRemainingItem();
 					is.shrink(1);
 					nowork = 0;

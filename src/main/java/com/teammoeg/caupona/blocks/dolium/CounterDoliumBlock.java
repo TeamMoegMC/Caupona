@@ -96,8 +96,9 @@ public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlo
 				dolium.tank.setFluid(FluidStack.EMPTY);
 				return InteractionResult.SUCCESS;
 			}
-			if (held.getItem() instanceof StewItem) {
-				if (dolium.tryAddFluid(BowlContainingRecipe.extractFluid(held))) {
+			FluidStack out=BowlContainingRecipe.extractFluid(held);
+			if (!out.isEmpty()) {
+				if (dolium.tryAddFluid(out)) {
 					ItemStack ret = held.getCraftingRemainingItem();
 					held.shrink(1);
 					if (!player.addItem(ret))
