@@ -40,6 +40,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
@@ -54,6 +55,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries.Keys;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
@@ -62,13 +64,15 @@ import net.minecraftforge.registries.RegistryObject;
 public class CPDispenserBehaviour {
 
 	@SubscribeEvent
-	public static void registerAll(RegisterEvent event) {
-		
-		event.register(Keys.ITEMS, helper -> {
-			
-			registerDispensers();
-		
-		});
+	public static void registerAll(FMLCommonSetupEvent event) {
+		registerDispensers();
+		ComposterBlock.COMPOSTABLES.put(CPBlocks.WALNUT_LEAVE.get(),0.4F);
+		ComposterBlock.COMPOSTABLES.put(CPBlocks.WALNUT_SAPLINGS.get(),0.4F);
+		ComposterBlock.COMPOSTABLES.put(CPBlocks.FIG_LEAVE.get(),0.4F);
+		ComposterBlock.COMPOSTABLES.put(CPBlocks.FIG_SAPLINGS.get(),0.4F);
+		ComposterBlock.COMPOSTABLES.put(CPBlocks.WOLFBERRY_LEAVE.get(),0.4F);
+		ComposterBlock.COMPOSTABLES.put(CPBlocks.WOLFBERRY_SAPLINGS.get(),0.4F);
+		ComposterBlock.COMPOSTABLES.put(CPItems.food_material
 	}
 
 

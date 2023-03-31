@@ -73,8 +73,8 @@ public class StewCookingCategory implements IRecipeCategory<StewCookingRecipe> {
 			double mouseY) {
 		stack.pushPose();
 		stack.scale(0.5f, 0.5f, 0);
-		helper.createDrawable(new ResourceLocation(Utils.getRegistryName(recipe.output).getNamespace(),
-				"textures/gui/recipes/" + Utils.getRegistryName(recipe.output).getPath() + ".png"), 0, 0, 200, 210)
+		helper.createDrawable(new ResourceLocation(recipe.getId().getNamespace(),
+				"textures/gui/recipes/" + recipe.getId().getPath() + ".png"), 0, 0, 200, 210)
 				.draw(stack);
 		stack.popPose();
 	}

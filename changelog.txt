@@ -1,2 +1,2 @@
-Fixed dolium recipe
-Added walnut log to plank recipe
+Add sapings and leaves into compositables
+Rename base condition key from base to fluid_type.

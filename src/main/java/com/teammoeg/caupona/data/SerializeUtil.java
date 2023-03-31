@@ -197,7 +197,7 @@ public class SerializeUtil {
 			return new FluidTag(jo);
 		if (jo.has("fluid"))
 			return new FluidType(jo);
-		if (jo.has("base"))
+		if (jo.has("fluid_type"))
 			return new FluidTypeType(jo);
 		return null;
 	}

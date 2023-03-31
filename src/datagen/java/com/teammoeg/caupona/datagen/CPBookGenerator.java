@@ -174,7 +174,7 @@ public class CPBookGenerator implements DataProvider {
 		JsonObject imgpage = new JsonObject();
 		imgpage.addProperty("type", "caupona:cookrecipe");
 		imgpage.addProperty("img",
-				new ResourceLocation(Main.MODID, "textures/gui/recipes/" + name + ".png").toString());
+				new ResourceLocation(r.getId().getNamespace(), "textures/gui/recipes/" + r.getId().getPath() + ".png").toString());
 		imgpage.addProperty("result", new ResourceLocation(Main.MODID, name).toString());
 		imgpage.addProperty("base", Utils.getRegistryName(baseType).toString());
 		pages.add(imgpage);
@@ -187,11 +187,12 @@ public class CPBookGenerator implements DataProvider {
 		page.add("name", langs.get(locale).get("item.caupona." + name));
 		page.addProperty("icon", new ResourceLocation(Main.MODID, name).toString());
 		page.addProperty("category", "caupona:sautee_recipes");
+		SauteedRecipe r = frecipes.get(name);
 		JsonArray pages = new JsonArray();
 		JsonObject imgpage = new JsonObject();
 		imgpage.addProperty("type", "caupona:fryrecipe");
 		imgpage.addProperty("img",
-				new ResourceLocation(Main.MODID, "textures/gui/recipes/" + name + ".png").toString());
+				new ResourceLocation(r.getId().getNamespace(), "textures/gui/recipes/" + r.getId().getPath() + ".png").toString());
 		imgpage.addProperty("result", new ResourceLocation(Main.MODID, name).toString());
 		imgpage.addProperty("base", Utils.getRegistryName(CPBlocks.GRAVY_BOAT).toString());
 		pages.add(imgpage);

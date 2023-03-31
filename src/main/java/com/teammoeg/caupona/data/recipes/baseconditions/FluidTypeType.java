@@ -64,7 +64,7 @@ public class FluidTypeType implements StewBaseCondition {
 
 	public JsonObject serialize() {
 		JsonObject jo = new JsonObject();
-		jo.addProperty("base", of.toString());
+		jo.addProperty("fluid_type", of.toString());
 		return jo;
 	}
 
