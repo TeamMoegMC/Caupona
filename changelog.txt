@@ -1,3 +1,2 @@
-Fix potion dilute issue
-Add compat to treechop
-Fix some tag errors
+Fixed dolium recipe
+Added walnut log to plank recipe
