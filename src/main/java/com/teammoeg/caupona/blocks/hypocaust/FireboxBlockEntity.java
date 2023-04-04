@@ -25,33 +25,35 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.CPTags.Blocks;
 import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.stove.IStove;
+import com.teammoeg.caupona.util.LazyTickWorker;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class FireboxBlockEntity extends BathHeatingBlockEntity {
-	TagKey<Block> HEAT_CONDUCTOR = BlockTags.create(new ResourceLocation(Main.MODID, "heat_conductor"));
-	int process;
+	LazyTickWorker process;
 	int heat;
 	private int r;
-	private int mp;
 
 	public FireboxBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPBlockEntityTypes.FIREBOX.get(), pWorldPosition, pBlockState);
 		r = Config.SERVER.bathRange.get();
-		mp = Config.SERVER.bathPath.get() / 2;
+		process = new LazyTickWorker(Mth.ceil(Config.SERVER.bathPath.get() / 2f),()->{
+			Set<BlockPos> pss = getAll();
+			for (BlockPos pos : pss) {
+				if (level.getBlockEntity(pos) instanceof BathHeatingBlockEntity bath)
+					bath.setHeat(heat);
+			}
+			return true;
+		});
 	}
 
 	@Override
@@ -61,14 +63,12 @@ public class FireboxBlockEntity extends BathHeatingBlockEntity {
 	@Override
 	public void readCustomNBT(CompoundTag nbt, boolean isClient) {
 		super.readCustomNBT(nbt, isClient);
-		process = nbt.getInt("heatProcess");
 		heat = nbt.getInt("heatSpeed");
 	}
 
 	@Override
 	public void writeCustomNBT(CompoundTag nbt, boolean isClient) {
 		super.writeCustomNBT(nbt, isClient);
-		nbt.putInt("heatProcess", process);
 		nbt.putInt("heatSpeed", heat);
 	}
 
@@ -81,7 +81,7 @@ public class FireboxBlockEntity extends BathHeatingBlockEntity {
 			if (pos.add(crn)) {
 				for (Direction dir : Utils.horizontals) {
 					BlockPos act = crn.relative(dir);
-					if (l.isLoaded(act) && l.getBlockState(act).is(HEAT_CONDUCTOR)) {
+					if (l.isLoaded(act) && l.getBlockState(act).is(Blocks.HYPOCAUST_HEAT_CONDUCTOR)) {
 						findNext(l, act, orig, pos);
 					}
 				}
@@ -103,23 +103,14 @@ public class FireboxBlockEntity extends BathHeatingBlockEntity {
 		if (level.getBlockEntity(worldPosition.below()) instanceof IStove stove) {
 			int nh = stove.requestHeat();
 			if (heat != nh) {
-				process = 0;
+				process.enqueue();;
 				heat = nh;
 			}
 		} else if (heat != 0) {
-			process = 0;
+			process.enqueue();
 			heat = 0;
 		}
-		if (process > 0) {
-			process--;
-		} else {
-			process = mp;
-			Set<BlockPos> pss = getAll();
-			for (BlockPos pos : pss) {
-				if (level.getBlockEntity(pos) instanceof BathHeatingBlockEntity bath)
-					bath.setHeat(heat);
-			}
-		}
+		process.tick();
 		this.setChanged();
 		super.tick();
 

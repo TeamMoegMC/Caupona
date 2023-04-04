@@ -63,6 +63,22 @@ import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,IInfinitable {
+	//process
+	public int process;
+	public int processMax;
+	//work state
+	public boolean working = false;
+	public boolean operate = false;
+	public boolean rsstate = false;
+	
+	boolean isInfinite = false;
+	//output cache
+	boolean removesNBT;
+	public Item preout = Items.AIR;
+	public ItemStack sout = ItemStack.EMPTY;
+	public SauteedFoodInfo current;
+	public int oamount;
+	//Capabilities
 	public ItemStackHandler inv = new ItemStackHandler(12) {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
@@ -83,17 +99,30 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 			return super.getSlotLimit(slot);
 		}
 	};
-	public int process;
-	public int processMax;
-	public Item preout = Items.AIR;
-	public ItemStack sout = ItemStack.EMPTY;
-	public int oamount;
-	public boolean working = false;
-	public boolean operate = false;
-	public boolean rsstate = false;
-	public SauteedFoodInfo current;
-	boolean isInfinite = false;
-	boolean removesNBT;
+	RangedWrapper bowl = new RangedWrapper(inv, 9, 12) {
+		@Override
+		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+			if (slot == 10)
+				return stack;
+			return super.insertItem(slot, stack, simulate);
+		}
+
+		@Override
+		public ItemStack extractItem(int slot, int amount, boolean simulate) {
+			if (slot == 9 || slot == 11)
+				return ItemStack.EMPTY;
+			return super.extractItem(slot, amount, simulate);
+		}
+	};
+	RangedWrapper ingredient = new RangedWrapper(inv, 0, 10) {
+
+		@Override
+		public ItemStack extractItem(int slot, int amount, boolean simulate) {
+			return ItemStack.EMPTY;
+		}
+	};
+	LazyOptional<IItemHandler> up = LazyOptional.of(() -> ingredient);
+	LazyOptional<IItemHandler> side = LazyOptional.of(() -> bowl);
 	public PanBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPBlockEntityTypes.PAN.get(), pWorldPosition, pBlockState);
 	}
@@ -328,32 +357,6 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	public Component getDisplayName() {
 		return MutableComponent.create(new TranslatableContents("container." + Main.MODID + ".pan.title"));
 	}
-
-	RangedWrapper bowl = new RangedWrapper(inv, 9, 12) {
-		@Override
-		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-			if (slot == 10)
-				return stack;
-			return super.insertItem(slot, stack, simulate);
-		}
-
-		@Override
-		public ItemStack extractItem(int slot, int amount, boolean simulate) {
-			if (slot == 9 || slot == 11)
-				return ItemStack.EMPTY;
-			return super.extractItem(slot, amount, simulate);
-		}
-	};
-	RangedWrapper ingredient = new RangedWrapper(inv, 0, 10) {
-
-		@Override
-		public ItemStack extractItem(int slot, int amount, boolean simulate) {
-			return ItemStack.EMPTY;
-		}
-	};
-	LazyOptional<IItemHandler> up = LazyOptional.of(() -> ingredient);
-	LazyOptional<IItemHandler> side = LazyOptional.of(() -> bowl);
-
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
 		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {

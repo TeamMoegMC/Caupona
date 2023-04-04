@@ -21,29 +21,28 @@
 
 package com.teammoeg.caupona.datagen;
 
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.baked;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.cereals;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.crustaceans;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.eggs;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.fish;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.meat;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.meats;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.mushrooms;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.poultry;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.pumpkin;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.rice;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.roots;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.seafood;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.sugar;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.vegetables;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.walnut;
-import static com.teammoeg.caupona.datagen.CPRecipeProvider.greens;
-
-import java.nio.file.Path;
+import static com.teammoeg.caupona.CPTags.Items.BAKED;
+import static com.teammoeg.caupona.CPTags.Items.cereals;
+import static com.teammoeg.caupona.CPTags.Items.crustaceans;
+import static com.teammoeg.caupona.CPTags.Items.EGGS;
+import static com.teammoeg.caupona.CPTags.Items.FISH;
+import static com.teammoeg.caupona.CPTags.Items.greens;
+import static com.teammoeg.caupona.CPTags.Items.MEAT;
+import static com.teammoeg.caupona.CPTags.Items.meats;
+import static com.teammoeg.caupona.CPTags.Items.mushrooms;
+import static com.teammoeg.caupona.CPTags.Items.POULTRY;
+import static com.teammoeg.caupona.CPTags.Items.pumpkin;
+import static com.teammoeg.caupona.CPTags.Items.RICE;
+import static com.teammoeg.caupona.CPTags.Items.roots;
+import static com.teammoeg.caupona.CPTags.Items.SEAFOOD;
+import static com.teammoeg.caupona.CPTags.Items.sugar;
+import static com.teammoeg.caupona.CPTags.Items.VEGETABLES;
+import static com.teammoeg.caupona.CPTags.Items.walnut;
 
 import com.google.common.collect.ImmutableList;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
+import com.teammoeg.caupona.CPTags;
 import com.teammoeg.caupona.Main;
 
 import net.minecraft.core.Registry;
@@ -132,31 +131,31 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag("fuel/charcoals").add(Items.CHARCOAL);
 		tag("fuel/fossil").addTags(ItemTags.COALS);
 		tag("fuel/lava").add(Items.LAVA_BUCKET);
-		tag(meats).addTag(atag(poultry)).addTag(atag(meat));
-		tag(seafood).addTag(atag(fish)).addTag(atag(crustaceans));
+		tag(meats).addTag(POULTRY).addTag(MEAT);
+		tag(SEAFOOD).addTag(FISH).addTag(crustaceans);
 		tag(pumpkin).addOptional(rl(fd + ":pumpkin_slice")).add(Items.PUMPKIN, Items.CARVED_PUMPKIN);
 		tag(frl("raw_beef")).add(Items.BEEF);
 		tag(walnut).add(cp("walnut"));
-		tag(baked).add(Items.BREAD).addTag(ftag("pasta")).addOptional(rl(fd + ":pie_crust"));
-		tag(cereals).addTag(atag(rice)).addTag(ftag("grain")).addTag(atag(baked)).add(Items.WHEAT, Items.WHEAT_SEEDS)
+		tag(BAKED).add(Items.BREAD).addTag(ftag("pasta")).addOptional(rl(fd + ":pie_crust"));
+		tag(cereals).addTag(RICE).addTag(ftag("grain")).addTag(BAKED).add(Items.WHEAT, Items.WHEAT_SEEDS)
 				.addTag(ftag("bread"));
-		tag(rice).addTag(ftag("grain/rice"));
+		tag(RICE).addTag(ftag("grain/rice"));
 		tag(roots).add(Items.POTATO, Items.BAKED_POTATO).addTag(ftag("rootvegetables"));
-		tag(vegetables).add(Items.CARROT, Items.BEETROOT, Items.PUMPKIN)
-		.addTag(ftag("vegetables")).addTag(ftag("vegetable")).addTag(atag(greens))
-		.addTag(atag(mushrooms)).addTag(atag(roots)).addTag(ftag("salad_ingredients"))
-		.addTag(atag(pumpkin));
+		tag(VEGETABLES).add(Items.CARROT, Items.BEETROOT, Items.PUMPKIN)
+		.addTag(ftag("vegetables")).addTag(ftag("vegetable")).addTag(greens)
+		.addTag(mushrooms).addTag(roots).addTag(ftag("salad_ingredients"))
+		.addTag(pumpkin);
 		
 		
 		tag(greens).addTag(ftag("vegetables/asparagus")).add(Items.FERN, Items.LARGE_FERN, Items.ALLIUM);
-		tag(eggs).add(Items.EGG).addTag(ftag("cooked_eggs"));
+		tag(EGGS).add(Items.EGG).addTag(ftag("cooked_eggs"));
 		tag(crustaceans).add(Items.NAUTILUS_SHELL);
-		tag(fish).addTag(atag(mcrl("fishes"))).addTag(ftag("raw_fishes"));
-		tag(seafood).add(Items.KELP, Items.DRIED_KELP);
-		tag(poultry).add(Items.CHICKEN, Items.RABBIT).addTag(ftag("raw_chicken")).addTag(ftag("raw_rabbit"))
+		tag(FISH).addTag(atag(mcrl("fishes"))).addTag(ftag("raw_fishes"));
+		tag(SEAFOOD).add(Items.KELP, Items.DRIED_KELP);
+		tag(POULTRY).add(Items.CHICKEN, Items.RABBIT).addTag(ftag("raw_chicken")).addTag(ftag("raw_rabbit"))
 				.addTag(ftag("bread")).addOptional(rl(sf + "raw_chicken_wings")).addOptional(rl(sf + "raw_sausage"))
 				.addOptional(rl(sf + "raw_horse_meat"));
-		tag(meat).add(Items.BEEF, Items.MUTTON, Items.PORKCHOP, Items.ROTTEN_FLESH).addTag(ftag("bacon"))
+		tag(MEAT).add(Items.BEEF, Items.MUTTON, Items.PORKCHOP, Items.ROTTEN_FLESH).addTag(ftag("bacon"))
 				.addTag(ftag("raw_pork")).addTag(ftag("raw_beef")).addTag(ftag("raw_mutton"))
 				.addOptional(rl(fd + ":ham")).addTag(ftag("raw_bacon"));
 		tag(sugar).add(Items.SUGAR_CANE, Items.HONEYCOMB, Items.HONEY_BOTTLE);

@@ -21,13 +21,10 @@
 
 package com.teammoeg.caupona.blocks.plants;
 
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPTags.Blocks;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
@@ -39,8 +36,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class FruitBlock extends CropBlock {
-	public static final TagKey<Block> growable = BlockTags.create(new ResourceLocation(Main.MODID, "fruits_growable"));
-
 	public FruitBlock(Properties p_52247_) {
 		super(p_52247_);
 	}
@@ -86,7 +81,7 @@ public class FruitBlock extends CropBlock {
 
 	@Override
 	public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
-		return pLevel.getBlockState(pPos.above()).is(growable);
+		return pLevel.getBlockState(pPos.above()).is(Blocks.FRUITS_GROWABLE_ON);
 	}
 
 	protected ItemLike getBaseSeedId() {

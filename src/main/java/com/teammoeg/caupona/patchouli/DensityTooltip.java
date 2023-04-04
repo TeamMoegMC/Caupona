@@ -29,9 +29,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.item.crafting.Recipe;
 import vazkii.patchouli.api.IComponentRenderContext;
 import vazkii.patchouli.api.ICustomComponent;
 import vazkii.patchouli.api.IVariable;
@@ -48,8 +49,8 @@ public class DensityTooltip implements ICustomComponent {
 	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
 		recipe = lookup.apply(recipe);
 		ResourceLocation out = new ResourceLocation(recipe.asString());
-		StewCookingRecipe cr = StewCookingRecipe.recipes.get(ForgeRegistries.FLUIDS.getValue(out));
-		if (cr != null) {
+		Recipe<?> r = Minecraft.getInstance().level.getRecipeManager().byKey(out).orElse(null);
+		if (r instanceof StewCookingRecipe cr) {
 			density = new ArrayList<>();
 			density.add(Utils.translate("recipe.caupona.density", cr.getDensity()));
 		}

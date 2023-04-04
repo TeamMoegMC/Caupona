@@ -31,13 +31,12 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
+import com.teammoeg.caupona.CPTags;
 import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
@@ -146,7 +145,7 @@ public class CPBookGenerator implements DataProvider {
 
 	}
 
-	StewBaseCondition anyW = new FluidTag(CPRecipeProvider.anyWater);
+	StewBaseCondition anyW = new FluidTag(CPTags.Fluids.ANY_WATER);
 	StewBaseCondition stock = new FluidType(CPRecipeProvider.stock);
 	StewBaseCondition milk = new FluidType(CPRecipeProvider.milk);
 	private ResourceLocation PictureRL(Recipe<?> r) {

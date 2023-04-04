@@ -21,10 +21,10 @@
 
 package com.teammoeg.caupona.datagen;
 
-import java.nio.file.Path;
 import java.util.stream.Collectors;
 
 import com.teammoeg.caupona.CPFluids;
+import com.teammoeg.caupona.CPTags;
 import com.teammoeg.caupona.Main;
 
 import net.minecraft.core.Registry;
@@ -35,6 +35,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -48,11 +49,16 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 	@Override
 	protected void addTags() {
 
-		tag("stews").add(CPFluids.getAll().collect(Collectors.toList()).toArray(new Fluid[0]));
-		tag("pumice_bloom_grow_on").add(Fluids.WATER);
+		tag(CPTags.Fluids.BOILABLE).add(CPFluids.getAll().collect(Collectors.toList()).toArray(new Fluid[0])).add(Fluids.WATER).add(ForgeMod.MILK.get());
+		tag(CPTags.Fluids.ANY_WATER).add(cp("stock")).add(cp("nail_soup"));
+		tag(CPTags.Fluids.STEWS).add(CPFluids.getAll().collect(Collectors.toList()).toArray(new Fluid[0]));
+		tag(CPTags.Fluids.PUMICE_ON).add(Fluids.WATER);
 		tag(new ResourceLocation("watersource", "drink")).add(ForgeRegistries.FLUIDS.getValue(mrl("nail_soup")));
 	}
-
+	private Fluid cp(String s) {
+		Fluid i = ForgeRegistries.FLUIDS.getValue(mrl(s));
+		return i;// just going to cause trouble if not exists
+	}
 	private TagAppender<Fluid> tag(String s) {
 		return this.tag(FluidTags.create(mrl(s)));
 	}

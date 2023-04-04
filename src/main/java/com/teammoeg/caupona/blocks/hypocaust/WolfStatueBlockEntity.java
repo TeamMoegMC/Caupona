@@ -25,19 +25,36 @@ import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
+import com.teammoeg.caupona.util.LazyTickWorker;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class WolfStatueBlockEntity extends CPBaseBlockEntity {
-	int ticks;
-	private int checkTicks;
 	boolean isVeryHot;
-
+	private LazyTickWorker check;
 	public WolfStatueBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPBlockEntityTypes.WOLF.get(), pWorldPosition, pBlockState);
-		checkTicks = Config.SERVER.wolfTick.get();
+		check = new LazyTickWorker(Config.SERVER.wolfTick.get(),()->{
+			BlockPos bp = this.getBlockPos();
+			BlockState bs = this.getBlockState();
+			int bheat = bs.getValue(WolfStatueBlock.HEAT);
+			for (int i = 0; i < 4; i++) {
+				bp = bp.below();
+				if (this.getLevel().getBlockEntity(bp) instanceof BathHeatingBlockEntity bath) {
+					int cheat = Math.min(bath.getHeat(), 2);
+					
+					
+					if (cheat != bheat)
+						this.getLevel().setBlockAndUpdate(this.getBlockPos(), bs.setValue(WolfStatueBlock.HEAT, cheat));
+					return true;
+				}
+			}
+			if(bheat!=0)
+				this.getLevel().setBlockAndUpdate(this.getBlockPos(), bs.setValue(WolfStatueBlock.HEAT,0));
+			return true;
+		});
 	}
 
 	@Override
@@ -46,13 +63,11 @@ public class WolfStatueBlockEntity extends CPBaseBlockEntity {
 
 	@Override
 	public void readCustomNBT(CompoundTag nbt, boolean isClient) {
-		ticks = nbt.getInt("process");
 		isVeryHot = nbt.getBoolean("very_hot");
 	}
 
 	@Override
 	public void writeCustomNBT(CompoundTag nbt, boolean isClient) {
-		nbt.putInt("process", ticks);
 		nbt.putBoolean("very_hot", isVeryHot);
 	}
 
@@ -84,26 +99,7 @@ public class WolfStatueBlockEntity extends CPBaseBlockEntity {
 			return;
 		}
 		isVeryHot = false;
-		ticks++;
-		if (ticks >= checkTicks) {
-			ticks = 0;
-			BlockPos bp = this.getBlockPos();
-			BlockState bs = this.getBlockState();
-			int bheat = bs.getValue(WolfStatueBlock.HEAT);
-			for (int i = 0; i < 4; i++) {
-				bp = bp.below();
-				if (this.getLevel().getBlockEntity(bp) instanceof BathHeatingBlockEntity bath) {
-					int cheat = Math.min(bath.getHeat(), 2);
-					
-					
-					if (cheat != bheat)
-						this.getLevel().setBlockAndUpdate(this.getBlockPos(), bs.setValue(WolfStatueBlock.HEAT, cheat));
-					return;
-				}
-			}
-			if(bheat!=0)
-				this.getLevel().setBlockAndUpdate(this.getBlockPos(), bs.setValue(WolfStatueBlock.HEAT,0));
-		}
+		check.tick();
 	}
 
 }

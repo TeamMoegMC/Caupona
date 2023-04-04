@@ -36,8 +36,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -74,8 +72,6 @@ public class ForgeEvent {
 	public static void addReloadListeners(AddReloadListenerEvent event) {
 		event.addListener(new RecipeReloadListener(event.getServerResources()));
 	}
-
-	private static TagKey<Item> container = ItemTags.create(new ResourceLocation(Main.MODID, "container"));
 
 	@SubscribeEvent
 	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
@@ -176,7 +172,7 @@ public class ForgeEvent {
 			ItemStack stack = event.getItemStack();
 			LazyOptional<IFluidHandlerItem> cap = stack
 					.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
-			if (cap.isPresent() && stack.is(container)) {
+			if (cap.isPresent() && stack.is(com.teammoeg.caupona.CPTags.Items.STEW_CONTAINER)) {
 				IFluidHandlerItem data = cap.resolve().get();
 				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid) {
 					StewInfo si = SoupFluid.getInfo(data.getFluidInTank(0));
@@ -196,7 +192,7 @@ public class ForgeEvent {
 			ItemStack stack = event.getItem();
 			LazyOptional<IFluidHandlerItem> cap = stack
 					.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
-			if (cap.isPresent() && stack.is(container)) {
+			if (cap.isPresent() && stack.is(com.teammoeg.caupona.CPTags.Items.STEW_CONTAINER)) {
 				IFluidHandlerItem data = cap.resolve().get();
 				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid)
 					CauponaApi.apply(event.getEntity().level, event.getEntity(),

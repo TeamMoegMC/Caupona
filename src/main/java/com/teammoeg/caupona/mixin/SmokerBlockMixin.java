@@ -26,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.teammoeg.caupona.CPTags.Blocks;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.util.ChimneyHelper;
 
@@ -49,7 +50,7 @@ public class SmokerBlockMixin {
 		BlockPos bp = ChimneyHelper.getNearestChimney(pLevel, pPos, 2);
 		if (bp != null) {
 			double motY = -0.3, delY = .5;
-			if (!pLevel.getBlockState(bp).is(ChimneyHelper.chimney_pot)) {
+			if (!pLevel.getBlockState(bp).is(Blocks.CHIMNEY_POT)) {
 				motY = pRandom.nextDouble() * .25;
 				delY = 0;
 			}

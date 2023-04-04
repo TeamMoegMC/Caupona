@@ -21,22 +21,22 @@
 
 package com.teammoeg.caupona;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
+import com.teammoeg.caupona.CPTags.Items;
+
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public enum FuelType {
-	WOODS(2, "fuel/woods"), CHARCOAL(1, "fuel/charcoals"), FOSSIL(3, "fuel/fossil"), GEOTHERMAL(0, "fuel/lava"),
-	OTHER(0, "fuel/others");
+	WOODS(2,Items.FUEL_WOODS), CHARCOAL(1,Items.FUEL_CHARCOALS), FOSSIL(3,Items.FUEL_FOSSIL), GEOTHERMAL(0,Items.FUEL_LAVA),
+	OTHER(0, Items.FUEL_OTHERS);
 
 	private final int modelId;
 	private final TagKey<Item> it;
 
-	private FuelType(int modelId, String tagname) {
+	private FuelType(int modelId,TagKey<Item> tag ){
 		this.modelId = modelId;
-		it = ItemTags.create(new ResourceLocation(Main.MODID, tagname));
+		it = tag;
 	}
 
 	public static FuelType getType(ItemStack is) {

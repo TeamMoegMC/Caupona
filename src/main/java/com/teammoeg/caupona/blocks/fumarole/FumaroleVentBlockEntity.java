@@ -25,38 +25,49 @@ import java.util.Iterator;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPTags.Blocks;
+import com.teammoeg.caupona.CPTags.Fluids;
 import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
+import com.teammoeg.caupona.util.LazyTickWorker;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 
 public class FumaroleVentBlockEntity extends CPBaseBlockEntity implements IStove {
 	private final int heat;
-	private final int checkmax;
-	private final int updatemax;
-	public static final TagKey<Fluid> pumice = FluidTags
-			.create(new ResourceLocation(Main.MODID, "pumice_bloom_grow_on"));
-	public static final TagKey<Block> hot = BlockTags.create(new ResourceLocation(Main.MODID, "fumarole_hot"));
-	public static final TagKey<Block> vhot = BlockTags.create(new ResourceLocation(Main.MODID, "fumarole_very_hot"));
-
+	LazyTickWorker update;
+	LazyTickWorker check;
 	public FumaroleVentBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPBlockEntityTypes.FUMAROLE.get(), pWorldPosition, pBlockState);
 		heat = Config.SERVER.fumarolePower.get();
-		checkmax = Config.SERVER.fumaroleCheck.get();
-		updatemax = Config.SERVER.fumaroleSpeed.get();
+		check = new LazyTickWorker(Config.SERVER.fumaroleCheck.get(),()->{
+			BlockState bs = this.getBlockState();
+			BlockState below = this.getLevel().getBlockState(this.getBlockPos().below(2));
+			int cheat = bs.getValue(FumaroleVentBlock.HEAT);
+			if (below.is(Blocks.FUMAROLE_VERY_HOT_BLOCK)) {
+				if (cheat != 2) {
+					this.getLevel().setBlockAndUpdate(getBlockPos(), bs.setValue(FumaroleVentBlock.HEAT, 2));
+				}
+			} else if (below.is(Blocks.FUMAROLE_HOT_BLOCK)) {
+				if (cheat != 1) {
+					this.getLevel().setBlockAndUpdate(getBlockPos(), bs.setValue(FumaroleVentBlock.HEAT, 1));
+				}
+			} else if (cheat != 0) {
+				this.getLevel().setBlockAndUpdate(getBlockPos(), bs.setValue(FumaroleVentBlock.HEAT, 0));
+			}
+			return true;
+		});
+		update = new LazyTickWorker(Config.SERVER.fumaroleSpeed.get(),()->{
+			if (!this.getBlockState().getValue(FumaroleVentBlock.WATERLOGGED))
+				placeFumarole(this.getLevel(), this.getBlockPos());
+			return true;
+		});
 	}
 
 	@Override
@@ -67,54 +78,25 @@ public class FumaroleVentBlockEntity extends CPBaseBlockEntity implements IStove
 	public void readCustomNBT(CompoundTag nbt, boolean isClient) {
 		if (isClient)
 			return;
-		update = nbt.getInt("update");
-		check = nbt.getInt("check");
+		update.read(nbt,"update");
 	}
 
 	@Override
 	public void writeCustomNBT(CompoundTag nbt, boolean isClient) {
 		if (isClient)
 			return;
-		nbt.putInt("update", update);
-		nbt.putInt("check", check);
+		update.write(nbt,"update");
 	}
-
-	int update;
-	int check;
 
 	@SuppressWarnings("resource")
 	@Override
 	public void tick() {
 		BlockState bs = this.getBlockState();
 		if (bs.getValue(FumaroleVentBlock.HEAT) == 2) {
-			if (update < updatemax) {
-				update++;
-			} else {
-				update = 0;
-				if (!this.getBlockState().getValue(FumaroleVentBlock.WATERLOGGED))
-					placeFumarole(this.getLevel(), this.getBlockPos());
-			}
+			update.tick();
 			this.setChanged();
 		}
-		if (check < checkmax) {
-			check++;
-			
-		} else {
-			check = 0;
-			BlockState below = this.getLevel().getBlockState(this.getBlockPos().below(2));
-			int cheat = bs.getValue(FumaroleVentBlock.HEAT);
-			if (below.is(vhot)) {
-				if (cheat != 2) {
-					this.getLevel().setBlockAndUpdate(getBlockPos(), bs.setValue(FumaroleVentBlock.HEAT, 2));
-				}
-			} else if (below.is(hot)) {
-				if (cheat != 1) {
-					this.getLevel().setBlockAndUpdate(getBlockPos(), bs.setValue(FumaroleVentBlock.HEAT, 1));
-				}
-			} else if (cheat != 0) {
-				this.getLevel().setBlockAndUpdate(getBlockPos(), bs.setValue(FumaroleVentBlock.HEAT, 0));
-			}
-		}
+		check.tick();
 		
 	}
 
@@ -130,7 +112,7 @@ public class FumaroleVentBlockEntity extends CPBaseBlockEntity implements IStove
 			BlockState b0 = pLevel.getBlockState(pendPos);
 			BlockState b1 = pLevel.getBlockState(pendPos.below());
 			if (b0.isAir()) {
-				if (b1.getFluidState().is(pumice)) {
+				if (b1.getFluidState().is(Fluids.PUMICE_ON)) {
 					if (shouldPlacePumice(pLevel, pendPos))
 						pLevel.setBlockAndUpdate(pendPos, CPBlocks.PUMICE_BLOOM.get().defaultBlockState());
 					return;

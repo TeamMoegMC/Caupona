@@ -24,7 +24,6 @@ package com.teammoeg.caupona.blocks.pot;
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
-import com.teammoeg.caupona.items.StewItem;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
@@ -80,7 +79,6 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 			ItemStack held = player.getItemInHand(handIn);
 			if (held.isEmpty() && player.isShiftKeyDown()) {
 				blockEntity.getTank().setFluid(FluidStack.EMPTY);
-				blockEntity.current = null;
 				return InteractionResult.SUCCESS;
 			}
 			FluidStack out=BowlContainingRecipe.extractFluid(held);

@@ -23,6 +23,7 @@ package com.teammoeg.caupona.blocks.stove;
 
 import java.util.Objects;
 
+import com.teammoeg.caupona.CPTags.Blocks;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.FuelType;
 import com.teammoeg.caupona.Main;
@@ -259,7 +260,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 				} else {
 					if (rand.nextDouble() < 0.25D * speed) {
 						double motY = -0.3, delY = .5;
-						if (!this.getLevel().getBlockState(attachedChimney).is(ChimneyHelper.chimney_pot)) {
+						if (!this.getLevel().getBlockState(attachedChimney).is(Blocks.CHIMNEY_POT)) {
 							motY = rand.nextDouble() * .25;
 							delY = 0;
 						}

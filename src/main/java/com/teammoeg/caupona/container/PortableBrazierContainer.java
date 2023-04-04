@@ -23,7 +23,7 @@ package com.teammoeg.caupona.container;
 
 import com.teammoeg.caupona.CPGui;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPTags.Items;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.util.INetworkContainer;
@@ -32,15 +32,11 @@ import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -51,8 +47,6 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 	private static final int FUEL = 2;
 	private static final int OUT = 3;
 	private final Player player;
-	public static final TagKey<Item> fueltype = ItemTags
-			.create(new ResourceLocation(Main.MODID, "portable_brazier_fuel"));
 	ItemStackHandler items = new ItemStackHandler(4) {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
@@ -61,7 +55,7 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 			if (slot == CONTAINER)
 				return stack.is(CPItems.water_bowl.get());
 			if (slot == FUEL)
-				return stack.is(fueltype);
+				return stack.is(Items.PORTABLE_BRAZIER_FUEL_TYPE);
 			return false;
 		}
 
@@ -208,7 +202,7 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 				return;
 			}
 			if (processMax == 0 && items.getStackInSlot(OUT).isEmpty() && !items.getStackInSlot(CONTAINER).isEmpty()
-					&& items.getStackInSlot(FUEL).is(fueltype)) {
+					&& items.getStackInSlot(FUEL).is(Items.PORTABLE_BRAZIER_FUEL_TYPE)) {
 				AspicMeltingRecipe recipe = AspicMeltingRecipe.find(items.getStackInSlot(INGREDIENT));
 				if (recipe != null) {
 					BowlContainingRecipe recipe2 = BowlContainingRecipe.recipes.get(recipe.fluid);

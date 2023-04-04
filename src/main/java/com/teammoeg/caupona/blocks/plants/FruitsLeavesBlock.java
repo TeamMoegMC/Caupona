@@ -23,12 +23,9 @@ package com.teammoeg.caupona.blocks.plants;
 
 import java.util.Iterator;
 
-import com.teammoeg.caupona.CPBlocks;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;

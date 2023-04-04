@@ -21,27 +21,20 @@
 
 package com.teammoeg.caupona.data.recipes;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import com.google.gson.JsonObject;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPTags.Items;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.SerializeUtil;
-import com.teammoeg.caupona.data.recipes.conditions.Halfs;
-import com.teammoeg.caupona.data.recipes.conditions.Mainly;
-import com.teammoeg.caupona.data.recipes.conditions.Only;
 import com.teammoeg.caupona.util.FloatemTagStack;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
@@ -52,15 +45,12 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 	public static Set<CookIngredients> cookables;
-	public static Map<Item, SauteedRecipe> recipes;
 	public static List<SauteedRecipe> sorted;
 	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
-	public static final TagKey<Item> cookable = ItemTags.create(new ResourceLocation(Main.MODID, "cookable"));
-
 	public static boolean isCookable(ItemStack stack) {
 		FloatemTagStack s = new FloatemTagStack(stack);
-		return stack.is(cookable) || cookables.stream().anyMatch(e -> e.fits(s));
+		return stack.is(Items.COOKABLE) || cookables.stream().anyMatch(e -> e.fits(s));
 		// return true;
 	}
 

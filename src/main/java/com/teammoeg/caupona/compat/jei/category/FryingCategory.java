@@ -21,15 +21,9 @@
 
 package com.teammoeg.caupona.compat.jei.category;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.Main;
-import com.teammoeg.caupona.api.GameTranslation;
-import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.util.Utils;
 
@@ -41,7 +35,6 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

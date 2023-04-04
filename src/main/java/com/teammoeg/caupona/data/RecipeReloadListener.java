@@ -21,7 +21,6 @@
 
 package com.teammoeg.caupona.data;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -170,25 +169,20 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 		FluidFoodValueRecipe.recipes = filterRecipes(recipes, FluidFoodValueRecipe.class, FluidFoodValueRecipe.TYPE)
 				.collect(Collectors.toMap(e -> e.f, UnaryOperator.identity()));
 
-		StewCookingRecipe.recipes = filterRecipes(recipes, StewCookingRecipe.class, StewCookingRecipe.TYPE)
-				.collect(Collectors.toMap(e -> e.output, UnaryOperator.identity()));
-		StewCookingRecipe.cookables = StewCookingRecipe.recipes.values().stream()
-				.flatMap(StewCookingRecipe::getAllNumbers).collect(Collectors.toSet());
-		StewCookingRecipe.sorted = new ArrayList<>(StewCookingRecipe.recipes.values());
+		StewCookingRecipe.sorted = filterRecipes(recipes, StewCookingRecipe.class, StewCookingRecipe.TYPE).collect(Collectors.toList());
 		StewCookingRecipe.sorted.sort((t2, t1) -> t1.getPriority() - t2.getPriority());
+		StewCookingRecipe.cookables = StewCookingRecipe.sorted.stream().flatMap(StewCookingRecipe::getAllNumbers).collect(Collectors.toSet());
+		
 
 		CountingTags.tags = Stream
 				.concat(filterRecipes(recipes, CountingTags.class, CountingTags.TYPE).flatMap(r -> r.tag.stream()),
-						StewCookingRecipe.recipes.values().stream().flatMap(StewCookingRecipe::getTags))
+						StewCookingRecipe.sorted.stream().flatMap(StewCookingRecipe::getTags))
 				.collect(Collectors.toSet());
 		// CountingTags.tags.forEach(System.out::println);
 
-		SauteedRecipe.recipes = filterRecipes(recipes, SauteedRecipe.class, SauteedRecipe.TYPE)
-				.collect(Collectors.toMap(e -> e.output, UnaryOperator.identity()));
-		SauteedRecipe.cookables = SauteedRecipe.recipes.values().stream().flatMap(SauteedRecipe::getAllNumbers)
-				.collect(Collectors.toSet());
-		SauteedRecipe.sorted = new ArrayList<>(SauteedRecipe.recipes.values());
+		SauteedRecipe.sorted = filterRecipes(recipes, SauteedRecipe.class, SauteedRecipe.TYPE).collect(Collectors.toList());
 		SauteedRecipe.sorted.sort((t2, t1) -> t1.getPriority() - t2.getPriority());
+		SauteedRecipe.cookables = SauteedRecipe.sorted.stream().flatMap(SauteedRecipe::getAllNumbers).collect(Collectors.toSet());
 
 		DoliumRecipe.recipes = filterRecipes(recipes, DoliumRecipe.class, DoliumRecipe.TYPE)
 				.collect(Collectors.toList());
