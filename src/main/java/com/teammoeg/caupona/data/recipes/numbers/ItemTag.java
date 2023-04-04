@@ -32,6 +32,10 @@ import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class ItemTag implements CookIngredients {
 
@@ -113,6 +117,11 @@ public class ItemTag implements CookIngredients {
 
 	@Override
 	public String getTranslation(TranslationProvider p) {
-		return p.getTranslation("tag." + this.tag.toString().replaceAll("[:/]", "."));
+		return p.getTranslationOrElse("tag." + this.tag.toLanguageKey().replaceAll("/", "."),"#"+this.tag.toString());
+	}
+
+	@Override
+	public Stream<ItemStack> getStacks() {
+		return ForgeRegistries.ITEMS.tags().getTag(ItemTags.create(tag)).stream().map(ItemStack::new);
 	}
 }

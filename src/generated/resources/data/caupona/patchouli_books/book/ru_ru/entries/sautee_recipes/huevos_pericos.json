@@ -6,7 +6,7 @@
     {
       "type": "caupona:fryrecipe",
       "base": "caupona:gravy_boat",
-      "img": "caupona:textures/gui/recipes/huevos_pericos.png",
+      "img": "caupona:textures/gui/recipes/frying/huevos_pericos.png",
       "result": "caupona:huevos_pericos"
     }
   ]

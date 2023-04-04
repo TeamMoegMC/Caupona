@@ -6,7 +6,7 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:any_based",
-      "img": "caupona:textures/gui/recipes/bone_gelatin.png",
+      "img": "caupona:textures/gui/recipes/cooking/bone_gelatin.png",
       "result": "caupona:bone_gelatin"
     }
   ]

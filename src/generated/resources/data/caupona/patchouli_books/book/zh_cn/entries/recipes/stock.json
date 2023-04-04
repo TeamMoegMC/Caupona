@@ -6,7 +6,7 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:any_based",
-      "img": "caupona:textures/gui/recipes/stock.png",
+      "img": "caupona:textures/gui/recipes/cooking/stock.png",
       "result": "caupona:stock"
     }
   ]

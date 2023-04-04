@@ -46,15 +46,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-public class FryingCategory implements IRecipeCategory<SauteedRecipe> {
+public class FryingCategory extends IConditionalCategory<SauteedRecipe> {
 	public static RecipeType<SauteedRecipe> TYPE=RecipeType.create(Main.MODID, "frying",SauteedRecipe.class);
-	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 	private IGuiHelper helper;
 
 	public FryingCategory(IGuiHelper guiHelper) {
+		super(guiHelper);
 		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CPItems.gravy_boat.get()));
-		this.BACKGROUND = guiHelper.createBlankDrawable(100, 105);
 		this.helper = guiHelper;
 	}
 
@@ -75,11 +74,6 @@ public class FryingCategory implements IRecipeCategory<SauteedRecipe> {
 	}
 
 	@Override
-	public IDrawable getBackground() {
-		return BACKGROUND;
-	}
-
-	@Override
 	public IDrawable getIcon() {
 		return ICON;
 	}
@@ -93,39 +87,21 @@ public class FryingCategory implements IRecipeCategory<SauteedRecipe> {
 				new ItemStack(recipe.output));
 	}
 
-	public static boolean inRange(double x, double y, int ox, int oy, int w, int h) {
-		return x > ox && x < ox + w && y > oy && y < oy + h;
-	}
-
-	@Override
-	public List<Component> getTooltipStrings(SauteedRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX,
-			double mouseY) {
-		if (inRange(mouseX, mouseY, 0, 50, 100, 50)) {
-			List<Component> allowence = null;
-			List<IngredientCondition> conds;
-			if (mouseX < 50)
-				conds = recipe.getAllow();
-			else
-				conds = recipe.getDeny();
-			if (conds != null)
-				allowence = conds.stream().map(e -> e.getTranslation(GameTranslation.get())).map(Utils::string)
-						.collect(Collectors.toList());
-			if (allowence != null && !allowence.isEmpty()) {
-				if (mouseX < 50)
-					allowence.add(0, Utils.translate("recipe.caupona.allow"));
-				else
-					allowence.add(0, Utils.translate("recipe.caupona.deny"));
-				return allowence;
-			}
-
-		}
-		return Arrays.asList();
-	}
-
-
 	@Override
 	public RecipeType<SauteedRecipe> getRecipeType() {
 		return TYPE;
+	}
+
+
+	@Override
+	public IDrawable getHeadings() {
+		return PAN_HEADING;
+	}
+
+
+	@Override
+	public void drawCustom(SauteedRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
+			double mouseY) {
 	}
 
 }

@@ -6,7 +6,7 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:water_or_stock_based",
-      "img": "caupona:textures/gui/recipes/acquacotta.png",
+      "img": "caupona:textures/gui/recipes/cooking/acquacotta.png",
       "result": "caupona:acquacotta"
     }
   ]

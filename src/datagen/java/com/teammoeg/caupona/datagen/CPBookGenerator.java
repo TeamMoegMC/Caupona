@@ -21,23 +21,16 @@
 
 package com.teammoeg.caupona.datagen;
 
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.hash.Hashing;
-import com.google.common.hash.HashingOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -57,17 +50,15 @@ import com.teammoeg.caupona.util.Utils;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class CPBookGenerator implements DataProvider {
 	private static final Logger LOGGER = LogManager.getLogger();
-	private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
-	private JsonParser jp = new JsonParser();
 	protected final DataGenerator generator;
 	private Path bookmain;
 	private ExistingFileHelper helper;
@@ -88,6 +79,13 @@ public class CPBookGenerator implements DataProvider {
 			if (langs.get(lang).has(key))
 				return String.format(langs.get(lang).get(key).getAsString(), objects);
 			return Utils.translate(key, objects).getString();
+		}
+
+		@Override
+		public String getTranslationOrElse(String key, String candidate, Object... objects) {
+			if (langs.get(lang).has(key))
+				return String.format(langs.get(lang).get(key).getAsString(), objects);
+			return candidate;
 		}
 
 	}
@@ -111,16 +109,14 @@ public class CPBookGenerator implements DataProvider {
 			loadLang(lang);
 
 		for (String s : CPItems.soups)
-			if (helper.exists(new ResourceLocation(Main.MODID, "textures/gui/recipes/" + s + ".png"),
-					PackType.CLIENT_RESOURCES))
+			if (recipes.containsKey(s)&&helper.exists(PictureRL(recipes.get(s)),PackType.CLIENT_RESOURCES))
 				defaultPage(cache, s);
 		for (String s : CPItems.dishes) {
-			if (helper.exists(new ResourceLocation(Main.MODID, "textures/gui/recipes/" + s + ".png"),
-					PackType.CLIENT_RESOURCES))
+			if (frecipes.containsKey(s)&&helper.exists(PictureRL(frecipes.get(s)),PackType.CLIENT_RESOURCES))
 				defaultFryPage(cache, s);
 		}
 	}
-
+	
 	private void loadLang(String locale) {
 		try {
 			Resource rc = helper.getResource(new ResourceLocation(Main.MODID, "lang/" + locale + ".json"),
@@ -153,7 +149,9 @@ public class CPBookGenerator implements DataProvider {
 	StewBaseCondition anyW = new FluidTag(CPRecipeProvider.anyWater);
 	StewBaseCondition stock = new FluidType(CPRecipeProvider.stock);
 	StewBaseCondition milk = new FluidType(CPRecipeProvider.milk);
-
+	private ResourceLocation PictureRL(Recipe<?> r) {
+		return new ResourceLocation(r.getId().getNamespace(), "textures/gui/recipes/" + r.getId().getPath() + ".png");
+	}
 	private JsonObject createRecipe(String name, String locale) {
 		JsonObject page = new JsonObject();
 		page.add("name", langs.get(locale).get("item.caupona." + name));
@@ -173,8 +171,7 @@ public class CPBookGenerator implements DataProvider {
 		JsonArray pages = new JsonArray();
 		JsonObject imgpage = new JsonObject();
 		imgpage.addProperty("type", "caupona:cookrecipe");
-		imgpage.addProperty("img",
-				new ResourceLocation(r.getId().getNamespace(), "textures/gui/recipes/" + r.getId().getPath() + ".png").toString());
+		imgpage.addProperty("img",PictureRL(r).toString());
 		imgpage.addProperty("result", new ResourceLocation(Main.MODID, name).toString());
 		imgpage.addProperty("base", Utils.getRegistryName(baseType).toString());
 		pages.add(imgpage);
@@ -191,8 +188,7 @@ public class CPBookGenerator implements DataProvider {
 		JsonArray pages = new JsonArray();
 		JsonObject imgpage = new JsonObject();
 		imgpage.addProperty("type", "caupona:fryrecipe");
-		imgpage.addProperty("img",
-				new ResourceLocation(r.getId().getNamespace(), "textures/gui/recipes/" + r.getId().getPath() + ".png").toString());
+		imgpage.addProperty("img",PictureRL(r).toString());
 		imgpage.addProperty("result", new ResourceLocation(Main.MODID, name).toString());
 		imgpage.addProperty("base", Utils.getRegistryName(CPBlocks.GRAVY_BOAT).toString());
 		pages.add(imgpage);

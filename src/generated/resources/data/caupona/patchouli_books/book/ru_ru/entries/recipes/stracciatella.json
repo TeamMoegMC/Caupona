@@ -6,7 +6,7 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:water_or_stock_based",
-      "img": "caupona:textures/gui/recipes/stracciatella.png",
+      "img": "caupona:textures/gui/recipes/cooking/stracciatella.png",
       "result": "caupona:stracciatella"
     }
   ]

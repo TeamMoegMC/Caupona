@@ -6,7 +6,7 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:milk_based",
-      "img": "caupona:textures/gui/recipes/borscht_cream.png",
+      "img": "caupona:textures/gui/recipes/cooking/borscht_cream.png",
       "result": "caupona:borscht_cream"
     }
   ]

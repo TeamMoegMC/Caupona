@@ -140,6 +140,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 	public boolean operate = false;
 	public short proctype = 0;
 	public boolean rsstate = false;
+	boolean removesNBT=false;
 	boolean isInfinite = false;
 
 	public Fluid become;
@@ -325,7 +326,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 			current = nbt.contains("current") ? new StewInfo(nbt.getCompound("current")) : null;
 			nextbase = nbt.contains("resultBase") ? new ResourceLocation(nbt.getString("resultBase")) : null;
 			nowork = nbt.getInt("nowork");
-			
+			removesNBT=nbt.getBoolean("removeNbt");
 		}
 	}
 
@@ -350,7 +351,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				nbt.put("current", current.save());
 			if (nextbase != null)
 				nbt.putString("resultBase", nextbase.toString());
-			
+			nbt.putBoolean("removeNbt",removesNBT);
 		}
 	}
 
@@ -504,7 +505,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		processMax = Math.max(decideSoup(), tpt);
 		return true;
 	}
-
+	
 	private int decideSoup() {
 		become = tank.getFluid().getFluid();
 
@@ -527,6 +528,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				else
 					nextbase = current.base;
 				become = cr.output;
+				removesNBT=cr.removeNBT;
 				return cr.time;
 			}
 		}
@@ -536,11 +538,15 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 
 	private void finishSoup() {
 		if (nextbase != null && become != null) {
-			getCurrent().base = nextbase;
-			nextbase = null;
+			
 			FluidStack fss = new FluidStack(become, tank.getFluidAmount());
-			current.recalculateHAS();
-			SoupFluid.setInfo(fss, current);
+			if(!removesNBT) {
+				getCurrent().base = nextbase;
+				nextbase = null;
+				current.recalculateHAS();
+				SoupFluid.setInfo(fss, current);
+			}
+			removesNBT=false;
 			current = null;
 			tank.setFluid(fss);
 		}

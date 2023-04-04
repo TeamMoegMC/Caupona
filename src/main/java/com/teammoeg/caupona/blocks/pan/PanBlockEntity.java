@@ -93,6 +93,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	public boolean rsstate = false;
 	public SauteedFoodInfo current;
 	boolean isInfinite = false;
+	boolean removesNBT;
 	public PanBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPBlockEntityTypes.PAN.get(), pWorldPosition, pBlockState);
 	}
@@ -130,7 +131,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 				current = new SauteedFoodInfo(nbt.getCompound("cur"));
 			else
 				current = null;
-
+			removesNBT=nbt.getBoolean("removeNbt");
 		}
 		preout = ForgeRegistries.ITEMS.getValue(new ResourceLocation(nbt.getString("out")));
 
@@ -150,7 +151,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 			nbt.putBoolean("inf",isInfinite);
 			if (current != null)
 				nbt.put("cur", current.save());
-
+			nbt.putBoolean("removeNbt",removesNBT);
 		}
 		nbt.putString("out", Utils.getRegistryName(preout).toString());
 
@@ -224,7 +225,9 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 
 	private void doWork() {
 		ItemStack is = new ItemStack(preout, oamount);
-		DishItem.setInfo(is, current);
+		if(!removesNBT)
+			DishItem.setInfo(is, current);
+		removesNBT=false;
 		current = null;
 		oamount = 0;
 		preout = Items.AIR;
@@ -305,6 +308,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 			if (cr.matches(ctx)) {
 				processMax = Math.max(cr.time, tpt);
 				preout = cr.output;
+				removesNBT=cr.removeNBT;
 				break;
 			}
 		}

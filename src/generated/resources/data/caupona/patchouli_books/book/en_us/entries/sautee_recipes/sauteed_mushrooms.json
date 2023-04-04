@@ -6,7 +6,7 @@
     {
       "type": "caupona:fryrecipe",
       "base": "caupona:gravy_boat",
-      "img": "caupona:textures/gui/recipes/sauteed_mushrooms.png",
+      "img": "caupona:textures/gui/recipes/frying/sauteed_mushrooms.png",
       "result": "caupona:sauteed_mushrooms"
     }
   ]

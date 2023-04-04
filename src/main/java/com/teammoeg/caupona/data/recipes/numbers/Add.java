@@ -35,6 +35,7 @@ import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 public class Add implements CookIngredients, ComplexCalculated {
 	List<CookIngredients> nums;
@@ -138,6 +139,11 @@ public class Add implements CookIngredients, ComplexCalculated {
 	@Override
 	public String getTranslation(TranslationProvider p) {
 		return nums.stream().map(e -> e.getTranslation(p)).reduce((s1, s2) -> s1 + "+" + s2).orElse("");
+	}
+
+	@Override
+	public Stream<ItemStack> getStacks() {
+		return nums.stream().flatMap(CookIngredients::getStacks);
 	}
 
 }

@@ -34,6 +34,7 @@ import com.teammoeg.caupona.util.Utils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ItemType implements CookIngredients {
@@ -121,5 +122,10 @@ public class ItemType implements CookIngredients {
 	@Override
 	public String getTranslation(TranslationProvider p) {
 		return p.getTranslation(type.getDescriptionId());
+	}
+
+	@Override
+	public Stream<ItemStack> getStacks() {
+		return Stream.of(new ItemStack(type));
 	}
 }

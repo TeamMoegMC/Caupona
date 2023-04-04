@@ -152,6 +152,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 
 		logger.info("Building recipes...");
 		Stopwatch sw = Stopwatch.createStarted();
+		SerializeUtil.clearCache();
 		BowlContainingRecipe.recipes = filterRecipes(recipes, BowlContainingRecipe.class, BowlContainingRecipe.TYPE)
 				.collect(Collectors.toMap(e -> e.fluid, UnaryOperator.identity()));
 

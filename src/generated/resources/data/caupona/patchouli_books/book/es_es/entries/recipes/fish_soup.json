@@ -6,7 +6,7 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:water_or_stock_based",
-      "img": "caupona:textures/gui/recipes/fish_soup.png",
+      "img": "caupona:textures/gui/recipes/cooking/fish_soup.png",
       "result": "caupona:fish_soup"
     }
   ]

@@ -23,6 +23,7 @@ package com.teammoeg.caupona.api;
 
 import com.teammoeg.caupona.data.TranslationProvider;
 
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 
@@ -41,6 +42,12 @@ public class GameTranslation implements TranslationProvider {
 	@Override
 	public String getTranslation(String key, Object... objects) {
 		return MutableComponent.create(new TranslatableContents(key, objects)).getString();
+	}
+
+	@Override
+	public String getTranslationOrElse(String key, String candidate, Object... objects) {
+		return I18n.exists(key)?getTranslation(key,objects):candidate;
+
 	}
 
 }

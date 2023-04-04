@@ -6,7 +6,7 @@
     {
       "type": "caupona:fryrecipe",
       "base": "caupona:gravy_boat",
-      "img": "caupona:textures/gui/recipes/sauteed_meat.png",
+      "img": "caupona:textures/gui/recipes/frying/sauteed_meat.png",
       "result": "caupona:sauteed_meat"
     }
   ]

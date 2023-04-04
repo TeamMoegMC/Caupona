@@ -6,7 +6,7 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:milk_based",
-      "img": "caupona:textures/gui/recipes/rice_pudding.png",
+      "img": "caupona:textures/gui/recipes/cooking/rice_pudding.png",
       "result": "caupona:rice_pudding"
     }
   ]

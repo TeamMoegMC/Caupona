@@ -286,6 +286,7 @@ public class CPRecipeProvider extends RecipeProvider {
 		cook("nettle_soup").special().med().require().half().of(mrl("fern")).and().not().any().of(seafood).of(meats)
 				.of(cereals).and().then().finish(out);
 		cook("bone_gelatin").special().med().require().only().of(Items.BONE).and().then().dense(1).finish(out);
+		//cook("scalded_milk").require().any().of(Ingredient.of(Items.ACACIA_BOAT),"Test").and().any().of(Ingredient.of(Items.ACACIA_BOAT),"item.caupona.any_based").and().then().dense(3).finish(out);
 	}
 
 	private void spice(Item spice, MobEffect eff, Consumer<IDataRecipe> out) {
@@ -321,6 +322,7 @@ public class CPRecipeProvider extends RecipeProvider {
 	private StewRecipeBuilder cook(String s) {
 		return StewRecipeBuilder.start(fluid(mrl(s)));
 	}
+	
 
 	private SauteedRecipeBuilder fry(String s) {
 		return SauteedRecipeBuilder.start(item(mrl(s)));

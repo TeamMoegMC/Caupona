@@ -45,6 +45,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -52,36 +53,49 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class StewCookingCategory implements IRecipeCategory<StewCookingRecipe> {
+public class StewCookingCategory extends IConditionalCategory<StewCookingRecipe> {
 	public static RecipeType<StewCookingRecipe> TYPE=RecipeType.create(Main.MODID, "stew_cooking",StewCookingRecipe.class);
-	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 	private IGuiHelper helper;
 
 	public StewCookingCategory(IGuiHelper guiHelper) {
+		super(guiHelper);
 		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CPItems.anyWater.get()));
-		this.BACKGROUND = guiHelper.createBlankDrawable(100, 105);
 		this.helper = guiHelper;
 	}
 
 	public Component getTitle() {
 		return Utils.translate("gui.jei.category." + Main.MODID + ".stew_cooking.title");
 	}
-
+	@Override
+	public void drawCustom(StewCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
+			double mouseY) {
+		IDrawable density;
+		if(recipe.getDensity()<0.4)
+			density=DENSITY[0];
+		else if(recipe.getDensity()<0.6)
+			density=DENSITY[1];
+		else if(recipe.getDensity()<0.8)
+			density=DENSITY[2];
+		else if(recipe.getDensity()<1.2)
+			density=DENSITY[3];
+		else
+			density=DENSITY[4];
+		density.draw(stack,25,15);
+	}
 	@Override
 	public void draw(StewCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
 			double mouseY) {
-		stack.pushPose();
-		stack.scale(0.5f, 0.5f, 0);
-		helper.createDrawable(new ResourceLocation(recipe.getId().getNamespace(),
-				"textures/gui/recipes/" + recipe.getId().getPath() + ".png"), 0, 0, 200, 210)
-				.draw(stack);
-		stack.popPose();
-	}
-
-	@Override
-	public IDrawable getBackground() {
-		return BACKGROUND;
+		
+		ResourceLocation imagePath=new ResourceLocation(recipe.getId().getNamespace(),"textures/gui/recipes/" + recipe.getId().getPath() + ".png");
+		if(Minecraft.getInstance().getResourceManager().getResource(imagePath).isPresent()) {
+			stack.pushPose();
+			stack.scale(0.5f, 0.5f, 0);
+			helper.createDrawable(imagePath, 0, 0, 200, 210).draw(stack);
+			stack.popPose();
+		}else {
+			super.draw(recipe, recipeSlotsView, stack, mouseX, mouseY);
+		}
 	}
 
 	@Override
@@ -108,41 +122,25 @@ public class StewCookingCategory implements IRecipeCategory<StewCookingRecipe> {
 				.setFluidRenderer(250, false, 16, 16);
 	}
 
-	public static boolean inRange(double x, double y, int ox, int oy, int w, int h) {
-		return x > ox && x < ox + w && y > oy && y < oy + h;
-	}
-
 	@Override
 	public List<Component> getTooltipStrings(StewCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX,
 			double mouseY) {
 		if (inRange(mouseX, mouseY, 21, 6, 34, 30)) {
 			return Arrays.asList(Utils.translate("recipe.caupona.density", recipe.getDensity()));
 		}
-		if (inRange(mouseX, mouseY, 0, 50, 100, 50)) {
-			List<Component> allowence = null;
-			List<IngredientCondition> conds;
-			if (mouseX < 50)
-				conds = recipe.getAllow();
-			else
-				conds = recipe.getDeny();
-			if (conds != null)
-				allowence = conds.stream().map(e -> e.getTranslation(GameTranslation.get())).map(Utils::string)
-						.collect(Collectors.toList());
-			if (allowence != null && !allowence.isEmpty()) {
-				if (mouseX < 50)
-					allowence.add(0, Utils.translate("recipe.caupona.allow"));
-				else
-					allowence.add(0, Utils.translate("recipe.caupona.deny"));
-				return allowence;
-			}
-
-		}
-		return Arrays.asList();
+		return super.getTooltipStrings(recipe, recipeSlotsView, mouseX, mouseY);
 	}
 
 	@Override
 	public RecipeType<StewCookingRecipe> getRecipeType() {
 		return TYPE;
 	}
+
+	@Override
+	public IDrawable getHeadings() {
+		return POT_HEADING;
+	}
+
+
 
 }

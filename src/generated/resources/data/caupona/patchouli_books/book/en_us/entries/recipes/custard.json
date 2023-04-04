@@ -6,7 +6,7 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:milk_based",
-      "img": "caupona:textures/gui/recipes/custard.png",
+      "img": "caupona:textures/gui/recipes/cooking/custard.png",
       "result": "caupona:custard"
     }
   ]

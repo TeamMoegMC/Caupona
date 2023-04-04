@@ -42,5 +42,10 @@ public interface IngredientCondition extends Predicate<IPendingContext>, Writeab
 	public default Stream<ResourceLocation> getTags() {
 		return Stream.empty();
 	};
-
+	public default boolean isMajor() {
+		return false;
+	}
+	public default boolean isExclusive() {
+		return false;
+	}
 }

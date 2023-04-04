@@ -6,7 +6,7 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:stock_based",
-      "img": "caupona:textures/gui/recipes/goulash.png",
+      "img": "caupona:textures/gui/recipes/cooking/goulash.png",
       "result": "caupona:goulash"
     }
   ]

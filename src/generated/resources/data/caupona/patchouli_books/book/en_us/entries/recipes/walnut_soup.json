@@ -6,7 +6,7 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:any_based",
-      "img": "caupona:textures/gui/recipes/walnut_soup.png",
+      "img": "caupona:textures/gui/recipes/cooking/walnut_soup.png",
       "result": "caupona:walnut_soup"
     }
   ]

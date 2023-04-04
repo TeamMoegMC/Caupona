@@ -6,7 +6,7 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:any_based",
-      "img": "caupona:textures/gui/recipes/goji_tongsui.png",
+      "img": "caupona:textures/gui/recipes/cooking/goji_tongsui.png",
       "result": "caupona:goji_tongsui"
     }
   ]

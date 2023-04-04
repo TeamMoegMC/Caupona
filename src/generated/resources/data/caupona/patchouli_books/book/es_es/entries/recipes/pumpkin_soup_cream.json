@@ -6,7 +6,7 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:milk_based",
-      "img": "caupona:textures/gui/recipes/pumpkin_soup_cream.png",
+      "img": "caupona:textures/gui/recipes/cooking/pumpkin_soup_cream.png",
       "result": "caupona:pumpkin_soup_cream"
     }
   ]

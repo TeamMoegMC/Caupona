@@ -82,4 +82,9 @@ public class Only extends NumberedStewCondition {
 			return false;
 		return true;
 	}
+
+	@Override
+	public boolean isExclusive() {
+		return true;
+	}
 }

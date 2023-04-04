@@ -6,7 +6,7 @@
     {
       "type": "caupona:fryrecipe",
       "base": "caupona:gravy_boat",
-      "img": "caupona:textures/gui/recipes/seared_fillet.png",
+      "img": "caupona:textures/gui/recipes/frying/seared_fillet.png",
       "result": "caupona:seared_fillet"
     }
   ]

@@ -57,6 +57,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries.Keys;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -72,7 +73,8 @@ public class CPDispenserBehaviour {
 		ComposterBlock.COMPOSTABLES.put(CPBlocks.FIG_SAPLINGS.get(),0.4F);
 		ComposterBlock.COMPOSTABLES.put(CPBlocks.WOLFBERRY_LEAVE.get(),0.4F);
 		ComposterBlock.COMPOSTABLES.put(CPBlocks.WOLFBERRY_SAPLINGS.get(),0.4F);
-		ComposterBlock.COMPOSTABLES.put(CPItems.food_material
+		for(String s:CPItems.food_material)
+			ComposterBlock.COMPOSTABLES.put(ForgeRegistries.ITEMS.getValue(Main.rl(s)),0.6F);
 	}
 
 

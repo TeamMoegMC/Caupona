@@ -21,8 +21,6 @@
 
 package com.teammoeg.caupona.datagen;
 
-import java.nio.file.Path;
-
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.Main;

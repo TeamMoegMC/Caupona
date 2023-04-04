@@ -55,6 +55,9 @@ public class IngredientNumberBuilder<T> {
 	public IngredientNumberBuilder<T> of(Ingredient i) {
 		return of(new ItemIngredient(i));
 	}
+	public IngredientNumberBuilder<T> of(Ingredient i,String desc) {
+		return of(new ItemIngredient(i,desc));
+	}
 
 	public IngredientNumberBuilder<T> of(ResourceLocation i) {
 		return of(new ItemTag(i));
