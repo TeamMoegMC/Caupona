@@ -99,7 +99,8 @@ public class SauteedFoodInfo extends SpicedFoodInfo implements IFoodInfo{
 			if (fvr != null) {
 				nh += fvr.heal * fs.count;
 				ns += fvr.sat * fs.count * fvr.heal;
-				foodeffect.addAll(fvr.effects);
+				if(fvr.effects!=null)
+					foodeffect.addAll(fvr.effects);
 				continue;
 			}
 			FoodProperties f = fs.getStack().getFoodProperties(null);
