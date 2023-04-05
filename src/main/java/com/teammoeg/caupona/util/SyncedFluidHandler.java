@@ -7,13 +7,14 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class SyncedFluidHandler implements IFluidHandler {
 	CPBaseBlockEntity block;
+	IFluidHandler nested;
 	public SyncedFluidHandler(CPBaseBlockEntity block, IFluidHandler nested) {
 		super();
 		this.block = block;
 		this.nested = nested;
 	}
 
-	IFluidHandler nested;
+	
 	
 
 	@Override

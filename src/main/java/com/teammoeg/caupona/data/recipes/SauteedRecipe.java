@@ -70,7 +70,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 	public int time;
 	public Item output;
 	public boolean removeNBT=false;
-
+	public float count=2f;
 	public SauteedRecipe(ResourceLocation id) {
 		super(id);
 	}
@@ -93,6 +93,8 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 			throw new InvalidRecipeException();
 		if(data.has("removeNBT"))
 			removeNBT=data.get("removeNBT").getAsBoolean();
+		if(data.has("ingredientPer"))
+			count=data.get("ingredientPerDish").getAsFloat();
 	}
 
 	public SauteedRecipe(ResourceLocation id, FriendlyByteBuf data) {
@@ -105,6 +107,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 		time = data.readVarInt();
 		output = data.readRegistryIdUnsafe(ForgeRegistries.ITEMS);
 		removeNBT=data.readBoolean();
+		count=data.readFloat();
 	}
 	public SauteedRecipe(ResourceLocation id, List<IngredientCondition> allow, List<IngredientCondition> deny,
 			int priority, int time, Item output,boolean removeNBT) {
@@ -124,6 +127,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 		data.writeVarInt(time);
 		data.writeRegistryIdUnsafe(ForgeRegistries.ITEMS, output);
 		data.writeBoolean(removeNBT);
+		data.writeFloat(count);
 	}
 
 	public boolean matches(PanPendingContext ctx) {
@@ -150,6 +154,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 		json.addProperty("output", Utils.getRegistryName(output).toString());
 		if(removeNBT)
 			json.addProperty("removeNBT",removeNBT);
+		json.addProperty("ingredientPerDish", count);
 	}
 
 	public Stream<CookIngredients> getAllNumbers() {

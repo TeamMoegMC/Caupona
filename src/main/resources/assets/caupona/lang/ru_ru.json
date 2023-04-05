@@ -31,6 +31,7 @@
 	"gui.jei.category.caupona.resting_aspic.title": "Холодцы",
 	"gui.jei.category.caupona.resting.title": "Созревание/настойка",
 	"gui.jei.category.caupona.catalyst":"Не потребляет!",
+	"gui.jei.category.caupona.ingredientPer":"%s предмет(ов)/миска",
 	"block.caupona.mixed_bricks": "Смешанные Кирпичи",
 	"block.caupona.mixed_bricks_slab": "Смешанная Кирпичная Плита",
 	"block.caupona.mixed_bricks_stairs": "Смешанные Кирпичные Ступеньки",

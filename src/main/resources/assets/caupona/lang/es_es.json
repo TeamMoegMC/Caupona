@@ -31,6 +31,7 @@
 	"gui.jei.category.caupona.resting_aspic.title": "Configuración de áspic",
 	"gui.jei.category.caupona.resting.title": "Conversión en reposo",
 	"gui.jei.category.caupona.catalyst": "¡No consumir!",
+	"gui.jei.category.caupona.ingredientPer":"%s artículo(s)/tazón",
 	"block.caupona.mixed_bricks": "Ladrillos mixtos",
 	"block.caupona.mixed_bricks_slab": "Losa de ladrillos mixtos",
 	"block.caupona.mixed_bricks_stairs": "Escalera de ladrillos mixtos",

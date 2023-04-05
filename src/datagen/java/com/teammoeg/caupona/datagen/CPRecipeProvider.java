@@ -22,22 +22,22 @@
 package com.teammoeg.caupona.datagen;
 
 import static com.teammoeg.caupona.CPTags.Items.BAKED;
-import static com.teammoeg.caupona.CPTags.Items.cereals;
-import static com.teammoeg.caupona.CPTags.Items.crustaceans;
+import static com.teammoeg.caupona.CPTags.Items.CEREALS;
+import static com.teammoeg.caupona.CPTags.Items.CRUSTACEANS;
 import static com.teammoeg.caupona.CPTags.Items.EGGS;
 import static com.teammoeg.caupona.CPTags.Items.FISH;
-import static com.teammoeg.caupona.CPTags.Items.greens;
+import static com.teammoeg.caupona.CPTags.Items.GREENS;
 import static com.teammoeg.caupona.CPTags.Items.MEAT;
-import static com.teammoeg.caupona.CPTags.Items.meats;
-import static com.teammoeg.caupona.CPTags.Items.mushrooms;
+import static com.teammoeg.caupona.CPTags.Items.MEATS;
+import static com.teammoeg.caupona.CPTags.Items.MUSHROOMS;
 import static com.teammoeg.caupona.CPTags.Items.POULTRY;
-import static com.teammoeg.caupona.CPTags.Items.pumpkin;
+import static com.teammoeg.caupona.CPTags.Items.PUMPKIN;
 import static com.teammoeg.caupona.CPTags.Items.RICE;
-import static com.teammoeg.caupona.CPTags.Items.roots;
+import static com.teammoeg.caupona.CPTags.Items.ROOTS;
 import static com.teammoeg.caupona.CPTags.Items.SEAFOOD;
-import static com.teammoeg.caupona.CPTags.Items.sugar;
+import static com.teammoeg.caupona.CPTags.Items.SUGAR;
 import static com.teammoeg.caupona.CPTags.Items.VEGETABLES;
-import static com.teammoeg.caupona.CPTags.Items.walnut;
+import static com.teammoeg.caupona.CPTags.Items.WALNUT;
 import static com.teammoeg.caupona.CPTags.Fluids.ANY_WATER;
 
 import java.util.ArrayList;
@@ -231,10 +231,10 @@ public class CPRecipeProvider extends RecipeProvider {
 		out = out.andThen(recipes::add);
 		fry("huevos_pericos").high().require().mainly().of(EGGS).and().then().finish(out);
 		fry("sauteed_beef").high().require().mainly().of(ftag("raw_beef")).and().then().finish(out);
-		fry("sauteed_greens").high().require().mainly().of(greens).and().then().finish(out);
+		fry("sauteed_greens").high().require().mainly().of(GREENS).and().then().finish(out);
 		fry("sauteed_meat").med().require().mainly().of(MEAT).and().then().finish(out);
-		fry("sauteed_mushrooms").med().require().mainly().of(mushrooms).and().then().finish(out);
-		fry("sauteed_roots").high().require().mainly().of(roots).and().then().finish(out);
+		fry("sauteed_mushrooms").med().require().mainly().of(MUSHROOMS).and().then().finish(out);
+		fry("sauteed_roots").high().require().mainly().of(ROOTS).and().then().finish(out);
 		fry("sauteed_seafood").med().require().mainly().of(SEAFOOD).and().then().finish(out);
 		fry("sauteed_vegetables").med().require().mainly().of(VEGETABLES).and().then().finish(out);
 		fry("seared_fillet").med().require().mainly().of(FISH).and().then().finish(out);
@@ -248,8 +248,8 @@ public class CPRecipeProvider extends RecipeProvider {
 		cook("congee").med().base().tag(ANY_WATER).and().require().half().of(RICE).and().then().dense(0.25).finish(out);
 		cook("rice_pudding").med().base().type(milk).and().require().half().of(RICE).and().then().dense(0.25)
 				.finish(out);
-		cook("gruel").base().tag(ANY_WATER).and().require().half().of(cereals).and().then().dense(0.25).finish(out);
-		cook("porridge").base().type(milk).and().require().half().of(cereals).and().then().dense(0.25).finish(out);
+		cook("gruel").base().tag(ANY_WATER).and().require().half().of(CEREALS).and().then().dense(0.25).finish(out);
+		cook("porridge").base().type(milk).and().require().half().of(CEREALS).and().then().dense(0.25).finish(out);
 		cook("egg_drop_soup").base().tag(ANY_WATER).and().require().mainly().of(EGGS).and().not().any().of(VEGETABLES)
 				.and().then().dense(0.5).finish(out);
 		cook("stracciatella").base().tag(ANY_WATER).and().require().mainly().of(EGGS).and().any().of(VEGETABLES).and()
@@ -262,16 +262,16 @@ public class CPRecipeProvider extends RecipeProvider {
 		cook("borscht_cream").high().base().type(milk).and().require().mainly().of(VEGETABLES).and()
 				.typeMainly(VEGETABLES).of(Items.BEETROOT).and().then().finish(out);
 		cook("pumpkin_soup").high().base().tag(ANY_WATER).and().require().mainly().of(VEGETABLES).and()
-				.typeMainly(VEGETABLES).of(pumpkin).and().then().finish(out);
+				.typeMainly(VEGETABLES).of(PUMPKIN).and().then().finish(out);
 		cook("pumpkin_soup_cream").high().base().type(milk).and().require().mainly().of(VEGETABLES).and()
-				.typeMainly(VEGETABLES).of(pumpkin).and().then().finish(out);
+				.typeMainly(VEGETABLES).of(PUMPKIN).and().then().finish(out);
 		cook("mushroom_soup").high().base().tag(ANY_WATER).and().require().mainly().of(VEGETABLES).and()
-				.typeMainly(VEGETABLES).of(mushrooms).and().then().finish(out);
+				.typeMainly(VEGETABLES).of(MUSHROOMS).and().then().finish(out);
 		cook("cream_of_mushroom_soup").high().base().type(milk).and().require().mainly().of(VEGETABLES).and()
-				.typeMainly(VEGETABLES).of(mushrooms).and().then().finish(out);
+				.typeMainly(VEGETABLES).of(MUSHROOMS).and().then().finish(out);
 		cook("seaweed_soup").med().base().tag(ANY_WATER).and().require().mainly().of(Items.KELP).and().then()
 				.finish(out);
-		cook("bisque").base().tag(ANY_WATER).and().require().mainly().of(crustaceans).and().then().finish(out);
+		cook("bisque").base().tag(ANY_WATER).and().require().mainly().of(CRUSTACEANS).and().then().finish(out);
 		cook("fish_soup").base().tag(ANY_WATER).and().require().mainly().of(FISH).and().then().finish(out);
 		cook("fish_chowder").base().type(milk).and().require().mainly().of(SEAFOOD).and().then().finish(out);
 		cook("poultry_soup").base().tag(ANY_WATER).and().require().mainly().of(POULTRY).and().then().finish(out);
@@ -285,20 +285,20 @@ public class CPRecipeProvider extends RecipeProvider {
 				.of(mrl("bone")).of(POULTRY).and().then().finish(out);
 		// cook("bone_gelatin").special().high().base().type(water).and().require().half().of(Items.BONE_MEAL).and().then()
 		// .dense(3).finish(out);
-		cook("egg_tongsui").special().med().base().type(water).and().require().half().of(EGGS).and().any().of(sugar)
-				.and().not().any().of(meats).of(SEAFOOD).of(VEGETABLES).of(mrl("wolfberries")).and().then().finish(out);
-		cook("walnut_soup").special().med().base().type(water).and().require().half().of(walnut).and().any().of(sugar)
-				.and().not().any().of(meats).of(SEAFOOD).of(VEGETABLES).of(mrl("wolfberries")).and().then().finish(out);
-		cook("goji_tongsui").special().med().base().type(water).and().require().mainly().of(sugar).and().any()
-				.of(mrl("wolfberries")).and().not().any().of(meats).of(SEAFOOD).of(VEGETABLES).and().then().finish(out);
-		cook("ukha").special().med().base().type(water).and().require().half().of(FISH).plus(roots).and().any()
-				.of(FISH).of(roots).and().not().any().of(meats).of(cereals).and().then().finish(out);
+		cook("egg_tongsui").special().med().base().type(water).and().require().half().of(EGGS).and().any().of(SUGAR)
+				.and().not().any().of(MEATS).of(SEAFOOD).of(VEGETABLES).of(mrl("wolfberries")).and().then().finish(out);
+		cook("walnut_soup").special().med().base().type(water).and().require().half().of(WALNUT).and().any().of(SUGAR)
+				.and().not().any().of(MEATS).of(SEAFOOD).of(VEGETABLES).of(mrl("wolfberries")).and().then().finish(out);
+		cook("goji_tongsui").special().med().base().type(water).and().require().mainly().of(SUGAR).and().any()
+				.of(mrl("wolfberries")).and().not().any().of(MEATS).of(SEAFOOD).of(VEGETABLES).and().then().finish(out);
+		cook("ukha").special().med().base().type(water).and().require().half().of(FISH).plus(ROOTS).and().any()
+				.of(FISH).of(ROOTS).and().not().any().of(MEATS).of(CEREALS).and().then().finish(out);
 		cook("goulash").special().high().base().type(stock).and().require().mainly().of(ftag("raw_beef")).and().any()
-				.of(VEGETABLES).and().not().any().of(SEAFOOD).of(cereals).and().then().finish(out);
-		cook("okroshka").special().high().require().half().of(VEGETABLES).plus(meats).and().any().of(VEGETABLES)
-				.of(meats).of(mrl("ice")).and().then().finish(out);
-		cook("nettle_soup").special().med().require().half().of(mrl("fern")).and().not().any().of(SEAFOOD).of(meats)
-				.of(cereals).and().then().finish(out);
+				.of(VEGETABLES).and().not().any().of(SEAFOOD).of(CEREALS).and().then().finish(out);
+		cook("okroshka").special().high().require().half().of(VEGETABLES).plus(MEATS).and().any().of(VEGETABLES)
+				.of(MEATS).of(mrl("ice")).and().then().finish(out);
+		cook("nettle_soup").special().med().require().half().of(mrl("fern")).and().not().any().of(SEAFOOD).of(MEATS)
+				.of(CEREALS).and().then().finish(out);
 		cook("bone_gelatin").special().med().require().only().of(Items.BONE).and().then().dense(1).finish(out);
 		//cook("scalded_milk").require().any().of(Ingredient.of(Items.ACACIA_BOAT),"Test").and().any().of(Ingredient.of(Items.ACACIA_BOAT),"item.caupona.any_based").and().then().dense(3).finish(out);
 	}

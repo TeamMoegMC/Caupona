@@ -24,6 +24,7 @@ package com.teammoeg.caupona.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.foods.DishBlock;
+import com.teammoeg.caupona.blocks.pan.PanBlock;
 import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
 import com.teammoeg.caupona.items.DishItem;
 
@@ -57,7 +58,7 @@ public class PanRenderer implements BlockEntityRenderer<PanBlockEntity> {
 			return;
 		BlockState state = blockEntity.getBlockState();
 		Block b = state.getBlock();
-
+		if(!(b instanceof PanBlock))return;
 		Item torender = null;
 		if (!blockEntity.sout.isEmpty()) {
 			torender = blockEntity.sout.getItem();
@@ -78,6 +79,7 @@ public class PanRenderer implements BlockEntityRenderer<PanBlockEntity> {
 		BlockRenderDispatcher rd = Minecraft.getInstance().getBlockRenderer();
 		ModelData imd = rd.getBlockModel(bs).getModelData(blockEntity.getLevel(), blockEntity.getBlockPos(), bs,
 				blockEntity.getLevel().getModelDataManager().getAt((blockEntity.getBlockPos())));
+		if(imd==null)return;
 		rd.renderSingleBlock(bs, matrixStack, buffer, combinedLightIn, combinedOverlayIn, imd,RenderType.cutout());
 
 	}

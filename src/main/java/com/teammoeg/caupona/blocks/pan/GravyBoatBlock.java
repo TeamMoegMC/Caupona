@@ -67,7 +67,8 @@ public class GravyBoatBlock extends CPHorizontalBlock {
 		return 5 - pState.getValue(LEVEL);
 	}
 
-	public static boolean drawOil(Level pLevel, BlockPos pPos, BlockState pState, int count) {
+	public static boolean drawOil(Level pLevel, BlockPos pPos, int count) {
+		BlockState pState=pLevel.getBlockState(pPos);
 		int dmg = pState.getValue(LEVEL);
 		if (dmg + count <= 5) {
 			pState = pState.setValue(LEVEL, dmg + count);

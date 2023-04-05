@@ -172,6 +172,7 @@ public class CPBookGenerator implements DataProvider {
 		imgpage.addProperty("type", "caupona:cookrecipe");
 		imgpage.addProperty("img",PictureRL(r).toString());
 		imgpage.addProperty("result", new ResourceLocation(Main.MODID, name).toString());
+		imgpage.addProperty("recipe", r.getId().toString());
 		imgpage.addProperty("base", Utils.getRegistryName(baseType).toString());
 		pages.add(imgpage);
 		page.add("pages", pages);
@@ -189,6 +190,7 @@ public class CPBookGenerator implements DataProvider {
 		imgpage.addProperty("type", "caupona:fryrecipe");
 		imgpage.addProperty("img",PictureRL(r).toString());
 		imgpage.addProperty("result", new ResourceLocation(Main.MODID, name).toString());
+		imgpage.addProperty("recipe", r.getId().toString());
 		imgpage.addProperty("base", Utils.getRegistryName(CPBlocks.GRAVY_BOAT).toString());
 		pages.add(imgpage);
 		page.add("pages", pages);

@@ -49,7 +49,6 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 	public float saturation;
 	public float shrinkedFluid = 0;
 	public ResourceLocation base;
-	public int priority=Integer.MIN_VALUE;
 	public StewInfo(List<FloatemStack> stacks, List<MobEffectInstance> effects, int healing, float saturation,
 			ResourceLocation base) {
 		super();
@@ -91,8 +90,6 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 		base = new ResourceLocation(nbt.getString("base"));
 
 		shrinkedFluid = nbt.getFloat("afluid");
-		if(nbt.contains("priority"))
-			priority=nbt.getInt("priority");
 	}
 
 	public boolean isEmpty() {
@@ -294,10 +291,6 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 		nbt.putFloat("sat", saturation);
 		nbt.putString("base", base.toString());
 		nbt.putFloat("afluid", shrinkedFluid);
-		if(priority!=Integer.MIN_VALUE)
-			nbt.putInt("priority", priority);
-		else
-			nbt.remove("priority");
 	}
 
 	@Override

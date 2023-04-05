@@ -1,6 +1,5 @@
 Datapack improvements:
-  Now jei would display a default page on cooking and sauteed recipe when no predefined page present.
-  Allow set a string or translation key description on ingredient types.
-  Add a removeNBT property on Cooking and frying recipe, which would remove NBT after recipe complete.
-  Fix an incompatible issue with some mods
+  Mutiple cooking recipe allowed for one output
+Fix Frying jei page missing image.
+Fix unsync when draw liquid or item from pan/pot.
   

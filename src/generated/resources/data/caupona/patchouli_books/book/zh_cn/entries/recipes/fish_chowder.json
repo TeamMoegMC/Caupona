@@ -7,6 +7,7 @@
       "type": "caupona:cookrecipe",
       "base": "caupona:milk_based",
       "img": "caupona:textures/gui/recipes/cooking/fish_chowder.png",
+      "recipe": "caupona:cooking/fish_chowder",
       "result": "caupona:fish_chowder"
     }
   ]

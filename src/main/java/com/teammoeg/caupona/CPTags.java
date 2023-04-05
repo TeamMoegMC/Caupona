@@ -46,15 +46,15 @@ public class CPTags {
 		public static final TagKey<Item> FISH = create("seafood/fish");
 		public static final TagKey<Item> POULTRY = create("meats/poultry");
 		public static final TagKey<Item> SEAFOOD = create("seafood");
-		public static final TagKey<Item> meats = create("meats");
-		public static final TagKey<Item> sugar = create("sugar");
-		public static final TagKey<Item> cereals = create("cereals");
-		public static final TagKey<Item> crustaceans = create("seafood/crustaceans");
-		public static final TagKey<Item> roots = create("vegetables/roots");
-		public static final TagKey<Item> mushrooms = create("mushroom");
-		public static final TagKey<Item> pumpkin = create("vegetables/pumpkin");
-		public static final TagKey<Item> walnut = create("walnut");
-		public static final TagKey<Item> greens = create("vegetables/greens");
+		public static final TagKey<Item> MEATS = create("meats");
+		public static final TagKey<Item> SUGAR = create("sugar");
+		public static final TagKey<Item> CEREALS = create("cereals");
+		public static final TagKey<Item> CRUSTACEANS = create("seafood/crustaceans");
+		public static final TagKey<Item> ROOTS = create("vegetables/roots");
+		public static final TagKey<Item> MUSHROOMS = create("mushroom");
+		public static final TagKey<Item> PUMPKIN = create("vegetables/pumpkin");
+		public static final TagKey<Item> WALNUT = create("walnut");
+		public static final TagKey<Item> GREENS = create("vegetables/greens");
 		private static TagKey<Item> create(String s){
 			return ItemTags.create(new ResourceLocation(Main.MODID, s));
 		}

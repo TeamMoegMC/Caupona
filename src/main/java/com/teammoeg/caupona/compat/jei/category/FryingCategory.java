@@ -35,6 +35,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -58,12 +59,14 @@ public class FryingCategory extends IConditionalCategory<SauteedRecipe> {
 	@Override
 	public void draw(SauteedRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
 			double mouseY) {
-		stack.pushPose();
-		stack.scale(0.5f, 0.5f, 0);
-		helper.createDrawable(new ResourceLocation(Utils.getRegistryName(recipe.output).getNamespace(),
-				"textures/gui/recipes/" + Utils.getRegistryName(recipe.output).getPath() + ".png"), 0, 0, 200, 210)
-				.draw(stack);
-		stack.popPose();
+		
+		ResourceLocation imagePath=new ResourceLocation(recipe.getId().getNamespace(),"textures/gui/recipes/" + recipe.getId().getPath() + ".png");
+		if(Minecraft.getInstance().getResourceManager().getResource(imagePath).isPresent()) {
+			stack.pushPose();
+			stack.scale(0.5f, 0.5f, 0);
+			helper.createDrawable(imagePath, 0, 0, 200, 210).draw(stack);
+			stack.popPose();
+		}else super.draw(recipe, recipeSlotsView, stack, mouseX, mouseY);
 	}
 
 	@Override
@@ -77,7 +80,7 @@ public class FryingCategory extends IConditionalCategory<SauteedRecipe> {
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 13).addIngredient(VanillaTypes.ITEM_STACK,
 				new ItemStack(CPItems.gravy_boat.get()));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 61, 18).addIngredient(VanillaTypes.ITEM_STACK,
-				new ItemStack(recipe.output));
+				new ItemStack(recipe.output)).addTooltipCallback((v,t)->{t.add(Utils.translate("gui.jei.category.caupona.ingredientPer",recipe.count));});
 	}
 
 	@Override

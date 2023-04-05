@@ -28,6 +28,7 @@ import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.entity.CPBoat;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
@@ -99,16 +100,26 @@ public class CPDispenserBehaviour {
 							is.shrink(1);
 							if (bp.<DispenserBlockEntity>getEntity().addItem(ret) == -1)
 								this.defaultBehaviour.dispense(bp, ret);
+							return is;
 						}
-					} else if (blockEntity instanceof PanBlockEntity pan) {
-						ItemStack out = pan.inv.getStackInSlot(10);
+						
+					}
+					if (blockEntity instanceof PanBlockEntity pan) {
+						ItemStack out = Utils.extractOutput(pan.bowl, 1);
 						if (!out.isEmpty()) {
-							pan.inv.setStackInSlot(10, ItemStack.EMPTY);
 							if (bp.<DispenserBlockEntity>getEntity().addItem(out) == -1)
 								this.defaultBehaviour.dispense(bp, out);
+							return is;
 						}
 					}
-
+					if (blockEntity instanceof StewPotBlockEntity pot) {
+						ItemStack out = Utils.extractOutput(pot.bowl, 1);
+						if (!out.isEmpty()) {
+							if (bp.<DispenserBlockEntity>getEntity().addItem(out) == -1)
+								this.defaultBehaviour.dispense(bp, out);
+							return is;
+						}
+					}
 					return is;
 				} else if (!fs.isEmpty()) {
 					ItemStack ret = CauponaApi.fillBowl(new FluidStack(fs.getType(), 250)).orElse(null);
@@ -178,7 +189,7 @@ public class CPDispenserBehaviour {
 			}
 
 		});
-		DispenseItemBehavior idispenseitembehavior1 = new DefaultDispenseItemBehavior() {
+		DispenseItemBehavior bucketDispense = new DefaultDispenseItemBehavior() {
 			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
 
 			/**
@@ -209,8 +220,8 @@ public class CPDispenserBehaviour {
 				return this.defaultBehaviour.dispense(source, stack);
 			}
 		};
-		DispenserBlock.registerBehavior(Items.MILK_BUCKET, idispenseitembehavior1);
-		DefaultDispenseItemBehavior ddib = new DefaultDispenseItemBehavior() {
+		DispenserBlock.registerBehavior(Items.MILK_BUCKET, bucketDispense);
+		DefaultDispenseItemBehavior stewDispense = new DefaultDispenseItemBehavior() {
 			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
 
 			@SuppressWarnings("resource")
@@ -254,7 +265,7 @@ public class CPDispenserBehaviour {
 
 		};
 		for (Item i : CPItems.stews) {
-			DispenserBlock.registerBehavior(i, ddib);
+			DispenserBlock.registerBehavior(i, stewDispense);
 		}
 		DefaultDispenseItemBehavior spice = new DefaultDispenseItemBehavior() {
 			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();

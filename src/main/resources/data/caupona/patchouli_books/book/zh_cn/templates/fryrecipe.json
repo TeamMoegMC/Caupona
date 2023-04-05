@@ -37,7 +37,7 @@
 		},
 		{
 			"type": "patchouli:custom",
-			"recipe":"#result",
+			"recipe":"#recipe",
 			"class":"com.teammoeg.caupona.patchouli.AllowenceTooltip",
 			"x":0,
 			"y":70,
@@ -47,7 +47,7 @@
 		},
 		{
 			"type": "patchouli:custom",
-			"recipe":"#result",
+			"recipe":"#recipe",
 			"class":"com.teammoeg.caupona.patchouli.AllowenceTooltip",
 			"x":50,
 			"y":70,

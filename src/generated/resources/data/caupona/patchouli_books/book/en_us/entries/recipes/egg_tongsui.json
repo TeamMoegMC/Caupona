@@ -7,6 +7,7 @@
       "type": "caupona:cookrecipe",
       "base": "caupona:any_based",
       "img": "caupona:textures/gui/recipes/cooking/egg_tongsui.png",
+      "recipe": "caupona:cooking/egg_tongsui",
       "result": "caupona:egg_tongsui"
     }
   ]

@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import com.google.gson.JsonObject;
+import com.teammoeg.caupona.CPTags;
 import com.teammoeg.caupona.CPTags.Items;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
@@ -61,7 +62,7 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 	@SuppressWarnings("deprecation")
 	public static boolean isBoilable(FluidStack f) {
 		Fluid fd = f.getFluid();
-		return fd instanceof SoupFluid || f.getFluid().is(com.teammoeg.caupona.CPTags.Fluids.BOILABLE);
+		return fd instanceof SoupFluid || f.getFluid().is(CPTags.Fluids.BOILABLE);
 	}
 
 	@Override
