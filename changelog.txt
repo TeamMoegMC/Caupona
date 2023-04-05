@@ -1,5 +1,6 @@
 Datapack improvements:
   Mutiple cooking recipe allowed for one output
+  Add item count for frying recipes
 Fix Frying jei page missing image.
 Fix unsync when draw liquid or item from pan/pot.
   
