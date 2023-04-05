@@ -1,5 +1,6 @@
 {
   "type": "caupona:frying",
+  "ingredientPerDish": 2.0,
   "output": "caupona:sauteed_hodgepodge",
   "time": 200
 }

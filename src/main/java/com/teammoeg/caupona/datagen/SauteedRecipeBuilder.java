@@ -42,6 +42,7 @@ public class SauteedRecipeBuilder {
 	private Item output;
 	private ResourceLocation id;
 	private boolean removeNBT=false;
+	private float per=2;
 	public SauteedRecipeBuilder(ResourceLocation id, Item out) {
 		output = out;
 		this.id = id;
@@ -92,8 +93,12 @@ public class SauteedRecipeBuilder {
 		removeNBT=true;
 		return this;
 	}
+	public SauteedRecipeBuilder perBowl(float num) {
+		this.per=num;
+		return this;
+	}
 	public SauteedRecipe end() {
-		return new SauteedRecipe(id, allow, deny, priority, time, output,removeNBT);
+		return new SauteedRecipe(id, allow, deny, priority, time, output,removeNBT,per);
 	}
 
 	public SauteedRecipe finish(Consumer<? super SauteedRecipe> csr) {

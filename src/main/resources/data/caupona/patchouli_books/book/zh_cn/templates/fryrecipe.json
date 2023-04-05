@@ -13,8 +13,9 @@
 			"y":33
 		},
 		{
-			"type": "patchouli:item",
-			"item":"#result",
+			"type": "patchouli:custom",
+			"recipe":"#recipe",
+			"class":"com.teammoeg.caupona.patchouli.PerBowlTooltip",
 			"x":61,
 			"y":38
 		},

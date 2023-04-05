@@ -110,7 +110,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 		count=data.readFloat();
 	}
 	public SauteedRecipe(ResourceLocation id, List<IngredientCondition> allow, List<IngredientCondition> deny,
-			int priority, int time, Item output,boolean removeNBT) {
+			int priority, int time, Item output,boolean removeNBT,float count) {
 		super(id);
 		this.allow = allow;
 		this.deny = deny;
@@ -118,6 +118,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 		this.time = time;
 		this.output = output;
 		this.removeNBT=removeNBT;
+		this.count=count;
 	}
 
 	public void write(FriendlyByteBuf data) {

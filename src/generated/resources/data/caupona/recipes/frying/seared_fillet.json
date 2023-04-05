@@ -6,6 +6,7 @@
       "cond": "mainly"
     }
   ],
+  "ingredientPerDish": 2.0,
   "output": "caupona:seared_fillet",
   "priority": 64,
   "time": 200
