@@ -23,10 +23,12 @@ package com.teammoeg.caupona.data.recipes;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 public interface IConditionalRecipe {
-
+	@Nullable
 	List<IngredientCondition> getAllow();
-
+	@Nullable
 	List<IngredientCondition> getDeny();
 
 }

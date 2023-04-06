@@ -21,8 +21,11 @@
 
 package com.teammoeg.caupona.datagen;
 
+
 import java.util.concurrent.CompletableFuture;
+
 import com.teammoeg.caupona.CPFluids;
+
 import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.core.HolderLookup;
@@ -36,7 +39,9 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CPFluidTagGenerator extends TagsProvider<Fluid> {
@@ -53,7 +58,10 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 		tag("pumice_bloom_grow_on").add(Fluids.WATER.builtInRegistryHolder().key());
 		tag(new ResourceLocation("watersource", "drink")).add(ResourceKey.create(Registries.FLUID,mrl("nail_soup")));
 	}
-
+	private Fluid cp(String s) {
+		Fluid i = ForgeRegistries.FLUIDS.getValue(mrl(s));
+		return i;// just going to cause trouble if not exists
+	}
 	private TagAppender<Fluid> tag(String s) {
 		return this.tag(FluidTags.create(mrl(s)));
 	}

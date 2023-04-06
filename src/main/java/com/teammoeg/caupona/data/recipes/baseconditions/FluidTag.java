@@ -33,20 +33,20 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class FluidTag implements StewBaseCondition {
-	ResourceLocation tag;
 	TagKey<Fluid> f;
 
 	public FluidTag(JsonObject jo) {
-		tag = new ResourceLocation(jo.get("tag").getAsString());
-		f = FluidTags.create(tag);
+		f = FluidTags.create(new ResourceLocation(jo.get("tag").getAsString()));
 	}
 
 	public FluidTag(ResourceLocation tag) {
 		super();
-		this.tag = tag;
 		f = FluidTags.create(tag);
 	}
-
+	public FluidTag(TagKey<Fluid> tag) {
+		super();
+		f = tag;
+	}
 	@Override
 	public Integer apply(ResourceLocation t, ResourceLocation u) {
 		return test(u) ? 2 : test(t) ? 1 : 0;
@@ -73,18 +73,17 @@ public class FluidTag implements StewBaseCondition {
 
 	public JsonObject serialize() {
 		JsonObject jo = new JsonObject();
-		jo.addProperty("tag", tag.toString());
+		jo.addProperty("tag", f.location().toString());
 		return jo;
 	}
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeResourceLocation(tag);
+		buffer.writeResourceLocation(f.location());
 	}
 
 	public FluidTag(FriendlyByteBuf buffer) {
-		tag = buffer.readResourceLocation();
-		f = FluidTags.create(tag);
+		f = FluidTags.create(buffer.readResourceLocation());
 	}
 
 	@Override
@@ -92,11 +91,18 @@ public class FluidTag implements StewBaseCondition {
 		return "tag";
 	}
 
+
+
+	@Override
+	public String getTranslation(TranslationProvider p) {
+		return p.getTranslation("tag." + f.location().toLanguageKey().replaceAll("/", "."));
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((tag == null) ? 0 : tag.hashCode());
+		result = prime * result + ((f == null) ? 0 : f.hashCode());
 		return result;
 	}
 
@@ -104,20 +110,17 @@ public class FluidTag implements StewBaseCondition {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!(obj instanceof FluidTag))
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
 			return false;
 		FluidTag other = (FluidTag) obj;
-		if (tag == null) {
-			if (other.tag != null)
+		if (f == null) {
+			if (other.f != null)
 				return false;
-		} else if (!tag.equals(other.tag))
+		} else if (!f.equals(other.f))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String getTranslation(TranslationProvider p) {
-		return p.getTranslation("tag." + this.tag.toString().replaceAll("[:/]", "."));
 	}
 
 }

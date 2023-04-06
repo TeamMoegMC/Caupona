@@ -40,6 +40,7 @@ import com.teammoeg.caupona.compat.jei.category.BowlFillCategory;
 import com.teammoeg.caupona.compat.jei.category.BrazierCategory;
 import com.teammoeg.caupona.compat.jei.category.DoliumRestingCategory;
 import com.teammoeg.caupona.compat.jei.category.FryingCategory;
+import com.teammoeg.caupona.compat.jei.category.IConditionalCategory;
 import com.teammoeg.caupona.compat.jei.category.PotCategory;
 import com.teammoeg.caupona.compat.jei.category.PotRestingCategory;
 import com.teammoeg.caupona.compat.jei.category.StewCookingCategory;
@@ -108,6 +109,7 @@ public class JEICompat implements IModPlugin {
 	@Override
 	public void registerCategories(IRecipeCategoryRegistration registration) {
 		IGuiHelper guiHelper = registration.getJeiHelpers().getGuiHelper();
+		IConditionalCategory.init(guiHelper);
 		registration.addRecipeCategories(new BrazierCategory(guiHelper), new PotCategory(guiHelper),
 				new BoilingCategory(guiHelper), new BowlEmptyCategory(guiHelper), new BowlFillCategory(guiHelper),
 				new DoliumRestingCategory(guiHelper), new PotRestingCategory(guiHelper),

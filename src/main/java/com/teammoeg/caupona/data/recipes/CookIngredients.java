@@ -29,6 +29,7 @@ import com.teammoeg.caupona.data.Writeable;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 public interface CookIngredients extends Function<IPendingContext, Float>, Writeable, ITranlatable {
 	public boolean fits(FloatemTagStack stack);
@@ -38,4 +39,6 @@ public interface CookIngredients extends Function<IPendingContext, Float>, Write
 	public Stream<CookIngredients> getItemRelated();
 
 	public Stream<ResourceLocation> getTags();
+	
+	public Stream<ItemStack> getStacks();
 }

@@ -6,6 +6,7 @@
       "cond": "mainly"
     }
   ],
+  "ingredientPerDish": 2.0,
   "output": "caupona:sauteed_greens",
   "priority": 128,
   "time": 200

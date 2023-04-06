@@ -24,8 +24,10 @@ package com.teammoeg.caupona.data;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -181,7 +183,11 @@ public class SerializeUtil {
 			return new ItemTag(jo);
 		return NopNumber.INSTANCE;
 	}
-
+	public static void clearCache() {
+		sccache.clear();
+		nmcache.clear();
+		bacache.clear();
+	}
 	public static IngredientCondition ofCondition(JsonObject json) {
 		return sccache.of(conditions.get(json.get("cond").getAsString()).read(json));
 	}
@@ -197,7 +203,7 @@ public class SerializeUtil {
 			return new FluidTag(jo);
 		if (jo.has("fluid"))
 			return new FluidType(jo);
-		if (jo.has("base"))
+		if (jo.has("fluid_type"))
 			return new FluidTypeType(jo);
 		return null;
 	}
@@ -213,7 +219,21 @@ public class SerializeUtil {
 	public static StewBaseCondition ofBase(FriendlyByteBuf buffer) {
 		return bacache.of(basetypes.get(buffer.readUtf()).read(buffer));
 	}
-
+	public static void checkConditions(Collection<IngredientCondition> allow) {
+		boolean foundMajor=false;
+		Set<Class<? extends IngredientCondition>> conts=new HashSet<>();
+		for(IngredientCondition c:allow) {
+			if(c.isMajor()) {
+				if(foundMajor)
+					throw new InvalidRecipeException("There must be less than one major condition. (Current: "+c.getType()+")");
+				foundMajor=true;
+			}else if(c.isExclusive()) {
+				if(conts.contains(c.getClass()))
+					throw new InvalidRecipeException("There must be less than one "+c.getType()+" condition.");
+				conts.add(c.getClass());
+			}
+		}
+	}
 	public static void write(CookIngredients e, FriendlyByteBuf buffer) {
 		buffer.writeUtf(e.getType());
 		e.write(buffer);

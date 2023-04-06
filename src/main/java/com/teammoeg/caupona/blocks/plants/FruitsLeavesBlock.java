@@ -21,6 +21,8 @@
 
 package com.teammoeg.caupona.blocks.plants;
 
+import java.util.Iterator;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -30,6 +32,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.RegistryObject;
 
 public class FruitsLeavesBlock extends LeavesBlock implements BonemealableBlock {
@@ -49,14 +52,27 @@ public class FruitsLeavesBlock extends LeavesBlock implements BonemealableBlock 
 			} else {
 				BlockPos below = pPos.below();
 				if (pRandom.nextInt(51) == 0 && pLevel.getRawBrightness(below, 0) >= 9) {
-					if (pLevel.getBlockState(below).isAir()) {
+					if (pLevel.getBlockState(below).isAir()&&shouldPlaceFruit(pLevel,below)) {
 						pLevel.setBlockAndUpdate(below, fruit.get().defaultBlockState());
 					}
 				}
 			}
 		}
 	}
-
+	public boolean shouldPlaceFruit(Level pLevel, BlockPos pPos) {
+		if (!pLevel.isAreaLoaded(pPos, 1))
+			return false;
+		int cnt = 0;
+		AABB aabb = new AABB(pPos.offset(-1, 0, -1), pPos.offset(1, 0, 1));
+		Iterator<BlockState> it = pLevel.getBlockStates(aabb).iterator();
+		while (it.hasNext()) {
+			if (it.next().getBlock() == fruit.get())
+				cnt++;
+			if (cnt >= 2)
+				return false;
+		}
+		return true;
+	}
 	public boolean isRandomlyTicking(BlockState pState) {
 		return !pState.getValue(PERSISTENT);
 	}

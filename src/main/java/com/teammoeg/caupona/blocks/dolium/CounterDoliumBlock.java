@@ -25,7 +25,6 @@ import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
-import com.teammoeg.caupona.item.StewItem;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -96,8 +95,9 @@ public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlo
 				dolium.tank.setFluid(FluidStack.EMPTY);
 				return InteractionResult.SUCCESS;
 			}
-			if (held.getItem() instanceof StewItem) {
-				if (dolium.tryAddFluid(BowlContainingRecipe.extractFluid(held))) {
+			FluidStack out=BowlContainingRecipe.extractFluid(held);
+			if (!out.isEmpty()) {
+				if (dolium.tryAddFluid(out)) {
 					ItemStack ret = held.getCraftingRemainingItem();
 					held.shrink(1);
 					if (!player.addItem(ret))

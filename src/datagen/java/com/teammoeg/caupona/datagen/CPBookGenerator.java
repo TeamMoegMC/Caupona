@@ -32,7 +32,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
+
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.CPTags;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
@@ -46,6 +48,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class CPBookGenerator extends JsonGenerator {
@@ -68,6 +71,13 @@ public class CPBookGenerator extends JsonGenerator {
 			return Utils.translate(key, objects).getString();
 		}
 
+		@Override
+		public String getTranslationOrElse(String key, String candidate, Object... objects) {
+			if (langs.get(lang).has(key))
+				return String.format(langs.get(lang).get(key).getAsString(), objects);
+			return candidate;
+		}
+
 	}
 
 
@@ -77,7 +87,6 @@ public class CPBookGenerator extends JsonGenerator {
 	}
 
 	String[] allangs = { "zh_cn", "en_us", "es_es", "ru_ru" };
-
 
 	private void loadLang(String locale) {
 		try {
@@ -96,18 +105,16 @@ public class CPBookGenerator extends JsonGenerator {
 		recipes = CPRecipeProvider.recipes.stream().filter(i -> i instanceof StewCookingRecipe)
 				.map(e -> ((StewCookingRecipe) e))
 				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.output).getPath(), e -> e));
-		CPRecipeProvider.recipes.stream().filter(i -> i instanceof SauteedRecipe).map(e -> ((SauteedRecipe) e))
+		frecipes= CPRecipeProvider.recipes.stream().filter(i -> i instanceof SauteedRecipe).map(e -> ((SauteedRecipe) e))
 				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.output).getPath(), e -> e));
 		for (String lang : allangs)
 			loadLang(lang);
 
 		for (String s : CPItems.soups)
-			if (helper.exists(new ResourceLocation(CPMain.MODID, "textures/gui/recipes/" + s + ".png"),
-					PackType.CLIENT_RESOURCES))
+			if (recipes.containsKey(s)&&helper.exists(PictureRL(recipes.get(s)),PackType.CLIENT_RESOURCES))
 				defaultPage(reciver, s);
 		for (String s : CPItems.dishes) {
-			if (helper.exists(new ResourceLocation(CPMain.MODID, "textures/gui/recipes/" + s + ".png"),
-					PackType.CLIENT_RESOURCES))
+			if (frecipes.containsKey(s)&&helper.exists(PictureRL(frecipes.get(s)),PackType.CLIENT_RESOURCES))
 				defaultFryPage(reciver, s);
 		}
 	}
@@ -122,10 +129,12 @@ public class CPBookGenerator extends JsonGenerator {
 		
 	}
 
-	StewBaseCondition anyW = new FluidTag(CPRecipeProvider.anyWater);
+	StewBaseCondition anyW = new FluidTag(CPTags.Fluids.ANY_WATER);
 	StewBaseCondition stock = new FluidType(CPRecipeProvider.stock);
 	StewBaseCondition milk = new FluidType(CPRecipeProvider.milk);
-
+	private ResourceLocation PictureRL(Recipe<?> r) {
+		return new ResourceLocation(r.getId().getNamespace(), "textures/gui/recipes/" + r.getId().getPath() + ".png");
+	}
 	private JsonObject createRecipe(String name, String locale) {
 		JsonObject page = new JsonObject();
 		page.add("name", langs.get(locale).get("item.caupona." + name));
@@ -159,6 +168,7 @@ public class CPBookGenerator extends JsonGenerator {
 		page.add("name", langs.get(locale).get("item.caupona." + name));
 		page.addProperty("icon", new ResourceLocation(CPMain.MODID, name).toString());
 		page.addProperty("category", "caupona:sautee_recipes");
+		SauteedRecipe r = frecipes.get(name);
 		JsonArray pages = new JsonArray();
 		JsonObject imgpage = new JsonObject();
 		imgpage.addProperty("type", "caupona:fryrecipe");

@@ -21,6 +21,8 @@
 
 package com.teammoeg.caupona.blocks.pan;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPConfig;
@@ -61,6 +63,22 @@ import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,IInfinitable {
+	//process
+	public int process;
+	public int processMax;
+	//work state
+	public boolean working = false;
+	public boolean operate = false;
+	public boolean rsstate = false;
+	
+	boolean isInfinite = false;
+	//output cache
+	boolean removesNBT;
+	public Item preout = Items.AIR;
+	public ItemStack sout = ItemStack.EMPTY;
+	public SauteedFoodInfo current;
+	public int oamount;
+	//Capabilities
 	public ItemStackHandler inv = new ItemStackHandler(12) {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
@@ -81,16 +99,57 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 			return super.getSlotLimit(slot);
 		}
 	};
-	public int process;
-	public int processMax;
-	public Item preout = Items.AIR;
-	public ItemStack sout = ItemStack.EMPTY;
-	public int oamount;
-	public boolean working = false;
-	public boolean operate = false;
-	public boolean rsstate = false;
-	public SauteedFoodInfo current;
-	boolean isInfinite = false;
+	public IItemHandler bowl = new IItemHandler() {
+		@Override
+		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+			if (slot < 9 || slot==10)
+				return stack;
+			return inv.insertItem(slot, stack, simulate);
+		}
+
+		@Override
+		public ItemStack extractItem(int slot, int amount, boolean simulate) {
+			if (slot == 9 || slot == 11)
+				return ItemStack.EMPTY;
+			if(slot<9&&inv.isItemValid(slot, inv.getStackInSlot(slot)))
+				return ItemStack.EMPTY;
+			ItemStack item=inv.extractItem(slot, amount, simulate);
+			if(slot==10&&!item.isEmpty()&&sout.isEmpty())
+				syncData();
+			return item;
+		}
+
+		@Override
+		public int getSlots() {
+			return inv.getSlots();
+		}
+
+		@Override
+		public @NotNull ItemStack getStackInSlot(int slot) {
+			return inv.getStackInSlot(slot);
+		}
+
+		@Override
+		public int getSlotLimit(int slot) {
+			return inv.getSlotLimit(slot);
+		}
+
+		@Override
+		public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+			if(slot<9||slot==10)
+				return false;
+			return inv.isItemValid(slot, stack);
+		}
+	};
+	RangedWrapper ingredient = new RangedWrapper(inv, 0, 10) {
+
+		@Override
+		public ItemStack extractItem(int slot, int amount, boolean simulate) {
+			return ItemStack.EMPTY;
+		}
+	};
+	LazyOptional<IItemHandler> up = LazyOptional.of(() -> ingredient);
+	LazyOptional<IItemHandler> side = LazyOptional.of(() -> bowl);
 	public PanBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPBlockEntityTypes.PAN.get(), pWorldPosition, pBlockState);
 	}
@@ -128,7 +187,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 				current = new SauteedFoodInfo(nbt.getCompound("cur"));
 			else
 				current = null;
-
+			removesNBT=nbt.getBoolean("removeNbt");
 		}
 		preout = ForgeRegistries.ITEMS.getValue(new ResourceLocation(nbt.getString("out")));
 
@@ -148,7 +207,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 			nbt.putBoolean("inf",isInfinite);
 			if (current != null)
 				nbt.put("cur", current.save());
-
+			nbt.putBoolean("removeNbt",removesNBT);
 		}
 		nbt.putString("out", Utils.getRegistryName(preout).toString());
 
@@ -195,11 +254,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 						inv.setStackInSlot(10, tryAddSpice(sout.split(1)));
 					else
 						inv.setStackInSlot(10, tryAddSpice(ItemHandlerHelper.copyStackWithSize(sout, 1)));
-					
-					if(sout.isEmpty())
-						this.syncData();
-					else
-						this.setChanged();
+					this.setChanged();
 				}
 			} else {
 				prepareWork();
@@ -222,7 +277,9 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 
 	private void doWork() {
 		ItemStack is = new ItemStack(preout, oamount);
-		DishItem.setInfo(is, current);
+		if(!removesNBT)
+			DishItem.setInfo(is, current);
+		removesNBT=false;
 		current = null;
 		oamount = 0;
 		preout = Items.AIR;
@@ -231,6 +288,8 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 
 	@SuppressWarnings("resource")
 	private void make() {
+		//Do simulation requirement check
+		//Ensure everything cookable
 		int itms = 0;
 		for (int i = 0; i < 9; i++) {
 			ItemStack is = inv.getStackInSlot(i);
@@ -243,26 +302,24 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		}
 		if (itms <= 0)
 			return;
-		int cook = Mth.ceil(itms / 2f);
-		if (inv.getStackInSlot(9).getCount() < cook)
-			return;
-		boolean has_oil = false;
+		//ensure has oil
+		BlockPos oilProvidingPos=null;
 		for (Direction d : Utils.horizontals) {
 			BlockPos bp = this.getBlockPos().relative(d);
 			BlockState bs = this.getLevel().getBlockState(bp);
 			if (bs.is(CPBlocks.GRAVY_BOAT.get())) {
 				int oil = GravyBoatBlock.getOil(bs);
 				if (oil > 0) {
-					GravyBoatBlock.drawOil(getLevel(), bp, bs, 1);
-					has_oil = true;
+					//
+					oilProvidingPos=bp;
 					break;
 				}
 			}
 		}
-		if (!has_oil)
+		if (oilProvidingPos==null)
 			return;
-		inv.getStackInSlot(9).shrink(cook);
-		processMax = process = 0;
+		if (inv.getStackInSlot(9).isEmpty())return;
+		//Draw items
 		NonNullList<ItemStack> interninv = NonNullList.withSize(9, ItemStack.EMPTY);
 		for (int i = 0; i < 9; i++) {
 			ItemStack is = inv.getStackInSlot(i);
@@ -277,35 +334,63 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 						break;
 					}
 				}
-				inv.setStackInSlot(i, is.getCraftingRemainingItem());
+				//inv.setStackInSlot(i, is.getCraftingRemainingItem());
 			}
 		}
+		//Make Pending Context
 		int tpt = 0;
-		current = new SauteedFoodInfo();
+		SauteedFoodInfo current = new SauteedFoodInfo();
 		for (int i = 0; i < 9; i++) {
 			ItemStack is = interninv.get(i);
 			if (is.isEmpty())
 				break;
-			current.addItem(is, cook);
+			current.addItem(is);
 			FoodValueRecipe fvr = FoodValueRecipe.recipes.get(is.getItem());
 			if (fvr != null)
 				tpt += fvr.processtimes.getOrDefault(is.getItem(), 0);
 		}
-
+		interninv.clear();
 		current.completeAll();
 		current.recalculateHAS();
-		tpt = Math.max(CPConfig.SERVER.fryTimeBase.get(), tpt);
-		interninv.clear();
 		PanPendingContext ctx = new PanPendingContext(current);
-		oamount = cook;
-
+		//Do recipe check
+		float tcount=0;
+		
+		Item preout=Items.AIR;
+		int processMax=0;
+		boolean removesNBT=false;
 		for (SauteedRecipe cr : SauteedRecipe.sorted) {
 			if (cr.matches(ctx)) {
 				processMax = Math.max(cr.time, tpt);
 				preout = cr.output;
+				removesNBT=cr.removeNBT;
+				tcount=cr.count;
 				break;
 			}
 		}
+		if(preout==Items.AIR)return;
+		if(tcount<=0)tcount=2f;
+		int cook = Mth.ceil(itms / tcount);
+		if (inv.getStackInSlot(9).getCount() < cook)
+			return;
+		
+		//Complete simulation check, Start taking effect
+		GravyBoatBlock.drawOil(getLevel(), oilProvidingPos, 1);
+		for (int i = 0; i < 9; i++) {
+			ItemStack is = inv.getStackInSlot(i);
+			if (!is.isEmpty()) {
+				inv.setStackInSlot(i, is.getCraftingRemainingItem());
+			}
+		}
+		this.processMax = process = 0;
+		tpt = Math.max(CPConfig.SERVER.fryTimeBase.get(), tpt);
+		current.setParts(cook);
+		this.current=current;
+		this.preout=preout;
+		this.processMax=processMax;
+		this.removesNBT=removesNBT;
+		inv.getStackInSlot(9).shrink(cook);
+		oamount = cook;
 		if (this.getBlockState().is(CPBlocks.STONE_PAN.get()))
 			tpt *= 2;
 		processMax = tpt;
@@ -322,32 +407,6 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	public Component getDisplayName() {
 		return Utils.translate("container." + CPMain.MODID + ".pan.title");
 	}
-
-	RangedWrapper bowl = new RangedWrapper(inv, 9, 12) {
-		@Override
-		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-			if (slot == 10)
-				return stack;
-			return super.insertItem(slot, stack, simulate);
-		}
-
-		@Override
-		public ItemStack extractItem(int slot, int amount, boolean simulate) {
-			if (slot == 9 || slot == 11)
-				return ItemStack.EMPTY;
-			return super.extractItem(slot, amount, simulate);
-		}
-	};
-	RangedWrapper ingredient = new RangedWrapper(inv, 0, 10) {
-
-		@Override
-		public ItemStack extractItem(int slot, int amount, boolean simulate) {
-			return ItemStack.EMPTY;
-		}
-	};
-	LazyOptional<IItemHandler> up = LazyOptional.of(() -> ingredient);
-	LazyOptional<IItemHandler> side = LazyOptional.of(() -> bowl);
-
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
 		if (cap == ForgeCapabilities.ITEM_HANDLER) {

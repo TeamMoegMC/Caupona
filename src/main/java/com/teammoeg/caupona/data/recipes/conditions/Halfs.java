@@ -82,4 +82,8 @@ public class Halfs extends NumberedStewCondition {
 	public String getTranslation(TranslationProvider p) {
 		return p.getTranslation("recipe.caupona.cond.half", number.getTranslation(p));
 	}
+	@Override
+	public boolean isMajor() {
+		return true;
+	}
 }

@@ -86,4 +86,9 @@ public class Mainly extends NumberedStewCondition {
 			return false;
 		return true;
 	}
+
+	@Override
+	public boolean isMajor() {
+		return true;
+	}
 }

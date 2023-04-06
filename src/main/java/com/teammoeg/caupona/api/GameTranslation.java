@@ -24,6 +24,7 @@ package com.teammoeg.caupona.api;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.client.resources.language.I18n;
 public class GameTranslation implements TranslationProvider {
 	private static GameTranslation INSTANCE;
 
@@ -39,6 +40,13 @@ public class GameTranslation implements TranslationProvider {
 	@Override
 	public String getTranslation(String key, Object... objects) {
 		return Utils.translate(key, objects).getString();
+	}
+
+
+	@Override
+	public String getTranslationOrElse(String key, String candidate, Object... objects) {
+		return I18n.exists(key)?getTranslation(key,objects):candidate;
+	
 	}
 
 }

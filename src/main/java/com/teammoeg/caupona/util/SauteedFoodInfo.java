@@ -99,7 +99,8 @@ public class SauteedFoodInfo extends SpicedFoodInfo implements IFoodInfo{
 			if (fvr != null) {
 				nh += fvr.heal * fs.count;
 				ns += fvr.sat * fs.count * fvr.heal;
-				foodeffect.addAll(fvr.effects);
+				if(fvr.effects!=null)
+					foodeffect.addAll(fvr.effects);
 				continue;
 			}
 			FoodProperties f = fs.getStack().getFoodProperties(null);
@@ -123,15 +124,19 @@ public class SauteedFoodInfo extends SpicedFoodInfo implements IFoodInfo{
 		write(nbt);
 		return nbt;
 	}
-
-	public void addItem(ItemStack is, float parts) {
+	public void setParts(int parts) {
+		for (FloatemStack i : stacks) {
+			i.count/=parts;
+		}
+	}
+	public void addItem(ItemStack is) {
 		for (FloatemStack i : stacks) {
 			if (i.equals(is)) {
-				i.count += is.getCount() / parts;
+				i.count += is.getCount();
 				return;
 			}
 		}
-		stacks.add(new FloatemStack(is.copy(), is.getCount() / parts));
+		stacks.add(new FloatemStack(is.copy(), is.getCount()));
 	}
 
 	public void addItem(FloatemStack is) {

@@ -32,6 +32,8 @@ import com.teammoeg.caupona.data.recipes.conditions.Must;
 import com.teammoeg.caupona.data.recipes.conditions.Only;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 
 public class IngredientConditionsBuilder<T> {
 	private T parent;
@@ -57,7 +59,9 @@ public class IngredientConditionsBuilder<T> {
 	public IngredientNumberBuilder<T> typeMainly(ResourceLocation rs) {
 		return new IngredientNumberBuilder<T>(this, sn -> li.add(new MainlyOfType(sn, rs)));
 	}
-
+	public IngredientNumberBuilder<T> typeMainly(TagKey<Item> rs) {
+		return typeMainly(rs.location());
+	}
 	public IngredientNumberBuilder<T> mainly() {
 		return new IngredientNumberBuilder<T>(this, this::makeMainly);
 	}

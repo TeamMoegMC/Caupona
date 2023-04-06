@@ -6,10 +6,10 @@
   },
   "items": [
     {
-      "item": "minecraft:wheat"
+      "item": "minecraft:wheat_seeds"
     },
     {
-      "item": "minecraft:wheat_seeds"
+      "item": "minecraft:wheat"
     }
   ],
   "sat": 0.6

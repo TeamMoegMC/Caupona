@@ -32,6 +32,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -44,7 +45,14 @@ public class Utils {
 
 	private Utils() {
 	}
-
+	public static ItemStack extractOutput(IItemHandler inv,int count) {
+		ItemStack is=ItemStack.EMPTY;
+		for(int i=0;i<inv.getSlots();i++) {
+			is=inv.extractItem(i, count, false);
+			if(!is.isEmpty())break;
+		}
+		return is;
+	}
 	public static ItemStack insertToOutput(ItemStackHandler inv, int slot, ItemStack in) {
 		ItemStack is = inv.getStackInSlot(slot);
 		if (is.isEmpty()) {

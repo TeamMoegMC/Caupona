@@ -29,17 +29,19 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.api.GameTranslation;
 import com.teammoeg.caupona.data.recipes.IConditionalRecipe;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
-import com.teammoeg.caupona.data.recipes.SauteedRecipe;
-import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.patchouli.api.IComponentRenderContext;
 import vazkii.patchouli.api.ICustomComponent;
 import vazkii.patchouli.api.IVariable;
 
+@OnlyIn(Dist.CLIENT)
 public class AllowenceTooltip implements ICustomComponent {
 	boolean allow;
 	int x, y, w, h;
@@ -53,11 +55,8 @@ public class AllowenceTooltip implements ICustomComponent {
 	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
 		recipe = lookup.apply(recipe);
 		ResourceLocation out = new ResourceLocation(recipe.asString());
-		IConditionalRecipe cr = StewCookingRecipe.recipes.get(ForgeRegistries.FLUIDS.getValue(out));
-		if (cr == null) {
-			cr = SauteedRecipe.recipes.get(ForgeRegistries.ITEMS.getValue(out));
-		}
-		if (cr != null) {
+		Recipe<?> r = Minecraft.getInstance().level.getRecipeManager().byKey(out).orElse(null);
+		if (r instanceof IConditionalRecipe cr) {
 			List<IngredientCondition> conds;
 			if (allow)
 				conds = cr.getAllow();

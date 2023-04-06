@@ -32,6 +32,7 @@ import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 public class NopNumber implements CookIngredients {
 	public static final NopNumber INSTANCE = new NopNumber();
@@ -106,6 +107,11 @@ public class NopNumber implements CookIngredients {
 	@Override
 	public String getTranslation(TranslationProvider p) {
 		return "0";
+	}
+
+	@Override
+	public Stream<ItemStack> getStacks() {
+		return Stream.empty();
 	}
 
 }

@@ -22,12 +22,13 @@
 package com.teammoeg.caupona.data.recipes;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import com.google.gson.JsonObject;
-import com.teammoeg.caupona.CPMain;
+
+import com.teammoeg.caupona.CPTags;
+import com.teammoeg.caupona.CPTags.Items;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.SerializeUtil;
@@ -37,10 +38,6 @@ import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -53,23 +50,21 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe {
 	public static Set<CookIngredients> cookables;
-	public static Map<Fluid, StewCookingRecipe> recipes;
+	public static Set<Fluid> allOutput;
 	public static List<StewCookingRecipe> sorted;
 	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
 	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
-	public static final TagKey<Item> cookable = ItemTags.create(new ResourceLocation(CPMain.MODID, "cookable"));
-	public static final TagKey<Fluid> boilable = FluidTags.create(new ResourceLocation(CPMain.MODID, "boilable"));
 
 	public static boolean isCookable(ItemStack stack) {
 		FloatemTagStack s = new FloatemTagStack(stack);
-		return stack.is(cookable) || cookables.stream().anyMatch(e -> e.fits(s));
+		return stack.is(Items.COOKABLE) || cookables.stream().anyMatch(e -> e.fits(s));
 		// return true;
 	}
 
 	@SuppressWarnings("deprecation")
 	public static boolean isBoilable(FluidStack f) {
 		Fluid fd = f.getFluid();
-		return fd instanceof SoupFluid || f.getFluid().is(boilable) || recipes.keySet().contains(fd);
+		return fd instanceof SoupFluid || f.getFluid().is(CPTags.Fluids.BOILABLE);
 	}
 
 	@Override
@@ -89,17 +84,21 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 	float density;
 	List<StewBaseCondition> base;
 	public Fluid output;
-
+	public boolean removeNBT=false;
 	public StewCookingRecipe(ResourceLocation id) {
 		super(id);
 	}
 
 	public StewCookingRecipe(ResourceLocation id, JsonObject data) {
 		super(id);
-		if (data.has("allow"))
+		if (data.has("allow")) {
 			allow = SerializeUtil.parseJsonList(data.get("allow"), SerializeUtil::ofCondition);
-		if (data.has("deny"))
+			SerializeUtil.checkConditions(allow);
+		}
+		if (data.has("deny")) {
 			deny = SerializeUtil.parseJsonList(data.get("deny"), SerializeUtil::ofCondition);
+			SerializeUtil.checkConditions(deny);
+		}
 		if (data.has("priority"))
 			priority = data.get("priority").getAsInt();
 		if (data.has("density"))
@@ -110,6 +109,8 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 		output = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(data.get("output").getAsString()));
 		if (output == Fluids.EMPTY)
 			throw new InvalidRecipeException();
+		if(data.has("removeNBT"))
+			removeNBT=data.get("removeNBT").getAsBoolean();
 	}
 
 	public StewCookingRecipe(ResourceLocation id, FriendlyByteBuf data) {
@@ -121,10 +122,11 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 		time = data.readVarInt();
 		base = SerializeUtil.readList(data, SerializeUtil::ofBase);
 		output = data.readRegistryIdUnsafe(ForgeRegistries.FLUIDS);
+		removeNBT=data.readBoolean();
 	}
 
 	public StewCookingRecipe(ResourceLocation id, List<IngredientCondition> allow, List<IngredientCondition> deny,
-			int priority, int time, float density, List<StewBaseCondition> base, Fluid output) {
+			int priority, int time, float density, List<StewBaseCondition> base, Fluid output,boolean removeNBT) {
 		super(id);
 		this.allow = allow;
 		this.deny = deny;
@@ -133,6 +135,7 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 		this.density = density;
 		this.base = base;
 		this.output = output;
+		this.removeNBT=removeNBT;
 	}
 
 	public void write(FriendlyByteBuf data) {
@@ -143,6 +146,7 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 		data.writeVarInt(time);
 		SerializeUtil.writeList(data, base, SerializeUtil::write);
 		data.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS,output);
+		data.writeBoolean(removeNBT);
 	}
 
 	public int matches(StewPendingContext ctx) {
@@ -185,6 +189,8 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 			json.add("base", SerializeUtil.toJsonList(base, StewBaseCondition::serialize));
 		}
 		json.addProperty("output",Utils.getRegistryName(output).toString());
+		if(removeNBT)
+			json.addProperty("removeNBT",removeNBT);
 	}
 
 	public Stream<CookIngredients> getAllNumbers() {

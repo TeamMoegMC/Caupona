@@ -34,6 +34,7 @@ import com.teammoeg.caupona.data.recipes.numbers.ItemType;
 import com.teammoeg.caupona.data.recipes.numbers.NopNumber;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -55,11 +56,16 @@ public class IngredientNumberBuilder<T> {
 	public IngredientNumberBuilder<T> of(Ingredient i) {
 		return of(new ItemIngredient(i));
 	}
+	public IngredientNumberBuilder<T> of(Ingredient i,String desc) {
+		return of(new ItemIngredient(i,desc));
+	}
 
 	public IngredientNumberBuilder<T> of(ResourceLocation i) {
 		return of(new ItemTag(i));
 	}
-
+	public IngredientNumberBuilder<T> of(TagKey<Item> i) {
+		return of(i.location());
+	}
 	public IngredientNumberBuilder<T> of(Item i) {
 		return of(new ItemType(i));
 	}
@@ -95,7 +101,9 @@ public class IngredientNumberBuilder<T> {
 	public IngredientNumberBuilder<T> plus(ResourceLocation i) {
 		return plus(new ItemTag(i));
 	}
-
+	public IngredientNumberBuilder<T> plus(TagKey<Item> i) {
+		return plus(i.location());
+	}
 	public IngredientNumberBuilder<T> plus(Item i) {
 		return plus(new ItemType(i));
 	}

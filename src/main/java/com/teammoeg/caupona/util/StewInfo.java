@@ -49,7 +49,6 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 	public float saturation;
 	public float shrinkedFluid = 0;
 	public ResourceLocation base;
-
 	public StewInfo(List<FloatemStack> stacks, List<MobEffectInstance> effects, int healing, float saturation,
 			ResourceLocation base) {
 		super();
@@ -194,7 +193,8 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 			if (fvr != null) {
 				nh += fvr.heal * fs.count;
 				ns += fvr.sat * fs.count * fvr.heal;
-				foodeffect.addAll(fvr.effects);
+				if(fvr.effects!=null)
+					foodeffect.addAll(fvr.effects);
 				continue;
 			}
 			FoodProperties f = fs.getStack().getFoodProperties(null);
@@ -291,7 +291,6 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 		nbt.putFloat("sat", saturation);
 		nbt.putString("base", base.toString());
 		nbt.putFloat("afluid", shrinkedFluid);
-
 	}
 
 	@Override

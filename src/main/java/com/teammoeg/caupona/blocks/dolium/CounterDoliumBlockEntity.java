@@ -31,7 +31,9 @@ import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
+import com.teammoeg.caupona.util.LazyTickWorker;
 import com.teammoeg.caupona.util.StewInfo;
+import com.teammoeg.caupona.util.SyncedFluidHandler;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
@@ -104,19 +106,26 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 		return fs;
 
 	}
-
 	public int process;
 	public int processMax;
-
-	public int container;
-	private int contTicks;
+	public LazyTickWorker contain;
 	boolean isInfinite = false;
 	ItemStack inner = ItemStack.EMPTY;
 
 	public CounterDoliumBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPBlockEntityTypes.DOLIUM.get(), pWorldPosition, pBlockState);
 		processMax = CPConfig.COMMON.staticTime.get();
-		contTicks = CPConfig.SERVER.containerTick.get();
+		contain = new LazyTickWorker(CPConfig.SERVER.containerTick.get(),()->{
+			if (isInfinite) {
+				FluidStack fs = new FluidStack(tank.getFluid(), tank.getFluidAmount());
+				tryContianFluid();
+				tank.setFluid(fs);
+			} else {
+				if(tryContianFluid())
+					return true;
+			}
+			return false;
+		});
 	}
 
 	@Override
@@ -125,7 +134,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 
 	@Override
 	public void readCustomNBT(CompoundTag nbt, boolean isClient) {
-		process = nbt.getInt("process");
+		process=nbt.getInt("process");
 		tank.readFromNBT(nbt.getCompound("tank"));
 		isInfinite = nbt.getBoolean("inf");
 		if (!isClient) {
@@ -138,7 +147,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 
 	@Override
 	public void writeCustomNBT(CompoundTag nbt, boolean isClient) {
-		nbt.putInt("process", process);
+		nbt.putInt("process",process);
 		nbt.put("tank", tank.writeToNBT(new CompoundTag()));
 		nbt.putBoolean("inf", isInfinite);
 		if (!isClient) {
@@ -158,19 +167,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 			this.setChanged();
 			return;
 		}
-		boolean updateNeeded = false;
-		container++;
-		if (container >= contTicks) {
-			container = 0;
-			if (isInfinite) {
-				FluidStack fs = new FluidStack(tank.getFluid(), tank.getFluidAmount());
-				tryContianFluid();
-				tank.setFluid(fs);
-			} else {
-				if(tryContianFluid())
-					updateNeeded=true;
-			}
-		}
+		boolean updateNeeded = contain.tick();
 		
 		
 		if ((process < 0 || process % 20 == 0) && !isInfinite) {
@@ -229,9 +226,9 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 					return true;
 				}
 			}
-
-			if (is.getItem() instanceof StewItem) {
-				if (tryAddFluid(BowlContainingRecipe.extractFluid(is))) {
+			FluidStack out=BowlContainingRecipe.extractFluid(is);
+			if (!out.isEmpty()) {
+				if (tryAddFluid(out)) {
 					ItemStack ret = is.getCraftingRemainingItem();
 					is.shrink(1);
 					process = -1;
@@ -296,7 +293,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 		}
 	};
 
-	IFluidHandler handler = new IFluidHandler() {
+	IFluidHandler handler = new SyncedFluidHandler(this,new IFluidHandler() {
 		@Override
 		public int getTanks() {
 			return 1;
@@ -348,7 +345,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 
 		}
 
-	};
+	});
 	LazyOptional<IItemHandler> up = LazyOptional.of(() -> ingredient);
 	LazyOptional<IItemHandler> side = LazyOptional.of(() -> bowl);
 	LazyOptional<IFluidHandler> fl = LazyOptional.of(() -> handler);

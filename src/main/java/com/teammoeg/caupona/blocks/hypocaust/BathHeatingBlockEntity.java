@@ -23,6 +23,7 @@ package com.teammoeg.caupona.blocks.hypocaust;
 
 import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
+import com.teammoeg.caupona.util.LazyTickWorker;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -35,15 +36,20 @@ import net.minecraft.world.level.block.state.BlockState;
 public abstract class BathHeatingBlockEntity extends CPBaseBlockEntity {
 	private double rate;
 	private int val;
-	protected int process;//
-	private int mp;
+	protected LazyTickWorker process;
 	protected int heat;//
 	private boolean water;
 	public BathHeatingBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
 		super(pType, pWorldPosition, pBlockState);
 		rate = CPConfig.SERVER.bathChance.get();
 		val = CPConfig.SERVER.bathExp.get();
-		mp = CPConfig.SERVER.bathPath.get();
+		process = new LazyTickWorker(CPConfig.SERVER.bathPath.get(),()->{
+			if(this.heat!=0) {
+				this.heat = 0;
+				return true;
+			}
+			return false;
+		});
 		water=!CPConfig.SERVER.strictWater.get();
 	}
 
@@ -54,10 +60,7 @@ public abstract class BathHeatingBlockEntity extends CPBaseBlockEntity {
 	public void setHeat(int val) {
 		if (heat > val)
 			return;
-		if (val != 0)
-			process = mp;
-		else
-			process = 0;
+		process.rewind();
 		if(heat!=val) {
 			heat = val;
 			this.syncData();
@@ -66,13 +69,11 @@ public abstract class BathHeatingBlockEntity extends CPBaseBlockEntity {
 
 	@Override
 	public void readCustomNBT(CompoundTag nbt, boolean isClient) {
-		process = nbt.getInt("pathTick");
 		heat = nbt.getInt("bathHeat");
 	}
 
 	@Override
 	public void writeCustomNBT(CompoundTag nbt, boolean isClient) {
-		nbt.putInt("pathTick", process);
 		nbt.putInt("bathHeat", heat);
 	}
 
@@ -110,14 +111,9 @@ public abstract class BathHeatingBlockEntity extends CPBaseBlockEntity {
 				}
 			}
 		}
-		if (process > 0) {
-			process--;
-			this.setChanged();
-		}else if(this.heat!=0) {
-			this.heat = 0;
+		if(process.tick()) {
 			this.syncData();
 		}
-		
 	}
 
 }

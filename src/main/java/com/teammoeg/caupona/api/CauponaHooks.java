@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.item.DishItem;
 import com.teammoeg.caupona.item.StewItem;
@@ -34,6 +35,7 @@ import com.teammoeg.caupona.util.IFoodInfo;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
@@ -62,13 +64,12 @@ public class CauponaHooks {
 	}
 
 	public static ResourceLocation getBase(ItemStack stack) {
-		if (stack.getItem() instanceof StewItem) {
-			return StewItem.getBase(stack);
-		}
 		LazyOptional<IFluidHandlerItem> cap = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
 		if (cap.isPresent()) {
 			IFluidHandlerItem data = cap.resolve().get();
 			return SoupFluid.getBase(data.getFluidInTank(0));
+		}else if(BowlContainingRecipe.getFluidType(stack)!=Fluids.EMPTY) {
+			return StewItem.getBase(stack);
 		}
 		return new ResourceLocation("water");
 	}

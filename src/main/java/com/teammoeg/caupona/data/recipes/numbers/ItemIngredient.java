@@ -21,6 +21,7 @@
 
 package com.teammoeg.caupona.data.recipes.numbers;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 import com.google.gson.JsonElement;
@@ -32,18 +33,27 @@ import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public class ItemIngredient implements CookIngredients {
 	Ingredient i;
-
+	String translation="";
 	public ItemIngredient(JsonElement jo) {
 		i = Ingredient.fromJson(jo.getAsJsonObject().get("ingredient"));
+		if(jo.getAsJsonObject().has("description"))
+		translation=jo.getAsJsonObject().get("description").getAsString();
 	}
 
 	public ItemIngredient(Ingredient i) {
 		super();
 		this.i = i;
+	}
+
+	public ItemIngredient(Ingredient i, String translation) {
+		super();
+		this.i = i;
+		this.translation = translation;
 	}
 
 	@Override
@@ -60,16 +70,19 @@ public class ItemIngredient implements CookIngredients {
 	public JsonElement serialize() {
 		JsonObject th = new JsonObject();
 		th.add("ingredient", i.toJson());
+		th.addProperty("description", translation);
 		return th;
 	}
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
 		i.toNetwork(buffer);
+		buffer.writeUtf(translation);
 	}
 
 	public ItemIngredient(FriendlyByteBuf buffer) {
 		i = Ingredient.fromNetwork(buffer);
+		translation=buffer.readUtf();
 	}
 
 	@Override
@@ -112,7 +125,12 @@ public class ItemIngredient implements CookIngredients {
 
 	@Override
 	public String getTranslation(TranslationProvider p) {
-		return "";
+		return p.getTranslationOrElse(translation, translation);
+	}
+
+	@Override
+	public Stream<ItemStack> getStacks() {
+		return Arrays.stream(i.getItems());
 	}
 
 }

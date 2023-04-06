@@ -32,6 +32,7 @@ import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 public class ConstNumber implements CookIngredients {
 	float n;
@@ -110,6 +111,11 @@ public class ConstNumber implements CookIngredients {
 	@Override
 	public String getTranslation(TranslationProvider p) {
 		return String.valueOf(n);
+	}
+
+	@Override
+	public Stream<ItemStack> getStacks() {
+		return Stream.of();
 	}
 
 }
