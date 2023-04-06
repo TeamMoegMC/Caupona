@@ -23,10 +23,11 @@ package com.teammoeg.caupona.datagen;
 
 
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import com.teammoeg.caupona.CPFluids;
-
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.CPTags;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
@@ -52,10 +53,13 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 
 	@Override
 	protected void addTags(Provider p) {
+		TagAppender<Fluid> stews=tag(CPTags.Fluids.STEWS);
+		TagAppender<Fluid> boilable=tag(CPTags.Fluids.BOILABLE).add(ForgeRegistries.FLUIDS.getResourceKey(Fluids.WATER).get()).add(ForgeMod.MILK.getKey())
+				.addTag(CPTags.Fluids.STEWS);
+		CPFluids.getAllKeys().forEach(stews::add);
+		tag(CPTags.Fluids.ANY_WATER).add(ResourceKey.create(Registries.FLUID,mrl("stock"))).add(ResourceKey.create(Registries.FLUID,mrl("nail_soup")));
 		
-		TagAppender<Fluid> stews=tag("stews");
-		CPFluids.getAllKeys().forEach(e->stews.add(e));
-		tag("pumice_bloom_grow_on").add(Fluids.WATER.builtInRegistryHolder().key());
+		tag(CPTags.Fluids.PUMICE_ON).add(ForgeRegistries.FLUIDS.getResourceKey(Fluids.WATER).get());
 		tag(new ResourceLocation("watersource", "drink")).add(ResourceKey.create(Registries.FLUID,mrl("nail_soup")));
 	}
 	private Fluid cp(String s) {

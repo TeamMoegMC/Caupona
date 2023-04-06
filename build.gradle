@@ -166,7 +166,7 @@ dependencies {
     //implementation fg.deobf("curse.maven:diet-443570:3758891")
 
 	//compileOnly fg.deobf("mezz.jei:jei-1.19.2-common-api:11.2.0.247")
-	compileOnly fg.deobf("curse.maven:jei-238222:4434399")
+	implementation fg.deobf("curse.maven:jei-238222:4473386")
 	//implementation fg.deobf("mezz.jei:jei-1.19.3-forge:12.3.0.21")
     
 	//implementation fg.deobf("curse.maven:kiwi-303657:3974084")

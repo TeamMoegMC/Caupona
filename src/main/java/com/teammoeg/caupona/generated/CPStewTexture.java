@@ -69,5 +69,6 @@ public class CPStewTexture{
 		texture.put("vegetable_chowder",new ResourceLocation(CPMain.MODID,"block/soups/vegetable_chowder"));
 		texture.put("vegetable_soup",new ResourceLocation(CPMain.MODID,"block/soups/vegetable_soup"));
 		texture.put("walnut_soup",new ResourceLocation(CPMain.MODID,"block/soups/walnut_soup"));
+		texture.put("bone_gelatin",new ResourceLocation(CPMain.MODID,"block/soups/bone_gelatin"));
 	}
 }
