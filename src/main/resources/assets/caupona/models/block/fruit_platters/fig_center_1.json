@@ -1,0 +1,6 @@
+{
+    "parent": "caupona:block/fruit_platters/template_fruit_platter_round_center_1",
+    "textures": {
+        "fruit": "caupona:block/fruit_platter/fig"
+    }
+}

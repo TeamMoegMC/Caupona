@@ -1,0 +1,7 @@
+{
+    "parent": "caupona:block/dynamic/template_fruit_platter_pile_components",
+    "loader": "caupona:layered",
+    "textures": {
+        "fruit": "caupona:block/fruit_platter/glow_berries"
+    }
+}
