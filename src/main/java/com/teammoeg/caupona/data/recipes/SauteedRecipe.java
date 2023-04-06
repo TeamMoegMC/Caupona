@@ -102,9 +102,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 	public SauteedRecipe(ResourceLocation id, FriendlyByteBuf data) {
 		super(id);
 		allow = SerializeUtil.readList(data, SerializeUtil::ofCondition);
-		SerializeUtil.checkConditions(allow);
 		deny = SerializeUtil.readList(data, SerializeUtil::ofCondition);
-		SerializeUtil.checkConditions(deny);
 		priority = data.readVarInt();
 		time = data.readVarInt();
 		output = data.readRegistryIdUnsafe(ForgeRegistries.ITEMS);
