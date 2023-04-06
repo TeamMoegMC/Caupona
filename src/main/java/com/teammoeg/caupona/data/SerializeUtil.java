@@ -220,6 +220,7 @@ public class SerializeUtil {
 		return bacache.of(basetypes.get(buffer.readUtf()).read(buffer));
 	}
 	public static void checkConditions(Collection<IngredientCondition> allow) {
+		if(allow==null)return;
 		boolean foundMajor=false;
 		Set<Class<? extends IngredientCondition>> conts=new HashSet<>();
 		for(IngredientCondition c:allow) {
