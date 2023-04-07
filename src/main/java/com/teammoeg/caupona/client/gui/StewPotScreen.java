@@ -28,7 +28,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotContainer;
-import com.teammoeg.caupona.client.util.RenderUtils;
+import com.teammoeg.caupona.client.util.GuiUtils;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.FloatemStack;
@@ -104,7 +104,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 							fs.getStack().getDisplayName()));
 				StewItem.addPotionTooltip(si.effects, tooltip, 1);
 			}
-			RenderUtils.handleGuiTank(transform, blockEntity.getTank(), leftPos + 105, topPos + 20, 16, 46);
+			GuiUtils.handleGuiTank(transform, blockEntity.getTank(), leftPos + 105, topPos + 20, 16, 46);
 		}
 		if (!tooltip.isEmpty())
 			super.renderComponentTooltip(transform, tooltip, mouseX, mouseY);

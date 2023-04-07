@@ -28,7 +28,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 import com.teammoeg.caupona.blocks.dolium.DoliumContainer;
-import com.teammoeg.caupona.client.util.RenderUtils;
+import com.teammoeg.caupona.client.util.GuiUtils;
 
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -57,7 +57,7 @@ public class DoliumScreen extends AbstractContainerScreen<DoliumContainer> {
 			if (isMouseIn(mouseX, mouseY, 80, 27, 16, 46)) {
 				tooltip.add(blockEntity.tank.getFluid().getDisplayName());
 			}
-			RenderUtils.handleGuiTank(transform, blockEntity.tank, leftPos + 80, topPos + 27, 16, 46);
+			GuiUtils.handleGuiTank(transform, blockEntity.tank, leftPos + 80, topPos + 27, 16, 46);
 		}
 		if (!tooltip.isEmpty())
 			super.renderComponentTooltip(transform, tooltip, mouseX, mouseY);

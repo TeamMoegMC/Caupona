@@ -27,7 +27,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
-import com.teammoeg.caupona.client.util.RenderUtils;
+import com.teammoeg.caupona.client.util.GuiUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -78,7 +78,7 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity> 
 				rr += 250f * (1 - blockEntity.process * 1f / blockEntity.processMax);
 			float yy = Math.min(1, rr / blockEntity.getTank().getCapacity()) * .5f + .1875f;
 			matrixStack.translate(0, yy, 0);
-			matrixStack.mulPose(RenderUtils.rotate90);
+			matrixStack.mulPose(GuiUtils.rotate90);
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
 			IClientFluidTypeExtensions attr0 = IClientFluidTypeExtensions.of(fs.getFluid());
 			TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
@@ -93,7 +93,7 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity> 
 				clr = clr(col, attr1.getTintColor(fs), proc);
 
 				alp = 1 - proc;
-				RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(), clr.y(),
+				GuiUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(), clr.y(),
 						clr.z(), proc, sprite2.getU0(), sprite2.getU1(), sprite2.getV0(), sprite2.getV1(),
 						combinedLightIn, combinedOverlayIn);
 
@@ -101,7 +101,7 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity> 
 				clr = clr(col);
 
 			}
-			RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(), clr.y(),
+			GuiUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(), clr.y(),
 					clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), combinedLightIn,
 					combinedOverlayIn);
 

@@ -27,7 +27,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.foods.BowlBlockEntity;
-import com.teammoeg.caupona.client.util.RenderUtils;
+import com.teammoeg.caupona.client.util.GuiUtils;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.item.StewItem;
 
@@ -70,7 +70,7 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity> {
 		matrixStack.pushPose();
 		if (fs != null && !fs.isEmpty() && fs.getFluid() != null) {
 			matrixStack.translate(0, .28125f, 0);
-			matrixStack.mulPose(RenderUtils.rotate90);
+			matrixStack.mulPose(GuiUtils.rotate90);
 
 			IClientFluidTypeExtensions attr = IClientFluidTypeExtensions.of(fs.getFluid());
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
@@ -81,7 +81,7 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity> {
 			Vector3f clr;
 			float alp = 1f;
 			clr = clr(col);
-			RenderUtils.drawTexturedColoredRect(builder, matrixStack, .28125f, .28125f, .4375f, .4375f,clr.x(),
+			GuiUtils.drawTexturedColoredRect(builder, matrixStack, .28125f, .28125f, .4375f, .4375f,clr.x(),
 					clr.y(), clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(),
 					combinedLightIn, combinedOverlayIn);
 

@@ -95,7 +95,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 			throw new InvalidRecipeException();
 		if(data.has("removeNBT"))
 			removeNBT=data.get("removeNBT").getAsBoolean();
-		if(data.has("ingredientPer"))
+		if(data.has("ingredientPerDish"))
 			count=data.get("ingredientPerDish").getAsFloat();
 	}
 

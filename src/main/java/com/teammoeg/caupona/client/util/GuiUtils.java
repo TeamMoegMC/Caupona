@@ -54,9 +54,9 @@ import net.minecraftforge.fluids.IFluidTank;
  * @author BluSunrize
  * @author khjxiaogu
  */
-public class RenderUtils {
+public class GuiUtils {
 
-	private RenderUtils() {
+	private GuiUtils() {
 	}
 	public static Quaternionf rotate90=new Quaternionf(new AxisAngle4f((float) (Math.PI/2),1,0,0));
 	public static void handleGuiTank(PoseStack transform, IFluidTank tank, int x, int y, int w, int h) {

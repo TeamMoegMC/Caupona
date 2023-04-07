@@ -27,7 +27,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
-import com.teammoeg.caupona.client.util.RenderUtils;
+import com.teammoeg.caupona.client.util.GuiUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -70,7 +70,7 @@ public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumB
 		if (fs != null && !fs.isEmpty() && fs.getFluid() != null) {
 			float rr = (fs.getAmount() / 1250f) * 0.5f + 0.375f;
 			matrixStack.translate(0, rr, 0);
-			matrixStack.mulPose(RenderUtils.rotate90);
+			matrixStack.mulPose(GuiUtils.rotate90);
 
 			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
 			IClientFluidTypeExtensions attr=IClientFluidTypeExtensions.of(fs.getFluid());
@@ -80,7 +80,7 @@ public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumB
 			Vector3f clr;
 			float alp = 1f;
 			clr = clr(col);
-			RenderUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(), clr.y(),
+			GuiUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(), clr.y(),
 					clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), combinedLightIn,
 					combinedOverlayIn);
 
