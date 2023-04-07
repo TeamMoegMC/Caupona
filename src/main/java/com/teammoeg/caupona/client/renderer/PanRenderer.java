@@ -79,6 +79,7 @@ public class PanRenderer implements BlockEntityRenderer<PanBlockEntity> {
 		BlockRenderDispatcher rd = Minecraft.getInstance().getBlockRenderer();
 		ModelData imd = rd.getBlockModel(bs).getModelData(blockEntity.getLevel(), blockEntity.getBlockPos(), bs,
 				blockEntity.getLevel().getModelDataManager().getAt((blockEntity.getBlockPos())));
+		if(imd==null)return;
 		rd.renderSingleBlock(bs, matrixStack, buffer, combinedLightIn, combinedOverlayIn, imd,RenderType.cutout());
 
 	}

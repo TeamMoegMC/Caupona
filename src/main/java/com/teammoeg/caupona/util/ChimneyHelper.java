@@ -21,7 +21,6 @@
 
 package com.teammoeg.caupona.util;
 
-import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.CPTags.Blocks;
 
 import net.minecraft.core.BlockPos;

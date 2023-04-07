@@ -1,11 +1,11 @@
 package com.teammoeg.caupona.client.util;
 
 import java.util.List;
-import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraftforge.client.model.data.ModelData;
 

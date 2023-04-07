@@ -28,7 +28,6 @@ import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.fluid.SoupFluid;
-import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
 import com.teammoeg.caupona.util.LazyTickWorker;

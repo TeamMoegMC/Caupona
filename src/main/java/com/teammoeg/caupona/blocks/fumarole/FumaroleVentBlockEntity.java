@@ -25,10 +25,7 @@ import java.util.Iterator;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
-
 import com.teammoeg.caupona.CPConfig;
-import com.teammoeg.caupona.CPMain;
-
 import com.teammoeg.caupona.CPTags.Blocks;
 import com.teammoeg.caupona.CPTags.Fluids;
 import com.teammoeg.caupona.blocks.stove.IStove;

@@ -21,6 +21,7 @@
 
 package com.teammoeg.caupona.datagen;
 
+import static com.teammoeg.caupona.CPTags.Fluids.ANY_WATER;
 import static com.teammoeg.caupona.CPTags.Items.BAKED;
 import static com.teammoeg.caupona.CPTags.Items.CEREALS;
 import static com.teammoeg.caupona.CPTags.Items.CRUSTACEANS;
@@ -38,7 +39,6 @@ import static com.teammoeg.caupona.CPTags.Items.SEAFOOD;
 import static com.teammoeg.caupona.CPTags.Items.SUGAR;
 import static com.teammoeg.caupona.CPTags.Items.VEGETABLES;
 import static com.teammoeg.caupona.CPTags.Items.WALNUT;
-import static com.teammoeg.caupona.CPTags.Fluids.ANY_WATER;
 
 import java.util.ArrayList;
 import java.util.Arrays;

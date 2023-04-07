@@ -23,7 +23,6 @@ package com.teammoeg.caupona.blocks.stove;
 
 import java.util.Objects;
 
-
 import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.CPTags.Blocks;

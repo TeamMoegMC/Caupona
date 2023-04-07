@@ -28,8 +28,6 @@ import java.util.List;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
-import com.teammoeg.caupona.api.GameTranslation;
-import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.util.Utils;

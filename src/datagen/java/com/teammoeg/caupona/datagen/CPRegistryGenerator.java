@@ -24,8 +24,8 @@ package com.teammoeg.caupona.datagen;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-import com.teammoeg.caupona.CPWorldGen;
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.CPWorldGen;
 import com.teammoeg.caupona.worldgen.BushFoliagePlacer;
 import com.teammoeg.caupona.worldgen.BushStraightTrunkPlacer;
 

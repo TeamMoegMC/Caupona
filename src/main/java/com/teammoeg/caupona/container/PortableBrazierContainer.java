@@ -23,7 +23,6 @@ package com.teammoeg.caupona.container;
 
 import com.teammoeg.caupona.CPGui;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.CPTags.Items;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;

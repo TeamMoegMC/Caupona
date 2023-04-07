@@ -18,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockModel;

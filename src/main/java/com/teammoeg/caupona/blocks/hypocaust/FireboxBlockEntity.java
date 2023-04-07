@@ -25,10 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
-
 import com.teammoeg.caupona.CPConfig;
-import com.teammoeg.caupona.CPMain;
-
 import com.teammoeg.caupona.CPTags.Blocks;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.util.LazyTickWorker;

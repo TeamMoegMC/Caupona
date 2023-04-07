@@ -23,9 +23,6 @@ package com.teammoeg.caupona.datagen;
 
 
 
-import java.nio.file.Path;
-import java.util.concurrent.CompletableFuture;
-
 import static com.teammoeg.caupona.CPTags.Items.BAKED;
 import static com.teammoeg.caupona.CPTags.Items.CEREALS;
 import static com.teammoeg.caupona.CPTags.Items.CRUSTACEANS;
@@ -44,16 +41,16 @@ import static com.teammoeg.caupona.CPTags.Items.SUGAR;
 import static com.teammoeg.caupona.CPTags.Items.VEGETABLES;
 import static com.teammoeg.caupona.CPTags.Items.WALNUT;
 
+import java.util.concurrent.CompletableFuture;
+
 import com.google.common.collect.ImmutableList;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.util.MaterialType;
 
-
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
@@ -63,7 +60,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;

@@ -32,7 +32,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
-
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.CPTags;
 import com.teammoeg.caupona.data.TranslationProvider;

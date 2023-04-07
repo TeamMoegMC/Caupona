@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 import com.teammoeg.caupona.blocks.decoration.BaseColumnBlock;
 import com.teammoeg.caupona.blocks.decoration.CPButtonBlock;
@@ -63,6 +62,7 @@ import com.teammoeg.caupona.item.DishItem;
 import com.teammoeg.caupona.util.MaterialType;
 import com.teammoeg.caupona.util.TabType;
 import com.teammoeg.caupona.worldgen.DefaultTreeGrower;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;

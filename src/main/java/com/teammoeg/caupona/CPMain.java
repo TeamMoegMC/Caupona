@@ -21,27 +21,18 @@
 
 package com.teammoeg.caupona;
 
-import java.util.Arrays;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.teammoeg.caupona.client.CPParticles;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.network.PacketHandler;
-import com.teammoeg.caupona.util.CreativeTabItemHelper;
-import com.teammoeg.caupona.util.ICreativeModeTabItem;
-import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;

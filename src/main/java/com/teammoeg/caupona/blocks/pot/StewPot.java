@@ -25,7 +25,6 @@ import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 import com.teammoeg.caupona.client.CPParticles;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.server.level.ServerPlayer;

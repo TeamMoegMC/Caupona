@@ -21,11 +21,12 @@
 
 package com.teammoeg.caupona.generated;
 
-import net.minecraft.resources.ResourceLocation;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.teammoeg.caupona.CPMain;
+
+import net.minecraft.resources.ResourceLocation;
 
 /**
 * This file is auto generated, do not modify!

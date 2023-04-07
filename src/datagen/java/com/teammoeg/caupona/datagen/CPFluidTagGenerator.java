@@ -23,7 +23,6 @@ package com.teammoeg.caupona.datagen;
 
 
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 import com.teammoeg.caupona.CPFluids;
 import com.teammoeg.caupona.CPMain;
