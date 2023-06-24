@@ -55,7 +55,7 @@ public class ClientDataMessage {
 	@SuppressWarnings({ "resource" })
 	void handle(Supplier<NetworkEvent.Context> context) {
 		context.get().enqueueWork(() -> {
-			ServerLevel world = Objects.requireNonNull(context.get().getSender()).getLevel();
+			ServerLevel world = Objects.requireNonNull(context.get().getSender()).serverLevel();
 			if (world.isLoaded(pos)) {
 				if (world.getBlockEntity(pos) instanceof CPBaseBlockEntity entity)
 					entity.handleMessage(type, message);

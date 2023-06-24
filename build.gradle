@@ -55,13 +55,6 @@ sourceSets {
         }
     }
 }
-task genItemNames(){
-	inputs.file(sourceSets.main.resources.srcDirs[0])
-	outputs.file(new File(sourceSets.datagen.resources.srcDirs[0],"assets/caupona/item/items.txt"))
-	file(new File(sourceSets.datagen.resources.srcDirs[0],"assets/caupona/item/items.txt")).withWriter{ out ->
-  		fileTree(include:['*.png'],dir:"src/main/resources/assets/caupona/textures/item").each {out.println "\""+it.name+"\","}
-	}
-}
 minecraft {
 	//mappings channel: 'snapshot', version: '20210309-1.16.5'
     mappings channel: 'parchment', version: "${parchment_mappings}"
@@ -166,7 +159,7 @@ dependencies {
     //implementation fg.deobf("curse.maven:diet-443570:3758891")
 
 	//compileOnly fg.deobf("mezz.jei:jei-1.19.2-common-api:11.2.0.247")
-	implementation fg.deobf("curse.maven:jei-238222:4473386")
+	implementation fg.deobf("curse.maven:jei-238222:4597711")
 	//implementation fg.deobf("mezz.jei:jei-1.19.3-forge:12.3.0.21")
     
 	//implementation fg.deobf("curse.maven:kiwi-303657:3974084")
@@ -208,7 +201,6 @@ jar {
 }
 
 jar.finalizedBy('reobfJar')
-build.finalizedBy('genItemNames')
 task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
     archiveClassifier.set('sources')

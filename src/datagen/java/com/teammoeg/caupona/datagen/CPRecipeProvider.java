@@ -185,9 +185,10 @@ public class CPRecipeProvider extends RecipeProvider {
 		simpleFood(out, 3, .5f, Items.EGG);
 		for (String s : ImmutableSet.of("bisque", "borscht", "dilute_soup", "egg_drop_soup", "fish_soup", "goulash",
 				"hodgepodge", "meat_soup", "mushroom_soup", "nettle_soup", "poultry_soup", "pumpkin_soup",
-				"seaweed_soup", "stock", "stracciatella", "vegetable_soup")) {
+				"seaweed_soup", "stracciatella", "vegetable_soup")) {
 			aspic(s, out);
 		}
+		aspicNoBase("stock",out);
 		spice(cpitem("garum_spice_jar"), MobEffects.JUMP, out);
 		spice(cpitem("sugar_spice_jar"), MobEffects.MOVEMENT_SPEED, out);
 		spice(cpitem("chives_spice_jar"), MobEffects.SLOW_FALLING, out);
@@ -312,6 +313,11 @@ public class CPRecipeProvider extends RecipeProvider {
 		out.accept(
 				new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/" + soup + "_aspic"), Utils.getRegistryName(stock),
 						cpfluid(soup), 250, 0.25F, true, new ItemStack(cpitem(soup + "_aspic")), null));
+		out.accept(new AspicMeltingRecipe(new ResourceLocation(CPMain.MODID, "melt/" + soup + "_aspic"),
+				Ingredient.of(cpitem(soup + "_aspic")), cpfluid(soup)));
+	}
+	private void aspicNoBase(String soup, Consumer<IDataRecipe> out) {
+		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/" + soup + "_aspic"), null,cpfluid(soup), 250, 0.25F, true, new ItemStack(cpitem(soup + "_aspic")), null));
 		out.accept(new AspicMeltingRecipe(new ResourceLocation(CPMain.MODID, "melt/" + soup + "_aspic"),
 				Ingredient.of(cpitem(soup + "_aspic")), cpfluid(soup)));
 	}

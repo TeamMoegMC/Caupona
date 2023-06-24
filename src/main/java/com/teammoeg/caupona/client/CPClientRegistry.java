@@ -96,8 +96,8 @@ public class CPClientRegistry {
 
 	@SubscribeEvent
 	public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
-		event.register(CPParticles.STEAM.get(), SteamParticle.Factory::new);
-		event.register(CPParticles.SOOT.get(), SootParticle.Factory::new);
+		event.registerSpriteSet(CPParticles.STEAM.get(), SteamParticle.Factory::new);
+		event.registerSpriteSet(CPParticles.SOOT.get(), SootParticle.Factory::new);
 	}
 
 	@SubscribeEvent

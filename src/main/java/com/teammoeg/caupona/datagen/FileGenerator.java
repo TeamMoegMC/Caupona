@@ -75,11 +75,11 @@ public abstract class FileGenerator implements DataProvider {
 		}
 		
 	}
-	protected static class FileOutput{
+	public static class FileOutput{
 		ByteArrayOutputStream stream=new ByteArrayOutputStream();
 		PrintStream ps;
 		Path out;
-		private FileOutput( Path out) {
+		private FileOutput(Path out) {
 			super();
 			this.out = out;
 		}
@@ -123,44 +123,15 @@ public abstract class FileGenerator implements DataProvider {
 	public FileOutput createOutput(Path t) {
 		return new FileOutput(t);
 	}
-	public FileOutput createJavaOutput(String classPath) {
-		return new FileOutput(getClassPath(classPath));
+	public JavaFileOutput createJavaOutput(String classPath) {
+		return new JavaFileOutput(this,classPath);
 	}
-	public FileOutput createGeneratedJavaOutput(String classPath) {
-		return new FileOutput(getGeneratedClassPath(classPath));
+	public JavaFileOutput createGeneratedJavaOutput(String classPath) {
+		return new JavaFileOutput(this,getGeneratedPackage()+"."+classPath);
 	}
 	@Override
 	public String getName() {
 		return name+" File Generator";
-	}
-	protected FileOutput formatJava(String className) {
-		FileOutput fo=createGeneratedJavaOutput(className);
-		PrintStream ps=fo.getPrint();
-		ps.println("/*\r\n"
-				+ " * Copyright (c) 2022 TeamMoeg\r\n"
-				+ " *\r\n"
-				+ " * This file is part of Caupona.\r\n"
-				+ " *\r\n"
-				+ " * Caupona is free software: you can redistribute it and/or modify\r\n"
-				+ " * it under the terms of the GNU General Public License as published by\r\n"
-				+ " * the Free Software Foundation, version 3.\r\n"
-				+ " *\r\n"
-				+ " * Caupona is distributed in the hope that it will be useful,\r\n"
-				+ " * but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n"
-				+ " * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n"
-				+ " * GNU General Public License for more details.\r\n"
-				+ " *\r\n"
-				+ " * Specially, we allow this software to be used alongside with closed source software Minecraft(R) and Forge or other modloader.\r\n"
-				+ " * Any mods or plugins can also use apis provided by forge or com.teammoeg.caupona.api without using GPL or open source.\r\n"
-				+ " *\r\n"
-				+ " * You should have received a copy of the GNU General Public License\r\n"
-				+ " * along with Caupona. If not, see <https://www.gnu.org/licenses/>.\r\n"
-				+ " */\r\n"
-				+ "\r\n"
-				+ "package "+getGeneratedPackage()+";");
-		ps.println();
-		
-		return fo;
 	}
 	static CompletableFuture<?> saveFile(CachedOutput cache,byte[] data, Path path) {
 	      return CompletableFuture.runAsync(() -> {

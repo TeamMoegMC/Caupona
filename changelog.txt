@@ -1,1 +1,1 @@
-adapt changes from 1.19
+Fix Stock cannot be made into aspic

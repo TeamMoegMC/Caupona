@@ -41,7 +41,7 @@ public class StewPotContainer extends AbstractContainerMenu {
 	}
 
 	public StewPotContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
-		this(id, inv, (StewPotBlockEntity) inv.player.level.getBlockEntity(buffer.readBlockPos()));
+		this(id, inv, (StewPotBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()));
 	}
 
 	public StewPotContainer(int id, Inventory inv, StewPotBlockEntity blockEntity) {

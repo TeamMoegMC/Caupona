@@ -329,7 +329,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 					if (ois.isEmpty()) {
 						interninv.set(j, is.copy());
 						break;
-					} else if (ois.sameItem(is) && ItemStack.tagMatches(ois, is)) {
+					} else if (ItemStack.isSameItemSameTags(ois, is)) {
 						ois.setCount(ois.getCount() + is.getCount());
 						break;
 					}

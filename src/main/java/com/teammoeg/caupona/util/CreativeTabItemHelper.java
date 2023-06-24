@@ -27,6 +27,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Supplier;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTab.Output;
 import net.minecraft.world.item.CreativeModeTab.TabVisibility;
@@ -54,24 +55,26 @@ public class CreativeTabItemHelper implements Output{
 		}
 	}
 	private CreativeModeTab tab;
+	private ResourceKey<CreativeModeTab> key;
 	private int num=Integer.MIN_VALUE;
 	private List<Entry> items=new ArrayList<>();
 	public CreativeModeTab getTab() {
 		return tab;
 	}
-	public CreativeTabItemHelper(CreativeModeTab tab) {
+	public CreativeTabItemHelper(ResourceKey<CreativeModeTab> key,CreativeModeTab tab) {
 		super();
+		this.key= key;
 		this.tab = tab;
 	}
 	public boolean isMainTab() {
-		return TabType.MAIN.test(tab);
+		return TabType.MAIN.test(key);
 	}
 	public boolean isFoodTab() {
-		return TabType.FOODS.test(tab);
+		return TabType.FOODS.test(key);
 	}
 	public boolean isType(TabType tab) {
 		if(tab==null)return false;
-		return tab.test(this.tab);
+		return tab.test(this.key);
 	}
 	public void register(Output event) {
 		items.sort(Comparator.comparingInt(Entry::getSortnum).thenComparing(Entry::getInsnum));

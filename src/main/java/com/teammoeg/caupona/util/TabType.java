@@ -25,22 +25,23 @@ import java.util.function.Predicate;
 
 import com.teammoeg.caupona.CPMain;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 
-public enum TabType implements Predicate<CreativeModeTab>{
-	MAIN(e->e==CPMain.main),
-	FOODS(e->e==CPMain.foods),
-	MAIN_AND_TRANSPORTATION(e->e==CPMain.main||e==CreativeModeTabs.TOOLS_AND_UTILITIES),
+public enum TabType implements Predicate<ResourceKey<CreativeModeTab>>{
+	MAIN(e->e.equals(CPMain.main.getKey())),
+	FOODS(e->e.equals(CPMain.foods.getKey())),
+	MAIN_AND_TRANSPORTATION(e->e.equals(CPMain.main.getKey())||e.equals(CreativeModeTabs.TOOLS_AND_UTILITIES)),
 	HIDDEN(e->false);
-	private final Predicate<CreativeModeTab> predicate;
+	private final Predicate<ResourceKey<CreativeModeTab>> predicate;
 
-	private TabType(Predicate<CreativeModeTab> predicate) {
+	private TabType(Predicate<ResourceKey<CreativeModeTab>> predicate) {
 		this.predicate = predicate;
 	}
 
 	@Override
-	public boolean test(CreativeModeTab t) {
+	public boolean test(ResourceKey<CreativeModeTab> t) {
 		return predicate.test(t);
 	}
 	

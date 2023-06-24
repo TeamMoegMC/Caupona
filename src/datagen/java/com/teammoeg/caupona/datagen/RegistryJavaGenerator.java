@@ -1,5 +1,8 @@
 package com.teammoeg.caupona.datagen;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.teammoeg.caupona.CPFluids;
 import com.teammoeg.caupona.CPMain;
 
@@ -11,35 +14,32 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 public class RegistryJavaGenerator extends FileGenerator {
 
 	public RegistryJavaGenerator(PackOutput output, ExistingFileHelper helper) {
-		super(PackType.SERVER_DATA, output, helper,"Caupona Registry Java ");
+		super(PackType.SERVER_DATA, output, helper,"Caupona Registry Java");
 	}
 	
 	
 	@Override
 	protected void gather(FileStorage reciver) {
-		FileOutput fo=this.formatJava("CPStewTexture");
-		
-		fo.getPrint().println("import net.minecraft.resources.ResourceLocation;");
-		fo.getPrint().println("import java.util.HashMap;");
-		fo.getPrint().println("import java.util.Map;");
-		fo.getPrint().println();
-		fo.getPrint().println("import com.teammoeg.caupona.CPMain;");
-		fo.getPrint().println();
-		fo.getPrint().println("/**");
-		fo.getPrint().println("* This file is auto generated, do not modify!");
-		fo.getPrint().println("*/");
-		fo.getPrint().println("public class CPStewTexture{");
-		fo.getPrint().println("\tpublic static Map<String,ResourceLocation> texture=new HashMap<>();");
-		fo.getPrint().println("\tstatic{");
+		JavaFileOutput fo=this.createGeneratedJavaOutput("CPStewTexture");
+		fo.addImport(HashMap.class);
+		fo.addImport(Map.class);
+		fo.addImportDelimeter();
+		fo.addImport(ResourceLocation.class);
+		fo.createMap("public static","texture",HashMap.class,String.class,ResourceLocation.class);
+		fo.defineBlock("static");
 		for(String sf:CPFluids.getSoupfluids()) {
 			ResourceLocation image = new ResourceLocation(CPMain.MODID, "textures/block/soups/" + sf + ".png");
 			if (helper.exists(image, PackType.CLIENT_RESOURCES)) {
-				fo.getPrint().println("\t\ttexture.put(\""+sf+"\",new ResourceLocation(CPMain.MODID,\"block/soups/"+sf+"\"));");
+				fo.line().call("texture.put")
+					.paramString(sf)
+					.paramNewInst(ResourceLocation.class)
+						.paramString(CPMain.MODID)
+						.paramString("block/soups/"+sf)
+					.complete()
+				.complete().end();
 			}
 		}
-		fo.getPrint().println("\t}");
-		fo.getPrint().println("}");
-		reciver.accept(fo);
+		reciver.accept(fo.complete());
 		
 	}
 

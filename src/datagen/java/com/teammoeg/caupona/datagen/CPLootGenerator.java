@@ -40,8 +40,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.loot.LootDataId;
+import net.minecraft.world.level.storage.loot.LootDataType;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -59,8 +60,11 @@ public class CPLootGenerator extends LootTableProvider {
 	}
 
 	@Override
-	protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker) {
-		map.forEach((name, table) -> LootTables.validate(validationtracker, name, table));
+	protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationcontext) {
+		map.forEach((p_278897_, p_278898_) -> {
+			p_278898_.validate(validationcontext.setParams(p_278898_.getParamSet()).enterElement("{" + p_278897_ + "}", new LootDataId<>(LootDataType.TABLE, p_278897_)));
+		});
+		//map.forEach((name, table) -> LootTables.validate(validationtracker, name, table));
 	}
 
 	private static class LTBuilder extends VanillaBlockLoot {

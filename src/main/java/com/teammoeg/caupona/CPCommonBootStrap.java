@@ -59,7 +59,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
@@ -74,13 +74,8 @@ import net.minecraftforge.registries.RegistryObject;
 public class CPCommonBootStrap {
 	public static final List<Pair<Supplier<? extends ItemLike>,Float>> compositables = new ArrayList<>();
 	@SubscribeEvent
-	public static void onCreativeTabCreate(CreativeModeTabEvent.Register event) {
-		CPMain.main=event.registerCreativeModeTab(CPMain.rl("main"),Arrays.asList(),Arrays.asList(CreativeModeTabs.SPAWN_EGGS),e->e.icon(()->new ItemStack(CPBlocks.stew_pot.get())).title(Utils.translate("itemGroup.caupona")));
-		CPMain.foods=event.registerCreativeModeTab(CPMain.rl("food"),Arrays.asList(),Arrays.asList(CPMain.rl("main")),e->e.icon(()->new ItemStack(CPItems.gravy_boat.get())).title(Utils.translate("itemGroup.caupona_foods")));
-	}
-	@SubscribeEvent
-	public static void onCreativeTabContents(CreativeModeTabEvent.BuildContents event) {
-		CreativeTabItemHelper helper=new CreativeTabItemHelper(event.getTab());
+	public static void onCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
+		CreativeTabItemHelper helper=new CreativeTabItemHelper(event.getTabKey(),event.getTab());
 		CPItems.ITEMS.getEntries().forEach(e->{
 			if(e.get() instanceof ICreativeModeTabItem item) {
 				item.fillItemCategory(helper);
@@ -98,7 +93,7 @@ public class CPCommonBootStrap {
 		registerDispensers();
 		compositables.forEach(p->ComposterBlock.COMPOSTABLES.put(p.getFirst().get(),(float)p.getSecond()));
 	}
-
+	
 
 	public static void registerDispensers() {
 		DispenserBlock.registerBehavior(Items.BOWL, new DefaultDispenseItemBehavior() {
