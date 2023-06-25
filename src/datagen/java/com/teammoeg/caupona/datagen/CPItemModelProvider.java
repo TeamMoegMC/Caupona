@@ -71,17 +71,17 @@ public class CPItemModelProvider extends ItemModelProvider {
 		texture("portable_brazier");
 		texture("walnut_boat");
 		texture("chronoconis");
-		/*System.out.println(new File("").getAbsolutePath());
+		System.out.println(new File("").getAbsolutePath());
 		try {
-			new BufferedReader(new FileReader(new File("../src/datagen/resources/assets/caupona/item/items.txt"))).lines().forEach( s -> {
-				if(!ForgeRegistries.ITEMS.containsKey(new ResourceLocation(CPMain.MODID,s.substring(0,s.lastIndexOf("."))))) {
+			new BufferedReader(new FileReader(new File("../src/datagen/resources/assets/caupona/block/blocks.txt"))).lines().forEach( s -> {
+				if(!ForgeRegistries.BLOCKS.containsKey(new ResourceLocation(CPMain.MODID,s.substring(0,s.lastIndexOf("."))))) {
 					System.out.println(s);
 				}
 			});
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		super.singleTexture("walnut_sapling", new ResourceLocation("minecraft", "item/generated"), "layer0",
 				new ResourceLocation(CPMain.MODID, "block/walnut_sapling"));
 		super.singleTexture("fig_sapling", new ResourceLocation("minecraft", "item/generated"), "layer0",

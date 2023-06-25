@@ -57,10 +57,15 @@ sourceSets {
 }
 task genItemNames(){
 	inputs.file(sourceSets.main.resources.srcDirs[0])
-	outputs.file(new File(sourceSets.datagen.resources.srcDirs[0],"assets/caupona/item/items.txt"))
+	
 	file(new File(sourceSets.datagen.resources.srcDirs[0],"assets/caupona/item/items.txt")).withWriter{ out ->
   		fileTree(include:['*.png'],dir:"src/main/resources/assets/caupona/textures/item").each {out.println it.name}
 	}
+	file(new File(sourceSets.datagen.resources.srcDirs[0],"assets/caupona/block/blocks.txt")).withWriter{ out ->
+  		fileTree(include:['*.json'],dir:"src/main/resources/assets/caupona/blockstates").each {out.println it.name}
+	}
+	outputs.file(new File(sourceSets.datagen.resources.srcDirs[0],"assets/caupona/item/items.txt"))
+	outputs.file(new File(sourceSets.datagen.resources.srcDirs[0],"assets/caupona/block/blocks.txt"))
 }
 minecraft {
 	//mappings channel: 'snapshot', version: '20210309-1.16.5'

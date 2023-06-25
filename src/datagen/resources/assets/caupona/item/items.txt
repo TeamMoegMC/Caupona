@@ -6,7 +6,6 @@ bone_gelatin.png
 bone_gelatin_2.png
 chives_spice_jar.png
 chronoconis.png
-clay_basin.png
 clay_portable_brazier.png
 clay_stew_pot.png
 copper_frying_pan.png
@@ -24,7 +23,6 @@ lead_nugget.png
 lead_stew_pot.png
 litharge_cake.png
 oil_bottle.png
-plate.png
 plump_snail.png
 portable_brazier.png
 pot_ash.png
@@ -34,7 +32,6 @@ silphium.png
 snail.png
 snail_roe.png
 soot.png
-spice_jar.png
 stew_pot.png
 sugar_spice_jar.png
 vade_mecum_for_innkeepers.png
