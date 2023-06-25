@@ -93,9 +93,10 @@ public class CPLootGenerator extends LootTableProvider {
 			for (String wood : CPBlocks.woods) {
 				for (String type : ImmutableSet.of("_button",
 
-						"_fence", "_fence_gate", "_log", "_planks", "_pressure_plate", "_sapling", "_sign", "_slab",
+						"_fence", "_fence_gate", "_log", "_planks", "_pressure_plate", "_sapling", "_sign",
 						"_stairs", "_trapdoor", "_wood"))
 					dropSelf(cp(wood + type));
+				add(cp(wood+"_slab"),super.createSlabItemTable(cp(wood+"_slab")));
 				add(cp(wood + "_door"), createDoorTable(cp(wood + "_door")));
 				add(cp(wood + "_leaves"), createLeavesDrops(cp(wood + "_leaves"), cp(wood + "_sapling"), 0.05F, 0.0625F,
 						0.083333336F, 0.1F));

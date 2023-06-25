@@ -28,6 +28,7 @@ import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
+import com.teammoeg.caupona.data.recipes.numbers.Numbers;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -36,7 +37,7 @@ public abstract class NumberedStewCondition implements IngredientCondition {
 	protected CookIngredients number;
 
 	public NumberedStewCondition(JsonObject obj) {
-		this.number = SerializeUtil.ofNumber(obj.get("type"));
+		this.number = Numbers.of(obj.get("type"));
 	}
 
 	public NumberedStewCondition(CookIngredients number) {
@@ -52,11 +53,11 @@ public abstract class NumberedStewCondition implements IngredientCondition {
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		SerializeUtil.write(number, buffer);
+		Numbers.write(number, buffer);
 	}
 
 	public NumberedStewCondition(FriendlyByteBuf buffer) {
-		number = SerializeUtil.ofNumber(buffer);
+		number = Numbers.of(buffer);
 	}
 
 	@Override

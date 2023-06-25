@@ -55,6 +55,13 @@ sourceSets {
         }
     }
 }
+task genItemNames(){
+	inputs.file(sourceSets.main.resources.srcDirs[0])
+	outputs.file(new File(sourceSets.datagen.resources.srcDirs[0],"assets/caupona/item/items.txt"))
+	file(new File(sourceSets.datagen.resources.srcDirs[0],"assets/caupona/item/items.txt")).withWriter{ out ->
+  		fileTree(include:['*.png'],dir:"src/main/resources/assets/caupona/textures/item").each {out.println it.name}
+	}
+}
 minecraft {
 	//mappings channel: 'snapshot', version: '20210309-1.16.5'
     mappings channel: 'parchment', version: "${parchment_mappings}"
@@ -201,6 +208,7 @@ jar {
 }
 
 jar.finalizedBy('reobfJar')
+build.finalizedBy('genItemNames')
 task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
     archiveClassifier.set('sources')

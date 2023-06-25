@@ -61,8 +61,10 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 		pickaxe.add((ResourceKey)CPBlocks.stew_pot.getKey());
 		for (String wood : CPBlocks.woods) {
 			for (String type : ImmutableSet.of("_button", "_door", "_fence", "_fence_gate", "_log", "_planks",
-					"_pressure_plate", "_sapling", "_sign", "_wall_sign", "_slab", "_stairs", "_trapdoor", "_wood"))
+					"_pressure_plate", "_sapling", "_sign", "_wall_sign", "_slab", "_stairs", "_trapdoor", "_wood")) {
 				tag(BlockTags.MINEABLE_WITH_AXE).add(cp(wood + type));
+				
+			}
 			tag(BlockTags.MINEABLE_WITH_AXE).add(cp("stripped_" + wood + "_log"), cp("stripped_" + wood + "_wood"));
 			tag(BlockTags.MINEABLE_WITH_HOE).add(cp(wood + "_leaves")).add(cp(wood + "_fruits"));
 			tag(BlockTags.LEAVES).add(cp(wood + "_leaves"));
@@ -75,8 +77,7 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag(BlockTags.PRESSURE_PLATES).add(cp(wood + "_pressure_plate"));
 			tag(BlockTags.WOODEN_PRESSURE_PLATES).add(cp(wood + "_pressure_plate"));
 			tag(BlockTags.WALL_POST_OVERRIDE).add(cp(wood + "_pressure_plate"));
-			tag(BlockTags.LOGS_THAT_BURN).add(cp(wood + "_wood")).add(cp(wood + "_log"),
-					cp("stripped_" + wood + "_log"), cp("stripped_" + wood + "_wood"));
+			tag(BlockTags.LOGS_THAT_BURN).add(cp(wood + "_wood"),cp(wood + "_log"),cp("stripped_" + wood + "_log"), cp("stripped_" + wood + "_wood"));
 			tag(BlockTags.LOGS).add(cp(wood + "_wood")).add(cp(wood + "_log"), cp("stripped_" + wood + "_log"),
 					cp("stripped_" + wood + "_wood"));
 			tag(BlockTags.SLABS).add(cp(wood + "_slab"));
