@@ -1,0 +1,193 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube",
+	"ambientocclusion": false,
+	"elements": [
+		{
+			"name": "fruitBase",
+			"from": [5, 3, 5],
+			"to": [11, 5, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 1, 8]},
+			"faces": {
+				"up": {"uv": [3, 3, 9, 9], "texture": "#fruit"}
+			}
+		},
+		{
+			"name": "fruitBaseSlopeN",
+			"from": [5, 2, 5],
+			"to": [11, 5, 7],
+			"rotation": {"angle": 45, "axis": "x", "origin": [8, 5, 5]},
+			"faces": {
+				"north": {"uv": [3, 0, 9, 3], "rotation": 180, "texture": "#fruit"},
+				"east": {"uv": [11, 12, 14, 14], "rotation": 90, "texture": "#fruit"},
+				"west": {"uv": [8, 12, 11, 14], "rotation": 270, "texture": "#fruit"},
+				"down": {"uv": [8, 14, 14, 16], "rotation": 180, "texture": "#fruit"}
+			}
+		},
+		{
+			"name": "fruitBaseSlopeS",
+			"from": [5, 3, 11],
+			"to": [11, 5, 14],
+			"rotation": {"angle": 45, "axis": "x", "origin": [8, 5, 11]},
+			"faces": {
+				"east": {"uv": [8, 12, 11, 14], "texture": "#fruit"},
+				"south": {"uv": [8, 14, 14, 16], "texture": "#fruit"},
+				"west": {"uv": [11, 12, 14, 14], "texture": "#fruit"},
+				"up": {"uv": [3, 9, 9, 12], "texture": "#fruit"}
+			}
+		},
+		{
+			"name": "fruitBaseSlopeE",
+			"from": [11, 3, 5],
+			"to": [14, 5, 11],
+			"rotation": {"angle": -45, "axis": "z", "origin": [11, 5, 8]},
+			"faces": {
+				"north": {"uv": [8, 12, 11, 14], "texture": "#fruit"},
+				"east": {"uv": [8, 14, 14, 16], "texture": "#fruit"},
+				"south": {"uv": [11, 12, 14, 14], "texture": "#fruit"},
+				"up": {"uv": [9, 3, 12, 9], "texture": "#fruit"}
+			}
+		},
+		{
+			"name": "fruitBaseSlopeW",
+			"from": [2, 3, 5],
+			"to": [5, 5, 11],
+			"rotation": {"angle": 45, "axis": "z", "origin": [5, 5, 8]},
+			"faces": {
+				"north": {"uv": [11, 12, 14, 14], "texture": "#fruit"},
+				"south": {"uv": [8, 12, 11, 14], "texture": "#fruit"},
+				"west": {"uv": [8, 14, 14, 16], "texture": "#fruit"},
+				"up": {"uv": [0, 3, 3, 9], "texture": "#fruit"}
+			}
+		},
+		{
+			"name": "fruit1",
+			"from": [5, 4, 8],
+			"to": [7, 6, 10],
+			"rotation": {"angle": 22.5, "axis": "y", "origin": [8, 1, 8]},
+			"faces": {
+				"north": {"uv": [2, 12, 4, 14], "texture": "#fruit"},
+				"east": {"uv": [0, 12, 2, 14], "texture": "#fruit"},
+				"south": {"uv": [2, 12, 4, 14], "texture": "#fruit"},
+				"west": {"uv": [0, 12, 2, 14], "texture": "#fruit"},
+				"up": {"uv": [0, 14, 2, 16], "rotation": 90, "texture": "#fruit"}
+			}
+		},
+		{
+			"name": "fruit2",
+			"from": [6, 4, 5],
+			"to": [8, 6, 7],
+			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 1, 8]},
+			"faces": {
+				"north": {"uv": [0, 12, 2, 14], "texture": "#fruit"},
+				"east": {"uv": [2, 12, 4, 14], "texture": "#fruit"},
+				"south": {"uv": [0, 12, 2, 14], "texture": "#fruit"},
+				"west": {"uv": [2, 12, 4, 14], "texture": "#fruit"},
+				"up": {"uv": [0, 14, 2, 16], "texture": "#fruit"}
+			}
+		},
+		{
+			"name": "fruit3",
+			"from": [9, 4, 6],
+			"to": [11, 6, 8],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 1, 8]},
+			"faces": {
+				"north": {"uv": [0, 12, 2, 14], "texture": "#fruit"},
+				"east": {"uv": [2, 12, 4, 14], "texture": "#fruit"},
+				"south": {"uv": [0, 12, 2, 14], "texture": "#fruit"},
+				"west": {"uv": [2, 12, 4, 14], "texture": "#fruit"},
+				"up": {"uv": [0, 14, 2, 16], "rotation": 180, "texture": "#fruit"}
+			}
+		},
+		{
+			"name": "fruit1c",
+			"from": [5, 2, 12],
+			"to": [7, 4, 14],
+			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 1, 8]},
+			"faces": {
+				"north": {"uv": [0, 12, 2, 14], "texture": "#fruit"},
+				"east": {"uv": [2, 12, 4, 14], "texture": "#fruit"},
+				"south": {"uv": [0, 12, 2, 14], "texture": "#fruit"},
+				"west": {"uv": [2, 12, 4, 14], "texture": "#fruit"},
+				"up": {"uv": [0, 14, 2, 16], "texture": "#fruit"}
+			}
+		},
+		{
+			"name": "fruit2c",
+			"from": [7, 2, 2],
+			"to": [9, 4, 4],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 1, 8]},
+			"faces": {
+				"north": {"uv": [0, 12, 2, 14], "texture": "#fruit"},
+				"east": {"uv": [2, 12, 4, 14], "texture": "#fruit"},
+				"south": {"uv": [0, 12, 2, 14], "texture": "#fruit"},
+				"west": {"uv": [2, 12, 4, 14], "texture": "#fruit"},
+				"up": {"uv": [0, 14, 2, 16], "rotation": 180, "texture": "#fruit"}
+			}
+		},
+		{
+			"name": "fruit3c",
+			"from": [7, 2, 2],
+			"to": [9, 4, 4],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 1, 8]},
+			"faces": {
+				"north": {"uv": [0, 12, 2, 14], "texture": "#fruit"},
+				"east": {"uv": [2, 12, 4, 14], "texture": "#fruit"},
+				"south": {"uv": [0, 12, 2, 14], "texture": "#fruit"},
+				"west": {"uv": [2, 12, 4, 14], "texture": "#fruit"},
+				"up": {"uv": [0, 14, 2, 16], "rotation": 180, "texture": "#fruit"}
+			}
+		},
+		{
+			"name": "fruit4c",
+			"from": [9, 2, 12],
+			"to": [11, 4, 14],
+			"rotation": {"angle": 22.5, "axis": "y", "origin": [8, 1, 8]},
+			"faces": {
+				"north": {"uv": [2, 12, 4, 14], "texture": "#fruit"},
+				"east": {"uv": [0, 12, 2, 14], "texture": "#fruit"},
+				"south": {"uv": [2, 12, 4, 14], "texture": "#fruit"},
+				"west": {"uv": [0, 12, 2, 14], "texture": "#fruit"},
+				"up": {"uv": [0, 14, 2, 16], "rotation": 90, "texture": "#fruit"}
+			}
+		},
+		{
+			"name": "fruit1a",
+			"from": [7, 6, 8.5],
+			"to": [7, 8, 10.5],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [7, 6, 10]},
+			"faces": {
+				"east": {"uv": [6, 12, 8, 14], "texture": "#fruit"},
+				"west": {"uv": [4, 12, 6, 14], "texture": "#fruit"}
+			}
+		},
+		{
+			"name": "fruit2a",
+			"from": [7, 5.5, 5],
+			"to": [9, 7.5, 5],
+			"rotation": {"angle": -45, "axis": "x", "origin": [8, 6, 5]},
+			"faces": {
+				"north": {"uv": [6, 12, 8, 14], "texture": "#fruit"},
+				"south": {"uv": [4, 12, 6, 14], "texture": "#fruit"}
+			}
+		},
+		{
+			"name": "fruit3a",
+			"from": [9, 6, 9],
+			"to": [11, 8, 9],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [10, 5, 8]},
+			"faces": {
+				"north": {"uv": [4, 12, 6, 14], "texture": "#fruit"},
+				"south": {"uv": [6, 12, 8, 14], "texture": "#fruit"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "FPPC",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+		}
+	]
+}
