@@ -58,10 +58,10 @@ public class CPItems {
 			"sauteed_hodgepodge", "sauteed_meat", "sauteed_mushrooms", "sauteed_roots", "sauteed_seafood",
 			"sauteed_vegetables", "seared_fillet", "seared_poultry" };
 	public static final String[] spices = new String[] { "chives_spice_jar", "garum_spice_jar", "sugar_spice_jar",
-			"vinegar_spice_jar" };
+			"vinegar_spice_jar", "sapa_spice_jar" };
 	public static final List<RegistryObject<Item>> spicesItems = new ArrayList<>();
 	public static final String[] food_material = new String[] { "fig", "walnut", "wolfberries" };
-	public static final String[] base_material = new String[] { "lateres", "clay_portable_brazier", "vivid_charcoal" };
+	public static final String[] base_material = new String[] { "lateres", "clay_portable_brazier", "vivid_charcoal", "silphium" };
 
 	public static final List<Item> stews = new ArrayList<>();
 	

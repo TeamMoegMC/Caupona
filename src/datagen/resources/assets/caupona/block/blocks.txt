@@ -87,6 +87,7 @@ sauteed_seafood.json
 sauteed_vegetables.json
 seared_fillet.json
 seared_poultry.json
+silphium_block.json
 stone_acanthine_column_capital.json
 stone_brick_caliduct.json
 stone_brick_chimney_flue.json

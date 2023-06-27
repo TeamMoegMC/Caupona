@@ -10,11 +10,7 @@ import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 import net.minecraft.network.FriendlyByteBuf;
 
 public class BaseConditions {
-	static {
-		register("tag", FluidTag::new, FluidTag::new);
-		register("fluid", FluidType::new, FluidType::new);
-		register("fluid_type", FluidTypeType::new, FluidTypeType::new);
-	}
+
 	private static CachedDataDeserializer<StewBaseCondition,JsonObject> numbers=new CachedDataDeserializer<>() {
 
 		@Override
@@ -31,7 +27,11 @@ public class BaseConditions {
 		}
 
 	};
-
+	static {
+		register("tag", FluidTag::new, FluidTag::new);
+		register("fluid", FluidType::new, FluidType::new);
+		register("fluid_type", FluidTypeType::new, FluidTypeType::new);
+	}
 	public static void register(String name, Deserializer<JsonObject, StewBaseCondition> des) {
 		numbers.register(name, des);
 	}

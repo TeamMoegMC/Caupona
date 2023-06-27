@@ -1,4 +1,3 @@
-alcohol_bottle.png
 asafoetida.png
 asafoetida_spice_jar.png
 bamboo_skimmer.png
@@ -11,6 +10,7 @@ clay_stew_pot.png
 copper_frying_pan.png
 culinary_heat_haze.png
 fig.png
+fresh_wolfberry_leaves.png
 garum_spice_jar.png
 iron_frying_pan.png
 iron_skimmer.png
@@ -47,4 +47,3 @@ walnut_oil_3.png
 walnut_oil_4.png
 walnut_sign.png
 wolfberries.png
-wolfberry_leaves.png
