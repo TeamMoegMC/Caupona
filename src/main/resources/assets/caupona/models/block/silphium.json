@@ -9,7 +9,7 @@
 		"4": "caupona:block/silphium_stem",
 		"particle": "caupona:block/silphium_branch_0"
 	},
-	"render_type":"cutout",
+	"render_type": "cutout",
 	"elements": [
 		{
 			"name": "sphStem1",
