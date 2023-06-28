@@ -35,6 +35,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -80,7 +81,6 @@ public class CPMain {
 		CPWorldGen.TRUNK_TYPES.register(mod);
 		CPConfig.register();
 		PacketHandler.register();
-
 	}
 
 	@SuppressWarnings("unused")

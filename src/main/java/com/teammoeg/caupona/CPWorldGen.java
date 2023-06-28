@@ -52,9 +52,12 @@ public class CPWorldGen {
 	public static final ResourceKey<PlacedFeature> TREES_FIG = PlacementUtils.createKey("caupona:trees_fig");
 	public static final ResourceKey<PlacedFeature> TREES_WOLFBERRY = PlacementUtils.createKey("caupona:trees_wolfberry");
 	
+	public static final ResourceKey<PlacedFeature> PATCH_SILPHIUM = PlacementUtils.createKey("caupona:patch_silphium");
+	
 	public static final ResourceKey<ConfiguredFeature<?, ?>> WALNUT = FeatureUtils.createKey("caupona:walnut");
 	public static final ResourceKey<ConfiguredFeature<?, ?>> FIG = FeatureUtils.createKey("caupona:fig");
 	public static final ResourceKey<ConfiguredFeature<?, ?>> WOLFBERRY = FeatureUtils.createKey("caupona:wolfberry");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> SILPHIUM = FeatureUtils.createKey("caupona:silphium");
 	
 	
 

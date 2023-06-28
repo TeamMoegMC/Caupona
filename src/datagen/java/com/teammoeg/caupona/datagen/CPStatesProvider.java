@@ -44,10 +44,12 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder.PartBuilder;
@@ -111,8 +113,8 @@ public class CPStatesProvider extends BlockStateProvider {
 				blockItemModel(wood + type);
 			blockItemModel(wood + "_fence", "_inventory");
 			blockItemModel(wood + "_button", "_inventory");
-			blockItemModel(wood + "_fruits", "_stage_1");
-
+			blockItemModelBuilder(wood + "_fruits", "_stage_3").transforms().transform(ItemDisplayContext.GUI).scale(1f).rotation(0, 0.1f, 0).translation(0, 0, 0).end().end();
+			
 			blockItemModel("stripped_" + wood + "_log");
 			blockItemModel("stripped_" + wood + "_wood");
 			blockItemModel(Utils.getRegistryName(CPBlocks.STONE_PAN).getPath());
@@ -130,7 +132,7 @@ public class CPStatesProvider extends BlockStateProvider {
 		
 		for (String bush : ImmutableSet.of("wolfberry", "fig")) {
 			blockItemModel(bush + "_log");
-			blockItemModel(bush + "_fruits", "_stage_1");
+			blockItemModelBuilder(bush + "_fruits", "_stage_3").transforms().transform(ItemDisplayContext.GUI).scale(1f).rotation(0, 45, 0).translation(0, 1, 0).end().end();
 			blockItemModel(bush + "_leaves");
 		}
 	}
@@ -150,7 +152,9 @@ public class CPStatesProvider extends BlockStateProvider {
 			itemModels().getBuilder(n).parent(bmf(n + p));
 		}
 	}
-
+	protected ItemModelBuilder blockItemModelBuilder(String n, String p) {
+		return itemModels().getBuilder(n).parent(bmf(n + p));
+	}
 	public void stove(Block block) {
 		horizontalMultipart(
 				horizontalMultipart(

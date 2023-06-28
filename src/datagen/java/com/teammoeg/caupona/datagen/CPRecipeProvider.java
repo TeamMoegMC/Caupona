@@ -193,6 +193,8 @@ public class CPRecipeProvider extends RecipeProvider {
 		spice(cpitem("sugar_spice_jar"), MobEffects.MOVEMENT_SPEED, out);
 		spice(cpitem("chives_spice_jar"), MobEffects.SLOW_FALLING, out);
 		spice(cpitem("vinegar_spice_jar"), MobEffects.NIGHT_VISION, out);
+		spice(cpitem("asafoetida_spice_jar"), MobEffects.DAMAGE_RESISTANCE, out);
+		spice(cpitem("sapa_spice_jar"), MobEffects.DAMAGE_BOOST, out);
 		stewCooking(out);
 		frying(out);
 		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/garum_spice_jar"), null, Fluids.EMPTY, 0,
@@ -223,6 +225,11 @@ public class CPRecipeProvider extends RecipeProvider {
 		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/vivid_charcoal"), null, Fluids.LAVA, 250,
 				0f, false, new ItemStack(cpitem("vivid_charcoal"), 8),
 				Arrays.asList(Pair.of(Ingredient.of(ItemTags.COALS), 3), Pair.of(Ingredient.of(Items.SLIME_BALL), 1)),
+				null));
+		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/asafoetida"), null, Fluids.EMPTY, 0, 0f,
+				false, new ItemStack(cpitem("asafoetida")),
+				Arrays.asList(Pair.of(Ingredient.of(cpitem("silphium")), 1),
+						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
 				null));
 
 	}

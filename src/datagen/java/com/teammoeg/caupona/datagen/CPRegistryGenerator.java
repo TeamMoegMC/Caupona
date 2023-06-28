@@ -21,9 +21,11 @@
 
 package com.teammoeg.caupona.datagen;
 
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
+import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.CPWorldGen;
 import com.teammoeg.caupona.worldgen.BushFoliagePlacer;
@@ -40,15 +42,23 @@ import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
+import net.minecraft.world.level.levelgen.placement.BiomeFilter;
+import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.placement.RarityFilter;
 import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -73,12 +83,15 @@ public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
 				.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), sap("fig")));
 		PlacementUtils.register(pContext, CPWorldGen.TREES_WOLFBERRY,holder.getOrThrow(CPWorldGen.WOLFBERRY),VegetationPlacements
 				.treePlacement(PlacementUtils.countExtra(0, 0.125F, 1), sap("wolfberry")));
-
+		PlacementUtils.register(pContext, CPWorldGen.PATCH_SILPHIUM, holder.getOrThrow(CPWorldGen.SILPHIUM),
+				RarityFilter.onAverageOnceEvery(10), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome());
 	}
 	public static void bootstrapCFeatures(BootstapContext<ConfiguredFeature<?,?>> pContext) {
 		FeatureUtils.register(pContext,CPWorldGen.WALNUT,Feature.TREE,createStraightBlobTree(log("walnut"),leave("walnut"), 4, 2, 0, 2).ignoreVines().build());
 		FeatureUtils.register(pContext,CPWorldGen.FIG,Feature.TREE,createStraightBlobBush(log("fig"), leave("fig"), 4, 2, 0, 2).ignoreVines().build());
 		FeatureUtils.register(pContext,CPWorldGen.WOLFBERRY,Feature.TREE,createStraightBlobBush(log("wolfberry"),leave("wolfberry"), 4, 2, 0, 2).ignoreVines().build());
+		FeatureUtils.register(pContext,CPWorldGen.SILPHIUM, Feature.RANDOM_PATCH,
+				new RandomPatchConfiguration(12,4,3,PlacementUtils.filtered(Feature.SIMPLE_BLOCK,new SimpleBlockConfiguration(BlockStateProvider.simple(CPBlocks.silphium.get())),BlockPredicate.ONLY_IN_AIR_PREDICATE)));
 	}
 	private static TreeConfiguration.TreeConfigurationBuilder createStraightBlobTree(Block log, Block leave, int height,
 			int randA, int randB, int foliage) {

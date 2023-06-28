@@ -29,6 +29,7 @@ import com.teammoeg.caupona.util.Utils;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -65,7 +66,7 @@ public class CPItemModelProvider extends ItemModelProvider {
 		texture("walnut_boat");
 		texture("chronoconis");
 		texture("silphium");
-		itemModel(CPBlocks.silphium.get().asItem(),"silphium");
+		itemModel(CPBlocks.silphium.get().asItem(),"silphium").transforms().transform(ItemDisplayContext.GUI).scale(0.5f).rotation(0, 45, 0).translation(0, -4, 0).end().end();
 		/*System.out.println(new File("").getAbsolutePath());
 		try {
 			new BufferedReader(new FileReader(new File("../src/datagen/resources/assets/caupona/block/blocks.txt"))).lines().forEach( s -> {
@@ -99,8 +100,8 @@ public class CPItemModelProvider extends ItemModelProvider {
 				.predicate(new ResourceLocation("damage"), 1f).model(texture("oil_bottle")).end();
 	}
 
-	public void itemModel(Item item, String name) {
-		super.withExistingParent(Utils.getRegistryName(item).getPath(), new ResourceLocation(CPMain.MODID, "block/" + name));
+	public ItemModelBuilder itemModel(Item item, String name) {
+		return super.withExistingParent(Utils.getRegistryName(item).getPath(), new ResourceLocation(CPMain.MODID, "block/" + name));
 	}
 
 	public ItemModelBuilder simpleTexture(String name, String par) {

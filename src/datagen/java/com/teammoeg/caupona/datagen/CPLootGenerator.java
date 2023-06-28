@@ -32,20 +32,35 @@ import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.util.MaterialType;
 
+import net.minecraft.advancements.critereon.BlockPredicate;
+import net.minecraft.advancements.critereon.LocationPredicate;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.core.BlockPos;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.packs.VanillaBlockLoot;
 import net.minecraft.data.loot.packs.VanillaLootTableProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.storage.loot.LootDataId;
 import net.minecraft.world.level.storage.loot.LootDataType;
+import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.predicates.LocationCheck;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
+import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class CPLootGenerator extends LootTableProvider {
@@ -82,6 +97,8 @@ public class CPLootGenerator extends LootTableProvider {
 					LootItem.lootTableItem(Blocks.BASALT)));
 			add(CPBlocks.PUMICE_BLOOM.get(), createSilkTouchDispatchTable(CPBlocks.PUMICE_BLOOM.get(),
 					LootItem.lootTableItem(CPBlocks.PUMICE.get())));
+			
+			add(CPBlocks.silphium.get(),doublePlantDrop(CPBlocks.silphium.get(),LootItem.lootTableItem(cpi("silphium")).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 5), false))));
 			dropSelf(CPBlocks.PUMICE.get());
 			/*
 			 * dropSelf(CPBlocks.stove1);
@@ -137,7 +154,9 @@ public class CPLootGenerator extends LootTableProvider {
 		private Block cp(String name) {
 			return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(CPMain.MODID, name));
 		}
-
+		private Item cpi(String name) {
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID, name));
+		}
 		ArrayList<Block> added = new ArrayList<>();
 
 		@Override
@@ -155,7 +174,22 @@ public class CPLootGenerator extends LootTableProvider {
 			added.add(pBlock);
 			super.add(pBlock, pLootTableBuilder);
 		}
-
+		protected LootTable.Builder doublePlantDrop(Block pBlock,LootItem.Builder pItemBuilder){
+			return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(pItemBuilder)
+			.when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(pBlock)
+					.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)))
+			.when(LocationCheck.checkLocation(LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block()
+					.of(pBlock)
+					.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER).build()).build())
+					, new BlockPos(0, 1, 0))))
+			.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(pItemBuilder)
+				.when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(pBlock)
+							.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER)))
+				.when(LocationCheck.checkLocation(LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block()
+					.of(pBlock)
+					.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER).build()).build())
+					, new BlockPos(0, -1, 0))));
+		}
 
 	}
 }

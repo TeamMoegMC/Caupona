@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#caupona:gen_silphium",
+  "features": "caupona:patch_silphium",
+  "step": "vegetal_decoration"
+}
