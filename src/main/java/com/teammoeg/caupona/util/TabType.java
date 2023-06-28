@@ -29,11 +29,11 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 
-public enum TabType implements Predicate<ResourceKey<CreativeModeTab>>{
-	MAIN(e->e.equals(CPMain.main.getKey())),
-	FOODS(e->e.equals(CPMain.foods.getKey())),
-	MAIN_AND_TRANSPORTATION(e->e.equals(CPMain.main.getKey())||e.equals(CreativeModeTabs.TOOLS_AND_UTILITIES)),
-	HIDDEN(e->false);
+public class TabType implements Predicate<ResourceKey<CreativeModeTab>>{
+	public static final TabType MAIN=new TabType(e->e.equals(CPMain.main.getKey()));
+	public static final TabType FOODS=new TabType(e->e.equals(CPMain.foods.getKey()));
+	public static final TabType MAIN_AND_TRANSPORTATION=new TabType(e->e.equals(CPMain.main.getKey())||e.equals(CreativeModeTabs.TOOLS_AND_UTILITIES));
+	public static final TabType HIDDEN=new TabType(e->false);
 	private final Predicate<ResourceKey<CreativeModeTab>> predicate;
 
 	private TabType(Predicate<ResourceKey<CreativeModeTab>> predicate) {

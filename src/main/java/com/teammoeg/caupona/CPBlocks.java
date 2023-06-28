@@ -52,6 +52,7 @@ import com.teammoeg.caupona.blocks.plants.BushLogBlock;
 import com.teammoeg.caupona.blocks.plants.CPStripPillerBlock;
 import com.teammoeg.caupona.blocks.plants.FruitBlock;
 import com.teammoeg.caupona.blocks.plants.FruitsLeavesBlock;
+import com.teammoeg.caupona.blocks.plants.SilphiumBlock;
 import com.teammoeg.caupona.blocks.pot.StewPot;
 import com.teammoeg.caupona.blocks.stove.ChimneyPotBlock;
 import com.teammoeg.caupona.blocks.stove.KitchenStove;
@@ -87,6 +88,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -98,8 +100,7 @@ public class CPBlocks {
 	// Dynamic block types
 	public static final MaterialType[] all_materials = new MaterialType[] { new MaterialType("mud").makeCounter(1),
 			new MaterialType("stone_brick").makeCounter(2).makeHypocaust(), new MaterialType("stone").makePillar(),
-			new MaterialType("brick").makeCounter(2).makeHypocaust(),
-			new MaterialType("mixed_bricks").makeDecoration(),
+			new MaterialType("brick").makeCounter(2).makeHypocaust(), new MaterialType("mixed_bricks").makeDecoration(),
 			new MaterialType("opus_incertum").makeCounter(2).makeDecoration().makeHypocaust(),
 			new MaterialType("opus_latericium").makeCounter(2).makeDecoration().makeHypocaust(),
 			new MaterialType("opus_reticulatum").makeDecoration(),
@@ -116,7 +117,7 @@ public class CPBlocks {
 	public static final List<Block> caliduct = new ArrayList<>();
 	public static final List<Block> firebox = new ArrayList<>();
 	public static final List<RegistryObject<Block>> leaves = new ArrayList<>();
-	
+
 	// Other useful blocks
 	public static final RegistryObject<FumaroleBoulderBlock> FUMAROLE_BOULDER = baseblock("fumarole_boulder",
 			() -> new FumaroleBoulderBlock(getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion()
@@ -128,8 +129,8 @@ public class CPBlocks {
 	public static final RegistryObject<PumiceBloomBlock> PUMICE_BLOOM = baseblock("pumice_bloom",
 			() -> new PumiceBloomBlock(getStoneProps().noOcclusion()));
 	public static final RegistryObject<GravyBoatBlock> GRAVY_BOAT = BLOCKS.register("gravy_boat",
-			() -> new GravyBoatBlock(Block.Properties.of().sound(SoundType.GLASS).instabreak()
-					.noOcclusion().isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid)));
+			() -> new GravyBoatBlock(Block.Properties.of().sound(SoundType.GLASS).instabreak().noOcclusion()
+					.isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid)));
 	public static final BlockSetType WALNUT_TYPE = new BlockSetType("walnut");
 	public static final WoodType WALNUT = WoodType.register(new WoodType("caupona:walnut", WALNUT_TYPE));
 	public static final RegistryObject<WolfStatueBlock> WOLF = baseblock("wolf_statue",
@@ -142,18 +143,24 @@ public class CPBlocks {
 	public static final RegistryObject<PanBlock> IRON_PAN = baseblock("iron_frying_pan", () -> new PanBlock(
 			Block.Properties.of().mapColor(MapColor.METAL).sound(SoundType.METAL).strength(3.5f, 10).noOcclusion()));
 	public static final RegistryObject<DishBlock> DISH = BLOCKS.register("dish",
-			() -> new DishBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak()
-					.noOcclusion().isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
+			() -> new DishBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
+					.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 					.isViewBlocking(CPBlocks::isntSolid)));
 	public static RegistryObject<StewPot> stew_pot = baseblock("stew_pot",
-			() -> new StewPot(Block.Properties.of().mapColor(MapColor.COLOR_ORANGE).sound(SoundType.STONE).requiresCorrectToolForDrops()
-					.strength(3.5f, 10).noOcclusion(), CPBlockEntityTypes.STEW_POT));
+			() -> new StewPot(
+					Block.Properties.of().mapColor(MapColor.COLOR_ORANGE).sound(SoundType.STONE)
+							.requiresCorrectToolForDrops().strength(3.5f, 10).noOcclusion(),
+					CPBlockEntityTypes.STEW_POT));
 
 	public static RegistryObject<BowlBlock> bowl = BLOCKS.register("bowl",
-			() -> new BowlBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak()
-					.noOcclusion().isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
+			() -> new BowlBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
+					.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 					.isViewBlocking(CPBlocks::isntSolid), CPBlockEntityTypes.BOWL));
-	//Bulk register blocks
+	public static RegistryObject<SilphiumBlock> silphium = baseblock("silphium_block",
+			() -> new SilphiumBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission()
+					.instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).ignitedByLava()
+					.pushReaction(PushReaction.DESTROY)));
+	// Bulk register blocks
 	static {
 
 		for (MaterialType type : all_materials) {
@@ -196,80 +203,86 @@ public class CPBlocks {
 		}
 
 		registerWood("walnut", WALNUT, DefaultTreeGrower.supply(CPWorldGen.WALNUT));
-		registerBush("fig",DefaultTreeGrower.supply(CPWorldGen.FIG));
-		registerBush("wolfberry",DefaultTreeGrower.supply(CPWorldGen.WOLFBERRY));
+		registerBush("fig", DefaultTreeGrower.supply(CPWorldGen.FIG));
+		registerBush("wolfberry", DefaultTreeGrower.supply(CPWorldGen.WOLFBERRY));
 		for (String s : CPItems.dishes) {
 			baseblock(s,
-					() -> new DishBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak()
-							.noOcclusion().isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
+					() -> new DishBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
+							.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 							.isViewBlocking(CPBlocks::isntSolid)),
 					b -> new DishItem(b, CPItems.createProps()));
 
 		}
 	}
-	//Convenient block registry wrapper
-	
-	//create a bush
+	// Convenient block registry wrapper
+
+	// create a bush
 	private static void registerBush(String wood, Supplier<AbstractTreeGrower> growth) {
-		baseblock(wood + "_log",
-				() -> new BushLogBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
-						.strength(2.0F).noOcclusion().sound(SoundType.WOOD)));
-		RegistryObject<Block> a = baseblock(wood + "_fruits", () -> new FruitBlock(BlockBehaviour.Properties
-				.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP)));
-		leaves.add(CPCommonBootStrap.asCompositable(baseblock(wood + "_leaves", () -> leaves(SoundType.GRASS, a)),0.3F));
-		CPCommonBootStrap.asCompositable(baseblock(wood + "_sapling", () -> new SaplingBlock(growth.get(), BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
-				.noCollission().randomTicks().instabreak().sound(SoundType.GRASS))),0.3F);
+		baseblock(wood + "_log", () -> new BushLogBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
+				.strength(2.0F).noOcclusion().sound(SoundType.WOOD)));
+		RegistryObject<Block> a = baseblock(wood + "_fruits", () -> new FruitBlock(BlockBehaviour.Properties.of()
+				.mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP)));
+		leaves.add(
+				CPCommonBootStrap.asCompositable(baseblock(wood + "_leaves", () -> leaves(SoundType.GRASS, a)), 0.3F));
+		CPCommonBootStrap.asCompositable(
+				baseblock(wood + "_sapling", () -> new SaplingBlock(growth.get(), BlockBehaviour.Properties.of()
+						.mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS))),
+				0.3F);
 
 	}
-	//create a wood
+
+	// create a wood
 	private static void registerWood(String wood, WoodType wt, Supplier<AbstractTreeGrower> growth) {
-		RegistryObject<Block> planks = block(wood + "_planks", BlockBehaviour.Properties
-				.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD));
-		baseblock(wood + "_button", () -> new CPButtonBlock(
-				BlockBehaviour.Properties.of().noCollission().strength(0.5F).sound(SoundType.WOOD),
-				WALNUT_TYPE, 30, true));
+		RegistryObject<Block> planks = block(wood + "_planks",
+				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava());
+		baseblock(wood + "_button",
+				() -> new CPButtonBlock(
+						BlockBehaviour.Properties.of().noCollission().strength(0.5F).sound(SoundType.WOOD).ignitedByLava(), WALNUT_TYPE,
+						30, true));
 		baseblock(wood + "_door", () -> new CPDoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
-				.strength(3.0F).sound(SoundType.WOOD).noOcclusion(), WALNUT_TYPE));
-		baseblock(wood + "_fence", () -> new FenceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
-				.strength(2.0F, 3.0F).sound(SoundType.WOOD)));
-		baseblock(wood + "_fence_gate", () -> new FenceGateBlock(BlockBehaviour.Properties
-				.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD), WALNUT));
-		RegistryObject<Block> f = baseblock(wood + "_fruits", () -> new FruitBlock(BlockBehaviour.Properties
-				.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP)));
-		leaves.add(CPCommonBootStrap.asCompositable(baseblock(wood + "_leaves", () -> leaves(SoundType.GRASS, f)),0.3F));
-		RegistryObject<Block> sl = baseblock("stripped_" + wood + "_log",
-				() -> log(null));
+				.strength(3.0F).sound(SoundType.WOOD).noOcclusion().ignitedByLava(), WALNUT_TYPE));
+		baseblock(wood + "_fence", () -> new FenceBlock(
+				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava()));
+		baseblock(wood + "_fence_gate", () -> new FenceGateBlock(
+				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava(),
+				WALNUT));
+		RegistryObject<Block> f = baseblock(wood + "_fruits", () -> new FruitBlock(BlockBehaviour.Properties.of()
+				.mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).ignitedByLava()));
+		leaves.add(
+				CPCommonBootStrap.asCompositable(baseblock(wood + "_leaves", () -> leaves(SoundType.GRASS, f)), 0.3F));
+		RegistryObject<Block> sl = baseblock("stripped_" + wood + "_log", () -> log(null));
 		baseblock(wood + "_log", () -> log(sl));
 
 		baseblock(wood + "_pressure_plate",
-				() -> new CPPressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties
-						.of().mapColor(MapColor.WOOD).noCollission().strength(0.5F).sound(SoundType.WOOD),
+				() -> new CPPressurePlateBlock(
+						PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of()
+								.mapColor(MapColor.WOOD).noCollission().strength(0.5F).sound(SoundType.WOOD).ignitedByLava(),
 						WALNUT_TYPE));
-		CPCommonBootStrap.asCompositable(baseblock(wood + "_sapling", () -> new SaplingBlock(growth.get(), BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
-				.noCollission().randomTicks().instabreak().sound(SoundType.GRASS))),0.3F);
+		CPCommonBootStrap.asCompositable(
+				baseblock(wood + "_sapling", () -> new SaplingBlock(growth.get(), BlockBehaviour.Properties.of()
+						.mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS).ignitedByLava())),
+				0.3F);
 		RegistryObject<Block> s = BLOCKS.register(wood + "_sign",
-				() -> new CPStandingSignBlock(
-						BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD),
-						wt));
+				() -> new CPStandingSignBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollission()
+						.strength(1.0F).sound(SoundType.WOOD).ignitedByLava(), wt));
 		RegistryObject<Block> ws = BLOCKS.register(wood + "_wall_sign",
-				() -> new CPWallSignBlock(
-						BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD),
-						wt));
+				() -> new CPWallSignBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollission()
+						.strength(1.0F).sound(SoundType.WOOD).ignitedByLava(), wt));
 		CPItems.ITEMS.register(wood + "_sign",
 				() -> new CPSignItem((new Item.Properties()).stacksTo(16), s.get(), ws.get(), TabType.MAIN));
-		baseblock(wood + "_slab", () -> new SlabBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
-				.strength(2.0F, 3.0F).sound(SoundType.WOOD)));
-		baseblock(wood + "_stairs", () -> new StairBlock(planks.get()::defaultBlockState, BlockBehaviour.Properties
-				.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
-		baseblock(wood + "_trapdoor",
-				() -> new CPTrapDoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(3.0F)
-						.sound(SoundType.WOOD).noOcclusion().isValidSpawn(CPBlocks::never), WALNUT_TYPE));
+		baseblock(wood + "_slab", () -> new SlabBlock(
+				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava()));
+		baseblock(wood + "_stairs", () -> new StairBlock(planks.get()::defaultBlockState,
+				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
+		baseblock(wood + "_trapdoor", () -> new CPTrapDoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
+				.strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(CPBlocks::never).ignitedByLava(), WALNUT_TYPE));
 		RegistryObject<Block> sw = baseblock("stripped_" + wood + "_wood", () -> new RotatedPillarBlock(
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD)));
+				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava()));
 		baseblock(wood + "_wood", () -> new CPStripPillerBlock(sw,
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD)));
+				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava()));
 	}
-	//create a stove
+
+	// create a stove
 	static RegistryObject<KitchenStove> stove(String name, Properties props,
 			RegistryObject<BlockEntityType<KitchenStoveBlockEntity>> tile) {
 		RegistryObject<KitchenStove> bl = BLOCKS.register(name, () -> new KitchenStove(props, tile));
@@ -278,40 +291,48 @@ public class CPBlocks {
 		CPItems.ITEMS.register(name, () -> new CPBlockItem(bl.get(), CPItems.createProps(), TabType.MAIN));
 		return bl;
 	}
-	//register any block to caupona registry
+
+	// register any block to caupona registry
 	static <T extends Block> RegistryObject<T> baseblock(String name, Supplier<T> bl) {
 		RegistryObject<T> blx = BLOCKS.register(name, bl);
 		CPItems.ITEMS.register(name, () -> new CPBlockItem(blx.get(), CPItems.createProps(), TabType.MAIN));
 		return blx;
 	}
-	//register any block to caupona registry with custom item factory
+
+	// register any block to caupona registry with custom item factory
 	static <T extends Block> RegistryObject<T> baseblock(String name, Supplier<T> bl, Function<T, Item> toitem) {
 		RegistryObject<T> blx = BLOCKS.register(name, bl);
 		CPItems.ITEMS.register(name, () -> toitem.apply(blx.get()));
 		return blx;
 	}
-	//register basic block to caupona registry
+
+	// register basic block to caupona registry
 	static RegistryObject<Block> block(String name, Properties props) {
 		RegistryObject<Block> blx = BLOCKS.register(name, () -> new Block(props));
 		CPItems.ITEMS.register(name, () -> new CPBlockItem(blx.get(), CPItems.createProps(), TabType.MAIN));
 		return blx;
 	}
-	//Make leaves block
+
+	// Make leaves block
 	private static LeavesBlock leaves(SoundType p_152615_, RegistryObject<Block> fruit) {
-		return new FruitsLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.2F).randomTicks()
-				.sound(p_152615_).noOcclusion().isValidSpawn(CPBlocks::ocelotOrParrot)
-				.isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid), fruit);
+		return new FruitsLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.2F)
+				.randomTicks().sound(p_152615_).noOcclusion().isValidSpawn(CPBlocks::ocelotOrParrot)
+				.isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid).ignitedByLava(), fruit);
 	}
-	//Make log block
+
+	// Make log block
 	private static RotatedPillarBlock log(RegistryObject<Block> st) {
 		if (st == null)
-			return new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD));
-		return new CPStripPillerBlock(st, BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD));
+			return new RotatedPillarBlock(
+					BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava());
+		return new CPStripPillerBlock(st,
+				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava());
 	}
-	//Property functions
+
+	// Property functions
 	private static Properties getStoneProps() {
-		return Block.Properties.of().mapColor(MapColor.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops().strength(2.0f,
-				6);
+		return Block.Properties.of().mapColor(MapColor.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops()
+				.strength(2.0f, 6);
 	}
 
 	private static Properties getStoveProps() {
@@ -321,8 +342,8 @@ public class CPBlocks {
 	}
 
 	private static Properties getTransparentProps() {
-		return Block.Properties.of().sound(SoundType.STONE).requiresCorrectToolForDrops()
-				.strength(3.5f, 10).noOcclusion();
+		return Block.Properties.of().sound(SoundType.STONE).requiresCorrectToolForDrops().strength(3.5f, 10)
+				.noOcclusion();
 	}
 
 	@SuppressWarnings("unused")

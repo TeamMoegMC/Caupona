@@ -1,3 +1,6 @@
 {
-  "parent": "caupona:block/iron_frying_pan"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "caupona:item/iron_frying_pan"
+  }
 }

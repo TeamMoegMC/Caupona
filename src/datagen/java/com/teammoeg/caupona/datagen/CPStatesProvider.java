@@ -31,6 +31,7 @@ import java.util.function.UnaryOperator;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.stove.KitchenStove;
 import com.teammoeg.caupona.util.MaterialType;
@@ -72,8 +73,7 @@ public class CPStatesProvider extends BlockStateProvider {
 	protected void registerStatesAndModels() {
 		horizontalAxisBlock(CPBlocks.stew_pot.get(), bmf("stew_pot"));
 		CPBlocks.stoves.forEach(e->stove(e.get()));
-
-		itemModel(CPBlocks.stew_pot.get(), bmf("stew_pot"));
+		itemModels().basicItem(CPBlocks.stew_pot.get().asItem());
 		simpleBlock(CPBlocks.bowl.get(), bmf("bowl_of_liquid"));
 		for(MaterialType rtype:CPBlocks.all_materials) {
 			String stone=rtype.getName();
@@ -127,6 +127,7 @@ public class CPStatesProvider extends BlockStateProvider {
 		blockItemModel("fumarole_vent");
 		blockItemModel("pumice");
 		blockItemModel("pumice_bloom");
+		
 		for (String bush : ImmutableSet.of("wolfberry", "fig")) {
 			blockItemModel(bush + "_log");
 			blockItemModel(bush + "_fruits", "_stage_1");
@@ -139,11 +140,15 @@ public class CPStatesProvider extends BlockStateProvider {
 	}
 
 	protected void blockItemModel(String n) {
-		itemModels().getBuilder(n).parent(bmf(n));
+		blockItemModel(n,"");
 	}
 
 	protected void blockItemModel(String n, String p) {
-		itemModels().getBuilder(n).parent(bmf(n + p));
+		if(this.existingFileHelper.exists(new ResourceLocation(CPMain.MODID,"textures/item/"+n+p+".png"), PackType.CLIENT_RESOURCES)) {
+			itemModels().basicItem(new ResourceLocation(CPMain.MODID,n));
+		}else {
+			itemModels().getBuilder(n).parent(bmf(n + p));
+		}
 	}
 
 	public void stove(Block block) {

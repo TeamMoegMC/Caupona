@@ -21,13 +21,7 @@
 
 package com.teammoeg.caupona.datagen;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
-import java.util.Scanner;
-
+import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.util.Utils;
@@ -38,7 +32,6 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class CPItemModelProvider extends ItemModelProvider {
 
@@ -65,16 +58,18 @@ public class CPItemModelProvider extends ItemModelProvider {
 		simpleTexture("any_based", "bases/");
 		simpleTexture("water_or_stock_based", "bases/");
 		texture("book", "vade_mecum_for_innkeepers");
-		itemModel(CPItems.clay_pot.get(), "clay_stew_pot");
+		texture(CPItems.clay_pot.get(), "clay_stew_pot");
 		texture("culinary_heat_haze");
 		texture("soot");
 		texture("portable_brazier");
 		texture("walnut_boat");
 		texture("chronoconis");
+		texture("silphium");
+		itemModel(CPBlocks.silphium.get().asItem(),"silphium");
 		/*System.out.println(new File("").getAbsolutePath());
 		try {
-			new BufferedReader(new FileReader(new File("../src/datagen/resources/assets/caupona/item/items.txt"))).lines().forEach( s -> {
-				if(!ForgeRegistries.ITEMS.containsKey(new ResourceLocation(CPMain.MODID,s.substring(0,s.lastIndexOf("."))))) {
+			new BufferedReader(new FileReader(new File("../src/datagen/resources/assets/caupona/block/blocks.txt"))).lines().forEach( s -> {
+				if(!ForgeRegistries.BLOCKS.containsKey(new ResourceLocation(CPMain.MODID,s.substring(0,s.lastIndexOf("."))))) {
 					System.out.println(s);
 				}
 			});
@@ -116,7 +111,9 @@ public class CPItemModelProvider extends ItemModelProvider {
 	public ItemModelBuilder texture(String name) {
 		return texture(name, name);
 	}
-
+	public ItemModelBuilder texture(Item name, String par) {
+		return texture(Utils.getRegistryName(name).getPath(),par);
+	}
 	public ItemModelBuilder texture(String name, String par) {
 		return super.singleTexture(name, new ResourceLocation("minecraft", "item/generated"), "layer0",
 				new ResourceLocation(CPMain.MODID, "item/" + par));
