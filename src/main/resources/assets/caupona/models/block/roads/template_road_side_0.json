@@ -1,0 +1,39 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [64, 32],
+	"elements": [
+		{
+			"name": "umbo",
+			"from": [0, 14, 0],
+			"to": [6, 18, 16],
+			"faces": {
+				"north": {"uv": [8, 13, 9.5, 15], "texture": "#road"},
+				"east": {"uv": [8, 11, 12, 13], "texture": "#road"},
+				"south": {"uv": [9.5, 13, 11, 15], "texture": "#road"},
+				"west": {"uv": [8, 11, 12, 13], "texture": "#road"},
+				"up": {"uv": [8, 8, 12, 11], "rotation": 90, "texture": "#road"}
+			}
+		},
+		{
+			"name": "agger",
+			"from": [0, 0, 0],
+			"to": [16, 14, 16],
+			"faces": {
+				"north": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"east": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"south": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"west": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"up": {"uv": [0, 0, 4, 8], "texture": "#road"},
+				"down": {"uv": [4, 8, 8, 16], "texture": "#road"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "RoadWithEdgestones",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [0, 1]
+		}
+	]
+}

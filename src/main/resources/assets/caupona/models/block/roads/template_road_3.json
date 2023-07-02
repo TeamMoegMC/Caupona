@@ -1,0 +1,27 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [64, 32],
+	"elements": [
+		{
+			"name": "agger",
+			"from": [0, 0, 0],
+			"to": [16, 14, 16],
+			"faces": {
+				"north": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"east": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"south": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"west": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"up": {"uv": [12, 0, 16, 8], "texture": "#road"},
+				"down": {"uv": [4, 8, 8, 16], "texture": "#road"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "PlainRoad",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [0]
+		}
+	]
+}
