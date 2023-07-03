@@ -147,10 +147,9 @@ public class SnailBlock extends FruitBlock {
 					level.setBlock(pos, CPBlocks.SNAIL_MUCUS.get().defaultBlockState(), 2);
 					return isplump?2:1;
 				}
-				if() {
-					level.setBlock(pos,Blocks.AIR.defaultBlockState(), 2);
-					return isplump?2:1;
-				}
+				level.setBlock(pos,Blocks.AIR.defaultBlockState(), 2);
+				return isplump?2:1;
+				
 			}
 		}
 		return 0;
