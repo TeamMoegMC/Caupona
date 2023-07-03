@@ -53,15 +53,15 @@ public class CPBlockEntityTypes {
 	public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister
 			.create(ForgeRegistries.BLOCK_ENTITY_TYPES, CPMain.MODID);
 
-	public static final RegistryObject<BlockEntityType<StewPotBlockEntity>> STEW_POT = REGISTER.register("stew_pot",makeType(StewPotBlockEntity::new, 
-					()->CPBlocks.stew_pot));
+	public static final RegistryObject<BlockEntityType<StewPotBlockEntity>> STEW_POT = REGISTER.register("stew_pot",makeTypes2(StewPotBlockEntity::new, 
+					()->List.of(CPBlocks.STEW_POT,CPBlocks.STEW_POT_LEAD)));
 	public static final RegistryObject<BlockEntityType<KitchenStoveBlockEntity>> STOVE_T1 = REGISTER.register("kitchen_stove_basic", makeTypes(KitchenStoveT1::new,
 					()->CPBlocks.stoves.stream().map(e->e.get()).filter(e->e.getBlock()==CPBlockEntityTypes.STOVE_T1).collect(Collectors.toList())));
 	public static final RegistryObject<BlockEntityType<KitchenStoveBlockEntity>> STOVE_T2 = REGISTER
 			.register("kitchen_stove_fast", makeTypes(KitchenStoveT2::new,
 					()->CPBlocks.stoves.stream().map(e->e.get()).filter(e->e.getBlock()==CPBlockEntityTypes.STOVE_T2).collect(Collectors.toList())));
 	public static final RegistryObject<BlockEntityType<BowlBlockEntity>> BOWL = REGISTER.register("bowl",makeType(BowlBlockEntity::new, 
-					()->CPBlocks.bowl));
+					()->CPBlocks.BOWL));
 	public static final RegistryObject<BlockEntityType<CPSignBlockEntity>> SIGN = REGISTER.register("sign",makeTypes(CPSignBlockEntity::new,
 					()->CPBlocks.signs));
 	public static final RegistryObject<BlockEntityType<ChimneyPotBlockEntity>> CHIMNEY_POT = REGISTER.register("chimney_pot",makeTypes(ChimneyPotBlockEntity::new,  
@@ -69,7 +69,7 @@ public class CPBlockEntityTypes {
 	public static final RegistryObject<BlockEntityType<FumaroleVentBlockEntity>> FUMAROLE = REGISTER.register("fumarole_vent", makeType(FumaroleVentBlockEntity::new, 
 					()->CPBlocks.FUMAROLE_VENT));
 	public static final RegistryObject<BlockEntityType<PanBlockEntity>> PAN = REGISTER.register("pan", makeTypes2(PanBlockEntity::new, 
-					()->List.of(CPBlocks.STONE_PAN, CPBlocks.COPPER_PAN, CPBlocks.IRON_PAN )));
+					()->List.of(CPBlocks.STONE_PAN, CPBlocks.COPPER_PAN, CPBlocks.IRON_PAN, CPBlocks.LEAD_PAN )));
 	public static final RegistryObject<BlockEntityType<CounterDoliumBlockEntity>> DOLIUM = REGISTER.register("dolium",makeTypes(CounterDoliumBlockEntity::new,  
 					()->CPBlocks.dolium));
 	public static final RegistryObject<BlockEntityType<DishBlockEntity>> DISH = REGISTER.register("dish",makeTypes(DishBlockEntity::new, 

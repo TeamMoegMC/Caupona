@@ -36,6 +36,7 @@ fumarole_boulder.json
 fumarole_vent.json
 huevos_pericos.json
 iron_frying_pan.json
+lead_frying_pan.json
 mixed_bricks.json
 mixed_bricks_slab.json
 mixed_bricks_stairs.json

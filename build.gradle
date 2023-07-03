@@ -224,10 +224,6 @@ task deobfJar(type: Jar) {
     archiveClassifier.set('deobf')
 }
 
-artifacts {
-    archives sourcesJar
-    archives deobfJar
-}
 String getChangelogText() {
     def changelogFile = file('changelog.txt')
     String str = "<span style=\"font-size: 18px; color: #333399;\">Caupona v${mod_version}</span>&nbsp;&nbsp;<em>for Minecraft ${minecraft_version}</em><br/>"
@@ -247,13 +243,34 @@ String getChangelogText() {
 }
 
 
+artifacts {
+    archives sourcesJar
+    archives deobfJar
+}
 // Automatically apply a license header when running checkLicense / updateLicense
 license {
     header = project.file('HEADER.txt')
     ignoreFailures = true
     include '**/*.java'
 }
-
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact jar
+            artifact deobfJar
+            artifact sourcesJar
+        }
+    }
+    repositories {
+        maven {
+            url = 'https://www.khjxiaogu.com/maven'
+            credentials {
+                username = khjmavenUser
+                password = khjmavenPass
+            }
+        }
+    }
+}
 curseforge {
     project {
         def envApiKey = System.getenv('CURSEFORGE_API_KEY')

@@ -26,12 +26,12 @@ import java.util.Optional;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotContainer;
 import com.teammoeg.caupona.client.util.GuiUtils;
 import com.teammoeg.caupona.fluid.SoupFluid;
-import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.StewInfo;
 import com.teammoeg.caupona.util.Utils;
@@ -47,12 +47,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(CPMain.MODID, "textures/gui/stew_pot.png");
-
+	private ResourceLocation TEXTURE = new ResourceLocation(CPMain.MODID, "textures/gui/stew_pot.png");
+	private int TEXT_COLOR=0xffda856b;
 	StewPotBlockEntity blockEntity;
 
 	public StewPotScreen(StewPotContainer container, Inventory inv, Component titleIn) {
 		super(container, inv, titleIn);
+		if(container.getBlock().getBlockState().is(CPBlocks.STEW_POT_LEAD.get())) {
+			TEXTURE = new ResourceLocation(CPMain.MODID, "textures/gui/lead_stew_pot.png");
+			TEXT_COLOR = 0xffe4f2f2;
+		}else {
+			TEXTURE = new ResourceLocation(CPMain.MODID, "textures/gui/stew_pot.png");
+			TEXT_COLOR = 0xffda856b;
+		}
 		this.titleLabelY = 4;
 		this.titleLabelX = 7;
 		this.inventoryLabelY = this.imageHeight - 92;
@@ -103,7 +110,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 				if (fs != null)
 					tooltip.add(Utils.translate("tooltip.caupona.main_ingredient",
 							fs.getStack().getDisplayName()));
-				StewItem.addPotionTooltip(si.effects, tooltip, 1);
+				Utils.addPotionTooltip(si.effects, tooltip, 1);
 			}
 			GuiUtils.handleGuiTank(transform.pose(), blockEntity.getTank(), leftPos + 105, topPos + 20, 16, 46);
 		}

@@ -24,6 +24,7 @@ package com.teammoeg.caupona.datagen;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.util.FoodMaterialInfo;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.data.DataGenerator;
@@ -48,8 +49,8 @@ public class CPItemModelProvider extends ItemModelProvider {
 			simpleTexture(s, "soups/");
 		for (String s : CPItems.base_material)
 			texture(s);
-		for (String s : CPItems.food_material)
-			texture(s);
+		for (FoodMaterialInfo s : CPItems.food_material)
+			texture(s.name);
 		simpleTexture("water", "soups/");
 		simpleTexture("milk", "soups/");
 		for (String s : CPItems.aspics)
@@ -66,7 +67,9 @@ public class CPItemModelProvider extends ItemModelProvider {
 		texture("walnut_boat");
 		texture("chronoconis");
 		texture("silphium");
-		itemModel(CPBlocks.silphium.get().asItem(),"silphium").transforms().transform(ItemDisplayContext.GUI).scale(0.5f).rotation(0, 45, 0).translation(0, -4, 0).end().end();
+		texture("situla");
+		texture("snail_block","snail_roe");
+		itemModel(CPBlocks.SILPHIUM.get().asItem(),"silphium").transforms().transform(ItemDisplayContext.GUI).scale(0.5f).rotation(0, 45, 0).translation(0, -4, 0).end().end();
 		/*System.out.println(new File("").getAbsolutePath());
 		try {
 			new BufferedReader(new FileReader(new File("../src/datagen/resources/assets/caupona/block/blocks.txt"))).lines().forEach( s -> {

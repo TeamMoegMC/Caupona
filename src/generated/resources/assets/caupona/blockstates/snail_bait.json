@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "caupona:block/snail_bait"
+      },
+      {
+        "model": "caupona:block/snail_bait",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/snail_bait",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/snail_bait",
+        "y": 270
+      }
+    ]
+  }
+}

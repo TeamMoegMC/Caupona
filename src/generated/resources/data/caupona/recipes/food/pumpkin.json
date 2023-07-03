@@ -6,10 +6,10 @@
   },
   "items": [
     {
-      "item": "minecraft:pumpkin"
+      "item": "minecraft:carved_pumpkin"
     },
     {
-      "item": "minecraft:carved_pumpkin"
+      "item": "minecraft:pumpkin"
     }
   ],
   "sat": 0.6
