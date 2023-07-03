@@ -1,3 +1,6 @@
 {
-  "parent": "caupona:block/pumice_bloom"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "caupona:item/pumice_bloom"
+  }
 }

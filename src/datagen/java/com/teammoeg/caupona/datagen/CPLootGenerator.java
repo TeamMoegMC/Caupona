@@ -89,16 +89,20 @@ public class CPLootGenerator extends LootTableProvider {
 
 		@Override
 		protected void generate() {
-			dropSelf(CPBlocks.stew_pot.get());
+			dropSelf(CPBlocks.STEW_POT.get());
 			dropSelf(CPBlocks.STONE_PAN.get());
 			dropSelf(CPBlocks.COPPER_PAN.get());
 			dropSelf(CPBlocks.IRON_PAN.get());
+			dropSelf(CPBlocks.LEAD_PAN.get());
+			dropSelf(CPBlocks.STEW_POT_LEAD.get());
+			dropSelf(CPBlocks.LEAD_BLOCK.get());
+			dropSelf(CPBlocks.SNAIL_BAIT.get());
 			add(CPBlocks.FUMAROLE_VENT.get(), createSilkTouchDispatchTable(CPBlocks.FUMAROLE_VENT.get(),
 					LootItem.lootTableItem(Blocks.BASALT)));
 			add(CPBlocks.PUMICE_BLOOM.get(), createSilkTouchDispatchTable(CPBlocks.PUMICE_BLOOM.get(),
 					LootItem.lootTableItem(CPBlocks.PUMICE.get())));
 			
-			add(CPBlocks.silphium.get(),doublePlantDrop(CPBlocks.silphium.get(),LootItem.lootTableItem(cpi("silphium")).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 5), false))));
+			add(CPBlocks.SILPHIUM.get(),doublePlantDrop(CPBlocks.SILPHIUM.get(),LootItem.lootTableItem(cpi("silphium")).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 5), false))));
 			dropSelf(CPBlocks.PUMICE.get());
 			/*
 			 * dropSelf(CPBlocks.stove1);
@@ -141,6 +145,10 @@ public class CPLootGenerator extends LootTableProvider {
 				if(rtype.isHypocaustMaterial()) {
 					dropSelf(cp(stone + "_caliduct"));
 					dropSelf(cp(stone + "_hypocaust_firebox"));
+				}
+				if(rtype.isRoadMaterial()) {
+					dropSelf(cp(stone + "_road"));
+					dropSelf(cp(stone + "_road_side"));
 				}
 			}
 			dropSelf(CPBlocks.GRAVY_BOAT.get());

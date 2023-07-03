@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "caupona:block/roads/stone_road_0"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_1"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_2"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_3"
+      }
+    ]
+  }
+}

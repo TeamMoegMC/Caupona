@@ -1,0 +1,344 @@
+{
+  "variants": {
+    "facing=east,shape=inner_left": [
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_0",
+        "y": 270
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_1",
+        "y": 270
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_2",
+        "y": 270
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_3",
+        "y": 270
+      }
+    ],
+    "facing=east,shape=inner_right": [
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_0"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_1"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_2"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_3"
+      }
+    ],
+    "facing=east,shape=outer_left": [
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_0",
+        "y": 270
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_1",
+        "y": 270
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_2",
+        "y": 270
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_3",
+        "y": 270
+      }
+    ],
+    "facing=east,shape=outer_right": [
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_0"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_1"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_2"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_3"
+      }
+    ],
+    "facing=east,shape=straight": [
+      {
+        "model": "caupona:block/roads/stone_road_side_0"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_side_1"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_side_2"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_side_3"
+      }
+    ],
+    "facing=north,shape=inner_left": [
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_0",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_1",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_2",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_3",
+        "y": 180
+      }
+    ],
+    "facing=north,shape=inner_right": [
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_0",
+        "y": 270
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_1",
+        "y": 270
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_2",
+        "y": 270
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_3",
+        "y": 270
+      }
+    ],
+    "facing=north,shape=outer_left": [
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_0",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_1",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_2",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_3",
+        "y": 180
+      }
+    ],
+    "facing=north,shape=outer_right": [
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_0",
+        "y": 270
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_1",
+        "y": 270
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_2",
+        "y": 270
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_3",
+        "y": 270
+      }
+    ],
+    "facing=north,shape=straight": [
+      {
+        "model": "caupona:block/roads/stone_road_side_0",
+        "y": 270
+      },
+      {
+        "model": "caupona:block/roads/stone_road_side_1",
+        "y": 270
+      },
+      {
+        "model": "caupona:block/roads/stone_road_side_2",
+        "y": 270
+      },
+      {
+        "model": "caupona:block/roads/stone_road_side_3",
+        "y": 270
+      }
+    ],
+    "facing=south,shape=inner_left": [
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_0"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_1"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_2"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_3"
+      }
+    ],
+    "facing=south,shape=inner_right": [
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_0",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_1",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_2",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_3",
+        "y": 90
+      }
+    ],
+    "facing=south,shape=outer_left": [
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_0"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_1"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_2"
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_3"
+      }
+    ],
+    "facing=south,shape=outer_right": [
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_0",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_1",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_2",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_3",
+        "y": 90
+      }
+    ],
+    "facing=south,shape=straight": [
+      {
+        "model": "caupona:block/roads/stone_road_side_0",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/roads/stone_road_side_1",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/roads/stone_road_side_2",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/roads/stone_road_side_3",
+        "y": 90
+      }
+    ],
+    "facing=west,shape=inner_left": [
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_0",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_1",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_2",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_3",
+        "y": 90
+      }
+    ],
+    "facing=west,shape=inner_right": [
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_0",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_1",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_2",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/roads/stone_road_outer_corner_3",
+        "y": 180
+      }
+    ],
+    "facing=west,shape=outer_left": [
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_0",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_1",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_2",
+        "y": 90
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_3",
+        "y": 90
+      }
+    ],
+    "facing=west,shape=outer_right": [
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_0",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_1",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_2",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/roads/stone_road_inner_corner_3",
+        "y": 180
+      }
+    ],
+    "facing=west,shape=straight": [
+      {
+        "model": "caupona:block/roads/stone_road_side_0",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/roads/stone_road_side_1",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/roads/stone_road_side_2",
+        "y": 180
+      },
+      {
+        "model": "caupona:block/roads/stone_road_side_3",
+        "y": 180
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "forge:storage_blocks/lead"
+    },
+    {
+      "tag": "forge:storage_blocks/lead"
+    },
+    {
+      "tag": "forge:storage_blocks/lead"
+    },
+    {
+      "tag": "forge:storage_blocks/lead"
+    },
+    {
+      "tag": "forge:storage_blocks/lead"
+    },
+    {
+      "tag": "forge:storage_blocks/lead"
+    },
+    {
+      "tag": "forge:storage_blocks/lead"
+    },
+    {
+      "tag": "forge:storage_blocks/lead"
+    },
+    {
+      "tag": "forge:storage_blocks/lead"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "caupona:lead_ingot"
+  }
+}

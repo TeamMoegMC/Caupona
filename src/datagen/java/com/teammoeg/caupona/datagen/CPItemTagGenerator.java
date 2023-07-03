@@ -162,8 +162,8 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		
 
 		tag(GREENS).addTag(ftag("vegetables/asparagus")).add(rk(Items.FERN), rk(Items.LARGE_FERN), rk(Items.ALLIUM));
-		tag(EGGS).add(rk(Items.EGG)).addTag(ftag("cooked_eggs"));
-		tag(CRUSTACEANS).add(rk(Items.NAUTILUS_SHELL));
+		tag(EGGS).add(rk(Items.EGG)).addTag(ftag("cooked_eggs")).add(cp("snail_block"));
+		tag(CRUSTACEANS).add(cp("snail")).add(cp("plump_snail"));
 		tag(FISH).addTag(atag(mcrl("fishes"))).addTag(ftag("raw_fishes"));
 		tag(SEAFOOD).add(rk(Items.KELP), rk(Items.DRIED_KELP));
 		tag(POULTRY).add(rk(Items.CHICKEN), rk(Items.RABBIT)).addTag(ftag("raw_chicken")).addTag(ftag("raw_rabbit"))
@@ -188,6 +188,9 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag("garum_fish").add(rk(Items.COD), rk(Items.SALMON));
 		tag("vinegar_fruits").add(rk(Items.APPLE)).add(cp("fig"));
 		tag("vinegar_fruits_small").add(rk(Items.SWEET_BERRIES)).add(cp("wolfberries"));
+		tag(ftag("ingots/lead")).add(cp("lead_ingot"));
+		tag(ftag("nuggets/lead")).add(cp("lead_nugget"));
+		tag(ftag("storage_blocks/lead")).add(cp("lead_block"));
 
 	}
 

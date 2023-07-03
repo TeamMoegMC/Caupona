@@ -9,6 +9,67 @@
 					"type": "minecraft:item",
 					"name": "caupona:walnut"
 				}
+			],
+			"conditions": [
+				{
+					"condition": "minecraft:block_state_property",
+					"block": "caupona:walnut_fruits",
+					"properties": {
+						"age": {
+							"min": "1",
+							"max": "4"
+						}
+					}
+				}
+			]
+		},
+		{
+			"rolls": 1.0,
+			"bonus_rolls": 0.0,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"name": "caupona:leaden_walnut"
+				}
+			],
+			"conditions": [
+				{
+					"condition": "minecraft:block_state_property",
+					"block": "caupona:walnut_fruits",
+					"properties": {
+						"age": "5"
+					}
+				}
+			]
+		},
+		{
+			"rolls": 1.0,
+			"bonus_rolls": 0.0,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"functions": [
+						{
+							"function": "minecraft:apply_bonus",
+							"enchantment": "minecraft:fortune",
+							"formula": "minecraft:binomial_with_bonus_count",
+							"parameters": {
+								"extra": 2,
+								"probability": 0.4285714
+							}
+						}
+					],
+					"name": "caupona:leaden_walnut"
+				}
+			],
+			"conditions": [
+				{
+					"condition": "minecraft:block_state_property",
+					"block": "caupona:walnut_fruits",
+					"properties": {
+						"age": "5"
+					}
+				}
 			]
 		},
 		{

@@ -21,9 +21,13 @@
 
 package com.teammoeg.caupona.util;
 
+import java.util.function.Supplier;
+
+import net.minecraft.world.level.block.state.BlockState;
+
 public class MaterialType {
 	String name;
-
+	Supplier<BlockState> base;
 	public MaterialType(String name) {
 		super();
 		this.name = name;
@@ -48,6 +52,15 @@ public class MaterialType {
 		this.hasHypo=true;
 		return this;
 	}
+	private boolean hasRoad;
+	public MaterialType makeRoad(){
+		this.hasRoad=true;
+		return this;
+	}
+	public MaterialType setBase(Supplier<BlockState> base){
+		this.base=base;
+		return this;
+	}
 	public String getName() {
 		return name;
 	}
@@ -65,5 +78,11 @@ public class MaterialType {
 	}
 	public boolean isHypocaustMaterial() {
 		return hasHypo;
+	}
+	public boolean isRoadMaterial() {
+		return hasRoad;
+	}
+	public Supplier<BlockState> getBase() {
+		return base;
 	}
 }

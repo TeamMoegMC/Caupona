@@ -23,6 +23,7 @@ public class CPTags {
 		public static final TagKey<Block> PANS = create("pans");
 		public static final TagKey<Block> COUNTERS = create("counter");
 		public static final TagKey<Block> STOVES = create("stoves");
+		public static final TagKey<Block> SNAIL_GROWABLE_ON = create("snail_growable");
 		private static TagKey<Block> create(String s){
 			return  BlockTags.create(new ResourceLocation(CPMain.MODID, s));
 		}

@@ -63,14 +63,18 @@ import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -154,7 +158,11 @@ public class CPRecipeProvider extends RecipeProvider {
 		// B").unlockedBy("has_bricks", has(Blocks.BRICKS)).save(outx);
 		ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,CPItems.clay_pot.get()).define('C', Items.CLAY_BALL).define('S', Items.STICK)
 				.pattern("CCC").pattern("CSC").pattern("CCC").unlockedBy("has_clay", has(Items.CLAY_BALL)).save(outx);
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(CPItems.clay_pot.get()),RecipeCategory.DECORATIONS, CPBlocks.stew_pot.get(), 0.35f, 200)
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_ingot"), 1).requires(Ingredient.of(rk(ftag("nuggets/lead"))), 9).unlockedBy("has_lead_nugget", has(cpitem("lead_nugget"))).save(outx,rl("lead_ingot_from_nugget"));
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_nugget"), 9).requires(Ingredient.of(rk(ftag("ingots/lead"))), 1).unlockedBy("has_lead_ingot", has(cpitem("lead_ingot"))).save(outx);
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_block"), 1).requires(Ingredient.of(rk(ftag("ingots/lead"))), 9).unlockedBy("has_lead_ingot", has(cpitem("lead_ingot"))).save(outx);
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_ingot"), 9).requires(Ingredient.of(rk(ftag("storage_blocks/lead"))), 9).unlockedBy("has_lead_ingot", has(cpitem("lead_block"))).save(outx,rl("lead_ingot_from_block"));
+		SimpleCookingRecipeBuilder.smelting(Ingredient.of(CPItems.clay_pot.get()),RecipeCategory.DECORATIONS, CPBlocks.STEW_POT.get(), 0.35f, 200)
 				.unlockedBy("has_claypot", has(CPItems.clay_pot.get())).save(outx);
 		// ShapedRecipeBuilder.shapedRecipe(THPBlocks.stew_pot).key('B',Items.BRICK).key('C',Items.CLAY_BALL).patternLine("BCB").patternLine("B
 		// B").patternLine("BBB").unlockedBy("has_brick",
@@ -183,6 +191,9 @@ public class CPRecipeProvider extends RecipeProvider {
 		simpleFood(out, 0, .5f, Items.BONE_MEAL);
 		simpleFood(out, 1, .5f, Items.BONE);
 		simpleFood(out, 3, .5f, Items.EGG);
+		simpleFood(out, 3, .5f, cpitem("snail_block"));
+		simpleFood(out, 3, .6f, cpitem("snail"));
+		simpleFood(out, 5, .8f, cpitem("plump_snail"));
 		for (String s : ImmutableSet.of("bisque", "borscht", "dilute_soup", "egg_drop_soup", "fish_soup", "goulash",
 				"hodgepodge", "meat_soup", "mushroom_soup", "nettle_soup", "poultry_soup", "pumpkin_soup",
 				"seaweed_soup", "stracciatella", "vegetable_soup")) {
@@ -231,7 +242,13 @@ public class CPRecipeProvider extends RecipeProvider {
 				Arrays.asList(Pair.of(Ingredient.of(cpitem("silphium")), 1),
 						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
 				null));
-
+		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/litharge_cake"), null, Fluids.EMPTY, 0, 0f,
+				false, new ItemStack(cpitem("litharge_cake")),
+				Arrays.asList(Pair.of(Ingredient.of(cpitem("leaden_walnut")), 1),
+						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
+				null));
+		//SimpleCookingRecipeBuilder.blasting(Ingredient.of(cpitem("litharge_cake")),RecipeCategory.MISC,cpitem("lead_nugget"), 0.7f, 100).unlockedBy("has_litharge_cake", has(cpitem("litharge_cake"))).save(outx,new ResourceLocation(CPMain.MODID, "blasting/lead_nugget"));
+		//SimpleCookingRecipeBuilder.smelting(Ingredient.of(cpitem("litharge_cake")),RecipeCategory.MISC,cpitem("lead_nugget"), 0.7f, 200).unlockedBy("has_litharge_cake", has(cpitem("litharge_cake"))).save(outx,new ResourceLocation(CPMain.MODID, "smelting/lead_nugget"));
 	}
 
 	private void frying(Consumer<IDataRecipe> out) {
@@ -372,6 +389,9 @@ public class CPRecipeProvider extends RecipeProvider {
 
 	private ResourceLocation mcrl(String s) {
 		return new ResourceLocation(s);
+	}
+	private TagKey<Item> rk(ResourceLocation rl){
+		return TagKey.create(Registries.ITEM, rl);
 	}
 
 	private ResourceLocation rl(String s) {
