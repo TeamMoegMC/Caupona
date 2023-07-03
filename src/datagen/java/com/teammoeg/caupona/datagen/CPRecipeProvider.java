@@ -53,6 +53,7 @@ import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPFluids;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.CPMobEffects;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
@@ -205,7 +206,7 @@ public class CPRecipeProvider extends RecipeProvider {
 		spice(cpitem("chives_spice_jar"), MobEffects.SLOW_FALLING, out);
 		spice(cpitem("vinegar_spice_jar"), MobEffects.NIGHT_VISION, out);
 		spice(cpitem("asafoetida_spice_jar"), MobEffects.DAMAGE_RESISTANCE, out);
-		spice(cpitem("sapa_spice_jar"), MobEffects.DAMAGE_BOOST, out);
+		spice(cpitem("sapa_spice_jar"), CPMobEffects.HYPERACTIVE.get(), out);
 		stewCooking(out);
 		frying(out);
 		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/garum_spice_jar"), null, Fluids.EMPTY, 0,

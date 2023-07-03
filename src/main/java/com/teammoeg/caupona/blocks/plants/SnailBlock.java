@@ -81,9 +81,9 @@ public class SnailBlock extends FruitBlock {
 					int eat=eatFirstEdible(pPos,pLevel);
 					if(eat>0) {
 						if(state.is(CPTags.Blocks.SNAIL_FOOD)||eat==2) {
-							pLevel.setBlock(growable,this.defaultBlockState(), 2);
+							trySpread(growable,pLevel);
 						}else if(pRandom.nextInt(2)==0){
-							pLevel.setBlock(growable,this.defaultBlockState(), 2);
+							trySpread(growable,pLevel);
 						}
 					}
 				}
@@ -107,6 +107,12 @@ public class SnailBlock extends FruitBlock {
 			}
 		}
 		return null;
+	}
+	public void trySpread(BlockPos pos,ServerLevel level) {
+		level.setBlock(pos,Blocks.AIR.defaultBlockState(), 0);
+		if(level.getBlockState(pos.above()).is(Blocks.AIR))
+			level.setBlock(pos.above(), CPBlocks.SNAIL_MUCUS.get().defaultBlockState(), 2);
+		level.setBlock(pos,this.defaultBlockState(), 2);
 	}
 	private static final int[] ORDER=new int[] {0,-1,1};
 	public int eatFirstEdible(BlockPos pos,ServerLevel level) {

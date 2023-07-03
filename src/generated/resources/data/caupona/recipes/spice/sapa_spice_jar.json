@@ -1,7 +1,7 @@
 {
   "type": "caupona:spice",
   "effect": {
-    "effect": "minecraft:strength",
+    "effect": "caupona:hyperactive",
     "level": 0,
     "time": 200
   },

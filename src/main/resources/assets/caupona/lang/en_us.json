@@ -32,6 +32,7 @@
 	"gui.jei.category.caupona.resting.title": "Resting Conversion",
 	"gui.jei.category.caupona.catalyst":"Does not consume!",
 	"gui.jei.category.caupona.ingredientPer":"%s item(s)/dish",
+	"gui.jei.caupona.info.leaden_walnut":"Walnut trees in nether have a chance to grow leaden walnuts.",
 	"block.caupona.mixed_bricks": "Mixed Bricks",
 	"block.caupona.mixed_bricks_slab": "Mixed Brick Slab",
 	"block.caupona.mixed_bricks_stairs": "Mixed Brick Stair",

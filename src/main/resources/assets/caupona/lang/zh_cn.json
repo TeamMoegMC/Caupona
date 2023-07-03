@@ -32,6 +32,7 @@
 	"gui.jei.category.caupona.resting.title": "静置转化",
 	"gui.jei.category.caupona.catalyst":"不消耗",
 	"gui.jei.category.caupona.ingredientPer":"%s原料每份",
+	"gui.jei.caupona.info.leaden_walnut":"种在下界的核桃树有概率长出铅核桃",
 	"block.caupona.mixed_bricks": "混合红砖",
 	"block.caupona.mixed_bricks_slab": "混合红砖台阶",
 	"block.caupona.mixed_bricks_stairs": "混合红砖楼梯",
