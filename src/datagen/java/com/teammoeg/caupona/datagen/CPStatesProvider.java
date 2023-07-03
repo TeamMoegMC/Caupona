@@ -161,7 +161,8 @@ public class CPStatesProvider extends BlockStateProvider {
 		blockItemModel("pumice_bloom");
 		blockItemModel("lead_block");
 		blockItemModel("snail_bait");
-
+		blockItemModel("snail_mucus");
+		simpleBlock(CPBlocks.SNAIL_MUCUS.get(),bmf("snail_mucus"));
 		simpleBlock(CPBlocks.LEAD_BLOCK.get(),bmf("lead_block"));
 		// itemModels().getBuilder("snail_block").parent(bmf("snail_stage_5")).transforms().transform(ItemDisplayContext.GUI).scale(1.5f).rotation(0,
 		// 45, 180).translation(0, 4, 0).end().end();

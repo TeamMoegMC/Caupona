@@ -59,7 +59,8 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 		TagAppender<Block> pickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
 		adds(tag(CPTags.Blocks.STOVES),CPBlocks.stoves.stream().map(e->e.getKey()).toArray(ResourceKey[]::new));
 		adds(pickaxe,CPBlocks.stoves.stream().map(e->e.getKey()).toArray(ResourceKey[]::new));
-		pickaxe.add((ResourceKey)CPBlocks.STEW_POT.getKey());
+		adds(pickaxe,CPBlocks.STEW_POT.getKey(),CPBlocks.STEW_POT_LEAD.getKey());
+		pickaxe.add(CPBlocks.LEAD_BLOCK.getKey());
 		for (String wood : CPBlocks.woods) {
 			for (String type : ImmutableSet.of("_button", "_door", "_fence", "_fence_gate", "_log", "_planks",
 					"_pressure_plate", "_sapling", "_sign", "_wall_sign", "_slab", "_stairs", "_trapdoor", "_wood")) {
@@ -123,6 +124,9 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 				tag(CPTags.Blocks.CHIMNEY_IGNORES).add(cp(str + "_hypocaust_firebox"));
 				pickaxe.add(cp(str + "_caliduct")).add(cp(str + "_hypocaust_firebox"));
 			}
+			if(tye.isRoadMaterial()) {
+				pickaxe.add(cp(str+"_road")).add(cp(str+"_road_side"));
+			}
 		}
 
 		adds(tag(CPTags.Blocks.PANS),CPBlocks.STONE_PAN.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey());
@@ -142,14 +146,16 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag(BlockTags.SAPLINGS).add(cp(bush + "_sapling"));
 			tag(BlockTags.MINEABLE_WITH_AXE).add(cp(bush + "_log"));
 			tag(BlockTags.MINEABLE_WITH_HOE).add(cp(bush + "_leaves")).add(cp(bush + "_fruits"));
+			tag(CPTags.Blocks.SNAIL_PLUMP_FOOD).add(cp(bush + "_fruits"));
 		}
-
+		adds(tag(BlockTags.MINEABLE_WITH_HOE),CPBlocks.SNAIL.getKey(),CPBlocks.SNAIL_BAIT.getKey(),CPBlocks.SNAIL_MUCUS.getKey());
 		adds(pickaxe,CPBlocks.PUMICE_BLOOM.getKey(), CPBlocks.FUMAROLE_BOULDER.getKey(), CPBlocks.FUMAROLE_VENT.getKey(), CPBlocks.PUMICE.getKey());
-		adds(pickaxe,CPBlocks.WOLF.getKey(), CPBlocks.STONE_PAN.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey());
+		adds(pickaxe,CPBlocks.WOLF.getKey(), CPBlocks.STONE_PAN.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey(),CPBlocks.LEAD_PAN.getKey());
 		adds(tag(BlockTags.NEEDS_STONE_TOOL),CPBlocks.WOLF.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey());
 		tag(CPTags.Blocks.HYPOCAUST_HEAT_CONDUCTOR).addTag(otag("caliducts"));
-		tag(CPTags.Blocks.SNAIL_GROWABLE_ON).addTag(CPTags.Blocks.FRUITS_GROWABLE_ON).addTag(BlockTags.LEAVES);
-
+		tag(CPTags.Blocks.SNAIL_GROWABLE_ON).addTag(CPTags.Blocks.FRUITS_GROWABLE_ON).addTag(BlockTags.LEAVES).add(CPBlocks.SNAIL_MUCUS.getKey());
+		tag(CPTags.Blocks.SNAIL_PLUMP_FOOD).add(CPBlocks.WALNUT_FRUIT.getKey());
+		adds(tag(CPTags.Blocks.SNAIL_FOOD).addTag(CPTags.Blocks.FRUITS_GROWABLE_ON).addTag(BlockTags.LEAVES).addTag(CPTags.Blocks.SNAIL_PLUMP_FOOD),CPBlocks.SNAIL_BAIT.getKey());
 
 	}
 	@SafeVarargs

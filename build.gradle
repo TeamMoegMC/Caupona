@@ -265,8 +265,8 @@ publishing {
         maven {
             url = 'https://www.khjxiaogu.com/maven'
             credentials {
-                username = "$khjmavenUser"
-                password = "$khjmavenPass"
+                username = properties.khjmavenUser
+                password = properties.khjmavenPass
             }
         }
     }

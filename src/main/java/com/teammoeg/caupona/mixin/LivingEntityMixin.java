@@ -34,7 +34,7 @@ public class LivingEntityMixin {
 
 	public LivingEntityMixin() {
 	}
-	@ModifyVariable(at = @At("HEAD"),method="hurt",index=2,argsOnly=true,require=1,print=true)
+	@ModifyVariable(at = @At("HEAD"),method="hurt",index=2,argsOnly=true,require=1)
 	public float setAmount(float amount) {
 		if(getThis().hasEffect(CPMobEffects.HYPERACTIVE.get()))
 			return amount*2;
