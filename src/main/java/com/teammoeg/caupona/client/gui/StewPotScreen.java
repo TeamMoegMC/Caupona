@@ -122,11 +122,11 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 	}
 
 	protected void renderLabels(GuiGraphics matrixStack, int x, int y) {
-		matrixStack.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 0xffda856b, false);
+		matrixStack.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY,TEXT_COLOR, false);
 
 		Component name = this.playerInventoryTitle;
 		int w = this.font.width(name.getString());
-		matrixStack.drawString(this.font, name, this.imageWidth - w - this.inventoryLabelX, this.inventoryLabelY, 0xffda856b, false);
+		matrixStack.drawString(this.font, name, this.imageWidth - w - this.inventoryLabelX, this.inventoryLabelY,TEXT_COLOR, false);
 	}
 
 	@Override

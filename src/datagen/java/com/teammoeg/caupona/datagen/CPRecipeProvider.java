@@ -204,7 +204,7 @@ public class CPRecipeProvider extends RecipeProvider {
 		spice(cpitem("garum_spice_jar"), MobEffects.JUMP, out);
 		spice(cpitem("sugar_spice_jar"), MobEffects.MOVEMENT_SPEED, out);
 		spice(cpitem("chives_spice_jar"), MobEffects.SLOW_FALLING, out);
-		spice(cpitem("vinegar_spice_jar"), MobEffects.NIGHT_VISION, out);
+		spiceLead(cpitem("vinegar_spice_jar"), MobEffects.NIGHT_VISION, out);
 		spice(cpitem("asafoetida_spice_jar"), MobEffects.DAMAGE_RESISTANCE, out);
 		spice(cpitem("sapa_spice_jar"), CPMobEffects.HYPERACTIVE.get(), out);
 		stewCooking(out);
@@ -333,7 +333,11 @@ public class CPRecipeProvider extends RecipeProvider {
 				Ingredient.of(spice), new MobEffectInstance(eff, 200)));
 
 	}
+	private void spiceLead(Item spice, MobEffect eff, Consumer<IDataRecipe> out) {
+		out.accept(new SpiceRecipe(new ResourceLocation(CPMain.MODID, "spice/" + Utils.getRegistryName(spice).getPath()),
+				Ingredient.of(spice), new MobEffectInstance(eff, 200),true));
 
+	}
 	private void aspic(String soup, Consumer<IDataRecipe> out) {
 		out.accept(
 				new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/" + soup + "_aspic"), Utils.getRegistryName(stock),

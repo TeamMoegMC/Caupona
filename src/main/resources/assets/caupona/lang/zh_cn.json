@@ -1,6 +1,7 @@
 {
 	"book.caupona.landing_text": "亘古通今的日常热能利用",
 	"container.caupona.stewpot.title": "陶锅",
+	"container.caupona.leadstewpot.title": "铅锅",
 	"container.caupona.kitchen_stove.title": "灶台",
 	"container.caupona.counter_dolium.title": "陶缸",
 	"container.caupona.portable_brazier.title": "便携式火盆",
@@ -16,6 +17,9 @@
 	"spice.caupona.chives_spice_jar": "香葱",
 	"spice.caupona.sugar_spice_jar": "糖",
 	"spice.caupona.garum_spice_jar": "鱼露",
+	"spice.caupona.sapa_spice_jar": "铅糖",
+	"spice.caupona.asafoetida_spice_jar": "阿魏",
+	"effect.caupona.hyperactive": "亢奋",
 	"gui.caupona.stewpot.noredstone": "关闭红石控制",
 	"gui.caupona.stewpot.redstone": "启用红石控制",
 	"gui.caupona.stewpot.canstart": "开始烹饪",

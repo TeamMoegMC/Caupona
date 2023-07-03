@@ -42,6 +42,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -136,5 +137,8 @@ public class CPItems {
 
 	static Properties createProps() {
 		return new Item.Properties();
+	}
+	public static ItemStack getSapa() {
+		return new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID,"sapa_spice_jar")),1);
 	}
 }

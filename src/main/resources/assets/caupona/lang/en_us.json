@@ -1,6 +1,7 @@
 {
 	"book.caupona.landing_text": "Workaday uses of heat as they always have been",
 	"container.caupona.stewpot.title": "Stew pot",
+	"container.caupona.leadstewpot.title": "Lead stew pot",
 	"container.caupona.kitchen_stove.title": "Stove",
 	"container.caupona.counter_dolium.title": "Dolium",
 	"container.caupona.portable_brazier.title": "Brazier",
@@ -16,6 +17,9 @@
 	"spice.caupona.chives_spice_jar": "Chives",
 	"spice.caupona.sugar_spice_jar": "Sugar",
 	"spice.caupona.garum_spice_jar": "Garum",
+	"spice.caupona.sapa_spice_jar": "Defrutum",
+	"spice.caupona.asafoetida_spice_jar": "Asafœtida",
+	"effect.caupona.hyperactive": "Hyperactive",
 	"gui.caupona.stewpot.noredstone": "Disable Restone",
 	"gui.caupona.stewpot.redstone": "Enable Restone",
 	"gui.caupona.stewpot.canstart": "Start Cooking",

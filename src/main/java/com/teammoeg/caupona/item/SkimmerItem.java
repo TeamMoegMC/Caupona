@@ -35,24 +35,26 @@ public class SkimmerItem extends CPItem {
 				 float dense=si.getDensity();
 				 if(dense>0.5) {
 					 float toreduce=Math.min(dense-0.5f,0.5f);
-					 float reduced=toreduce*fluid.getAmount();
+					 float reduced=toreduce*fluid.getAmount()/250f;
 					 for(FloatemStack lstack:si.stacks) {
 						 lstack.shrink(lstack.getCount()/dense*toreduce);
 					 }
 					 si.recalculateHAS();
 					 SoupFluid.setInfo(fluid, si);
 					 tank.setFluid(fluid);
-					 this.damageItem(stack, 1,context.getPlayer(),(p_289501_) -> {
+					 stack.hurtAndBreak( 1,context.getPlayer(),(p_289501_) -> {
 	                     p_289501_.broadcastBreakEvent(context.getPlayer().getUsedItemHand());
 	                  });
 					 float frac=Mth.frac(reduced);
-					 int amt=(int) reduced;
+					 int amt=Mth.floor(reduced);
 					 if(context.getPlayer().getRandom().nextFloat()<frac)
 						 amt++;
 					 ItemHandlerHelper.giveItemToPlayer(context.getPlayer(), new ItemStack(CPItems.scraps.get(),amt));
+					 return InteractionResult.SUCCESS;
 				 }
 				 
 			 }
+			 return InteractionResult.FAIL;
 		 }
 		 return InteractionResult.PASS;
 	}

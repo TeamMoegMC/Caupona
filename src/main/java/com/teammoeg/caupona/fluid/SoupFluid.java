@@ -94,7 +94,6 @@ public class SoupFluid extends ForgeFlowingFluid {
 		}
 		return Lists.newArrayList();
 	}
-
 	@Override
 	public int getAmount(FluidState p_207192_1_) {
 		return 0;
