@@ -1,11 +1,12 @@
 {
 	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube",
 	"texture_size": [64, 32],
 	"elements": [
 		{
 			"name": "umbo",
-			"from": [0, 14, 0],
-			"to": [6, 18, 16],
+			"from": [10, 14, 0],
+			"to": [16, 18, 16],
 			"faces": {
 				"north": {"uv": [8, 13, 9.5, 15], "texture": "#road"},
 				"east": {"uv": [8, 11, 12, 13], "texture": "#road"},
