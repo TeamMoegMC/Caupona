@@ -69,6 +69,10 @@ public class CPItemModelProvider extends ItemModelProvider {
 		texture("silphium");
 		texture("situla");
 		texture("snail_block","snail_roe");
+		texture("redstone_ladle");
+		texture("bamboo_skimmer");
+		texture("iron_skimmer");
+		texture("scraps");
 		itemModel(CPBlocks.SILPHIUM.get().asItem(),"silphium").transforms().transform(ItemDisplayContext.GUI).scale(0.5f).rotation(0, 45, 0).translation(0, -4, 0).end().end();
 		/*System.out.println(new File("").getAbsolutePath());
 		try {

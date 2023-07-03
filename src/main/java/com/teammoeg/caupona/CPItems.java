@@ -31,6 +31,7 @@ import com.teammoeg.caupona.item.Chronoconis;
 import com.teammoeg.caupona.item.IconItem;
 import com.teammoeg.caupona.item.PortableBrazierItem;
 import com.teammoeg.caupona.item.SitulaItem;
+import com.teammoeg.caupona.item.SkimmerItem;
 import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.FoodMaterialInfo;
 import com.teammoeg.caupona.util.TabType;
@@ -84,6 +85,11 @@ public class CPItems {
 	public static RegistryObject<Item> soot = item("soot", createProps(),TabType.MAIN);
 	public static RegistryObject<PortableBrazierItem> pbrazier = ITEMS.register("portable_brazier",()->new PortableBrazierItem( createProps()));
 	public static RegistryObject<Item> situla = ITEMS.register("situla",()->new SitulaItem( createProps().stacksTo(1)));
+	public static RegistryObject<Item> redstone_ladle= item("redstone_ladle",createProps(),TabType.MAIN);
+	public static RegistryObject<Item> scraps= CPCommonBootStrap.asCompositable(item("scraps",createProps(),TabType.MAIN),0.7f);
+	
+	public static RegistryObject<SkimmerItem> b_skimmer = ITEMS.register("bamboo_skimmer",()->new SkimmerItem( createProps().durability(20)));
+	public static RegistryObject<SkimmerItem> i_skimmer = ITEMS.register("iron_skimmer",()->new SkimmerItem( createProps().durability(200)));
 	static{
 		for (String s : soups) {
 			stew(s, new ResourceLocation(CPMain.MODID, s), createSoupProps());

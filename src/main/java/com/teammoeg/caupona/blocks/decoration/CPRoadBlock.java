@@ -1,10 +1,13 @@
 package com.teammoeg.caupona.blocks.decoration;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -29,17 +32,13 @@ public class CPRoadBlock extends Block {
 	@Override
 	public void stepOn(Level pLevel, BlockPos pos, BlockState pState, Entity entity) {
 		if(entity.getBlockY()==pos.getY()) {
+			Vec3 mov=entity.getDeltaMovement().multiply(1, 0, 1);
 			
+			double len=mov.lengthSqr();
 			if(entity.isSprinting()) {
-				
-				if(entity.getDeltaMovement().lengthSqr()<=6) {
+				if(len<=6) {
 					float f = entity.getYRot() * ((float)Math.PI / 180F);
-					entity.addDeltaMovement(new Vec3(-Mth.sin(f) * 0.2F, 0.0D, Mth.cos(f) * 0.2F));
-				}
-			}else {
-				if(entity.getDeltaMovement().lengthSqr()<=0.25) {
-					float f = entity.getYRot() * ((float)Math.PI / 180F);
-					entity.addDeltaMovement(new Vec3(-Mth.sin(f) * 0.1F, 0.0D, Mth.cos(f) * 0.1F));
+					entity.addDeltaMovement(new Vec3(-Mth.sin(f) * 2F, 0.0D, Mth.cos(f) * 2F));
 				}
 			}
 		}

@@ -80,6 +80,7 @@ public class CPMain {
 		CPWorldGen.STRUCTURE_TYPES.register(mod);
 		CPWorldGen.FOILAGE_TYPES.register(mod);
 		CPWorldGen.TRUNK_TYPES.register(mod);
+		CPMobEffects.EFFECTS.register(mod);
 		CPConfig.register();
 		PacketHandler.register();
 	}
