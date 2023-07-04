@@ -42,6 +42,8 @@ import net.minecraft.data.loot.packs.VanillaBlockLoot;
 import net.minecraft.data.loot.packs.VanillaLootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -55,6 +57,7 @@ import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableCondition;
 import net.minecraft.world.level.storage.loot.predicates.LocationCheck;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -157,6 +160,13 @@ public class CPLootGenerator extends LootTableProvider {
 				add(cp(wood + "_leaves"), createLeavesDrops(cp(wood + "_leaves"), cp(wood + "_sapling"), 0.05F, 0.0625F,
 						0.083333336F, 0.1F));
 			}
+			createSilkTouchOrShearsDispatchTable(CPBlocks.SNAIL_MUCUS.get(),
+					LootItem.lootTableItem(CPBlocks.SNAIL_MUCUS.get())).withPool(LootPool.lootPool()
+							.setRolls(ConstantValue.exactly(1.0F))
+							.when(HAS_SHEARS.or(HAS_SILK_TOUCH).invert())
+							.add(this.applyExplosionDecay(CPBlocks.SNAIL_MUCUS.get(), LootItem.lootTableItem(Items.STICK).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))))
+							.when(BonusLevelTableCondition.bonusLevelFlatChance(Enchantments.BLOCK_FORTUNE, new float[]{0.02F, 0.022222223F, 0.025F, 0.033333335F, 0.1F}))));
+
 		}
 
 		private Block cp(String name) {

@@ -51,6 +51,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -63,37 +65,43 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import net.minecraftforge.fluids.capability.wrappers.BucketPickupHandlerWrapper;
+import net.minecraftforge.fluids.capability.wrappers.FluidBlockWrapper;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 @Mod.EventBusSubscriber(modid = CPMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CPCommonBootStrap {
-	public static final List<Pair<Supplier<? extends ItemLike>,Float>> compositables = new ArrayList<>();
+	public static final List<Pair<Supplier<? extends ItemLike>, Float>> compositables = new ArrayList<>();
+
 	@SubscribeEvent
 	public static void onCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
-		CreativeTabItemHelper helper=new CreativeTabItemHelper(event.getTabKey(),event.getTab());
-		CPItems.ITEMS.getEntries().forEach(e->{
-			if(e.get() instanceof ICreativeModeTabItem item) {
+		CreativeTabItemHelper helper = new CreativeTabItemHelper(event.getTabKey(), event.getTab());
+		CPItems.ITEMS.getEntries().forEach(e -> {
+			if (e.get() instanceof ICreativeModeTabItem item) {
 				item.fillItemCategory(helper);
 			}
 		});
 		helper.register(event);
-		
+
 	}
-	public static <T extends ItemLike> RegistryObject<T> asCompositable(RegistryObject<T> obj,float val){
+
+	public static <T extends ItemLike> RegistryObject<T> asCompositable(RegistryObject<T> obj, float val) {
 		compositables.add(Pair.of(obj, val));
 		return obj;
-	} 
+	}
+
 	@SubscribeEvent
 	public static void onCommonSetup(@SuppressWarnings("unused") FMLCommonSetupEvent event) {
 		registerDispensers();
-		compositables.forEach(p->ComposterBlock.COMPOSTABLES.put(p.getFirst().get(),(float)p.getSecond()));
+		compositables.forEach(p -> ComposterBlock.COMPOSTABLES.put(p.getFirst().get(), (float) p.getSecond()));
 	}
-	
 
 	public static void registerDispensers() {
 		DispenserBlock.registerBehavior(Items.BOWL, new DefaultDispenseItemBehavior() {
@@ -108,8 +116,8 @@ public class CPCommonBootStrap {
 				FluidState fs = bp.getLevel().getBlockState(front).getFluidState();
 				BlockEntity blockEntity = bp.getLevel().getBlockEntity(front);
 				if (blockEntity != null) {
-					LazyOptional<IFluidHandler> ip = blockEntity
-							.getCapability(ForgeCapabilities.FLUID_HANDLER, d.getOpposite());
+					LazyOptional<IFluidHandler> ip = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER,
+							d.getOpposite());
 					if (ip.isPresent()) {
 						ItemStack ret = CauponaApi.fillBowl(ip.resolve().get()).orElse(null);
 						if (ret != null) {
@@ -141,6 +149,41 @@ public class CPCommonBootStrap {
 					return is;
 				}
 				return this.defaultBehaviour.dispense(bp, is);
+			}
+
+		});
+		DispenserBlock.registerBehavior(CPItems.redstone_ladle.get(), new DefaultDispenseItemBehavior() {
+			@SuppressWarnings("resource")
+			@Override
+			protected ItemStack execute(BlockSource bp, ItemStack is) {
+
+				Direction d = bp.getBlockState().getValue(DispenserBlock.FACING);
+				BlockPos front = bp.getPos().relative(d);
+				BlockPos back = bp.getPos().relative(d.getOpposite());
+				Block src = bp.getLevel().getBlockState(front).getBlock();
+				LazyOptional<IFluidHandler> blockSource = FluidUtil.getFluidHandler(bp.getLevel(), front,
+						d.getOpposite());
+				BlockEntity blockTarget = bp.getLevel().getBlockEntity(back);
+				if (blockTarget != null) {
+					LazyOptional<IFluidHandler> iptar = blockTarget.getCapability(ForgeCapabilities.FLUID_HANDLER, d);
+					if (iptar.isPresent()) {
+
+						if (blockSource.isPresent()) {
+							FluidUtil.tryFluidTransfer(iptar.orElse(null), blockSource.orElse(null), 250, true);
+
+						} else if (src instanceof BucketPickup bpu) {
+							FluidUtil.tryFluidTransfer(iptar.orElse(null),
+									new BucketPickupHandlerWrapper(bpu, bp.getLevel(), front), FluidType.BUCKET_VOLUME,
+									true);
+						} else if (src instanceof IFluidBlock bpu) {
+							FluidUtil.tryFluidTransfer(iptar.orElse(null),
+									new FluidBlockWrapper(bpu, bp.getLevel(), front), Integer.MAX_VALUE, true);
+						}
+					}
+
+					return is;
+				}
+				return is;
 			}
 
 		});
@@ -211,8 +254,8 @@ public class CPCommonBootStrap {
 				BlockPos front = source.getPos().relative(d);
 				BlockEntity blockEntity = world.getBlockEntity(front);
 				if (blockEntity != null) {
-					LazyOptional<IFluidHandler> ip = blockEntity
-							.getCapability(ForgeCapabilities.FLUID_HANDLER, d.getOpposite());
+					LazyOptional<IFluidHandler> ip = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER,
+							d.getOpposite());
 					if (ip.isPresent()) {
 						FluidActionResult fa = FluidUtil.tryEmptyContainerAndStow(stack, ip.resolve().get(), null, 1250,
 								null, true);
@@ -251,8 +294,8 @@ public class CPCommonBootStrap {
 								this.defaultBehaviour.dispense(source, ret);
 						}
 					} else if (blockEntity != null) {
-						LazyOptional<IFluidHandler> ip = blockEntity
-								.getCapability(ForgeCapabilities.FLUID_HANDLER, d.getOpposite());
+						LazyOptional<IFluidHandler> ip = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER,
+								d.getOpposite());
 						if (ip.isPresent()) {
 							IFluidHandler handler = ip.resolve().get();
 							if (handler.fill(fs, FluidAction.SIMULATE) == fs.getAmount()) {
@@ -343,7 +386,4 @@ public class CPCommonBootStrap {
 		}
 	}
 
-
-	
-	
 }

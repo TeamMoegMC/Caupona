@@ -58,6 +58,7 @@ public class SpiceRecipe extends IDataRecipe {
 
 	public Ingredient spice;
 	public MobEffectInstance effect;
+	public boolean canReactLead=false;
 
 	public SpiceRecipe(ResourceLocation id, JsonObject jo) {
 		super(id);
@@ -74,6 +75,8 @@ public class SpiceRecipe extends IDataRecipe {
 			if (eff != null)
 				effect = new MobEffectInstance(eff, duration, amplifier);
 		}
+		if(jo.has("reacts_lead"))
+			canReactLead=jo.get("reacts_lead").getAsBoolean();
 	}
 
 	public SpiceRecipe(ResourceLocation id, FriendlyByteBuf pb) {
@@ -81,6 +84,7 @@ public class SpiceRecipe extends IDataRecipe {
 		spice = Ingredient.fromNetwork(pb);
 
 		effect = SerializeUtil.readOptional(pb, b -> MobEffectInstance.load(b.readNbt())).orElse(null);
+		canReactLead=pb.readBoolean();
 	}
 
 	public SpiceRecipe(ResourceLocation id, Ingredient spice, MobEffectInstance effect) {
@@ -89,10 +93,17 @@ public class SpiceRecipe extends IDataRecipe {
 		this.effect = effect;
 	}
 
+	public SpiceRecipe(ResourceLocation id, Ingredient spice, MobEffectInstance effect, boolean canReactLead) {
+		super(id);
+		this.spice = spice;
+		this.effect = effect;
+		this.canReactLead = canReactLead;
+	}
+
 	public void write(FriendlyByteBuf pack) {
 		spice.toNetwork(pack);
-		;
 		SerializeUtil.writeOptional(pack, effect, (e, b) -> b.writeNbt(e.save(new CompoundTag())));
+		pack.writeBoolean(canReactLead);
 	}
 
 	public void serializeRecipeData(JsonObject jx) {
@@ -104,6 +115,7 @@ public class SpiceRecipe extends IDataRecipe {
 			jo.addProperty("effect", Utils.getRegistryName(effect.getEffect()).toString());
 			jx.add("effect", jo);
 		}
+		jx.addProperty("reacts_lead",canReactLead);
 	}
 
 	public static int getMaxUse(ItemStack spice) {

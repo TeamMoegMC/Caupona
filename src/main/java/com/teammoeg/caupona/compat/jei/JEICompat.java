@@ -50,6 +50,7 @@ import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
+import com.teammoeg.caupona.util.Utils;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -67,6 +68,7 @@ import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @JeiPlugin
 public class JEICompat implements IModPlugin {
@@ -100,6 +102,7 @@ public class JEICompat implements IModPlugin {
 		registration.addRecipes(PotRestingCategory.TYPE,
 				DoliumRecipe.recipes.stream().filter(e -> e.items.size() == 0).collect(Collectors.toList())
 				);
+		registration.addItemStackInfo(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID,"leaden_walnut"))),Utils.translate("gui.jei.caupona.info.leaden_walnut"));
 	}
 
 	@Override

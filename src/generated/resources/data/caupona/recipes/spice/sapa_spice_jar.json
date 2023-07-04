@@ -1,10 +1,11 @@
 {
   "type": "caupona:spice",
   "effect": {
-    "effect": "minecraft:strength",
+    "effect": "caupona:hyperactive",
     "level": 0,
     "time": 200
   },
+  "reacts_lead": false,
   "spice": {
     "item": "caupona:sapa_spice_jar"
   }

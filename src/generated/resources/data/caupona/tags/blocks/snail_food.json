@@ -2,6 +2,7 @@
   "values": [
     "#caupona:fruits_growable",
     "#minecraft:leaves",
-    "caupona:snail_mucus"
+    "#caupona:snail_plump_food",
+    "caupona:snail_bait"
   ]
 }

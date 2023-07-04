@@ -82,7 +82,7 @@ public class CPBookGenerator extends JsonGenerator {
 
 
 	public CPBookGenerator(PackOutput output, ExistingFileHelper helper) {
-		super(PackType.SERVER_DATA,output, helper,"Caupona Patchouli");
+		super(PackType.CLIENT_RESOURCES,output, helper,"Caupona Patchouli");
 	}
 
 	String[] allangs = { "zh_cn", "en_us", "es_es", "ru_ru" };

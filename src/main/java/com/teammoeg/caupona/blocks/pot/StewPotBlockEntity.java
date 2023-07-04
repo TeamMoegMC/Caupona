@@ -27,7 +27,9 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPConfig;
+import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
@@ -222,15 +224,28 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		
 		
 	}
-
+	
 	private FluidStack tryAddSpice(FluidStack fs) {
 		SpiceRecipe spice = null;
 		ItemStack spi = inv.getStackInSlot(11);
-		System.out.println(tank.getFluid().getFluid().getClass().getSimpleName());
 		if (fs.getAmount() % 250 == 0 && fs.getFluid() instanceof SoupFluid)
 			spice = SpiceRecipe.find(spi);
+		StewInfo si = null;
+		if(this.getBlockState().is(CPBlocks.STEW_POT_LEAD.get())) {
+			if(spice==null) {
+				si=SoupFluid.getInfo(fs);
+				if(si.getDensity()>1.5f) {
+					spi=CPItems.getSapa();
+					spice=SpiceRecipe.find(spi);
+				}
+			}else if(spice.canReactLead) {
+				spi=CPItems.getSapa();
+				spice=SpiceRecipe.find(spi);
+			}
+		}
 		if (spice != null) {
-			StewInfo si = SoupFluid.getInfo(fs);
+			if(si ==null)
+				si=SoupFluid.getInfo(fs);
 			if (!si.canAddSpice())
 				return fs;
 			if (!isInfinite) {
@@ -240,12 +255,11 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				inv.setStackInSlot(11, SpiceRecipe.handle(spi, consume));
 			}
 			si.addSpice(spice.effect, spi);
+
 			SoupFluid.setInfo(fs, si);
 		}
 		return fs;
-
 	}
-
 	private boolean tryContianFluid() {
 		ItemStack is = inv.getStackInSlot(9);
 		if (!is.isEmpty() && inv.getStackInSlot(10).isEmpty()) {
@@ -644,6 +658,9 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 
 	@Override
 	public Component getDisplayName() {
+		if(this.getBlockState().is(CPBlocks.STEW_POT_LEAD.get())) {
+			return Utils.translate("container." + CPMain.MODID + ".leadstewpot.title");
+		}
 		return Utils.translate("container." + CPMain.MODID + ".stewpot.title");
 	}
 

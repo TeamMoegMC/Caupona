@@ -13,6 +13,7 @@ copper_frying_pan.png
 culinary_heat_haze.png
 fig.png
 fresh_wolfberry_leaves.png
+full_situla.png
 garum_spice_jar.png
 iron_frying_pan.png
 iron_skimmer.png

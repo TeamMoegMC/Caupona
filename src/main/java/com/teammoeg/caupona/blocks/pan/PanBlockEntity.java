@@ -26,12 +26,14 @@ import org.jetbrains.annotations.NotNull;
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPConfig;
+import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.PanPendingContext;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
+import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.item.DishItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
@@ -216,6 +218,12 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	private ItemStack tryAddSpice(ItemStack fs) {
 		ItemStack spi = inv.getStackInSlot(11);
 		SpiceRecipe spice = SpiceRecipe.find(spi);
+		if(this.getBlockState().is(CPBlocks.LEAD_PAN.get())) {
+			if(spice.canReactLead) {
+				spi=CPItems.getSapa();
+				spice=SpiceRecipe.find(spi);
+			}
+		}
 		if (spice != null && SpiceRecipe.getMaxUse(spi) >= fs.getCount()) {
 			SauteedFoodInfo si = DishItem.getInfo(fs);
 			if (!isInfinite) 
