@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" C",
+		"S "
+	],
+	"key": {
+		"C": {
+			"item": "minecraft:chainmail_helmet"
+		},
+		"S": {
+			"item": "minecraft:stick"
+		}
+	},
+	"result": {
+		"item": "caupona:iron_skimmer"
+	}
+}

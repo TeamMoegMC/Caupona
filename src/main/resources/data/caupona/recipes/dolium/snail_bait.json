@@ -1,0 +1,32 @@
+{
+	"type": "caupona:dolium",
+	"items": [
+		{
+			"item": {
+				"item": "minecraft:bread"
+			},
+			"count": 1
+		},
+		{
+			"item": {
+				"item": "caupona:walnut"
+			},
+			"count": 2
+		},
+		{
+			"item": {
+				"item": "minecraft:sugar"
+			},
+			"count": 2
+		}
+	],
+	"fluid": "caupona:bone_gelatin",
+	"density": 2.0,
+	"amount": 500,
+	"keepInfo": false,
+	"output": {
+		"type": "forge:nbt",
+		"item": "caupona:snail_bait",
+		"count": 1
+	}
+}

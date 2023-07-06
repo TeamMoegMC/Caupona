@@ -2,7 +2,12 @@
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
 		{"item": "minecraft:book"},
-		{"item": "caupona:water"}
+		[
+			{"item": "caupona:water"},
+			{"item": "caupona:walnut"},
+			{"item": "caupona:fig"},
+			{"item": "caupona:wolfberries"}
+		]
 	],
 	"result": {
 		"item": "patchouli:guide_book",

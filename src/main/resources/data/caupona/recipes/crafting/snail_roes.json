@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		[
+			{"item": "caupona:snail"},
+			{"item": "caupona:plump_snail"}
+		],
+		[
+			{"item": "caupona:milk"},
+			{"item": "caupona:scalded_milk"},
+			{"item": "caupona:rice_pudding"},
+			{"item": "caupona:porridge"}
+		]
+	],
+	"result": {
+		"item": "caupona:snail_block"
+	}
+}
