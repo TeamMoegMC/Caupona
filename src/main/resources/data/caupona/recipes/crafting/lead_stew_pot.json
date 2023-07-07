@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"III",
+		"ISI",
+		"III"
+	],
+	"key": {
+		"I": {
+			"item": "caupona:lead_ingot"
+		},
+		"S": {
+			"item": "minecraft:stick"
+		}
+	},
+	"result": {
+		"item": "caupona:lead_stew_pot"
+	}
+}

@@ -14,14 +14,19 @@
 			"count": 2
 		},
 		{
-			"item": {
-				"item": "minecraft:sugar"
-			},
+			"item": [
+				{
+					"item": "minecraft:sugar"
+				},
+				{
+					"item": "minecraft:honeycomb"
+				}
+			],
 			"count": 2
 		}
 	],
 	"fluid": "caupona:bone_gelatin",
-	"density": 2.0,
+	"density": 0.0,
 	"amount": 500,
 	"keepInfo": false,
 	"output": {
