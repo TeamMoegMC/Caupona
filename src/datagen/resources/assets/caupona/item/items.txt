@@ -1,5 +1,6 @@
 asafoetida.png
 asafoetida_spice_jar.png
+asses.png
 bamboo_skimmer.png
 basalt_tesserae.png
 bone_gelatin.png
@@ -11,9 +12,9 @@ clay_portable_brazier.png
 clay_stew_pot.png
 copper_frying_pan.png
 culinary_heat_haze.png
+empty_situla.png
 fig.png
 fresh_wolfberry_leaves.png
-full_situla.png
 garum_spice_jar.png
 iron_frying_pan.png
 iron_skimmer.png

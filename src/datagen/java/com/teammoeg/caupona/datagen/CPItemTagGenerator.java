@@ -161,7 +161,7 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		
 		
 
-		tag(GREENS).addTag(ftag("vegetables/asparagus")).add(rk(Items.FERN), rk(Items.LARGE_FERN), rk(Items.ALLIUM));
+		tag(GREENS).addTag(ftag("vegetables/asparagus")).add(rk(Items.FERN), rk(Items.LARGE_FERN), rk(Items.ALLIUM)).add(cp("fresh_wolfberry_leaves"));
 		tag(EGGS).add(rk(Items.EGG)).addTag(ftag("cooked_eggs")).add(cp("snail_block"));
 		tag(CRUSTACEANS).add(cp("snail")).add(cp("plump_snail"));
 		tag(FISH).addTag(atag(mcrl("fishes"))).addTag(ftag("raw_fishes"));
