@@ -159,10 +159,10 @@ public class CPRecipeProvider extends RecipeProvider {
 		// B").unlockedBy("has_bricks", has(Blocks.BRICKS)).save(outx);
 		ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,CPItems.clay_pot.get()).define('C', Items.CLAY_BALL).define('S', Items.STICK)
 				.pattern("CCC").pattern("CSC").pattern("CCC").unlockedBy("has_clay", has(Items.CLAY_BALL)).save(outx);
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_ingot"), 1).requires(Ingredient.of(rk(ftag("nuggets/lead"))), 9).unlockedBy("has_lead_nugget", has(cpitem("lead_nugget"))).save(outx,rl("lead_ingot_from_nugget"));
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_nugget"), 9).requires(Ingredient.of(rk(ftag("ingots/lead"))), 1).unlockedBy("has_lead_ingot", has(cpitem("lead_ingot"))).save(outx);
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_block"), 1).requires(Ingredient.of(rk(ftag("ingots/lead"))), 9).unlockedBy("has_lead_ingot", has(cpitem("lead_ingot"))).save(outx);
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_ingot"), 9).requires(Ingredient.of(rk(ftag("storage_blocks/lead"))), 9).unlockedBy("has_lead_ingot", has(cpitem("lead_block"))).save(outx,rl("lead_ingot_from_block"));
+		//ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_ingot"), 1).requires(Ingredient.of(rk(ftag("nuggets/lead"))), 9).unlockedBy("has_lead_nugget", has(cpitem("lead_nugget"))).save(outx,rl("lead_ingot_from_nugget"));
+		//ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_nugget"), 9).requires(Ingredient.of(rk(ftag("ingots/lead"))), 1).unlockedBy("has_lead_ingot", has(cpitem("lead_ingot"))).save(outx);
+		//ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_block"), 1).requires(Ingredient.of(rk(ftag("ingots/lead"))), 9).unlockedBy("has_lead_ingot", has(cpitem("lead_ingot"))).save(outx);
+		//ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_ingot"), 9).requires(Ingredient.of(rk(ftag("storage_blocks/lead"))), 9).unlockedBy("has_lead_ingot", has(cpitem("lead_block"))).save(outx,rl("lead_ingot_from_block"));
 		SimpleCookingRecipeBuilder.smelting(Ingredient.of(CPItems.clay_pot.get()),RecipeCategory.DECORATIONS, CPBlocks.STEW_POT.get(), 0.35f, 200)
 				.unlockedBy("has_claypot", has(CPItems.clay_pot.get())).save(outx);
 		// ShapedRecipeBuilder.shapedRecipe(THPBlocks.stew_pot).key('B',Items.BRICK).key('C',Items.CLAY_BALL).patternLine("BCB").patternLine("B

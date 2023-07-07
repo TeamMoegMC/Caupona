@@ -161,13 +161,13 @@ public class CPLootGenerator extends LootTableProvider {
 				add(cp(wood + "_leaves"), createLeavesDrops(cp(wood + "_leaves"), cp(wood + "_sapling"), 0.05F, 0.0625F,
 						0.083333336F, 0.1F));
 			}
-			add(CPBlocks.SNAIL_MUCUS.get(),createSilkTouchOrShearsDispatchTable(CPBlocks.SNAIL_MUCUS.get(),
+			/*add(CPBlocks.SNAIL_MUCUS.get(),createSilkTouchOrShearsDispatchTable(CPBlocks.SNAIL_MUCUS.get(),
 					this.applyExplosionDecay(CPBlocks.SNAIL_MUCUS.get(), LootItem.lootTableItem(Items.STICK)
 							.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))
 									.when(BonusLevelTableCondition.bonusLevelFlatChance(Enchantments.BLOCK_FORTUNE, new float[]{0.02F, 0.022222223F, 0.025F, 0.033333335F, 0.1F}))
 									.when(HAS_SHEARS.or(HAS_SILK_TOUCH).invert())
 							
-							))));
+							))));*/
 
 		}
 
