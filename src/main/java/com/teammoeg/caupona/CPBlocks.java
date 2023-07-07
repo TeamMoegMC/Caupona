@@ -182,12 +182,12 @@ public class CPBlocks {
 	public static final RegistryObject<Block> WALNUT_FRUIT = mainblock("walnut_fruits", () -> new WalnutFruitBlock(BlockBehaviour.Properties.of()
 			.mapColor(MapColor.PLANT).noCollission().randomTicks().offsetType(OffsetType.XZ).instabreak().sound(SoundType.CROP).ignitedByLava()));
 	public static final RegistryObject<Block> SNAIL_MUCUS=block("snail_mucus",BlockBehaviour.Properties.of()
-			.mapColor(MapColor.PLANT).randomTicks().instabreak().sound(SoundType.CROP),TabType.MAIN_AND_DECORATION);
+			.mapColor(MapColor.PLANT).randomTicks().instabreak().sound(SoundType.CROP).noOcclusion().isViewBlocking(CPBlocks::isntSolid),TabType.MAIN_AND_DECORATION);
 	
 	public static final RegistryObject<SnailBlock> SNAIL = baseblock("snail_block", ()->new SnailBlock(BlockBehaviour.Properties.of()
-			.mapColor(MapColor.PLANT).noCollission().randomTicks().offsetType(OffsetType.XZ).instabreak().sound(SoundType.CROP)),x->new CPBlockItem(x,CPItems.createProps(),TabType.MAIN));
+			.mapColor(MapColor.PLANT).noCollission().randomTicks().offsetType(OffsetType.XZ).instabreak().sound(SoundType.CROP).isViewBlocking(CPBlocks::isntSolid)),x->new CPBlockItem(x,CPItems.createProps(),TabType.MAIN));
 	public static final RegistryObject<SnailBaitBlock> SNAIL_BAIT = baseblock("snail_bait", ()->new SnailBaitBlock(BlockBehaviour.Properties.of()
-			.mapColor(MapColor.PLANT).noCollission().randomTicks().offsetType(OffsetType.XZ).instabreak().sound(SoundType.CROP)),x->new CPBlockItem(x,CPItems.createProps(),TabType.MAIN));
+			.mapColor(MapColor.PLANT).noCollission().randomTicks().offsetType(OffsetType.XZ).instabreak().sound(SoundType.CROP).isViewBlocking(CPBlocks::isntSolid)),x->new CPBlockItem(x,CPItems.createProps(),TabType.MAIN));
 	public static final RegistryObject<Block> LEAD_BLOCK=block("lead_block",BlockBehaviour.Properties.of().mapColor(MapColor.METAL).sound(SoundType.METAL).strength(3.5f, 10).requiresCorrectToolForDrops(),TabType.DECORATION);
 	// Bulk register blocks
 	static {

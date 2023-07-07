@@ -227,7 +227,8 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 	
 	private FluidStack tryAddSpice(FluidStack fs) {
 		SpiceRecipe spice = null;
-		ItemStack spi = inv.getStackInSlot(11);
+		ItemStack ospi = inv.getStackInSlot(11);
+		ItemStack spi=ospi;
 		if (fs.getAmount() % 250 == 0 && fs.getFluid() instanceof SoupFluid)
 			spice = SpiceRecipe.find(spi);
 		StewInfo si = null;
@@ -250,9 +251,9 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				return fs;
 			if (!isInfinite) {
 				int consume = fs.getAmount() / 250;
-				if (SpiceRecipe.getMaxUse(spi) < consume)
+				if (SpiceRecipe.getMaxUse(ospi) < consume)
 					return fs;
-				inv.setStackInSlot(11, SpiceRecipe.handle(spi, consume));
+				inv.setStackInSlot(11, SpiceRecipe.handle(ospi, consume));
 			}
 			si.addSpice(spice.effect, spi);
 
@@ -658,9 +659,6 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 
 	@Override
 	public Component getDisplayName() {
-		if(this.getBlockState().is(CPBlocks.STEW_POT_LEAD.get())) {
-			return Utils.translate("container." + CPMain.MODID + ".leadstewpot.title");
-		}
 		return Utils.translate("container." + CPMain.MODID + ".stewpot.title");
 	}
 

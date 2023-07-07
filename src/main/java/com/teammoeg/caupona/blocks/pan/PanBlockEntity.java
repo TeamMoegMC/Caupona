@@ -216,18 +216,19 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	}
 
 	private ItemStack tryAddSpice(ItemStack fs) {
-		ItemStack spi = inv.getStackInSlot(11);
+		ItemStack ospi = inv.getStackInSlot(11);
+		ItemStack spi=ospi;
 		SpiceRecipe spice = SpiceRecipe.find(spi);
 		if(this.getBlockState().is(CPBlocks.LEAD_PAN.get())) {
-			if(spice.canReactLead) {
+			if(spice!=null&&spice.canReactLead) {
 				spi=CPItems.getSapa();
 				spice=SpiceRecipe.find(spi);
 			}
 		}
-		if (spice != null && SpiceRecipe.getMaxUse(spi) >= fs.getCount()) {
+		if (spice != null && SpiceRecipe.getMaxUse(ospi) >= fs.getCount()) {
 			SauteedFoodInfo si = DishItem.getInfo(fs);
 			if (!isInfinite) 
-				inv.setStackInSlot(11, SpiceRecipe.handle(spi, fs.getCount()));
+				inv.setStackInSlot(11, SpiceRecipe.handle(ospi, fs.getCount()));
 			si.addSpice(spice.effect, spi);
 			DishItem.setInfo(fs, si);
 		}
