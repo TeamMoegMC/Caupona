@@ -1,5 +1,6 @@
 asafoetida.png
 asafoetida_spice_jar.png
+asses.png
 bamboo_skimmer.png
 basalt_tesserae.png
 bone_gelatin.png

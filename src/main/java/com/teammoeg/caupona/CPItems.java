@@ -74,7 +74,7 @@ public class CPItems {
 			new FoodMaterialInfo("plump_snail",3,0.3f,0.7f).food(c->c.effect(new MobEffectInstance(MobEffects.HUNGER, 600, 0), 0.3F))};
 	public static final String[] base_material = new String[] { "lateres", "clay_portable_brazier", "vivid_charcoal", "silphium",
 																"asafoetida", "leaden_walnut", "litharge_cake", "lead_ingot", "lead_nugget",
-																"asses","brick_tesserae","basalt_tesserae","pumice_tesserae"};
+																"asses","brick_tesserae","basalt_tesserae","pumice_tesserae", "fresh_wolfberry_leaves"};
 
 	public static final List<Item> stews = new ArrayList<>();
 	

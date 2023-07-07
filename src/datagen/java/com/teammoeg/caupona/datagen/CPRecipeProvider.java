@@ -195,6 +195,7 @@ public class CPRecipeProvider extends RecipeProvider {
 		simpleFood(out, 3, .5f, cpitem("snail_block"));
 		simpleFood(out, 3, .6f, cpitem("snail"));
 		simpleFood(out, 5, .8f, cpitem("plump_snail"));
+		simpleFood(out, 2, .4f, cpitem("fresh_wolfberry_leaves"));
 		for (String s : ImmutableSet.of("bisque", "borscht", "dilute_soup", "egg_drop_soup", "fish_soup", "goulash",
 				"hodgepodge", "meat_soup", "mushroom_soup", "nettle_soup", "poultry_soup", "pumpkin_soup",
 				"seaweed_soup", "stracciatella", "vegetable_soup")) {
