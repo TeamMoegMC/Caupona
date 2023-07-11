@@ -19,6 +19,6 @@ Cook anything into stew
 [[dependencies.caupona]]
     modId="forge"
 	mandatory=true
-    versionRange = "[47.0.19,)"
+    versionRange = "[47.0.3,)"
     ordering = "NONE"
     side = "BOTH"
