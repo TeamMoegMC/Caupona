@@ -6,7 +6,8 @@
     {
       "type": "caupona:fryrecipe",
       "base": "caupona:gravy_boat",
-      "img": "caupona:textures/gui/recipes/seared_poultry.png",
+      "img": "caupona:textures/gui/recipes/frying/seared_poultry.png",
+      "recipe": "caupona:frying/seared_poultry",
       "result": "caupona:seared_poultry"
     }
   ]

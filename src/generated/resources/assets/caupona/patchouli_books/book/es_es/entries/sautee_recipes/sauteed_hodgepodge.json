@@ -6,7 +6,8 @@
     {
       "type": "caupona:fryrecipe",
       "base": "caupona:gravy_boat",
-      "img": "caupona:textures/gui/recipes/sauteed_hodgepodge.png",
+      "img": "caupona:textures/gui/recipes/frying/sauteed_hodgepodge.png",
+      "recipe": "caupona:frying/sauteed_hodgepodge",
       "result": "caupona:sauteed_hodgepodge"
     }
   ]

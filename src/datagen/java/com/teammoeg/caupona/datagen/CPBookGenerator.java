@@ -111,20 +111,20 @@ public class CPBookGenerator extends JsonGenerator {
 
 		for (String s : CPItems.soups)
 			if (recipes.containsKey(s)&&helper.exists(PictureRL(recipes.get(s)),PackType.CLIENT_RESOURCES))
-				defaultPage(reciver, s);
+				defaultPage(reciver, s,recipes.get(s));
 		for (String s : CPItems.dishes) {
 			if (frecipes.containsKey(s)&&helper.exists(PictureRL(frecipes.get(s)),PackType.CLIENT_RESOURCES))
-				defaultFryPage(reciver, s);
+				defaultFryPage(reciver, s,frecipes.get(s));
 		}
 	}
-	private void defaultPage(JsonStorage reciver, String name) {
+	private void defaultPage(JsonStorage reciver, String name, StewCookingRecipe stewCookingRecipe) {
 		for (String lang : allangs)
-			saveEntry(name, lang, reciver, createRecipe(name, lang));
+			saveEntry(name, lang, reciver, createRecipe(name, lang,stewCookingRecipe));
 	}
 
-	private void defaultFryPage(JsonStorage reciver, String name) {
+	private void defaultFryPage(JsonStorage reciver, String name, SauteedRecipe sauteedRecipe) {
 		for (String lang : allangs)
-			saveFryEntry(name, lang, reciver, createFryingRecipe(name, lang));
+			saveFryEntry(name, lang, reciver, createFryingRecipe(name, lang, sauteedRecipe));
 		
 	}
 
@@ -134,12 +134,11 @@ public class CPBookGenerator extends JsonGenerator {
 	private ResourceLocation PictureRL(Recipe<?> r) {
 		return new ResourceLocation(r.getId().getNamespace(), "textures/gui/recipes/" + r.getId().getPath() + ".png");
 	}
-	private JsonObject createRecipe(String name, String locale) {
+	private JsonObject createRecipe(String name, String locale, StewCookingRecipe r) {
 		JsonObject page = new JsonObject();
 		page.add("name", langs.get(locale).get("item.caupona." + name));
 		page.addProperty("icon", new ResourceLocation(CPMain.MODID, name).toString());
 		page.addProperty("category", "caupona:cook_recipes");
-		StewCookingRecipe r = recipes.get(name);
 		Item baseType = CPItems.any.get();
 		if (r.getBase() != null && !r.getBase().isEmpty()) {
 			StewBaseCondition sbc = r.getBase().get(0);
@@ -153,27 +152,26 @@ public class CPBookGenerator extends JsonGenerator {
 		JsonArray pages = new JsonArray();
 		JsonObject imgpage = new JsonObject();
 		imgpage.addProperty("type", "caupona:cookrecipe");
-		imgpage.addProperty("img",
-				new ResourceLocation(CPMain.MODID, "textures/gui/recipes/" + name + ".png").toString());
+		imgpage.addProperty("img",PictureRL(r).toString());
 		imgpage.addProperty("result", new ResourceLocation(CPMain.MODID, name).toString());
+		imgpage.addProperty("recipe", r.getId().toString());
 		imgpage.addProperty("base", Utils.getRegistryName(baseType).toString());
 		pages.add(imgpage);
 		page.add("pages", pages);
 		return page;
 	}
 
-	private JsonObject createFryingRecipe(String name, String locale) {
+	private JsonObject createFryingRecipe(String name, String locale, SauteedRecipe r) {
 		JsonObject page = new JsonObject();
 		page.add("name", langs.get(locale).get("item.caupona." + name));
 		page.addProperty("icon", new ResourceLocation(CPMain.MODID, name).toString());
 		page.addProperty("category", "caupona:sautee_recipes");
-		SauteedRecipe r = frecipes.get(name);
 		JsonArray pages = new JsonArray();
 		JsonObject imgpage = new JsonObject();
 		imgpage.addProperty("type", "caupona:fryrecipe");
-		imgpage.addProperty("img",
-				new ResourceLocation(CPMain.MODID, "textures/gui/recipes/" + name + ".png").toString());
-		imgpage.addProperty("result", new ResourceLocation(CPMain.MODID, name).toString());
+		imgpage.addProperty("img",PictureRL(r).toString());
+		imgpage.addProperty("result",new ResourceLocation(CPMain.MODID, name).toString());
+		imgpage.addProperty("recipe", r.getId().toString());
 		imgpage.addProperty("base", Utils.getRegistryName(CPBlocks.GRAVY_BOAT).toString());
 		pages.add(imgpage);
 		page.add("pages", pages);

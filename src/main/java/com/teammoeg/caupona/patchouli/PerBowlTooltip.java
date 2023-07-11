@@ -29,6 +29,7 @@ import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -61,7 +62,8 @@ public class PerBowlTooltip implements ICustomComponent {
 			lt.add(StringTag.valueOf(Component.Serializer.toJson(Utils.translate("gui.jei.category.caupona.ingredientPer",cr.count).withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD))));
 			display.put(ItemStack.TAG_LORE,lt);
 			tags.put(ItemStack.TAG_DISPLAY, display);
-		}
+		}else
+			output=ItemStack.EMPTY;
 	}
 
 	@Override
@@ -69,8 +71,8 @@ public class PerBowlTooltip implements ICustomComponent {
 	}
 
 	@Override
-	public void render(PoseStack ms, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
-		context.renderItemStack(ms, x, y, mouseX, mouseY, output);
+	public void render(GuiGraphics graphics, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
+		context.renderItemStack(graphics, x, y, mouseX, mouseY, output);
 	}
 
 }
