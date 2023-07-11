@@ -16,3 +16,9 @@ Cook anything into stew
     versionRange = "[1.20,1.21)"
     ordering = "NONE"
     side = "BOTH"
+[[dependencies.caupona]]
+    modId="forge"
+	mandatory=true
+    versionRange = "[47.0.19,)"
+    ordering = "NONE"
+    side = "BOTH"

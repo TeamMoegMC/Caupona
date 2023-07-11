@@ -29,6 +29,7 @@ import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -41,8 +42,10 @@ import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -79,6 +82,16 @@ public class Utils {
 			in.shrink(limit);
 		}
 		return in;
+	}
+	public static void dropToWorld(Level level,ItemStack is,BlockPos pos) {
+		if (!is.isEmpty() && !level.isClientSide)
+        {
+            ItemEntity entityitem = new ItemEntity(level, pos.getX(), pos.getY() + 0.5, pos.getZ(),is);
+            entityitem.setPickUpDelay(40);
+            entityitem.setDeltaMovement(entityitem.getDeltaMovement().multiply(0, 1, 0));
+
+            level.addFreshEntity(entityitem);
+        }
 	}
 	public static MutableComponent translate(String format,Object...objects) {
 		return MutableComponent.create(new TranslatableContents(format,null,objects));

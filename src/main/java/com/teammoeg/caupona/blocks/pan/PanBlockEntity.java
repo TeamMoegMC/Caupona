@@ -28,6 +28,7 @@ import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.blocks.foods.IFoodContainer;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.PanPendingContext;
@@ -64,7 +65,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,IInfinitable {
+public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,IInfinitable,IFoodContainer {
 	//process
 	public int process;
 	public int processMax;
@@ -433,5 +434,29 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	@Override
 	public boolean setInfinity() {
 		return isInfinite=!isInfinite;
+	}
+
+	@Override
+	public ItemStack getInternal(int num) {
+		ItemStack result=inv.extractItem(10, 1,true);
+		return result;
+	}
+
+	@Override
+	public void setInternal(int num, ItemStack is) {
+		inv.extractItem(10, 1, false);
+		is=inv.insertItem(9, is,false);
+		this.syncData();
+		Utils.dropToWorld(this.getLevel(), is, this.getBlockPos());
+	}
+
+	@Override
+	public int getSlots() {
+		return 1;
+	}
+
+	@Override
+	public boolean accepts(int num, ItemStack is) {
+		return is.is(Items.BOWL);
 	}
 }

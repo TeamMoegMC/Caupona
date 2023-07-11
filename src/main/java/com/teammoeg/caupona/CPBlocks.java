@@ -244,7 +244,7 @@ public class CPBlocks {
 				() -> new DishBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
 							.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 							.isViewBlocking(CPBlocks::isntSolid)),
-					b -> new DishItem(b, CPItems.createProps()));
+					b -> new DishItem(b, CPItems.createSoupProps()));
 
 		}
 	}

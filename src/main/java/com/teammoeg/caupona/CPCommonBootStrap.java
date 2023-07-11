@@ -29,6 +29,7 @@ import java.util.function.Supplier;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
+import com.teammoeg.caupona.blocks.foods.IFoodContainer;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
@@ -163,11 +164,11 @@ public class CPCommonBootStrap {
 				Block src = bp.getLevel().getBlockState(front).getBlock();
 				LazyOptional<IFluidHandler> blockSource = FluidUtil.getFluidHandler(bp.getLevel(), front,
 						d.getOpposite());
+				BlockEntity besrc=bp.getLevel().getBlockEntity(front);
 				BlockEntity blockTarget = bp.getLevel().getBlockEntity(back);
 				if (blockTarget != null) {
 					LazyOptional<IFluidHandler> iptar = blockTarget.getCapability(ForgeCapabilities.FLUID_HANDLER, d);
 					if (iptar.isPresent()) {
-
 						if (blockSource.isPresent()) {
 							FluidUtil.tryFluidTransfer(iptar.orElse(null), blockSource.orElse(null), 250, true);
 
@@ -178,7 +179,57 @@ public class CPCommonBootStrap {
 						} else if (src instanceof IFluidBlock bpu) {
 							FluidUtil.tryFluidTransfer(iptar.orElse(null),
 									new FluidBlockWrapper(bpu, bp.getLevel(), front), Integer.MAX_VALUE, true);
+						}else if(besrc instanceof IFoodContainer cont) {
+							for(int i=0;i<cont.getSlots();i++) {
+								ItemStack its=cont.getInternal(i);
+								FluidStack fs=BowlContainingRecipe.extractFluid(its);
+								if(!fs.isEmpty()) {
+									if(iptar.orElse(null).fill(fs, FluidAction.SIMULATE)==fs.getAmount()) {
+										iptar.orElse(null).fill(fs, FluidAction.EXECUTE);
+										cont.setInternal(i,its.getCraftingRemainingItem());
+										break;
+									}
+								}
+								
+							}
 						}
+					}else if(blockTarget instanceof IFoodContainer contt) {
+						LazyOptional<IFluidHandler> ipsrc = besrc.getCapability(ForgeCapabilities.FLUID_HANDLER, d.getOpposite());
+						if(besrc instanceof IFoodContainer cont) {
+							outer:for(int i=0;i<cont.getSlots();i++) {
+								ItemStack its=cont.getInternal(i);
+								if(!its.isEmpty()&&!its.is(Items.BOWL)) {
+									for(int j=0;j<contt.getSlots();j++) {
+										ItemStack its2=contt.getInternal(j);
+										if(its2.is(Items.BOWL)&&cont.accepts(i, its2)&&contt.accepts(j, its)) {
+											cont.setInternal(i, its2);
+											contt.setInternal(j, its);
+											break outer;
+										}
+									}
+								}
+							}
+						}else if(ipsrc.isPresent()){
+							IFluidHandler tank=ipsrc.orElse(null);
+							FluidStack fs=tank.drain(250, FluidAction.SIMULATE);
+							if(!fs.isEmpty()) {
+								for(int j=0;j<contt.getSlots();j++) {
+									ItemStack its2=contt.getInternal(j);
+									if(its2.is(Items.BOWL)&&its2.getCount()==1) {
+										BowlContainingRecipe recipe=BowlContainingRecipe.recipes.get(fs.getFluid());
+										if(recipe!=null) {
+											ItemStack out=recipe.handle(fs);
+											if(contt.accepts(j, out)) {
+												fs=tank.drain(250, FluidAction.EXECUTE);
+												contt.setInternal(j,out);
+											}
+											break;
+										}
+									}
+								}
+							}
+						}
+						
 					}
 
 					return is;

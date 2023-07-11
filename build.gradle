@@ -188,8 +188,8 @@ dependencies {
 	
 	//implementation fg.deobf("curse.maven:simple-farming-327554:3400041")
 
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-80-FORGE-SNAPSHOT:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-80-FORGE-SNAPSHOT")
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-81-FORGE:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-81-FORGE")
 
     // FG5 requires 0.8.3
     annotationProcessor "org.spongepowered:mixin:0.8.3:processor"
