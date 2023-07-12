@@ -1,0 +1,7 @@
+{
+	"parent": "caupona:block/template_spoked_fence_side",
+	"textures": {
+		"material": "minecraft:block/stone",
+		"particle": "minecraft:block/stone",
+	}
+}

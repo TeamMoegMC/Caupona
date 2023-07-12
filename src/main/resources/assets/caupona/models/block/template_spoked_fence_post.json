@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube",
 	"ambientocclusion": false,
 	"elements": [
 		{
@@ -7,12 +8,12 @@
 			"from": [6, 0, 6],
 			"to": [10, 16, 10],
 			"faces": {
-				"north": {"uv": [6, 0, 10, 16], "texture": "#1"},
-				"east": {"uv": [6, 0, 10, 16], "texture": "#1"},
-				"south": {"uv": [6, 0, 10, 16], "texture": "#1"},
-				"west": {"uv": [6, 0, 10, 16], "texture": "#1"},
-				"up": {"uv": [6, 6, 10, 10], "texture": "#1"},
-				"down": {"uv": [6, 6, 10, 10], "texture": "#1"}
+				"north": {"uv": [6, 0, 10, 16], "texture": "#material"},
+				"east": {"uv": [6, 0, 10, 16], "texture": "#material"},
+				"south": {"uv": [6, 0, 10, 16], "texture": "#material"},
+				"west": {"uv": [6, 0, 10, 16], "texture": "#material"},
+				"up": {"uv": [6, 6, 10, 10], "texture": "#material"},
+				"down": {"uv": [6, 6, 10, 10], "texture": "#material"}
 			}
 		}
 	]
