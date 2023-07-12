@@ -1,5 +1,5 @@
 {
-	"name": "植物",
+	"name": "树木",
 	"icon": "caupona:walnut",
 	"category": "caupona:worldgen",
 	"sortnum": 0,
@@ -14,6 +14,7 @@
 		{
 			"type": "image",
 			"images": ["caupona:textures/gui/entries/walnut_tree.png"],
+			"anchor": "walnut_tree",
 			"title": "核桃树"
 		},
 		{
@@ -24,6 +25,7 @@
 		{
 			"type": "image",
 			"images": ["caupona:textures/gui/entries/fig_tree.png"],
+			"anchor": "fig",
 			"title": "无花果树"
 		},
 		{
@@ -34,6 +36,7 @@
 		{
 			"type": "image",
 			"images": ["caupona:textures/gui/entries/wolfberry_tree.png"],
+			"anchor": "wolfberry",
 			"title": "枸杞树"
 		},
 		{

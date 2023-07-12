@@ -27,6 +27,16 @@
 			"type": "spotlight",
 			"item": "caupona:vinegar_spice_jar",
 			"text": "醋来自苹果或浆果在嵌陶缸的台面中静置转化，提供夜视。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:sapa_spice_jar",
+			"text": "铅糖来自于$(l:intro/lead_cookwares)铅制炊具$(/l)烹饪的食品，提供亢奋效果，在提供力量的同时也会使得受到的伤害加倍。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/asafoetida_spice_jar",
+			"text": "阿魏来自$(l:intro/vege#silphium)巫洛阿魏$(/l)，提供抗性提升。"
 		}
 	]
 }
