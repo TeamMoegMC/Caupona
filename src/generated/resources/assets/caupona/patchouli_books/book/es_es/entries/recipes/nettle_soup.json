@@ -6,7 +6,8 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:any_based",
-      "img": "caupona:textures/gui/recipes/nettle_soup.png",
+      "img": "caupona:textures/gui/recipes/cooking/nettle_soup.png",
+      "recipe": "caupona:cooking/nettle_soup",
       "result": "caupona:nettle_soup"
     }
   ]

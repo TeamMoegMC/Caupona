@@ -6,7 +6,8 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:milk_based",
-      "img": "caupona:textures/gui/recipes/cream_of_meat_soup.png",
+      "img": "caupona:textures/gui/recipes/cooking/cream_of_meat_soup.png",
+      "recipe": "caupona:cooking/cream_of_meat_soup",
       "result": "caupona:cream_of_meat_soup"
     }
   ]

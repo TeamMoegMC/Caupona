@@ -6,7 +6,8 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:milk_based",
-      "img": "caupona:textures/gui/recipes/porridge.png",
+      "img": "caupona:textures/gui/recipes/cooking/porridge.png",
+      "recipe": "caupona:cooking/porridge",
       "result": "caupona:porridge"
     }
   ]

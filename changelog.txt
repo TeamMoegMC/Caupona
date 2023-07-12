@@ -1,1 +1,9 @@
-Repair event bugs
+Added lead production and relative cookwares as well as special effects.
+Repaired patchouli support.
+Added silphium as a new kind of spice.
+Added road blocks for decoration and fast travel.
+Added snail for crustacens and fresh wolfberry leaves for green vegetables.
+Added situla for easily transport stew.
+Reworked pan, pot and a lot of item texture.
+Added redstone ladle for use in dispensers for fluid and food transport.
+Reworked english translations.

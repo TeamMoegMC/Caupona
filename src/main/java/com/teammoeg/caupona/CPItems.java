@@ -133,7 +133,7 @@ public class CPItems {
 	}
 
 
-	private static Properties createSoupProps() {
+	static Properties createSoupProps() {
 		return new Item.Properties().craftRemainder(Items.BOWL).stacksTo(1);
 	}
 

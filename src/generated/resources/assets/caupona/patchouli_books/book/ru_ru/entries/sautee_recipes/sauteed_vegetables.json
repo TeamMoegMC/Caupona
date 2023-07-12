@@ -6,7 +6,8 @@
     {
       "type": "caupona:fryrecipe",
       "base": "caupona:gravy_boat",
-      "img": "caupona:textures/gui/recipes/sauteed_vegetables.png",
+      "img": "caupona:textures/gui/recipes/frying/sauteed_vegetables.png",
+      "recipe": "caupona:frying/sauteed_vegetables",
       "result": "caupona:sauteed_vegetables"
     }
   ]

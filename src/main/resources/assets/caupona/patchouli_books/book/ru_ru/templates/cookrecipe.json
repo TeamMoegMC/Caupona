@@ -14,7 +14,7 @@
 		},
 		{
 			"type": "patchouli:custom",
-			"recipe":"#result",
+			"recipe":"#recipe",
 			"class":"com.teammoeg.caupona.patchouli.DensityTooltip",
 			"x":21,
 			"y":26,

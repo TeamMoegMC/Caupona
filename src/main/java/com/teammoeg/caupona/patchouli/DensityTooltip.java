@@ -30,6 +30,7 @@ import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
@@ -61,7 +62,7 @@ public class DensityTooltip implements ICustomComponent {
 	}
 
 	@Override
-	public void render(PoseStack ms, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
+	public void render(GuiGraphics ms, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
 		if (context.isAreaHovered(mouseX, mouseY, x, y, w, h))
 			context.setHoverTooltipComponents(density);
 	}

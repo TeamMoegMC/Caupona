@@ -1,0 +1,28 @@
+{
+	"name": "笊篱",
+	"icon": "caupona:skimmer",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/bamboo_skimmer",
+			"text": "笊篱可以用于取出汤中的原料，每次使用会把汤的浓度降低0.5，但是有一个下限。此操作不改变汤的类型和基底。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:scraps",
+			"link_recipe": true,
+			"text": "笊篱捞出的原料会被转化为残羹，该物品只能用于堆肥。"
+		},
+		{
+			"type": "text",
+			"text": "铁笊篱与竹笊篱功能一致，除了有更高的耐久。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/iron_skimmer",
+			"recipe2": "caupona:crafting/iron_skimmer_alt"
+		}
+	]
+}

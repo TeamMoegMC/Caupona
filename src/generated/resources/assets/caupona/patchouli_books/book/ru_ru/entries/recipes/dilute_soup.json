@@ -6,7 +6,8 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:any_based",
-      "img": "caupona:textures/gui/recipes/dilute_soup.png",
+      "img": "caupona:textures/gui/recipes/cooking/dilute_soup.png",
+      "recipe": "caupona:cooking/dilute_soup",
       "result": "caupona:dilute_soup"
     }
   ]

@@ -6,7 +6,8 @@
     {
       "type": "caupona:cookrecipe",
       "base": "caupona:milk_based",
-      "img": "caupona:textures/gui/recipes/vegetable_chowder.png",
+      "img": "caupona:textures/gui/recipes/cooking/vegetable_chowder.png",
+      "recipe": "caupona:cooking/vegetable_chowder",
       "result": "caupona:vegetable_chowder"
     }
   ]

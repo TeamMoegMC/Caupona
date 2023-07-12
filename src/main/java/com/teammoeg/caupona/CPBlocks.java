@@ -131,7 +131,7 @@ public class CPBlocks {
 	public static final List<RegistryObject<Block>> leaves = new ArrayList<>();
 
 	// Other useful blocks
-	public static final RegistryObject<FumaroleBoulderBlock> FUMAROLE_BOULDER = maindecoblock("fumarole_boulder",
+	public static final RegistryObject<FumaroleBoulderBlock> FUMAROLE_BOULDER = decoblock("fumarole_boulder",
 			() -> new FumaroleBoulderBlock(getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion()
 					.isSuffocating(CPBlocks::isntSolid)));
 	public static final RegistryObject<FumaroleVentBlock> FUMAROLE_VENT = maindecoblock("fumarole_vent",
@@ -231,8 +231,8 @@ public class CPBlocks {
 						() -> new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f), true));
 			}
 			if(type.isRoadMaterial()) {
-				decoblock(name+"_road_side",()->new CPRoadSideBlock(getTransparentProps().strength(2f, 6f)));
-				decoblock(name+"_road",()->new CPRoadBlock(getTransparentProps().strength(2f, 6f)));
+				decoblock(name+"_road_side",()->new CPRoadSideBlock(getTransparentProps().isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid).strength(2f, 6f)));
+				decoblock(name+"_road",()->new CPRoadBlock(getTransparentProps().isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid).strength(2f, 6f)));
 			}
 		}
 
@@ -241,10 +241,10 @@ public class CPBlocks {
 		registerBush("wolfberry", DefaultTreeGrower.supply(CPWorldGen.WOLFBERRY));
 		for (String s : CPItems.dishes) {
 			baseblock(s,
-					() -> new DishBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
+				() -> new DishBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
 							.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 							.isViewBlocking(CPBlocks::isntSolid)),
-					b -> new DishItem(b, CPItems.createProps()));
+					b -> new DishItem(b, CPItems.createSoupProps()));
 
 		}
 	}
@@ -282,7 +282,7 @@ public class CPBlocks {
 				WALNUT));
 		
 		leaves.add(CPCommonBootStrap.asCompositable(decoblock(wood + "_leaves", () -> leaves(SoundType.GRASS, f)), 0.3F));
-		RegistryObject<Block> sl = maindecoblock("stripped_" + wood + "_log", () -> log(null));
+		RegistryObject<Block> sl = decoblock("stripped_" + wood + "_log", () -> log(null));
 		decoblock(wood + "_log", () -> log(sl));
 
 		decoblock(wood + "_pressure_plate",
