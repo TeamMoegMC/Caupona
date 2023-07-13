@@ -12,7 +12,7 @@
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/copper_frying_pan",
-			"text": "金属煎锅有铜和铁两种材质。煎锅需要放在热源，如$(l:intro/stove)灶台$(/l)或$(l:worldgen/volcanic_fumarole)火山喷气孔$(/l)上方使用。"
+			"text": "金属煎锅有铜、铁、镀铅三种材质。煎锅需要放在热源，如$(l:intro/stove)灶台$(/l)或$(l:worldgen/volcanic_fumarole)火山喷气孔$(/l)上方使用。"
 		},
 		{
 			"type": "text",

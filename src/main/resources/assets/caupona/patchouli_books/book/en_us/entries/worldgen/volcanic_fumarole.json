@@ -6,21 +6,21 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Volcanic Fumarole generates in desert and mountains. Some are active with lava, some are cooling with magma block, the others would be inactive with obsidian."
+			"text": "Volcanic Fumaroles are found in deserts and mountains. Some of them are active with lava on their bottoms, some are cooling with magma blocks, and the others completely cooled down, with obsidian blocks."
 		},
 		{
 			"type": "spotlight",
 			"item": "caupona:fumarole_vent",
-			"text": "Volcanic Fumarole contains a vent in the middle, if two blocks below it is lava, it would become active, causing entity fire and generate pumice bloom in nearby water. If it is magma block, it would not generate pumice bloom."
+			"text": "Volcanic Fumaroles contain a vent block in the central part. if two blocks below it is lava, it is then active, igniting entities on it and gradually generating pumice blooms on surrounding water. If the block below is magma block or obsidian, no pumice blooms will be generated."
 		},
 		{
 			"type": "spotlight",
 			"item": "caupona:pumice_bloom",
-			"text": "Mining pumice bloom yields pumice, an important building material. Pick it with silk touch to get pumice bloom."
+			"text": "Mining pumice blooms drops pumice, an important building material. Break them with silk touch to obtain pumice bloom itself."
 		},
 		{
 			"type": "text",
-			"text": "Active or cooling vents are free heat source, can provide heat at a lower speed. But if $(l:tweaks/water_interaction)water$(/l) goes in the vent, it would neither provide heat nor generate pumice bloom."
+			"text": "Active or cooling vents are free heat source, which provides heat at a smaller flux compared to most stoves. But if $(l:tweaks/water_interaction)waterlogged$(/l), they will neither provide heat nor generate pumice blooms."
 		}
 	]
 }

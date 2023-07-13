@@ -6,11 +6,11 @@
   "pages": [
     {
       "type": "text",
-      "text": "As for its dynamic food values, some mod may not be able to show the correct values."
+      "text": "The diet values (hunger, saturation, etc.) of foods in Caupona are dynamic in a special way, which might add difficulties for some information mods to display them correctly. Please heed whether this is the case if you have such mods installed."
     },
      {
       "type": "text",
-      "text": "It's diet value is the sum of all its ingredients. ",
+      "text": "Diet values of soups or dishes are the sum of all the ingredients converted into one serving.",
       "flag": "mod:diet"
     }
   ]

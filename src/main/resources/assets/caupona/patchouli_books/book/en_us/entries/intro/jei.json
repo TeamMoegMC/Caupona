@@ -6,11 +6,11 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "All Recipes of this mod are available on JEI(Just Enough Item). So we won't write every recipe in this book. Check out in JEI is recommended"
+			"text": "All the recipes of this mod can be referred with Just Enough Items (JEI), and that is why this book does not include all recipes. The players are recommented to use JEI."
 		},
 		{
 			"type": "text",
-			"text": "Recipes in this mod:$(li) frying and cooking recipe:described in this book, $()$(li)Boiling recipe, $()$(li)Convertion between aspics and stews, $()$(li)Resting, $()$(li)Transfer fluid between containers.$()"
+			"text": "Recipes types in this mod includes: $(li) Cooking recipes, as described in this book;$()$(li)Boiling;$()$(li)Convertion between aspics and stews;$()$(li)Resting, and$()$(li)Transferring fluids between containers.$()"
 		}
 	]
 }

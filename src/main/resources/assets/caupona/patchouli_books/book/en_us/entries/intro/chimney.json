@@ -6,21 +6,21 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Chimneys are structures and kitchen facilities consist of flue and pot. Like other kitchen facilities, They have variants of different $(l:intro/kitchen_materials)kitchen materials$(/l)."
+			"text": "Chimney is a kind of kitchen facility, each structure consists of chimney flues and a chimney pot. Like other facilities, there are variants of different $(l:intro/kitchen_materials)materials$(/l)."
 		},
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/brick_chimney_flue",
-			"text": "Chimney flue can extend the length of the chimney. They can be either long or short."
+			"text": "Chimney flues extend the length of the chimney. They can be either long or short."
 		},
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/brick_chimney_pot",
-			"text": "Chimney pot must be placed on the top of the chimney structure, it doesn't need to be of the same type with chimney flue"
+			"text": "Chimney pots must be placed on the top of the chimney structures, it doesn't need to be of the same material with chimney flue"
 		},
 		{
 			"type": "text",
-			"text": "Chimney structure can only extend vertically up, and should not be blocked between smoke source and itself"
+			"text": "Chimney structures can only extend vertically, and there should not be anything that lies between the chimney and where the smoke come from."
 		},
 		{
 			"type": "image",
@@ -30,7 +30,7 @@
 		{
 			"type": "spotlight",
 			"item": "caupona:soot",
-			"text": "Ash accumulates when the chimney pot is in use. Can be collected with shovel at the chimney pot.They are useful in dye crafting."
+			"text": "Soot accumulates when the chimney pot is in use, and can be collected with a shovel at the chimney pot. They are useful in dye crafting."
 		}
 	]
 }

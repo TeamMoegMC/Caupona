@@ -7,33 +7,33 @@
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/stone_griddle",
-			"text": "Frying pans are for stir fry, stone griddle is one of the cheapest pans. Due to its poor heat conductivity, it is significantly slower than metal ones."
+			"text": "Frying pans and stone griddles are for sautéing / stir-frying. Stone griddles are cheaper than pans, and due to their poor heat conductivity, it is significantly slower to cook with stone griddles than metal pans."
 		},
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/copper_frying_pan",
-			"text": "Metal pans can be made of copper and iron. Frying pans should be put on heat source, like $(l:intro/stove)stoves$(/l) or $(l:worldgen/volcanic_fumarole)fumarole vent$(/l)."
+			"text": "Metal pans can be made of copper, iron, or lead-plated copper. Frying pans should be put on heat source, like $(l:intro/stove)stoves$(/l) or $(l:worldgen/volcanic_fumarole)fumarole vents$(/l)."
 		},
 		{
 			"type": "text",
-			"text": "Frying pans are similar with stew pots except no fluid interaction. Buttons on the left side controls its start and restone control, redstone default off. Bowl and $(l:intro/spices)spice$(/l) should be put in the right side slots, the get finished dishes."
+			"text": "Frying pans are similar with stew pots, except there is no fluid requirements. Buttons on the left side starts cooking and toggles redstone control respectively. By default, pans are inactive to redstone signals. Bowl and $(l:intro/spices)spice$(/l) should be put in the slots on the right. There is also a slot for cooked dishes."
 		},
 		{
 			"type": "text",
-			"text": "Before start cooking, there should be $(l:resting/oil)oil$(/l) and enough bowl in the pan. Oil is automatically taken from nearby gravy boats."
+			"text": "Before the cooking started, there should be enough $(l:resting/oil)oil$(/l) and bowls in the pan. Oil is automatically taken from nearby gravy boats."
 		},
 		{
 			"type": "text",
-			"text": "Without liquid, stir fry dishes does not have any sort of concentration, instead, There would be a dish about each two ingredients (rounded up)."
+			"text": "Without liquid, sautéed dishes does not have the concept concentration. Instead, Each two ingredients will produce a dish of food (the resultant number is rounded up)."
 		},
 		{
 			"type": "text",
-			"text": "With redstone control on, if pan is not working and redstong signal provided. It would keep trying to start working. This is useful for automation."
+			"text": "With redstone control on, if pan is not working and redstong signal is provided, the pan would keep trying to start working. This is useful for automation."
 		},
 		{
 			"type": "image",
 			"images": ["caupona:textures/gui/entries/frying_pan.png"],
-			"text": "A way of using frying pans. Also refer to $(l:resting/oil)oil gravy boat$(/l) and $(l:tweaks/dispenser)dispenser$(/l)."
+			"text": "A way of using frying pans. Please also refer to $(l:resting/oil)oil$(/l) and $(l:tweaks/dispenser)dispenser automation$(/l)."
 		}
 	]
 }

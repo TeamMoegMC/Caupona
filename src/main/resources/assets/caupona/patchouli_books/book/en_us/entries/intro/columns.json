@@ -6,31 +6,31 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Columns are usual Greco-Roman architectural elements. We add three types of columns in four materials: quartz, calcite, stone, felsic_tuff."
+			"text": "Columns are ubiquitous in Greco-Roman architecture. Caupona provides three composite orders of columns, in four materials: quartz, calcite, stone, and felsic_tuff."
 		},
 		{
 			"type": "text",
-			"text": "Columns are built with three parts: capital, shaft and plinth. These can be made of there material in the stonecutter, quartz columns require smooth quartz block."
+			"text": "Columns are composed of three parts: capital, shaft and plinth. These can be made of respective materials in the stonecutter. Specially, quartz columns require smooth quartz blocks."
 		},
 		{
 			"type": "spotlight",
 			"item": "caupona:calcite_ionic_column_capital",
-			"text": "The Ionian column has a classic spiral capital and fluted shaft."
+			"text": "An Ionian column has a classic spiral capital and a fluted shaft."
 		},
 		{
 			"type": "spotlight",
 			"item": "caupona:calcite_tuscan_column_capital",
-			"text": "The Tuscan column has no complicated carvings on the capital, and the column shaft are not fluted. So its visual effect is relatively simple."
+			"text": "A Tuscan column has no complicated carvings on the capital, and the column shaft is not fluted. So its visual effect is relatively simple."
 		},
 		{
 			"type": "spotlight",
 			"item": "caupona:calcite_acanthine_column_capital",
-			"text": "This type of column does not exist in reality.Its prototype is the Collins column. There are some leaf pattern relief on the capitail while it's shaft is fluted."
+			"text": "This order of column does not exist in reality, with its prototype being the Corinthian order. An acanthine column has a fluted shaft, and relief pattern that resemble leaves on its capital."
 		},
 		{
 			"type": "image",
 			"images": ["caupona:textures/gui/entries/columns.png"],
-			"text": "Example style of columns"
+			"text": "Example of columns"
 		}
 	]
 }

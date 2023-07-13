@@ -6,11 +6,11 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Oil is needed when frying in pans. With Anvils(does not consume) and $(l:worldgen/plants)walnuts$(/l) resting in doliums. 8 walnuts can turn into a bottle of oil, for five uses."
+			"text": "Oil is needed when sautéing, and is produced by resting $(l:worldgen/plants)walnuts$(/l) and an anvil (not consumed) in dolia. 8 walnuts yields a bottle of oil, which can be used 5 times."
 		},
 		{
 			"type": "text",
-			"text": "Place oil bottle onto world as gravy boat, which can provide oil for nearby pans. Its direction doesn't matters"
+			"text": "You can place oil bottles in the world as gravy boats, which provides oil for adjacent pans. The directions that gravy boats face doesn't matter."
 		}
 	]
 }

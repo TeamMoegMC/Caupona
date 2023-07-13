@@ -6,22 +6,22 @@
   "pages": [
     {
       "type": "text",
-      "text": "Different bases has different effect for the outcome"
+      "text": "Bases not only affect the soup types. Some bases may grant bonuses to the soups."
     },
     {
       "type": "spotlight",
       "item": "caupona:water",
-      "text": "Water is nothing special and have no special effects"
+      "text": "Water has nothing special and grants no bonuses."
     },
     {
       "type": "spotlight",
       "item": "caupona:milk",
-      "text": "Milk provides some extra saturation"
+      "text": "Milk provides extra saturation."
     },
     {
       "type": "spotlight",
       "item": "caupona:stock",
-      "text": "Stock provides extra food points and saturation "
+      "text": "Stock restores more hunger and provides higher saturation."
     }
   ]
 }

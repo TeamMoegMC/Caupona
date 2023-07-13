@@ -7,35 +7,35 @@
 		{
 			"type": "smelting",
 			"recipe": "caupona:stew_pot",
-			"text": "Stew pots is tool for cooking soup. It should be on any kind of heat source like $(l:intro/stove)stoves$(/l) or $(l:worldgen/volcanic_fumarole)fumarole vent$(/l)."
+			"text": "Stew pots are utensils for $(l:intro/soup)soup$(/l) cooking. It should be placed on heat sources like $(l:intro/stove)stoves$(/l) or $(l:worldgen/volcanic_fumarole)fumarole vents$(/l)."
 		},
 		{
 			"type": "text",
-			"text": "On the left, there's progress bar and control buttons. On the middle, there're 9 ingredient slots and a fluid tank. On the right is bowl interact slot, bowl of fluids can be inserted or extracted. Moreover, You can use fluid container and click the pot to interact with fluids, shift+right click with empty hand to empty the pot."
+			"text": "In the GUI, buttons on the left side starts cooking and toggles redstone control respectively. The 3x3 middle slots are for ingredients, and the fluid tank is for both base liquid input and stew output. A slot on the right can be used to interactive with bowls for I/O. You can also interact with fluids inside the pots by right-clicking with containers, and use shift + right click with empty hand to empty the pot."
 		},
 		{
 			"type": "text",
-			"text": "Stew pot can do boiling/cooking/concerntration/mixing. Ingredient slot uninteractable when cooking, while fluid tank uninteractable during any of operation."
+			"text": "You can boil, cook, mix, and concentrate fluids in stew pots. When cooking, ingredient slots are locked, while the fluid tank will be locked during any of the operations."
 		},
 		{
 			"type": "text",
-			"text": "When a pot is activate, it would first try to boil fluids. After boiling, it would start cooking when conditions(See below) meet."
+			"text": "When a pot is working, it firstly tries to boil fluids. After boiling, it would start cooking when conditions (see below) are met."
 		},
 		{
 			"type": "text",
-			"text": "Cooking is available when there're more than a bowl of fluid inside the pot and less than 3 items for each bowl. Also, there should not be anything uncookable. Cooking would evaporate a bowl of fluid. "
+			"text": "Cooking is available when there is more than a bowl of fluid, and less than 3 items for each expected bowl of soup inside. Also, there should not be anything that cannot be cooked. Cooking would cause a bowl-amount (250 mB) of fluid to be evaporated."
 		},
 		{
 			"type": "text",
-			"text": "When there's any soup in the pot, you can add base whether boiled or not to dilute. You can also add other soup insid to mix. Dilute or mixing would start a mixing operation automatically. Stew pot can also cooking without adding ingredient, it would be a concerntrate operation, losing a bowl of water and concerntrate the soup."
+			"text": "When there is any soup in the pot, you can add its corresponding base, no matter boiled or not, to dilute it. You can also add other soup inside to mix them. Diluting or mixing will trigger a Mixing operation automatically. Stew pots can also cook without adding ingredients, which would be a concerntration operation, during which the soup will be concentrated by losing one bowl-amount of liquid."
 		},
 		{
 			"type": "text",
-			"text": "You can add potion bottles inside in any kind of cooking, but double duration and three different kind of potion for each bowl of soup at most."
+			"text": "You can add potions (in bottles) during cooking any stew, but each bowl of stew only supports three different effects and doubled duration of the original effects."
 		},
 		{
 			"type": "text",
-			"text": "Stew pot would try to start cooking when redstone signal and settings on, making it possible to fully automate cooking process."
+			"text": "With redstone control on and redstone signals provided, stew pots will try to start cooking, making it possible to fully automate cooking processes."
 		}
 	]
 }

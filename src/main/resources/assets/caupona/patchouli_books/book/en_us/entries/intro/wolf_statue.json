@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Wolf statue acts like thermometer. its appearance changes base on its current heat. And it can be heat directly by stoves or indirectly by nearby hypocaust. So it could be used to measure heat at the location."
+			"text": "Wolf statues act as thermometers, whose appearances change base on the heat they receive. Wolf statues can be heated directly by stoves or indirectly by nearby hypocausts, thus it can be used to measure local heat flux."
 		}
 	]
 }

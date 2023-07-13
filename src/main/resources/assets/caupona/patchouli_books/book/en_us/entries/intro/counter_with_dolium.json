@@ -7,23 +7,23 @@
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/brick_counter_with_dolium",
-			"text": "Counter with Doliums are kitchen facilities. Alike others, they have variants of different $(l:intro/kitchen_materials)kitchen materials$(/l)."
+			"text": "Counters with Dolia (or dolia for short in the context of fluid storage / transfer) are kitchen facilities. Like others, they have variants of different $(l:intro/kitchen_materials)materials$(/l)."
 		},
 		{
 			"type": "text",
-			"text": "Counter with Dolium can store fluid or resting them, its material doesn't matters."
+			"text": "Counters with Dolia can be used to store fluid, and they provide resting recipes. There is no difference between counters built with different materials"
 		},
 		{
 			"type": "text",
-			"text": "Counter with Dolium have three input slots and an output slot in GUI."
+			"text": "Counters with Dolia have three input slots and an output slot in their GUI."
 		},
 		{
 			"type": "text",
-			"text": "As for storing fluid, only its fluid tank is useful. Its liquid could be drain or fill just as the stew pot do. Spice can also apply when draining soups."
+			"text": "As for storing fluid, only the fluid tanks inside their GUI should be used. You can drain or fill the dolia with liquids, just as what can be done to stew pots. Spice can also be added when taking out soups."
 		},
 		{
 			"type": "text",
-			"text": "Three inputs are for the resting recipes: just put all materials inside and leave them alone for a long time and they would become something new, refer to the resting category for details."
+			"text": "There are 3 input slots for resting recipes: just put all materials inside and leave them alone for a relative long period, and they will convert to something different. Please refer to the Resting pages for details."
 		}
 	]
 }

@@ -6,23 +6,23 @@
   "pages": [
     {
       "type": "text",
-      "text": "Comparator can detect work status of stew pots. Working pots has a fixed output 0. But idle one outputs 1, plus each bowl of soup or each ingredient add output by 1."
+      "text": "Comparators can detect working status of stew pots. Working pots has a fixed output 0, while idle ones outputs 1. Furthermore, each bowl of stew and each ingredient stack in the pot increase output signal by 1."
     },
     {
       "type": "text",
-      "text": "Also, $(l:resting/oil)Gravy boats$(/l) can be detected. Each remaining use send out 3, while empty ones send out 0."
+      "text": "$(l:resting/oil)Gravy boats$(/l) can also be detected using comparators. Each remaining use time increases output signal by 3, while empty ones send 0."
     },
     {
       "type": "text",
-      "text": "Pans can also output signal. Alike pots, Pans has a fixed output of 0. But idle one outputs 1, plus each ingredient add output by 1. If the pans' output slot is full, it constantly output 15."
+      "text": "Like pots, pans can also send signals through comparators indicating their working status, with 0 for working and 1 for being idle. Each ingredient stack will increase the output signal by 1. Specially, if the output slot is occupied, it constantly output 15."
     },
     {
       "type": "text",
-      "text": "Dishes or soups on the world can submit 15 if it is not eaten. While empty ones submit 0."
+      "text": "Placed dishes and soups send 15 if it is not yet consumed, while the empty bowls and plates will send 0."
     },
     {
       "type": "text",
-      "text": "$(l:intro/wolf_statue)Wolf statue$(/l) can submit 3 or 6 based on its temperature. If it is heated by stoves, the output would be increased by 9."
+      "text": "$(l:intro/wolf_statue)Wolf statues$(/l) send signals of 3 or 6 based on temperature. If heated by stoves, the output signal would be increased by 9."
     }
   ]
 }
