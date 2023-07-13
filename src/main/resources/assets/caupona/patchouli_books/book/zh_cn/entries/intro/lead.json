@@ -8,13 +8,13 @@
 			"type": "patchouli:spotlight",
 			"item": "caupona:leaden_walnut",
 			"link_recipe": true,
-			"text": "生长于下界的$(l:worldgen/plants#walnut_tree)核桃$(/l)有几率变为铅核桃。"
+			"text": "生长于下界的$(l:worldgen/plants#walnut_tree)核桃$(/l)有几率变为铅灰核桃。"
 		},
 		{
 			"type": "patchouli:spotlight",
 			"item": "caupona:litharge_cake",
 			"link_recipe": true,
-			"text": "铅核桃和铁砧（不消耗）在$(l:intro/counter_with_dolium)带陶缸的台面$(/l)中进行静置转化产生密陀僧饼。"
+			"text": "铅灰核桃和铁砧（不消耗）在$(l:intro/counter_with_dolium)带陶缸的台面$(/l)中进行静置转化产生密陀僧饼。"
 		},
 		{
 			"type": "smelting",

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "Although dispenser-based automation is provided by Caupona, such mechanisms might be invalidated by other mods due to compatibility, and it can still be bothersome to transfer foods and liquids using dispensers only. We now provide redstone ladles to simplify such processes."
+      "text": "Although $(l:tweaks/dispenser)dispenser-based automation$(/l) is provided by Caupona, such mechanisms might be invalidated by other mods due to compatibility, and it can still be bothersome to transfer foods and liquids using dispensers only. We now provide redstone ladles to simplify such processes."
     },
     {
       "type": "text",

@@ -7,12 +7,12 @@
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/stone_griddle",
-			"text": "煎锅用于炒菜，石鏊是最容易获得的一种煎锅，但是它的导热性较差，导致需要更长的时间才能完成菜品。"
+			"text": "煎锅用于$(l:intro/sauteed_dishes)炒菜$(/l)，石鏊是最容易获得的一种煎锅，但是它的导热性较差，导致需要更长的时间才能完成菜品。"
 		},
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/copper_frying_pan",
-			"text": "金属煎锅有铜、铁、镀铅三种材质。煎锅需要放在热源，如$(l:intro/stove)灶台$(/l)或$(l:worldgen/volcanic_fumarole)火山喷气孔$(/l)上方使用。"
+			"text": "金属煎锅有铜、铁、$(l:intro/lead_cookwares)镀铅$(/l)三种材质。煎锅需要放在热源，如$(l:intro/stove)灶台$(/l)或$(l:worldgen/volcanic_fumarole)火山喷气孔$(/l)上方使用。"
 		},
 		{
 			"type": "text",

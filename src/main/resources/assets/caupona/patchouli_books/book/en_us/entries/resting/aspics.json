@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "All stews with stoke base can turn into aspics when rested. Aspics can stack and keep all the properties of the stews"
+			"text": "All stews $(l:intro/base)with stoke base$(/l) can turn into aspics when rested. Aspics can stack and keep all the properties of the stews"
 		},
 		{
 			"type": "text",
