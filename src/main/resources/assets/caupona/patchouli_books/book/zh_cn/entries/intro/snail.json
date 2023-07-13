@@ -8,7 +8,7 @@
 			"type": "patchouli:spotlight",
 			"item": "caupona:snail_bait",
 			"link_recipe": true,
-			"text": "蜗牛诱饵是用1面包，2糖或者蜂蜜，2核桃在500mB骨胶汤在$(l:intro/counter_with_dolium)带陶缸的台面$(/l)中进行静置转化产生蜗牛诱饵，蜗牛诱饵可以种植在树叶下方，在很长一段时间后会变成蜗牛。"
+			"text": "蜗牛诱饵是用1×面包、2×糖或者蜜脾、2×核桃、500mB骨胶汤在$(l:intro/counter_with_dolium)带陶缸的台面$(/l)中进行静置转化产生的。蜗牛诱饵可以种植在树叶下方，在很长一段时间后会变成蜗牛。"
 		},
 		{
 			"type": "patchouli:spotlight",
@@ -28,7 +28,7 @@
 		{
 			"type": "patchouli:spotlight",
 			"item": "caupona:plump_snail",
-			"text": "如果蜗牛在生长的任意过程中进食了果，则会生长成肥沃的蜗牛，烹饪后具有更多的饱食度和饱和度。"
+			"text": "如果蜗牛在生长的任意过程中进食了果，则会生长成肥满的蜗牛，烹饪后具有更多的饱食度和饱和度。"
 		}
 	]
 }

@@ -1,5 +1,5 @@
 {
-	"name": "Lead",
+	"name": "铅",
 	"icon": "caupona:lead",
 	"category": "caupona:intro",
 	"sortnum": 5,
@@ -8,18 +8,18 @@
 			"type": "patchouli:spotlight",
 			"item": "caupona:leaden_walnut",
 			"link_recipe": true,
-			"text": "生长于下界的$(l:worldgen/plants#walnut_tree)核桃$(/l)有几率变为铅核桃。"
+			"text": "There is a chance for $(l:worldgen/plants#walnut_tree)walnut trees$(/l) growing in the Nether to produce leaden walnuts, instead of ordinary ones."
 		},
 		{
 			"type": "patchouli:spotlight",
 			"item": "caupona:litharge_cake",
 			"link_recipe": true,
-			"text": "铅核桃和铁砧（不消耗）在$(l:intro/counter_with_dolium)带陶缸的台面$(/l)中进行静置转化产生密陀僧饼。"
+			"text": "Resting leaden walnuts with an anvil (not consumed) in $(l:intro/counter_with_dolium)dolia$(/l) yields litharge cakes."
 		},
 		{
 			"type": "smelting",
 			"recipe": "caupona:smelting/lead_nugget",
-			"text": "密陀僧饼冶炼后即可得到铅粒。"
+			"text": "Litharge cakes can be smelted into lead nuggets."
 		},
 	]
 }

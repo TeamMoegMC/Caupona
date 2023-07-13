@@ -1,0 +1,28 @@
+{
+  "name": "Redstone Ladle",
+  "icon": "caupona:redstone_ladle",
+  "category": "caupona:tweaks",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Although dispenser-based automation is provided by Caupona, such mechanisms might be invalidated by other mods due to compatibility, and it can still be bothersome to transfer foods and liquids using dispensers only. We now provide redstone ladles to simplify such processes."
+    },
+    {
+      "type": "text",
+      "text": "In brief, dispensers installed with redstone ladles would move food or liquid in front of them to the position behind them."
+    },
+    {
+      "type": "text",
+      "text": "If there is fluid blocks in front of them, they will try to pump the fluid into rear containers. The same attempts will be done if there are fluid containers instead of fluid blocks, and under such condition, up to 250 mB of the fluids will be transferred each time."
+    },
+    {
+      "type": "text",
+      "text": "Placed bowls of soup, either empty of full, are seen as fluid containers and can be interacted with dispensers equipped with redstone ladles. This is also true for stew pots, allowing the transfer of fluids between pots and bowls."
+    },
+    {
+      "type": "text",
+      "text": "Sautéed dishes will be transferred from pans, griddles or full dishes in front to rear empty dishes. Specially, an empty bowl will be returned to the pans / griddles if only the food were transferred."
+    }
+  ]
+}
