@@ -177,7 +177,9 @@ public class CPStatesProvider extends BlockStateProvider {
 	}
 
 	public void roadBlock(String name) {
+		
 		itemModels().getBuilder(name + "_road_side").parent(bmf("roads/" + name + "_road_side"));
+		
 		itemModels().getBuilder(name + "_road").parent(bmf("roads/" + name + "_road"));
 		getVariantBuilder(cpblock(name + "_road_side")).forAllStates(state -> {
 			Direction facing = state.getValue(StairBlock.FACING);
