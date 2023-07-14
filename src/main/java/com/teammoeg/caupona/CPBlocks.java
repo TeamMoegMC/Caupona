@@ -39,6 +39,7 @@ import com.teammoeg.caupona.blocks.decoration.CPStandingSignBlock;
 import com.teammoeg.caupona.blocks.decoration.CPTrapDoorBlock;
 import com.teammoeg.caupona.blocks.decoration.CPWallSignBlock;
 import com.teammoeg.caupona.blocks.decoration.ColumnCapitalBlock;
+import com.teammoeg.caupona.blocks.decoration.LacunarBlock;
 import com.teammoeg.caupona.blocks.decoration.SpokedFenceBlock;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlock;
 import com.teammoeg.caupona.blocks.foods.BowlBlock;
@@ -229,7 +230,8 @@ public class CPBlocks {
 						() -> new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f), false));
 				decoblock(name + "_acanthine_column_capital",
 						() -> new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f), true));
-				block(name + "_lacunar_tile",getTransparentProps().strength(2f, 6f),TabType.DECORATION);
+				decoblock(name + "_lacunar_tile",()->new LacunarBlock(getTransparentProps().strength(2f, 6f)
+						.isViewBlocking(CPBlocks::isntSolid)));
 				decoblock(name+"_spoked_fence",()->new SpokedFenceBlock(getTransparentProps().strength(2f, 6f)));
 			}
 			if(type.isRoadMaterial()) {
