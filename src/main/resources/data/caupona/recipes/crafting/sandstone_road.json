@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"SSS",
+		"==="
+	],
+	"key": {
+		"S": {
+			"item": "minecraft:cut_sandstone_slab"
+		},
+		"=": {
+			"item": "minecraft:light_gray_concrete"
+		}
+	},
+	"result": {
+		"item": "caupona:sandstone_road",
+		"count": 3
+	}
+}

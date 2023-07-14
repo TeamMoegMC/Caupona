@@ -1,0 +1,16 @@
+{
+	"name": "Aspics",
+	"icon": "caupona:poultry_soup_aspic",
+	"category": "caupona:resting",
+	"sortnum": 0,
+	"pages": [
+		{
+			"type": "text",
+			"text": "All stews $(l:intro/base)with stoke base$(/l) can turn into aspics when rested. Aspics can stack and keep all the properties of the stews"
+		},
+		{
+			"type": "text",
+			"text": "Aspics can be heated in stew pots (no fluid required) or portable braziers (one bowl of water required) to turn back into stews."
+		}
+	]
+}

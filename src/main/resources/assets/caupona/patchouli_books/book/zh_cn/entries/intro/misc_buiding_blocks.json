@@ -1,0 +1,24 @@
+{
+	"name": "杂项建筑材料",
+	"icon": "caupona:felsic_tuff_spoked_fence",
+	"category": "caupona:intro",
+	"sortnum": 30,
+	"pages": [
+		{
+			"type": "text",
+			"text": "本 mod 加入了数类纯装饰用途的建筑方块。对每类方块，都提供了数种材料的版本，以融入不同建筑。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:stone_lacunar_tile",
+			"title": "Lacunar Tiles",
+			"text": "井口天花砖一般用于天花板的铺设，其顶面及底面有阶梯状的凹陷。有石头、石英、方解石、长英质凝灰岩的版本。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:stone_spoked_fence",
+			"title": "Spoked Fences",
+			"text": "米字栏板与墙类似，不过是部分镂空的。有石头、石英、方解石、长英质凝灰岩的版本。"
+		}
+	]
+}

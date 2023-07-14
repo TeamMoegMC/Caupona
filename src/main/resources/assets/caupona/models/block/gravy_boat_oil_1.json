@@ -7,7 +7,7 @@
 		"0": "caupona:block/gravy_boat_walnut_oil",
 		"particle": "caupona:block/gravy_boat_walnut_oil"
 	},
-	"render_type":"translucent",
+	"render_type": "translucent",
 	"elements": [
 		{
 			"name": "gravyMouth",

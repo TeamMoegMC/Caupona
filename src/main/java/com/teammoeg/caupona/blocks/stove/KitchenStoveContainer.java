@@ -35,7 +35,7 @@ public class KitchenStoveContainer extends AbstractContainerMenu {
 	public KitchenStoveBlockEntity tile;
 
 	public KitchenStoveContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
-		this(id, inv, (KitchenStoveBlockEntity) inv.player.level.getBlockEntity(buffer.readBlockPos()));
+		this(id, inv, (KitchenStoveBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()));
 	}
 
 	public KitchenStoveContainer(int id, Inventory inv, KitchenStoveBlockEntity blockEntity) {

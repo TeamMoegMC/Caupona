@@ -1,3 +1,17 @@
 {
-  "parent": "caupona:block/wolfberry_fruits_stage_1"
+  "parent": "caupona:block/wolfberry_fruits_stage_3",
+  "display": {
+    "gui": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        1,
+        0
+      ]
+    }
+  }
 }

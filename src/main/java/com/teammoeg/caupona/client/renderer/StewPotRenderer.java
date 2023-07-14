@@ -25,7 +25,7 @@ import org.joml.Vector3f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.blocks.pot.StewPot;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.client.util.GuiUtils;
 
@@ -68,7 +68,7 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity> 
 		if (!blockEntity.getLevel().hasChunkAt(blockEntity.getBlockPos()))
 			return;
 		BlockState state = blockEntity.getBlockState();
-		if (state.getBlock() != CPBlocks.stew_pot.get())
+		if (!(state.getBlock() instanceof StewPot))
 			return;
 		matrixStack.pushPose();
 		FluidStack fs = blockEntity.getTank().getFluid();

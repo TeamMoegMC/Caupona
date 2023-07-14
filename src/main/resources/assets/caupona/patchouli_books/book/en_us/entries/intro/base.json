@@ -1,0 +1,27 @@
+{
+  "name": "Soup Base",
+  "icon": "caupona:water_or_stock_based",
+  "category": "caupona:intro",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Bases not only affect the soup types. Some bases may grant bonuses to the soups."
+    },
+    {
+      "type": "spotlight",
+      "item": "caupona:water",
+      "text": "Water has nothing special and grants no bonuses."
+    },
+    {
+      "type": "spotlight",
+      "item": "caupona:milk",
+      "text": "Milk provides extra saturation."
+    },
+    {
+      "type": "spotlight",
+      "item": "caupona:stock",
+      "text": "Stock restores more hunger and provides higher saturation."
+    }
+  ]
+}

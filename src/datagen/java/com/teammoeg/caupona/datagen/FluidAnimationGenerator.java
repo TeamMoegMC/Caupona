@@ -56,7 +56,7 @@ public class FluidAnimationGenerator extends JsonGenerator {
 					JsonObject frame = new JsonObject();
 					JsonObject anim = new JsonObject();
 					frame.add("animation", anim);
-					anim.addProperty("frametime", 2);
+					anim.addProperty("frametime", 6);
 					JsonArray ja = new JsonArray();
 					anim.add("frames", ja);
 					for (int i = 0; i < num; i++)

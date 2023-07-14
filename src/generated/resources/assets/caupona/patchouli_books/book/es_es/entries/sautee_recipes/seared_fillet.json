@@ -1,0 +1,14 @@
+{
+  "category": "caupona:sautee_recipes",
+  "icon": "caupona:seared_fillet",
+  "name": "Filete a la plancha",
+  "pages": [
+    {
+      "type": "caupona:fryrecipe",
+      "base": "caupona:gravy_boat",
+      "img": "caupona:textures/gui/recipes/frying/seared_fillet.png",
+      "recipe": "caupona:frying/seared_fillet",
+      "result": "caupona:seared_fillet"
+    }
+  ]
+}

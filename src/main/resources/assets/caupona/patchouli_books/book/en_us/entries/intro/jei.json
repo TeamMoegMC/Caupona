@@ -1,0 +1,16 @@
+{
+	"name": "JEI Support",
+	"icon": "caupona:chronoconis",
+	"category": "caupona:intro",
+	"sortnum": 102,
+	"pages": [
+		{
+			"type": "text",
+			"text": "All the recipes of this mod can be referred with Just Enough Items (JEI), and that is why this book does not include all recipes. The players are recommented to use JEI."
+		},
+		{
+			"type": "text",
+			"text": "Recipes types in this mod includes: $(li) Cooking recipes, as described in this book;$()$(li)Boiling;$()$(li)Convertion between aspics and stews;$()$(li)Resting, and$()$(li)Transferring fluids between containers.$()"
+		}
+	]
+}

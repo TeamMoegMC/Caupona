@@ -67,7 +67,6 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 		return nbt.getList("items", 10).stream().map(e -> (CompoundTag) e).map(FloatemStack::new)
 				.collect(Collectors.toList());
 	}
-
 	public float getDensity() {
 		return stacks.stream().map(FloatemStack::getCount).reduce(0f, Float::sum);
 	}
@@ -344,4 +343,6 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 		}
 		return null;
 	}
+
+
 }

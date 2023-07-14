@@ -1,0 +1,7 @@
+{
+	"parent": "caupona:block/roads/template_road_inner_corner_2",
+	"textures": {
+		"road": "caupona:block/roads/stone",
+		"particle": "caupona:block/roads/stone"
+	}
+}

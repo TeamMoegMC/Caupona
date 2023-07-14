@@ -1,0 +1,65 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube",
+	"texture_size": [64, 32],
+	"elements": [
+		{
+			"name": "umboCorner",
+			"from": [8, 14, 8],
+			"to": [16, 20, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [12, 12, 14, 15], "texture": "#road"},
+				"east": {"uv": [12, 12, 14, 15], "texture": "#road"},
+				"south": {"uv": [12, 12, 14, 15], "texture": "#road"},
+				"west": {"uv": [12, 12, 14, 15], "texture": "#road"},
+				"up": {"uv": [12, 8, 14, 12], "rotation": 180, "texture": "#road"}
+			}
+		},
+		{
+			"name": "agger",
+			"from": [0, 0, 0],
+			"to": [16, 14, 16],
+			"faces": {
+				"north": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"east": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"south": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"west": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"up": {"uv": [12, 0, 16, 8], "texture": "#road"},
+				"down": {"uv": [4, 8, 8, 16], "texture": "#road"}
+			}
+		},
+		{
+			"name": "umboW",
+			"from": [10, 14, 0],
+			"to": [16, 18, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [9.5, 13, 11, 15], "texture": "#road"},
+				"east": {"uv": [8, 11, 10, 13], "texture": "#road"},
+				"west": {"uv": [8, 11, 10, 13], "texture": "#road"},
+				"up": {"uv": [8, 8, 10, 11], "rotation": 270, "texture": "#road"}
+			}
+		},
+		{
+			"name": "umboN",
+			"from": [0, 14, 10],
+			"to": [8, 18, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [10, 11, 12, 13], "texture": "#road"},
+				"south": {"uv": [10, 11, 12, 13], "texture": "#road"},
+				"west": {"uv": [9.5, 13, 11, 15], "texture": "#road"},
+				"up": {"uv": [10, 8, 12, 11], "rotation": 180, "texture": "#road"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "OuterCornerRoad",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [0, 1, 2, 3]
+		}
+	]
+}

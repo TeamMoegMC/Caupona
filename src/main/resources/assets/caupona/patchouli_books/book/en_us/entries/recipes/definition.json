@@ -1,0 +1,16 @@
+{
+  "name": "Interpretation of Recipe Pictures",
+  "icon": "minecraft:bowl",
+  "category": "caupona:cook_recipes",
+  "priority": true,
+  "pages": [
+     {
+      "type": "text",
+      "text": "The top-left corner of the picture signifies the base requirement and density (unit: items per bowl of soup) requirement. Lower part of the image, split into two panels, specifies ingredient requirements. Requirements on the left panel should be fulfilled, while those on the right panel should be avoided."
+    },
+    {
+      "type": "text",
+      "text": "There are several terms you may meet in the requirement descriptions. $(l)Majority$() means that the amount of specified ingredients (usually categories) should excess one thrid of all the ingredients, and more than any other categories.$(br) $(l)Half$() means that the ingredients specified should be more than a half of all the ingredients.$(br) $(l)Any$() means that at least one of the ingredients specified should exist."
+    }
+  ]
+}

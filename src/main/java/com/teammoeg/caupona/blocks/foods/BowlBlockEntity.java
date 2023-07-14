@@ -22,15 +22,17 @@
 package com.teammoeg.caupona.blocks.foods;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BowlBlockEntity extends CPBaseBlockEntity implements IInfinitable {
+public class BowlBlockEntity extends CPBaseBlockEntity implements IInfinitable,IFoodContainer {
 	public ItemStack internal;
 	boolean isInfinite = false;
 
@@ -61,6 +63,29 @@ public class BowlBlockEntity extends CPBaseBlockEntity implements IInfinitable {
 	@Override
 	public boolean setInfinity() {
 		return isInfinite = !isInfinite;
+	}
+
+	@Override
+	public ItemStack getInternal(int num) {
+		return internal;
+	}
+
+	@Override
+	public void setInternal(int num, ItemStack is) {
+		if(!isInfinite) {
+			internal=is;
+			this.syncData();
+		}
+	}
+
+	@Override
+	public int getSlots() {
+		return 1;
+	}
+
+	@Override
+	public boolean accepts(int num, ItemStack is) {
+		return is.getItem() instanceof StewItem||is.is(Items.BOWL);
 	}
 
 }

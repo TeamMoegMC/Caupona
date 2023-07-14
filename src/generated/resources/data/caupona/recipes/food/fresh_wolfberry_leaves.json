@@ -1,0 +1,13 @@
+{
+  "type": "caupona:food",
+  "heal": 2,
+  "item": {
+    "item": "caupona:fresh_wolfberry_leaves"
+  },
+  "items": [
+    {
+      "item": "caupona:fresh_wolfberry_leaves"
+    }
+  ],
+  "sat": 0.4
+}

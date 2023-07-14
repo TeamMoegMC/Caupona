@@ -43,9 +43,9 @@ public class Add implements CookIngredients, ComplexCalculated {
 	public Add(JsonElement jo) {
 		if (jo.isJsonObject())
 			nums = SerializeUtil.parseJsonElmList(jo.getAsJsonObject().get("types").getAsJsonArray(),
-					SerializeUtil::ofNumber);
+					Numbers::of);
 		else if (jo.isJsonArray())
-			nums = SerializeUtil.parseJsonElmList(jo.getAsJsonArray(), SerializeUtil::ofNumber);
+			nums = SerializeUtil.parseJsonElmList(jo.getAsJsonArray(), Numbers::of);
 	}
 
 	public Add() {
@@ -91,11 +91,11 @@ public class Add implements CookIngredients, ComplexCalculated {
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {
-		SerializeUtil.writeList(buffer, nums, SerializeUtil::write);
+		SerializeUtil.writeList(buffer, nums, Numbers::write);
 	}
 
 	public Add(FriendlyByteBuf buffer) {
-		nums = SerializeUtil.readList(buffer, SerializeUtil::ofNumber);
+		nums = SerializeUtil.readList(buffer, Numbers::of);
 	}
 
 	@Override

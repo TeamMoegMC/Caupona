@@ -24,6 +24,7 @@ package com.teammoeg.caupona.blocks.plants;
 import com.teammoeg.caupona.CPTags.Blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
@@ -87,6 +88,16 @@ public class FruitBlock extends CropBlock {
 
 	protected ItemLike getBaseSeedId() {
 		return this;
+	}
+
+	@Override
+	public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return 20;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return 5;
 	}
 
 }

@@ -1,0 +1,30 @@
+{
+	"name": "Portable Brazier",
+	"icon": "caupona:portable_brazier",
+	"category": "caupona:intro",
+	"sortnum": 11,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/clay_portable_brazier"
+		},
+		{
+			"type": "smelting",
+			"recipe": "caupona:smelting/portable_brazier",
+			"text": "Portable braziers can be carried in your inventory, and opened when holding with right click. It's only use is to thaw $(l:resting/aspics)aspics$(/l) into soups."
+		},
+		{
+			"type": "text",
+			"text": "There are an input slot, a water bowl slot, an output slot and a fuel slot in the brazier GUI. Though water is not required in stew pots to thaw aspics, a bowl of water is always necessary here."
+		},
+		{
+			"type": "text",
+			"text": "Portable braziers consume one fuel item each time they work. Vivid charcoal and magma cream are accepted as fuel."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:vivid_charcoal",
+			"text": "There are two way to obtain vivid charcoal: craft with magma cream and charcoal, or rest slime balls, charcoal and lava together. Vivid charcoal is cheaper than magma cream, and it can only be used in portable braziers."
+		}
+	]
+}

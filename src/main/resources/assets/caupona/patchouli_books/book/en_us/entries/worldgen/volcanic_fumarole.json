@@ -1,0 +1,26 @@
+{
+	"name": "Volcanic Fumarole",
+	"icon": "caupona:pumice",
+	"category": "caupona:worldgen",
+	"sortnum": 1,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Volcanic Fumaroles are found in deserts and mountains. Some of them are active with lava on their bottoms, some are cooling with magma blocks, and the others completely cooled down, with obsidian blocks."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:fumarole_vent",
+			"text": "Volcanic Fumaroles contain a vent block in the central part. if two blocks below it is lava, it is then active, igniting entities on it and gradually generating pumice blooms on surrounding water. If the block below is magma block or obsidian, no pumice blooms will be generated."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:pumice_bloom",
+			"text": "Mining pumice blooms drops pumice, an important building material. Break them with silk touch to obtain pumice bloom itself."
+		},
+		{
+			"type": "text",
+			"text": "Active or cooling vents are free heat sources, which provide heat at a smaller flux compared to most stoves. But if $(l:tweaks/water_interaction)waterlogged$(/l), they will neither provide heat nor generate pumice blooms."
+		}
+	]
+}

@@ -25,22 +25,25 @@ import java.util.function.Predicate;
 
 import com.teammoeg.caupona.CPMain;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 
-public enum TabType implements Predicate<CreativeModeTab>{
-	MAIN(e->e==CPMain.main),
-	FOODS(e->e==CPMain.foods),
-	MAIN_AND_TRANSPORTATION(e->e==CPMain.main||e==CreativeModeTabs.TOOLS_AND_UTILITIES),
-	HIDDEN(e->false);
-	private final Predicate<CreativeModeTab> predicate;
+public class TabType implements Predicate<ResourceKey<CreativeModeTab>>{
+	public static final TabType MAIN=new TabType(e->e.equals(CPMain.main.getKey()));
+	public static final TabType FOODS=new TabType(e->e.equals(CPMain.foods.getKey()));
+	public static final TabType DECORATION=new TabType(e->e.equals(CPMain.decoration.getKey()));
+	public static final TabType MAIN_AND_DECORATION=new TabType(e->e.equals(CPMain.main.getKey())||e.equals(CPMain.decoration.getKey()));
+	public static final TabType MAIN_AND_TRANSPORTATION=new TabType(e->e.equals(CPMain.main.getKey())||e.equals(CreativeModeTabs.TOOLS_AND_UTILITIES));
+	public static final TabType HIDDEN=new TabType(e->false);
+	private final Predicate<ResourceKey<CreativeModeTab>> predicate;
 
-	private TabType(Predicate<CreativeModeTab> predicate) {
+	private TabType(Predicate<ResourceKey<CreativeModeTab>> predicate) {
 		this.predicate = predicate;
 	}
 
 	@Override
-	public boolean test(CreativeModeTab t) {
+	public boolean test(ResourceKey<CreativeModeTab> t) {
 		return predicate.test(t);
 	}
 	

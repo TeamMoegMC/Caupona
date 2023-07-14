@@ -1,0 +1,42 @@
+{
+	"name": "Spices",
+	"icon": "caupona:chives_spice_jar",
+	"category": "caupona:intro",
+	"sortnum": 24,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Spices can be applied to stews and sautéed dishes when they are taken from pots or pans. Spices usually grant an effect lasting a short period to the food. A seasoned food will lose its effect from spices when cooked again. Spices are contained in spice jars (actually flower pots), and some of the them are produced by resting."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/sugar_spice_jar",
+			"text": "Sugar provides Speed."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/chives_spice_jar",
+			"text": "Chives provides Slow Falling."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:garum_spice_jar",
+			"text": "Garum is made from fish in dolia, providing Jump Boost."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:vinegar_spice_jar",
+			"text": "Vinegar is made from berries or apple in dolia, providing Night Vision."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:sapa_spice_jar",
+			"text": "Defrutum cannot to produced solely, but it occurs in foods cooked with $(l:intro/lead_cookwares)lead cookwares$(/l), providing Hyperactive. This effect functions similarly with Strength, but will double the damage you take."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/asafoetida_spice_jar",
+			"text": "Asafœtida ultimately comes from $(l:intro/vege#silphium)silphia$(/l), providing Resistance."
+		}
+	]
+}

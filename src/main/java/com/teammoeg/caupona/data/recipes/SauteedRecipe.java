@@ -30,6 +30,7 @@ import com.teammoeg.caupona.CPTags.Items;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.SerializeUtil;
+import com.teammoeg.caupona.data.recipes.conditions.Conditions;
 import com.teammoeg.caupona.util.FloatemTagStack;
 import com.teammoeg.caupona.util.Utils;
 
@@ -78,12 +79,12 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 	public SauteedRecipe(ResourceLocation id, JsonObject data) {
 		super(id);
 		if (data.has("allow")) {
-			allow = SerializeUtil.parseJsonList(data.get("allow"), SerializeUtil::ofCondition);
-			SerializeUtil.checkConditions(allow);
+			allow = SerializeUtil.parseJsonList(data.get("allow"), Conditions::of);
+			Conditions.checkConditions(allow);
 		}
 		if (data.has("deny")) {
-			deny = SerializeUtil.parseJsonList(data.get("deny"), SerializeUtil::ofCondition);
-			SerializeUtil.checkConditions(deny);
+			deny = SerializeUtil.parseJsonList(data.get("deny"), Conditions::of);
+			Conditions.checkConditions(deny);
 		}
 		if (data.has("priority"))
 			priority = data.get("priority").getAsInt();
@@ -99,8 +100,8 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 
 	public SauteedRecipe(ResourceLocation id, FriendlyByteBuf data) {
 		super(id);
-		allow = SerializeUtil.readList(data, SerializeUtil::ofCondition);
-		deny = SerializeUtil.readList(data, SerializeUtil::ofCondition);
+		allow = SerializeUtil.readList(data, Conditions::of);
+		deny = SerializeUtil.readList(data, Conditions::of);
 		priority = data.readVarInt();
 		time = data.readVarInt();
 		output = data.readRegistryIdUnsafe(ForgeRegistries.ITEMS);
@@ -120,8 +121,8 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 	}
 
 	public void write(FriendlyByteBuf data) {
-		SerializeUtil.writeList(data, allow, SerializeUtil::write);
-		SerializeUtil.writeList(data, deny, SerializeUtil::write);
+		SerializeUtil.writeList(data, allow, Conditions::write);
+		SerializeUtil.writeList(data, deny, Conditions::write);
 		data.writeVarInt(priority);
 		data.writeVarInt(time);
 		data.writeRegistryIdUnsafe(ForgeRegistries.ITEMS, output);

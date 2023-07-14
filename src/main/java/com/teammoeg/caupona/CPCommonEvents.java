@@ -169,7 +169,7 @@ public class CPCommonEvents {
 
 	@SubscribeEvent
 	public static void onBowlUse(PlayerInteractEvent.RightClickItem event) {
-		if (event.getEntity() != null && !event.getEntity().level.isClientSide
+		if (event.getEntity() != null && !event.getEntity().level().isClientSide
 				&& event.getEntity() instanceof ServerPlayer) {
 			ItemStack stack = event.getItemStack();
 			LazyOptional<IFluidHandlerItem> cap = stack
@@ -189,7 +189,7 @@ public class CPCommonEvents {
 
 	@SubscribeEvent
 	public static void onItemUseFinish(LivingEntityUseItemEvent.Finish event) {
-		if (event.getEntity() != null && !event.getEntity().level.isClientSide
+		if (event.getEntity() != null && !event.getEntity().level().isClientSide
 				&& event.getEntity() instanceof ServerPlayer) {
 			ItemStack stack = event.getItem();
 			LazyOptional<IFluidHandlerItem> cap = stack
@@ -197,7 +197,7 @@ public class CPCommonEvents {
 			if (cap.isPresent() && stack.is(container)) {
 				IFluidHandlerItem data = cap.resolve().get();
 				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid)
-					CauponaApi.apply(event.getEntity().level, event.getEntity(),
+					CauponaApi.apply(event.getEntity().level(), event.getEntity(),
 							SoupFluid.getInfo(data.getFluidInTank(0)));
 			}
 		}

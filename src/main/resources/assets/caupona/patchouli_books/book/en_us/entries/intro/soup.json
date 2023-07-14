@@ -1,0 +1,28 @@
+{
+	"name": "Stew",
+	"icon": "caupona:acquacotta",
+	"category": "caupona:intro",
+	"sortnum": 0,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Stews and soups (inaccurately treated as synonyms here and used interchangably) are drinkable hot foods. The type that a soup may appear depends on its base and ingredients. All the properties of a stew are the sum of its ingredients. Here, one bowl of stew corresponds to 250 mB of the stew fluid."
+		},
+		{
+			"type": "text",
+			"text": "Stews can be cooked with raw ingredients, which will be regarded equivalent to their cooked counterparts. Compare with sautéed dishes, stews grant greater saturation, while requiring extra fluid ingredients, and takes longer time to cook."
+		},
+		{
+			"type": "text",
+			"text": "For stews that are thick enough, some of hunger values they restore would convert into saturation, making a higher saturation-hunger ratio."
+		},
+		{
+			"type": "text",
+			"text": "Potions can also be added to stews, and more than one bottle of the same kind will have the effect duration added together. A stew could contain at most three types of effects, and lasting at most double of the original duration."
+		},
+		{
+			"type": "text",
+			"text": "Use shift + right click to place stews in the world."
+		}
+	]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Kitchen Stove",
+  "icon": "caupona:brick_kitchen_stove",
+  "category": "caupona:intro",
+  "sortnum": 3,
+  "pages": [
+     {
+      "type": "text",
+      "text": "Kitchen Stoves can be used to heat cooking utensils."
+    },
+    {
+      "type": "text",
+      "text": "Kitchen Stoves would stop working after being idle for a while. "
+    },
+    {
+      "type": "crafting",
+      "recipe": "caupona:mud_kitchen_stove",
+      "text": "Mud-and-drystone stoves are cheap, but they produce heat twice slower then other stove varieties, on par with $(l:worldgen/volcanic_fumarole)fumarole vents$(/l)."
+    },
+    {
+      "type": "crafting",
+      "recipe": "caupona:crafting/brick_kitchen_stove",
+      "text": "There're also stoves of $(l:intro/kitchen_materials)other materials$(/l), which are faster but consume more fuel."
+    }
+  ]
+}

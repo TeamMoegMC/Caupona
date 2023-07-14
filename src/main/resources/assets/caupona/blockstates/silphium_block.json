@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "caupona:block/silphium_bottom"
+    },
+    "half=upper": {
+      "model": "caupona:block/silphium_top"
+    }
+  }
+}

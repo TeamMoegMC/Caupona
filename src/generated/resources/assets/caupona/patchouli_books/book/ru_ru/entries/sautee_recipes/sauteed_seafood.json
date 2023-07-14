@@ -1,0 +1,14 @@
+{
+  "category": "caupona:sautee_recipes",
+  "icon": "caupona:sauteed_seafood",
+  "name": "Морепродукты в Соусе",
+  "pages": [
+    {
+      "type": "caupona:fryrecipe",
+      "base": "caupona:gravy_boat",
+      "img": "caupona:textures/gui/recipes/frying/sauteed_seafood.png",
+      "recipe": "caupona:frying/sauteed_seafood",
+      "result": "caupona:sauteed_seafood"
+    }
+  ]
+}

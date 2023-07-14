@@ -1,0 +1,28 @@
+{
+  "name": "Dispense tweaks",
+  "icon": "minecraft:dispenser",
+  "category": "caupona:tweaks",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Dispensers now have a few new functions to automate cooking."
+    },
+    {
+      "type": "text",
+      "text": "When there are bowls or buckets inside a dispenser, it would try to drain fluid containers in front of it. This can be used for automating stew output."
+    },
+     {
+      "type": "text",
+      "text": "When there are water buckets or bowls of stew inside a dispenser, it would try to fill the fluid container in front of it. This can be used to add water to pots automatically, or to automate fluid mixing."
+    },
+     {
+      "type": "text",
+      "text": "When there are oil bottles inside a dispenser, and there is a gravy boat (placed oil bottle) in front, it would try to replace the gravy boat with the ones in its inventory. This can be used for automating oil restocking."
+    },
+     {
+      "type": "text",
+      "text": "Also, putting bowls inside a dispenser allows it to take out cooked dishes from frying pans. Putting spice jars inside dispenser can replace other spice jars in GUIs of utensils, while putting flower pots inside can withdraw the spices."
+    }
+  ]
+}

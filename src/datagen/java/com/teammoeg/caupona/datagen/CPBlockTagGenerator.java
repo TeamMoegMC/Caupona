@@ -27,6 +27,7 @@ import java.util.concurrent.CompletableFuture;
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.CPTags;
 import com.teammoeg.caupona.util.MaterialType;
 
 import net.minecraft.core.HolderLookup;
@@ -56,13 +57,16 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 	@Override
 	protected void addTags(Provider pProvider) {
 		TagAppender<Block> pickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
-		adds(tag(com.teammoeg.caupona.CPTags.Blocks.STOVES),CPBlocks.stoves.stream().map(e->e.getKey()).toArray(ResourceKey[]::new));
+		adds(tag(CPTags.Blocks.STOVES),CPBlocks.stoves.stream().map(e->e.getKey()).toArray(ResourceKey[]::new));
 		adds(pickaxe,CPBlocks.stoves.stream().map(e->e.getKey()).toArray(ResourceKey[]::new));
-		pickaxe.add((ResourceKey)CPBlocks.stew_pot.getKey());
+		adds(pickaxe,CPBlocks.STEW_POT.getKey(),CPBlocks.STEW_POT_LEAD.getKey());
+		pickaxe.add(CPBlocks.LEAD_BLOCK.getKey());
 		for (String wood : CPBlocks.woods) {
 			for (String type : ImmutableSet.of("_button", "_door", "_fence", "_fence_gate", "_log", "_planks",
-					"_pressure_plate", "_sapling", "_sign", "_wall_sign", "_slab", "_stairs", "_trapdoor", "_wood"))
+					"_pressure_plate", "_sapling", "_sign", "_wall_sign", "_slab", "_stairs", "_trapdoor", "_wood")) {
 				tag(BlockTags.MINEABLE_WITH_AXE).add(cp(wood + type));
+				
+			}
 			tag(BlockTags.MINEABLE_WITH_AXE).add(cp("stripped_" + wood + "_log"), cp("stripped_" + wood + "_wood"));
 			tag(BlockTags.MINEABLE_WITH_HOE).add(cp(wood + "_leaves")).add(cp(wood + "_fruits"));
 			tag(BlockTags.LEAVES).add(cp(wood + "_leaves"));
@@ -75,8 +79,7 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag(BlockTags.PRESSURE_PLATES).add(cp(wood + "_pressure_plate"));
 			tag(BlockTags.WOODEN_PRESSURE_PLATES).add(cp(wood + "_pressure_plate"));
 			tag(BlockTags.WALL_POST_OVERRIDE).add(cp(wood + "_pressure_plate"));
-			tag(BlockTags.LOGS_THAT_BURN).add(cp(wood + "_wood")).add(cp(wood + "_log"),
-					cp("stripped_" + wood + "_log"), cp("stripped_" + wood + "_wood"));
+			tag(BlockTags.LOGS_THAT_BURN).add(cp(wood + "_wood"),cp(wood + "_log"),cp("stripped_" + wood + "_log"), cp("stripped_" + wood + "_wood"));
 			tag(BlockTags.LOGS).add(cp(wood + "_wood")).add(cp(wood + "_log"), cp("stripped_" + wood + "_log"),
 					cp("stripped_" + wood + "_wood"));
 			tag(BlockTags.SLABS).add(cp(wood + "_slab"));
@@ -89,8 +92,8 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag(BlockTags.WALL_SIGNS).add(cp(wood + "_wall_sign"));
 			tag(BlockTags.FENCE_GATES).add(cp(wood + "_fence_gate"));
 			tag(BlockTags.UNSTABLE_BOTTOM_CENTER).add(cp(wood + "_fence_gate"));
-
-			tag(com.teammoeg.caupona.CPTags.Blocks.FRUITS_GROWABLE_ON).add(cp(wood + "_leaves"));
+			
+			tag(CPTags.Blocks.FRUITS_GROWABLE_ON).add(cp(wood + "_leaves"));
 			tag(frl("fence_gates")).add(cp(wood + "_fence_gate"));
 			tag(frl("fence_gates/wooden")).add(cp(wood + "_fence_gate"));
 		}
@@ -99,7 +102,7 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			String str=tye.getName();
 			if(tye.isPillarMaterial())
 				for (String type : ImmutableSet.of("_column_fluted_plinth", "_column_fluted_shaft", "_column_shaft",
-						"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital", "_acanthine_column_capital"))
+						"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital", "_acanthine_column_capital","_lacunar_tile","_spoked_fence"))
 					pickaxe.add(cp(str + type));
 			if(tye.isDecorationMaterial()) {
 				pickaxe.add(cp(str), cp(str + "_slab"), cp(str + "_stairs"), cp(str + "_wall"));
@@ -110,43 +113,49 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			if(tye.isCounterMaterial()) {
 				pickaxe.add(cp(str + "_chimney_flue"), cp(str + "_chimney_pot"), cp(str + "_counter"),
 						cp(str + "_counter_with_dolium"));
-				tag(com.teammoeg.caupona.CPTags.Blocks.COUNTERS).add(cp(str + "_chimney_flue"), cp(str + "_chimney_pot"), cp(str + "_counter"),
+				tag(CPTags.Blocks.COUNTERS).add(cp(str + "_chimney_flue"), cp(str + "_chimney_pot"), cp(str + "_counter"),
 						cp(str + "_counter_with_dolium"));
-				tag(com.teammoeg.caupona.CPTags.Blocks.CHINMEY_BLOCK).add(cp(str + "_chimney_flue"));
-				tag(com.teammoeg.caupona.CPTags.Blocks.CHIMNEY_POT).add(cp(str + "_chimney_pot"));
+				tag(CPTags.Blocks.CHINMEY_BLOCK).add(cp(str + "_chimney_flue"));
+				tag(CPTags.Blocks.CHIMNEY_POT).add(cp(str + "_chimney_pot"));
 			}
 			if(tye.isHypocaustMaterial()) {
-				tag(com.teammoeg.caupona.CPTags.Blocks.CALIDUCTS).add(cp(str + "_caliduct"));
-				tag(com.teammoeg.caupona.CPTags.Blocks.HYPOCAUST_HEAT_CONDUCTOR).add(cp(str + "_hypocaust_firebox"));
-				tag(com.teammoeg.caupona.CPTags.Blocks.CHIMNEY_IGNORES).add(cp(str + "_hypocaust_firebox"));
+				tag(CPTags.Blocks.CALIDUCTS).add(cp(str + "_caliduct"));
+				tag(CPTags.Blocks.HYPOCAUST_HEAT_CONDUCTOR).add(cp(str + "_hypocaust_firebox"));
+				tag(CPTags.Blocks.CHIMNEY_IGNORES).add(cp(str + "_hypocaust_firebox"));
 				pickaxe.add(cp(str + "_caliduct")).add(cp(str + "_hypocaust_firebox"));
+			}
+			if(tye.isRoadMaterial()) {
+				pickaxe.add(cp(str+"_road")).add(cp(str+"_road_side"));
 			}
 		}
 
-		adds(tag(com.teammoeg.caupona.CPTags.Blocks.PANS),CPBlocks.STONE_PAN.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey());
-		adds(tag(com.teammoeg.caupona.CPTags.Blocks.CHIMNEY_IGNORES)
+		adds(tag(CPTags.Blocks.PANS),CPBlocks.STONE_PAN.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey());
+		adds(tag(CPTags.Blocks.CHIMNEY_IGNORES)
 				.addTags(otag("pans"), BlockTags.SIGNS, BlockTags.BUTTONS, BlockTags.LEAVES, BlockTags.BANNERS,
 						BlockTags.CANDLES, BlockTags.WALL_SIGNS, BlockTags.STANDING_SIGNS, BlockTags.CANDLES,
 						BlockTags.CORAL_PLANTS, BlockTags.FENCES, BlockTags.WALLS, BlockTags.TRAPDOORS, BlockTags.DOORS,
 						BlockTags.FLOWER_POTS, BlockTags.WALL_POST_OVERRIDE, BlockTags.FLOWERS)
-				,rk(Blocks.AIR), rk(Blocks.VINE), rk(Blocks.CAVE_VINES), CPBlocks.stew_pot.getKey(), CPBlocks.WOLF.getKey());
-		tag(com.teammoeg.caupona.CPTags.Blocks.FUMAROLE_HOT_BLOCK).add(rk(Blocks.MAGMA_BLOCK));
-		tag(com.teammoeg.caupona.CPTags.Blocks.FUMAROLE_VERY_HOT_BLOCK).add(rk(Blocks.LAVA));
+				,rk(Blocks.AIR), rk(Blocks.VINE), rk(Blocks.CAVE_VINES), CPBlocks.STEW_POT.getKey(), CPBlocks.WOLF.getKey());
+		tag(CPTags.Blocks.FUMAROLE_HOT_BLOCK).add(rk(Blocks.MAGMA_BLOCK));
+		tag(CPTags.Blocks.FUMAROLE_VERY_HOT_BLOCK).add(rk(Blocks.LAVA));
 		for (String bush : ImmutableSet.of("wolfberry", "fig")) {
 			tag(BlockTags.LOGS).add(cp(bush + "_log"));
 			tag(BlockTags.LOGS_THAT_BURN).add(cp(bush + "_log"));
 			tag(BlockTags.LEAVES).add(cp(bush + "_leaves"));
-			tag(com.teammoeg.caupona.CPTags.Blocks.FRUITS_GROWABLE_ON).add(cp(bush + "_leaves"));
+			tag(CPTags.Blocks.FRUITS_GROWABLE_ON).add(cp(bush + "_leaves"));
 			tag(BlockTags.SAPLINGS).add(cp(bush + "_sapling"));
 			tag(BlockTags.MINEABLE_WITH_AXE).add(cp(bush + "_log"));
 			tag(BlockTags.MINEABLE_WITH_HOE).add(cp(bush + "_leaves")).add(cp(bush + "_fruits"));
+			tag(CPTags.Blocks.SNAIL_PLUMP_FOOD).add(cp(bush + "_fruits"));
 		}
-
+		adds(tag(BlockTags.MINEABLE_WITH_HOE),CPBlocks.SNAIL.getKey(),CPBlocks.SNAIL_BAIT.getKey(),CPBlocks.SNAIL_MUCUS.getKey());
 		adds(pickaxe,CPBlocks.PUMICE_BLOOM.getKey(), CPBlocks.FUMAROLE_BOULDER.getKey(), CPBlocks.FUMAROLE_VENT.getKey(), CPBlocks.PUMICE.getKey());
-		adds(pickaxe,CPBlocks.WOLF.getKey(), CPBlocks.STONE_PAN.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey());
+		adds(pickaxe,CPBlocks.WOLF.getKey(), CPBlocks.STONE_PAN.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey(),CPBlocks.LEAD_PAN.getKey());
 		adds(tag(BlockTags.NEEDS_STONE_TOOL),CPBlocks.WOLF.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey());
-		tag(com.teammoeg.caupona.CPTags.Blocks.HYPOCAUST_HEAT_CONDUCTOR).addTag(otag("caliducts"));
-
+		tag(CPTags.Blocks.HYPOCAUST_HEAT_CONDUCTOR).addTag(otag("caliducts"));
+		tag(CPTags.Blocks.SNAIL_GROWABLE_ON).addTag(CPTags.Blocks.FRUITS_GROWABLE_ON).addTag(BlockTags.LEAVES).add(CPBlocks.SNAIL_MUCUS.getKey());
+		tag(CPTags.Blocks.SNAIL_PLUMP_FOOD).add(CPBlocks.WALNUT_FRUIT.getKey());
+		adds(tag(CPTags.Blocks.SNAIL_FOOD).addTag(CPTags.Blocks.FRUITS_GROWABLE_ON).addTag(BlockTags.LEAVES).addTag(CPTags.Blocks.SNAIL_PLUMP_FOOD),CPBlocks.SNAIL_BAIT.getKey());
 
 	}
 	@SafeVarargs

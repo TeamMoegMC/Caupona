@@ -22,13 +22,13 @@
 package com.teammoeg.caupona;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
+import com.teammoeg.caupona.blocks.foods.IFoodContainer;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
@@ -36,7 +36,6 @@ import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.entity.CPBoat;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.ICreativeModeTabItem;
-import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
@@ -45,60 +44,70 @@ import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.vehicle.Boat;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import net.minecraftforge.fluids.capability.wrappers.BucketPickupHandlerWrapper;
+import net.minecraftforge.fluids.capability.wrappers.FluidBlockWrapper;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 @Mod.EventBusSubscriber(modid = CPMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CPCommonBootStrap {
-	public static final List<Pair<Supplier<? extends ItemLike>,Float>> compositables = new ArrayList<>();
+	public static final List<Pair<Supplier<? extends ItemLike>, Float>> compositables = new ArrayList<>();
+	public static final List<Pair<Supplier<? extends Block>,Pair<Integer,Integer>>> flamables=new ArrayList<>();
 	@SubscribeEvent
-	public static void onCreativeTabCreate(CreativeModeTabEvent.Register event) {
-		CPMain.main=event.registerCreativeModeTab(CPMain.rl("main"),Arrays.asList(),Arrays.asList(CreativeModeTabs.SPAWN_EGGS),e->e.icon(()->new ItemStack(CPBlocks.stew_pot.get())).title(Utils.translate("itemGroup.caupona")));
-		CPMain.foods=event.registerCreativeModeTab(CPMain.rl("food"),Arrays.asList(),Arrays.asList(CPMain.rl("main")),e->e.icon(()->new ItemStack(CPItems.gravy_boat.get())).title(Utils.translate("itemGroup.caupona_foods")));
-	}
-	@SubscribeEvent
-	public static void onCreativeTabContents(CreativeModeTabEvent.BuildContents event) {
-		CreativeTabItemHelper helper=new CreativeTabItemHelper(event.getTab());
-		CPItems.ITEMS.getEntries().forEach(e->{
-			if(e.get() instanceof ICreativeModeTabItem item) {
+	public static void onCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
+		CreativeTabItemHelper helper = new CreativeTabItemHelper(event.getTabKey(), event.getTab());
+		CPItems.ITEMS.getEntries().forEach(e -> {
+			if (e.get() instanceof ICreativeModeTabItem item) {
 				item.fillItemCategory(helper);
 			}
 		});
 		helper.register(event);
-		
+
 	}
-	public static <T extends ItemLike> RegistryObject<T> asCompositable(RegistryObject<T> obj,float val){
+
+	public static <T extends ItemLike> RegistryObject<T> asCompositable(RegistryObject<T> obj, float val) {
 		compositables.add(Pair.of(obj, val));
 		return obj;
-	} 
+	}
+	public static <T extends Block> RegistryObject<T> asFlamable(RegistryObject<T> obj,int v1,int v2) {
+		flamables.add(Pair.of(obj, Pair.of(v1, v2)));
+		return obj;
+	}
+	
 	@SubscribeEvent
 	public static void onCommonSetup(@SuppressWarnings("unused") FMLCommonSetupEvent event) {
 		registerDispensers();
-		compositables.forEach(p->ComposterBlock.COMPOSTABLES.put(p.getFirst().get(),(float)p.getSecond()));
+		compositables.forEach(p -> ComposterBlock.COMPOSTABLES.put(p.getFirst().get(), (float) p.getSecond()));
+		FireBlock fire=(FireBlock) Blocks.FIRE;
+		flamables.forEach(p->fire.setFlammable(p.getFirst().get(), p.getSecond().getFirst(), p.getSecond().getSecond()));
 	}
-
 
 	public static void registerDispensers() {
 		DispenserBlock.registerBehavior(Items.BOWL, new DefaultDispenseItemBehavior() {
@@ -113,8 +122,8 @@ public class CPCommonBootStrap {
 				FluidState fs = bp.getLevel().getBlockState(front).getFluidState();
 				BlockEntity blockEntity = bp.getLevel().getBlockEntity(front);
 				if (blockEntity != null) {
-					LazyOptional<IFluidHandler> ip = blockEntity
-							.getCapability(ForgeCapabilities.FLUID_HANDLER, d.getOpposite());
+					LazyOptional<IFluidHandler> ip = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER,
+							d.getOpposite());
 					if (ip.isPresent()) {
 						ItemStack ret = CauponaApi.fillBowl(ip.resolve().get()).orElse(null);
 						if (ret != null) {
@@ -146,6 +155,91 @@ public class CPCommonBootStrap {
 					return is;
 				}
 				return this.defaultBehaviour.dispense(bp, is);
+			}
+
+		});
+		DispenserBlock.registerBehavior(CPItems.redstone_ladle.get(), new DefaultDispenseItemBehavior() {
+			@SuppressWarnings("resource")
+			@Override
+			protected ItemStack execute(BlockSource bp, ItemStack is) {
+
+				Direction d = bp.getBlockState().getValue(DispenserBlock.FACING);
+				BlockPos front = bp.getPos().relative(d);
+				BlockPos back = bp.getPos().relative(d.getOpposite());
+				Block src = bp.getLevel().getBlockState(front).getBlock();
+				LazyOptional<IFluidHandler> blockSource = FluidUtil.getFluidHandler(bp.getLevel(), front,
+						d.getOpposite());
+				BlockEntity besrc=bp.getLevel().getBlockEntity(front);
+				BlockEntity blockTarget = bp.getLevel().getBlockEntity(back);
+				if (blockTarget != null) {
+					LazyOptional<IFluidHandler> iptar = blockTarget.getCapability(ForgeCapabilities.FLUID_HANDLER, d);
+					if (iptar.isPresent()) {
+						if (blockSource.isPresent()) {
+							FluidUtil.tryFluidTransfer(iptar.orElse(null), blockSource.orElse(null), 250, true);
+
+						} else if (src instanceof BucketPickup bpu) {
+							FluidUtil.tryFluidTransfer(iptar.orElse(null),
+									new BucketPickupHandlerWrapper(bpu, bp.getLevel(), front), FluidType.BUCKET_VOLUME,
+									true);
+						} else if (src instanceof IFluidBlock bpu) {
+							FluidUtil.tryFluidTransfer(iptar.orElse(null),
+									new FluidBlockWrapper(bpu, bp.getLevel(), front), Integer.MAX_VALUE, true);
+						}else if(besrc instanceof IFoodContainer cont) {
+							for(int i=0;i<cont.getSlots();i++) {
+								ItemStack its=cont.getInternal(i);
+								FluidStack fs=BowlContainingRecipe.extractFluid(its);
+								if(!fs.isEmpty()) {
+									if(iptar.orElse(null).fill(fs, FluidAction.SIMULATE)==fs.getAmount()) {
+										iptar.orElse(null).fill(fs, FluidAction.EXECUTE);
+										cont.setInternal(i,its.getCraftingRemainingItem());
+										break;
+									}
+								}
+								
+							}
+						}
+					}else if(blockTarget instanceof IFoodContainer contt) {
+						LazyOptional<IFluidHandler> ipsrc = besrc.getCapability(ForgeCapabilities.FLUID_HANDLER, d.getOpposite());
+						if(besrc instanceof IFoodContainer cont) {
+							outer:for(int i=0;i<cont.getSlots();i++) {
+								ItemStack its=cont.getInternal(i);
+								if(!its.isEmpty()&&!its.is(Items.BOWL)) {
+									for(int j=0;j<contt.getSlots();j++) {
+										ItemStack its2=contt.getInternal(j);
+										if(its2.is(Items.BOWL)&&cont.accepts(i, its2)&&contt.accepts(j, its)) {
+											cont.setInternal(i, its2);
+											contt.setInternal(j, its);
+											break outer;
+										}
+									}
+								}
+							}
+						}else if(ipsrc.isPresent()){
+							IFluidHandler tank=ipsrc.orElse(null);
+							FluidStack fs=tank.drain(250, FluidAction.SIMULATE);
+							if(!fs.isEmpty()) {
+								for(int j=0;j<contt.getSlots();j++) {
+									ItemStack its2=contt.getInternal(j);
+									if(its2.is(Items.BOWL)&&its2.getCount()==1) {
+										BowlContainingRecipe recipe=BowlContainingRecipe.recipes.get(fs.getFluid());
+										if(recipe!=null) {
+											ItemStack out=recipe.handle(fs);
+											if(contt.accepts(j, out)) {
+												fs=tank.drain(250, FluidAction.EXECUTE);
+												contt.setInternal(j,out);
+											}
+											break;
+										}
+									}
+								}
+							}
+						}
+						
+					}
+
+					return is;
+				}
+				return is;
 			}
 
 		});
@@ -216,8 +310,8 @@ public class CPCommonBootStrap {
 				BlockPos front = source.getPos().relative(d);
 				BlockEntity blockEntity = world.getBlockEntity(front);
 				if (blockEntity != null) {
-					LazyOptional<IFluidHandler> ip = blockEntity
-							.getCapability(ForgeCapabilities.FLUID_HANDLER, d.getOpposite());
+					LazyOptional<IFluidHandler> ip = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER,
+							d.getOpposite());
 					if (ip.isPresent()) {
 						FluidActionResult fa = FluidUtil.tryEmptyContainerAndStow(stack, ip.resolve().get(), null, 1250,
 								null, true);
@@ -256,8 +350,8 @@ public class CPCommonBootStrap {
 								this.defaultBehaviour.dispense(source, ret);
 						}
 					} else if (blockEntity != null) {
-						LazyOptional<IFluidHandler> ip = blockEntity
-								.getCapability(ForgeCapabilities.FLUID_HANDLER, d.getOpposite());
+						LazyOptional<IFluidHandler> ip = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER,
+								d.getOpposite());
 						if (ip.isPresent()) {
 							IFluidHandler handler = ip.resolve().get();
 							if (handler.fill(fs, FluidAction.SIMULATE) == fs.getAmount()) {
@@ -348,7 +442,4 @@ public class CPCommonBootStrap {
 		}
 	}
 
-
-	
-	
 }

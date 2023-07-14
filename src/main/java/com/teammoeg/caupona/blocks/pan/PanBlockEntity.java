@@ -26,7 +26,9 @@ import org.jetbrains.annotations.NotNull;
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPConfig;
+import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.blocks.foods.IFoodContainer;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.PanPendingContext;
@@ -62,7 +64,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,IInfinitable {
+public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,IInfinitable,IFoodContainer {
 	//process
 	public int process;
 	public int processMax;
@@ -214,12 +216,19 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	}
 
 	private ItemStack tryAddSpice(ItemStack fs) {
-		ItemStack spi = inv.getStackInSlot(11);
+		ItemStack ospi = inv.getStackInSlot(11);
+		ItemStack spi=ospi;
 		SpiceRecipe spice = SpiceRecipe.find(spi);
-		if (spice != null && SpiceRecipe.getMaxUse(spi) >= fs.getCount()) {
+		if(this.getBlockState().is(CPBlocks.LEAD_PAN.get())) {
+			if(spice!=null&&spice.canReactLead) {
+				spi=CPItems.getSapa();
+				spice=SpiceRecipe.find(spi);
+			}
+		}
+		if (spice != null && SpiceRecipe.getMaxUse(ospi) >= fs.getCount()) {
 			SauteedFoodInfo si = DishItem.getInfo(fs);
 			if (!isInfinite) 
-				inv.setStackInSlot(11, SpiceRecipe.handle(spi, fs.getCount()));
+				inv.setStackInSlot(11, SpiceRecipe.handle(ospi, fs.getCount()));
 			si.addSpice(spice.effect, spi);
 			DishItem.setInfo(fs, si);
 		}
@@ -329,7 +338,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 					if (ois.isEmpty()) {
 						interninv.set(j, is.copy());
 						break;
-					} else if (ois.sameItem(is) && ItemStack.tagMatches(ois, is)) {
+					} else if (ItemStack.isSameItemSameTags(ois, is)) {
 						ois.setCount(ois.getCount() + is.getCount());
 						break;
 					}
@@ -424,5 +433,29 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	@Override
 	public boolean setInfinity() {
 		return isInfinite=!isInfinite;
+	}
+
+	@Override
+	public ItemStack getInternal(int num) {
+		ItemStack result=inv.extractItem(10, 1,true);
+		return result;
+	}
+
+	@Override
+	public void setInternal(int num, ItemStack is) {
+		inv.extractItem(10, 1, false);
+		is=inv.insertItem(9, is,false);
+		this.syncData();
+		Utils.dropToWorld(this.getLevel(), is, this.getBlockPos());
+	}
+
+	@Override
+	public int getSlots() {
+		return 1;
+	}
+
+	@Override
+	public boolean accepts(int num, ItemStack is) {
+		return is.is(Items.BOWL);
 	}
 }

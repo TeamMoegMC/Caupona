@@ -1,3 +1,6 @@
 {
-  "parent": "caupona:block/stew_pot"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "caupona:item/stew_pot"
+  }
 }

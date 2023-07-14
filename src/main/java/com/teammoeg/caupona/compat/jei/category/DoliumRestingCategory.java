@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPConfig;
@@ -46,6 +45,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -73,10 +73,10 @@ public class DoliumRestingCategory implements IRecipeCategory<DoliumRecipe> {
 
 	@SuppressWarnings("resource")
 	@Override
-	public void draw(DoliumRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
+	public void draw(DoliumRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
 			double mouseY) {
 		String burnTime = String.valueOf(CPConfig.COMMON.staticTime.get() / 20f) + "s";
-		Minecraft.getInstance().font.drawShadow(stack, burnTime, 100, 55, 0xFFFFFF);
+		stack.drawString(Minecraft.getInstance().font,  burnTime, 100, 55, 0xFFFFFF);
 	}
 
 	@Override

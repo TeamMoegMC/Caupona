@@ -1,0 +1,34 @@
+{
+	"name": "Hypocaust and Bath",
+	"icon": "caupona:opus_incertum_hypocaust_firebox",
+	"category": "caupona:intro",
+	"sortnum": 46,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Hypocausts are antique central heating systems. In a hypocaust system, heat comes from a central block (firebox) and spreads to a relatively large area."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_incertum_hypocaust_firebox"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_incertum_caliduct",
+			"text": "$(l:intro/kitchen_materials)Kitchen materials$(/l) can be used to build hypocausts, except mud-and-drystone, since it could be unstable and is not waterproof."
+		},
+		{
+			"type": "text",
+			"text": "When building a hypocaust system, the central firebox and caliducts should be connected horizontally, and the firebox should be put on a heat source, like $(l:intro/stove)stoves$(/l) or $(l:worldgen/volcanic_fumarole)fumarole vent$(/l). A hypocaust system can be heated by multiple fireboxes, but the heat reaches will not add up."
+		},
+		{
+			"type": "text",
+			"text": "Heated hypocaust system would in turn heat water above it, making it bath water with steam particles. When inside bath water, you can gain experience gradually, but at a very slow speed. A firebox can heat up a 9x9 area surrounding it."
+		},
+		{
+			"type": "image",
+			"images": ["caupona:textures/gui/entries/bath.png"],
+			"text": "An example of a hypocaust-heated bath."
+		}
+	]
+}

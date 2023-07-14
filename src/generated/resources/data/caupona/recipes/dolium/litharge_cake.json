@@ -1,0 +1,25 @@
+{
+  "type": "caupona:dolium",
+  "amount": 0,
+  "density": 0.0,
+  "items": [
+    {
+      "count": 1,
+      "item": {
+        "item": "caupona:leaden_walnut"
+      }
+    },
+    {
+      "count": 0,
+      "item": {
+        "tag": "minecraft:anvil"
+      }
+    }
+  ],
+  "keepInfo": false,
+  "output": {
+    "type": "forge:nbt",
+    "count": 1,
+    "item": "caupona:litharge_cake"
+  }
+}

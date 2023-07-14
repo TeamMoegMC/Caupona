@@ -1,0 +1,17 @@
+{
+	"name": "Situla",
+	"icon": "caupona:situla",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/situla",
+			"text": "The volumn inside a situla is 1250 mB, the same with stew pots and dolia. Situlae are hence dedicated to transfer fluids (including stews)."
+		},
+		{
+			"type": "text",
+			"text": "Situlae interact with fluids in the world. A half-full situla will still be filled even if the remaining space is less than one bucket, but with the residual fluid being lost."
+		}
+	]
+}

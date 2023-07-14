@@ -1,0 +1,41 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube",
+	"texture_size": [64, 32],
+	"elements": [
+		{
+			"name": "agger",
+			"from": [0, 0, 0],
+			"to": [16, 14, 16],
+			"faces": {
+				"north": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"east": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"south": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"west": {"uv": [0, 9, 4, 16], "texture": "#road"},
+				"up": {"uv": [4, 0, 8, 8], "texture": "#road"},
+				"down": {"uv": [4, 8, 8, 16], "texture": "#road"}
+			}
+		},
+		{
+			"name": "umboCorner",
+			"from": [8, 14, 8],
+			"to": [16, 20, 16],
+			"faces": {
+				"north": {"uv": [12, 12, 14, 15], "texture": "#road"},
+				"east": {"uv": [12, 12, 14, 15], "texture": "#road"},
+				"south": {"uv": [12, 12, 14, 15], "texture": "#road"},
+				"west": {"uv": [12, 12, 14, 15], "texture": "#road"},
+				"up": {"uv": [12, 8, 14, 12], "texture": "#road"},
+				"down": {"uv": [0, 0, 2, 4], "texture": "#road"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "InnerCornerRoad",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [0, 1]
+		}
+	]
+}

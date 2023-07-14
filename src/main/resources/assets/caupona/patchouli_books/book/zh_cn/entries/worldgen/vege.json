@@ -1,0 +1,26 @@
+{
+	"name": "草本",
+	"icon": "caupona:silphium_block",
+	"category": "caupona:worldgen",
+	"sortnum": 0,
+	"pages": [
+		{
+			"type": "text",
+			"text": "现在世界上会额外生成一种草本植物：巫洛阿魏。草本植物只能使用骨粉来增殖，不能重新种植。"
+		},
+		{
+			"type": "empty"
+		},
+		{
+			"type": "image",
+			"images": ["caupona:textures/gui/entries/silphium.png"],
+			"anchor": "silphium",
+			"title": "巫洛阿魏"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:silphium",
+			"text": "巫洛阿魏生成在向日葵平原中，巫洛阿魏可以与铁砧（不消耗）在$(l:intro/counter_with_dolium)带陶缸的台面$(/l)中进行静置转化产生阿魏，可以用于制作调味料。"
+		}
+	]
+}

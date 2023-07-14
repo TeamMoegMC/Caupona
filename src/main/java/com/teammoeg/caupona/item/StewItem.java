@@ -22,11 +22,8 @@
 package com.teammoeg.caupona.item;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
-import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
@@ -35,17 +32,10 @@ import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.StewInfo;
 import com.teammoeg.caupona.util.Utils;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -77,75 +67,8 @@ public class StewItem extends EdibleBlock{
 		if (base != null&&!info.stacks.isEmpty())
 			tooltip.add(Utils.translate("tooltip.caupona.base", 
 					ForgeRegistries.FLUIDS.getValue(base).getFluidType().getDescription()));
-		addPotionTooltip(info.effects, tooltip, 1);
+		Utils.addPotionTooltip(info.effects, tooltip, 1);
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
-	}
-
-	public static void addPotionTooltip(List<MobEffectInstance> list, List<Component> lores, float durationFactor) {
-		List<Pair<Attribute, AttributeModifier>> list1 = Lists.newArrayList();
-		if (!list.isEmpty()) {
-			for (MobEffectInstance effectinstance : list) {
-				MutableComponent iformattabletextcomponent = Utils.translate(
-						effectinstance.getDescriptionId());
-				MobEffect effect = effectinstance.getEffect();
-				Map<Attribute, AttributeModifier> map = effect.getAttributeModifiers();
-				if (!map.isEmpty()) {
-					for (Entry<Attribute, AttributeModifier> entry : map.entrySet()) {
-						AttributeModifier attributemodifier = entry.getValue();
-						AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(),
-								effect.getAttributeModifierValue(effectinstance.getAmplifier(), attributemodifier),
-								attributemodifier.getOperation());
-						list1.add(new Pair<>(entry.getKey(), attributemodifier1));
-					}
-				}
-
-				if (effectinstance.getAmplifier() > 0) {
-					iformattabletextcomponent = Utils.translate("potion.withAmplifier",
-							iformattabletextcomponent,
-							Utils.translate("potion.potency." + effectinstance.getAmplifier()));
-				}
-
-				if (effectinstance.getDuration() > 20) {
-					iformattabletextcomponent = Utils.translate("potion.withDuration",
-							iformattabletextcomponent, MobEffectUtil.formatDuration(effectinstance, durationFactor));
-				}
-
-				lores.add(iformattabletextcomponent.withStyle(effect.getCategory().getTooltipFormatting()));
-			}
-		}
-
-		if (!list1.isEmpty()) {
-			lores.add(Component.empty());
-			lores.add((Utils.translate("potion.whenDrank")).withStyle(ChatFormatting.DARK_PURPLE));
-
-			for (Pair<Attribute, AttributeModifier> pair : list1) {
-				AttributeModifier attributemodifier2 = pair.getSecond();
-				double d0 = attributemodifier2.getAmount();
-				double d1;
-				if (attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_BASE
-						&& attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_TOTAL) {
-					d1 = attributemodifier2.getAmount();
-				} else {
-					d1 = attributemodifier2.getAmount() * 100.0D;
-				}
-
-				if (d0 > 0.0D) {
-					lores.add((Utils.translate(
-							"attribute.modifier.plus." + attributemodifier2.getOperation().toValue(),
-							ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
-							Utils.translate(pair.getFirst().getDescriptionId())))
-									.withStyle(ChatFormatting.BLUE));
-				} else if (d0 < 0.0D) {
-					d1 = d1 * -1.0D;
-					lores.add((Utils.translate(
-							"attribute.modifier.take." + attributemodifier2.getOperation().toValue(),
-							ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
-							Utils.translate(pair.getFirst().getDescriptionId())))
-									.withStyle(ChatFormatting.RED));
-				}
-			}
-		}
-
 	}
 
 	public static StewInfo getInfo(ItemStack stack) {
@@ -200,7 +123,7 @@ public class StewItem extends EdibleBlock{
 			.meat().build();
 
 	public StewItem(ResourceLocation fluid, Properties properties) {
-		super(CPBlocks.bowl.get(), properties.food(fakefood));
+		super(CPBlocks.BOWL.get(), properties.food(fakefood));
 		CPItems.stews.add(this);
 		this.fluid = fluid;
 	}

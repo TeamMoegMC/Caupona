@@ -57,10 +57,15 @@ sourceSets {
 }
 task genItemNames(){
 	inputs.file(sourceSets.main.resources.srcDirs[0])
-	outputs.file(new File(sourceSets.datagen.resources.srcDirs[0],"assets/caupona/item/items.txt"))
+	
 	file(new File(sourceSets.datagen.resources.srcDirs[0],"assets/caupona/item/items.txt")).withWriter{ out ->
-  		fileTree(include:['*.png'],dir:"src/main/resources/assets/caupona/textures/item").each {out.println "\""+it.name+"\","}
+  		fileTree(include:['*.png'],dir:"src/main/resources/assets/caupona/textures/item").each {out.println it.name}
 	}
+	file(new File(sourceSets.datagen.resources.srcDirs[0],"assets/caupona/block/blocks.txt")).withWriter{ out ->
+  		fileTree(include:['*.json'],dir:"src/main/resources/assets/caupona/blockstates").each {out.println it.name}
+	}
+	outputs.file(new File(sourceSets.datagen.resources.srcDirs[0],"assets/caupona/item/items.txt"))
+	outputs.file(new File(sourceSets.datagen.resources.srcDirs[0],"assets/caupona/block/blocks.txt"))
 }
 minecraft {
 	//mappings channel: 'snapshot', version: '20210309-1.16.5'
@@ -135,11 +140,6 @@ repositories {
             includeGroup "mezz.jei"
         }
     }
-    // Needed for Curios API
-    maven {
-        name = "theillusivec4 maven"
-        url = "https://maven.theillusivec4.top/"
-    }
     maven {
         url "https://www.cursemaven.com"
         content {
@@ -166,7 +166,7 @@ dependencies {
     //implementation fg.deobf("curse.maven:diet-443570:3758891")
 
 	//compileOnly fg.deobf("mezz.jei:jei-1.19.2-common-api:11.2.0.247")
-	implementation fg.deobf("curse.maven:jei-238222:4473386")
+	implementation fg.deobf("curse.maven:jei-238222:4597711")
 	//implementation fg.deobf("mezz.jei:jei-1.19.3-forge:12.3.0.21")
     
 	//implementation fg.deobf("curse.maven:kiwi-303657:3974084")
@@ -183,9 +183,8 @@ dependencies {
 	
 	//implementation fg.deobf("curse.maven:simple-farming-327554:3400041")
 
-	
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.19.3-78:api")
-    //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.19.3-78")
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-81-FORGE:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-81-FORGE")
 
     // FG5 requires 0.8.3
     annotationProcessor "org.spongepowered:mixin:0.8.3:processor"
@@ -209,20 +208,20 @@ jar {
 
 jar.finalizedBy('reobfJar')
 build.finalizedBy('genItemNames')
+jar.mustRunAfter('runData')
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
     archiveClassifier.set('sources')
 }
-
+task fullJar
+fullJar.finalizedBy('runData')
+fullJar.finalizedBy('jar')
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     archiveClassifier.set('deobf')
 }
 
-artifacts {
-    archives sourcesJar
-    archives deobfJar
-}
 String getChangelogText() {
     def changelogFile = file('changelog.txt')
     String str = "<span style=\"font-size: 18px; color: #333399;\">Caupona v${mod_version}</span>&nbsp;&nbsp;<em>for Minecraft ${minecraft_version}</em><br/>"
@@ -242,13 +241,34 @@ String getChangelogText() {
 }
 
 
+artifacts {
+    archives sourcesJar
+    archives deobfJar
+}
 // Automatically apply a license header when running checkLicense / updateLicense
 license {
     header = project.file('HEADER.txt')
     ignoreFailures = true
     include '**/*.java'
 }
-
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact jar
+            artifact deobfJar
+            artifact sourcesJar
+        }
+    }
+    repositories {
+        maven {
+            url = 'https://www.khjxiaogu.com/maven'
+            credentials {
+                username = findProperty('khjmavenUser')
+                password = findProperty('khjmavenPass')
+            }
+        }
+    }
+}
 curseforge {
     project {
         def envApiKey = System.getenv('CURSEFORGE_API_KEY')

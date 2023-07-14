@@ -1,1 +1,3 @@
-adapt changes from 1.19
+Added spoked fence and lacunar blocks for decoration.
+Polished patchouli books and language files.
+Fix internal lightings of chimney flutes

@@ -49,6 +49,9 @@ import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
+import com.teammoeg.caupona.data.recipes.baseconditions.BaseConditions;
+import com.teammoeg.caupona.data.recipes.conditions.Conditions;
+import com.teammoeg.caupona.data.recipes.numbers.Numbers;
 
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -153,7 +156,9 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 	
 		logger.info("Building recipes...");
 		Stopwatch sw = Stopwatch.createStarted();
-		SerializeUtil.clearCache();
+		Conditions.clearCache();
+		Numbers.clearCache();
+		BaseConditions.clearCache();
 		BowlContainingRecipe.recipes = filterRecipes(recipes, BowlContainingRecipe.class, BowlContainingRecipe.TYPE)
 				.collect(Collectors.toMap(e -> e.fluid, UnaryOperator.identity()));
 

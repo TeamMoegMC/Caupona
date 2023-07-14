@@ -21,14 +21,30 @@
 
 package com.teammoeg.caupona.util;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import com.google.common.collect.Lists;
+import com.mojang.datafixers.util.Pair;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.LiteralContents;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffectUtil;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -66,6 +82,16 @@ public class Utils {
 		}
 		return in;
 	}
+	public static void dropToWorld(Level level,ItemStack is,BlockPos pos) {
+		if (!is.isEmpty() && !level.isClientSide)
+        {
+            ItemEntity entityitem = new ItemEntity(level, pos.getX(), pos.getY() + 0.5, pos.getZ(),is);
+            entityitem.setPickUpDelay(40);
+            entityitem.setDeltaMovement(entityitem.getDeltaMovement().multiply(0, 1, 0));
+
+            level.addFreshEntity(entityitem);
+        }
+	}
 	public static MutableComponent translate(String format,Object...objects) {
 		return MutableComponent.create(new TranslatableContents(format,null,objects));
 	}
@@ -97,5 +123,71 @@ public class Utils {
 
 	public static ResourceLocation getRegistryName(MobEffect effect) {
 		return ForgeRegistries.MOB_EFFECTS.getKey(effect);
+	}
+	public static void addPotionTooltip(List<MobEffectInstance> list, List<Component> lores, float durationFactor) {
+		List<Pair<Attribute, AttributeModifier>> list1 = Lists.newArrayList();
+		if (!list.isEmpty()) {
+			for (MobEffectInstance effectinstance : list) {
+				MutableComponent iformattabletextcomponent = translate(
+						effectinstance.getDescriptionId());
+				MobEffect effect = effectinstance.getEffect();
+				Map<Attribute, AttributeModifier> map = effect.getAttributeModifiers();
+				if (!map.isEmpty()) {
+					for (Entry<Attribute, AttributeModifier> entry : map.entrySet()) {
+						AttributeModifier attributemodifier = entry.getValue();
+						AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(),
+								effect.getAttributeModifierValue(effectinstance.getAmplifier(), attributemodifier),
+								attributemodifier.getOperation());
+						list1.add(new Pair<>(entry.getKey(), attributemodifier1));
+					}
+				}
+	
+				if (effectinstance.getAmplifier() > 0) {
+					iformattabletextcomponent = translate("potion.withAmplifier",
+							iformattabletextcomponent,
+							translate("potion.potency." + effectinstance.getAmplifier()));
+				}
+	
+				if (effectinstance.getDuration() > 20) {
+					iformattabletextcomponent = translate("potion.withDuration",
+							iformattabletextcomponent, MobEffectUtil.formatDuration(effectinstance, durationFactor));
+				}
+	
+				lores.add(iformattabletextcomponent.withStyle(effect.getCategory().getTooltipFormatting()));
+			}
+		}
+	
+		if (!list1.isEmpty()) {
+			lores.add(Component.empty());
+			lores.add((translate("potion.whenDrank")).withStyle(ChatFormatting.DARK_PURPLE));
+	
+			for (Pair<Attribute, AttributeModifier> pair : list1) {
+				AttributeModifier attributemodifier2 = pair.getSecond();
+				double d0 = attributemodifier2.getAmount();
+				double d1;
+				if (attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_BASE
+						&& attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_TOTAL) {
+					d1 = attributemodifier2.getAmount();
+				} else {
+					d1 = attributemodifier2.getAmount() * 100.0D;
+				}
+	
+				if (d0 > 0.0D) {
+					lores.add((translate(
+							"attribute.modifier.plus." + attributemodifier2.getOperation().toValue(),
+							ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
+							translate(pair.getFirst().getDescriptionId())))
+									.withStyle(ChatFormatting.BLUE));
+				} else if (d0 < 0.0D) {
+					d1 = d1 * -1.0D;
+					lores.add((translate(
+							"attribute.modifier.take." + attributemodifier2.getOperation().toValue(),
+							ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
+							translate(pair.getFirst().getDescriptionId())))
+									.withStyle(ChatFormatting.RED));
+				}
+			}
+		}
+	
 	}
 }

@@ -116,45 +116,6 @@ public class CPFluids {
 				.map(e->ResourceKey.create(Registries.FLUID,e));
 	}
 	static {
-		/*soupfluids.put("acquacotta", soup(0xffdcb259));
-		soupfluids.put("bisque", soup(0xffb87246));
-		soupfluids.put("bone_gelatin", soup(0xffe3a14a));
-		soupfluids.put("borscht", soup(0xff802629));
-		soupfluids.put("borscht_cream", soup(0xffcf938e));
-		soupfluids.put("congee", soup(0xffd6cbb3));
-		soupfluids.put("cream_of_meat_soup", soup(0xffb98c60));
-		soupfluids.put("cream_of_mushroom_soup", soup(0xffa7815f));
-		soupfluids.put("custard", soup(0xffecda6e));
-		soupfluids.put("dilute_soup", soup(0xffc2b598));
-		soupfluids.put("egg_drop_soup", soup(0xffd9b773));
-		soupfluids.put("egg_tongsui", soup(0xffc9b885));
-		soupfluids.put("fish_chowder", soup(0xffd7c68e));
-		soupfluids.put("fish_soup", soup(0xffa18441));
-		soupfluids.put("fricassee", soup(0xffd2a85f));
-		soupfluids.put("goji_tongsui", soup(0xffa97744));
-		soupfluids.put("goulash", soup(0xff9e4a2a));
-		soupfluids.put("gruel", soup(0xffd3ba9a));
-		soupfluids.put("hodgepodge", soup(0xffb59d64));
-		soupfluids.put("meat_soup", soup(0xff895e2d));
-		soupfluids.put("mushroom_soup", soup(0xff97664c));
-		soupfluids.put("nail_soup", water(0xFF3ABDFF));
-		soupfluids.put("nettle_soup", soup(0xff467b32));
-		soupfluids.put("okroshka", soup(0xffd0c776));
-		// soupfluids.put("plain_milk",milk(0xffffffff));
-		// soupfluids.put("plain_water",water(0xff374780));
-		soupfluids.put("porridge", soup(0xffc6b177));
-		soupfluids.put("poultry_soup", soup(0xffbc9857));
-		soupfluids.put("pumpkin_soup", soup(0xffd88f31));
-		soupfluids.put("pumpkin_soup_cream", soup(0xffe5c58b));
-		soupfluids.put("rice_pudding", soup(0xffd8d2bc));
-		soupfluids.put("scalded_milk", milk(0xfff3f0e3));
-		soupfluids.put("seaweed_soup", soup(0xff576835));
-		soupfluids.put("stock", soup(0xffc1a242));
-		soupfluids.put("stracciatella", soup(0xffbfbe5c));
-		soupfluids.put("ukha", soup(0xffb78533));
-		soupfluids.put("vegetable_chowder", soup(0xffa39a42));
-		soupfluids.put("vegetable_soup", soup(0xff848929));
-		soupfluids.put("walnut_soup", soup(0xffdcb072));*/
 		for (String i : CPItems.soups) {
 			RegistryObject<FluidType> type=FLUID_TYPES.register(i,()->new TextureColorPair(CPStewTexture.texture.getOrDefault(i, STILL_SOUP_TEXTURE),0xffffffff).create(i));
 			LazySupplier<Fluid> crf=new LazySupplier<>();

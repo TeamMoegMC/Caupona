@@ -1,0 +1,20 @@
+{
+  "name": "Sautéed food",
+  "icon": "caupona:sauteed_seafood",
+  "category": "caupona:intro",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Sautéed dishes are another class of custom cuisines provided by Caupona. They are cooked in $(l:intro/frying_pans)pans or griddles$(/l). The properties of a sautéed dish are the sum of all its ingredients."
+    },
+    {
+      "type": "text",
+      "text": "Like $(l:intro/soup)soups and stews$(/l), raw ingredients and their cooked counterparts are not distinguished in sautéing. Compare to soup cooking, sautéing needs no fluid bases and is much faster, which also means a less consumption of fuel. However, the saturation granted by sautéed dishes is lower and potions cannot be added."
+    },
+    {
+      "type": "text",
+      "text": "Use shift + right click to place sautéed dishes in the world."
+    }
+  ]
+}
