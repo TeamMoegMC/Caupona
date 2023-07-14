@@ -38,6 +38,7 @@ import com.teammoeg.caupona.blocks.decoration.CPRoadSideBlock;
 import com.teammoeg.caupona.blocks.decoration.CPStandingSignBlock;
 import com.teammoeg.caupona.blocks.decoration.CPTrapDoorBlock;
 import com.teammoeg.caupona.blocks.decoration.CPWallSignBlock;
+import com.teammoeg.caupona.blocks.decoration.ChimneyFluteBlock;
 import com.teammoeg.caupona.blocks.decoration.ColumnCapitalBlock;
 import com.teammoeg.caupona.blocks.decoration.LacunarBlock;
 import com.teammoeg.caupona.blocks.decoration.SpokedFenceBlock;
@@ -206,7 +207,7 @@ public class CPBlocks {
 			if (type.isCounterMaterial()) {
 				stove(name + "_kitchen_stove", getStoveProps(),
 						type.getCounterGrade() == 1 ? CPBlockEntityTypes.STOVE_T1 : CPBlockEntityTypes.STOVE_T2);
-				block(name + "_chimney_flue", getTransparentProps(),TabType.MAIN_AND_DECORATION);
+				maindecoblock(name + "_chimney_flue", ()->new ChimneyFluteBlock(getTransparentProps()));
 				maindecoblock(name + "_chimney_pot", () -> new ChimneyPotBlock(getTransparentProps()));
 				decoblock(name + "_counter", () -> new CPHorizontalBlock(getStoneProps()));
 				maindecoblock(name + "_counter_with_dolium", () -> new CounterDoliumBlock(getTransparentProps()));

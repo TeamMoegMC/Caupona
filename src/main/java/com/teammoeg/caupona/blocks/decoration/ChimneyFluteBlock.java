@@ -29,15 +29,14 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class LacunarBlock extends Block {
-	static final VoxelShape base = Block.box(0, 2, 0, 16, 14, 16);
-	static final VoxelShape s1=Block.box(0, 0, 0, 16, 16, 2);
-	static final VoxelShape s2=Block.box(0, 0, 0, 2, 16, 16);
-	static final VoxelShape s3=Block.box(14, 0, 0, 16, 16, 16);
-	static final VoxelShape s4=Block.box(0, 0, 14, 16, 16, 16);
-	static final VoxelShape shape=Shapes.or(base, s1, s2, s3, s4);
+public class ChimneyFluteBlock extends Block {
+	static final VoxelShape s1=Block.box(0, 0, 0, 16, 16, 5);
+	static final VoxelShape s2=Block.box(0, 0, 0, 5, 16, 16);
+	static final VoxelShape s3=Block.box(11, 0, 0, 16, 16, 16);
+	static final VoxelShape s4=Block.box(0, 0, 11, 16, 16, 16);
+	static final VoxelShape shape=Shapes.or( s1, s2, s3, s4);
 	
-	public LacunarBlock(Properties p_49795_) {
+	public ChimneyFluteBlock(Properties p_49795_) {
 		super(p_49795_);
 	}
 
