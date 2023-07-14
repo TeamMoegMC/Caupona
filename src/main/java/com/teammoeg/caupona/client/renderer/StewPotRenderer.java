@@ -25,7 +25,6 @@ import org.joml.Vector3f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.pot.StewPot;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.client.util.GuiUtils;

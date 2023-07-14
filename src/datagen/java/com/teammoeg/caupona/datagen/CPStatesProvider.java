@@ -33,6 +33,7 @@ import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.decoration.CPRoadSideBlock;
+import com.teammoeg.caupona.blocks.decoration.SpokedFenceBlock;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.plants.FruitBlock;
 import com.teammoeg.caupona.blocks.stove.KitchenStove;
@@ -117,6 +118,19 @@ public class CPStatesProvider extends BlockStateProvider {
 						"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital",
 						"_acanthine_column_capital"))
 					blockItemModel(stone + type);
+				simpleBlockItem(cpblock(stone+"_lacunar_tile"),bmf(stone+"_lacunar_tile"));
+				itemModel(cpblock(stone+"_spoked_fence"),bmf(stone+"_spoked_fence_inventory"));
+				this.getMultipartBuilder(cpblock(stone+"_spoked_fence"))
+				.part().modelFile(bmf(stone+"_spoked_fence_side")).rotationY(270)
+				.addModel().condition(SpokedFenceBlock.WEST_WALL,true).end()
+				.part().modelFile(bmf(stone+"_spoked_fence_side")).rotationY(0)
+				.addModel().condition(SpokedFenceBlock.NORTH_WALL,true).end()
+				.part().modelFile(bmf(stone+"_spoked_fence_side")).rotationY(90)
+				.addModel().condition(SpokedFenceBlock.EAST_WALL,true).end()
+				.part().modelFile(bmf(stone+"_spoked_fence_side")).rotationY(180)
+				.addModel().condition(SpokedFenceBlock.SOUTH_WALL,true).end()
+				.part().modelFile(bmf(stone+"_spoked_fence_post"))
+				.addModel().end();
 			}
 			if (rtype.isHypocaustMaterial()) {
 				blockItemModel(stone + "_hypocaust_firebox");

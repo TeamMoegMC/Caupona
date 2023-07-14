@@ -34,11 +34,12 @@ import com.teammoeg.caupona.blocks.decoration.CPButtonBlock;
 import com.teammoeg.caupona.blocks.decoration.CPDoorBlock;
 import com.teammoeg.caupona.blocks.decoration.CPPressurePlateBlock;
 import com.teammoeg.caupona.blocks.decoration.CPRoadBlock;
+import com.teammoeg.caupona.blocks.decoration.CPRoadSideBlock;
 import com.teammoeg.caupona.blocks.decoration.CPStandingSignBlock;
 import com.teammoeg.caupona.blocks.decoration.CPTrapDoorBlock;
 import com.teammoeg.caupona.blocks.decoration.CPWallSignBlock;
 import com.teammoeg.caupona.blocks.decoration.ColumnCapitalBlock;
-import com.teammoeg.caupona.blocks.decoration.CPRoadSideBlock;
+import com.teammoeg.caupona.blocks.decoration.SpokedFenceBlock;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlock;
 import com.teammoeg.caupona.blocks.foods.BowlBlock;
 import com.teammoeg.caupona.blocks.foods.DishBlock;
@@ -70,7 +71,6 @@ import com.teammoeg.caupona.util.TabType;
 import com.teammoeg.caupona.worldgen.DefaultTreeGrower;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
@@ -229,6 +229,8 @@ public class CPBlocks {
 						() -> new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f), false));
 				decoblock(name + "_acanthine_column_capital",
 						() -> new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f), true));
+				block(name + "_lacunar_tile",getTransparentProps().strength(2f, 6f),TabType.DECORATION);
+				decoblock(name+"_spoked_fence",()->new SpokedFenceBlock(getTransparentProps().strength(2f, 6f)));
 			}
 			if(type.isRoadMaterial()) {
 				decoblock(name+"_road_side",()->new CPRoadSideBlock(getTransparentProps().isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid).strength(2f, 6f)));
@@ -388,17 +390,14 @@ public class CPBlocks {
 				.noOcclusion();
 	}
 
-	@SuppressWarnings("unused")
 	private static boolean isntSolid(BlockState state, BlockGetter reader, BlockPos pos) {
 		return false;
 	}
 
-	@SuppressWarnings("unused")
 	private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
 		return (boolean) false;
 	}
 
-	@SuppressWarnings("unused")
 	private static Boolean ocelotOrParrot(BlockState p_50822_, BlockGetter p_50823_, BlockPos p_50824_,
 			EntityType<?> p_50825_) {
 		return p_50825_ == EntityType.OCELOT || p_50825_ == EntityType.PARROT;

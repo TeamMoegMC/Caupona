@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.CachedDataDeserializer;
 import com.teammoeg.caupona.data.Deserializer;

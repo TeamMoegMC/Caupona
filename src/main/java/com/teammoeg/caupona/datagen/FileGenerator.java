@@ -133,6 +133,7 @@ public abstract class FileGenerator implements DataProvider {
 	public String getName() {
 		return name+" File Generator";
 	}
+	@SuppressWarnings("deprecation")
 	static CompletableFuture<?> saveFile(CachedOutput cache,byte[] data, Path path) {
 	      return CompletableFuture.runAsync(() -> {
 	          try {

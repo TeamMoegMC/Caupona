@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.api.GameTranslation;
 import com.teammoeg.caupona.data.recipes.IConditionalRecipe;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
@@ -52,6 +51,7 @@ public class AllowenceTooltip implements ICustomComponent {
 	public AllowenceTooltip() {
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
 		recipe = lookup.apply(recipe);

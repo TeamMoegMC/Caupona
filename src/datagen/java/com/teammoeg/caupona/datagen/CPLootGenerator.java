@@ -143,7 +143,7 @@ public class CPLootGenerator extends LootTableProvider {
 				if(rtype.isPillarMaterial()) {
 					for (String type : ImmutableSet.of("_column_fluted_plinth", "_column_fluted_shaft", "_column_shaft",
 							"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital",
-							"_acanthine_column_capital"))
+							"_acanthine_column_capital","_lacunar_tile","_spoked_fence"))
 						dropSelf(cp(stone + type));
 				}
 				if(rtype.isHypocaustMaterial()) {

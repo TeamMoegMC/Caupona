@@ -1,7 +1,6 @@
 package com.teammoeg.caupona.datagen;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -155,7 +154,7 @@ public class JavaFileOutput {
 	
 	private final FileOutput fo;
 	private int indent = 0;
-	private int blocks = 0;
+
 	
 	private final List<String> imports=new ArrayList<>();
 	private final List<String> lines=new ArrayList<>();
@@ -222,7 +221,7 @@ public class JavaFileOutput {
 		lines.add("// "+line);
 	}
 
-	public void createMap(String modifier,String name,Class<? extends Map> class1,Class<?> kt,Class<?> vt) {
+	public void createMap(String modifier,String name,@SuppressWarnings("rawtypes") Class<? extends Map> class1,Class<?> kt,Class<?> vt) {
 		line().literal(modifier).type(Map.class).generic(kt,vt).literal(name).literal("=").newInst(class1).generic().complete().end();
 	}
 	public void startComment(boolean isDocument,String line) {
