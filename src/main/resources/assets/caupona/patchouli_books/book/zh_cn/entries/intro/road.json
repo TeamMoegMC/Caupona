@@ -1,0 +1,25 @@
+{
+	"name": "道路",
+	"icon": "caupona:stone_road",
+	"category": "caupona:intro",
+	"sortnum": 29,
+	"pages": [
+		{
+			"type": "text",
+			"text": "道路是重要的工程。通过使用本 mod 提供的道路，可以显著缩短在不同地点间旅行所需的时间。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/stone_road"
+		},
+		{
+			"type": "text",
+			"text": "提供三种材料的道路：石砖、长英质凝灰岩砖、砂岩。除材料外，没有其他使用上的区别。$(br)道路对疾跑有非常显著的速度提升，但并不会降低移动导致的饱食度消耗，故在道路上长距离移动时仍需准备充足食物。$(br)道路不会加速正常行走。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/stone_road_side",
+			"text": "带路缘的道路方块一般设置在道路边缘。路缘可防止玩家脱离道路（除非跳跃）。"
+		}
+	]
+}

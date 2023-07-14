@@ -1,0 +1,25 @@
+{
+	"name": "Roads",
+	"icon": "caupona:stone_road",
+	"category": "caupona:intro",
+	"sortnum": 29,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Roadworks are important projects. By constructing roads provided by Caupona, the time cost to travel between different places could be significantly reduced."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/stone_road"
+		},
+		{
+			"type": "text",
+			"text": "Roads of three materials are provides: stone bricks, felsic tuff bricks, and sandstone. There are no practical differences besides their materials.$(br)Roads boost the speed of sprinting greatly, but they do not reduce hunger caused by moving, therefore it is recommended that enought food were prepared if you travel for long distances on the roads.$(br)Roads do not accelerate walking."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/stone_road_side",
+			"text": "Roads with kerbs are commonly put at the edges of roads. Kerbs prevent you from accidentally leaving the roads, as long as not jumping over them."
+		}
+	]
+}
