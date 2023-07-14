@@ -20,7 +20,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Active or cooling vents are free heat source, which provides heat at a smaller flux compared to most stoves. But if $(l:tweaks/water_interaction)waterlogged$(/l), they will neither provide heat nor generate pumice blooms."
+			"text": "Active or cooling vents are free heat sources, which provide heat at a smaller flux compared to most stoves. But if $(l:tweaks/water_interaction)waterlogged$(/l), they will neither provide heat nor generate pumice blooms."
 		}
 	]
 }
