@@ -40,7 +40,7 @@ public class SpokedFenceBlock extends Block implements SimpleWaterloggedBlock {
       super(pProperties);
       this.registerDefaultState(this.stateDefinition.any().setValue(NORTH_WALL,false).setValue(EAST_WALL,false)
     		  .setValue(SOUTH_WALL,false).setValue(WEST_WALL,false).setValue(WATERLOGGED,false));
-      this.shapeByIndex = this.makeShapes(4.0F, 3.0F, 16.0F, 0.0F, 16.0F);
+      this.shapeByIndex = this.makeShapes(2.0F, 2.0F, 16.0F, 0.0F, 16.0F);
       this.collisionShapeByIndex = this.makeShapes(2.0F, 2.0F, 24.0F, 0.0F, 24.0F);
    }
 
