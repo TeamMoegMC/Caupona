@@ -50,9 +50,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -77,7 +79,7 @@ import net.minecraftforge.registries.RegistryObject;
 @Mod.EventBusSubscriber(modid = CPMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CPCommonBootStrap {
 	public static final List<Pair<Supplier<? extends ItemLike>, Float>> compositables = new ArrayList<>();
-
+	public static final List<Pair<Supplier<? extends Block>,Pair<Integer,Integer>>> flamables=new ArrayList<>();
 	@SubscribeEvent
 	public static void onCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
 		CreativeTabItemHelper helper = new CreativeTabItemHelper(event.getTabKey(), event.getTab());
@@ -94,11 +96,17 @@ public class CPCommonBootStrap {
 		compositables.add(Pair.of(obj, val));
 		return obj;
 	}
-
+	public static <T extends Block> RegistryObject<T> asFlamable(RegistryObject<T> obj,int v1,int v2) {
+		flamables.add(Pair.of(obj, Pair.of(v1, v2)));
+		return obj;
+	}
+	
 	@SubscribeEvent
 	public static void onCommonSetup(@SuppressWarnings("unused") FMLCommonSetupEvent event) {
 		registerDispensers();
 		compositables.forEach(p -> ComposterBlock.COMPOSTABLES.put(p.getFirst().get(), (float) p.getSecond()));
+		FireBlock fire=(FireBlock) Blocks.FIRE;
+		flamables.forEach(p->fire.setFlammable(p.getFirst().get(), p.getSecond().getFirst(), p.getSecond().getSecond()));
 	}
 
 	public static void registerDispensers() {

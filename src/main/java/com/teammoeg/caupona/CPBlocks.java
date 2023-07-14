@@ -263,6 +263,7 @@ public class CPBlocks {
 				.mapColor(MapColor.PLANT).offsetType(OffsetType.XZ).noCollission().randomTicks().instabreak().sound(SoundType.CROP)));
 		leaves.add(
 				CPCommonBootStrap.asCompositable(decoblock(wood + "_leaves", () -> leaves(SoundType.GRASS, a)), 0.3F));
+		
 		CPCommonBootStrap.asCompositable(
 				maindecoblock(wood + "_sapling", () -> new SaplingBlock(growth.get(), BlockBehaviour.Properties.of()
 						.mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS))),
@@ -272,23 +273,24 @@ public class CPBlocks {
 
 	// create a wood
 	private static void registerWood(String wood, WoodType wt, Supplier<AbstractTreeGrower> growth,RegistryObject<Block> f) {
-		RegistryObject<Block> planks = block(wood + "_planks",
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava(),TabType.DECORATION);
+		RegistryObject<Block> planks = CPCommonBootStrap.asFlamable(block(wood + "_planks",
+				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava(),TabType.DECORATION)
+				,5,20);
 		decoblock(wood + "_button",
 				() -> new CPButtonBlock(
 						BlockBehaviour.Properties.of().noCollission().strength(0.5F).sound(SoundType.WOOD).ignitedByLava(), WALNUT_TYPE,
 						30, true));
 		decoblock(wood + "_door", () -> new CPDoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
 				.strength(3.0F).sound(SoundType.WOOD).noOcclusion().ignitedByLava(), WALNUT_TYPE));
-		decoblock(wood + "_fence", () -> new FenceBlock(
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava()));
-		decoblock(wood + "_fence_gate", () -> new FenceGateBlock(
+		CPCommonBootStrap.asFlamable(decoblock(wood + "_fence", () -> new FenceBlock(
+				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava())),5,20);
+		CPCommonBootStrap.asFlamable(decoblock(wood + "_fence_gate", () -> new FenceGateBlock(
 				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava(),
-				WALNUT));
+				WALNUT)),5,20);
 		
 		leaves.add(CPCommonBootStrap.asCompositable(decoblock(wood + "_leaves", () -> leaves(SoundType.GRASS, f)), 0.3F));
-		RegistryObject<Block> sl = decoblock("stripped_" + wood + "_log", () -> log(null));
-		decoblock(wood + "_log", () -> log(sl));
+		RegistryObject<Block> sl = CPCommonBootStrap.asFlamable(decoblock("stripped_" + wood + "_log", () -> log(null)),5,5);
+		CPCommonBootStrap.asFlamable(decoblock(wood + "_log", () -> log(sl)),5,5);
 
 		decoblock(wood + "_pressure_plate",
 				() -> new CPPressurePlateBlock(
@@ -307,16 +309,16 @@ public class CPBlocks {
 						.strength(1.0F).sound(SoundType.WOOD).ignitedByLava(), wt));
 		CPItems.ITEMS.register(wood + "_sign",
 				() -> new CPSignItem((new Item.Properties()).stacksTo(16), s.get(), ws.get(), TabType.DECORATION));
-		decoblock(wood + "_slab", () -> new SlabBlock(
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava()));
-		decoblock(wood + "_stairs", () -> new StairBlock(planks.get()::defaultBlockState,
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
+		CPCommonBootStrap.asFlamable(decoblock(wood + "_slab", () -> new SlabBlock(
+				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava())),5,20);
+		CPCommonBootStrap.asFlamable(decoblock(wood + "_stairs", () -> new StairBlock(planks.get()::defaultBlockState,
+				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD))),5,20);
 		decoblock(wood + "_trapdoor", () -> new CPTrapDoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
 				.strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(CPBlocks::never).ignitedByLava(), WALNUT_TYPE));
-		RegistryObject<Block> sw = decoblock("stripped_" + wood + "_wood", () -> new RotatedPillarBlock(
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava()));
-		decoblock(wood + "_wood", () -> new CPStripPillerBlock(sw,
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava()));
+		RegistryObject<Block> sw = CPCommonBootStrap.asFlamable(decoblock("stripped_" + wood + "_wood", () -> new RotatedPillarBlock(
+				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava())),5,5);
+		CPCommonBootStrap.asFlamable(decoblock(wood + "_wood", () -> new CPStripPillerBlock(sw,
+				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava())),5,5);
 	}
 
 	// create a stove
