@@ -22,11 +22,13 @@
 package com.teammoeg.caupona.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.container.PortableBrazierContainer;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -41,20 +43,23 @@ public class PortableBrazierScreen extends AbstractContainerScreen<PortableBrazi
 		container = screenContainer;
 	}
 
-	protected void renderLabels(GuiGraphics matrixStack, int x, int y) {
-		matrixStack.drawString(this.font, this.title, this.titleLabelX - 2, this.titleLabelY, 0xEEEEEE, false);
-		matrixStack.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX - 2, this.inventoryLabelY - 3,4210752, false);
+	protected void renderLabels(PoseStack matrixStack, int x, int y) {
+		this.font.draw(matrixStack, this.title, this.titleLabelX - 2, this.titleLabelY, 0xEEEEEE);
+		this.font.draw(matrixStack, this.playerInventoryTitle, this.inventoryLabelX - 2, this.inventoryLabelY - 3,
+				4210752);
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics transform, float partial, int x, int y) {
+	protected void renderBg(PoseStack transform, float partial, int x, int y) {
 		this.renderBackground(transform);
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderTexture(0, TEXTURE);
 
-		transform.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+		GuiComponent.blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (container.processMax > 0) {
 			int h = (int) (29 * (container.process / (float) container.processMax));
-			transform.blit(TEXTURE, leftPos + 116, topPos + 36 + h, 176, 1 + h, 16, 29 - h);
+			GuiComponent.blit(transform, leftPos + 116, topPos + 36 + h, 176, 1 + h, 16, 29 - h);
 		}
 	}
 
@@ -63,7 +68,7 @@ public class PortableBrazierScreen extends AbstractContainerScreen<PortableBrazi
 	}
 
 	@Override
-	public void render(GuiGraphics pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+	public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
 		super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
 		super.renderTooltip(pPoseStack, pMouseX, pMouseY);
 	}

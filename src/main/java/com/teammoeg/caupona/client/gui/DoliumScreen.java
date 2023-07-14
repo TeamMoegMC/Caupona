@@ -22,16 +22,17 @@
 package com.teammoeg.caupona.client.gui;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 import com.teammoeg.caupona.blocks.dolium.DoliumContainer;
 import com.teammoeg.caupona.client.util.GuiUtils;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -49,35 +50,39 @@ public class DoliumScreen extends AbstractContainerScreen<DoliumContainer> {
 	private ArrayList<Component> tooltip = new ArrayList<>(2);
 
 	@Override
-	public void render(GuiGraphics transform, int mouseX, int mouseY, float partial) {
+	public void render(PoseStack transform, int mouseX, int mouseY, float partial) {
 		tooltip.clear();
 		super.render(transform, mouseX, mouseY, partial);
 		if (!blockEntity.tank.isEmpty()) {
 			if (isMouseIn(mouseX, mouseY, 80, 27, 16, 46)) {
 				tooltip.add(blockEntity.tank.getFluid().getDisplayName());
 			}
-			GuiUtils.handleGuiTank(transform.pose(), blockEntity.tank, leftPos + 80, topPos + 27, 16, 46);
+			GuiUtils.handleGuiTank(transform, blockEntity.tank, leftPos + 80, topPos + 27, 16, 46);
 		}
 		if (!tooltip.isEmpty())
-			transform.renderTooltip(this.font,tooltip,Optional.empty(), mouseX, mouseY);
+			super.renderComponentTooltip(transform, tooltip, mouseX, mouseY);
 		else
 			super.renderTooltip(transform, mouseX, mouseY);
 
 	}
 
-	protected void renderLabels(GuiGraphics matrixStack, int x, int y) {
-		matrixStack.drawString(this.font, this.title, this.titleLabelX - 2, this.titleLabelY, 0xEEEEEE, false);
-		matrixStack.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX - 2, this.inventoryLabelY - 3,4210752, false);
+	protected void renderLabels(PoseStack matrixStack, int x, int y) {
+		this.font.draw(matrixStack, this.title, this.titleLabelX - 2, this.titleLabelY, 0xEEEEEE);
+		this.font.draw(matrixStack, this.playerInventoryTitle, this.inventoryLabelX - 2, this.inventoryLabelY - 3,
+				4210752);
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics transform, float partial, int x, int y) {
+	protected void renderBg(PoseStack transform, float partial, int x, int y) {
 		this.renderBackground(transform);
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		transform.blit(TEXTURE,leftPos, topPos, 0, 0, imageWidth, imageHeight);
+		RenderSystem.setShaderTexture(0, TEXTURE);
+
+		GuiComponent.blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (blockEntity.process > 0) {
 			int w = (int) (12 * (blockEntity.process / (float) blockEntity.processMax));
-			transform.blit(TEXTURE, leftPos + 117, topPos + 32, 176, 0, w, 25);
+			GuiComponent.blit(transform, leftPos + 117, topPos + 32, 176, 0, w, 25);
 		}
 	}
 

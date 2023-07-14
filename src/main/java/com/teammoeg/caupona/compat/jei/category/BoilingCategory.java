@@ -21,6 +21,7 @@
 
 package com.teammoeg.caupona.compat.jei.category;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.util.Utils;
@@ -36,7 +37,6 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -64,11 +64,10 @@ public class BoilingCategory implements IRecipeCategory<BoilingRecipe> {
 
 	@SuppressWarnings("resource")
 	@Override
-	public void draw(BoilingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
+	public void draw(BoilingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
 			double mouseY) {
 		String burnTime = String.valueOf(recipe.time / 20f) + "s";
-		stack.drawString(Minecraft.getInstance().font, burnTime, 103, 55, 0xFFFFFF);
-
+		Minecraft.getInstance().font.drawShadow(stack, burnTime, 103, 55, 0xFFFFFF);
 	}
 
 	@Override

@@ -50,10 +50,9 @@ public class CPMain {
 	public static final String MODNAME = "Caupona";
 	public static final Logger logger = LogManager.getLogger(MODNAME);
 	public static final String BOOK_NBT_TAG=CPMain.MODID+":book_given";
-	public static DeferredRegister<CreativeModeTab> TABS=DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CPMain.MODID);
-	public static RegistryObject<CreativeModeTab> main=TABS.register("main",()->CreativeModeTab.builder().withTabsBefore(CreativeModeTabs.SPAWN_EGGS).icon(()->new ItemStack(CPBlocks.STEW_POT.get())).title(Utils.translate("itemGroup.caupona")).build());
-	public static RegistryObject<CreativeModeTab> decoration=TABS.register("decorations",()->CreativeModeTab.builder().withTabsBefore(main.getKey()).icon(()->new ItemStack(CPBlocks.PUMICE_BLOOM.get())).title(Utils.translate("itemGroup.caupona_decorations")).build());
-	public static RegistryObject<CreativeModeTab> foods=TABS.register("food", ()->CreativeModeTab.builder().withTabsBefore(main.getKey(),decoration.getKey()).icon(()->new ItemStack(CPItems.gravy_boat.get())).title(Utils.translate("itemGroup.caupona_foods")).build());
+	public static CreativeModeTab main;
+	public static CreativeModeTab decoration;
+	public static CreativeModeTab foods;
 	public static ResourceLocation rl(String path) {
 		return new ResourceLocation(MODID, path);
 	}
@@ -70,7 +69,6 @@ public class CPMain {
 		CPFluids.FLUID_TYPES.register(mod);
 		CPBlocks.BLOCKS.register(mod);
 		CPItems.ITEMS.register(mod);
-		CPMain.TABS.register(mod);
 		CPRecipes.RECIPE_SERIALIZERS.register(mod);
 		CPEntityTypes.ENTITY_TYPES.register(mod);
 		CPRecipes.RECIPE_TYPES.register(mod);

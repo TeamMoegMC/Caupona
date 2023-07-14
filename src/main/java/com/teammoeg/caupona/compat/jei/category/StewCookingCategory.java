@@ -42,7 +42,6 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -65,7 +64,7 @@ public class StewCookingCategory extends IConditionalCategory<StewCookingRecipe>
 		return Utils.translate("gui.jei.category." + CPMain.MODID + ".stew_cooking.title");
 	}
 	@Override
-	public void drawCustom(StewCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
+	public void drawCustom(StewCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
 			double mouseY) {
 		IDrawable density;
 		if(recipe.getDensity()<0.4)
@@ -81,16 +80,15 @@ public class StewCookingCategory extends IConditionalCategory<StewCookingRecipe>
 		density.draw(stack,25,15);
 	}
 	@Override
-	public void draw(StewCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
+	public void draw(StewCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
 			double mouseY) {
 		
 		ResourceLocation imagePath=new ResourceLocation(recipe.getId().getNamespace(),"textures/gui/recipes/" + recipe.getId().getPath() + ".png");
 		if(Minecraft.getInstance().getResourceManager().getResource(imagePath).isPresent()) {
-			PoseStack mstack=stack.pose();
-			mstack.pushPose();
-			mstack.scale(0.5f, 0.5f, 0);
+			stack.pushPose();
+			stack.scale(0.5f, 0.5f, 0);
 			helper.createDrawable(imagePath, 0, 0, 200, 210).draw(stack);
-			mstack.popPose();
+			stack.popPose();
 		}else {
 			super.draw(recipe, recipeSlotsView, stack, mouseX, mouseY);
 		}

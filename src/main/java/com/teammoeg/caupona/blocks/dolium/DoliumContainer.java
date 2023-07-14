@@ -40,7 +40,7 @@ public class DoliumContainer extends AbstractContainerMenu {
 	}
 
 	public DoliumContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
-		this(id, inv, (CounterDoliumBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()));
+		this(id, inv, (CounterDoliumBlockEntity) inv.player.level.getBlockEntity(buffer.readBlockPos()));
 	}
 
 	public DoliumContainer(int id, Inventory inv, CounterDoliumBlockEntity blockEntity) {

@@ -42,27 +42,21 @@ import net.minecraft.data.loot.packs.VanillaBlockLoot;
 import net.minecraft.data.loot.packs.VanillaLootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.storage.loot.LootDataId;
-import net.minecraft.world.level.storage.loot.LootDataType;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableCondition;
 import net.minecraft.world.level.storage.loot.predicates.LocationCheck;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
-import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -78,12 +72,8 @@ public class CPLootGenerator extends LootTableProvider {
 	}
 
 	@Override
-	protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationcontext) {
-		map.forEach((p_278897_, p_278898_) -> {
-			p_278898_.validate(validationcontext.setParams(p_278898_.getParamSet())
-					.enterElement("{" + p_278897_ + "}", new LootDataId<>(LootDataType.TABLE, p_278897_)));
-		});
-		//map.forEach((name, table) -> LootTables.validate(validationtracker, name, table));
+	protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker) {
+		map.forEach((name, table) -> LootTables.validate(validationtracker, name, table));
 	}
 
 	private static class LTBuilder extends VanillaBlockLoot {

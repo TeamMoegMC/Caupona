@@ -22,6 +22,7 @@
 package com.teammoeg.caupona;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -36,6 +37,7 @@ import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.entity.CPBoat;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.ICreativeModeTabItem;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
@@ -44,6 +46,8 @@ import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -61,7 +65,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
@@ -81,10 +85,20 @@ public class CPCommonBootStrap {
 	public static final List<Pair<Supplier<? extends ItemLike>, Float>> compositables = new ArrayList<>();
 	public static final List<Pair<Supplier<? extends Block>,Pair<Integer,Integer>>> flamables=new ArrayList<>();
 	@SubscribeEvent
-	public static void onCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
-		CreativeTabItemHelper helper = new CreativeTabItemHelper(event.getTabKey(), event.getTab());
-		CPItems.ITEMS.getEntries().forEach(e -> {
-			if (e.get() instanceof ICreativeModeTabItem item) {
+	public static void onCreativeTabCreate(CreativeModeTabEvent.Register event) {
+		
+		
+		//TABS.register("decorations",()->CreativeModeTab.builder().withTabsBefore(main.getKey()).build());
+		//TABS.register("food", ()->CreativeModeTab.builder().withTabsBefore(main.getKey(),decoration.getKey()).icon(()->new ItemStack(CPItems.gravy_boat.get())).title(Utils.translate("itemGroup.caupona_foods")).build());
+		CPMain.main=event.registerCreativeModeTab(CPMain.rl("main"),Arrays.asList(),Arrays.asList(CreativeModeTabs.SPAWN_EGGS),e->e.icon(()->new ItemStack(CPBlocks.STEW_POT.get())).title(Utils.translate("itemGroup.caupona")));
+		CPMain.decoration=event.registerCreativeModeTab(CPMain.rl("decorations"),Arrays.asList(),Arrays.asList(CPMain.rl("main")), e->e.icon(()->new ItemStack(CPBlocks.PUMICE_BLOOM.get())).title(Utils.translate("itemGroup.caupona_decorations")));
+		CPMain.foods=event.registerCreativeModeTab(CPMain.rl("food"),Arrays.asList(),Arrays.asList(CPMain.rl("decorations")),e->e.icon(()->new ItemStack(CPItems.gravy_boat.get())).title(Utils.translate("itemGroup.caupona_foods")));
+	}
+	@SubscribeEvent
+	public static void onCreativeTabContents(CreativeModeTabEvent.BuildContents event) {
+		CreativeTabItemHelper helper=new CreativeTabItemHelper(event.getTab());
+		CPItems.ITEMS.getEntries().forEach(e->{
+			if(e.get() instanceof ICreativeModeTabItem item) {
 				item.fillItemCategory(helper);
 			}
 		});

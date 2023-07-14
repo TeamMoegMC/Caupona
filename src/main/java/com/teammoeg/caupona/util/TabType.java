@@ -29,21 +29,21 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 
-public class TabType implements Predicate<ResourceKey<CreativeModeTab>>{
-	public static final TabType MAIN=new TabType(e->e.equals(CPMain.main.getKey()));
-	public static final TabType FOODS=new TabType(e->e.equals(CPMain.foods.getKey()));
-	public static final TabType DECORATION=new TabType(e->e.equals(CPMain.decoration.getKey()));
-	public static final TabType MAIN_AND_DECORATION=new TabType(e->e.equals(CPMain.main.getKey())||e.equals(CPMain.decoration.getKey()));
-	public static final TabType MAIN_AND_TRANSPORTATION=new TabType(e->e.equals(CPMain.main.getKey())||e.equals(CreativeModeTabs.TOOLS_AND_UTILITIES));
+public class TabType implements Predicate<CreativeModeTab>{
+	public static final TabType MAIN=new TabType(e->e.equals(CPMain.main));
+	public static final TabType FOODS=new TabType(e->e.equals(CPMain.foods));
+	public static final TabType DECORATION=new TabType(e->e.equals(CPMain.decoration));
+	public static final TabType MAIN_AND_DECORATION=new TabType(e->e.equals(CPMain.main)||e.equals(CPMain.decoration));
+	public static final TabType MAIN_AND_TRANSPORTATION=new TabType(e->e.equals(CPMain.main)||e.equals(CreativeModeTabs.TOOLS_AND_UTILITIES));
 	public static final TabType HIDDEN=new TabType(e->false);
-	private final Predicate<ResourceKey<CreativeModeTab>> predicate;
+	private final Predicate<CreativeModeTab> predicate;
 
-	private TabType(Predicate<ResourceKey<CreativeModeTab>> predicate) {
+	private TabType(Predicate<CreativeModeTab> predicate) {
 		this.predicate = predicate;
 	}
 
 	@Override
-	public boolean test(ResourceKey<CreativeModeTab> t) {
+	public boolean test(CreativeModeTab t) {
 		return predicate.test(t);
 	}
 	

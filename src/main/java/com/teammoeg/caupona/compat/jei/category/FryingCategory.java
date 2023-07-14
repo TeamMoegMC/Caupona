@@ -36,7 +36,6 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -58,16 +57,16 @@ public class FryingCategory extends IConditionalCategory<SauteedRecipe> {
 	}
 
 	@Override
-	public void draw(SauteedRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guistack, double mouseX,
+	public void draw(SauteedRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
 			double mouseY) {
-		PoseStack stack=guistack.pose();
+		
 		ResourceLocation imagePath=new ResourceLocation(recipe.getId().getNamespace(),"textures/gui/recipes/" + recipe.getId().getPath() + ".png");
 		if(Minecraft.getInstance().getResourceManager().getResource(imagePath).isPresent()) {
 			stack.pushPose();
 			stack.scale(0.5f, 0.5f, 0);
-			helper.createDrawable(imagePath, 0, 0, 200, 210).draw(guistack);
+			helper.createDrawable(imagePath, 0, 0, 200, 210).draw(stack);
 			stack.popPose();
-		}else super.draw(recipe, recipeSlotsView, guistack, mouseX, mouseY);
+		}else super.draw(recipe, recipeSlotsView, stack, mouseX, mouseY);
 	}
 
 	@Override
@@ -97,7 +96,7 @@ public class FryingCategory extends IConditionalCategory<SauteedRecipe> {
 
 
 	@Override
-	public void drawCustom(SauteedRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
+	public void drawCustom(SauteedRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
 			double mouseY) {
 	}
 

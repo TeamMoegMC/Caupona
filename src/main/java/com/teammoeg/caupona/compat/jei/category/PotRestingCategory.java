@@ -21,6 +21,7 @@
 
 package com.teammoeg.caupona.compat.jei.category;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
@@ -37,7 +38,6 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -63,10 +63,10 @@ public class PotRestingCategory implements IRecipeCategory<DoliumRecipe> {
 
 	@SuppressWarnings("resource")
 	@Override
-	public void draw(DoliumRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
+	public void draw(DoliumRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,
 			double mouseY) {
 		String burnTime = String.valueOf(CPConfig.COMMON.staticTime.get() / 20f) + "s";
-		stack.drawString(Minecraft.getInstance().font, burnTime, 90, 55, 0xFFFFFF);
+		Minecraft.getInstance().font.drawShadow(stack, burnTime, 90, 55, 0xFFFFFF);
 	}
 
 	@Override

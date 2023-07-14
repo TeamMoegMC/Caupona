@@ -2,10 +2,10 @@ package com.teammoeg.caupona.api.events;
 
 import java.util.List;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 
 import mezz.jei.api.helpers.IGuiHelper;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.Cancelable;
@@ -16,10 +16,10 @@ import net.minecraftforge.eventbus.api.Event;
 public class DrawCustomConditionEvent extends Event{
 	IGuiHelper guihelper;
 	List<IngredientCondition> conditions;
-	GuiGraphics stack;
+	PoseStack stack;
 	int xOffset;
 	int yOffset;
-	public DrawCustomConditionEvent(IGuiHelper guihelper, List<IngredientCondition> conditions, GuiGraphics stack,
+	public DrawCustomConditionEvent(IGuiHelper guihelper, List<IngredientCondition> conditions, PoseStack stack,
 			int xOffset, int yOffset) {
 		super();
 		this.guihelper = guihelper;

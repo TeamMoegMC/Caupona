@@ -23,12 +23,12 @@ package com.teammoeg.caupona.patchouli;
 
 import java.util.function.UnaryOperator;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -71,7 +71,7 @@ public class PerBowlTooltip implements ICustomComponent {
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
+	public void render(PoseStack graphics, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
 		context.renderItemStack(graphics, x, y, mouseX, mouseY, output);
 	}
 

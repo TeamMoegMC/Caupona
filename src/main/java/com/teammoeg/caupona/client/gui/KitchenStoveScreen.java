@@ -22,12 +22,14 @@
 package com.teammoeg.caupona.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveBlockEntity;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveContainer;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -41,35 +43,39 @@ public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveCont
 		blockEntity = screenContainer.tile;
 	}
 
-	public void render(GuiGraphics pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+	public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
 		super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
 
 		this.renderTooltip(pPoseStack, pMouseX, pMouseY);
 
 	}
 
-	protected void renderLabels(GuiGraphics matrixStack, int x, int y) {
-		matrixStack.drawString(this.font, this.title, this.titleLabelX - 2, this.titleLabelY, 0xEEEEEE, false);
-		matrixStack.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX - 2, this.inventoryLabelY - 2,4210752, false);
+	protected void renderLabels(PoseStack matrixStack, int x, int y) {
+		this.font.draw(matrixStack, this.title, this.titleLabelX - 2, this.titleLabelY, 0xEEEEEE);
+		this.font.draw(matrixStack, this.playerInventoryTitle, this.inventoryLabelX - 2, this.inventoryLabelY - 2,
+				4210752);
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics matrixStack, float partialTicks, int x, int y) {
+	protected void renderBg(PoseStack matrixStack, float partialTicks, int x, int y) {
 		this.renderBackground(matrixStack);
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		matrixStack.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+		RenderSystem.setShaderTexture(0, TEXTURE);
+
+		GuiComponent.blit(matrixStack, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (blockEntity.processMax > 0 && blockEntity.process > 0) {
 			int h = (int) (26 * (1 - blockEntity.process / (float) blockEntity.processMax));
-			matrixStack.blit(TEXTURE, leftPos + 61, topPos + h, 176, h, 54, 26 - h);
+			GuiComponent.blit(matrixStack, leftPos + 61, topPos + h, 176, h, 54, 26 - h);
 			switch (blockEntity.last) {
 			case CHARCOAL:
-				matrixStack.blit(TEXTURE, leftPos + 61, topPos + 13, 176, 42, 54, 16);
+				GuiComponent.blit(matrixStack, leftPos + 61, topPos + 13, 176, 42, 54, 16);
 				break;
 			case WOODS:
-				matrixStack.blit(TEXTURE, leftPos + 61, topPos + 13, 176, 58, 54, 16);
+				GuiComponent.blit(matrixStack, leftPos + 61, topPos + 13, 176, 58, 54, 16);
 				break;
 			default:
-				matrixStack.blit(TEXTURE, leftPos + 61, topPos + 13, 176, 26, 54, 16);
+				GuiComponent.blit(matrixStack, leftPos + 61, topPos + 13, 176, 26, 54, 16);
 				break;
 			}
 		}

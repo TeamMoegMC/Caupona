@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.api.GameTranslation;
 import com.teammoeg.caupona.api.events.DrawCustomConditionEvent;
@@ -36,7 +37,6 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -88,15 +88,15 @@ public abstract class IConditionalCategory<T extends IConditionalRecipe> impleme
 		return helper.createDrawable(new ResourceLocation(CPMain.MODID,"textures/gui/recipes/elements/recipe_page_elements.png"), x*47+dx, y*53+dy, w, h);
 	}
 	public abstract IDrawable getHeadings();
-	public abstract void drawCustom(T recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,double mouseY);
+	public abstract void drawCustom(T recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,double mouseY);
 	@Override
-	public void draw(T recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,double mouseY) {
+	public void draw(T recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,double mouseY) {
 		getHeadings().draw(stack);
 		drawConditionList(stack,recipe.getAllow(),1,52);
 		drawConditionList(stack,recipe.getDeny(),52,52);
 		drawCustom(recipe,recipeSlotsView,stack,mouseX,mouseY);
 	}
-	public boolean drawConditionList(GuiGraphics stack,List<IngredientCondition> conditions,int offX,int offY) {
+	public boolean drawConditionList(PoseStack stack,List<IngredientCondition> conditions,int offX,int offY) {
 		if(conditions==null||conditions.isEmpty()) {
 			COND_NONE.draw(stack,offX,offY);
 		}else {

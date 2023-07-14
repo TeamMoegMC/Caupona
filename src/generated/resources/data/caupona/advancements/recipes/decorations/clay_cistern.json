@@ -30,6 +30,5 @@
     "recipes": [
       "caupona:clay_cistern"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

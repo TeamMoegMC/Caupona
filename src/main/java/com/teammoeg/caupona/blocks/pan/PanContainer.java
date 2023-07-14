@@ -42,7 +42,7 @@ public class PanContainer extends AbstractContainerMenu {
 	}
 
 	public PanContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
-		this(id, inv, (PanBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()));
+		this(id, inv, (PanBlockEntity) inv.player.level.getBlockEntity(buffer.readBlockPos()));
 	}
 
 	public PanContainer(int id, Inventory inv, PanBlockEntity blockEntity) {

@@ -134,7 +134,7 @@ public class FloatemStack {
 	}
 
 	public boolean isItemEqual(ItemStack other) {
-		return ItemStack.isSameItem(stack,other);
+		return stack.sameItem(other);
 	}
 
 
@@ -229,7 +229,10 @@ public class FloatemStack {
 	}
 
 	public boolean equals(ItemStack other) {
-		return ItemStack.isSameItemSameTags(this.getStack(), other);
+		if (this.getItem() != other.getItem()) {
+			return false;
+		}
+		return ItemStack.tagMatches(this.getStack(), other);
 	}
 
 	public void deserializeNBT(CompoundTag nbt) {

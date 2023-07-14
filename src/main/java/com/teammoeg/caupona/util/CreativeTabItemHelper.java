@@ -55,26 +55,24 @@ public class CreativeTabItemHelper implements Output{
 		}
 	}
 	private CreativeModeTab tab;
-	private ResourceKey<CreativeModeTab> key;
 	private int num=Integer.MIN_VALUE;
 	private List<Entry> items=new ArrayList<>();
 	public CreativeModeTab getTab() {
 		return tab;
 	}
-	public CreativeTabItemHelper(ResourceKey<CreativeModeTab> key,CreativeModeTab tab) {
+	public CreativeTabItemHelper(CreativeModeTab tab) {
 		super();
-		this.key= key;
 		this.tab = tab;
 	}
 	public boolean isMainTab() {
-		return TabType.MAIN.test(key);
+		return TabType.MAIN.test(tab);
 	}
 	public boolean isFoodTab() {
-		return TabType.FOODS.test(key);
+		return TabType.FOODS.test(tab);
 	}
 	public boolean isType(TabType tab) {
 		if(tab==null)return false;
-		return tab.test(this.key);
+		return tab.test(this.tab);
 	}
 	public void register(Output event) {
 		items.sort(Comparator.comparingInt(Entry::getSortnum).thenComparing(Entry::getInsnum));

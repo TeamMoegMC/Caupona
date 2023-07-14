@@ -13,12 +13,12 @@ Cook anything into stew
 [[dependencies.caupona]]
     modId = "minecraft"
     mandatory = true
-    versionRange = "[1.20,1.21)"
+    versionRange = "[1.19.4,1.20)"
     ordering = "NONE"
     side = "BOTH"
 [[dependencies.caupona]]
     modId="forge"
 	mandatory=true
-    versionRange = "[47.0.3,)"
+    versionRange = "[45.0.0,)"
     ordering = "NONE"
     side = "BOTH"

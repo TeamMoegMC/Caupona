@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
@@ -35,10 +36,11 @@ import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.StewInfo;
 import com.teammoeg.caupona.util.Utils;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -93,7 +95,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 	}
 
 	@Override
-	public void render(GuiGraphics transform, int mouseX, int mouseY, float partial) {
+	public void render(PoseStack transform, int mouseX, int mouseY, float partial) {
 		tooltip.clear();
 		btn1.state = blockEntity.proctype > 0 ? 1 : 0;
 		btn2.state = blockEntity.rsstate ? 1 : 2;
@@ -110,37 +112,39 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 							fs.getStack().getDisplayName()));
 				Utils.addPotionTooltip(si.effects, tooltip, 1);
 			}
-			GuiUtils.handleGuiTank(transform.pose(), blockEntity.getTank(), leftPos + 105, topPos + 20, 16, 46);
+			GuiUtils.handleGuiTank(transform, blockEntity.getTank(), leftPos + 105, topPos + 20, 16, 46);
 		}
 		if (!tooltip.isEmpty())
-			transform.renderTooltip(this.font,tooltip,Optional.empty(), mouseX, mouseY);
+			super.renderComponentTooltip(transform, tooltip, mouseX, mouseY);
 		else
 			super.renderTooltip(transform, mouseX, mouseY);
 
 	}
 
-	protected void renderLabels(GuiGraphics matrixStack, int x, int y) {
-		matrixStack.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY,TEXT_COLOR, false);
+	protected void renderLabels(PoseStack matrixStack, int x, int y) {
+		this.font.draw(matrixStack, this.title, this.titleLabelX, this.titleLabelY, TEXT_COLOR);
 
 		Component name = this.playerInventoryTitle;
 		int w = this.font.width(name.getString());
-		matrixStack.drawString(this.font, name, this.imageWidth - w - this.inventoryLabelX, this.inventoryLabelY,TEXT_COLOR, false);
+		this.font.draw(matrixStack, name, this.imageWidth - w - this.inventoryLabelX, this.inventoryLabelY, TEXT_COLOR);
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics transform, float partial, int x, int y) {
+	protected void renderBg(PoseStack transform, float partial, int x, int y) {
 		this.renderBackground(transform);
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderTexture(0, TEXTURE);
 
-		transform.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+		GuiComponent.blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (blockEntity.processMax > 0 && blockEntity.process > 0) {
 			int h = (int) (29 * (blockEntity.process / (float) blockEntity.processMax));
-			transform.blit(TEXTURE, leftPos + 9, topPos + 17 + h, 176, 54 + h, 16, 29 - h);
+			GuiComponent.blit(transform, leftPos + 9, topPos + 17 + h, 176, 54 + h, 16, 29 - h);
 		}
 		if (blockEntity.proctype > 1) {
 			if (blockEntity.proctype == 2)
-				transform.blit(TEXTURE, leftPos + 44, topPos + 16, 176, 0, 54, 54);
-			transform.blit(TEXTURE, leftPos + 102, topPos + 17, 230, 0, 21, 51);
+				GuiComponent.blit(transform, leftPos + 44, topPos + 16, 176, 0, 54, 54);
+			GuiComponent.blit(transform, leftPos + 102, topPos + 17, 230, 0, 21, 51);
 		}
 	}
 
