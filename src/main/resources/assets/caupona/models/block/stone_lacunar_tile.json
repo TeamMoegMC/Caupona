@@ -2,6 +2,6 @@
 	"parent": "caupona:block/template_lacunar_tile",
 	"textures": {
 		"material": "minecraft:block/stone",
-		"particle": "minecraft:block/stone",
+		"particle": "minecraft:block/stone"
 	}
 }
