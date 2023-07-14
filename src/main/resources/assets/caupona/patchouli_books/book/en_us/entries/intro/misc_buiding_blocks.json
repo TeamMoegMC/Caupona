@@ -1,0 +1,24 @@
+{
+	"name": "Misc. building blocks",
+	"icon": "caupona:felsic_tuff_spoked_fence",
+	"category": "caupona:intro",
+	"sortnum": 30,
+	"pages": [
+		{
+			"type": "text",
+			"text": "A number of buiding block types are added for pure ornamental purposes. For each type, versions of several materials are provided to fit in different building styles."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:stone_lacunar_tile",
+			"title": "Lacunar Tiles",
+			"text": "Lacunar tiles are blocks with depressed, stepped surfaces typically used to tile ceilings. Stone, quartz, calcite and felsic tuff versions are provided."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:stone_spoked_fence",
+			"title": "Spoked Fences",
+			"text": "Spoked fences are similar to walls, but partially hollowed. Stone, quartz, calcite and felsic tuff versions are provided."
+		}
+	]
+}
