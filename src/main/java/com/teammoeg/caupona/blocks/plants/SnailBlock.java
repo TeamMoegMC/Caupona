@@ -3,7 +3,6 @@ package com.teammoeg.caupona.blocks.plants;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPTags;
 
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;

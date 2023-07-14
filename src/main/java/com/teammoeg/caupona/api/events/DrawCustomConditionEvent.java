@@ -2,7 +2,6 @@ package com.teammoeg.caupona.api.events;
 
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 
 import mezz.jei.api.helpers.IGuiHelper;

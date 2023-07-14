@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.util.Utils;
 
@@ -46,6 +45,7 @@ public class DensityTooltip implements ICustomComponent {
 	public DensityTooltip() {
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
 		recipe = lookup.apply(recipe);

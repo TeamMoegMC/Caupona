@@ -102,7 +102,7 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			String str=tye.getName();
 			if(tye.isPillarMaterial())
 				for (String type : ImmutableSet.of("_column_fluted_plinth", "_column_fluted_shaft", "_column_shaft",
-						"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital", "_acanthine_column_capital"))
+						"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital", "_acanthine_column_capital","_lacunar_tile","_spoked_fence"))
 					pickaxe.add(cp(str + type));
 			if(tye.isDecorationMaterial()) {
 				pickaxe.add(cp(str), cp(str + "_slab"), cp(str + "_stairs"), cp(str + "_wall"));

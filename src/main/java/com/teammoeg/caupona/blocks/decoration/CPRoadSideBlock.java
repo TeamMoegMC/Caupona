@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.StairsShape;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -122,7 +121,7 @@ public class CPRoadSideBlock extends CPRoadBlock {
 			BlockPos pCurrentPos, BlockPos pFacingPos) {
 
 		return pFacing.getAxis().isHorizontal() ? pState.setValue(SHAPE, getStairsShape(pState, pLevel, pCurrentPos))
-				: super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+				: pState;
 	}
 
 	public static boolean isRoadBlock(BlockState pState) {
@@ -228,6 +227,8 @@ public class CPRoadSideBlock extends CPRoadBlock {
 					return pState.rotate(Rotation.CLOCKWISE_180);
 				}
 			}
+		default:
+			break;
 		}
 
 		return super.mirror(pState, pMirror);

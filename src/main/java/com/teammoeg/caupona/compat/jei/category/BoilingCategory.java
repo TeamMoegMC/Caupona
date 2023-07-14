@@ -21,7 +21,6 @@
 
 package com.teammoeg.caupona.compat.jei.category;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.util.Utils;

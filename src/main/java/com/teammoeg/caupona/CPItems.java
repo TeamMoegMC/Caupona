@@ -39,7 +39,6 @@ import com.teammoeg.caupona.util.TabType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.ItemStack;
@@ -70,8 +69,8 @@ public class CPItems {
 			new FoodMaterialInfo("fig",4,0.3f,0.6f), 
 			new FoodMaterialInfo("walnut",4,0.3f,0.6f),
 			new FoodMaterialInfo("wolfberries",4,0.3f,0.6f),
-			new FoodMaterialInfo("snail",2,0.3f,0.6f).food(c->c.effect(new MobEffectInstance(MobEffects.HUNGER, 600, 0), 0.3F)),
-			new FoodMaterialInfo("plump_snail",3,0.3f,0.7f).food(c->c.effect(new MobEffectInstance(MobEffects.HUNGER, 600, 0), 0.3F))};
+			new FoodMaterialInfo("snail",2,0.3f,0.6f).food(c->c.effect(()->new MobEffectInstance(MobEffects.HUNGER, 600, 0), 0.3F)),
+			new FoodMaterialInfo("plump_snail",3,0.3f,0.7f).food(c->c.effect(()->new MobEffectInstance(MobEffects.HUNGER, 600, 0), 0.3F))};
 	public static final String[] base_material = new String[] { "lateres", "clay_portable_brazier", "vivid_charcoal", "silphium",
 																"asafoetida", "leaden_walnut", "litharge_cake", "lead_ingot", "lead_nugget",
 																"asses","brick_tesserae","basalt_tesserae","pumice_tesserae", "fresh_wolfberry_leaves"};

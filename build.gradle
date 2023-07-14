@@ -140,11 +140,6 @@ repositories {
             includeGroup "mezz.jei"
         }
     }
-    // Needed for Curios API
-    maven {
-        name = "theillusivec4 maven"
-        url = "https://maven.theillusivec4.top/"
-    }
     maven {
         url "https://www.cursemaven.com"
         content {
@@ -213,11 +208,15 @@ jar {
 
 jar.finalizedBy('reobfJar')
 build.finalizedBy('genItemNames')
+jar.mustRunAfter('runData')
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
     archiveClassifier.set('sources')
 }
-
+task fullJar
+fullJar.finalizedBy('runData')
+fullJar.finalizedBy('jar')
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     archiveClassifier.set('deobf')

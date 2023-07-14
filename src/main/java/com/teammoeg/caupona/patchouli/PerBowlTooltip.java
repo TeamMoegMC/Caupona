@@ -23,7 +23,6 @@ package com.teammoeg.caupona.patchouli;
 
 import java.util.function.UnaryOperator;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.util.Utils;
 
@@ -49,6 +48,7 @@ public class PerBowlTooltip implements ICustomComponent {
 	public PerBowlTooltip() {
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
 		recipe = lookup.apply(recipe);
