@@ -1,0 +1,7 @@
+{
+	"parent": "caupona:block/template_spoked_fence_inventory",
+	"textures": {
+		"material": "minecraft:block/light_gray_concrete",
+		"particle": "minecraft:block/light_gray_concrete",
+	}
+}

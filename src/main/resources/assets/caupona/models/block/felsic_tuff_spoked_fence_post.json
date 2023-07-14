@@ -1,0 +1,7 @@
+{
+	"parent": "caupona:block/template_spoked_fence_post",
+	"textures": {
+		"material": "caupona:block/felsic_tuff",
+		"particle": "caupona:block/felsic_tuff",
+	}
+}

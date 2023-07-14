@@ -16,6 +16,12 @@
 			"text": "Snails hatch from eggs (except the ones lured by baits) and grow, consuming one leave block or a fruit at each stage they grow. They search food in a 3x3 range nearby, during which they turn certain leaves into snail mucus blocks to support them. The snails will continue eating when they are mature, to produce new eggs under nearby leaves or mucus blocks."
 		},
 		{
+			"type": "image",
+			"images": ["caupona:textures/gui/entries/snail.png"],
+			"anchor": "snail",
+			"title": "Growing snails"
+		},
+		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/snail_roes",
 			"text": "Hatched snail blocks drop snail items only, while eggs drop snail roes. The roes are considered as Eggs in cooking."
