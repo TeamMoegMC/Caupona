@@ -1,0 +1,25 @@
+{
+	"name": "Lead",
+	"icon": "caupona:lead",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:leaden_walnut",
+			"link_recipe": true,
+			"text": "There is a chance for $(l:worldgen/plants#walnut_tree)walnut trees$(/l) growing in the Nether to produce leaden walnuts, instead of ordinary ones."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:litharge_cake",
+			"link_recipe": true,
+			"text": "Resting leaden walnuts with an anvil (not consumed) in $(l:intro/counter_with_dolium)dolia$(/l) yields litharge cakes."
+		},
+		{
+			"type": "smelting",
+			"recipe": "caupona:smelting/lead_nugget",
+			"text": "Litharge cakes can be smelted into lead nuggets."
+		},
+	]
+}

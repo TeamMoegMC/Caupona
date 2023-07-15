@@ -1,0 +1,39 @@
+{
+	"name": "煎锅",
+	"icon": "caupona:stone_griddle",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/stone_griddle",
+			"text": "煎锅用于$(l:intro/sauteed_dishes)炒菜$(/l)，石鏊是最容易获得的一种煎锅，但是它的导热性较差，导致需要更长的时间才能完成菜品。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/copper_frying_pan",
+			"text": "金属煎锅有铜、铁、$(l:intro/lead_cookwares)镀铅$(/l)三种材质。煎锅需要放在热源，如$(l:intro/stove)灶台$(/l)或$(l:worldgen/volcanic_fumarole)火山喷气孔$(/l)上方使用。"
+		},
+		{
+			"type": "text",
+			"text": "煎锅的GUI与陶锅类似，同样有九个原料输入槽，只不过不涉及流体交互。左侧的两个按钮分别控制烹饪的开始，及切换红石控制状态，红石控制默认为关。右侧有两个槽可以放置容器和$(l:intro/spices)调味料$(/l)，以获得菜品。"
+		},
+		{
+			"type": "text",
+			"text": "在煎锅开始烹饪之前，必须保证锅中有$(l:resting/oil)油$(/l)并且有足够的碗。油通过与煎锅相邻的油舟自动添加。"
+		},
+		{
+			"type": "text",
+			"text": "由于不涉及流体，煎锅烹饪炒菜时并不像汤那样有浓度的说法。一般而言，固定每两个物品原料（向上取整）出产一盘炒菜。"
+		},
+		{
+			"type": "text",
+			"text": "红石控制开启时，若红石信号为高且煎锅当前空闲，则会不断尝试开始烹饪。配合其它自动化工具可以实现完全自动化。"
+		},
+		{
+			"type": "image",
+			"images": ["caupona:textures/gui/entries/frying_pan.png"],
+			"text": "煎锅的一种使用方法示例，另见$(l:resting/oil)油舟$(/l)和$(l:tweaks/dispenser)发射器$(/l)。"
+		}
+	]
+}

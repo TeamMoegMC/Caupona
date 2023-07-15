@@ -26,7 +26,7 @@ import java.util.Objects;
 import com.teammoeg.caupona.CPTags.Blocks;
 import com.teammoeg.caupona.Config;
 import com.teammoeg.caupona.FuelType;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.client.Particles;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.ChimneyHelper;
@@ -167,7 +167,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 
 	@Override
 	public Component getDisplayName() {
-		return MutableComponent.create(new TranslatableContents("container." + Main.MODID + ".kitchen_stove.title"));
+		return MutableComponent.create(new TranslatableContents("container." + CPMain.MODID + ".kitchen_stove.title"));
 	}
 
 	private boolean consumeFuel() {

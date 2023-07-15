@@ -1,0 +1,17 @@
+{
+	"name": "Counter",
+	"icon": "caupona:brick_counter",
+	"category": "caupona:intro",
+	"sortnum": 7,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/brick_counter",
+			"text": "Counters are kitchen facilities. Like others facilities, they have variants of different $(l:intro/kitchen_materials)materials$(/l)."
+		},
+		{
+			"type": "text",
+			"text": "They are only for decoration, to connect $(l:intro/stove)stoves$(/l) and $(l:intro/counter_with_dolium)counters with dolia$(/l), and some other kitchen facilities."
+		}
+	]
+}

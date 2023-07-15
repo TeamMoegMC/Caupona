@@ -23,7 +23,7 @@ package com.teammoeg.caupona.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.container.PortableBrazierContainer;
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -33,7 +33,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class PortableBrazierScreen extends AbstractContainerScreen<PortableBrazierContainer> {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID,
+	private static final ResourceLocation TEXTURE = new ResourceLocation(CPMain.MODID,
 			"textures/gui/portable_brazier.png");
 	PortableBrazierContainer container;
 

@@ -22,7 +22,7 @@
 package com.teammoeg.caupona.worldgen;
 
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.core.Registry;
 import net.minecraft.util.valueproviders.ConstantInt;
@@ -41,11 +41,11 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class CPFeatures {
 	public static final DeferredRegister<ConfiguredFeature<?, ?>> FEATURES = DeferredRegister
-			.create(Registry.CONFIGURED_FEATURE_REGISTRY, Main.MODID);
+			.create(Registry.CONFIGURED_FEATURE_REGISTRY, CPMain.MODID);
 	public static final DeferredRegister<FoliagePlacerType<?>> FOILAGE_TYPES = DeferredRegister
-			.create(Registry.FOLIAGE_PLACER_TYPE_REGISTRY, Main.MODID);
+			.create(Registry.FOLIAGE_PLACER_TYPE_REGISTRY, CPMain.MODID);
 	public static final DeferredRegister<TrunkPlacerType<?>> TRUNK_TYPES = DeferredRegister
-			.create(Registry.TRUNK_PLACER_TYPE_REGISTRY, Main.MODID);
+			.create(Registry.TRUNK_PLACER_TYPE_REGISTRY, CPMain.MODID);
 	
 	
 	public static final RegistryObject<ConfiguredFeature<?,?>> WALNUT = FEATURES

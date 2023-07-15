@@ -1,0 +1,18 @@
+{
+	"name": "铅制炊具",
+	"icon": "caupona:lead_stew_pot",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/lead_stew_pot",
+			"text": "$(l:intro/lead)铅$(/l)制汤锅，和$(l:intro/stew_pots)普通汤锅$(/l)一样，但是当汤的浓度达到一定条件或者加入醋时，会产出调味料为含铅糖浆的汤。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/lead_frying_pan",
+			"text": "$(l:intro/lead)铅$(/l)制煎锅，和$(l:intro/frying_pans)普通煎锅$(/l)一样，但是当加入醋时，会产出调味料为含铅糖浆的菜品"
+		}
+	]
+}

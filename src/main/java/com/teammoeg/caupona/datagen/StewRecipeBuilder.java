@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
@@ -86,7 +86,7 @@ public class StewRecipeBuilder {
 	}
 
 	public static StewRecipeBuilder start(Fluid out) {
-		return new StewRecipeBuilder(new ResourceLocation(Main.MODID, "cooking/" + Utils.getRegistryName(out).getPath()),
+		return new StewRecipeBuilder(new ResourceLocation(CPMain.MODID, "cooking/" + Utils.getRegistryName(out).getPath()),
 				out);
 	}
 

@@ -1,0 +1,26 @@
+{
+	"name": "Herbs",
+	"icon": "caupona:silphium_block",
+	"category": "caupona:worldgen",
+	"sortnum": 0,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Silphia now generate in the world. This herb cannot be planted, and can only be refreshed using bone meal."
+		},
+		{
+			"type": "empty"
+		},
+		{
+			"type": "image",
+			"images": ["caupona:textures/gui/entries/silphium.png"],
+			"anchor": "silphium",
+			"title": "Silphium"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:silphium",
+			"text": "Silphia only grow on sunflower plains. Asafœtida, a rare spice, can be produced by resting silphia and an anvil (not consumed) in a $(l:intro/counter_with_dolium)dolium$(/l)."
+		}
+	]
+}

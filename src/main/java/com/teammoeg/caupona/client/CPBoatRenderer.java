@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.entity.CPBoat;
 
 import net.minecraft.client.model.BoatModel;
@@ -46,8 +46,8 @@ public class CPBoatRenderer extends BoatRenderer {
 	public CPBoatRenderer(Context p_173936_,boolean b) {
 		super(p_173936_, b);
 		boatResources = Stream.of(CPBlocks.woods).collect(ImmutableMap.toImmutableMap(s -> s, s -> Pair
-				.of(new ResourceLocation(Main.MODID, "textures/entity/boat/" + s + ".png"), new BoatModel(p_173936_
-						.bakeLayer(new ModelLayerLocation(new ResourceLocation(Main.MODID, "boat/" + s), "main")), b))));
+				.of(new ResourceLocation(CPMain.MODID, "textures/entity/boat/" + s + ".png"), new BoatModel(p_173936_
+						.bakeLayer(new ModelLayerLocation(new ResourceLocation(CPMain.MODID, "boat/" + s), "main")), b))));
 
 	}
 

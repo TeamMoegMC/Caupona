@@ -1,0 +1,16 @@
+{
+	"name": "Oil",
+	"icon": "caupona:gravy_boat",
+	"category": "caupona:resting",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Oil is needed when sautéing, and is produced by resting $(l:worldgen/plants)walnuts$(/l) and an anvil (not consumed) in dolia. 8 walnuts yields a bottle of oil, which can be used 5 times."
+		},
+		{
+			"type": "text",
+			"text": "You can place oil bottles in the world as gravy boats, which provides oil for adjacent pans. The directions that gravy boats face doesn't matter."
+		}
+	]
+}

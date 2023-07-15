@@ -1,0 +1,40 @@
+{
+	"name": "Snails",
+	"icon": "caupona:snail",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:snail_bait",
+			"link_recipe": true,
+			"text": "You can rest 1x bread, 2x sugars or honeycombs, 2x walnuts, and 500 mB bone gelatin (fluid) in a $(l:intro/counter_with_dolium)dolium$(/l) to produce a snail bait. The bait could be placed under a leaf block, luring snails after a rather long period."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:snail_block",
+			"text": "Snails hatch from eggs (except the ones lured by baits) and grow, consuming one leave block or a fruit at each stage they grow. They search food in a 3x3 range nearby, during which they turn certain leaves into snail mucus blocks to support them. The snails will continue eating when they are mature, to produce new eggs under nearby leaves or mucus blocks."
+		},
+		{
+			"type": "image",
+			"images": ["caupona:textures/gui/entries/snail.png"],
+			"anchor": "snail",
+			"title": "Growing snails"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/snail_roes",
+			"text": "Hatched snail blocks drop snail items only, while eggs drop snail roes. The roes are considered as Eggs in cooking."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:snail",
+			"text": "Snails are considered as crustaceans in cooking, despite they are actually land snails."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:plump_snail",
+			"text": "A snail grow plump if it has consumed any fruits during its growth. Plump snails restore more hunger and grant higher saturation."
+		}
+	]
+}

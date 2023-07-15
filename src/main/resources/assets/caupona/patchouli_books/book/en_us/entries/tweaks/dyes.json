@@ -1,0 +1,12 @@
+{
+  "name": "New dye recipe",
+  "icon": "minecraft:orange_dye",
+  "category": "caupona:tweaks",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Resting $(l:intro/chimney)soot$() and bone gelatin (fluid) in different ratios and concentrations produces three colors of dyes: orange, black, and brown."
+    }
+  ]
+}

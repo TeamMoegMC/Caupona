@@ -22,7 +22,7 @@
 package com.teammoeg.caupona.compat.jei.category;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.util.Utils;
 
@@ -44,14 +44,14 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class BoilingCategory implements IRecipeCategory<BoilingRecipe> {
-	public static RecipeType<BoilingRecipe> TYPE=RecipeType.create(Main.MODID, "boiling",BoilingRecipe.class);
+	public static RecipeType<BoilingRecipe> TYPE=RecipeType.create(CPMain.MODID, "boiling",BoilingRecipe.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
 	public BoilingCategory(IGuiHelper guiHelper) {
 		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK,
-				new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, "nail_soup"))));
-		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/boiling.png");
+				new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID, "nail_soup"))));
+		ResourceLocation guiMain = new ResourceLocation(CPMain.MODID, "textures/gui/jei/boiling.png");
 		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 
 	}
@@ -59,7 +59,7 @@ public class BoilingCategory implements IRecipeCategory<BoilingRecipe> {
 
 
 	public Component getTitle() {
-		return Utils.translate("gui.jei.category." + Main.MODID + ".boiling.title");
+		return Utils.translate("gui.jei.category." + CPMain.MODID + ".boiling.title");
 	}
 
 	@SuppressWarnings("resource")

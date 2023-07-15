@@ -1,0 +1,7 @@
+{
+	"parent": "caupona:block/roads/template_road_side_0",
+	"textures": {
+		"road": "caupona:block/roads/felsic_tuff",
+		"particle": "caupona:block/roads/felsic_tuff"
+	}
+}

@@ -23,7 +23,7 @@ package com.teammoeg.caupona.blocks.dolium;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
@@ -269,7 +269,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 
 	@Override
 	public Component getDisplayName() {
-		return MutableComponent.create(new TranslatableContents("container." + Main.MODID + ".counter_dolium.title"));
+		return MutableComponent.create(new TranslatableContents("container." + CPMain.MODID + ".counter_dolium.title"));
 	}
 
 	RangedWrapper bowl = new RangedWrapper(inv, 3, 6) {

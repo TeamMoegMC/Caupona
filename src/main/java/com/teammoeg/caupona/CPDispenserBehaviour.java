@@ -60,7 +60,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-@Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = CPMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CPDispenserBehaviour {
 
 	@SubscribeEvent
@@ -73,7 +73,7 @@ public class CPDispenserBehaviour {
 		ComposterBlock.COMPOSTABLES.put(CPBlocks.WOLFBERRY_LEAVE.get(),0.4F);
 		ComposterBlock.COMPOSTABLES.put(CPBlocks.WOLFBERRY_SAPLINGS.get(),0.4F);
 		for(String s:CPItems.food_material)
-			ComposterBlock.COMPOSTABLES.put(ForgeRegistries.ITEMS.getValue(Main.rl(s)),0.6F);
+			ComposterBlock.COMPOSTABLES.put(ForgeRegistries.ITEMS.getValue(CPMain.rl(s)),0.6F);
 	}
 
 

@@ -1,0 +1,28 @@
+{
+	"name": "Skimmer",
+	"icon": "caupona:bamboo_skimmer",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/bamboo_skimmer",
+			"text": "Skimmers are used to remove solid ingredients in the soup, decreasing the concentration by 0.5 each time, until hitting a lower limit. After skimming, neither the type nor the base will be altered."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:scraps",
+			"link_recipe": true,
+			"text": "Ingredients skimmed off will turn into scraps, whose only use is composting."
+		},
+		{
+			"type": "text",
+			"text": "Iron and bamboo skimmers function in the same way, despite that the iron ones are more durable."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/iron_skimmer",
+			"recipe2": "caupona:crafting/iron_skimmer_alt"
+		}
+	]
+}

@@ -21,6 +21,8 @@
 
 package com.teammoeg.caupona.datagen;
 
+
+
 import static com.teammoeg.caupona.CPTags.Items.BAKED;
 import static com.teammoeg.caupona.CPTags.Items.CEREALS;
 import static com.teammoeg.caupona.CPTags.Items.CRUSTACEANS;
@@ -39,15 +41,20 @@ import static com.teammoeg.caupona.CPTags.Items.SUGAR;
 import static com.teammoeg.caupona.CPTags.Items.VEGETABLES;
 import static com.teammoeg.caupona.CPTags.Items.WALNUT;
 
+import java.util.concurrent.CompletableFuture;
+
 import com.google.common.collect.ImmutableList;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.CPTags;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.util.MaterialType;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -59,15 +66,16 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class CPItemTagGenerator extends TagsProvider<Item> {
 
-	public CPItemTagGenerator(DataGenerator dataGenerator, String modId, ExistingFileHelper existingFileHelper) {
-		super(dataGenerator, Registry.ITEM, modId, existingFileHelper);
+	public CPItemTagGenerator(DataGenerator dataGenerator, String modId, ExistingFileHelper existingFileHelper,CompletableFuture<HolderLookup.Provider> provider) {
+		super(dataGenerator.getPackOutput(), Registries.ITEM,provider, modId, existingFileHelper);
 	}
 
 	static final String fd = "farmersdelight";
 	static final String sf = "simplefarming:";
 
+	@SuppressWarnings("unchecked")
 	@Override
-	protected void addTags() {
+	protected void addTags(Provider pProvider) {
 		/*
 		 * Builder<Item>
 		 * i=this.getOrCreateBuilder(ItemTags.createOptional(mrl("cookable"))).add(Items
@@ -117,7 +125,9 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 			tag(ItemTags.SAPLINGS).add(cp(wood + "_sapling"));
 			tag(ItemTags.LOGS).add(cp(wood + "_log"));
 		}
-		for (String stone : CPBlocks.stones) {
+		for (MaterialType typ : CPBlocks.all_materials) {
+			if(!typ.isDecorationMaterial())continue;
+			String stone=typ.getName();
 			tag(ItemTags.SLABS).add(cp(stone + "_slab"));
 			tag(ItemTags.STAIRS).add(cp(stone + "_stairs"));
 			tag(ItemTags.WALLS).add(cp(stone + "_wall"));
@@ -128,49 +138,59 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag("fuel/woods").addTags(ItemTags.LOGS, ItemTags.PLANKS, ItemTags.WOODEN_BUTTONS, ItemTags.WOODEN_DOORS,
 				ItemTags.WOODEN_FENCES, ItemTags.WOODEN_PRESSURE_PLATES, ItemTags.WOODEN_SLABS, ItemTags.WOODEN_STAIRS,
 				ItemTags.WOODEN_TRAPDOORS, ItemTags.SAPLINGS);
-		tag("fuel/charcoals").add(Items.CHARCOAL);
+		tag("fuel/charcoals").add(rk(Items.CHARCOAL));
 		tag("fuel/fossil").addTags(ItemTags.COALS);
-		tag("fuel/lava").add(Items.LAVA_BUCKET);
+		tag("fuel/lava").add(rk(Items.LAVA_BUCKET));
 		tag(MEATS).addTag(POULTRY).addTag(MEAT);
 		tag(SEAFOOD).addTag(FISH).addTag(CRUSTACEANS);
-		tag(PUMPKIN).addOptional(rl(fd + ":pumpkin_slice")).add(Items.PUMPKIN, Items.CARVED_PUMPKIN);
-		tag(frl("raw_beef")).add(Items.BEEF);
+		tag(PUMPKIN).addOptional(rl(fd + ":pumpkin_slice")).add(rk(Items.PUMPKIN), rk(Items.CARVED_PUMPKIN));
+		tag(frl("raw_beef")).add(rk(Items.BEEF));
 		tag(WALNUT).add(cp("walnut"));
-		tag(BAKED).add(Items.BREAD).addTag(ftag("pasta")).addOptional(rl(fd + ":pie_crust"));
-		tag(CEREALS).addTag(RICE).addTag(ftag("grain")).addTag(BAKED).add(Items.WHEAT, Items.WHEAT_SEEDS)
+		tag(BAKED).add(rk(Items.BREAD)).addTag(ftag("pasta")).addOptional(rl(fd + ":pie_crust"));
+		tag(CEREALS).addTag(RICE).addTag(ftag("grain")).addTag(BAKED).add(rk(Items.WHEAT), rk(Items.WHEAT_SEEDS))
+
 				.addTag(ftag("bread"));
+
 		tag(RICE).addTag(ftag("grain/rice"));
-		tag(ROOTS).add(Items.POTATO, Items.BAKED_POTATO).addTag(ftag("rootvegetables"));
-		tag(VEGETABLES).add(Items.CARROT, Items.BEETROOT, Items.PUMPKIN)
+		tag(ROOTS).add(rk(Items.POTATO), rk(Items.BAKED_POTATO)).addTag(ftag("rootvegetables"));
+		tag(VEGETABLES).add(rk(Items.CARROT), rk(Items.BEETROOT), rk(Items.PUMPKIN))
 		.addTag(ftag("vegetables")).addTag(ftag("vegetable")).addTag(GREENS)
 		.addTag(MUSHROOMS).addTag(ROOTS).addTag(ftag("salad_ingredients"))
 		.addTag(PUMPKIN);
+
 		
 		
-		tag(GREENS).addTag(ftag("vegetables/asparagus")).add(Items.FERN, Items.LARGE_FERN, Items.ALLIUM);
-		tag(EGGS).add(Items.EGG).addTag(ftag("cooked_eggs"));
-		tag(CRUSTACEANS).add(Items.NAUTILUS_SHELL);
+
+		tag(GREENS).addTag(ftag("vegetables/asparagus")).add(rk(Items.FERN), rk(Items.LARGE_FERN), rk(Items.ALLIUM)).add(cp("fresh_wolfberry_leaves"));
+		tag(EGGS).add(rk(Items.EGG)).addTag(ftag("cooked_eggs")).add(cp("snail_block"));
+		tag(CRUSTACEANS).add(cp("snail")).add(cp("plump_snail"));
 		tag(FISH).addTag(atag(mcrl("fishes"))).addTag(ftag("raw_fishes"));
-		tag(SEAFOOD).add(Items.KELP, Items.DRIED_KELP);
-		tag(POULTRY).add(Items.CHICKEN, Items.RABBIT).addTag(ftag("raw_chicken")).addTag(ftag("raw_rabbit"))
+		tag(SEAFOOD).add(rk(Items.KELP), rk(Items.DRIED_KELP));
+		tag(POULTRY).add(rk(Items.CHICKEN), rk(Items.RABBIT)).addTag(ftag("raw_chicken")).addTag(ftag("raw_rabbit"))
 				.addTag(ftag("bread")).addOptional(rl(sf + "raw_chicken_wings")).addOptional(rl(sf + "raw_sausage"))
 				.addOptional(rl(sf + "raw_horse_meat"));
-		tag(MEAT).add(Items.BEEF, Items.MUTTON, Items.PORKCHOP, Items.ROTTEN_FLESH).addTag(ftag("bacon"))
+
+		tag(MEAT).add(rk(Items.BEEF), rk(Items.MUTTON), rk(Items.PORKCHOP), rk(Items.ROTTEN_FLESH)).addTag(ftag("bacon"))
+
 				.addTag(ftag("raw_pork")).addTag(ftag("raw_beef")).addTag(ftag("raw_mutton"))
 				.addOptional(rl(fd + ":ham")).addTag(ftag("raw_bacon"));
-		tag(SUGAR).add(Items.SUGAR_CANE, Items.HONEYCOMB, Items.HONEY_BOTTLE);
-		tag("bone").add(Items.BONE);
-		tag("ice").add(Items.ICE, Items.BLUE_ICE, Items.PACKED_ICE);
-		tag(MUSHROOMS).add(Items.BROWN_MUSHROOM, Items.RED_MUSHROOM).addTag(ftag("mushrooms"));
-		tag("fern").add(Items.FERN, Items.LARGE_FERN);
+
+		tag(SUGAR).add(rk(Items.SUGAR_CANE), rk(Items.HONEYCOMB), rk(Items.HONEY_BOTTLE));
+		tag("bone").add(rk(Items.BONE));
+		tag("ice").add(rk(Items.ICE), rk(Items.BLUE_ICE), rk(Items.PACKED_ICE));
+		tag(MUSHROOMS).add(rk(Items.BROWN_MUSHROOM), rk(Items.RED_MUSHROOM)).addTag(ftag("mushrooms"));
+		tag("fern").add(rk(Items.FERN), rk(Items.LARGE_FERN));
+
 		tag("wolfberries").add(cp("wolfberries"));
-		tag("stews").add(CPItems.stews.toArray(new Item[0]));
-		tag("stoves").add(CPBlocks.stove1.get().asItem(), CPBlocks.stove2.get().asItem(), CPBlocks.stove3.get().asItem(),
-				CPBlocks.stove4.get().asItem(), CPBlocks.stove5.get().asItem());
-		tag("portable_brazier_fuel").add(Items.MAGMA_CREAM).add(cp("vivid_charcoal"));
-		tag("garum_fish").add(Items.COD, Items.SALMON);
-		tag("vinegar_fruits").add(Items.APPLE).add(cp("fig"));
-		tag("vinegar_fruits_small").add(Items.SWEET_BERRIES).add(cp("wolfberries"));
+		tag("stews").add(CPItems.stews.stream().map(this::rk).toArray(i->new ResourceKey[i]));
+		tag("stoves").add(CPBlocks.stoves.stream().map(e->rk(e.get().asItem())).toArray(ResourceKey[]::new));
+		tag("portable_brazier_fuel").add(rk(Items.MAGMA_CREAM)).add(cp("vivid_charcoal"));
+		tag("garum_fish").add(rk(Items.COD), rk(Items.SALMON));
+		tag("vinegar_fruits").add(rk(Items.APPLE)).add(cp("fig"));
+		tag("vinegar_fruits_small").add(rk(Items.SWEET_BERRIES)).add(cp("wolfberries"));
+		tag(ftag("ingots/lead")).add(cp("lead_ingot"));
+		tag(ftag("nuggets/lead")).add(cp("lead_nugget"));
+		tag(ftag("storage_blocks/lead")).add(cp("lead_block"));
 
 	}
 
@@ -181,7 +201,10 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 	private TagAppender<Item> tag(ResourceLocation s) {
 		return this.tag(ItemTags.create(s));
 	}
-
+	private ResourceKey<Item> rk(Item b) {
+		
+		return ForgeRegistries.ITEMS.getResourceKey(b).orElseGet(()->b.builtInRegistryHolder().key());
+	}
 	private ResourceLocation rl(RegistryObject<Item> it) {
 		return it.getId();
 	}
@@ -199,7 +222,7 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 	}
 
 	private ResourceLocation mrl(String s) {
-		return new ResourceLocation(Main.MODID, s);
+		return new ResourceLocation(CPMain.MODID, s);
 	}
 
 	private ResourceLocation frl(String s) {
@@ -218,12 +241,11 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 
 	@Override
 	public String getName() {
-		return Main.MODID + " item tags";
+		return CPMain.MODID + " item tags";
 	}
 
-	private Item cp(String s) {
-		Item i = ForgeRegistries.ITEMS.getValue(mrl(s));
-		return i.asItem();// just going to cause trouble if not exists
+	private ResourceKey<Item> cp(String s) {
+		return ResourceKey.create(Registries.ITEM,mrl(s));
 	}
 /*
 	@Override
@@ -231,4 +253,5 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		return this.generator.getOutputFolder()
 				.resolve("data/" + id.getNamespace() + "/tags/items/" + id.getPath() + ".json");
 	}*/
+
 }

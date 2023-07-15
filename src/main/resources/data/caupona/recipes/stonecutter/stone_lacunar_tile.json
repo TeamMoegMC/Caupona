@@ -1,0 +1,8 @@
+{
+	"type": "stonecutting",
+	"ingredient": {
+		"item": "minecraft:stone"
+	},
+	"result": "caupona:stone_lacunar_tile",
+	"count": 1
+}

@@ -27,7 +27,7 @@ import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.util.Utils;
@@ -50,7 +50,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class StewCookingCategory extends IConditionalCategory<StewCookingRecipe> {
-	public static RecipeType<StewCookingRecipe> TYPE=RecipeType.create(Main.MODID, "stew_cooking",StewCookingRecipe.class);
+	public static RecipeType<StewCookingRecipe> TYPE=RecipeType.create(CPMain.MODID, "stew_cooking",StewCookingRecipe.class);
 	private IDrawable ICON;
 	private IGuiHelper helper;
 
@@ -61,7 +61,7 @@ public class StewCookingCategory extends IConditionalCategory<StewCookingRecipe>
 	}
 
 	public Component getTitle() {
-		return Utils.translate("gui.jei.category." + Main.MODID + ".stew_cooking.title");
+		return Utils.translate("gui.jei.category." + CPMain.MODID + ".stew_cooking.title");
 	}
 	@Override
 	public void drawCustom(StewCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,

@@ -32,10 +32,10 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class CPEntityTypes {
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES,
-			Main.MODID);
+			CPMain.MODID);
 	public static final RegistryObject<EntityType<CPBoat>> BOAT = ENTITY_TYPES.register("boat",
 			() -> EntityType.Builder.<CPBoat>of(CPBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10)
-					.build(new ResourceLocation(Main.MODID, "boat").toString()));
+					.build(new ResourceLocation(CPMain.MODID, "boat").toString()));
 
 	private CPEntityTypes() {
 	}

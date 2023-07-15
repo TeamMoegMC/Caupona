@@ -21,13 +21,16 @@
 
 package com.teammoeg.caupona.datagen;
 
+import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.util.FoodMaterialInfo;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -35,17 +38,19 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 public class CPItemModelProvider extends ItemModelProvider {
 
 	public CPItemModelProvider(DataGenerator generator, String modid, ExistingFileHelper existingFileHelper) {
-		super(generator, modid, existingFileHelper);
+		super(generator.getPackOutput(), modid, existingFileHelper);
+
 	}
 
 	@Override
 	protected void registerModels() {
+		
 		for (String s : CPItems.soups)
 			simpleTexture(s, "soups/");
 		for (String s : CPItems.base_material)
 			texture(s);
-		for (String s : CPItems.food_material)
-			texture(s);
+		for (FoodMaterialInfo s : CPItems.food_material)
+			texture(s.name);
 		simpleTexture("water", "soups/");
 		simpleTexture("milk", "soups/");
 		for (String s : CPItems.aspics)
@@ -55,19 +60,37 @@ public class CPItemModelProvider extends ItemModelProvider {
 		simpleTexture("any_based", "bases/");
 		simpleTexture("water_or_stock_based", "bases/");
 		texture("book", "vade_mecum_for_innkeepers");
-		itemModel(CPItems.clay_pot.get(), "clay_stew_pot");
+		texture(CPItems.clay_pot.get(), "clay_stew_pot");
 		texture("culinary_heat_haze");
 		texture("soot");
 		texture("portable_brazier");
 		texture("walnut_boat");
 		texture("chronoconis");
-
+		texture("silphium");
+		texture("situla");
+		texture("snail_block","snail_roe");
+		texture("redstone_ladle");
+		texture("bamboo_skimmer");
+		texture("iron_skimmer");
+		texture("scraps");
+		itemModel(CPBlocks.SILPHIUM.get().asItem(),"silphium").transforms().transform(ItemDisplayContext.GUI).scale(0.5f).rotation(0, 45, 0).translation(0, -4, 0).end().end();
+		/*System.out.println(new File("").getAbsolutePath());
+		try {
+			new BufferedReader(new FileReader(new File("../src/datagen/resources/assets/caupona/block/blocks.txt"))).lines().forEach( s -> {
+				if(!ForgeRegistries.BLOCKS.containsKey(new ResourceLocation(CPMain.MODID,s.substring(0,s.lastIndexOf("."))))) {
+					System.out.println(s);
+				}
+			});
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 		super.singleTexture("walnut_sapling", new ResourceLocation("minecraft", "item/generated"), "layer0",
-				new ResourceLocation(Main.MODID, "block/walnut_sapling"));
+				new ResourceLocation(CPMain.MODID, "block/walnut_sapling"));
 		super.singleTexture("fig_sapling", new ResourceLocation("minecraft", "item/generated"), "layer0",
-				new ResourceLocation(Main.MODID, "block/fig_sapling"));
+				new ResourceLocation(CPMain.MODID, "block/fig_sapling"));
 		super.singleTexture("wolfberry_sapling", new ResourceLocation("minecraft", "item/generated"), "layer0",
-				new ResourceLocation(Main.MODID, "block/wolfberry_sapling"));
+				new ResourceLocation(CPMain.MODID, "block/wolfberry_sapling"));
 		// super.withExistingParent("clay_cistern",new
 		// ResourceLocation(Main.MODID,"block/clay_cistern"));
 		for (String s : CPItems.spices)
@@ -84,21 +107,23 @@ public class CPItemModelProvider extends ItemModelProvider {
 				.predicate(new ResourceLocation("damage"), 1f).model(texture("oil_bottle")).end();
 	}
 
-	public void itemModel(Item item, String name) {
-		super.withExistingParent(Utils.getRegistryName(item).getPath(), new ResourceLocation(Main.MODID, "block/" + name));
+	public ItemModelBuilder itemModel(Item item, String name) {
+		return super.withExistingParent(Utils.getRegistryName(item).getPath(), new ResourceLocation(CPMain.MODID, "block/" + name));
 	}
 
 	public ItemModelBuilder simpleTexture(String name, String par) {
 		return super.singleTexture(name, new ResourceLocation("minecraft", "item/generated"), "layer0",
-				new ResourceLocation(Main.MODID, "item/" + par + name));
+				new ResourceLocation(CPMain.MODID, "item/" + par + name));
 	}
 
 	public ItemModelBuilder texture(String name) {
 		return texture(name, name);
 	}
-
+	public ItemModelBuilder texture(Item name, String par) {
+		return texture(Utils.getRegistryName(name).getPath(),par);
+	}
 	public ItemModelBuilder texture(String name, String par) {
 		return super.singleTexture(name, new ResourceLocation("minecraft", "item/generated"), "layer0",
-				new ResourceLocation(Main.MODID, "item/" + par));
+				new ResourceLocation(CPMain.MODID, "item/" + par));
 	}
 }

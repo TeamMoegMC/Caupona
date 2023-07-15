@@ -23,7 +23,7 @@ package com.teammoeg.caupona.compat.jei.category;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.util.Utils;
 
@@ -44,19 +44,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 public class BrazierCategory implements IRecipeCategory<AspicMeltingRecipe> {
-	public static RecipeType<AspicMeltingRecipe> TYPE=RecipeType.create(Main.MODID, "aspic_thawing_brazier",AspicMeltingRecipe.class);
+	public static RecipeType<AspicMeltingRecipe> TYPE=RecipeType.create(CPMain.MODID, "aspic_thawing_brazier",AspicMeltingRecipe.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
 	public BrazierCategory(IGuiHelper guiHelper) {
 		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(CPItems.pbrazier.get()));
-		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/aspic_thawing_brazier.png");
+		ResourceLocation guiMain = new ResourceLocation(CPMain.MODID, "textures/gui/jei/aspic_thawing_brazier.png");
 		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 	}
 
 
 	public Component getTitle() {
-		return Utils.translate("gui.jei.category." + Main.MODID + ".thawing_brazier.title");
+		return Utils.translate("gui.jei.category." + CPMain.MODID + ".thawing_brazier.title");
 	}
 
 	@SuppressWarnings("resource")

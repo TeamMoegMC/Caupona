@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona.compat.jei.category;
 
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.util.Utils;
 
@@ -42,20 +42,20 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class BowlEmptyCategory implements IRecipeCategory<BowlContainingRecipe> {
 
-	public static RecipeType<BowlContainingRecipe> TYPE=RecipeType.create(Main.MODID, "bowl_draining",BowlContainingRecipe.class);
+	public static RecipeType<BowlContainingRecipe> TYPE=RecipeType.create(CPMain.MODID, "bowl_draining",BowlContainingRecipe.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
 	public BowlEmptyCategory(IGuiHelper guiHelper) {
 		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(Items.BOWL));
-		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/container_draining.png");
+		ResourceLocation guiMain = new ResourceLocation(CPMain.MODID, "textures/gui/jei/container_draining.png");
 		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 	}
 
 
 
 	public Component getTitle() {
-		return Utils.translate("gui.jei.category." + Main.MODID + ".draining.title");
+		return Utils.translate("gui.jei.category." + CPMain.MODID + ".draining.title");
 	}
 
 	@Override

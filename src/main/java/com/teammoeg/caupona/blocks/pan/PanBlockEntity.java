@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.PanPendingContext;
@@ -407,7 +407,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 
 	@Override
 	public Component getDisplayName() {
-		return MutableComponent.create(new TranslatableContents("container." + Main.MODID + ".pan.title"));
+		return MutableComponent.create(new TranslatableContents("container." + CPMain.MODID + ".pan.title"));
 	}
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {

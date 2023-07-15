@@ -24,7 +24,7 @@ public class CPTags {
 		public static final TagKey<Block> COUNTERS = create("counter");
 		public static final TagKey<Block> STOVES = create("stoves");
 		private static TagKey<Block> create(String s){
-			return  BlockTags.create(new ResourceLocation(Main.MODID, s));
+			return  BlockTags.create(new ResourceLocation(CPMain.MODID, s));
 		}
 		
 	}
@@ -56,7 +56,7 @@ public class CPTags {
 		public static final TagKey<Item> WALNUT = create("walnut");
 		public static final TagKey<Item> GREENS = create("vegetables/greens");
 		private static TagKey<Item> create(String s){
-			return ItemTags.create(new ResourceLocation(Main.MODID, s));
+			return ItemTags.create(new ResourceLocation(CPMain.MODID, s));
 		}
 	}
 	
@@ -67,7 +67,7 @@ public class CPTags {
 		public static final TagKey<Fluid> BOILABLE = create("boilable");
 		public static final TagKey<Fluid> PUMICE_ON = create("pumice_bloom_grow_on");
 		private static TagKey<Fluid> create(String s){
-			return FluidTags.create(new ResourceLocation(Main.MODID, s));
+			return FluidTags.create(new ResourceLocation(CPMain.MODID, s));
 		}
 
 		

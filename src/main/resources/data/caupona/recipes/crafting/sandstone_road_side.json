@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"BSB",
+		"==="
+	],
+	"key": {
+		"B": {
+			"item": "minecraft:cut_sandstone"
+		},
+		"S": {
+			"item": "minecraft:cut_sandstone_slab"
+		},
+		"=": {
+			"item": "minecraft:light_gray_concrete"
+		}
+	},
+	"result": {
+		"item": "caupona:sandstone_road_side",
+		"count": 3
+	}
+}

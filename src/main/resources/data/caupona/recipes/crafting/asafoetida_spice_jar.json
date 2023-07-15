@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{"item": "minecraft:flower_pot"},
+		{"item": "caupona:asafoetida"},
+		{"item": "caupona:asafoetida"},
+		{"item": "caupona:asafoetida"},
+		{"item": "caupona:asafoetida"}
+	],
+	"result": {
+		"item": "caupona:asafoetida_spice_jar"
+	}
+}

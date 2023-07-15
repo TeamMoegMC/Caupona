@@ -1,0 +1,7 @@
+{
+	"parent": "caupona:block/template_frying_pan",
+	"textures": {
+		"pan": "caupona:block/lead_frying_pan",
+		"particle": "caupona:block/lead_frying_pan"
+	}
+}

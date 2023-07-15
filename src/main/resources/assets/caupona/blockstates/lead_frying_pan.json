@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"facing=south": {
+			"model": "caupona:block/lead_frying_pan"
+		},
+		"facing=west": {
+			"model": "caupona:block/lead_frying_pan",
+			"y": 90
+		},
+		"facing=north": {
+			"model": "caupona:block/lead_frying_pan",
+			"y": 180
+		},
+		"facing=east": {
+			"model": "caupona:block/lead_frying_pan",
+			"y": 270
+		}
+	}
+}

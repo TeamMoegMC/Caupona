@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 import com.teammoeg.caupona.blocks.dolium.DoliumContainer;
 
@@ -37,7 +37,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class DoliumScreen extends AbstractContainerScreen<DoliumContainer> {
 	public final CounterDoliumBlockEntity blockEntity;
-	private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID,
+	private static final ResourceLocation TEXTURE = new ResourceLocation(CPMain.MODID,
 			"textures/gui/counter_with_dolium.png");
 
 	public DoliumScreen(DoliumContainer screenContainer, Inventory inv, Component titleIn) {

@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.api.GameTranslation;
 import com.teammoeg.caupona.api.events.DrawCustomConditionEvent;
 import com.teammoeg.caupona.data.recipes.IConditionalRecipe;
@@ -85,7 +85,7 @@ public abstract class IConditionalCategory<T extends IConditionalRecipe> impleme
 		return grid(helper,x,y,0,0,w,h);
 	}
 	public static IDrawable grid(IGuiHelper helper,int x,int y,int dx,int dy,int w,int h) {
-		return helper.createDrawable(new ResourceLocation(Main.MODID,"textures/gui/recipes/elements/recipe_page_elements.png"), x*47+dx, y*53+dy, w, h);
+		return helper.createDrawable(new ResourceLocation(CPMain.MODID,"textures/gui/recipes/elements/recipe_page_elements.png"), x*47+dx, y*53+dy, w, h);
 	}
 	public abstract IDrawable getHeadings();
 	public abstract void drawCustom(T recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX,double mouseY);

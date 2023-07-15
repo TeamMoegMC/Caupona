@@ -55,6 +55,7 @@ import com.teammoeg.caupona.blocks.stove.KitchenStove;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveBlockEntity;
 import com.teammoeg.caupona.items.CPBlockItem;
 import com.teammoeg.caupona.items.DishItem;
+import com.teammoeg.caupona.util.MaterialType;
 import com.teammoeg.caupona.worldgen.FigTreeGrower;
 import com.teammoeg.caupona.worldgen.WalnutTreeGrower;
 import com.teammoeg.caupona.worldgen.WolfberryTreeGrower;
@@ -66,6 +67,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
@@ -92,16 +94,23 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CPBlocks {
-	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Main.MODID);
+	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, CPMain.MODID);
 	// static string data
-	public static final String[] counters = new String[] { "brick", "opus_incertum", "opus_latericium", "mud",
-			"stone_brick" };
-	public static final String[] stones = new String[] { "mixed_bricks", "opus_incertum", "opus_latericium",
-			"opus_reticulatum", "felsic_tuff_bricks", "felsic_tuff" };
 	public static final String[] woods = new String[] { "walnut" };
-	public static final String[] pillar_materials = new String[] { "stone", "quartz", "felsic_tuff", "calcite" };
-	public static final String[] hypocaust_materials = new String[] { "brick", "opus_incertum", "opus_latericium",
-			"stone_brick" };
+	public static final MaterialType[] all_materials = new MaterialType[] {
+			new MaterialType("mud").makeCounter(1),
+			new MaterialType("stone_brick").makeCounter(2).makeHypocaust(),
+			new MaterialType("stone").setBase(()->Blocks.STONE.defaultBlockState()).makePillar().makeRoad(),
+			new MaterialType("sandstone").setBase(()->Blocks.SANDSTONE.defaultBlockState()).makeRoad(),
+			new MaterialType("brick").makeCounter(2).makeHypocaust(),
+			new MaterialType("mixed_bricks").makeDecoration(),
+			new MaterialType("opus_incertum").makeCounter(2).makeDecoration().makeHypocaust(),
+			new MaterialType("opus_latericium").makeCounter(2).makeDecoration().makeHypocaust(),
+			new MaterialType("opus_reticulatum").makeDecoration(),
+			new MaterialType("felsic_tuff_bricks").makeDecoration(),
+			new MaterialType("felsic_tuff").makeDecoration().makePillar().makeRoad(),
+			new MaterialType("quartz").makePillar(),
+			new MaterialType("calcite").makePillar() };
 
 	// Dynamic block types
 	public static final List<Block> signs = new ArrayList<>();
@@ -111,22 +120,13 @@ public class CPBlocks {
 	public static final List<Block> dishes = new ArrayList<>();
 	public static final List<Block> caliduct = new ArrayList<>();
 	public static final List<Block> firebox = new ArrayList<>();
-
+	public static final List<RegistryObject<KitchenStove>> stoves = new ArrayList<>();
 	// useful blocks
 	public static RegistryObject<StewPot> stew_pot = baseblock("stew_pot",
 					() -> new StewPot(Block.Properties.of(Material.STONE).sound(SoundType.STONE)
 							.requiresCorrectToolForDrops().strength(3.5f, 10).noOcclusion(),
 							CPBlockEntityTypes.STEW_POT));
-	public static RegistryObject<KitchenStove> stove1 = stove("mud_kitchen_stove", getStoveProps(),
-			CPBlockEntityTypes.STOVE1);
-	public static RegistryObject<KitchenStove> stove2 = stove("brick_kitchen_stove", getStoveProps(),
-			CPBlockEntityTypes.STOVE2);
-	public static RegistryObject<KitchenStove> stove3 = stove("opus_incertum_kitchen_stove", getStoveProps(),
-			CPBlockEntityTypes.STOVE2);
-	public static RegistryObject<KitchenStove> stove4 = stove("opus_latericium_kitchen_stove", getStoveProps(),
-			CPBlockEntityTypes.STOVE2);
-	public static RegistryObject<KitchenStove> stove5 = stove("stone_brick_kitchen_stove", getStoveProps(),
-			CPBlockEntityTypes.STOVE2);
+
 	public static RegistryObject<BowlBlock> bowl = BLOCKS.register("bowl",
 			() -> new BowlBlock(Block.Properties.of(Material.DECORATION).sound(SoundType.WOOD).instabreak()
 					.noOcclusion().isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
@@ -196,38 +196,51 @@ public class CPBlocks {
 					.isViewBlocking(CPBlocks::isntSolid)));
 
 	static {
-		for (String stone : stones) {
-			RegistryObject<Block> base = block(stone, getStoneProps());
-			stoneBlocks.put(stone, base);
-			baseblock(stone + "_slab", () -> new SlabBlock(getStoneProps()));
-			baseblock(stone + "_stairs", () -> new StairBlock(base.get()::defaultBlockState, getStoneProps()));
-			baseblock(stone + "_wall", () -> new WallBlock(getStoneProps()));
-		}
-		for (String mat : counters) {
-			block(mat + "_chimney_flue", getTransparentProps());
-			baseblock(mat + "_chimney_pot", () -> new ChimneyPotBlock(getTransparentProps()));
-			baseblock(mat + "_counter", () -> new CPHorizontalBlock(getStoneProps()));
-			baseblock(mat + "_counter_with_dolium", () -> new CounterDoliumBlock(getTransparentProps()));
-		}
-		for (String mat : hypocaust_materials) {
-			baseblock(mat + "_caliduct", () -> new CaliductBlock(getTransparentProps()));
-			baseblock(mat + "_hypocaust_firebox", () -> new FireboxBlock(getTransparentProps()));
-
-		}
-
-		for (String pil : pillar_materials) {
-			baseblock(pil + "_column_fluted_plinth",
-					() -> new BaseColumnBlock(getTransparentProps().strength(2f, 6f), true));
-			baseblock(pil + "_column_fluted_shaft",
-					() -> new BaseColumnBlock(getTransparentProps().strength(2f, 6f), false));
-			baseblock(pil + "_column_shaft", () -> new BaseColumnBlock(getTransparentProps().strength(2f, 6f), false));
-			baseblock(pil + "_column_plinth", () -> new BaseColumnBlock(getTransparentProps().strength(2f, 6f), true));
-			baseblock(pil + "_ionic_column_capital",
-					() -> new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f), true));
-			baseblock(pil + "_tuscan_column_capital",
-					() -> new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f), false));
-			baseblock(pil + "_acanthine_column_capital",
-					() -> new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f), true));
+		for (MaterialType type : all_materials) {
+			String name = type.getName();
+			if (type.isDecorationMaterial()) {
+				RegistryObject<Block> base = block(name, getStoneProps(),TabType.DECORATION);
+				stoneBlocks.put(name, base);
+				type.setBase(()->base.get().defaultBlockState());
+				baseblock(name + "_slab", () -> new SlabBlock(getStoneProps()));
+				baseblock(name + "_stairs", () -> new StairBlock(type.getBase(), getStoneProps()));
+				baseblock(name + "_wall", () -> new WallBlock(getStoneProps()));
+			}
+			if (type.isCounterMaterial()) {
+				stove(name + "_kitchen_stove", getStoveProps(),
+						type.getCounterGrade() == 1 ? CPBlockEntityTypes.STOVE1 : CPBlockEntityTypes.STOVE2);
+				baseblock(name + "_chimney_flue", ()->new ChimneyFluteBlock(getTransparentProps()));
+				baseblock(name + "_chimney_pot", () -> new ChimneyPotBlock(getTransparentProps()));
+				baseblock(name + "_counter", () -> new CPHorizontalBlock(getStoneProps()));
+				baseblock(name + "_counter_with_dolium", () -> new CounterDoliumBlock(getTransparentProps()));
+			}
+			if (type.isHypocaustMaterial()) {
+				baseblock(name + "_caliduct", () -> new CaliductBlock(getTransparentProps()));
+				baseblock(name + "_hypocaust_firebox", () -> new FireboxBlock(getTransparentProps()));
+			}
+			if (type.isPillarMaterial()) {
+				baseblock(name + "_column_fluted_plinth",
+						() -> new BaseColumnBlock(getTransparentProps().strength(2f, 6f), true));
+				baseblock(name + "_column_fluted_shaft",
+						() -> new BaseColumnBlock(getTransparentProps().strength(2f, 6f), false));
+				baseblock(name + "_column_shaft",
+						() -> new BaseColumnBlock(getTransparentProps().strength(2f, 6f), false));
+				baseblock(name + "_column_plinth",
+						() -> new BaseColumnBlock(getTransparentProps().strength(2f, 6f), true));
+				baseblock(name + "_ionic_column_capital",
+						() -> new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f), true));
+				baseblock(name + "_tuscan_column_capital",
+						() -> new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f), false));
+				baseblock(name + "_acanthine_column_capital",
+						() -> new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f), true));
+				baseblock(name + "_lacunar_tile",()->new LacunarBlock(getTransparentProps().strength(2f, 6f)
+						.isViewBlocking(CPBlocks::isntSolid)));
+				baseblock(name+"_spoked_fence",()->new SpokedFenceBlock(getTransparentProps().strength(2f, 6f)));
+			}
+			if(type.isRoadMaterial()) {
+				baseblock(name+"_road_side",()->new CPRoadSideBlock(getTransparentProps().isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid).strength(2f, 6f)));
+				baseblock(name+"_road",()->new CPRoadBlock(getTransparentProps().isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid).strength(2f, 6f)));
+			}
 		}
 		registerWood("walnut", WALNUT, WalnutTreeGrower::new, l -> WALNUT_PLANKS = l, l -> WALNUT_LOG = l,
 				l -> WALNUT_LEAVE = l, l -> WALNUT_SAPLINGS = l);
@@ -293,7 +306,7 @@ public class CPBlocks {
 						BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD),
 						wt));
 		CPItems.ITEMS.register(wood + "_sign",
-				() -> new SignItem((new Item.Properties()).stacksTo(16).tab(Main.mainGroup), s.get(), ws.get()));
+				() -> new SignItem((new Item.Properties()).stacksTo(16).tab(CPMain.mainGroup), s.get(), ws.get()));
 		baseblock(wood + "_slab", () -> new SlabBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD)
 				.strength(2.0F, 3.0F).sound(SoundType.WOOD)));
 		baseblock(wood + "_stairs", () -> new StairBlock(planks.get()::defaultBlockState, BlockBehaviour.Properties

@@ -1,0 +1,10 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{"item": "caupona:lead_block"}
+	],
+	"result": {
+		"item": "caupona:lead_ingot",
+		"count": 9
+	}
+}

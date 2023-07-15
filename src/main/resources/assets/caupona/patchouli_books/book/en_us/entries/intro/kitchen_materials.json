@@ -1,0 +1,37 @@
+{
+	"name": "Kitchen Materials",
+	"icon": "caupona:opus_latericium_chimney_flue",
+	"category": "caupona:intro",
+	"sortnum": 30,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Kitchen facilities here include counters, stoves, and chimneys. Facilities of several materials are provided to fit in different architecture styles."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:mud_counter",
+			"text": "Mud-and-drystone ones, which requires dirt and cobblestones only, are cheap enough to be made at very early game. Their function is comparable with facilities of other materials, except that mud-and-drystone stoves are slower to heat."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:stone_brick_counter",
+			"text": "Stone ones are made of stone bricks and stone slabs — note not stone brick slabs."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:brick_counter",
+			"text": "Brick ones are made of bricks and bricks slabs."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:opus_latericium_counter",
+			"text": "Opus latericium ones are made of opus latericium blocks and its slabs. It looks similar with its brick counterparts, but with exposed concrete."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:opus_incertum_counter",
+			"text": "Opus incertum ones are made of opus incertum blocks and its slabs"
+		}
+	]
+}

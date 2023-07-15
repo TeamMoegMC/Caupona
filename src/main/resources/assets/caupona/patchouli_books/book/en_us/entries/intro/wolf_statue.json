@@ -1,0 +1,16 @@
+{
+	"name": "Wolf Statue",
+	"icon": "caupona:wolf_statue",
+	"category": "caupona:intro",
+	"sortnum": 47,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/wolf_statue"
+		},
+		{
+			"type": "text",
+			"text": "Wolf statues act as thermometers, whose appearances change base on the heat they receive. Wolf statues can be heated directly by stoves or indirectly by nearby hypocausts, thus it can be used to measure local heat flux."
+		}
+	]
+}

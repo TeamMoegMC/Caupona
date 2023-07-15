@@ -21,15 +21,19 @@
 
 package com.teammoeg.caupona.datagen;
 
-import java.util.stream.Collectors;
+
+import java.util.concurrent.CompletableFuture;
 
 import com.teammoeg.caupona.CPFluids;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.CPTags;
-import com.teammoeg.caupona.Main;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
@@ -42,18 +46,20 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 
-	public CPFluidTagGenerator(DataGenerator dataGenerator, String modId, ExistingFileHelper existingFileHelper) {
-		super(dataGenerator, Registry.FLUID, modId, existingFileHelper);
+	public CPFluidTagGenerator(DataGenerator dataGenerator, String modId, ExistingFileHelper existingFileHelper,CompletableFuture<HolderLookup.Provider> provider) {
+		super(dataGenerator.getPackOutput(), Registries.FLUID, provider,modId,existingFileHelper);
 	}
 
 	@Override
-	protected void addTags() {
-
-		tag(CPTags.Fluids.BOILABLE).add(CPFluids.getAll().collect(Collectors.toList()).toArray(new Fluid[0])).add(Fluids.WATER).add(ForgeMod.MILK.get());
-		tag(CPTags.Fluids.ANY_WATER).add(cp("stock")).add(cp("nail_soup"));
-		tag(CPTags.Fluids.STEWS).add(CPFluids.getAll().collect(Collectors.toList()).toArray(new Fluid[0]));
-		tag(CPTags.Fluids.PUMICE_ON).add(Fluids.WATER);
-		tag(new ResourceLocation("watersource", "drink")).add(ForgeRegistries.FLUIDS.getValue(mrl("nail_soup")));
+	protected void addTags(Provider p) {
+		TagAppender<Fluid> stews=tag(CPTags.Fluids.STEWS);
+		TagAppender<Fluid> boilable=tag(CPTags.Fluids.BOILABLE).add(ForgeRegistries.FLUIDS.getResourceKey(Fluids.WATER).get()).add(ForgeMod.MILK.getKey())
+				.addTag(CPTags.Fluids.STEWS);
+		CPFluids.getAllKeys().forEach(stews::add);
+		tag(CPTags.Fluids.ANY_WATER).add(ResourceKey.create(Registries.FLUID,mrl("stock"))).add(ResourceKey.create(Registries.FLUID,mrl("nail_soup")));
+		
+		tag(CPTags.Fluids.PUMICE_ON).add(ForgeRegistries.FLUIDS.getResourceKey(Fluids.WATER).get());
+		tag(new ResourceLocation("watersource", "drink")).add(ResourceKey.create(Registries.FLUID,mrl("nail_soup")));
 	}
 	private Fluid cp(String s) {
 		Fluid i = ForgeRegistries.FLUIDS.getValue(mrl(s));
@@ -84,7 +90,7 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 	}
 
 	private ResourceLocation mrl(String s) {
-		return new ResourceLocation(Main.MODID, s);
+		return new ResourceLocation(CPMain.MODID, s);
 	}
 
 	private ResourceLocation frl(String s) {
@@ -97,7 +103,7 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 
 	@Override
 	public String getName() {
-		return Main.MODID + " fluid tags";
+		return CPMain.MODID + " fluid tags";
 	}
 /*
 	@Override
@@ -105,4 +111,5 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 		return this.generator.getOutputFolder()
 				.resolve("data/" + id.getNamespace() + "/tags/fluids/" + id.getPath() + ".json");
 	}*/
+
 }

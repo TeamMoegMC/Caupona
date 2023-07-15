@@ -1,0 +1,96 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [16, 32],
+	"textures": {
+		"0": "caupona:block/silphium_branch_0",
+		"1": "caupona:block/silphium_branch_1",
+		"2": "caupona:block/silphium_branch_2",
+		"3": "caupona:block/silphium_branch_3",
+		"4": "caupona:block/silphium_stem",
+		"particle": "caupona:block/silphium_branch_0"
+	},
+	"render_type": "cutout",
+	"elements": [
+		{
+			"name": "sphStem2",
+			"from": [7.5, 0, 7.5],
+			"to": [8.5, 8, 8.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, -16, 0]},
+			"faces": {
+				"north": {"uv": [8, 4, 9, 8], "texture": "#4"},
+				"east": {"uv": [7, 4, 8, 8], "texture": "#4"},
+				"south": {"uv": [8, 4, 9, 8], "texture": "#4"},
+				"west": {"uv": [7, 4, 8, 8], "texture": "#4"},
+				"up": {"uv": [9, 7.5, 10, 8], "texture": "#4"}
+			}
+		},
+		{
+			"name": "sphBranch1",
+			"from": [8, 0, 1],
+			"to": [8, 9, 15],
+			"rotation": {"angle": 22.5, "axis": "y", "origin": [8, -16, 8]},
+			"faces": {
+				"east": {"uv": [2, 3.5, 14, 8], "texture": "#2"},
+				"west": {"uv": [14, 3.5, 2, 8], "texture": "#2"}
+			}
+		},
+		{
+			"name": "sphBranch2",
+			"from": [8, 0, 1],
+			"to": [8, 9, 15],
+			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, -16, 8]},
+			"faces": {
+				"east": {"uv": [2, 3.5, 14, 8], "texture": "#3"},
+				"west": {"uv": [14, 3.5, 2, 8], "texture": "#3"}
+			}
+		},
+		{
+			"name": "sphBranch3",
+			"from": [1, 0, 8],
+			"to": [15, 9, 8],
+			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, -16, 8]},
+			"faces": {
+				"north": {"uv": [14, 3.5, 2, 8], "texture": "#0"},
+				"south": {"uv": [2, 3.5, 14, 8], "texture": "#0"}
+			}
+		},
+		{
+			"name": "sphBranch4",
+			"from": [1, 0, 8],
+			"to": [15, 9, 8],
+			"rotation": {"angle": 22.5, "axis": "y", "origin": [8, -16, 8]},
+			"faces": {
+				"north": {"uv": [14, 3.5, 2, 8], "texture": "#1"},
+				"south": {"uv": [2, 3.5, 14, 8], "texture": "#1"}
+			}
+		},
+		{
+			"name": "sphTopBranch1",
+			"from": [8, 8, 4.5],
+			"to": [8, 14, 11.5],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, -16, 8]},
+			"faces": {
+				"east": {"uv": [14, 0, 7, 3], "texture": "#4"},
+				"west": {"uv": [7, 0, 14, 3], "texture": "#4"}
+			}
+		},
+		{
+			"name": "sphTopBranch2",
+			"from": [4.5, 8, 8],
+			"to": [11.5, 14, 8],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, -16, 8]},
+			"faces": {
+				"north": {"uv": [7, 0, 0, 3], "texture": "#4"},
+				"south": {"uv": [0, 0, 7, 3], "texture": "#4"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "FloweringSilphiumTop",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [0, 1, 2, 3, 4, 5, 6]
+		}
+	]
+}

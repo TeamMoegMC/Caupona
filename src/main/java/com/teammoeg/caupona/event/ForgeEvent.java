@@ -24,7 +24,7 @@ package com.teammoeg.caupona.event;
 import javax.annotation.Nonnull;
 
 import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
@@ -93,9 +93,9 @@ public class ForgeEvent {
 		} else {
 			nbt.put(Player.PERSISTED_NBT_TAG, (persistent = new CompoundTag()));
 		}
-		if (!persistent.contains(Main.BOOK_NBT_TAG)) {
-			persistent.putBoolean(Main.BOOK_NBT_TAG,true);
-			ItemHandlerHelper.giveItemToPlayer(event.getEntity(),PatchouliAPI.get().getBookStack(new ResourceLocation(Main.MODID,"book")));
+		if (!persistent.contains(CPMain.BOOK_NBT_TAG)) {
+			persistent.putBoolean(CPMain.BOOK_NBT_TAG,true);
+			ItemHandlerHelper.giveItemToPlayer(event.getEntity(),PatchouliAPI.get().getBookStack(new ResourceLocation(CPMain.MODID,"book")));
 		}
 	}
 	@SuppressWarnings("resource")

@@ -25,40 +25,50 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
-import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.util.MaterialType;
 
+import net.minecraft.advancements.critereon.BlockPredicate;
+import net.minecraft.advancements.critereon.LocationPredicate;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.core.BlockPos;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.loot.packs.VanillaBlockLoot;
+import net.minecraft.data.loot.packs.VanillaLootTableProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTable.Builder;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.predicates.LocationCheck;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class CPLootGenerator extends LootTableProvider {
 
 	public CPLootGenerator(DataGenerator dataGeneratorIn) {
-		super(dataGeneratorIn);
+		super(dataGeneratorIn.getPackOutput(), Set.of(), VanillaLootTableProvider.create(dataGeneratorIn.getPackOutput()).getTables());
 	}
 
 	@Override
-	protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, Builder>>>, LootContextParamSet>> getTables() {
-		return Arrays.asList(Pair.of(() -> new LTBuilder(), LootContextParamSets.BLOCK));
+	public List<SubProviderEntry> getTables() {
+		return Arrays.asList(new SubProviderEntry(() -> new LTBuilder(), LootContextParamSets.BLOCK));
 	}
 
 	@Override
@@ -66,17 +76,27 @@ public class CPLootGenerator extends LootTableProvider {
 		map.forEach((name, table) -> LootTables.validate(validationtracker, name, table));
 	}
 
-	private static class LTBuilder extends BlockLoot {
+	private static class LTBuilder extends VanillaBlockLoot {
+		protected LTBuilder() {
+			super();
+		}
+
 		@Override
-		protected void addTables() {
-			dropSelf(CPBlocks.stew_pot.get());
+		protected void generate() {
+			dropSelf(CPBlocks.STEW_POT.get());
 			dropSelf(CPBlocks.STONE_PAN.get());
 			dropSelf(CPBlocks.COPPER_PAN.get());
 			dropSelf(CPBlocks.IRON_PAN.get());
-			add(CPBlocks.FUMAROLE_VENT.get(), BlockLoot.createSilkTouchDispatchTable(CPBlocks.FUMAROLE_VENT.get(),
+			dropSelf(CPBlocks.LEAD_PAN.get());
+			dropSelf(CPBlocks.STEW_POT_LEAD.get());
+			dropSelf(CPBlocks.LEAD_BLOCK.get());
+			dropSelf(CPBlocks.SNAIL_BAIT.get());
+			add(CPBlocks.FUMAROLE_VENT.get(), createSilkTouchDispatchTable(CPBlocks.FUMAROLE_VENT.get(),
 					LootItem.lootTableItem(Blocks.BASALT)));
-			add(CPBlocks.PUMICE_BLOOM.get(), BlockLoot.createSilkTouchDispatchTable(CPBlocks.PUMICE_BLOOM.get(),
+			add(CPBlocks.PUMICE_BLOOM.get(), createSilkTouchDispatchTable(CPBlocks.PUMICE_BLOOM.get(),
 					LootItem.lootTableItem(CPBlocks.PUMICE.get())));
+			
+			add(CPBlocks.SILPHIUM.get(),doublePlantDrop(CPBlocks.SILPHIUM.get(),LootItem.lootTableItem(cpi("silphium")).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 5), false))));
 			dropSelf(CPBlocks.PUMICE.get());
 			/*
 			 * dropSelf(CPBlocks.stove1);
@@ -88,9 +108,10 @@ public class CPLootGenerator extends LootTableProvider {
 			for (String wood : CPBlocks.woods) {
 				for (String type : ImmutableSet.of("_button",
 
-						"_fence", "_fence_gate", "_log", "_planks", "_pressure_plate", "_sapling", "_sign", "_slab",
+						"_fence", "_fence_gate", "_log", "_planks", "_pressure_plate", "_sapling", "_sign",
 						"_stairs", "_trapdoor", "_wood"))
 					dropSelf(cp(wood + type));
+				add(cp(wood+"_slab"),super.createSlabItemTable(cp(wood+"_slab")));
 				add(cp(wood + "_door"), createDoorTable(cp(wood + "_door")));
 				add(cp(wood + "_leaves"), createLeavesDrops(cp(wood + "_leaves"), cp(wood + "_sapling"), 0.05F, 0.0625F,
 						0.083333336F, 0.1F));
@@ -98,22 +119,31 @@ public class CPLootGenerator extends LootTableProvider {
 				dropSelf(cp("stripped_"+wood+"_wood"));
 				dropOther(cp(wood + "_wall_sign"), cp(wood + "_sign"));
 			}
-
-			for (String stone : CPBlocks.stones) {
-				for (String type : ImmutableSet.of("", "_slab", "_stairs", "_wall"))
-					dropSelf(cp(stone + type));
-			}
-
-			for (String stone : CPBlocks.counters) {
-				for (String type : ImmutableSet.of("_chimney_flue", "_chimney_pot", "_counter", "_counter_with_dolium",
-						"_kitchen_stove"))
-					dropSelf(cp(stone + type));
-			}
-			for (String str : CPBlocks.pillar_materials) {
-				for (String type : ImmutableSet.of("_column_fluted_plinth", "_column_fluted_shaft", "_column_shaft",
-						"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital",
-						"_acanthine_column_capital"))
-					dropSelf(cp(str + type));
+			for(MaterialType rtype:CPBlocks.all_materials) {
+				String stone=rtype.getName();
+				if(rtype.isDecorationMaterial()) {
+					for (String type : ImmutableSet.of("", "_slab", "_stairs", "_wall"))
+						dropSelf(cp(stone + type));
+				}
+				if(rtype.isCounterMaterial()) {
+					for (String type : ImmutableSet.of("_chimney_flue", "_chimney_pot", "_counter", "_counter_with_dolium",
+							"_kitchen_stove"))
+						dropSelf(cp(stone + type));
+				}
+				if(rtype.isPillarMaterial()) {
+					for (String type : ImmutableSet.of("_column_fluted_plinth", "_column_fluted_shaft", "_column_shaft",
+							"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital",
+							"_acanthine_column_capital","_lacunar_tile","_spoked_fence"))
+						dropSelf(cp(stone + type));
+				}
+				if(rtype.isHypocaustMaterial()) {
+					dropSelf(cp(stone + "_caliduct"));
+					dropSelf(cp(stone + "_hypocaust_firebox"));
+				}
+				if(rtype.isRoadMaterial()) {
+					dropSelf(cp(stone + "_road"));
+					dropSelf(cp(stone + "_road_side"));
+				}
 			}
 			dropSelf(CPBlocks.GRAVY_BOAT.get());
 			for (String wood : ImmutableSet.of("fig", "wolfberry")) {
@@ -121,16 +151,22 @@ public class CPLootGenerator extends LootTableProvider {
 				add(cp(wood + "_leaves"), createLeavesDrops(cp(wood + "_leaves"), cp(wood + "_sapling"), 0.05F, 0.0625F,
 						0.083333336F, 0.1F));
 			}
-			for (String s : CPBlocks.hypocaust_materials) {
-				dropSelf(cp(s + "_caliduct"));
-				dropSelf(cp(s + "_hypocaust_firebox"));
-			}
+			/*add(CPBlocks.SNAIL_MUCUS.get(),createSilkTouchOrShearsDispatchTable(CPBlocks.SNAIL_MUCUS.get(),
+					this.applyExplosionDecay(CPBlocks.SNAIL_MUCUS.get(), LootItem.lootTableItem(Items.STICK)
+							.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))
+									.when(BonusLevelTableCondition.bonusLevelFlatChance(Enchantments.BLOCK_FORTUNE, new float[]{0.02F, 0.022222223F, 0.025F, 0.033333335F, 0.1F}))
+									.when(HAS_SHEARS.or(HAS_SILK_TOUCH).invert())
+							
+							))));*/
+
 		}
 
 		private Block cp(String name) {
-			return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Main.MODID, name));
+			return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(CPMain.MODID, name));
 		}
-
+		private Item cpi(String name) {
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID, name));
+		}
 		ArrayList<Block> added = new ArrayList<>();
 
 		@Override
@@ -147,6 +183,22 @@ public class CPLootGenerator extends LootTableProvider {
 		protected void add(Block pBlock, LootTable.Builder pLootTableBuilder) {
 			added.add(pBlock);
 			super.add(pBlock, pLootTableBuilder);
+		}
+		protected LootTable.Builder doublePlantDrop(Block pBlock,LootItem.Builder pItemBuilder){
+			return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(pItemBuilder)
+			.when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(pBlock)
+					.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)))
+			.when(LocationCheck.checkLocation(LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block()
+					.of(pBlock)
+					.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER).build()).build())
+					, new BlockPos(0, 1, 0))))
+			.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(pItemBuilder)
+				.when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(pBlock)
+							.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER)))
+				.when(LocationCheck.checkLocation(LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block()
+					.of(pBlock)
+					.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER).build()).build())
+					, new BlockPos(0, -1, 0))));
 		}
 
 	}

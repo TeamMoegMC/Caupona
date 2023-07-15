@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.client.DoliumScreen;
 import com.teammoeg.caupona.client.KitchenStoveScreen;
 import com.teammoeg.caupona.client.PanScreen;
@@ -72,7 +72,7 @@ import net.minecraft.world.level.block.Block;
 public class JEICompat implements IModPlugin {
 	@Override
 	public ResourceLocation getPluginUid() {
-		return new ResourceLocation(Main.MODID, "jei_plugin");
+		return new ResourceLocation(CPMain.MODID, "jei_plugin");
 	}
 
 	@Override

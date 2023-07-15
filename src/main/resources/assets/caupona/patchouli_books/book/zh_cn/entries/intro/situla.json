@@ -1,0 +1,17 @@
+{
+	"name": "盂",
+	"icon": "caupona:situla",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/situla",
+			"text": "盂的容量是1250 mB，恰好和陶锅与带陶缸的台面容量一致，方便用于转移汤和流体。"
+		},
+		{
+			"type": "text",
+			"text": "盂也可以与世界中的流体交互。如果盂没有装满但是剩余空间不足一桶时，与流体交互将装满盂，但溢出的剩余流体将损失。"
+		}
+	]
+}

@@ -23,7 +23,7 @@ package com.teammoeg.caupona.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveBlockEntity;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveContainer;
 
@@ -35,7 +35,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveContainer> {
 	KitchenStoveBlockEntity blockEntity;
-	private static final ResourceLocation TEXTURE = new ResourceLocation(Main.MODID, "textures/gui/kitchen_stove.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(CPMain.MODID, "textures/gui/kitchen_stove.png");
 
 	public KitchenStoveScreen(KitchenStoveContainer screenContainer, Inventory inv, Component titleIn) {
 		super(screenContainer, inv, titleIn);

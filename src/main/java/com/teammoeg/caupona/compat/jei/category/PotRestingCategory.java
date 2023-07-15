@@ -23,7 +23,7 @@ package com.teammoeg.caupona.compat.jei.category;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.util.Utils;
 
@@ -45,20 +45,20 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class PotRestingCategory implements IRecipeCategory<DoliumRecipe> {
-	public static RecipeType<DoliumRecipe> TYPE=RecipeType.create(Main.MODID, "pot_resting",DoliumRecipe.class);
+	public static RecipeType<DoliumRecipe> TYPE=RecipeType.create(CPMain.MODID, "pot_resting",DoliumRecipe.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
 	public PotRestingCategory(IGuiHelper guiHelper) {
 		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK,
-				new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Main.MODID, "goulash_aspic"))));
-		ResourceLocation guiMain = new ResourceLocation(Main.MODID, "textures/gui/jei/fluid_resting.png");
+				new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID, "goulash_aspic"))));
+		ResourceLocation guiMain = new ResourceLocation(CPMain.MODID, "textures/gui/jei/fluid_resting.png");
 		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 	}
 
 
 	public Component getTitle() {
-		return Utils.translate("gui.jei.category." + Main.MODID + ".resting_aspic.title");
+		return Utils.translate("gui.jei.category." + CPMain.MODID + ".resting_aspic.title");
 	}
 
 	@SuppressWarnings("resource")

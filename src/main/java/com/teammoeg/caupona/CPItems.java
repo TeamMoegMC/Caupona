@@ -42,7 +42,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CPItems {
-	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Main.MODID);
+	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, CPMain.MODID);
 	public static final String[] soups = new String[] { "acquacotta", "bisque", "borscht", "borscht_cream", "congee",
 			"cream_of_meat_soup", "cream_of_mushroom_soup", "custard", "dilute_soup", "egg_drop_soup", "egg_tongsui",
 			"fish_chowder", "fish_soup", "fricassee", "goji_tongsui", "goulash", "gruel", "hodgepodge", "meat_soup",
@@ -88,7 +88,7 @@ public class CPItems {
 	}
 	static{
 		for (String s : soups) {
-			RegistryObject<Item> it = stew(s, new ResourceLocation(Main.MODID, s), createSoupProps());
+			RegistryObject<Item> it = stew(s, new ResourceLocation(CPMain.MODID, s), createSoupProps());
 		}
 
 		for (String s : aspics)
@@ -107,15 +107,15 @@ public class CPItems {
 	}
 
 	static Properties createSoupProps() {
-		return new Item.Properties().tab(Main.foodGroup).craftRemainder(Items.BOWL).stacksTo(1)
+		return new Item.Properties().tab(CPMain.foodGroup).craftRemainder(Items.BOWL).stacksTo(1)
 				.craftRemainder(Items.BOWL);
 	}
 
 	static Properties createFoodProps() {
-		return new Item.Properties().tab(Main.foodGroup);
+		return new Item.Properties().tab(CPMain.foodGroup);
 	}
 
 	static Properties createProps() {
-		return new Item.Properties().tab(Main.mainGroup);
+		return new Item.Properties().tab(CPMain.mainGroup);
 	}
 }

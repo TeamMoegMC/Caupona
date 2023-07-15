@@ -1,0 +1,18 @@
+{
+	"name": "Lead Cookwares",
+	"icon": "caupona:lead_stew_pot",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/lead_stew_pot",
+			"text": "A $(l:intro/lead)lead$(/l) stew pot acts similarly as $(l:intro/stew_pots)its common counterpart$(/l), only that sugar of lead (as spice Defrutum) will be leached out into the stew if the stew were concentrated enough, or vinegar were added."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/lead_frying_pan",
+			"text": "A $(l:intro/lead)lead$(/l)-plated frying pan act similarly as $(l:intro/frying_pans)its common counterpart$(/l), only that any vinegar added will turn into defrutum."
+		}
+	]
+}

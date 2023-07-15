@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.Config;
-import com.teammoeg.caupona.Main;
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
@@ -647,7 +647,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 
 	@Override
 	public Component getDisplayName() {
-		return MutableComponent.create(new TranslatableContents("container." + Main.MODID + ".stewpot.title"));
+		return MutableComponent.create(new TranslatableContents("container." + CPMain.MODID + ".stewpot.title"));
 	}
 
 	@Override

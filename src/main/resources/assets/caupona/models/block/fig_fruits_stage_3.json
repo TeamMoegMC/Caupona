@@ -5,7 +5,7 @@
 		"0": "caupona:block/fig_fruit_stage_3",
 		"particle": "caupona:block/fig_fruit_stage_3"
 	},
-	"render_type":"cutout",
+	"render_type": "cutout",
 	"elements": [
 		{
 			"name": "figFruitTop3",

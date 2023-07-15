@@ -51,7 +51,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class CPBlockEntityTypes {
 	public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister
-			.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Main.MODID);
+			.create(ForgeRegistries.BLOCK_ENTITY_TYPES, CPMain.MODID);
 
 	public static final RegistryObject<BlockEntityType<StewPotBlockEntity>> STEW_POT = REGISTER.register("stew_pot",
 			makeType(StewPotBlockEntity::new, ()->CPBlocks.stew_pot));
