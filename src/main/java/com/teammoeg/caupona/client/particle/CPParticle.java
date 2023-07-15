@@ -26,12 +26,13 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.util.Mth;
 
 public class CPParticle extends TextureSheetParticle {
 	protected float originalScale = 1.3F;
-
+	private SpriteSet spriteSet;
 	protected CPParticle(ClientLevel world, double x, double y, double z) {
 		super(world, x, y, z);
 		
@@ -44,7 +45,9 @@ public class CPParticle extends TextureSheetParticle {
 	public ParticleRenderType getRenderType() {
 		return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
 	}
-
+	public void setSpriteSet(SpriteSet ss) {
+		this.spriteSet=ss;
+	}
 	@Override
 	public void render(VertexConsumer worldRendererIn, Camera entityIn, float pt) {
 		float age = (this.age + pt) / lifetime * 32.0F;
@@ -52,6 +55,8 @@ public class CPParticle extends TextureSheetParticle {
 		age = Mth.clamp(age, 0.0F, 1.0F);
 
 		this.quadSize = originalScale * age;
+		if(this.spriteSet!=null)
+			this.setSpriteFromAge(this.spriteSet);
 		super.render(worldRendererIn, entityIn, pt);
 	}
 

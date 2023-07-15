@@ -51,7 +51,7 @@ public class SteamParticle extends CPParticle {
 		public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z,
 				double xSpeed, double ySpeed, double zSpeed) {
 			SteamParticle steamParticle = new SteamParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
-			steamParticle.pickSprite(this.spriteSet);
+			steamParticle.setSpriteSet(this.spriteSet);
 			return steamParticle;
 		}
 	}

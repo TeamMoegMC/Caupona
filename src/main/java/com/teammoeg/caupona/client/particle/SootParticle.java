@@ -51,7 +51,7 @@ public class SootParticle extends CPParticle {
 		public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z,
 				double xSpeed, double ySpeed, double zSpeed) {
 			SootParticle steamParticle = new SootParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
-			steamParticle.pickSprite(this.spriteSet);
+			steamParticle.setSpriteSet(this.spriteSet);
 			return steamParticle;
 		}
 	}
