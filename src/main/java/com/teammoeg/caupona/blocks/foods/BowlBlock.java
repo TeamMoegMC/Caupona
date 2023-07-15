@@ -25,6 +25,7 @@ import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 import com.teammoeg.caupona.item.StewItem;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -135,5 +136,14 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 			return 15;
 		}
 		return 0;
+	}
+	@Override
+	public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return 20;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return 5;
 	}
 }
