@@ -47,30 +47,36 @@ public class FluidAnimationGenerator extends JsonGenerator {
 	protected void gather(JsonStorage reciver) {
 		for (String sf : CPFluids.getSoupfluids()) {
 			ResourceLocation image = new ResourceLocation(CPMain.MODID, "textures/block/soups/" + sf + ".png");
-			try {
-				if (helper.exists(image, PackType.CLIENT_RESOURCES)) {
-					Resource rc = helper.getResource(image, PackType.CLIENT_RESOURCES);
+			genImage(image,6,reciver);
+		}
+		/*for (String sf : new String[]{"soot_smoke","steam"}) {
+			ResourceLocation image = new ResourceLocation(CPMain.MODID, "textures/particle/" + sf + ".png");
+			genImage(image,2,reciver);
+		}*/
+	}
+	protected void genImage(ResourceLocation image,int ticks,JsonStorage reciver) {
+		try {
+			if (helper.exists(image, PackType.CLIENT_RESOURCES)) {
+				Resource rc = helper.getResource(image, PackType.CLIENT_RESOURCES);
 
-					BufferedImage bi = ImageIO.read(rc.open());
-					int num = bi.getHeight() / bi.getWidth();
-					JsonObject frame = new JsonObject();
-					JsonObject anim = new JsonObject();
-					frame.add("animation", anim);
-					anim.addProperty("frametime", 6);
-					JsonArray ja = new JsonArray();
-					anim.add("frames", ja);
-					for (int i = 0; i < num; i++)
-						ja.add(i);
-					// if(rc.)
-					reciver.accept(new ResourceLocation(CPMain.MODID, "textures/block/soups/" + sf + ".png.mcmeta"), frame);
-				}
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				BufferedImage bi = ImageIO.read(rc.open());
+				int num = bi.getHeight() / bi.getWidth();
+				JsonObject frame = new JsonObject();
+				JsonObject anim = new JsonObject();
+				frame.add("animation", anim);
+				anim.addProperty("frametime", ticks);
+				JsonArray ja = new JsonArray();
+				anim.add("frames", ja);
+				for (int i = 0; i < num; i++)
+					ja.add(i);
+				// if(rc.)
+				reciver.accept(new ResourceLocation(image.getNamespace(),image.getPath()+".mcmeta"), frame);
 			}
 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-	}
+	} 
 
 }

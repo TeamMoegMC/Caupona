@@ -34,6 +34,7 @@ public class CPParticle extends TextureSheetParticle {
 
 	protected CPParticle(ClientLevel world, double x, double y, double z) {
 		super(world, x, y, z);
+		
 	}
 
 	public CPParticle(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ) {
@@ -54,30 +55,5 @@ public class CPParticle extends TextureSheetParticle {
 		super.render(worldRendererIn, entityIn, pt);
 	}
 
-	public void tick() {
-		this.xo = x;
-		this.yo = y;
-		this.zo = z;
-		if (age >= lifetime)
-			remove();
-		this.age++;
-
-		this.yd -= 0.04D * gravity;
-		move(xd, yd, zd);
-
-		if (y == yo) {
-			this.xd *= 1.1D;
-			this.zd *= 1.1D;
-		}
-
-		this.xd *= 0.96D;
-		this.yd *= 0.96D;
-		this.zd *= 0.96D;
-
-		if (onGround) {
-			this.xd *= 0.67D;
-			this.zd *= 0.67D;
-		}
-	}
 
 }
