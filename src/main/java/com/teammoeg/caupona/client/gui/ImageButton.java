@@ -31,11 +31,11 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.resources.ResourceLocation;
 
 public class ImageButton extends Button {
-	int xTexStart;
-	int yTexStart;
+	public int xTexStart;
+	public int yTexStart;
 	private final int textureWidth;
 	private final int textureHeight;
-	int state;
+	public int state;
 	ResourceLocation texture;
 	Supplier<Tooltip> tooltipProvider;
 	private int laststate=-1;

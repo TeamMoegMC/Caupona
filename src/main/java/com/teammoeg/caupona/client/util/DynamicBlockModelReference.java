@@ -25,6 +25,10 @@ public class DynamicBlockModelReference implements Supplier<BakedModel>,Function
 	{
 		this.name = new ResourceLocation(CPMain.MODID, "block/dynamic/"+name);
 	}
+	public DynamicBlockModelReference(ResourceLocation rl)
+	{
+		this.name = rl;
+	}
 	@Override
 	public BakedModel get()
 	{

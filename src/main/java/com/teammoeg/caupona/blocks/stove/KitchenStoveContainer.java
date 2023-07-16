@@ -22,16 +22,15 @@
 package com.teammoeg.caupona.blocks.stove;
 
 import com.teammoeg.caupona.CPGui;
+import com.teammoeg.caupona.container.CPBaseContainer;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeHooks;
 
-public class KitchenStoveContainer extends AbstractContainerMenu {
+public class KitchenStoveContainer extends CPBaseContainer {
 	public KitchenStoveBlockEntity tile;
 
 	public KitchenStoveContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
@@ -39,7 +38,7 @@ public class KitchenStoveContainer extends AbstractContainerMenu {
 	}
 
 	public KitchenStoveContainer(int id, Inventory inv, KitchenStoveBlockEntity blockEntity) {
-		super(CPGui.STOVE.get(), id);
+		super(CPGui.STOVE.get(), id,1);
 		tile = blockEntity;
 		this.addSlot(new Slot(tile, 0, 80, 55) {
 			@Override
@@ -47,49 +46,11 @@ public class KitchenStoveContainer extends AbstractContainerMenu {
 				return ForgeHooks.getBurnTime(stack, null) > 0 && stack.getCraftingRemainingItem().isEmpty();
 			}
 		});
-
-		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 9; j++)
-				addSlot(new Slot(inv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-		for (int i = 0; i < 9; i++)
-			addSlot(new Slot(inv, i, 8 + i * 18, 142));
+		super.addPlayerInventory(inv,8,84,142);
 	}
 
 	@Override
-	public boolean stillValid(Player playerIn) {
-		return true;
-	}
-
-	@Override
-	public ItemStack quickMoveStack(Player playerIn, int index) {
-		ItemStack itemStack = ItemStack.EMPTY;
-		Slot slot = this.slots.get(index);
-		if (slot != null && slot.hasItem()) {
-			ItemStack slotStack = slot.getItem();
-			itemStack = slotStack.copy();
-			if (index == 0) {
-				if (!this.moveItemStackTo(slotStack, 1, 37, true)) {
-					return ItemStack.EMPTY;
-				}
-				slot.onQuickCraft(slotStack, itemStack);
-			} else if (index > 0) {
-				if (!this.moveItemStackTo(slotStack, 0, 1, false))
-					if (index < 28)
-						if (!this.moveItemStackTo(slotStack, 28, 37, false))
-							return ItemStack.EMPTY;
-						else if (index < 37 && !this.moveItemStackTo(slotStack, 1, 28, false))
-							return ItemStack.EMPTY;
-			}
-			if (slotStack.isEmpty()) {
-				slot.set(ItemStack.EMPTY);
-			} else {
-				slot.setChanged();
-			}
-			if (slotStack.getCount() == itemStack.getCount()) {
-				return ItemStack.EMPTY;
-			}
-			slot.onTake(playerIn, slotStack);
-		}
-		return itemStack;
+	public boolean quickMoveIn(ItemStack slotStack) {
+		return this.moveItemStackTo(slotStack, 0, 1, false);
 	}
 }

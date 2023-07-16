@@ -45,6 +45,7 @@ public class LayeredElementsModel implements IUnbakedGeometry<LayeredElementsMod
 	@Override
     public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation)
     {
+		try {
         TextureAtlasSprite particle = spriteGetter.apply(context.getMaterial("particle"));
 
         var renderTypeHint = context.getRenderTypeHint();
@@ -55,6 +56,10 @@ public class LayeredElementsModel implements IUnbakedGeometry<LayeredElementsMod
         addQuads(context, builder, baker, spriteGetter, modelState, modelLocation);
 
         return builder.build(renderTypes);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			throw ex;
+		}
     }
 
     protected void addQuads(IGeometryBakingContext context, Builder builder, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ResourceLocation modelLocation)
@@ -108,7 +113,7 @@ public class LayeredElementsModel implements IUnbakedGeometry<LayeredElementsMod
             		JsonObject g=group.getAsJsonObject();
             		name=GsonHelper.getAsString(g,"name",name);
             		Set<Integer> set=new HashSet<>();
-            		GsonHelper.getAsJsonArray(jsonObject,"children").forEach(e->{
+            		GsonHelper.getAsJsonArray(g,"children").forEach(e->{
             			set.add(e.getAsInt());
             		});
             		groups.put(name, set);

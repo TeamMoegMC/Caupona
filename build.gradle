@@ -251,6 +251,7 @@ license {
     ignoreFailures = true
     include '**/*.java'
 }
+publish.finalizedBy('publishToMavenLocal')
 publishing {
     publications {
         maven(MavenPublication) {

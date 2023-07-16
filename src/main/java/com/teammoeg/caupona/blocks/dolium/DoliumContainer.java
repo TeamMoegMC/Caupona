@@ -22,17 +22,15 @@
 package com.teammoeg.caupona.blocks.dolium;
 
 import com.teammoeg.caupona.CPGui;
+import com.teammoeg.caupona.container.CPBaseContainer;
 import com.teammoeg.caupona.container.OutputSlot;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class DoliumContainer extends AbstractContainerMenu {
+public class DoliumContainer extends CPBaseContainer {
 	public final CounterDoliumBlockEntity tile;
 
 	public CounterDoliumBlockEntity getBlock() {
@@ -44,7 +42,7 @@ public class DoliumContainer extends AbstractContainerMenu {
 	}
 
 	public DoliumContainer(int id, Inventory inv, CounterDoliumBlockEntity blockEntity) {
-		super(CPGui.DOLIUM.get(), id);
+		super(CPGui.DOLIUM.get(), id,6);
 		tile = blockEntity;
 		this.addSlot(new SlotItemHandler(blockEntity.inv, 0, 153, 4));
 		this.addSlot(new SlotItemHandler(blockEntity.inv, 1, 134, 8));
@@ -52,52 +50,12 @@ public class DoliumContainer extends AbstractContainerMenu {
 		this.addSlot(new SlotItemHandler(blockEntity.inv, 3, 132, 35));
 		this.addSlot(new SlotItemHandler(blockEntity.inv, 4, 132, 53));
 		this.addSlot(new OutputSlot(blockEntity.inv, 5, 152, 51));
-		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 9; j++)
-				addSlot(new Slot(inv, j + i * 9 + 9, 8 + j * 18, 83 + i * 18));
-		for (int i = 0; i < 9; i++)
-			addSlot(new Slot(inv, i, 8 + i * 18, 141));
+		addPlayerInventory(inv,8,83,141);
 	}
-
 	@Override
-	public boolean stillValid(Player playerIn) {
-		return true;
+	public boolean quickMoveIn(ItemStack slotStack) {
+		return this.moveItemStackTo(slotStack, 0, 3, false)||this.moveItemStackTo(slotStack, 3, 5, false);
 	}
 
-	@Override
-	public ItemStack quickMoveStack(Player playerIn, int index) {
-		ItemStack itemStack = ItemStack.EMPTY;
-		Slot slot = this.slots.get(index);
-		if (slot != null && slot.hasItem()) {
-			ItemStack slotStack = slot.getItem();
-			itemStack = slotStack.copy();
-			if (index == 5) {
-				if (!this.moveItemStackTo(slotStack, 6, 42, true)) {
-					return ItemStack.EMPTY;
-				}
-				slot.onQuickCraft(slotStack, itemStack);
-			} else if (index >= 6) {
-				if (!this.moveItemStackTo(slotStack, 0, 3, false))
-					if (!this.moveItemStackTo(slotStack, 3, 5, false))
-						if (index < 33) {
-							if (!this.moveItemStackTo(slotStack, 33, 42, false))
-								return ItemStack.EMPTY;
-						} else if (index < 42 && !this.moveItemStackTo(slotStack, 6, 33, false))
-							return ItemStack.EMPTY;
-			} else if (!this.moveItemStackTo(slotStack, 6, 42, false)) {
-				return ItemStack.EMPTY;
-			}
-			if (slotStack.isEmpty()) {
-				slot.set(ItemStack.EMPTY);
-			} else {
-				slot.setChanged();
-			}
-			if (slotStack.getCount() == itemStack.getCount()) {
-				return ItemStack.EMPTY;
-			}
-			slot.onTake(playerIn, slotStack);
-		}
-		return itemStack;
 
-	}
 }

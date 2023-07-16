@@ -47,9 +47,9 @@ public class LayeredBakedModel implements BakedModel {
 	protected final net.minecraftforge.client.ChunkRenderTypeSet blockRenderTypes;
 	protected final List<net.minecraft.client.renderer.RenderType> itemRenderTypes;
 	protected final List<net.minecraft.client.renderer.RenderType> fabulousItemRenderTypes;
-	private final Function<Map.Entry<String,int[]>,int[]> values=Map.Entry::getValue;
-	private final Function<int[],IntStream> istr=Arrays::stream;
-	private final IntFunction<BakedQuad> tobaked=unculledFaces::get;
+	private final Function<Map.Entry<String,int[]>,int[]> values;
+	private final Function<int[],IntStream> istr;
+	private final IntFunction<BakedQuad> tobaked;
 	public LayeredBakedModel(List<BakedQuad> pUnculledFaces, boolean pHasAmbientOcclusion, boolean pUsesBlockLight,
 			boolean pIsGui3d, TextureAtlasSprite pParticleIcon, ItemTransforms pTransforms, ItemOverrides pOverrides) {
 		this(pUnculledFaces,new HashMap<>(),pHasAmbientOcclusion, pUsesBlockLight, pIsGui3d, pParticleIcon, pTransforms, pOverrides,
@@ -72,6 +72,9 @@ public class LayeredBakedModel implements BakedModel {
 				: null;
 		this.itemRenderTypes = !renderTypes.isEmpty() ? List.of(renderTypes.entity()) : null;
 		this.fabulousItemRenderTypes = !renderTypes.isEmpty() ? List.of(renderTypes.entityFabulous()) : null;
+		values=Map.Entry::getValue;
+		istr=Arrays::stream;
+		tobaked=unculledFaces::get;
 	}
 
 	public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull RandomSource rand, @NotNull ModelData data, @Nullable RenderType renderType) {

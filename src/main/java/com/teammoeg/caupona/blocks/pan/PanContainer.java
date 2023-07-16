@@ -22,18 +22,18 @@
 package com.teammoeg.caupona.blocks.pan;
 
 import com.teammoeg.caupona.CPGui;
+import com.teammoeg.caupona.container.CPBaseContainer;
 import com.teammoeg.caupona.container.HidableSlot;
 import com.teammoeg.caupona.container.OutputSlot;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class PanContainer extends AbstractContainerMenu {
+public class PanContainer extends CPBaseContainer {
 
 	PanBlockEntity tile;
 
@@ -46,7 +46,7 @@ public class PanContainer extends AbstractContainerMenu {
 	}
 
 	public PanContainer(int id, Inventory inv, PanBlockEntity blockEntity) {
-		super(CPGui.PAN.get(), id);
+		super(CPGui.PAN.get(), id,12);
 		tile = blockEntity;
 		for (int i = 0; i < 9; i++)
 			this.addSlot(new HidableSlot(blockEntity.inv, i, 62 + (i % 3) * 18, 13 + (i / 3) * 18, () -> blockEntity.processMax == 0));
@@ -66,53 +66,12 @@ public class PanContainer extends AbstractContainerMenu {
 				if((!inv.player.getAbilities().instabuild&&tile.isInfinite))return false;
 				return super.mayPickup(playerIn);
 			}});
-		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 9; j++)
-				addSlot(new Slot(inv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-		for (int i = 0; i < 9; i++)
-			addSlot(new Slot(inv, i, 8 + i * 18, 142));
+		super.addPlayerInventory(inv,8,84,142);
 	}
 
-	@Override
-	public boolean stillValid(Player playerIn) {
-		return true;
-	}
 
 	@Override
-	public ItemStack quickMoveStack(Player playerIn, int index) {
-		ItemStack itemStack = ItemStack.EMPTY;
-		Slot slot = this.slots.get(index);
-		if (slot != null && slot.hasItem()) {
-			ItemStack slotStack = slot.getItem();
-			itemStack = slotStack.copy();
-			if (index == 10 || index == 11) {
-				if (!this.moveItemStackTo(slotStack, 12, 48, true)) {
-					return ItemStack.EMPTY;
-				}
-				slot.onQuickCraft(slotStack, itemStack);
-			} else if (index > 11) {
-				if (!this.moveItemStackTo(slotStack, 9, 10, false))
-					if (!this.moveItemStackTo(slotStack, 11, 12, false))
-						if (!this.moveItemStackTo(slotStack, 0, 9, false))
-							if (index < 39) {
-								if (!this.moveItemStackTo(slotStack, 39, 48, false))
-									return ItemStack.EMPTY;
-							} else if (index < 48 && !this.moveItemStackTo(slotStack, 12, 39, false))
-								return ItemStack.EMPTY;
-
-			} else if (!this.moveItemStackTo(slotStack, 12, 47, false)) {
-				return ItemStack.EMPTY;
-			}
-			if (slotStack.isEmpty()) {
-				slot.set(ItemStack.EMPTY);
-			} else {
-				slot.setChanged();
-			}
-			if (slotStack.getCount() == itemStack.getCount()) {
-				return ItemStack.EMPTY;
-			}
-			slot.onTake(playerIn, slotStack);
-		}
-		return itemStack;
+	public boolean quickMoveIn(ItemStack slotStack) {
+		return this.moveItemStackTo(slotStack, 9, 10, false)||this.moveItemStackTo(slotStack, 11, 12, false)||this.moveItemStackTo(slotStack, 0, 9, false);
 	}
 }

@@ -5,8 +5,10 @@ import java.util.List;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.data.ModelData;
 
 public class ModelUtils {
@@ -27,6 +29,9 @@ public class ModelUtils {
 	public static DynamicBlockModelReference getModel(String name) {
 		return new DynamicBlockModelReference(name);
 	}
+	public static DynamicBlockModelReference getModel(String modid,String name) {
+		return new DynamicBlockModelReference(new ResourceLocation(modid, "block/dynamic/"+name));
+	}
 	public static void renderModelGroups(DynamicBlockModelReference model, VertexConsumer renderer,ImmutableSet<String> groups,PoseStack transform,
 			int color, int light, int overlay) {
 		renderQuads(model.apply(ModelData.builder().with(DisplayGroupProperty.PROPERTY,groups).build()),renderer,transform,color,light,overlay);
@@ -36,9 +41,9 @@ public class ModelUtils {
 		renderQuads(model.getAllQuads(),renderer,transform,color,light,overlay);
 	}
 	public static void renderModelGroups(DynamicBlockModelReference model, VertexConsumer renderer,ImmutableSet<String> groups,PoseStack transform, int light, int overlay) {
-		renderModelGroups(model, renderer, groups, transform, 0, light, overlay);
+		renderModelGroups(model, renderer, groups, transform, -1, light, overlay);
 	}
 	public static void renderModel(DynamicBlockModelReference model, VertexConsumer renderer, PoseStack transform, int light, int overlay) {
-		renderModel(model, renderer, transform, 0, light, overlay);
+		renderModel(model, renderer, transform, -1, light, overlay);
 	}
 }

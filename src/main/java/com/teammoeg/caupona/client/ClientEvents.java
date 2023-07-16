@@ -5,6 +5,7 @@ import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.client.util.LayeredElementsModel;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,7 +17,10 @@ public class ClientEvents {
 	@SubscribeEvent
 	public static void registerModels(ModelEvent.RegisterAdditional ev)
 	{
-		Minecraft.getInstance().getResourceManager().listResources("models/block/dynamic",e->e.getPath().endsWith(".json")).keySet().forEach(ev::register);
+		Minecraft.getInstance().getResourceManager().listResources("models/block/dynamic",e->e.getPath().endsWith(".json")).keySet().forEach(rl->{
+			ev.register(new ResourceLocation(rl.getNamespace(),
+			rl.getPath().substring(0,rl.getPath().lastIndexOf(".")).substring(7)));
+		});
 	}
 	@SubscribeEvent
 	public static void registerLoaders(ModelEvent.RegisterGeometryLoaders ev)
