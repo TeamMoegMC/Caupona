@@ -232,6 +232,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		if (fs.getAmount() % 250 == 0 && fs.getFluid() instanceof SoupFluid)
 			spice = SpiceRecipe.find(spi);
 		StewInfo si = null;
+		
 		if(this.getBlockState().is(CPBlocks.STEW_POT_LEAD.get())) {
 			if(spice==null) {
 				si=SoupFluid.getInfo(fs);
@@ -251,7 +252,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				return fs;
 			if (!isInfinite) {
 				int consume = fs.getAmount() / 250;
-				if (SpiceRecipe.getMaxUse(ospi) < consume)
+				if (SpiceRecipe.getMaxUse(spi) < consume)
 					return fs;
 				inv.setStackInSlot(11, SpiceRecipe.handle(ospi, consume));
 			}
