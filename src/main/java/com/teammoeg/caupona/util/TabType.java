@@ -38,7 +38,7 @@ public class TabType implements Predicate<ResourceKey<CreativeModeTab>>{
 	public static final TabType HIDDEN=new TabType(e->false);
 	private final Predicate<ResourceKey<CreativeModeTab>> predicate;
 
-	private TabType(Predicate<ResourceKey<CreativeModeTab>> predicate) {
+	public TabType(Predicate<ResourceKey<CreativeModeTab>> predicate) {
 		this.predicate = predicate;
 	}
 
