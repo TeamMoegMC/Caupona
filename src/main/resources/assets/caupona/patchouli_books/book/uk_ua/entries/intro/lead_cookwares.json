@@ -1,0 +1,18 @@
+{
+	"name": "Свинцевий посуд",
+	"icon": "caupona:lead_stew_pot",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/lead_stew_pot",
+			"text": "$(l:intro/lead)Свинцева$(/l) супниця діє так само як $(l:intro/stew_pots)її звичайний аналог$(/l), за винятком того, що цукор у свинці (як спеція дефтурум) вимивається з рагу, якщо рагу було достатньо концентрованим, або якщо було додано оцет."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/lead_frying_pan",
+			"text": "$(l:intro/lead)Свиньована$(/l) сковорода діє так само як $(l:intro/stew_pots)її звичайний аналог$(/l), за винятком того, що будь-який доданий оцет перетвориться на дефрутум."
+		}
+	]
+}

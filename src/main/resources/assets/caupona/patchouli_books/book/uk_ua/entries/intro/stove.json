@@ -1,0 +1,27 @@
+{
+  "name": "Кухонна плита",
+  "icon": "caupona:brick_kitchen_stove",
+  "category": "caupona:intro",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Кухонні плити можна використовувати для нагрівання кухонного посуду."
+    },
+    {
+      "type": "text",
+      "text": "Кухонні плити перестануть працювати після деякого простою. "
+    },
+    {
+      "title": "Брудо-кам'яна плита",
+      "type": "crafting",
+      "recipe": "caupona:mud_kitchen_stove",
+      "text": "Кам'яна кухонна плита дешевша, але її швидкість вдвічі менша за інші варіанти плит, на рівні з $(l:worldgen/volcanic_fumarole)фумарольним отвором$(/l)."
+    },
+    {
+      "type": "crafting",
+      "recipe": "caupona:crafting/brick_kitchen_stove",
+      "text": "Існують також плити з $(l:intro/kitchen_materials)інших матеріалів$(/l), які швидші, але споживають більше палива."
+    }
+  ]
+}

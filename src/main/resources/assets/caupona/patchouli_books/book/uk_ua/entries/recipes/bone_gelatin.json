@@ -1,0 +1,14 @@
+{
+  "category": "caupona:cook_recipes",
+  "icon": "caupona:bone_gelatin",
+  "name": "Кістяний желатин",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "base": "caupona:any_based",
+      "img": "caupona:textures/gui/recipes/cooking/bone_gelatin.png",
+      "recipe": "caupona:cooking/bone_gelatin",
+      "result": "caupona:bone_gelatin"
+    }
+  ]
+}

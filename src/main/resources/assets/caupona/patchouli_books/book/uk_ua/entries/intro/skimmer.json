@@ -1,0 +1,28 @@
+{
+	"name": "Шумівка",
+	"icon": "caupona:bamboo_skimmer",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/bamboo_skimmer",
+			"text": "Шумівки використовуються для вилучення твердих інгредієнтів в супі, щоразу зменшуючи концентрацію на 0,5, поки не досягне нижньої межі. Після вилучення, ні тип, ні основа не будуть змінені."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:scraps",
+			"link_recipe": true,
+			"text": "Вилучені інгредієнти перетворяться на недоїдки, які можна лише закомпостувати."
+		},
+		{
+			"type": "text",
+			"text": "Функції залізних і бамбукових шумівок однакові, за винятком довшої тривалості залізної."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/iron_skimmer",
+			"recipe2": "caupona:crafting/iron_skimmer_alt"
+		}
+	]
+}
