@@ -6,11 +6,17 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
-public abstract class CPBaseContainer extends AbstractContainerMenu {
-	protected CPBaseContainer(MenuType<?> pMenuType, int pContainerId,int inv_start) {
+public abstract class CPBaseContainer<T extends BlockEntity> extends AbstractContainerMenu {
+	protected T blockEntity;
+	public T getBlock() {
+		return blockEntity;
+	}
+	protected CPBaseContainer(MenuType<?> pMenuType,T blockEntity, int pContainerId,int inv_start) {
 		super(pMenuType, pContainerId);
 		INV_START=inv_start;
+		this.blockEntity=blockEntity;
 		
 	}
 	protected final int INV_START;
@@ -66,7 +72,7 @@ public abstract class CPBaseContainer extends AbstractContainerMenu {
 	}
 	@Override
 	public boolean stillValid(Player pPlayer) {
-		return true;
+		return !blockEntity.isRemoved();
 	}
 
 }

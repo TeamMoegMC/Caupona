@@ -31,20 +31,13 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class StewPotContainer extends CPBaseContainer {
-	StewPotBlockEntity tile;
-
-	public StewPotBlockEntity getBlock() {
-		return tile;
-	}
-
+public class StewPotContainer extends CPBaseContainer<StewPotBlockEntity> {
 	public StewPotContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
 		this(id, inv, (StewPotBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()));
 	}
 
 	public StewPotContainer(int id, Inventory inv, StewPotBlockEntity blockEntity) {
-		super(CPGui.STEWPOT.get(), id,12);
-		tile = blockEntity;
+		super(CPGui.STEWPOT.get(),blockEntity, id,12);
 		for (int i = 0; i < 9; i++)
 			this.addSlot(new HidableSlot(blockEntity.getInv(), i, 45 + (i % 3) * 18, 17 + (i / 3) * 18, () -> blockEntity.proctype != 2));
 		this.addSlot(new SlotItemHandler(blockEntity.getInv(), 9, 154, 17));

@@ -33,21 +33,14 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class PanContainer extends CPBaseContainer {
-
-	PanBlockEntity tile;
-
-	public PanBlockEntity getBlock() {
-		return tile;
-	}
+public class PanContainer extends CPBaseContainer<PanBlockEntity> {
 
 	public PanContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
 		this(id, inv, (PanBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()));
 	}
 
 	public PanContainer(int id, Inventory inv, PanBlockEntity blockEntity) {
-		super(CPGui.PAN.get(), id,12);
-		tile = blockEntity;
+		super(CPGui.PAN.get(),blockEntity, id,12);
 		for (int i = 0; i < 9; i++)
 			this.addSlot(new HidableSlot(blockEntity.inv, i, 62 + (i % 3) * 18, 13 + (i / 3) * 18, () -> blockEntity.processMax == 0));
 		this.addSlot(new SlotItemHandler(blockEntity.inv, 9, 147, 13));
@@ -57,13 +50,13 @@ public class PanContainer extends CPBaseContainer {
 
 			@Override
 			public boolean mayPlace(ItemStack stack) {
-				if((!inv.player.getAbilities().instabuild&&tile.isInfinite))return false;
+				if((!inv.player.getAbilities().instabuild&&blockEntity.isInfinite))return false;
 				return super.mayPlace(stack);
 			}
 
 			@Override
 			public boolean mayPickup(Player playerIn) {
-				if((!inv.player.getAbilities().instabuild&&tile.isInfinite))return false;
+				if((!inv.player.getAbilities().instabuild&&blockEntity.isInfinite))return false;
 				return super.mayPickup(playerIn);
 			}});
 		super.addPlayerInventory(inv,8,84,142);
