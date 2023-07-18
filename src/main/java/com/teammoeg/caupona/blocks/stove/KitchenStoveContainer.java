@@ -30,17 +30,15 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeHooks;
 
-public class KitchenStoveContainer extends CPBaseContainer {
-	public KitchenStoveBlockEntity tile;
+public class KitchenStoveContainer extends CPBaseContainer<KitchenStoveBlockEntity> {
 
 	public KitchenStoveContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
 		this(id, inv, (KitchenStoveBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()));
 	}
 
 	public KitchenStoveContainer(int id, Inventory inv, KitchenStoveBlockEntity blockEntity) {
-		super(CPGui.STOVE.get(), id,1);
-		tile = blockEntity;
-		this.addSlot(new Slot(tile, 0, 80, 55) {
+		super(CPGui.STOVE.get(),blockEntity,id,1);
+		this.addSlot(new Slot(blockEntity, 0, 80, 55) {
 			@Override
 			public boolean mayPlace(ItemStack stack) {
 				return ForgeHooks.getBurnTime(stack, null) > 0 && stack.getCraftingRemainingItem().isEmpty();

@@ -38,7 +38,7 @@ public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveCont
 
 	public KitchenStoveScreen(KitchenStoveContainer screenContainer, Inventory inv, Component titleIn) {
 		super(screenContainer, inv, titleIn);
-		blockEntity = screenContainer.tile;
+		blockEntity = screenContainer.getBlock();
 	}
 
 	public void render(GuiGraphics pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {

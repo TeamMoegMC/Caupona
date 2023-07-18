@@ -43,7 +43,7 @@ public class DoliumScreen extends AbstractContainerScreen<DoliumContainer> {
 
 	public DoliumScreen(DoliumContainer screenContainer, Inventory inv, Component titleIn) {
 		super(screenContainer, inv, titleIn);
-		blockEntity = screenContainer.tile;
+		blockEntity = screenContainer.getBlock();
 	}
 
 	private ArrayList<Component> tooltip = new ArrayList<>(2);

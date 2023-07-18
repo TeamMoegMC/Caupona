@@ -30,20 +30,14 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class DoliumContainer extends CPBaseContainer {
-	public final CounterDoliumBlockEntity tile;
-
-	public CounterDoliumBlockEntity getBlock() {
-		return tile;
-	}
+public class DoliumContainer extends CPBaseContainer<CounterDoliumBlockEntity> {
 
 	public DoliumContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
 		this(id, inv, (CounterDoliumBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()));
 	}
 
 	public DoliumContainer(int id, Inventory inv, CounterDoliumBlockEntity blockEntity) {
-		super(CPGui.DOLIUM.get(), id,6);
-		tile = blockEntity;
+		super(CPGui.DOLIUM.get(),blockEntity, id,6);
 		this.addSlot(new SlotItemHandler(blockEntity.inv, 0, 153, 4));
 		this.addSlot(new SlotItemHandler(blockEntity.inv, 1, 134, 8));
 		this.addSlot(new SlotItemHandler(blockEntity.inv, 2, 115, 12));
