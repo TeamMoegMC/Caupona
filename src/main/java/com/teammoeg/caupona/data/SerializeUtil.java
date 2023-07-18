@@ -33,11 +33,17 @@ import java.util.stream.StreamSupport;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.JsonOps;
 
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.registries.ForgeRegistries;
 
 /**
  * Tool class for serialize data, packets etc
@@ -131,5 +137,24 @@ public class SerializeUtil {
 		ListTag nbt = new ListTag();
 		stacks.stream().map(mapper).forEach(nbt::add);
 		return nbt;
+	}
+	public static FluidStack readFluidStack(JsonElement jsonIn) {
+		if(jsonIn==null)return null;
+		return FluidStack.CODEC.decode(JsonOps.INSTANCE,jsonIn).result().map(Pair::getFirst).orElse(FluidStack.EMPTY);
+	}
+	public static FluidStack readFluidStack(FriendlyByteBuf in) {
+		Fluid f=in.readRegistryIdUnsafe(ForgeRegistries.FLUIDS);
+		int amount=in.readVarInt();
+		FluidStack fs=new FluidStack(f,amount);
+		readOptional(in,d->d.readNbt()).ifPresent(e->fs.setTag(e));
+		return fs;
+	}
+	public static JsonElement writeFluidStack(FluidStack stack) {
+		return FluidStack.CODEC.encodeStart(JsonOps.INSTANCE,stack).result().orElse(null);
+	}
+	public static void writeFluidStack(FriendlyByteBuf out,FluidStack stack) {
+		out.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS,stack.getFluid());
+		out.writeVarInt(stack.getAmount());
+		writeOptional(out,stack.getTag(),(s,d)->d.writeNbt(s));
 	}
 }
