@@ -1,0 +1,8 @@
+{
+	"type": "stonecutting",
+	"ingredient": {
+		"item": "minecraft:brick"
+	},
+	"result": "caupona:brick_tesserae",
+	"count": 2
+}

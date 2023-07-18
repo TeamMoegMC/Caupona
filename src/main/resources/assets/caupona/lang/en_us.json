@@ -321,7 +321,7 @@
 	"tooltip.caupona.cook_required":"Cook to reveal actual effects",
 	"recipe.caupona.cond.mainly": "The largest portion must be %s",
 	"recipe.caupona.cond.half": "More than a half must be %s",
-	"recipe.caupona.cond.any": "Must contain any %s",
+	"recipe.caupona.cond.any": "Any %s",
 	"recipe.caupona.cond.only": "Exclusively %s",
 	"recipe.caupona.cond.mainlyof": "%s must make up the largest portion of %s",
 	"recipe.caupona.allow": "Must contain:",

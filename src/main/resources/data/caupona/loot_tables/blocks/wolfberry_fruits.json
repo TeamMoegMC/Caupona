@@ -29,6 +29,28 @@
 			"entries": [
 				{
 					"type": "minecraft:item",
+					"name": "caupona:fresh_wolfberry_leaves"
+				}
+			],
+			"conditions": [
+				{
+					"condition": "minecraft:block_state_property",
+					"block": "caupona:wolfberry_fruits",
+					"properties": {
+						"age": {
+							"min": "1",
+							"max": "2"
+						}
+					}
+				}
+			]
+		},
+		{
+			"rolls": 1.0,
+			"bonus_rolls": 0.0,
+			"entries": [
+				{
+					"type": "minecraft:item",
 					"functions": [
 						{
 							"function": "minecraft:apply_bonus",
