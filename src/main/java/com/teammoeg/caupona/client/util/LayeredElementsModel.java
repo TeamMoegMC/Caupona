@@ -1,5 +1,6 @@
 package com.teammoeg.caupona.client.util;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -7,11 +8,13 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.teammoeg.caupona.client.util.LayeredBakedModel.Builder;
+
 
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.BlockModel;
@@ -90,12 +93,29 @@ public class LayeredElementsModel implements IUnbakedGeometry<LayeredElementsMod
             no++;
         }
     }
-
+    
     public static final class Loader implements IGeometryLoader<LayeredElementsModel>
     {
         public Loader(){
         }
-
+        public static Set<Integer> loadGroup(JsonArray je,String prefix,Map<String,Set<Integer>> result){
+        	Set<Integer> set=new HashSet<>();
+        	int i=0;
+            for (JsonElement group : je)
+            {
+            	if(group.isJsonObject()) {
+            		String name="group_"+(i++);
+            		JsonObject g=group.getAsJsonObject();
+            		name=GsonHelper.getAsString(g,"name",name);
+            		Set<Integer> crnset=loadGroup(GsonHelper.getAsJsonArray(g,"children"),prefix+name+".",result);
+            		set.addAll(crnset);
+            		result.put(prefix+name, crnset);
+            	}else
+            		set.add(group.getAsInt());
+            }
+            return set;
+        	
+        }
         @Override
         public LayeredElementsModel read(JsonObject jsonObject, JsonDeserializationContext deserializationContext) throws JsonParseException
         {
@@ -105,20 +125,9 @@ public class LayeredElementsModel implements IUnbakedGeometry<LayeredElementsMod
             Map<String,BlockElement> elements = new LinkedHashMap<>();
             Map<String,Set<Integer>> groups=new LinkedHashMap<>();
             int i=0;
-            for (JsonElement group : GsonHelper.getAsJsonArray(jsonObject, "groups"))
-            {
-            	
-            	if(group.isJsonObject()) {
-            		String name="group_"+(i++);
-            		JsonObject g=group.getAsJsonObject();
-            		name=GsonHelper.getAsString(g,"name",name);
-            		Set<Integer> set=new HashSet<>();
-            		GsonHelper.getAsJsonArray(g,"children").forEach(e->{
-            			set.add(e.getAsInt());
-            		});
-            		groups.put(name, set);
-            	}
-            }
+            loadGroup(GsonHelper.getAsJsonArray(jsonObject, "groups"),"",groups);
+            groups.forEach((k,v)->System.out.print(k+":"+String.join(",",v.stream().map(String::valueOf).toList())));
+            
             i=0;
             for (JsonElement element : GsonHelper.getAsJsonArray(jsonObject, "elements"))
             {
