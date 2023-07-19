@@ -1,0 +1,14 @@
+{
+  "category": "caupona:cook_recipes",
+  "icon": "caupona:poultry_soup",
+  "name": "Птичий суп",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "base": "caupona:water_or_stock_based",
+      "img": "caupona:textures/gui/recipes/cooking/poultry_soup.png",
+      "recipe": "caupona:cooking/poultry_soup",
+      "result": "caupona:poultry_soup"
+    }
+  ]
+}

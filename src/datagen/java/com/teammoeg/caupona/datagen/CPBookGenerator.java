@@ -85,7 +85,7 @@ public class CPBookGenerator extends JsonGenerator {
 		super(PackType.CLIENT_RESOURCES,output, helper,"Caupona Patchouli");
 	}
 
-	String[] allangs = { "zh_cn", "en_us", "es_es", "ru_ru" };
+	String[] allangs = { "zh_cn", "en_us", "es_es", "ru_ru", "uk_ua" };
 
 	private void loadLang(String locale) {
 		try {

@@ -1,0 +1,14 @@
+{
+  "category": "caupona:sautee_recipes",
+  "icon": "caupona:sauteed_mushrooms",
+  "name": "Сотейовані гриби",
+  "pages": [
+    {
+      "type": "caupona:fryrecipe",
+      "base": "caupona:gravy_boat",
+      "img": "caupona:textures/gui/recipes/frying/sauteed_mushrooms.png",
+      "recipe": "caupona:frying/sauteed_mushrooms",
+      "result": "caupona:sauteed_mushrooms"
+    }
+  ]
+}

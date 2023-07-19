@@ -1,0 +1,14 @@
+{
+  "category": "caupona:cook_recipes",
+  "icon": "caupona:pumpkin_soup_cream",
+  "name": "Гарбузовий крем-суп",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "base": "caupona:milk_based",
+      "img": "caupona:textures/gui/recipes/cooking/pumpkin_soup_cream.png",
+      "recipe": "caupona:cooking/pumpkin_soup_cream",
+      "result": "caupona:pumpkin_soup_cream"
+    }
+  ]
+}

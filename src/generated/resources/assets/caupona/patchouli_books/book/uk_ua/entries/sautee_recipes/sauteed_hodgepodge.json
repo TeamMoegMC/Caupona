@@ -1,0 +1,14 @@
+{
+  "category": "caupona:sautee_recipes",
+  "icon": "caupona:sauteed_hodgepodge",
+  "name": "Сотейований годжі-поджі",
+  "pages": [
+    {
+      "type": "caupona:fryrecipe",
+      "base": "caupona:gravy_boat",
+      "img": "caupona:textures/gui/recipes/frying/sauteed_hodgepodge.png",
+      "recipe": "caupona:frying/sauteed_hodgepodge",
+      "result": "caupona:sauteed_hodgepodge"
+    }
+  ]
+}
