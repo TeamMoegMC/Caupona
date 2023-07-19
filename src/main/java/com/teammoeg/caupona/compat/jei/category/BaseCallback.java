@@ -31,7 +31,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
-class BaseCallback implements IRecipeSlotTooltipCallback {
+public class BaseCallback implements IRecipeSlotTooltipCallback {
 	ResourceLocation base;
 	float dense;
 
