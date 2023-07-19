@@ -1,0 +1,28 @@
+{
+	"name": "Трави",
+	"icon": "caupona:silphium_block",
+	"category": "caupona:worldgen",
+	"sortnum": 0,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Сильфія тепер генерується у світі. Цю траву неможливо посадити й можна відновлювати лише кістковим борошном."
+		},
+		{
+			"type": "empty"
+		},
+		{
+			"type": "image",
+			"images": [
+				"caupona:textures/gui/entries/silphium.png"
+			],
+			"anchor": "silphium",
+			"title": "Сильфій"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:silphium",
+			"text": "Сільфія росте лише на соняшникових рівнинах. Асафетиду, рідкісну спецію, можна виготовити післяготуванням сильфії та ковадла (не споживається) в $(l:intro/counter_with_dolium)долії$(/l)."
+		}
+	]
+}

@@ -1,0 +1,51 @@
+{
+	"name": "Рослини",
+	"icon": "caupona:walnut",
+	"category": "caupona:worldgen",
+	"sortnum": 0,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Caupona представляє дерево і два кущі, які в природі зустрічаються в різних біомах. Їх об'єднує те, що під листям поступово виростають відповідні плоди."
+		},
+		{
+			"type": "empty"
+		},
+		{
+			"type": "image",
+			"images": [
+				"caupona:textures/gui/entries/walnut_tree.png"
+			],
+			"title": "Горіх"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:walnut",
+			"text": "Горіх росте у лісах, його можна використовувати як деревину і робити олію."
+		},
+		{
+			"type": "image",
+			"images": [
+				"caupona:textures/gui/entries/fig_tree.png"
+			],
+			"title": "Інжир"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:fig",
+			"text": "Інжир росте на рівнинах. Якщо розламати його стовбур, то випадуть лише палиці. Інжир — це лише фрукт."
+		},
+		{
+			"type": "image",
+			"images": [
+				"caupona:textures/gui/entries/wolfberry_tree.png"
+			],
+			"title": "Годжі"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:wolfberries",
+			"text": "Годжі ростуть у вітряних горах, а якщо їх зламати, то випадуть лише палиці. Годжі — це фрукти, але їх також можна використовувати для приготування їжі."
+		}
+	]
+}

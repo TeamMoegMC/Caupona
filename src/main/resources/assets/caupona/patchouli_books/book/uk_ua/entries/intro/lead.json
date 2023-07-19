@@ -1,0 +1,25 @@
+{
+	"name": "Свинець",
+	"icon": "caupona:lead_ingot",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:leaden_walnut",
+			"link_recipe": true,
+			"text": "Є шанс, що $(l:worldgen/plants#walnut_tree)горіхове дерево$(/l) виросте в Незері для вирощування свинцевих горіхів, замість звичайних."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:litharge_cake",
+			"link_recipe": true,
+			"text": "Післяготування свинцевих горіхів з ковадлом (не споживається) в $(l:intro/counter_with_dolium)долії$(/l) дає ливарний корж."
+		},
+		{
+			"type": "smelting",
+			"recipe": "caupona:smelting/lead_nugget",
+			"text": "Ливарні коржі можна перетопити у свинцеві самородки."
+		}
+	]
+}

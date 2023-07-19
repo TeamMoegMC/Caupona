@@ -1,6 +1,6 @@
 {
 	"name": "铅",
-	"icon": "caupona:lead",
+	"icon": "caupona:lead_ingot",
 	"category": "caupona:intro",
 	"sortnum": 5,
 	"pages": [
@@ -20,6 +20,6 @@
 			"type": "smelting",
 			"recipe": "caupona:smelting/lead_nugget",
 			"text": "密陀僧饼冶炼后即可得到铅粒。"
-		},
+		}
 	]
 }

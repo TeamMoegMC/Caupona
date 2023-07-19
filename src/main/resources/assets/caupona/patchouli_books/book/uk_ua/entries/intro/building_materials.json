@@ -1,0 +1,38 @@
+{
+	"name": "Будматеріали",
+	"icon": "caupona:opus_incertum",
+	"category": "caupona:intro",
+	"sortnum": 29,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Caupona також представляє деякі будівельні матеріали та плитки."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/mixed_bricks"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/felsic_tuff",
+			"text": "Фельзитовий туф утворений з $(l:worldgen/volcanic_fumarole)пемзи$(/l) й туфу. Є одним з основних будівельних матеріалів Caupona."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/felsic_tuff_bricks",
+			"text": "З цих блоків також можна виготовити сходи, плити, стіни тощо."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_incertum"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_reticulatum"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_latericium"
+		}
+	]
+}
