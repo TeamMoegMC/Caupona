@@ -160,10 +160,11 @@ public class LayeredBakedModel implements BakedModel {
 			this.transforms = pTransforms;
 		}
 
-		public LayeredBakedModel.Builder addUnculledFace(BakedQuad pQuad,String group) {
+		public LayeredBakedModel.Builder addUnculledFace(BakedQuad pQuad,Iterable<String> groups) {
 			int idx=this.unculledFaces.size();
 			this.unculledFaces.add(pQuad);
-			faces.computeIfAbsent(group,e->new LinkedHashSet<>()).add(idx);
+			for(String group:groups)
+				faces.computeIfAbsent(group,e->new LinkedHashSet<>()).add(idx);
 			return this;
 		}
 

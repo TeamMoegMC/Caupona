@@ -15,8 +15,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.teammoeg.caupona.client.util.LayeredBakedModel.Builder;
 
-
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElement;
+import net.minecraft.client.renderer.block.model.BlockElementFace;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -75,20 +76,20 @@ public class LayeredElementsModel implements IUnbakedGeometry<LayeredElementsMod
         int no=0;
         for (BlockElement element : elements.values())
         {
-        	String groupName="root";
+        	Set<String> groupNames=new HashSet<>();
+        	groupNames.add("root");
         	for(Entry<String, Set<Integer>> i:groups.entrySet()) {
         		if(i.getValue().contains(no)) {
-        			groupName=i.getKey();
-        			break;
+        			groupNames.add(i.getKey());
         		}
         	}
             for (Direction direction : element.faces.keySet())
             {
-                var face = element.faces.get(direction);
-                var sprite = spriteGetter.apply(context.getMaterial(face.texture));
-                var quad = BlockModel.bakeFace(element, face, sprite, direction, modelState, modelLocation);
+                BlockElementFace face = element.faces.get(direction);
+                TextureAtlasSprite sprite = spriteGetter.apply(context.getMaterial(face.texture));
+                BakedQuad quad = BlockModel.bakeFace(element, face, sprite, direction, modelState, modelLocation);
                 postTransform.processInPlace(quad);
-                builder.addUnculledFace(quad,groupName);
+                builder.addUnculledFace(quad,groupNames);
             }
             no++;
         }
