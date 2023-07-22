@@ -236,4 +236,32 @@ public class FloatemStack {
 		stack = ItemStack.of(nbt);
 		this.count = nbt.getFloat("th_countf");
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Float.floatToIntBits(count);
+		result = prime * result + ((stack == null) ? 0 : stack.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FloatemStack other = (FloatemStack) obj;
+		if (Float.floatToIntBits(count) != Float.floatToIntBits(other.count))
+			return false;
+		if (stack == null) {
+			if (other.stack != null)
+				return false;
+		} else if (!equals(other.stack))
+			return false;
+		return true;
+	}
 }
