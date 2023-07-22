@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
@@ -61,7 +61,7 @@ public abstract class JsonGenerator implements DataProvider {
 	public String getName() {
 		return name+" Json Generator";
 	}
-	private static CompletableFuture<?> saveJson(CachedOutput cache, JsonObject recipeJson, Path path) {
+	private static CompletableFuture<?> saveJson(CachedOutput cache, JsonElement recipeJson, Path path) {
 		return DataProvider.saveStable(cache, recipeJson, path);
 	}
 }

@@ -29,6 +29,7 @@ public class CPTags {
 		private static TagKey<Block> create(String s){
 			return  BlockTags.create(new ResourceLocation(CPMain.MODID, s));
 		}
+		static TagKey<Item> container = ItemTags.create(new ResourceLocation(CPMain.MODID, "container"));
 		
 	}
 	public static class Items{

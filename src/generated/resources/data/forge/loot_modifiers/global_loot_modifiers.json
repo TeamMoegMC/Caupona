@@ -1,0 +1,19 @@
+{
+  "entries": [
+    "caupona:chests/igloo_chest",
+    "caupona:chests/underwater_ruin_small",
+    "caupona:chests/stronghold_crossing",
+    "caupona:chests/woodland_mansion",
+    "caupona:chests/buried_treasure",
+    "caupona:chests/stronghold_corridor",
+    "caupona:chests/pillager_outpost",
+    "caupona:chests/abandoned_mineshaft",
+    "caupona:chests/ancient_city",
+    "caupona:chests/shipwreck_treasure",
+    "caupona:chests/simple_dungeon",
+    "caupona:chests/desert_pyramid",
+    "caupona:chests/jungle_temple",
+    "caupona:chests/underwater_ruin_big"
+  ],
+  "replace": false
+}

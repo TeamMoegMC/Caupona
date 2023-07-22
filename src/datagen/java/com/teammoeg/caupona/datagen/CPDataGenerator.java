@@ -50,6 +50,7 @@ public class CPDataGenerator {
 		gen.addProvider(event.includeServer(),new CPItemTagGenerator(gen, CPMain.MODID, exHelper,event.getLookupProvider()));
 		gen.addProvider(event.includeServer(),new CPBlockTagGenerator(gen, CPMain.MODID, exHelper,event.getLookupProvider()));
 		gen.addProvider(event.includeServer(),new CPFluidTagGenerator(gen, CPMain.MODID, exHelper,event.getLookupProvider()));
+		gen.addProvider(event.includeServer(),new CPGlobalLootModifiersGenerator(gen.getPackOutput(),exHelper,CPMain.MODNAME+" global_modifiers"));
 		gen.addProvider(event.includeServer(),new CPLootGenerator(gen));
 		gen.addProvider(event.includeClient()||event.includeServer(),new CPStatesProvider(gen, CPMain.MODID, exHelper));
 		gen.addProvider(event.includeServer(),new CPBookGenerator(gen.getPackOutput(), exHelper));
@@ -57,5 +58,6 @@ public class CPDataGenerator {
 		gen.addProvider(event.includeServer(),new CPRegistryGenerator(gen.getPackOutput(),completablefuture));
 		gen.addProvider(event.includeClient(),new FluidAnimationGenerator(gen.getPackOutput(),exHelper));
 		gen.addProvider(event.includeClient()||event.includeServer(), new RegistryJavaGenerator(gen.getPackOutput(),exHelper));
+		
 	}
 }

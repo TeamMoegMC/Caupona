@@ -23,10 +23,14 @@ package com.teammoeg.caupona.datagen;
 
 import java.util.function.BiConsumer;
 
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.JsonOps;
 
 import net.minecraft.resources.ResourceLocation;
 
-public interface JsonStorage extends BiConsumer<ResourceLocation, JsonObject> {
-
+public interface JsonStorage extends BiConsumer<ResourceLocation, JsonElement> {
+	default <T> void accept(ResourceLocation path,Codec<T> codec,T instance) {
+		codec.encodeStart(JsonOps.INSTANCE, instance).result().ifPresent(j->this.accept(path,j));
+	}
 }

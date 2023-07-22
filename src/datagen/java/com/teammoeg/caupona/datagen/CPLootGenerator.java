@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
@@ -38,12 +39,11 @@ import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.loot.packs.VanillaBlockLoot;
 import net.minecraft.data.loot.packs.VanillaLootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -53,16 +53,15 @@ import net.minecraft.world.level.storage.loot.LootDataId;
 import net.minecraft.world.level.storage.loot.LootDataType;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootTable.Builder;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableCondition;
 import net.minecraft.world.level.storage.loot.predicates.LocationCheck;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
-import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -74,9 +73,14 @@ public class CPLootGenerator extends LootTableProvider {
 
 	@Override
 	public List<SubProviderEntry> getTables() {
-		return Arrays.asList(new SubProviderEntry(() -> new LTBuilder(), LootContextParamSets.BLOCK));
+		return Arrays.asList(new SubProviderEntry(() -> new LTBuilder(), LootContextParamSets.BLOCK),new SubProviderEntry(() -> new OTHBuilder(), LootContextParamSets.CHEST));
 	}
-
+	static Block cp(String name) {
+		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(CPMain.MODID, name));
+	}
+	static Item cpi(String name) {
+		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID, name));
+	}
 	@Override
 	protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationcontext) {
 		map.forEach((p_278897_, p_278898_) -> {
@@ -85,7 +89,15 @@ public class CPLootGenerator extends LootTableProvider {
 		});
 		//map.forEach((name, table) -> LootTables.validate(validationtracker, name, table));
 	}
+	public static final ResourceLocation ASSES=CPMain.rl("asses");
+	private static class OTHBuilder implements LootTableSubProvider {
 
+		@Override
+		public void generate(BiConsumer<ResourceLocation, Builder> receiver) {
+			receiver.accept(ASSES, LootTable.lootTable().withPool(LootPool.lootPool().add(LootItem.lootTableItem(cpi("asses"))).when(LootItemRandomChanceCondition.randomChance(0.2f)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 5.0f)))));
+		}
+		
+	}
 	private static class LTBuilder extends VanillaBlockLoot {
 		protected LTBuilder() {
 			super();
@@ -168,15 +180,10 @@ public class CPLootGenerator extends LootTableProvider {
 									.when(HAS_SHEARS.or(HAS_SILK_TOUCH).invert())
 							
 							))));*/
-
+			
 		}
 
-		private Block cp(String name) {
-			return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(CPMain.MODID, name));
-		}
-		private Item cpi(String name) {
-			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID, name));
-		}
+
 		ArrayList<Block> added = new ArrayList<>();
 
 		@Override

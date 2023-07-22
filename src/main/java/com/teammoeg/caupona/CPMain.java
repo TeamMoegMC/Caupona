@@ -54,6 +54,7 @@ public class CPMain {
 	public static RegistryObject<CreativeModeTab> main=TABS.register("main",()->CreativeModeTab.builder().withTabsBefore(CreativeModeTabs.SPAWN_EGGS).icon(()->new ItemStack(CPBlocks.STEW_POT.get())).title(Utils.translate("itemGroup.caupona")).build());
 	public static RegistryObject<CreativeModeTab> decoration=TABS.register("decorations",()->CreativeModeTab.builder().withTabsBefore(main.getKey()).icon(()->new ItemStack(CPBlocks.PUMICE_BLOOM.get())).title(Utils.translate("itemGroup.caupona_decorations")).build());
 	public static RegistryObject<CreativeModeTab> foods=TABS.register("food", ()->CreativeModeTab.builder().withTabsBefore(main.getKey(),decoration.getKey()).icon(()->new ItemStack(CPItems.gravy_boat.get())).title(Utils.translate("itemGroup.caupona_foods")).build());
+	
 	public static ResourceLocation rl(String path) {
 		return new ResourceLocation(MODID, path);
 	}
@@ -78,6 +79,7 @@ public class CPMain {
 		CPWorldGen.FOILAGE_TYPES.register(mod);
 		CPWorldGen.TRUNK_TYPES.register(mod);
 		CPMobEffects.EFFECTS.register(mod);
+		CPData.LOOT_MODIFIERS.register(mod);
 		CPConfig.register();
 		PacketHandler.register();
 	}
