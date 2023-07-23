@@ -19,7 +19,8 @@ import net.minecraftforge.common.loot.LootModifier;
 
 public class AddPoolLootModifier extends LootModifier{
 	public static final Codec<AddPoolLootModifier> CODEC = 
-			RecordCodecBuilder.create(inst -> codecStart(inst).and(ResourceLocation.CODEC.fieldOf("loot_table").forGetter(lm->lm.lootTable)).apply(inst, AddPoolLootModifier::new));
+			RecordCodecBuilder.create(inst -> codecStart(inst)
+		.and(ResourceLocation.CODEC.fieldOf("loot_table").forGetter(lm->lm.lootTable)).apply(inst, AddPoolLootModifier::new));
 	ResourceLocation lootTable;
 	protected AddPoolLootModifier(LootItemCondition[] conditionsIn,ResourceLocation table) {
 		super(conditionsIn);

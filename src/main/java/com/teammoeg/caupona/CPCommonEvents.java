@@ -23,7 +23,6 @@ package com.teammoeg.caupona;
 
 import javax.annotation.Nonnull;
 
-import com.teammoeg.caupona.CPTags.Blocks;
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
@@ -172,7 +171,7 @@ public class CPCommonEvents {
 			ItemStack stack = event.getItemStack();
 			LazyOptional<IFluidHandlerItem> cap = stack
 					.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
-			if (cap.isPresent() && stack.is(Blocks.container)) {
+			if (cap.isPresent() && stack.is(CPTags.Items.CONTAINER)) {
 				IFluidHandlerItem data = cap.resolve().get();
 				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid) {
 					StewInfo si = SoupFluid.getInfo(data.getFluidInTank(0));
@@ -192,7 +191,7 @@ public class CPCommonEvents {
 			ItemStack stack = event.getItem();
 			LazyOptional<IFluidHandlerItem> cap = stack
 					.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
-			if (cap.isPresent() && stack.is(Blocks.container)) {
+			if (cap.isPresent() && stack.is(CPTags.Items.CONTAINER)) {
 				IFluidHandlerItem data = cap.resolve().get();
 				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid)
 					CauponaApi.apply(event.getEntity().level(), event.getEntity(),

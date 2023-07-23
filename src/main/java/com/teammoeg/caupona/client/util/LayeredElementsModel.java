@@ -126,7 +126,8 @@ public class LayeredElementsModel implements IUnbakedGeometry<LayeredElementsMod
             Map<String,BlockElement> elements = new LinkedHashMap<>();
             Map<String,Set<Integer>> groups=new LinkedHashMap<>();
             int i=0;
-            loadGroup(GsonHelper.getAsJsonArray(jsonObject, "groups"),"",groups);
+            if(jsonObject.has("groups"))
+            	loadGroup(GsonHelper.getAsJsonArray(jsonObject, "groups"),"",groups);
             //groups.forEach((k,v)->System.out.print(k+":"+String.join(",",v.stream().map(String::valueOf).toList())));
             
             i=0;
