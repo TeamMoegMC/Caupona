@@ -37,7 +37,7 @@ public class AddPoolLootModifier extends LootModifier{
 			LootContext context) {
 		LootTable lt=context.getResolver().getLootTable(lootTable);
 		//if(context.pushVisitedElement(LootContext.createVisitedEntry(lt))) {
-		lt.getRandomItems(new LootContext.Builder(context).withQueriedLootTableId(lootTable).create(null),generatedLoot::add);
+		lt.getRandomItemsRaw(new LootContext.Builder(context).withQueriedLootTableId(lootTable).create(null),generatedLoot::add);
 		//}
 		return generatedLoot;
 	}
