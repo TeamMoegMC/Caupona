@@ -21,8 +21,6 @@
 
 package com.teammoeg.caupona;
 
-import javax.annotation.Nonnull;
-
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;

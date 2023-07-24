@@ -1,6 +1,5 @@
 package com.teammoeg.caupona.client.util;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;

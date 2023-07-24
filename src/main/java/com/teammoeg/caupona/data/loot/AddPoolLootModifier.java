@@ -32,6 +32,7 @@ public class AddPoolLootModifier extends LootModifier{
 		return CODEC;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot,
 			LootContext context) {
