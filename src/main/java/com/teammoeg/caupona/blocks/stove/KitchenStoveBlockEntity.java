@@ -70,7 +70,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 		super(tet, p, s);
 		this.speed = spd;
 		maxcd = CPConfig.SERVER.stoveCD.get() / speed;
-		fuelMod = CPConfig.SERVER.stoveFuel.get();
+		fuelMod = (float)(double)CPConfig.SERVER.stoveFuel.get();
 		chimneyCheckTicks = CPConfig.SERVER.chimneyCheck.get();
 	}
 

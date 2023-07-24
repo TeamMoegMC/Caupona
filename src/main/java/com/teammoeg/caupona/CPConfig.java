@@ -71,7 +71,7 @@ public class CPConfig {
 		public ConfigValue<Integer> fumaroleSpeed;
 		public ConfigValue<Integer> fumaroleCheck;
 		public ConfigValue<Integer> fumarolePower;
-		public ConfigValue<Float> stoveFuel;
+		public ConfigValue<Double> stoveFuel;
 		public ConfigValue<Boolean> genWalnut;
 		public ConfigValue<Boolean> genWolfberry;
 		public ConfigValue<Boolean> genFig;
@@ -87,8 +87,8 @@ public class CPConfig {
 		public ConfigValue<Boolean> genCH;
 		public ConfigValue<Boolean> strictWater;
 		
-		public ConfigValue<Float> benefitialMod;
-		public ConfigValue<Float> harmfulMod;
+		public ConfigValue<Double> benefitialMod;
+		public ConfigValue<Double> harmfulMod;
 		
 		public ConfigValue<Boolean> addManual;
 		Server(ForgeConfigSpec.Builder builder) {
@@ -116,7 +116,7 @@ public class CPConfig {
 			builder.push("stoves");
 			stoveCD = builder.comment("How many ticks should the stove pause burning when work is done")
 					.define("StovePauseTimer", 100);
-			stoveFuel = builder.comment("Stove fuel value multiplier").define("StoveFuelMultiplier", 1.0f);
+			stoveFuel = builder.comment("Stove fuel value multiplier").define("StoveFuelMultiplier", 1.0);
 			builder.pop();
 
 			builder.push("fumarole");
@@ -155,8 +155,8 @@ public class CPConfig {
 			builder.push("compat");
 			builder.push("diet");
 			builder.comment("You would only need to modify this when diet mod installed, otherwist this does not take effect");
-			benefitialMod=builder.comment("Benefitial diet value modifier for cooking food into stew").define("benefitialModifier",1.2f);
-			harmfulMod=builder.comment("Harmful diet value modifier for cooking food into stew").define("harmfulModifier",0.8f);
+			benefitialMod=builder.comment("Benefitial diet value modifier for cooking food into stew").define("benefitialModifier",1.2);
+			harmfulMod=builder.comment("Harmful diet value modifier for cooking food into stew").define("harmfulModifier",0.8);
 			builder.pop();
 			builder.pop();
 		}
