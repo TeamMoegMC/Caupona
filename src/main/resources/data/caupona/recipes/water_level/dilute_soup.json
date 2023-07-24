@@ -1,8 +1,21 @@
 {
-  "type": "watersource:water_level_item",
-  "ingredient": {
-    "item": "caupona:dilute_soup"
-  },
-  "waterLevel": 3,
-  "waterSaturationLevel": 2
+	"type": "forge:conditional",
+	"recipes": [
+		{
+			"conditions": [
+				{
+					"type": "forge:mod_loaded",
+					"modid": "watersource"
+				}
+			],
+			"recipe": {
+				"type": "watersource:water_level_item",
+				"ingredient": {
+					"item": "caupona:dilute_soup"
+				},
+				"waterLevel": 3,
+				"waterSaturationLevel": 2
+			}
+		}
+	]
 }
