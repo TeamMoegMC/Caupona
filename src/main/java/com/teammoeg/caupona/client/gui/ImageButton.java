@@ -62,7 +62,7 @@ public class ImageButton extends Button {
 		if(state!=laststate)
 			super.setTooltip(tooltipProvider.get());
 		laststate=state;
-		if (this.isHoveredOrFocused()) {
+		if (this.isHovered()) {
 			i += this.width;
 			
 		}
