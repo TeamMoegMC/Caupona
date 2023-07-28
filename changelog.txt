@@ -1,3 +1,3 @@
-Added spoked fence and lacunar blocks for decoration.
-Polished patchouli books and language files.
-Fix internal lightings of chimney flutes
+Added asses as decoration
+Fix typos in manual.
+Added config for road speed and leaden walnut gen.

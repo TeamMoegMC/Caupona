@@ -1,5 +1,7 @@
 package com.teammoeg.caupona.blocks.plants;
 
+import com.teammoeg.caupona.CPConfig;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -8,9 +10,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 
 public class WalnutFruitBlock extends FruitBlock {
-
+	private final double rate;
 	public WalnutFruitBlock(Properties p_52247_) {
 		super(p_52247_);
+		rate=CPConfig.SERVER.leadenGenRate.get();
 	}
 
 	/**
@@ -28,7 +31,7 @@ public class WalnutFruitBlock extends FruitBlock {
 				if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(pLevel, pPos, pState,
 						pRandom.nextInt(17) == 0)) {
 					if (i == this.getMaxAge() - 1 && pLevel.dimensionTypeId().equals(BuiltinDimensionTypes.NETHER)
-							&& pRandom.nextInt(20) == 0) {
+							&& pRandom.nextDouble()<rate) {
 						pLevel.setBlock(pPos, this.getStateForAge(5), 2);
 					} else {
 						pLevel.setBlock(pPos, this.getStateForAge(i + 1), 2);

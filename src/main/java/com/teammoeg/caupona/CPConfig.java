@@ -38,6 +38,7 @@ public class CPConfig {
 	}
 
 	public static class Client {
+		public ConfigValue<Boolean> fancyPan;
 		/**
 		 * @param builder
 		 */
@@ -47,7 +48,7 @@ public class CPConfig {
 
 	public static class Common {
 		public ConfigValue<Integer> staticTime;
-
+		public ConfigValue<Double> roadSpeedAddtion;
 		/**
 		 * @param builder
 		 */
@@ -56,6 +57,9 @@ public class CPConfig {
 			builder.push("recipe");
 			staticTime = builder.comment("Ticks before do still recipe").defineInRange("StillRecipeTicks", 12000, 1,
 					Integer.MAX_VALUE);
+			builder.pop();
+			builder.push("road");
+			roadSpeedAddtion = builder.comment("Additional speed added per tick for roads").defineInRange("roadSpeedAddtion",2D,0D,10D);
 			builder.pop();
 		}
 	}
@@ -72,9 +76,6 @@ public class CPConfig {
 		public ConfigValue<Integer> fumaroleCheck;
 		public ConfigValue<Integer> fumarolePower;
 		public ConfigValue<Double> stoveFuel;
-		public ConfigValue<Boolean> genWalnut;
-		public ConfigValue<Boolean> genWolfberry;
-		public ConfigValue<Boolean> genFig;
 		public ConfigValue<Integer> potCookTimeBase;
 		public ConfigValue<Integer> potMixTimeBase;
 		public ConfigValue<Integer> fryTimeBase;
@@ -90,6 +91,8 @@ public class CPConfig {
 		public ConfigValue<Double> benefitialMod;
 		public ConfigValue<Double> harmfulMod;
 		
+		public ConfigValue<Double> leadenGenRate;
+		
 		public ConfigValue<Boolean> addManual;
 		Server(ForgeConfigSpec.Builder builder) {
 			builder.push("recipes");
@@ -103,7 +106,7 @@ public class CPConfig {
 			containerTick = builder.comment("Tick interval between container input check").defineInRange("containTick",
 					10, 1, Integer.MAX_VALUE);
 			builder.pop();
-
+			
 			builder.push("chimney");
 			chimneyTicks = builder.comment("How many ticks does a chimney pot needed to make a soot")
 					.define("ChimneySootTicks", 80);
@@ -143,14 +146,10 @@ public class CPConfig {
 			strictWater = builder.comment("Strict player in water check, player must be in water to get bonus.").define("StrictInWaterCheck",true);
 			builder.pop();
 
-			/*builder.push("worldgen");
-			genWalnut = builder.comment("Generate Walnut trees").define("generateWalnut", true);
-			genWolfberry = builder.comment("Generate Wolfberry trees").define("generateWolfberry", true);
-			genFig = builder.comment("Fig Walnut trees").define("generateFig", true);
-			builder.pop();*/
 			builder.push("misc");
 			genCH = builder.comment("Super secret special content").define("specialContents", true);
 			addManual=builder.comment("Add manual to player on start").define("addManual", true);
+			leadenGenRate=builder.comment("Leaden walnut tranformation rate").defineInRange("leadenGenRate",0.05D,0D,1D);
 			builder.pop();
 			builder.push("compat");
 			builder.push("diet");
