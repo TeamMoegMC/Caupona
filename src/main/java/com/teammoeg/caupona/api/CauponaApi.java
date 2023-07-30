@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import com.mojang.datafixers.util.Pair;
+import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.item.DishItem;
@@ -32,6 +33,7 @@ import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.IFoodInfo;
 import com.teammoeg.caupona.util.SauteedFoodInfo;
 import com.teammoeg.caupona.util.StewInfo;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
@@ -104,7 +106,20 @@ public class CauponaApi {
 			return fillBowl(handler.drain(250, FluidAction.EXECUTE));
 		return Optional.empty();
 	}
-
+	public static Optional<ItemStack> getFilledItemStack(IFluidHandler handler,ItemStack in) {
+		FluidStack stack = handler.drain(250, FluidAction.SIMULATE);
+		ContanerContainFoodEvent ev=Utils.contain(in, stack,true);
+		if (ev.isAllowed())
+			return getFilledItemStack(handler.drain(ev.drainAmount, FluidAction.EXECUTE),in);
+		return Optional.empty();
+	}
+	public static Optional<ItemStack> getFilledItemStack(FluidStack stack,ItemStack in) {
+		ContanerContainFoodEvent ev=Utils.contain(in, stack,false);
+		if (ev.isAllowed())
+			return Optional.of(ev.out);
+		return Optional.empty();
+		
+	}
 	public static Optional<ItemStack> fillBowl(FluidStack stack) {
 		if (stack.getAmount() != 250)
 			return Optional.empty();

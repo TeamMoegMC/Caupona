@@ -25,12 +25,12 @@ import java.util.List;
 import java.util.Optional;
 
 import com.teammoeg.caupona.CPMain;
-import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.item.DishItem;
 import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.IFoodInfo;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -68,7 +68,7 @@ public class CauponaHooks {
 		if (cap.isPresent()) {
 			IFluidHandlerItem data = cap.resolve().get();
 			return SoupFluid.getBase(data.getFluidInTank(0));
-		}else if(BowlContainingRecipe.getFluidType(stack)!=Fluids.EMPTY) {
+		}else if(Utils.getFluidType(stack)!=Fluids.EMPTY) {
 			return StewItem.getBase(stack);
 		}
 		return new ResourceLocation("water");

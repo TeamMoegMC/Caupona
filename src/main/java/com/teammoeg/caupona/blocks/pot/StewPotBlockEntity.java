@@ -89,7 +89,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				return (stack.getItem() == Items.POTION&&!PotionUtils.getMobEffects(stack).stream().anyMatch(t->t.getDuration()==1)) || StewCookingRecipe.isCookable(stack);
 			if (slot == 9) {
 				Item i = stack.getItem();
-				return i == Items.BOWL || BowlContainingRecipe.getFluidType(stack)!=Fluids.EMPTY || AspicMeltingRecipe.find(stack) != null;
+				return i == Items.BOWL || Utils.getFluidType(stack)!=Fluids.EMPTY || AspicMeltingRecipe.find(stack) != null;
 			}
 			if (slot == 11)
 				return SpiceRecipe.isValid(stack);
@@ -275,7 +275,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				}
 			}
 
-			FluidStack out=BowlContainingRecipe.extractFluid(is);
+			FluidStack out=Utils.extractFluid(is);
 			if (!out.isEmpty()) {
 				if (tryAddFluid(out)) {
 					ItemStack ret = is.getCraftingRemainingItem();

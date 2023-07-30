@@ -28,7 +28,6 @@ import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.util.Utils;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -93,7 +92,7 @@ public class BowlContainingRecipe extends IDataRecipe {
 
 	public ItemStack handle(Fluid f) {
 		ItemStack is = new ItemStack(bowl);
-		is.getOrCreateTag().putString("type", Utils.getRegistryName(f).toString());
+		Utils.writeItemFluid(is, f);
 		return is;
 	}
 
@@ -103,37 +102,7 @@ public class BowlContainingRecipe extends IDataRecipe {
 
 	public ItemStack handle(FluidStack stack) {
 		ItemStack is = new ItemStack(bowl);
-		if (stack.hasTag())
-			is.setTag(stack.getTag());
-		is.getOrCreateTag().putString("type", Utils.getRegistryName(stack).toString());
+		Utils.writeItemFluid(is, stack);
 		return is;
-	}
-
-	public static FluidStack extractFluid(ItemStack item) {
-		if (item.hasTag()) {
-			CompoundTag tag = item.getTag();
-			if (tag.contains("type")) {
-				Fluid f = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
-				if (f != null&&f!=Fluids.EMPTY) {
-					FluidStack res = new FluidStack(f, 250);
-					CompoundTag ntag = tag.copy();
-					ntag.remove("type");
-					if (!ntag.isEmpty())
-						res.setTag(ntag);
-					return res;
-				}
-			}
-		}
-		return FluidStack.EMPTY;
-	}
-	public static Fluid getFluidType(ItemStack item) {
-		if (item.hasTag()) {
-			CompoundTag tag = item.getTag();
-			if (tag.contains("type")) {
-				return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
-				
-			}
-		}
-		return Fluids.EMPTY;
 	}
 }

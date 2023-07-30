@@ -21,12 +21,16 @@
 
 package com.teammoeg.caupona;
 
+import java.util.Optional;
+
 import com.teammoeg.caupona.api.CauponaApi;
+import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.util.ITickableContainer;
 import com.teammoeg.caupona.util.StewInfo;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -52,6 +56,7 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
@@ -78,6 +83,14 @@ public class CPCommonEvents {
 		}
 	}
 	@SubscribeEvent
+	public static void bowlContainerFood(ContanerContainFoodEvent ev) {
+		BowlContainingRecipe recipe=BowlContainingRecipe.recipes.get(ev.fs.getFluid());
+		if(recipe!=null) {
+			ev.out=recipe.handle(ev.fs);
+			ev.setResult(Result.ALLOW);
+		}
+	}
+	@SubscribeEvent
 	public static void addManualToPlayer(PlayerEvent.PlayerLoggedInEvent event) {
 		
 		if(!CPConfig.SERVER.addManual.get())return;
@@ -99,55 +112,45 @@ public class CPCommonEvents {
 	@SubscribeEvent
 	public static void onBlockClick(PlayerInteractEvent.RightClickBlock event) {
 		ItemStack is = event.getItemStack();
-		if (is.getItem() == Items.BOWL) {
-			Player playerIn = event.getEntity();
-			Level worldIn = event.getLevel();
-			BlockPos blockpos = event.getPos();
-			BlockEntity blockEntity = worldIn.getBlockEntity(blockpos);
-			if (blockEntity != null) {
-				blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER, event.getFace())
-						.ifPresent(handler -> {
-							FluidStack stack = handler.drain(250, FluidAction.SIMULATE);
-							BowlContainingRecipe recipe = BowlContainingRecipe.recipes.get(stack.getFluid());
-							if (recipe != null && stack.getAmount() == 250) {
-								stack = handler.drain(250, FluidAction.EXECUTE);
-								if (stack.getAmount() == 250) {
-
-									ItemStack ret = recipe.handle(stack);
-									event.setCanceled(true);
-									event.setCancellationResult(InteractionResult.sidedSuccess(worldIn.isClientSide));
-									if (is.getCount() > 1) {
-										is.shrink(1);
-										if (!playerIn.addItem(ret)) {
-											playerIn.drop(ret, false);
-										}
-									} else
-										playerIn.setItemInHand(event.getHand(), ret);
-								}
-							}
-						});
-			}
-
+		Player playerIn = event.getEntity();
+		Level worldIn = event.getLevel();
+		BlockPos blockpos = event.getPos();
+		BlockEntity blockEntity = worldIn.getBlockEntity(blockpos);
+		if (blockEntity != null) {
+			blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER, event.getFace()).ifPresent(handler -> {
+				Optional<ItemStack> out=CauponaApi.getFilledItemStack(handler,is);
+				if(out.isPresent()) {
+					ItemStack ret = out.get();
+					event.setCanceled(true);
+					event.setCancellationResult(InteractionResult.sidedSuccess(worldIn.isClientSide));
+					if (is.getCount() > 1) {
+						is.shrink(1);
+						if (!playerIn.addItem(ret)) {
+							playerIn.drop(ret, false);
+						}
+					} else
+						playerIn.setItemInHand(event.getHand(), ret);
+				}
+			});
 		}
+
 	}
 
 	@SuppressWarnings("resource")
 	@SubscribeEvent
 	public static void onItemUse(PlayerInteractEvent.RightClickItem event) {
 		ItemStack is = event.getItemStack();
-		if (is.getItem() == Items.BOWL) {
-			Level worldIn = event.getLevel();
-			Player playerIn = event.getEntity();
-			BlockHitResult ray = Item.getPlayerPOVHitResult(worldIn, playerIn, Fluid.SOURCE_ONLY);
-			if (ray.getType() == Type.BLOCK) {
-				BlockPos blockpos = ray.getBlockPos();
-				BlockState blockstate1 = worldIn.getBlockState(blockpos);
-				net.minecraft.world.level.material.Fluid f = blockstate1.getFluidState().getType();
-				if (f != Fluids.EMPTY) {
-					BowlContainingRecipe recipe = BowlContainingRecipe.recipes.get(f);
-					if (recipe == null)
-						return;
-					ItemStack ret = recipe.handle(f);
+		Level worldIn = event.getLevel();
+		Player playerIn = event.getEntity();
+		BlockHitResult ray = Item.getPlayerPOVHitResult(worldIn, playerIn, Fluid.SOURCE_ONLY);
+		if (ray.getType() == Type.BLOCK) {
+			BlockPos blockpos = ray.getBlockPos();
+			BlockState blockstate1 = worldIn.getBlockState(blockpos);
+			net.minecraft.world.level.material.Fluid f = blockstate1.getFluidState().getType();
+			if (f != Fluids.EMPTY) {
+				Optional<ItemStack> out=CauponaApi.getFilledItemStack(new FluidStack(f,250), is);
+				if(out.isPresent()) {
+					ItemStack ret = out.get();
 					event.setCanceled(true);
 					event.setCancellationResult(InteractionResult.sidedSuccess(worldIn.isClientSide));
 					if (is.getCount() > 1) {
@@ -160,6 +163,7 @@ public class CPCommonEvents {
 				}
 			}
 		}
+		
 	}
 
 	@SubscribeEvent

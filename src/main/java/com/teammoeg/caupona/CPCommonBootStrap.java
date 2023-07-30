@@ -27,15 +27,17 @@ import java.util.function.Supplier;
 
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.api.CauponaApi;
+import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
+import com.teammoeg.caupona.api.events.FoodExchangeItemEvent;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 import com.teammoeg.caupona.blocks.foods.IFoodContainer;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
-import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.entity.CPBoat;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.ICreativeModeTabItem;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
@@ -59,10 +61,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
@@ -187,7 +191,7 @@ public class CPCommonBootStrap {
 						}else if(besrc instanceof IFoodContainer cont) {
 							for(int i=0;i<cont.getSlots();i++) {
 								ItemStack its=cont.getInternal(i);
-								FluidStack fs=BowlContainingRecipe.extractFluid(its);
+								FluidStack fs=Utils.extractFluid(its);
 								if(!fs.isEmpty()) {
 									if(iptar.orElse(null).fill(fs, FluidAction.SIMULATE)==fs.getAmount()) {
 										iptar.orElse(null).fill(fs, FluidAction.EXECUTE);
@@ -203,10 +207,11 @@ public class CPCommonBootStrap {
 						if(besrc instanceof IFoodContainer cont) {
 							outer:for(int i=0;i<cont.getSlots();i++) {
 								ItemStack its=cont.getInternal(i);
-								if(!its.isEmpty()&&!its.is(Items.BOWL)) {
+								
+								if(!its.isEmpty()&&Utils.isExtractAllowed(its)) {
 									for(int j=0;j<contt.getSlots();j++) {
 										ItemStack its2=contt.getInternal(j);
-										if(its2.is(Items.BOWL)&&cont.accepts(i, its2)&&contt.accepts(j, its)) {
+										if(Utils.isExchangeAllowed(its, its2)&&cont.accepts(i, its2)&&contt.accepts(j, its)) {
 											cont.setInternal(i, its2);
 											contt.setInternal(j, its);
 											break outer;
@@ -216,17 +221,20 @@ public class CPCommonBootStrap {
 							}
 						}else if(ipsrc.isPresent()){
 							IFluidHandler tank=ipsrc.orElse(null);
+							
 							FluidStack fs=tank.drain(250, FluidAction.SIMULATE);
 							if(!fs.isEmpty()) {
 								for(int j=0;j<contt.getSlots();j++) {
 									ItemStack its2=contt.getInternal(j);
-									if(its2.is(Items.BOWL)&&its2.getCount()==1) {
-										BowlContainingRecipe recipe=BowlContainingRecipe.recipes.get(fs.getFluid());
-										if(recipe!=null) {
-											ItemStack out=recipe.handle(fs);
-											if(contt.accepts(j, out)) {
-												fs=tank.drain(250, FluidAction.EXECUTE);
-												contt.setInternal(j,out);
+									if(its2.getCount()==1) {
+										ContanerContainFoodEvent ev=Utils.contain(its2, fs,true);
+										if(ev.isAllowed()) {
+											if(contt.accepts(j, ev.out)) {
+												fs=tank.drain(ev.drainAmount, FluidAction.EXECUTE);
+												if(fs.getAmount()==ev.drainAmount) {
+													ev=Utils.contain(its2, fs,false);
+													contt.setInternal(j,ev.out);
+												}
 											}
 											break;
 										}
@@ -334,7 +342,7 @@ public class CPCommonBootStrap {
 			@SuppressWarnings("resource")
 			@Override
 			protected ItemStack execute(BlockSource source, ItemStack stack) {
-				FluidStack fs = BowlContainingRecipe.extractFluid(stack);
+				FluidStack fs = Utils.extractFluid(stack);
 				Direction d = source.getBlockState().getValue(DispenserBlock.FACING);
 				BlockPos front = source.getPos().relative(d);
 				BlockEntity blockEntity = source.getLevel().getBlockEntity(front);

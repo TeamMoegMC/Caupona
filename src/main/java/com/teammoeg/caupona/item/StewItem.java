@@ -26,7 +26,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.StewInfo;
@@ -73,8 +72,8 @@ public class StewItem extends EdibleBlock{
 
 	public static StewInfo getInfo(ItemStack stack) {
 		if (stack.hasTag()) {
-			CompoundTag soupTag = stack.getTagElement("soup");
-			return soupTag == null ? new StewInfo(new ResourceLocation(stack.getTag().getString("type")))
+			CompoundTag soupTag = Utils.extractData(stack);
+			return soupTag == null ? new StewInfo(Utils.getFluidTypeRL(stack))
 					: new StewInfo(soupTag);
 		}
 		return new StewInfo();
@@ -82,32 +81,31 @@ public class StewItem extends EdibleBlock{
 
 	public static void setInfo(ItemStack stack, StewInfo si) {
 		if (!si.isEmpty())
-			stack.getOrCreateTag().put("soup", si.save());
+			Utils.setDataElement(stack,"soup", si.save());
 	}
 
 	public static List<FloatemStack> getItems(ItemStack stack) {
-		if (stack.hasTag()) {
-			CompoundTag nbt = stack.getTagElement("soup");
-			if (nbt != null)
-				return StewInfo.getStacks(nbt);
-		}
+	
+		CompoundTag nbt = Utils.extractDataElement(stack, "soup");
+		if (nbt != null)
+			return StewInfo.getStacks(nbt);
+		
 		return Lists.newArrayList();
 	}
 
 	public static ResourceLocation getBase(ItemStack stack) {
-		if (stack.hasTag()) {
-			CompoundTag nbt = stack.getTagElement("soup");
-			if (nbt != null)
-				return new ResourceLocation(StewInfo.getRegName(nbt));
-		}
-		return Utils.getRegistryName(BowlContainingRecipe.extractFluid(stack));
+		CompoundTag nbt = Utils.extractDataElement(stack, "soup");
+		if (nbt != null)
+			return new ResourceLocation(StewInfo.getRegName(nbt));
+		
+		return Utils.getRegistryName(Utils.getFluidType(stack));
 	}
 
 	@Override
 	public void fillItemCategory(CreativeTabItemHelper helper) {
 		if (helper.isFoodTab()) {
 			ItemStack is = new ItemStack(this);
-			is.getOrCreateTag().putString("type", fluid.toString());
+			Utils.writeItemFluid(is, fluid);
 			super.addCreativeHints(is);
 			helper.accept(is);
 		}

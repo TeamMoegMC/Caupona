@@ -28,8 +28,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.foods.BowlBlockEntity;
 import com.teammoeg.caupona.client.util.GuiUtils;
-import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.item.StewItem;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -66,7 +66,7 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity> {
 
 		if (blockEntity.internal == null || !(blockEntity.internal.getItem() instanceof StewItem))
 			return;
-		FluidStack fs = BowlContainingRecipe.extractFluid(blockEntity.internal);
+		FluidStack fs = Utils.extractFluid(blockEntity.internal);
 		matrixStack.pushPose();
 		if (fs != null && !fs.isEmpty() && fs.getFluid() != null) {
 			matrixStack.translate(0, .28125f, 0);

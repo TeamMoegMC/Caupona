@@ -27,10 +27,13 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
+import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
+import com.teammoeg.caupona.api.events.FoodExchangeItemEvent;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.LiteralContents;
@@ -47,6 +50,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -58,8 +64,13 @@ public class Utils {
 
 	public static final Direction[] horizontals = new Direction[] { Direction.EAST, Direction.WEST, Direction.SOUTH,
 			Direction.NORTH };
-
+	public static final String FLUID_TAG_KEY="caupona:fluid";
 	private Utils() {
+	}
+	public static ContanerContainFoodEvent contain(ItemStack its2,FluidStack fs,boolean simulate){
+		ContanerContainFoodEvent ev=new ContanerContainFoodEvent(its2,fs,simulate);
+		MinecraftForge.EVENT_BUS.post(ev);
+		return ev;
 	}
 	public static ItemStack extractOutput(IItemHandler inv,int count) {
 		ItemStack is=ItemStack.EMPTY;
@@ -68,6 +79,111 @@ public class Utils {
 			if(!is.isEmpty())break;
 		}
 		return is;
+	}
+	public static boolean isExtractAllowed(ItemStack is) {
+		FoodExchangeItemEvent ev=new FoodExchangeItemEvent.Pre(is);
+		MinecraftForge.EVENT_BUS.post(ev);
+		return ev.getResult()==Result.ALLOW;
+	}
+	public static boolean isExchangeAllowed(ItemStack or,ItemStack rs) {
+		FoodExchangeItemEvent ev=new FoodExchangeItemEvent.Post(or,rs);
+		MinecraftForge.EVENT_BUS.post(ev);
+		return ev.getResult()==Result.ALLOW;
+	}
+	public static void writeItemFluid(ItemStack is,FluidStack stack) {
+		CompoundTag tag=is.getOrCreateTagElement(FLUID_TAG_KEY);
+		if (stack.hasTag())
+			tag.put("data",stack.getTag());
+		tag.putString("type",Utils.getRegistryName(stack).toString());
+	}
+	public static void writeItemFluid(ItemStack is,Fluid stack) {
+		is.getOrCreateTagElement(FLUID_TAG_KEY).putString("type",Utils.getRegistryName(stack).toString());
+	}
+	public static void writeItemFluid(ItemStack is,ResourceLocation rl) {
+		is.getOrCreateTagElement(FLUID_TAG_KEY).putString("type",rl.toString());
+	}
+	public static FluidStack extractFluid(ItemStack item) {
+		if (item.hasTag()) {
+			CompoundTag tag = item.getTag();
+			if (tag.contains("type")) {
+				Fluid f = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
+				if (f != null&&f!=Fluids.EMPTY) {
+					FluidStack res = new FluidStack(f, 250);
+					CompoundTag ntag = tag.copy();
+					ntag.remove("type");
+					if (!ntag.isEmpty())
+						res.setTag(ntag);
+					return res;
+				}
+			}else if(tag.contains(FLUID_TAG_KEY)) {
+				tag=tag.getCompound(FLUID_TAG_KEY);
+				Fluid f = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
+				if (f != null&&f!=Fluids.EMPTY) {
+					FluidStack res = new FluidStack(f, 250);
+					if(tag.contains("data")) {
+						CompoundTag ntag = tag.getCompound("data");
+						res.setTag(ntag);
+					}
+					return res;
+				}
+			}
+		}
+		return FluidStack.EMPTY;
+	}
+	public static CompoundTag extractData(ItemStack item) {
+		if (item.hasTag()) {
+			CompoundTag tag = item.getTag();
+			if(tag.contains(FLUID_TAG_KEY)) {
+				tag=tag.getCompound(FLUID_TAG_KEY);
+				if(tag.contains("data"))
+					return tag.getCompound("data");
+			}
+		}
+		return null;
+	}
+	public static CompoundTag extractDataElement(ItemStack item,String key) {
+		if (item.hasTag()) {
+			CompoundTag tag = item.getTag();
+			if(tag.contains(FLUID_TAG_KEY)) {
+				tag=tag.getCompound(FLUID_TAG_KEY);
+				if(tag.contains("data")) {
+					CompoundTag data=tag.getCompound("data");
+					if(data.contains(key))
+						return data.getCompound(key);
+				}
+			}
+		}
+		return null;
+	}
+	public static void setDataElement(ItemStack item,String key,CompoundTag data) {
+		CompoundTag tag=item.getOrCreateTagElement(FLUID_TAG_KEY);
+		CompoundTag dat=tag.getCompound("data");
+		dat.put(key, data);
+		tag.put("data", dat);
+	}
+	public static ResourceLocation getFluidTypeRL(ItemStack item) {
+		if (item.hasTag()) {
+			CompoundTag tag = item.getTag();
+			if (tag.contains("type")) {
+				return new ResourceLocation(tag.getString("type"));
+			}else if(tag.contains(FLUID_TAG_KEY)) {
+				tag=tag.getCompound(FLUID_TAG_KEY);
+				return new ResourceLocation(tag.getString("type"));
+			}
+		}
+		return new ResourceLocation("minecraft:water");
+	}
+	public static Fluid getFluidType(ItemStack item) {
+		if (item.hasTag()) {
+			CompoundTag tag = item.getTag();
+			if (tag.contains("type")) {
+				return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
+			}else if(tag.contains(FLUID_TAG_KEY)) {
+				tag=tag.getCompound(FLUID_TAG_KEY);
+				return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
+			}
+		}
+		return Fluids.EMPTY;
 	}
 	public static ItemStack insertToOutput(ItemStackHandler inv, int slot, ItemStack in) {
 		ItemStack is = inv.getStackInSlot(slot);
@@ -190,4 +306,5 @@ public class Utils {
 		}
 	
 	}
+
 }
