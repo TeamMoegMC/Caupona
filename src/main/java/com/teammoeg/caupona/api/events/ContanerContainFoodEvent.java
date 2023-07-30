@@ -5,17 +5,19 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fluids.FluidStack;
 
 public class ContanerContainFoodEvent extends Event {
-	public ItemStack origin;
+	public final ItemStack origin;
 	public ItemStack out=ItemStack.EMPTY;
-	public FluidStack fs;
-	public int drainAmount;
-	public boolean isSimulated;
-	public ContanerContainFoodEvent(ItemStack origin, FluidStack fs,boolean isSimulated) {
+	public final FluidStack fs;
+	public final int drainAmount;
+	public final boolean isSimulated;
+	public final boolean isBlockAccess;
+	public ContanerContainFoodEvent(ItemStack origin, FluidStack fs,boolean isSimulated,boolean isBlockAccess) {
 		super();
 		this.origin = origin;
 		this.fs = fs;
 		this.drainAmount = fs.getAmount();
 		this.isSimulated=isSimulated;
+		this.isBlockAccess=isBlockAccess;
 	}
 	public boolean isAllowed() {
 		return this.getResult()==Result.ALLOW&&!out.isEmpty();

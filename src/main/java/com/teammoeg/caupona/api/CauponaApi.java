@@ -42,6 +42,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
@@ -128,6 +129,14 @@ public class CauponaApi {
 			ItemStack ret = recipe.handle(stack);
 			return Optional.of(ret);
 		}
+		return Optional.empty();
+	}
+
+	public static Optional<ItemStack> getBlockFilledItemStack(Fluid f, ItemStack is) {
+		FluidStack stack=new FluidStack(f,250);
+		ContanerContainFoodEvent ev=Utils.containBlock(is, stack);
+		if (ev.isAllowed())
+			return Optional.of(ev.out);
 		return Optional.empty();
 	}
 }

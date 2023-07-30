@@ -115,18 +115,16 @@ public class SpokedFenceBlock extends Block implements SimpleWaterloggedBlock {
       BlockPos blockpos2 = blockpos.east();
       BlockPos blockpos3 = blockpos.south();
       BlockPos blockpos4 = blockpos.west();
-      BlockPos blockpos5 = blockpos.above();
       BlockState blockstate = levelreader.getBlockState(blockpos1);
       BlockState blockstate1 = levelreader.getBlockState(blockpos2);
       BlockState blockstate2 = levelreader.getBlockState(blockpos3);
       BlockState blockstate3 = levelreader.getBlockState(blockpos4);
-      BlockState blockstate4 = levelreader.getBlockState(blockpos5);
       boolean flag = this.connectsTo(blockstate, blockstate.isFaceSturdy(levelreader, blockpos1, Direction.SOUTH), Direction.SOUTH);
       boolean flag1 = this.connectsTo(blockstate1, blockstate1.isFaceSturdy(levelreader, blockpos2, Direction.WEST), Direction.WEST);
       boolean flag2 = this.connectsTo(blockstate2, blockstate2.isFaceSturdy(levelreader, blockpos3, Direction.NORTH), Direction.NORTH);
       boolean flag3 = this.connectsTo(blockstate3, blockstate3.isFaceSturdy(levelreader, blockpos4, Direction.EAST), Direction.EAST);
       BlockState blockstate5 = this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
-      return this.updateShape(levelreader, blockstate5, blockpos5, blockstate4, flag, flag1, flag2, flag3);
+      return this.updateShape(blockstate5, flag, flag1, flag2, flag3);
    }
 
    /**
@@ -135,7 +133,8 @@ public class SpokedFenceBlock extends Block implements SimpleWaterloggedBlock {
     * returns its solidified counterpart.
     * Note that this method should ideally consider only the specific direction passed in.
     */
-   public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
+   @SuppressWarnings("deprecation")
+public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
       if (pState.getValue(WATERLOGGED)) {
          pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
       }
@@ -143,7 +142,7 @@ public class SpokedFenceBlock extends Block implements SimpleWaterloggedBlock {
       if (pFacing == Direction.DOWN) {
          return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
       } else {
-         return pFacing == Direction.UP ? this.topUpdate(pLevel, pState, pFacingPos, pFacingState) : this.sideUpdate(pLevel, pCurrentPos, pState, pFacingPos, pFacingState, pFacing);
+         return pFacing == Direction.UP ? this.topUpdate(pState) : this.sideUpdate(pLevel, pState, pFacingPos, pFacingState, pFacing);
       }
    }
 
@@ -152,38 +151,36 @@ public class SpokedFenceBlock extends Block implements SimpleWaterloggedBlock {
    }
 
 
-   private BlockState topUpdate(LevelReader pLevel, BlockState pState, BlockPos pPos, BlockState pSecondState) {
+   private BlockState topUpdate(BlockState pState) {
       boolean flag = isConnected(pState, NORTH_WALL);
       boolean flag1 = isConnected(pState, EAST_WALL);
       boolean flag2 = isConnected(pState, SOUTH_WALL);
       boolean flag3 = isConnected(pState, WEST_WALL);
-      return this.updateShape(pLevel, pState, pPos, pSecondState, flag, flag1, flag2, flag3);
+      return this.updateShape( pState, flag, flag1, flag2, flag3);
    }
 
-   private BlockState sideUpdate(LevelReader pLevel, BlockPos pFirstPos, BlockState pFirstState, BlockPos pSecondPos, BlockState pSecondState, Direction pDir) {
+   private BlockState sideUpdate(LevelReader pLevel, BlockState pFirstState, BlockPos pSecondPos, BlockState pSecondState, Direction pDir) {
       Direction direction = pDir.getOpposite();
       boolean flag = pDir == Direction.NORTH ? this.connectsTo(pSecondState, pSecondState.isFaceSturdy(pLevel, pSecondPos, direction), direction) : isConnected(pFirstState, NORTH_WALL);
       boolean flag1 = pDir == Direction.EAST ? this.connectsTo(pSecondState, pSecondState.isFaceSturdy(pLevel, pSecondPos, direction), direction) : isConnected(pFirstState, EAST_WALL);
       boolean flag2 = pDir == Direction.SOUTH ? this.connectsTo(pSecondState, pSecondState.isFaceSturdy(pLevel, pSecondPos, direction), direction) : isConnected(pFirstState, SOUTH_WALL);
       boolean flag3 = pDir == Direction.WEST ? this.connectsTo(pSecondState, pSecondState.isFaceSturdy(pLevel, pSecondPos, direction), direction) : isConnected(pFirstState, WEST_WALL);
-      BlockPos blockpos = pFirstPos.above();
-      BlockState blockstate = pLevel.getBlockState(blockpos);
-      return this.updateShape(pLevel, pFirstState, blockpos, blockstate, flag, flag1, flag2, flag3);
+      return this.updateShape(pFirstState, flag, flag1, flag2, flag3);
    }
 
-   private BlockState updateShape(LevelReader pLevel, BlockState pState, BlockPos pPos, BlockState pNeighbour, boolean pNorthConnection, boolean pEastConnection, boolean pSouthConnection, boolean pWestConnection) {
-      VoxelShape voxelshape = pNeighbour.getCollisionShape(pLevel, pPos).getFaceShape(Direction.DOWN);
-      BlockState blockstate = this.updateSides(pState, pNorthConnection, pEastConnection, pSouthConnection, pWestConnection, voxelshape);
+   private BlockState updateShape(BlockState pState, boolean pNorthConnection, boolean pEastConnection, boolean pSouthConnection, boolean pWestConnection) {
+      BlockState blockstate = this.updateSides(pState, pNorthConnection, pEastConnection, pSouthConnection, pWestConnection);
       return blockstate;
    }
-   private BlockState updateSides(BlockState pState, boolean pNorthConnection, boolean pEastConnection, boolean pSouthConnection, boolean pWestConnection, VoxelShape pWallShape) {
+   private BlockState updateSides(BlockState pState, boolean pNorthConnection, boolean pEastConnection, boolean pSouthConnection, boolean pWestConnection) {
       return pState.setValue(NORTH_WALL, pNorthConnection)
     		  .setValue(EAST_WALL,pEastConnection)
     		  .setValue(SOUTH_WALL, pSouthConnection)
     		  .setValue(WEST_WALL, pWestConnection);
    }
 
-   public FluidState getFluidState(BlockState pState) {
+   @SuppressWarnings("deprecation")
+public FluidState getFluidState(BlockState pState) {
       return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
    }
 

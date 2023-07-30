@@ -147,7 +147,7 @@ public class CPCommonEvents {
 			BlockState blockstate1 = worldIn.getBlockState(blockpos);
 			net.minecraft.world.level.material.Fluid f = blockstate1.getFluidState().getType();
 			if (f != Fluids.EMPTY) {
-				Optional<ItemStack> out=CauponaApi.getFilledItemStack(new FluidStack(f,250), is);
+				Optional<ItemStack> out=CauponaApi.getBlockFilledItemStack(f, is);
 				if(out.isPresent()) {
 					ItemStack ret = out.get();
 					event.setCanceled(true);
