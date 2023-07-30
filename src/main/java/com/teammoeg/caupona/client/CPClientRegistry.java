@@ -84,7 +84,6 @@ public class CPClientRegistry {
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove5, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.bowl, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.GRAVY_BOAT, RenderType.translucent());*/
-		ItemRenderer.
 		BlockEntityRenderers.register(CPBlockEntityTypes.STEW_POT.get(), StewPotRenderer::new);
 		BlockEntityRenderers.register(CPBlockEntityTypes.BOWL.get(), BowlRenderer::new);
 		BlockEntityRenderers.register(CPBlockEntityTypes.SIGN.get(), SignRenderer::new);
