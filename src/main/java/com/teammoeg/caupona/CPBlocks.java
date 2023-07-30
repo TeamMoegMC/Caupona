@@ -42,6 +42,8 @@ import com.teammoeg.caupona.blocks.decoration.ChimneyFluteBlock;
 import com.teammoeg.caupona.blocks.decoration.ColumnCapitalBlock;
 import com.teammoeg.caupona.blocks.decoration.LacunarBlock;
 import com.teammoeg.caupona.blocks.decoration.SpokedFenceBlock;
+import com.teammoeg.caupona.blocks.decoration.mosaic.MosaicBlock;
+import com.teammoeg.caupona.blocks.decoration.mosaic.MosaicItem;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlock;
 import com.teammoeg.caupona.blocks.foods.BowlBlock;
 import com.teammoeg.caupona.blocks.foods.DishBlock;
@@ -177,6 +179,8 @@ public class CPBlocks {
 			() -> new BowlBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
 					.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 					.isViewBlocking(CPBlocks::isntSolid), CPBlockEntityTypes.BOWL));
+	public static final RegistryObject<MosaicBlock> MOSAIC = baseblock("mosaic",
+			() -> new MosaicBlock(getStoneProps()),b->new MosaicItem(CPItems.createProps()));
 	public static final RegistryObject<SilphiumBlock> SILPHIUM = mainblock("silphium_block",
 			() -> new SilphiumBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollission()
 					.instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).ignitedByLava()
