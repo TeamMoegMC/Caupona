@@ -30,8 +30,6 @@ import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.util.ITickableContainer;
 import com.teammoeg.caupona.util.StewInfo;
-import com.teammoeg.caupona.util.Utils;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -59,7 +57,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModList;
@@ -84,10 +81,12 @@ public class CPCommonEvents {
 	}
 	@SubscribeEvent
 	public static void bowlContainerFood(ContanerContainFoodEvent ev) {
-		BowlContainingRecipe recipe=BowlContainingRecipe.recipes.get(ev.fs.getFluid());
-		if(recipe!=null) {
-			ev.out=recipe.handle(ev.fs);
-			ev.setResult(Result.ALLOW);
+		if(ev.origin.getItem()==Items.BOWL) {
+			BowlContainingRecipe recipe=BowlContainingRecipe.recipes.get(ev.fs.getFluid());
+			if(recipe!=null) {
+				ev.out=recipe.handle(ev.fs);
+				ev.setResult(Result.ALLOW);
+			}
 		}
 	}
 	@SubscribeEvent

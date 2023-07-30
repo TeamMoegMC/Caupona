@@ -15,10 +15,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class CPRoadBlock extends Block {
 	protected static final VoxelShape BASE_AABB = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D);
-	private final double road;
+	
 	public CPRoadBlock(Properties pProperties) {
 		super(pProperties);
-		road=CPConfig.COMMON.roadSpeedAddtion.get();
 	}
 
 	public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
@@ -32,6 +31,7 @@ public class CPRoadBlock extends Block {
 
 	@Override
 	public void stepOn(Level pLevel, BlockPos pos, BlockState pState, Entity entity) {
+		final double road=CPConfig.COMMON.roadSpeedAddtion.get();
 		if(entity.getBlockY()==pos.getY()) {
 			if(entity.isSprinting()) {
 				float f = entity.getYRot() * ((float)Math.PI / 180F);
