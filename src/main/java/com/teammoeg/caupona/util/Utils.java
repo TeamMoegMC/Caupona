@@ -105,17 +105,7 @@ public class Utils {
 	public static FluidStack extractFluid(ItemStack item) {
 		if (item.hasTag()) {
 			CompoundTag tag = item.getTag();
-			if (tag.contains("type")) {
-				Fluid f = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
-				if (f != null&&f!=Fluids.EMPTY) {
-					FluidStack res = new FluidStack(f, 250);
-					CompoundTag ntag = tag.copy();
-					ntag.remove("type");
-					if (!ntag.isEmpty())
-						res.setTag(ntag);
-					return res;
-				}
-			}else if(tag.contains(FLUID_TAG_KEY)) {
+			if(tag.contains(FLUID_TAG_KEY)) {
 				tag=tag.getCompound(FLUID_TAG_KEY);
 				Fluid f = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
 				if (f != null&&f!=Fluids.EMPTY) {
@@ -124,6 +114,16 @@ public class Utils {
 						CompoundTag ntag = tag.getCompound("data");
 						res.setTag(ntag);
 					}
+					return res;
+				}
+			}else if (tag.contains("type")) {
+				Fluid f = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
+				if (f != null&&f!=Fluids.EMPTY) {
+					FluidStack res = new FluidStack(f, 250);
+					CompoundTag ntag = tag.copy();
+					ntag.remove("type");
+					if (!ntag.isEmpty())
+						res.setTag(ntag);
 					return res;
 				}
 			}
@@ -137,7 +137,7 @@ public class Utils {
 				tag=tag.getCompound(FLUID_TAG_KEY);
 				if(tag.contains("data"))
 					return tag.getCompound("data");
-			}
+			}else return tag;
 		}
 		return null;
 	}
@@ -151,7 +151,7 @@ public class Utils {
 					if(data.contains(key))
 						return data.getCompound(key);
 				}
-			}
+			}else return tag.getCompound(key);
 		}
 		return null;
 	}
@@ -164,10 +164,10 @@ public class Utils {
 	public static ResourceLocation getFluidTypeRL(ItemStack item) {
 		if (item.hasTag()) {
 			CompoundTag tag = item.getTag();
-			if (tag.contains("type")) {
-				return new ResourceLocation(tag.getString("type"));
-			}else if(tag.contains(FLUID_TAG_KEY)) {
+			if(tag.contains(FLUID_TAG_KEY)) {
 				tag=tag.getCompound(FLUID_TAG_KEY);
+				return new ResourceLocation(tag.getString("type"));
+			}else if (tag.contains("type")) {
 				return new ResourceLocation(tag.getString("type"));
 			}
 		}
@@ -176,10 +176,10 @@ public class Utils {
 	public static Fluid getFluidType(ItemStack item) {
 		if (item.hasTag()) {
 			CompoundTag tag = item.getTag();
-			if (tag.contains("type")) {
-				return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
-			}else if(tag.contains(FLUID_TAG_KEY)) {
+			if(tag.contains(FLUID_TAG_KEY)) {
 				tag=tag.getCompound(FLUID_TAG_KEY);
+				return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
+			}else if (tag.contains("type")) {
 				return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
 			}
 		}
