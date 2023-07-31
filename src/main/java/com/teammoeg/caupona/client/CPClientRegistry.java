@@ -31,6 +31,7 @@ import com.teammoeg.caupona.client.gui.KitchenStoveScreen;
 import com.teammoeg.caupona.client.gui.PanScreen;
 import com.teammoeg.caupona.client.gui.PortableBrazierScreen;
 import com.teammoeg.caupona.client.gui.StewPotScreen;
+import com.teammoeg.caupona.client.gui.TBenchScreen;
 import com.teammoeg.caupona.client.particle.SootParticle;
 import com.teammoeg.caupona.client.particle.SteamParticle;
 import com.teammoeg.caupona.client.renderer.BowlRenderer;
@@ -48,7 +49,6 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.Block;
@@ -75,7 +75,7 @@ public class CPClientRegistry {
 		MenuScreens.register(CPGui.DOLIUM.get(), DoliumScreen::new);
 		MenuScreens.register(CPGui.BRAZIER.get(), PortableBrazierScreen::new);
 		MenuScreens.register(CPGui.PAN.get(), PanScreen::new);
-
+		MenuScreens.register(CPGui.T_BENCH.get(), TBenchScreen::new);
 		/*ItemBlockRenderTypes.setRenderLayer(CPBlocks.stew_pot, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove1, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove2, RenderType.cutout());

@@ -59,6 +59,7 @@ public class CPTags {
 		public static final TagKey<Item> WALNUT = create("walnut");
 		public static final TagKey<Item> GREENS = create("vegetables/greens");
 		public static final TagKey<Item> CONTAINER = create("container");
+		public static final TagKey<Item> MOSAIC_BASE = create("mosaic_bases");
 		private static TagKey<Item> create(String s){
 			return ItemTags.create(new ResourceLocation(CPMain.MODID, s));
 		}

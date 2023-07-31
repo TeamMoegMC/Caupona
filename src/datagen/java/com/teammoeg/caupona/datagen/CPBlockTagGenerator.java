@@ -59,7 +59,7 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 		TagAppender<Block> pickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
 		adds(tag(CPTags.Blocks.STOVES),CPBlocks.stoves.stream().map(e->e.getKey()).toArray(ResourceKey[]::new));
 		adds(pickaxe,CPBlocks.stoves.stream().map(e->e.getKey()).toArray(ResourceKey[]::new));
-		adds(pickaxe,CPBlocks.STEW_POT.getKey(),CPBlocks.STEW_POT_LEAD.getKey());
+		adds(pickaxe,CPBlocks.STEW_POT.getKey(),CPBlocks.STEW_POT_LEAD.getKey(),CPBlocks.T_BENCH.getKey(),CPBlocks.MOSAIC.getKey());
 		pickaxe.add(CPBlocks.LEAD_BLOCK.getKey());
 		for (String wood : CPBlocks.woods) {
 			for (String type : ImmutableSet.of("_button", "_door", "_fence", "_fence_gate", "_log", "_planks",

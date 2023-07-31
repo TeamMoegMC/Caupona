@@ -21,6 +21,7 @@
 
 package com.teammoeg.caupona;
 
+import com.teammoeg.caupona.blocks.decoration.mosaic.TBenchMenu;
 import com.teammoeg.caupona.blocks.dolium.DoliumContainer;
 import com.teammoeg.caupona.blocks.pan.PanContainer;
 import com.teammoeg.caupona.blocks.pot.StewPotContainer;
@@ -46,5 +47,7 @@ public class CPGui {
 			.register("portable_brazier", () -> IForgeMenuType.create(PortableBrazierContainer::new));
 	public static final RegistryObject<MenuType<PanContainer>> PAN = CONTAINERS.register("pan",
 			() -> IForgeMenuType.create(PanContainer::new));
+	public static final RegistryObject<MenuType<TBenchMenu>> T_BENCH = CONTAINERS.register("tessellation_workbench",
+			() -> IForgeMenuType.create(TBenchMenu::new));
 
 }

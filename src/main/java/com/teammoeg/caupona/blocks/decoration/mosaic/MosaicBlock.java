@@ -1,6 +1,12 @@
 package com.teammoeg.caupona.blocks.decoration.mosaic;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.teammoeg.caupona.CPBlocks;
+
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,8 +32,8 @@ public class MosaicBlock extends Block{
 	public BlockState getStateForPlacement(BlockPlaceContext pContext) {
 		// TODO Auto-generated method stub
 		BlockState bs=super.getStateForPlacement(pContext);
-		CompoundTag tag=pContext.getItemInHand().getOrCreateTagElement("caupona:mosaic");
-		if(tag.isEmpty())
+		CompoundTag tag=pContext.getItemInHand().getTagElement("caupona:mosaic");
+		if(tag==null)
 			return bs;
 		MosaicPattern pattern=MosaicPattern.valueOf(tag.getString("pattern"));
 		MosaicMaterial m1=MosaicMaterial.valueOf(tag.getString("mat1"));
@@ -40,4 +46,15 @@ public class MosaicBlock extends Block{
 		return super.getDescriptionId();
 	}
 	
+	@Override
+	public List<ItemStack> getDrops(BlockState state,
+			net.minecraft.world.level.storage.loot.LootParams.Builder p_287596_) {
+		// TODO Auto-generated method stub
+		ItemStack is=new ItemStack(CPBlocks.MOSAIC.get());
+		MosaicItem.setMosaic(is,state.getValue(MATERIAL_1),state.getValue(MATERIAL_2),state.getValue(PATTERN));
+		List<ItemStack> ret=new ArrayList<>();
+		ret.add(is);
+		return ret;
+	}
+
 }

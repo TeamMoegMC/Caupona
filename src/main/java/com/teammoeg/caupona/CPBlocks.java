@@ -44,6 +44,7 @@ import com.teammoeg.caupona.blocks.decoration.LacunarBlock;
 import com.teammoeg.caupona.blocks.decoration.SpokedFenceBlock;
 import com.teammoeg.caupona.blocks.decoration.mosaic.MosaicBlock;
 import com.teammoeg.caupona.blocks.decoration.mosaic.MosaicItem;
+import com.teammoeg.caupona.blocks.decoration.mosaic.TessellationWorkBenchBlock;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlock;
 import com.teammoeg.caupona.blocks.foods.BowlBlock;
 import com.teammoeg.caupona.blocks.foods.DishBlock;
@@ -154,6 +155,8 @@ public class CPBlocks {
 					.requiresCorrectToolForDrops().strength(3.5f, 10).noOcclusion()));
 	public static final RegistryObject<PanBlock> STONE_PAN = mainblock("stone_griddle", () -> new PanBlock(
 			Block.Properties.of().mapColor(MapColor.STONE).sound(SoundType.STONE).strength(3.5f, 10).noOcclusion()));
+	public static final RegistryObject<TessellationWorkBenchBlock> T_BENCH= mainblock("tessellation_workbench",()->new TessellationWorkBenchBlock
+			(Block.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).sound(SoundType.STONE).strength(3.5f, 10).noOcclusion().requiresCorrectToolForDrops()));
 	public static final RegistryObject<PanBlock> COPPER_PAN = mainblock("copper_frying_pan", () -> new PanBlock(
 			Block.Properties.of().mapColor(MapColor.METAL).sound(SoundType.COPPER).strength(3.5f, 10).noOcclusion()));
 	public static final RegistryObject<PanBlock> IRON_PAN = mainblock("iron_frying_pan", () -> new PanBlock(

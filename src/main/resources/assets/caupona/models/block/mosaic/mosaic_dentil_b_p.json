@@ -1,8 +1,0 @@
-{
-	"parent": "caupona:block/template_mosaic_tile",
-	"textures": {
-		"0": "caupona:block/mosaic/components/mosaic_dentil_b_0",
-		"1": "caupona:block/mosaic/components/mosaic_dentil_p_1",
-		"particle": "caupona:block/mosaic/components/mosaic_dentil_b_0"
-	}
-}

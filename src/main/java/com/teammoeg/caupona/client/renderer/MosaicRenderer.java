@@ -5,6 +5,7 @@ import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.decoration.mosaic.MosaicBlock;
 import com.teammoeg.caupona.blocks.decoration.mosaic.MosaicMaterial;
 import com.teammoeg.caupona.blocks.decoration.mosaic.MosaicPattern;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;

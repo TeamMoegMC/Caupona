@@ -84,6 +84,8 @@ public class CPStatesProvider extends BlockStateProvider {
 	protected void registerStatesAndModels() {
 		horizontalAxisBlock(CPBlocks.STEW_POT.get(), bmf("stew_pot"));
 		horizontalAxisBlock(CPBlocks.STEW_POT_LEAD.get(), bmf("lead_stew_pot"));
+		horizontalBlock(CPBlocks.T_BENCH.get(), bmf("tessellation_workbench"));
+		blockItemModel("tessellation_workbench");
 		CPBlocks.stoves.forEach(e -> stove(e.get()));
 		itemModels().basicItem(CPBlocks.STEW_POT.get().asItem());
 		itemModels().basicItem(CPBlocks.STEW_POT_LEAD.get().asItem());

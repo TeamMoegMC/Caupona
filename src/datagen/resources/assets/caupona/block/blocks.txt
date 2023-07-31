@@ -1,3 +1,4 @@
+basalt_opus_regulatum.json
 brick_caliduct.json
 brick_chimney_flue.json
 brick_chimney_pot.json
@@ -71,6 +72,7 @@ opus_reticulatum_stairs.json
 opus_reticulatum_wall.json
 pumice.json
 pumice_bloom.json
+pumice_opus_regulatum.json
 quartz_acanthine_column_capital.json
 quartz_column_fluted_plinth.json
 quartz_column_fluted_shaft.json
@@ -105,6 +107,7 @@ stone_ionic_column_capital.json
 stone_tuscan_column_capital.json
 stripped_walnut_log.json
 stripped_walnut_wood.json
+terracotta_opus_regulatum.json
 walnut_button.json
 walnut_door.json
 walnut_fence.json
