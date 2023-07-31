@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:block/cube_all",
+	"textures": {
+		"all": "caupona:block/pumice_opus_regulatum_0"
+	}
+}
