@@ -1,0 +1,6 @@
+{
+  "parent": "caupona:block/template_mosaic_tile_0",
+  "textures": {
+    "0": "caupona:block/mosaic/components/mosaic_guilloche_corner_p_0"
+  }
+}

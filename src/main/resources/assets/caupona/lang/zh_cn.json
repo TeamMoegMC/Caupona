@@ -182,6 +182,7 @@
 	"block.caupona.quartz_spoked_fence": "石英米字栏板",
 	"block.caupona.calcite_spoked_fence": "方解石米字栏板",
 	"block.caupona.stone_spoked_fence": "石米字栏板",
+	"block.caupona.mosaic": "马赛克",
 	"item.caupona.book": "分茶清供",
 	"item.caupona.acquacotta": "面包汤",
 	"item.caupona.bisque": "海鲜浓汤",
@@ -328,5 +329,7 @@
 	"recipe.caupona.allow":"必须：",
 	"recipe.caupona.deny":"不能：",
 	"recipe.caupona.base": "基底要求：%s",
-	"recipe.caupona.density":"浓度要求：至少%s物品/碗"
+	"recipe.caupona.density":"浓度要求：至少%s物品/碗",
+	"tooltip.caupona.mosaic.material_1":"材料：%s",
+	"tooltip.caupona.mosaic.material_2":"材料：%s"
 }

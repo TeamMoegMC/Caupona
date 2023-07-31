@@ -182,6 +182,7 @@
 	"block.caupona.quartz_spoked_fence": "Quartz Spoked Fence",
 	"block.caupona.calcite_spoked_fence": "Calcite Spoked Fence",
 	"block.caupona.stone_spoked_fence": "Stone Spoked Fence",
+	"block.caupona.mosaic": "Mosaic",
 	"item.caupona.book": "Vade Mecum for Innkeepers",
 	"item.caupona.bone_gelatin": "Bone Gelatin",
 	"item.caupona.chives_spice_jar": "Spice Jar of Chives",
@@ -328,5 +329,7 @@
 	"recipe.caupona.allow": "Must contain:",
 	"recipe.caupona.deny": "Must not contain:",
 	"recipe.caupona.base": "Base required: %s",
-	"recipe.caupona.density":"Concentration: At least %s item(s)/bowl"
+	"recipe.caupona.density":"Concentration: At least %s item(s)/bowl",
+	"tooltip.caupona.mosaic.material_1":"Material: %s",
+	"tooltip.caupona.mosaic.material_2":"Material: %s"
 }
