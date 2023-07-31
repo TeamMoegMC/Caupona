@@ -1,0 +1,6 @@
+{
+  "parent": "caupona:block/template_mosaic_tile_1",
+  "textures": {
+    "1": "caupona:block/mosaic/components/mosaic_meander_t_1"
+  }
+}

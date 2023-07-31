@@ -33,6 +33,9 @@ import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.decoration.SpokedFenceBlock;
+import com.teammoeg.caupona.blocks.decoration.mosaic.MosaicBlock;
+import com.teammoeg.caupona.blocks.decoration.mosaic.MosaicMaterial;
+import com.teammoeg.caupona.blocks.decoration.mosaic.MosaicPattern;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.plants.FruitBlock;
 import com.teammoeg.caupona.blocks.stove.KitchenStove;
@@ -56,6 +59,7 @@ import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ConfiguredModel.Builder;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder.PartBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -97,6 +101,24 @@ public class CPStatesProvider extends BlockStateProvider {
 				.partialState().with(FruitBlock.AGE, 6)
 				.addModels(ConfiguredModel.allYRotations(bmf("snail_stage_5"), 0, false)).partialState()
 				.with(FruitBlock.AGE, 7).addModels(ConfiguredModel.allYRotations(bmf("snail_stage_5"), 0, false));
+		for(MosaicMaterial m:MosaicMaterial.values())
+			for(MosaicPattern p:MosaicPattern.values()) 
+				for(int i:new int[] {0,1})
+					super.models().withExistingParent("block/mosaic/mosaic_"+p+"_"+m.shortName+"_"+i,new ResourceLocation(CPMain.MODID,"block/template_mosaic_tile_"+i)).texture(""+i,new ResourceLocation(CPMain.MODID,"block/mosaic/components/mosaic_"+p+"_"+m.shortName+"_"+i));
+		MultiPartBlockStateBuilder mosaic=this.getMultipartBuilder(CPBlocks.MOSAIC.get());
+		for(MosaicMaterial m:MosaicMaterial.values())
+			for(MosaicPattern p:MosaicPattern.values()) 
+				for(int i:new int[] {0,1}) {
+					mosaic=mosaic.part().modelFile(bmf("mosaic/mosaic_"+p+"_"+m.shortName+"_"+i)).addModel().condition(MosaicBlock.MATERIAL[i], m).condition(MosaicBlock.PATTERN, p).end();
+					
+				}
+		itemModels().getBuilder("mosaic").parent(new UncheckedModelFile(new ResourceLocation("builtin/entity")));
+		/*this.getVariantBuilder(CPBlocks.MOSAIC.get()).forAllStates(t->{
+			MosaicPattern p=t.getValue(MosaicBlock.PATTERN);
+			MosaicMaterial m1=t.getValue(MosaicBlock.MATERIAL_1);
+			MosaicMaterial m2=t.getValue(MosaicBlock.MATERIAL_2);
+			return ConfiguredModel.builder().modelFile(bmf("mosaic/mosaic_"+p+"_"+m1.shortName+"_"+m2.shortName)).build();
+			});*/
 		// super.stairsBlock(null, modid, null, null, null);
 		for (MaterialType rtype : CPBlocks.all_materials) {
 			String stone = rtype.getName();
@@ -276,7 +298,8 @@ public class CPStatesProvider extends BlockStateProvider {
 	}
 
 	public ModelFile bmf(String name) {
-		ResourceLocation rl = new ResourceLocation(this.modid, "block/" + name);
+		ResourceLocation orl = new ResourceLocation(this.modid, "block/" + name);
+		ResourceLocation rl = orl;
 		if (!existingFileHelper.exists(rl, MODEL)) {// not exists, let's guess
 			List<String> rn = Arrays.asList(name.split("_"));
 			for (int i = rn.size(); i >= 0; i--) {
@@ -284,11 +307,11 @@ public class CPStatesProvider extends BlockStateProvider {
 				rrn.add(i, "0");
 				rl = new ResourceLocation(this.modid, "block/" + String.join("_", rrn));
 				if (existingFileHelper.exists(rl, MODEL))
-					break;
+					return new ModelFile.ExistingModelFile(rl, existingFileHelper);
 			}
 
 		}
-		return new ModelFile.ExistingModelFile(rl, existingFileHelper);
+		return new ModelFile.UncheckedModelFile(orl);
 	}
 
 	public void simpleBlockItem(Block b, ModelFile model) {
