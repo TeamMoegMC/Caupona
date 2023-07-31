@@ -25,7 +25,7 @@ public class MosaicItem extends CPBlockItem {
 	}
 	@Override
 	public void fillItemCategory(CreativeTabItemHelper helper) {
-		if(helper.isType(TabType.DECORATION)) {
+		/*if(helper.isType(TabType.DECORATION)) {
 			for(MosaicMaterial m1:MosaicMaterial.values())
 				for(MosaicMaterial m2:MosaicMaterial.values())
 					for(MosaicPattern pattern:MosaicPattern.values()) {
@@ -35,7 +35,7 @@ public class MosaicItem extends CPBlockItem {
 						helper.accept(stack);
 					}
 			
-		}
+		}*/
 			
 	}
 	@Override
