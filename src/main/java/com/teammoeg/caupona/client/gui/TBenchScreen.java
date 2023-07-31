@@ -26,7 +26,6 @@ public class TBenchScreen extends AbstractContainerScreen<TBenchMenu> {
    private static final int RECIPES_IMAGE_SIZE_HEIGHT = 18;
    private static final int RECIPES_X = 52;
    private static final int RECIPES_Y = 14;
-   private boolean displayRecipes;
 
    public TBenchScreen(TBenchMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
       super(pMenu, pPlayerInventory, pTitle);
@@ -51,7 +50,7 @@ public class TBenchScreen extends AbstractContainerScreen<TBenchMenu> {
 
    protected void renderTooltip(GuiGraphics p_282396_, int p_283157_, int p_282258_) {
       super.renderTooltip(p_282396_, p_283157_, p_282258_);
-      if (this.displayRecipes) {
+      if (!this.menu.getRecipes().isEmpty()) {
          int i = this.leftPos + RECIPES_X;
          int j = this.topPos + RECIPES_Y;
          List<ItemStack> list = this.menu.getRecipes();
@@ -97,7 +96,7 @@ public class TBenchScreen extends AbstractContainerScreen<TBenchMenu> {
    }
 
    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-      if (this.displayRecipes) {
+	   if (!this.menu.getRecipes().isEmpty()) {
          int i = this.leftPos + RECIPES_X;
          int j = this.topPos + RECIPES_Y;
  

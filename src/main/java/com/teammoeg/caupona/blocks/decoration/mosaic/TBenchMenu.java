@@ -35,7 +35,9 @@ public class TBenchMenu extends CPBaseContainer<BlockEntity> {
 	 * The {@linkplain net.minecraft.world.item.ItemStack} set in the input slot by
 	 * the player.
 	 */
-	private ItemStack input = ItemStack.EMPTY;
+	private ItemStack input0 = ItemStack.EMPTY;
+	private ItemStack input1 = ItemStack.EMPTY;
+	private ItemStack input2 = ItemStack.EMPTY;
 	/**
 	 * Stores the game time of the last time the player took items from the the
 	 * crafting result slot. This is used to prevent the sound from being played
@@ -64,29 +66,29 @@ public class TBenchMenu extends CPBaseContainer<BlockEntity> {
 	final ResultContainer resultContainer = new ResultContainer();
 
 	public TBenchMenu(int pContainerId, Inventory pPlayerInventory,FriendlyByteBuf buf) {
-		this(pContainerId, pPlayerInventory,ContainerLevelAccess.NULL);
-		buf.readBlockPos();
+		this(pContainerId, pPlayerInventory,ContainerLevelAccess.create(pPlayerInventory.player.level(), buf.readBlockPos()));
+		
 	}
 
 	public TBenchMenu(int pContainerId, Inventory pPlayerInventory,ContainerLevelAccess pAccess) {
 		super(CPGui.T_BENCH.get(),null, pContainerId,4);
 		this.access = pAccess;
 		this.level = pPlayerInventory.player.level();
-		this.inputSlot0 = this.addSlot(new Slot(this.container, 0, 20, 16) {
+		this.inputSlot0 = this.addSlot(new Slot(this.container, 0, 20, 34) {
 			@Override
 			public boolean mayPlace(ItemStack input) {
 				return input.is(CPTags.Items.MOSAIC_BASE)||input.is(CPBlocks.MOSAIC.get().asItem());
 				
 			}
 		}) ;
-		this.inputSlot1 = this.addSlot(new Slot(this.container, 1, 20, 32){
+		this.inputSlot1 = this.addSlot(new Slot(this.container, 1, 20, 16){
 			@Override
 			public boolean mayPlace(ItemStack input) {
 				return MosaicMaterial.fromItem(input)!=null;
 				
 			}
 		});
-		this.inputSlot2 = this.addSlot(new Slot(this.container, 2, 20, 54){
+		this.inputSlot2 = this.addSlot(new Slot(this.container, 2, 20, 52){
 			@Override
 			public boolean mayPlace(ItemStack input) {
 				return MosaicMaterial.fromItem(input)!=null;
@@ -164,7 +166,9 @@ public class TBenchMenu extends CPBaseContainer<BlockEntity> {
 	 * Determines whether supplied player can use this container
 	 */
 	public boolean stillValid(Player pPlayer) {
-		return stillValid(this.access, pPlayer,	CPBlocks.T_BENCH.get());
+		return (stillValid(this.access, pPlayer,CPBlocks.T_BENCH.get()));
+		//return true;
+		//
 	}
 
 	/**
@@ -188,10 +192,16 @@ public class TBenchMenu extends CPBaseContainer<BlockEntity> {
 	 * Callback for when the crafting matrix is changed.
 	 */
 	public void slotsChanged(Container pInventory) {
-		ItemStack itemstack = this.inputSlot0.getItem();
-		if (!itemstack.is(this.input.getItem())) {
-			this.input = itemstack.copy();
-			this.setupRecipeList(pInventory, itemstack);
+		ItemStack itemstack0 = this.inputSlot0.getItem();
+		ItemStack itemstack1 = this.inputSlot1.getItem();
+		ItemStack itemstack2 = this.inputSlot2.getItem();
+		if (!itemstack0.is(this.input0.getItem())
+				||!itemstack1.is(this.input1.getItem())
+				||!itemstack2.is(this.input2.getItem())) {
+			this.input0 = itemstack0.copy();
+			this.input1 = itemstack1.copy();
+			this.input2 = itemstack2.copy();
+			this.setupRecipeList(pInventory, itemstack0);
 		}
 
 	}

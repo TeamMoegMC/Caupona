@@ -47,6 +47,7 @@ import com.google.common.collect.ImmutableList;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.CPTags;
 import com.teammoeg.caupona.util.MaterialType;
 
 import net.minecraft.core.HolderLookup;
@@ -54,12 +55,14 @@ import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.data.tags.TagsProvider.TagAppender;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -191,9 +194,20 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		tag(ftag("ingots/lead")).add(cp("lead_ingot"));
 		tag(ftag("nuggets/lead")).add(cp("lead_nugget"));
 		tag(ftag("storage_blocks/lead")).add(cp("lead_block"));
-
+		
+		adds(tag(CPTags.Items.MOSAIC_BASE),Items.WHITE_CONCRETE,Items.LIGHT_GRAY_CONCRETE,Items.GRAY_CONCRETE,Items.BLACK_CONCRETE,Items.BROWN_CONCRETE,
+		Items.RED_CONCRETE,Items.ORANGE_CONCRETE,Items.YELLOW_CONCRETE,Items.LIME_CONCRETE,Items.GREEN_CONCRETE,
+        Items.CYAN_CONCRETE,Items.LIGHT_BLUE_CONCRETE,Items.BLUE_CONCRETE,Items.PURPLE_CONCRETE,Items.MAGENTA_CONCRETE,
+        Items.PINK_CONCRETE);
 	}
-
+	@SafeVarargs
+	private void adds(TagAppender<Item> ta,Item... keys) {
+		
+		ResourceKey[] rks=new ResourceKey[keys.length];
+		for(int i=0;i<rks.length;i++)
+			rks[i]=rk(keys[i]);
+		ta.add(rks);
+	}
 	private TagAppender<Item> tag(String s) {
 		return this.tag(ItemTags.create(mrl(s)));
 	}
