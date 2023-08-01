@@ -114,7 +114,7 @@ public class CPStatesProvider extends BlockStateProvider {
 					mosaic=mosaic.part().modelFile(bmf("mosaic/mosaic_"+p+"_"+m.shortName+"_"+i)).addModel().condition(MosaicBlock.MATERIAL[i], m).condition(MosaicBlock.PATTERN, p).end();
 					
 				}
-		itemModels().getBuilder("mosaic").parent(new UncheckedModelFile(new ResourceLocation("builtin/entity")));
+		//itemModels().getBuilder("mosaic").parent(new UncheckedModelFile(new ResourceLocation("builtin/entity")));
 		/*this.getVariantBuilder(CPBlocks.MOSAIC.get()).forAllStates(t->{
 			MosaicPattern p=t.getValue(MosaicBlock.PATTERN);
 			MosaicMaterial m1=t.getValue(MosaicBlock.MATERIAL_1);
