@@ -144,7 +144,7 @@ public class SnailBlock extends FruitBlock {
 			boolean isplump=bs.is(CPTags.Blocks.SNAIL_PLUMP_FOOD);
 			if(blk instanceof CropBlock cb) {
 				if(cb.isMaxAge(bs)) {
-					level.setBlock(pos, blk.defaultBlockState(), 2);
+					level.setBlock(pos,Blocks.AIR.defaultBlockState(), 2);
 					return isplump?2:1;
 				}
 			}else {
