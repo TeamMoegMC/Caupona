@@ -25,6 +25,7 @@ import java.util.Optional;
 
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
+import com.teammoeg.caupona.api.events.FoodExchangeItemEvent;
 import com.teammoeg.caupona.data.RecipeReloadListener;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.fluid.SoupFluid;
@@ -71,7 +72,16 @@ public class CPCommonEvents {
 		event.addListener(new RecipeReloadListener(event.getServerResources()));
 	}
 
-
+	@SubscribeEvent
+	public static void isExtractAllowed(FoodExchangeItemEvent.Pre event) {
+		if(!event.getOrigin().is(Items.BOWL))
+			event.setResult(Result.ALLOW);
+	}
+	@SubscribeEvent
+	public static void isExchangeAllowed(FoodExchangeItemEvent.Post event) {
+		if((!event.getOrigin().is(Items.BOWL))&&event.getTarget().is(Items.BOWL))
+			event.setResult(Result.ALLOW);
+	}
 	@SubscribeEvent
 	public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		if (event.phase == Phase.START) {
