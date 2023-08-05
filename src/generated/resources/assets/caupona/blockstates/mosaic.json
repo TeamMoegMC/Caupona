@@ -2,10 +2,55 @@
   "multipart": [
     {
       "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_t_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "brick",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
         "model": "caupona:block/mosaic/mosaic_crowstep_t_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "brick",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_t_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "brick",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_t_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "brick",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_t_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "brick",
         "pattern": "crowstep"
       }
     },
@@ -14,8 +59,42 @@
         "model": "caupona:block/mosaic/mosaic_crowstep_t_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "brick",
         "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_t_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "brick",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_t_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "brick",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_t_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "brick",
+        "pattern": "dentil"
       }
     },
     {
@@ -23,7 +102,41 @@
         "model": "caupona:block/mosaic/mosaic_dentil_t_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "brick",
+        "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_t_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "brick",
+        "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_t_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "brick",
+        "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_t_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "brick",
         "pattern": "dentil"
       }
     },
@@ -32,8 +145,42 @@
         "model": "caupona:block/mosaic/mosaic_dentil_t_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "brick",
         "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_t_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "brick",
+        "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_t_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "brick",
+        "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_t_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "brick",
+        "pattern": "guilloche_corner"
       }
     },
     {
@@ -41,7 +188,41 @@
         "model": "caupona:block/mosaic/mosaic_guilloche_corner_t_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "brick",
+        "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_t_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "brick",
+        "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_t_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "brick",
+        "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_t_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "brick",
         "pattern": "guilloche_corner"
       }
     },
@@ -50,8 +231,42 @@
         "model": "caupona:block/mosaic/mosaic_guilloche_corner_t_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "brick",
         "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_t_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "brick",
+        "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_t_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "brick",
+        "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_t_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "brick",
+        "pattern": "guilloche"
       }
     },
     {
@@ -59,7 +274,41 @@
         "model": "caupona:block/mosaic/mosaic_guilloche_t_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "brick",
+        "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_t_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "brick",
+        "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_t_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "brick",
+        "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_t_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "brick",
         "pattern": "guilloche"
       }
     },
@@ -68,8 +317,42 @@
         "model": "caupona:block/mosaic/mosaic_guilloche_t_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "brick",
         "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_t_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "brick",
+        "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_t_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "brick",
+        "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_t_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "brick",
+        "pattern": "imbrication"
       }
     },
     {
@@ -77,7 +360,41 @@
         "model": "caupona:block/mosaic/mosaic_imbrication_t_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "brick",
+        "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_t_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "brick",
+        "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_t_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "brick",
+        "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_t_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "brick",
         "pattern": "imbrication"
       }
     },
@@ -86,8 +403,42 @@
         "model": "caupona:block/mosaic/mosaic_imbrication_t_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "brick",
         "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_t_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "brick",
+        "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_t_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "brick",
+        "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_t_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "brick",
+        "pattern": "meander"
       }
     },
     {
@@ -95,7 +446,41 @@
         "model": "caupona:block/mosaic/mosaic_meander_t_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "brick",
+        "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_t_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "brick",
+        "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_t_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "brick",
+        "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_t_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "brick",
         "pattern": "meander"
       }
     },
@@ -104,8 +489,42 @@
         "model": "caupona:block/mosaic/mosaic_meander_t_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "brick",
         "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_t_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "brick",
+        "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_t_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "brick",
+        "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_t_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "brick",
+        "pattern": "meander_corner"
       }
     },
     {
@@ -113,7 +532,41 @@
         "model": "caupona:block/mosaic/mosaic_meander_corner_t_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "brick",
+        "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_t_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "brick",
+        "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_t_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "brick",
+        "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_t_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "brick",
         "pattern": "meander_corner"
       }
     },
@@ -122,8 +575,42 @@
         "model": "caupona:block/mosaic/mosaic_meander_corner_t_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "brick",
         "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_t_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "brick",
+        "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_t_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "brick",
+        "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_t_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "brick",
+        "pattern": "right_angle"
       }
     },
     {
@@ -131,7 +618,41 @@
         "model": "caupona:block/mosaic/mosaic_right_angle_t_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "brick",
+        "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_t_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "brick",
+        "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_t_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "brick",
+        "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_t_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "brick",
         "pattern": "right_angle"
       }
     },
@@ -140,8 +661,42 @@
         "model": "caupona:block/mosaic/mosaic_right_angle_t_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "brick",
         "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_t_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "brick",
+        "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_t_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "brick",
+        "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_t_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "brick",
+        "pattern": "round_angle"
       }
     },
     {
@@ -149,7 +704,41 @@
         "model": "caupona:block/mosaic/mosaic_round_angle_t_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "brick",
+        "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_t_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "brick",
+        "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_t_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "brick",
+        "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_t_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "brick",
         "pattern": "round_angle"
       }
     },
@@ -158,8 +747,42 @@
         "model": "caupona:block/mosaic/mosaic_round_angle_t_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "brick",
         "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_t_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "brick",
+        "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_t_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "brick",
+        "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_t_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "brick",
+        "pattern": "split"
       }
     },
     {
@@ -167,7 +790,41 @@
         "model": "caupona:block/mosaic/mosaic_split_t_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "brick",
+        "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_t_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "brick",
+        "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_t_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "brick",
+        "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_t_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "brick",
         "pattern": "split"
       }
     },
@@ -176,8 +833,42 @@
         "model": "caupona:block/mosaic/mosaic_split_t_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "brick",
         "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_t_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "brick",
+        "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_t_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "brick",
+        "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_t_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "brick",
+        "pattern": "wave"
       }
     },
     {
@@ -185,7 +876,41 @@
         "model": "caupona:block/mosaic/mosaic_wave_t_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "brick",
+        "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_t_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "brick",
+        "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_t_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "brick",
+        "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_t_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "brick",
         "pattern": "wave"
       }
     },
@@ -194,8 +919,42 @@
         "model": "caupona:block/mosaic/mosaic_wave_t_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "brick",
         "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_t_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "brick",
+        "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_t_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "brick",
+        "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_b_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "basalt",
+        "pattern": "crowstep"
       }
     },
     {
@@ -203,7 +962,41 @@
         "model": "caupona:block/mosaic/mosaic_crowstep_b_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "basalt",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_b_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "basalt",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_b_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "basalt",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_b_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "basalt",
         "pattern": "crowstep"
       }
     },
@@ -212,8 +1005,42 @@
         "model": "caupona:block/mosaic/mosaic_crowstep_b_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "basalt",
         "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_b_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "basalt",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_b_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "basalt",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_b_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "basalt",
+        "pattern": "dentil"
       }
     },
     {
@@ -221,7 +1048,41 @@
         "model": "caupona:block/mosaic/mosaic_dentil_b_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "basalt",
+        "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_b_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "basalt",
+        "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_b_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "basalt",
+        "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_b_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "basalt",
         "pattern": "dentil"
       }
     },
@@ -230,8 +1091,42 @@
         "model": "caupona:block/mosaic/mosaic_dentil_b_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "basalt",
         "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_b_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "basalt",
+        "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_b_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "basalt",
+        "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_b_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "basalt",
+        "pattern": "guilloche_corner"
       }
     },
     {
@@ -239,7 +1134,41 @@
         "model": "caupona:block/mosaic/mosaic_guilloche_corner_b_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "basalt",
+        "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_b_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "basalt",
+        "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_b_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "basalt",
+        "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_b_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "basalt",
         "pattern": "guilloche_corner"
       }
     },
@@ -248,8 +1177,42 @@
         "model": "caupona:block/mosaic/mosaic_guilloche_corner_b_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "basalt",
         "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_b_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "basalt",
+        "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_b_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "basalt",
+        "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_b_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "basalt",
+        "pattern": "guilloche"
       }
     },
     {
@@ -257,7 +1220,41 @@
         "model": "caupona:block/mosaic/mosaic_guilloche_b_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "basalt",
+        "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_b_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "basalt",
+        "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_b_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "basalt",
+        "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_b_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "basalt",
         "pattern": "guilloche"
       }
     },
@@ -266,8 +1263,42 @@
         "model": "caupona:block/mosaic/mosaic_guilloche_b_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "basalt",
         "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_b_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "basalt",
+        "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_b_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "basalt",
+        "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_b_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "basalt",
+        "pattern": "imbrication"
       }
     },
     {
@@ -275,7 +1306,41 @@
         "model": "caupona:block/mosaic/mosaic_imbrication_b_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "basalt",
+        "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_b_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "basalt",
+        "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_b_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "basalt",
+        "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_b_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "basalt",
         "pattern": "imbrication"
       }
     },
@@ -284,8 +1349,42 @@
         "model": "caupona:block/mosaic/mosaic_imbrication_b_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "basalt",
         "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_b_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "basalt",
+        "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_b_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "basalt",
+        "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_b_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "basalt",
+        "pattern": "meander"
       }
     },
     {
@@ -293,7 +1392,41 @@
         "model": "caupona:block/mosaic/mosaic_meander_b_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "basalt",
+        "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_b_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "basalt",
+        "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_b_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "basalt",
+        "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_b_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "basalt",
         "pattern": "meander"
       }
     },
@@ -302,8 +1435,42 @@
         "model": "caupona:block/mosaic/mosaic_meander_b_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "basalt",
         "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_b_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "basalt",
+        "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_b_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "basalt",
+        "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_b_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "basalt",
+        "pattern": "meander_corner"
       }
     },
     {
@@ -311,7 +1478,41 @@
         "model": "caupona:block/mosaic/mosaic_meander_corner_b_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "basalt",
+        "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_b_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "basalt",
+        "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_b_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "basalt",
+        "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_b_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "basalt",
         "pattern": "meander_corner"
       }
     },
@@ -320,8 +1521,42 @@
         "model": "caupona:block/mosaic/mosaic_meander_corner_b_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "basalt",
         "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_b_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "basalt",
+        "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_b_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "basalt",
+        "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_b_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "basalt",
+        "pattern": "right_angle"
       }
     },
     {
@@ -329,7 +1564,41 @@
         "model": "caupona:block/mosaic/mosaic_right_angle_b_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "basalt",
+        "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_b_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "basalt",
+        "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_b_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "basalt",
+        "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_b_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "basalt",
         "pattern": "right_angle"
       }
     },
@@ -338,8 +1607,42 @@
         "model": "caupona:block/mosaic/mosaic_right_angle_b_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "basalt",
         "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_b_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "basalt",
+        "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_b_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "basalt",
+        "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_b_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "basalt",
+        "pattern": "round_angle"
       }
     },
     {
@@ -347,7 +1650,41 @@
         "model": "caupona:block/mosaic/mosaic_round_angle_b_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "basalt",
+        "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_b_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "basalt",
+        "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_b_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "basalt",
+        "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_b_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "basalt",
         "pattern": "round_angle"
       }
     },
@@ -356,8 +1693,42 @@
         "model": "caupona:block/mosaic/mosaic_round_angle_b_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "basalt",
         "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_b_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "basalt",
+        "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_b_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "basalt",
+        "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_b_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "basalt",
+        "pattern": "split"
       }
     },
     {
@@ -365,7 +1736,41 @@
         "model": "caupona:block/mosaic/mosaic_split_b_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "basalt",
+        "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_b_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "basalt",
+        "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_b_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "basalt",
+        "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_b_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "basalt",
         "pattern": "split"
       }
     },
@@ -374,8 +1779,42 @@
         "model": "caupona:block/mosaic/mosaic_split_b_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "basalt",
         "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_b_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "basalt",
+        "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_b_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "basalt",
+        "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_b_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "basalt",
+        "pattern": "wave"
       }
     },
     {
@@ -383,7 +1822,41 @@
         "model": "caupona:block/mosaic/mosaic_wave_b_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "basalt",
+        "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_b_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "basalt",
+        "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_b_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "basalt",
+        "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_b_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "basalt",
         "pattern": "wave"
       }
     },
@@ -392,8 +1865,42 @@
         "model": "caupona:block/mosaic/mosaic_wave_b_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "basalt",
         "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_b_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "basalt",
+        "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_b_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "basalt",
+        "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_p_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "pumice",
+        "pattern": "crowstep"
       }
     },
     {
@@ -401,7 +1908,41 @@
         "model": "caupona:block/mosaic/mosaic_crowstep_p_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "pumice",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_p_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "pumice",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_p_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "pumice",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_p_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "pumice",
         "pattern": "crowstep"
       }
     },
@@ -410,8 +1951,42 @@
         "model": "caupona:block/mosaic/mosaic_crowstep_p_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "pumice",
         "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_p_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "pumice",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_crowstep_p_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "pumice",
+        "pattern": "crowstep"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_p_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "pumice",
+        "pattern": "dentil"
       }
     },
     {
@@ -419,7 +1994,41 @@
         "model": "caupona:block/mosaic/mosaic_dentil_p_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "pumice",
+        "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_p_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "pumice",
+        "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_p_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "pumice",
+        "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_p_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "pumice",
         "pattern": "dentil"
       }
     },
@@ -428,8 +2037,42 @@
         "model": "caupona:block/mosaic/mosaic_dentil_p_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "pumice",
         "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_p_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "pumice",
+        "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_dentil_p_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "pumice",
+        "pattern": "dentil"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_p_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "pumice",
+        "pattern": "guilloche_corner"
       }
     },
     {
@@ -437,7 +2080,41 @@
         "model": "caupona:block/mosaic/mosaic_guilloche_corner_p_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "pumice",
+        "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_p_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "pumice",
+        "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_p_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "pumice",
+        "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_p_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "pumice",
         "pattern": "guilloche_corner"
       }
     },
@@ -446,8 +2123,42 @@
         "model": "caupona:block/mosaic/mosaic_guilloche_corner_p_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "pumice",
         "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_p_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "pumice",
+        "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_corner_p_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "pumice",
+        "pattern": "guilloche_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_p_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "pumice",
+        "pattern": "guilloche"
       }
     },
     {
@@ -455,7 +2166,41 @@
         "model": "caupona:block/mosaic/mosaic_guilloche_p_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "pumice",
+        "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_p_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "pumice",
+        "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_p_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "pumice",
+        "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_p_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "pumice",
         "pattern": "guilloche"
       }
     },
@@ -464,8 +2209,42 @@
         "model": "caupona:block/mosaic/mosaic_guilloche_p_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "pumice",
         "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_p_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "pumice",
+        "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_guilloche_p_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "pumice",
+        "pattern": "guilloche"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_p_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "pumice",
+        "pattern": "imbrication"
       }
     },
     {
@@ -473,7 +2252,41 @@
         "model": "caupona:block/mosaic/mosaic_imbrication_p_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "pumice",
+        "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_p_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "pumice",
+        "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_p_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "pumice",
+        "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_p_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "pumice",
         "pattern": "imbrication"
       }
     },
@@ -482,8 +2295,42 @@
         "model": "caupona:block/mosaic/mosaic_imbrication_p_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "pumice",
         "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_p_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "pumice",
+        "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_imbrication_p_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "pumice",
+        "pattern": "imbrication"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_p_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "pumice",
+        "pattern": "meander"
       }
     },
     {
@@ -491,7 +2338,41 @@
         "model": "caupona:block/mosaic/mosaic_meander_p_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "pumice",
+        "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_p_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "pumice",
+        "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_p_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "pumice",
+        "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_p_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "pumice",
         "pattern": "meander"
       }
     },
@@ -500,8 +2381,42 @@
         "model": "caupona:block/mosaic/mosaic_meander_p_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "pumice",
         "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_p_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "pumice",
+        "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_p_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "pumice",
+        "pattern": "meander"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_p_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "pumice",
+        "pattern": "meander_corner"
       }
     },
     {
@@ -509,7 +2424,41 @@
         "model": "caupona:block/mosaic/mosaic_meander_corner_p_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "pumice",
+        "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_p_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "pumice",
+        "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_p_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "pumice",
+        "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_p_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "pumice",
         "pattern": "meander_corner"
       }
     },
@@ -518,8 +2467,42 @@
         "model": "caupona:block/mosaic/mosaic_meander_corner_p_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "pumice",
         "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_p_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "pumice",
+        "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_meander_corner_p_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "pumice",
+        "pattern": "meander_corner"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_p_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "pumice",
+        "pattern": "right_angle"
       }
     },
     {
@@ -527,7 +2510,41 @@
         "model": "caupona:block/mosaic/mosaic_right_angle_p_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "pumice",
+        "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_p_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "pumice",
+        "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_p_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "pumice",
+        "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_p_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "pumice",
         "pattern": "right_angle"
       }
     },
@@ -536,8 +2553,42 @@
         "model": "caupona:block/mosaic/mosaic_right_angle_p_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "pumice",
         "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_p_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "pumice",
+        "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_right_angle_p_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "pumice",
+        "pattern": "right_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_p_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "pumice",
+        "pattern": "round_angle"
       }
     },
     {
@@ -545,7 +2596,41 @@
         "model": "caupona:block/mosaic/mosaic_round_angle_p_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "pumice",
+        "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_p_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "pumice",
+        "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_p_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "pumice",
+        "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_p_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "pumice",
         "pattern": "round_angle"
       }
     },
@@ -554,8 +2639,42 @@
         "model": "caupona:block/mosaic/mosaic_round_angle_p_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "pumice",
         "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_p_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "pumice",
+        "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_round_angle_p_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "pumice",
+        "pattern": "round_angle"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_p_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "pumice",
+        "pattern": "split"
       }
     },
     {
@@ -563,7 +2682,41 @@
         "model": "caupona:block/mosaic/mosaic_split_p_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "pumice",
+        "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_p_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "pumice",
+        "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_p_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "pumice",
+        "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_p_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "pumice",
         "pattern": "split"
       }
     },
@@ -572,8 +2725,42 @@
         "model": "caupona:block/mosaic/mosaic_split_p_1"
       },
       "when": {
+        "facing": "south",
         "material_2": "pumice",
         "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_p_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "pumice",
+        "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_split_p_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_2": "pumice",
+        "pattern": "split"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_p_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_1": "pumice",
+        "pattern": "wave"
       }
     },
     {
@@ -581,7 +2768,41 @@
         "model": "caupona:block/mosaic/mosaic_wave_p_0"
       },
       "when": {
+        "facing": "south",
         "material_1": "pumice",
+        "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_p_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_1": "pumice",
+        "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_p_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "material_1": "pumice",
+        "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_p_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "material_2": "pumice",
         "pattern": "wave"
       }
     },
@@ -590,6 +2811,29 @@
         "model": "caupona:block/mosaic/mosaic_wave_p_1"
       },
       "when": {
+        "facing": "south",
+        "material_2": "pumice",
+        "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_p_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "material_2": "pumice",
+        "pattern": "wave"
+      }
+    },
+    {
+      "apply": {
+        "model": "caupona:block/mosaic/mosaic_wave_p_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
         "material_2": "pumice",
         "pattern": "wave"
       }
