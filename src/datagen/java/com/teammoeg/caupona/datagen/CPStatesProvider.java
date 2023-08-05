@@ -106,7 +106,7 @@ public class CPStatesProvider extends BlockStateProvider {
 		for(MosaicMaterial m:MosaicMaterial.values())
 			for(MosaicPattern p:MosaicPattern.values()) 
 				for(int i:new int[] {0,1})
-					super.models().withExistingParent("block/mosaic/mosaic_"+p+"_"+m.shortName+"_"+i,new ResourceLocation(CPMain.MODID,"block/template_mosaic_tile_"+i)).texture(""+i,new ResourceLocation(CPMain.MODID,"block/mosaic/components/mosaic_"+p+"_"+m.shortName+"_"+i));
+					super.models().withExistingParent("block/mosaic/mosaic_"+p+"_"+m.shortName+"_"+i,new ResourceLocation(CPMain.MODID,"block/template_mosaic_tile_"+i)).texture(""+i,new ResourceLocation(CPMain.MODID,"block/mosaic/components/mosaic_"+p+"_"+m.shortName+"_"+i)).texture("particle", "#"+i);
 		MultiPartBlockStateBuilder mosaic=this.getMultipartBuilder(CPBlocks.MOSAIC.get());
 		for(MosaicMaterial m:MosaicMaterial.values())
 			for(MosaicPattern p:MosaicPattern.values()) 

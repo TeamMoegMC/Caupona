@@ -1,6 +1,7 @@
 {
   "parent": "caupona:block/template_mosaic_tile_1",
   "textures": {
-    "1": "caupona:block/mosaic/components/mosaic_right_angle_t_1"
+    "1": "caupona:block/mosaic/components/mosaic_right_angle_t_1",
+    "particle": "#1"
   }
 }
