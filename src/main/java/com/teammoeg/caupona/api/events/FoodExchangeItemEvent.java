@@ -22,6 +22,12 @@ public abstract class FoodExchangeItemEvent extends Event {
 			super(origin);
 			this.target=target;
 		}
+		public ItemStack getTarget() {
+			return target;
+		}
 		
+	}
+	public ItemStack getOrigin() {
+		return origin;
 	}
 }
