@@ -67,6 +67,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+@SuppressWarnings("unused")
 public class CPItemTagGenerator extends TagsProvider<Item> {
 
 	public CPItemTagGenerator(DataGenerator dataGenerator, String modId, ExistingFileHelper existingFileHelper,CompletableFuture<HolderLookup.Provider> provider) {
@@ -108,7 +109,7 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 			tag(ItemTags.WOODEN_TRAPDOORS).add(cp(wood + "_trapdoor"));
 
 			tag(ItemTags.WOODEN_PRESSURE_PLATES).add(cp(wood + "_pressure_plate"));
-			tag(wood+"_log").add(cp(wood + "_wood")).add(cp(wood + "_log")).add(cp("stripped_" + wood + "_wood")).add(cp("stripped_" + wood + "_log"));
+			//tag(wood+"_log").add(cp(wood + "_wood")).add(cp(wood + "_log")).add(cp("stripped_" + wood + "_wood")).add(cp("stripped_" + wood + "_log"));
 			tag(ItemTags.LOGS).add(cp(wood + "_wood")).add(cp(wood + "_log")).add(cp("stripped_" + wood + "_wood")).add(cp("stripped_" + wood + "_log"));
 
 			tag(ItemTags.SLABS).add(cp(wood + "_slab"));
@@ -135,70 +136,68 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 			tag(ItemTags.STAIRS).add(cp(stone + "_stairs"));
 			tag(ItemTags.WALLS).add(cp(stone + "_wall"));
 		}
-		for (String s : CPItems.aspics) {
-			tag("aspics").add(cp(s));
-		}
-		tag("fuel/woods").addTags(ItemTags.LOGS, ItemTags.PLANKS, ItemTags.WOODEN_BUTTONS, ItemTags.WOODEN_DOORS,
-				ItemTags.WOODEN_FENCES, ItemTags.WOODEN_PRESSURE_PLATES, ItemTags.WOODEN_SLABS, ItemTags.WOODEN_STAIRS,
-				ItemTags.WOODEN_TRAPDOORS, ItemTags.SAPLINGS);
-		tag("fuel/charcoals").add(rk(Items.CHARCOAL));
-		tag("fuel/fossil").addTags(ItemTags.COALS);
-		tag("fuel/lava").add(rk(Items.LAVA_BUCKET));
-		tag(MEATS).addTag(POULTRY).addTag(MEAT);
-		tag(SEAFOOD).addTag(FISH).addTag(CRUSTACEANS);
-		tag(PUMPKIN).addOptional(rl(fd + ":pumpkin_slice")).add(rk(Items.PUMPKIN), rk(Items.CARVED_PUMPKIN));
+//		for (String s : CPItems.aspics) {
+//			tag("aspics").add(cp(s));
+//		}
+//		tag("fuel/woods").addTags(ItemTags.LOGS, ItemTags.PLANKS, ItemTags.WOODEN_BUTTONS, ItemTags.WOODEN_DOORS,
+//				ItemTags.WOODEN_FENCES, ItemTags.WOODEN_PRESSURE_PLATES, ItemTags.WOODEN_SLABS, ItemTags.WOODEN_STAIRS,
+//				ItemTags.WOODEN_TRAPDOORS, ItemTags.SAPLINGS);
+//		tag("fuel/charcoals").add(rk(Items.CHARCOAL));
+//		tag("fuel/fossil").addTags(ItemTags.COALS);
+//		tag("fuel/lava").add(rk(Items.LAVA_BUCKET));
+		//tag(MEATS).addTag(POULTRY).addTag(MEAT);
+		//tag(SEAFOOD).addTag(FISH).addTag(CRUSTACEANS);
+		//tag(PUMPKIN).addOptional(rl(fd + ":pumpkin_slice")).add(rk(Items.PUMPKIN), rk(Items.CARVED_PUMPKIN));
 		tag(frl("raw_beef")).add(rk(Items.BEEF));
-		tag(WALNUT).add(cp("walnut"));
-		tag(BAKED).add(rk(Items.BREAD)).addTag(ftag("pasta")).addOptional(rl(fd + ":pie_crust"));
-		tag(CEREALS).addTag(RICE).addTag(ftag("grain")).addTag(BAKED).add(rk(Items.WHEAT), rk(Items.WHEAT_SEEDS))
+		//tag(WALNUT).add(cp("walnut"));
+		//tag(BAKED).add(rk(Items.BREAD)).addTag(ftag("pasta")).addOptional(rl(fd + ":pie_crust"));
+		//tag(CEREALS).addTag(RICE).addTag(ftag("grain")).addTag(BAKED).add(rk(Items.WHEAT), rk(Items.WHEAT_SEEDS)).addTag(ftag("bread"));
 
-				.addTag(ftag("bread"));
-
-		tag(RICE).addTag(ftag("grain/rice"));
-		tag(ROOTS).add(rk(Items.POTATO), rk(Items.BAKED_POTATO)).addTag(ftag("rootvegetables"));
-		tag(VEGETABLES).add(rk(Items.CARROT), rk(Items.BEETROOT), rk(Items.PUMPKIN))
-		.addTag(ftag("vegetables")).addTag(ftag("vegetable")).addTag(GREENS)
-		.addTag(MUSHROOMS).addTag(ROOTS).addTag(ftag("salad_ingredients"))
-		.addTag(PUMPKIN);
+		//tag(RICE).addTag(ftag("grain/rice"));
+//		tag(ROOTS).add(rk(Items.POTATO), rk(Items.BAKED_POTATO)).addTag(ftag("rootvegetables"));
+//		tag(VEGETABLES).add(rk(Items.CARROT), rk(Items.BEETROOT), rk(Items.PUMPKIN))
+//		.addTag(ftag("vegetables")).addTag(ftag("vegetable")).addTag(GREENS)
+//		.addTag(MUSHROOMS).addTag(ROOTS).addTag(ftag("salad_ingredients"))
+//		.addTag(PUMPKIN);
 
 		
 		
 
-		tag(GREENS).addTag(ftag("vegetables/asparagus")).add(rk(Items.FERN), rk(Items.LARGE_FERN), rk(Items.ALLIUM)).add(cp("fresh_wolfberry_leaves"));
-		tag(EGGS).add(rk(Items.EGG)).addTag(ftag("cooked_eggs")).add(cp("snail_block"));
-		tag(CRUSTACEANS).add(cp("snail")).add(cp("plump_snail"));
-		tag(FISH).addTag(atag(mcrl("fishes"))).addTag(ftag("raw_fishes"));
-		tag(SEAFOOD).add(rk(Items.KELP), rk(Items.DRIED_KELP));
-		tag(POULTRY).add(rk(Items.CHICKEN), rk(Items.RABBIT)).addTag(ftag("raw_chicken")).addTag(ftag("raw_rabbit"))
-				.addTag(ftag("bread")).addOptional(rl(sf + "raw_chicken_wings")).addOptional(rl(sf + "raw_sausage"))
-				.addOptional(rl(sf + "raw_horse_meat"));
+//		tag(GREENS).addTag(ftag("vegetables/asparagus")).add(rk(Items.FERN), rk(Items.LARGE_FERN), rk(Items.ALLIUM)).add(cp("fresh_wolfberry_leaves"));
+//		tag(EGGS).add(rk(Items.EGG)).addTag(ftag("cooked_eggs")).add(cp("snail_block"));
+//		tag(CRUSTACEANS).add(cp("snail")).add(cp("plump_snail"));
+//		tag(FISH).addTag(atag(mcrl("fishes"))).addTag(ftag("raw_fishes"));
+//		tag(SEAFOOD).add(rk(Items.KELP), rk(Items.DRIED_KELP));
+//		tag(POULTRY).add(rk(Items.CHICKEN), rk(Items.RABBIT)).addTag(ftag("raw_chicken")).addTag(ftag("raw_rabbit"))
+//				.addTag(ftag("bread")).addOptional(rl(sf + "raw_chicken_wings")).addOptional(rl(sf + "raw_sausage"))
+//				.addOptional(rl(sf + "raw_horse_meat"));
 
-		tag(MEAT).add(rk(Items.BEEF), rk(Items.MUTTON), rk(Items.PORKCHOP), rk(Items.ROTTEN_FLESH)).addTag(ftag("bacon"))
+//		tag(MEAT).add(rk(Items.BEEF), rk(Items.MUTTON), rk(Items.PORKCHOP), rk(Items.ROTTEN_FLESH)).addTag(ftag("bacon"))
+//
+//				.addTag(ftag("raw_pork")).addTag(ftag("raw_beef")).addTag(ftag("raw_mutton"))
+//				.addOptional(rl(fd + ":ham")).addTag(ftag("raw_bacon"));
 
-				.addTag(ftag("raw_pork")).addTag(ftag("raw_beef")).addTag(ftag("raw_mutton"))
-				.addOptional(rl(fd + ":ham")).addTag(ftag("raw_bacon"));
+//		tag(SUGAR).add(rk(Items.SUGAR_CANE), rk(Items.HONEYCOMB), rk(Items.HONEY_BOTTLE));
+//		tag("bone").add(rk(Items.BONE));
+//		tag("ice").add(rk(Items.ICE), rk(Items.BLUE_ICE), rk(Items.PACKED_ICE));
+//		tag(MUSHROOMS).add(rk(Items.BROWN_MUSHROOM), rk(Items.RED_MUSHROOM)).addTag(ftag("mushrooms"));
+//		tag("fern").add(rk(Items.FERN), rk(Items.LARGE_FERN));
 
-		tag(SUGAR).add(rk(Items.SUGAR_CANE), rk(Items.HONEYCOMB), rk(Items.HONEY_BOTTLE));
-		tag("bone").add(rk(Items.BONE));
-		tag("ice").add(rk(Items.ICE), rk(Items.BLUE_ICE), rk(Items.PACKED_ICE));
-		tag(MUSHROOMS).add(rk(Items.BROWN_MUSHROOM), rk(Items.RED_MUSHROOM)).addTag(ftag("mushrooms"));
-		tag("fern").add(rk(Items.FERN), rk(Items.LARGE_FERN));
-
-		tag("wolfberries").add(cp("wolfberries"));
-		tag("stews").add(CPItems.stews.stream().map(this::rk).toArray(i->new ResourceKey[i]));
-		tag("stoves").add(CPBlocks.stoves.stream().map(e->rk(e.get().asItem())).toArray(ResourceKey[]::new));
-		tag("portable_brazier_fuel").add(rk(Items.MAGMA_CREAM)).add(cp("vivid_charcoal"));
-		tag("garum_fish").add(rk(Items.COD), rk(Items.SALMON));
-		tag("vinegar_fruits").add(rk(Items.APPLE)).add(cp("fig"));
-		tag("vinegar_fruits_small").add(rk(Items.SWEET_BERRIES)).add(cp("wolfberries"));
+//		tag("wolfberries").add(cp("wolfberries"));
+//		tag("stews").add(CPItems.stews.stream().map(this::rk).toArray(i->new ResourceKey[i]));
+//		tag("stoves").add(CPBlocks.stoves.stream().map(e->rk(e.get().asItem())).toArray(ResourceKey[]::new));
+//		tag("portable_brazier_fuel").add(rk(Items.MAGMA_CREAM)).add(cp("vivid_charcoal"));
+//		tag("garum_fish").add(rk(Items.COD), rk(Items.SALMON));
+//		tag("vinegar_fruits").add(rk(Items.APPLE)).add(cp("fig"));
+//		tag("vinegar_fruits_small").add(rk(Items.SWEET_BERRIES)).add(cp("wolfberries"));
 		tag(ftag("ingots/lead")).add(cp("lead_ingot"));
 		tag(ftag("nuggets/lead")).add(cp("lead_nugget"));
 		tag(ftag("storage_blocks/lead")).add(cp("lead_block"));
 		
-		adds(tag(CPTags.Items.MOSAIC_BASE),Items.WHITE_CONCRETE,Items.LIGHT_GRAY_CONCRETE,Items.GRAY_CONCRETE,Items.BLACK_CONCRETE,Items.BROWN_CONCRETE,
-		Items.RED_CONCRETE,Items.ORANGE_CONCRETE,Items.YELLOW_CONCRETE,Items.LIME_CONCRETE,Items.GREEN_CONCRETE,
-        Items.CYAN_CONCRETE,Items.LIGHT_BLUE_CONCRETE,Items.BLUE_CONCRETE,Items.PURPLE_CONCRETE,Items.MAGENTA_CONCRETE,
-        Items.PINK_CONCRETE);
+//		adds(tag(CPTags.Items.MOSAIC_BASE),Items.WHITE_CONCRETE,Items.LIGHT_GRAY_CONCRETE,Items.GRAY_CONCRETE,Items.BLACK_CONCRETE,Items.BROWN_CONCRETE,
+//		Items.RED_CONCRETE,Items.ORANGE_CONCRETE,Items.YELLOW_CONCRETE,Items.LIME_CONCRETE,Items.GREEN_CONCRETE,
+//        Items.CYAN_CONCRETE,Items.LIGHT_BLUE_CONCRETE,Items.BLUE_CONCRETE,Items.PURPLE_CONCRETE,Items.MAGENTA_CONCRETE,
+//        Items.PINK_CONCRETE);
 	}
 	@SafeVarargs
 	private void adds(TagAppender<Item> ta,Item... keys) {
