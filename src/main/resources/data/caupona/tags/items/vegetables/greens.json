@@ -1,0 +1,17 @@
+{
+  "values": [
+    "#forge:crops/asparagus",
+    "#forge:crops/cabbage",
+    "#forge:crops/leek",
+    "#forge:crops/kale",
+    "#forge:crops/lettuce",
+    "#forge:crops/cauliflower",
+    "#forge:crops/broccoli",
+    "#forge:crops/spinach",
+    "#forge:crops/brusselsprout",
+    "minecraft:fern",
+    "minecraft:large_fern",
+    "minecraft:allium",
+    "caupona:fresh_wolfberry_leaves"
+  ]
+}

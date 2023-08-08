@@ -1,0 +1,10 @@
+{
+  "values": [
+    "minecraft:bread",
+    "#forge:pasta",
+    {
+      "id": "farmersdelight:pie_crust",
+      "required": false
+    }
+  ]
+}

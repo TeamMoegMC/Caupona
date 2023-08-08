@@ -1,0 +1,11 @@
+{
+  "values": [
+    "minecraft:potato",
+    "minecraft:baked_potato",
+    "#forge:rootvegetables",
+    "#forge:crops/parsnip",
+    "#forge:crops/turnip",
+    "#forge:crops/radish",
+    "#forge:crops/cassava"
+  ]
+}

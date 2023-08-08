@@ -1,0 +1,18 @@
+{
+  "values": [
+    "minecraft:beef",
+    "minecraft:mutton",
+    "minecraft:porkchop",
+    "minecraft:rotten_flesh",
+    "#forge:bacon",
+    "#forge:raw_pork",
+    "#forge:raw_beef",
+    "#forge:raw_mutton",
+    "#forge:raw_venison",
+    {
+      "id": "farmersdelight:ham",
+      "required": false
+    },
+    "#forge:raw_bacon"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "values": [
+    "caupona:snail",
+    "caupona:plump_snail",
+    "#forge:crabs",
+    "#forge:crab_legs",
+    "#forge:clams",
+    "#forge:lobsters",
+    "#forge:mussel",
+    {
+      "tag": "aquaculture:turtles",
+      "required": false
+    },
+    {
+      "tag": "quark:crab_leg",
+      "required": false
+    },
+    {
+      "tag": "alexsmobs:lobster_tail",
+      "required": false
+    }
+  ]
+}
