@@ -214,10 +214,16 @@ public class Utils {
         }
 	}
 	public static MutableComponent translate(String format,Object...objects) {
-		return MutableComponent.create(new TranslatableContents(format,null,objects));
+		return translateWithFallback(format,null,objects);
 	}
 	public static MutableComponent translate(String format) {
-		return MutableComponent.create(new TranslatableContents(format,null,new Object[0]));
+		return translate(format,new Object[0]);
+	}
+	public static MutableComponent translateWithFallback(String format,String fallback,Object...objects) {
+		return MutableComponent.create(new TranslatableContents(format,fallback,objects));
+	}
+	public static MutableComponent translateWithFallback(String format,String fallback) {
+		return translate(format,fallback,new Object[0]);
 	}
 	public static MutableComponent string(String content) {
 		return MutableComponent.create(new LiteralContents(content));

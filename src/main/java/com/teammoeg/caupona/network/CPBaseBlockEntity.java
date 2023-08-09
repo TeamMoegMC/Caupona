@@ -72,9 +72,7 @@ public abstract class CPBaseBlockEntity extends BlockEntity {
 
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket() {
-		CompoundTag cnbt = new CompoundTag();
-		writeCustomNBT(cnbt, true);
-		return ClientboundBlockEntityDataPacket.create(this, i -> cnbt);
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Override
