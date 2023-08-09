@@ -2,9 +2,6 @@
   "values": [
     "minecraft:chicken",
     "minecraft:rabbit",
-    "#forge:raw_chicken",
-    "#forge:raw_rabbit",
-    "#forge:bread",
     {
       "id": "simplefarming:raw_chicken_wings",
       "required": false
@@ -17,5 +14,10 @@
       "id": "simplefarming:raw_horse_meat",
       "required": false
     }
+  ],
+  "optional": [
+  	"#forge:raw_chicken",
+    "#forge:raw_rabbit",
+    "#forge:bread"
   ]
 }

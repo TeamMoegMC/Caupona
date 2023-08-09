@@ -1,7 +1,9 @@
 {
   "values": [
     "minecraft:egg",
-    "#forge:cooked_eggs",
     "caupona:snail_block"
+  ],
+  "optional":[
+    "#forge:cooked_eggs"
   ]
 }

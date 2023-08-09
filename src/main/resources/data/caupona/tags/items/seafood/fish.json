@@ -1,6 +1,8 @@
 {
   "values": [
-    "#minecraft:fishes",
+    "#minecraft:fishes"
+  ],
+  "optional": [
     "#forge:raw_fishes"
   ]
 }

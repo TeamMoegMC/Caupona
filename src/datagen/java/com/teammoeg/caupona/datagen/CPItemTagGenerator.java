@@ -109,7 +109,7 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 			tag(ItemTags.WOODEN_TRAPDOORS).add(cp(wood + "_trapdoor"));
 
 			tag(ItemTags.WOODEN_PRESSURE_PLATES).add(cp(wood + "_pressure_plate"));
-			//tag(wood+"_log").add(cp(wood + "_wood")).add(cp(wood + "_log")).add(cp("stripped_" + wood + "_wood")).add(cp("stripped_" + wood + "_log"));
+			tag(wood+"_log").add(cp(wood + "_wood")).add(cp(wood + "_log")).add(cp("stripped_" + wood + "_wood")).add(cp("stripped_" + wood + "_log"));
 			tag(ItemTags.LOGS).add(cp(wood + "_wood")).add(cp(wood + "_log")).add(cp("stripped_" + wood + "_wood")).add(cp("stripped_" + wood + "_log"));
 
 			tag(ItemTags.SLABS).add(cp(wood + "_slab"));
@@ -136,9 +136,9 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 			tag(ItemTags.STAIRS).add(cp(stone + "_stairs"));
 			tag(ItemTags.WALLS).add(cp(stone + "_wall"));
 		}
-//		for (String s : CPItems.aspics) {
-//			tag("aspics").add(cp(s));
-//		}
+		for (String s : CPItems.aspics) {
+			tag("aspics").add(cp(s));
+		}
 //		tag("fuel/woods").addTags(ItemTags.LOGS, ItemTags.PLANKS, ItemTags.WOODEN_BUTTONS, ItemTags.WOODEN_DOORS,
 //				ItemTags.WOODEN_FENCES, ItemTags.WOODEN_PRESSURE_PLATES, ItemTags.WOODEN_SLABS, ItemTags.WOODEN_STAIRS,
 //				ItemTags.WOODEN_TRAPDOORS, ItemTags.SAPLINGS);
@@ -184,8 +184,8 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 //		tag("fern").add(rk(Items.FERN), rk(Items.LARGE_FERN));
 
 //		tag("wolfberries").add(cp("wolfberries"));
-//		tag("stews").add(CPItems.stews.stream().map(this::rk).toArray(i->new ResourceKey[i]));
-//		tag("stoves").add(CPBlocks.stoves.stream().map(e->rk(e.get().asItem())).toArray(ResourceKey[]::new));
+		tag("stews").add(CPItems.stews.stream().map(this::rk).toArray(i->new ResourceKey[i]));
+		tag("stoves").add(CPBlocks.stoves.stream().map(e->rk(e.get().asItem())).toArray(ResourceKey[]::new));
 //		tag("portable_brazier_fuel").add(rk(Items.MAGMA_CREAM)).add(cp("vivid_charcoal"));
 //		tag("garum_fish").add(rk(Items.COD), rk(Items.SALMON));
 //		tag("vinegar_fruits").add(rk(Items.APPLE)).add(cp("fig"));

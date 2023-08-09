@@ -1,5 +1,8 @@
 {
   "values": [
-    "#forge:grain/rice"
+    {
+      "id": "#forge:grain/rice",
+      "required": false
+    }
   ]
 }

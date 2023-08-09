@@ -3,12 +3,14 @@
     "minecraft:carrot",
     "minecraft:beetroot",
     "minecraft:pumpkin",
-    "#forge:vegetables",
-    "#forge:vegetable",
     "#caupona:vegetables/greens",
     "#caupona:mushroom",
     "#caupona:vegetables/roots",
-    "#forge:salad_ingredients",
     "#caupona:vegetables/pumpkin"
+  ],
+  "optional":[
+  	"#forge:vegetables",
+    "#forge:vegetable",
+    "#forge:salad_ingredients"
   ]
 }
