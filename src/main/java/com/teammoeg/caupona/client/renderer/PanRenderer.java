@@ -83,7 +83,7 @@ public class PanRenderer implements BlockEntityRenderer<PanBlockEntity> {
 		ModelData imd = bm.getModelData(blockEntity.getLevel(), blockEntity.getBlockPos(), bs,
 				blockEntity.getLevel().getModelDataManager().getAt((blockEntity.getBlockPos())));
 		if(imd==null)return;
-		ModelUtils.tesellate(blockEntity,bm, buffer.getBuffer(RenderType.cutout()), matrixStack, combinedOverlayIn,imd);
+		ModelUtils.tesellate(blockEntity,bs,bm, buffer.getBuffer(RenderType.cutout()), matrixStack, combinedOverlayIn,imd);
 		//rd.renderSingleBlock(bs, matrixStack, buffer, combinedLightIn, combinedOverlayIn, imd,RenderType.cutout());
 
 	}
