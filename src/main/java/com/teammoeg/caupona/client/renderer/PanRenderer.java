@@ -26,6 +26,7 @@ import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.foods.DishBlock;
 import com.teammoeg.caupona.blocks.pan.PanBlock;
 import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
+import com.teammoeg.caupona.client.util.ModelUtils;
 import com.teammoeg.caupona.item.DishItem;
 
 import net.minecraft.client.Minecraft;
@@ -34,6 +35,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -77,10 +79,12 @@ public class PanRenderer implements BlockEntityRenderer<PanBlockEntity> {
 		} else
 			bs = bs.setValue(DishBlock.PAN, 2);
 		BlockRenderDispatcher rd = Minecraft.getInstance().getBlockRenderer();
-		ModelData imd = rd.getBlockModel(bs).getModelData(blockEntity.getLevel(), blockEntity.getBlockPos(), bs,
+		BakedModel bm=rd.getBlockModel(bs);
+		ModelData imd = bm.getModelData(blockEntity.getLevel(), blockEntity.getBlockPos(), bs,
 				blockEntity.getLevel().getModelDataManager().getAt((blockEntity.getBlockPos())));
 		if(imd==null)return;
-		rd.renderSingleBlock(bs, matrixStack, buffer, combinedLightIn, combinedOverlayIn, imd,RenderType.cutout());
+		ModelUtils.tesellate(blockEntity,bm, buffer.getBuffer(RenderType.cutout()), matrixStack, combinedOverlayIn,imd);
+		//rd.renderSingleBlock(bs, matrixStack, buffer, combinedLightIn, combinedOverlayIn, imd,RenderType.cutout());
 
 	}
 

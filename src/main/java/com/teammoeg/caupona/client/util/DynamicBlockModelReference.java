@@ -44,5 +44,8 @@ public class DynamicBlockModelReference implements Supplier<BakedModel>,Function
 	{
 		return get().getQuads(null, null,RANDOM_SOURCE, data, null);
 	}
+	public static RandomSource getRandomSource() {
+		return RANDOM_SOURCE;
+	}
 
 }
