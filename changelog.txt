@@ -1,3 +1,2 @@
-Added asses as decoration
-Fix typos in manual.
-Added config for road speed and leaden walnut gen.
+Add support for convivium.
+Added mosaic blocks for decoration
