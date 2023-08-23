@@ -36,8 +36,8 @@ public class MosaicRenderer extends BlockEntityWithoutLevelRenderer {
 	@Override
 	public void renderByItem(ItemStack is, ItemDisplayContext ctx, PoseStack matrixStack,
 			MultiBufferSource buffer, int combinedLightIn, int combinedOverlayIn) {
-		CompoundTag tag=is.getOrCreateTagElement("caupona:mosaic");
-		if(tag.isEmpty())
+		CompoundTag tag=is.getTagElement("caupona:mosaic");
+		if(tag==null)
 			return;
 		MosaicPattern pattern=MosaicPattern.valueOf(tag.getString("pattern"));
 		MosaicMaterial m1=MosaicMaterial.valueOf(tag.getString("mat1"));
