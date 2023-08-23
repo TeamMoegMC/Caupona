@@ -9,8 +9,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.Direction.Axis;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.ModelData;
@@ -34,8 +34,21 @@ public class ModelUtils {
 		Minecraft.getInstance().getBlockRenderer().getModelRenderer()
 		.tesselateBlock(be.getLevel(),model, bs, be.getBlockPos(), transform, renderer, true, DynamicBlockModelReference.getRandomSource(),42L, overlay,data, null);
 	}
+	public static void tesellateRotatable(BlockEntity be,Axis rot,BlockState bs,BakedModel model, VertexConsumer renderer, PoseStack transform, int overlay,ModelData data) {
+		Minecraft.getInstance().getBlockRenderer().getModelRenderer()
+		.tesselateBlock(new DynamicRenderLevel(be.getLevel(),be.getBlockPos(),rot),model, bs, be.getBlockPos(), transform, renderer, true, DynamicBlockModelReference.getRandomSource(),42L, overlay,data, null);
+	}
 	public static void tesellate(BlockEntity be,DynamicBlockModelReference model, VertexConsumer renderer, PoseStack transform, int overlay,ModelData data) {
 		tesellate(be,be.getBlockState(),model.get(), renderer, transform, overlay,data);
+	}
+	public static void tesellateRotatable(BlockEntity be,Axis rot,DynamicBlockModelReference model, VertexConsumer renderer, PoseStack transform, int overlay,ModelData data) {
+		tesellateRotatable(be,rot,be.getBlockState(),model.get(), renderer, transform, overlay,data);
+	}
+	public static void tesellateRotatableModel(BlockEntity be,Axis rot,DynamicBlockModelReference model, VertexConsumer renderer, PoseStack transform, int overlay) {
+		tesellateRotatable(be, rot,model,renderer, transform, overlay,ModelData.EMPTY);
+	}
+	public static void tesellateRotatableModelGroups(BlockEntity be,Axis rot,DynamicBlockModelReference model, VertexConsumer renderer,ImmutableSet<String> groups, PoseStack transform, int overlay) {
+		tesellateRotatable(be, rot,model,renderer, transform, overlay,ModelData.builder().with(DisplayGroupProperty.PROPERTY,groups).build());
 	}
 	public static void tesellateModel(BlockEntity be,DynamicBlockModelReference model, VertexConsumer renderer, PoseStack transform, int overlay) {
 		tesellate(be, model,renderer, transform, overlay,ModelData.EMPTY);
