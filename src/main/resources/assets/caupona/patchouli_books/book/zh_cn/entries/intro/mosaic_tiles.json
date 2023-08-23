@@ -1,0 +1,26 @@
+{
+	"name": "马赛克砖",
+	"icon": "caupona:tessellation_workbench",
+	"category": "caupona:intro",
+	"sortnum": 29,
+	"pages": [
+		{
+			"type": "text",
+			"text": "通过将不同颜色的石片按一定图案贴在混凝土内核上，可以获得装饰性的马赛克砖。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/tessellation_workbench",
+			"text": "制造马赛克砖需要使用马赛克工作台。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:brick_tesserae",
+			"text": "制造一块马赛克砖，需要两种不同的马赛克石片和一块混凝土。当然也可以用相同类型的石片，这样无论选择的图案是什么，都会得到纯色的马赛克砖。有时还算有用。"
+		},
+		{
+			"type": "text",
+			"text": "本 mod 提供三种制造马赛克砖的材料：浮岩（$(#86857b)浅色$()）、玄武岩（$(#2b2b35)深色$()）、砖（$(#874a3a)棕色$()）。除此之外，提供了11种图案。通过结合材料和图案，可得到各种各样的马赛克砖。"
+		}
+	]
+}

@@ -1,0 +1,26 @@
+{
+	"name": "Mosaic Tiles",
+	"icon": "caupona:tessellation_workbench",
+	"category": "caupona:intro",
+	"sortnum": 29,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Mosaic tiles are ornamental blocks, made by setting pieces of colored materials on a concrete core in different patterns."
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/tessellation_workbench",
+			"text": "Mosaic tiles are designed and made using tessellation workbenches."
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:brick_tesserae",
+			"text": "To design and make a mosaic tile, you need two different mosaic pieces and a concrete block. You could of cource use two pieces of the same kind, which only results in monochrome tiles regardless of the pattern you choose – still useful sometimes."
+		},
+		{
+			"type": "text",
+			"text": "Three types of materials, namely pumice ($(#86857b)pale$()), basalt ($(#2b2b35)dark$()), and brick ($(#874a3a)ocher$()), as well as 11 patterns are provided so far. You can combine them to yield various tiles."
+		}
+	]
+}
