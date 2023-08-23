@@ -127,11 +127,6 @@ mixin {
 repositories {
     mavenLocal()
     mavenCentral()
-    // JEI and TC Files
-    maven {
-        name = "DVS1 Maven FS"
-        url = "https://dvs1.progwml6.com/files/maven"
-    }
     // Needed for JEI
     maven {
         name = "latvian maven"
