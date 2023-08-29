@@ -272,7 +272,6 @@ curseforge {
     project {
         def envApiKey = System.getenv('CURSEFORGE_API_KEY')
         apiKey = envApiKey == null ? 'nope' : envApiKey
-
         id = project.projectId
         changelog = getChangelogText()
         changelogType = 'html'
