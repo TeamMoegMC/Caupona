@@ -14,6 +14,7 @@
     "#forge:crops/cauliflower",
     "#forge:crops/broccoli",
     "#forge:crops/spinach",
-    "#forge:crops/brusselsprout"
+    "#forge:crops/brusselsprout",
+    "#forge:crops/artichoke"
   ]
 }

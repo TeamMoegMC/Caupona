@@ -8,6 +8,8 @@
     "#forge:crops/parsnip",
     "#forge:crops/turnip",
     "#forge:crops/radish",
-    "#forge:crops/cassava"
+    "#forge:crops/cassava",
+    "#forge:crops/yam",
+    "#forge:crops/sweet_potato"
   ]
 }

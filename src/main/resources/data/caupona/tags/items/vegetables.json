@@ -11,6 +11,15 @@
   "optional":[
   	"#forge:vegetables",
     "#forge:vegetable",
-    "#forge:salad_ingredients"
+    "#forge:salad_ingredients",
+    "#forge:crops/onion",
+    "#forge:crops/bellpepper",
+    "#forge:crops/pepper",
+    "#forge:crops/tomato",
+    "#forge:crops/eggplant",
+    "#forge:crops/cucumber",
+    "#forge:crops/radish",
+    "#forge:crops/pea",
+    "#forge:crops/bean"
   ]
 }
