@@ -33,7 +33,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class BowlBlockEntity extends CPBaseBlockEntity implements IInfinitable,IFoodContainer {
-	public ItemStack internal;
+	public ItemStack internal=ItemStack.EMPTY;
 	boolean isInfinite = false;
 
 	public BowlBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
