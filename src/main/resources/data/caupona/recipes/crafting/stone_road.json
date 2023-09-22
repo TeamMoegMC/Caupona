@@ -9,7 +9,7 @@
 			"item": "minecraft:stone_brick_slab"
 		},
 		"=": {
-			"item": "minecraft:light_gray_concrete"
+			"tag": "caupona:mosaic_bases"
 		}
 	},
 	"result": {
