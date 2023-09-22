@@ -1,6 +1,6 @@
 {
-  "values": [
-    "#caupona:meats/poultry",
-    "#caupona:meats/meat"
-  ]
+	"values": [
+		"#caupona:meats/poultry",
+		"#caupona:meats/meat"
+	]
 }

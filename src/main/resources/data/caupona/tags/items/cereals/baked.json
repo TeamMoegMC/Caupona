@@ -1,13 +1,13 @@
 {
-  "values": [
-    "minecraft:bread",
-    {
-      "id": "#forge:pasta",
-      "required": false
-    },
-    {
-      "id": "farmersdelight:pie_crust",
-      "required": false
-    }
-  ]
+	"values": [
+		"minecraft:bread",
+		{
+			"id": "#forge:pasta",
+			"required": false
+		},
+		{
+			"id": "farmersdelight:pie_crust",
+			"required": false
+		}
+	]
 }

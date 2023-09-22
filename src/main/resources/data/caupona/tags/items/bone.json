@@ -1,5 +1,9 @@
 {
-  "values": [
-    "minecraft:bone"
-  ]
+	"values": [
+		"minecraft:bone",
+		{
+			"id": "#forge:bones",
+			"required": false
+		}
+	]
 }
