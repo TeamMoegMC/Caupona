@@ -8,6 +8,10 @@
 		{
 			"id": "farmersdelight:pie_crust",
 			"required": false
+		},
+		{
+			"id": "forge:bread",
+			"required": false
 		}
 	]
 }

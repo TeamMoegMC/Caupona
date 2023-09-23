@@ -21,10 +21,6 @@
 		{
 			"id": "#forge:raw_rabbit",
 			"required": false
-		},
-		{
-			"id": "#forge:bread",
-			"required": false
 		}
 	]
 }
