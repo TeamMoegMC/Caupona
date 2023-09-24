@@ -1,5 +1,9 @@
 {
 	"values": [
-		"caupona:walnut"
+		"caupona:walnut",
+		{
+			"id": "#forge:nuts/walnut",
+			"required": false
+		}
 	]
 }
