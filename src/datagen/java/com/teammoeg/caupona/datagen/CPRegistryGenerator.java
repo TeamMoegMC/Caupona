@@ -60,18 +60,13 @@ import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
-
 	@SuppressWarnings("unchecked")
 	public CPRegistryGenerator(PackOutput output, CompletableFuture<Provider> registries) {
 		super(output, registries,new RegistrySetBuilder()
-				
 				.add(Registries.CONFIGURED_FEATURE,(RegistrySetBuilder.RegistryBootstrap)CPRegistryGenerator::bootstrapCFeatures)
 				.add(Registries.PLACED_FEATURE,CPRegistryGenerator::bootstrapPFeatures),
 				Set.of(CPMain.MODID));
-		
 	}
-	
-	
 	public static void bootstrapPFeatures(BootstapContext<PlacedFeature> pContext) {
 		HolderGetter<ConfiguredFeature<?, ?>> holder=pContext.lookup(Registries.CONFIGURED_FEATURE);
 		PlacementUtils.register(pContext, CPWorldGen.TREES_WALNUT,holder.getOrThrow(CPWorldGen.WALNUT),VegetationPlacements

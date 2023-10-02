@@ -81,14 +81,14 @@ public class CPLootGenerator extends LootTableProvider {
 	static Item cpi(String name) {
 		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID, name));
 	}
-	@Override
+	/*@Override
 	protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationcontext) {
 		map.forEach((p_278897_, p_278898_) -> {
 			p_278898_.validate(validationcontext.setParams(p_278898_.getParamSet())
 					.enterElement("{" + p_278897_ + "}", new LootDataId<>(LootDataType.TABLE, p_278897_)));
 		});
 		//map.forEach((name, table) -> LootTables.validate(validationtracker, name, table));
-	}
+	}*/
 	public static final ResourceLocation ASSES=CPMain.rl("asses");
 	private static class OTHBuilder implements LootTableSubProvider {
 
@@ -193,11 +193,6 @@ public class CPLootGenerator extends LootTableProvider {
 			return added;
 		}
 
-		@Override
-		public void dropOther(Block blockIn, ItemLike drop) {
-			added.add(blockIn);
-			super.dropOther(blockIn, drop);
-		}
 
 		protected void add(Block pBlock, LootTable.Builder pLootTableBuilder) {
 			added.add(pBlock);
