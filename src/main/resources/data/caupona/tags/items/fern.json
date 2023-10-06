@@ -1,6 +1,14 @@
 {
 	"values": [
 		"minecraft:fern",
-		"minecraft:large_fern"
+		"minecraft:large_fern",
+		{
+			"id": "#forge:nettle",
+			"required": false
+		},
+		{
+			"id": "#forge:ferns",
+			"required": false
+		}
 	]
 }
