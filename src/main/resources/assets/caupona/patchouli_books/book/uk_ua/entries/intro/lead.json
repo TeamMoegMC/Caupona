@@ -14,12 +14,12 @@
 			"type": "patchouli:spotlight",
 			"item": "caupona:litharge_cake",
 			"link_recipe": true,
-			"text": "Післяготування свинцевих горіхів з ковадлом (не споживається) в $(l:intro/counter_with_dolium)долії$(/l) дає ливарний корж."
+			"text": "Післяготування свинцевих горіхів із ковадлом (не споживається) в $(l:intro/counter_with_dolium)долію$(/l) дає ливарний корж."
 		},
 		{
 			"type": "smelting",
 			"recipe": "caupona:smelting/lead_nugget",
-			"text": "Ливарні коржі можна перетопити у свинцеві самородки."
+			"text": "Ливарні коржі можна виплавити у свинцеві самородки."
 		}
 	]
 }

@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Caupona також представляє деякі будівельні матеріали та плитки."
+			"text": "Caupona також додає деякі будівельні матеріали та кахлі."
 		},
 		{
 			"type": "crafting",
@@ -15,7 +15,7 @@
 		{
 			"type": "crafting",
 			"recipe": "caupona:crafting/felsic_tuff",
-			"text": "Фельзитовий туф утворений з $(l:worldgen/volcanic_fumarole)пемзи$(/l) й туфу. Є одним з основних будівельних матеріалів Caupona."
+			"text": "Фельзитовий туф утворений із $(l:worldgen/volcanic_fumarole)пемзи$(/l) та туфу. Є одним з основних будівельних матеріалів Caupona."
 		},
 		{
 			"type": "crafting",
