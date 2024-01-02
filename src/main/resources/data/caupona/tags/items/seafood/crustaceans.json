@@ -1,25 +1,38 @@
 {
-  "values": [
-    "caupona:snail",
-    "caupona:plump_snail",
-    {
-      "id": "aquaculture:turtles",
-      "required": false
-    },
-    {
-      "id": "quark:crab_leg",
-      "required": false
-    },
-    {
-      "id": "alexsmobs:lobster_tail",
-      "required": false
-    }
-  ],
-  "optional": [
-  	"#forge:crabs",
-    "#forge:crab_legs",
-    "#forge:clams",
-    "#forge:lobsters",
-    "#forge:mussel"
-  ]
+	"values": [
+		"caupona:snail",
+		"caupona:plump_snail",
+		{
+			"id": "quark:crab_leg",
+			"required": false
+		},
+		{
+			"id": "alexsmobs:lobster_tail",
+			"required": false
+		},
+		{
+			"id": "#forge:crabs",
+			"required": false
+		},
+		{
+			"id": "#forge:crab_legs",
+			"required": false
+		},
+		{
+			"id": "#forge:clams",
+			"required": false
+		},
+		{
+			"id": "#forge:lobsters",
+			"required": false
+		},
+		{
+			"id": "#forge:mussel",
+			"required": false
+		},
+		{
+			"id": "#aquaculture:turtle",
+			"required": false
+		}
+	]
 }

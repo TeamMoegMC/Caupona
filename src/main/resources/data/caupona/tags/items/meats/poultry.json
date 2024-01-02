@@ -1,23 +1,26 @@
 {
-  "values": [
-    "minecraft:chicken",
-    "minecraft:rabbit",
-    {
-      "id": "simplefarming:raw_chicken_wings",
-      "required": false
-    },
-    {
-      "id": "simplefarming:raw_sausage",
-      "required": false
-    },
-    {
-      "id": "simplefarming:raw_horse_meat",
-      "required": false
-    }
-  ],
-  "optional": [
-  	"#forge:raw_chicken",
-    "#forge:raw_rabbit",
-    "#forge:bread"
-  ]
+	"values": [
+		"minecraft:chicken",
+		"minecraft:rabbit",
+		{
+			"id": "simplefarming:raw_chicken_wings",
+			"required": false
+		},
+		{
+			"id": "simplefarming:raw_sausage",
+			"required": false
+		},
+		{
+			"id": "simplefarming:raw_horse_meat",
+			"required": false
+		},
+		{
+			"id": "#forge:raw_chicken",
+			"required": false
+		},
+		{
+			"id": "#forge:raw_rabbit",
+			"required": false
+		}
+	]
 }

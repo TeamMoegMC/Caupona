@@ -1,20 +1,36 @@
 {
-  "values": [
-    "minecraft:beef",
-    "minecraft:mutton",
-    "minecraft:porkchop",
-    "minecraft:rotten_flesh",
-    {
-      "id": "farmersdelight:ham",
-      "required": false
-    }
-  ],
-  "optional": [
-    "#forge:bacon",
-    "#forge:raw_pork",
-    "#forge:raw_beef",
-    "#forge:raw_mutton",
-    "#forge:raw_venison",
-    "#forge:raw_bacon"
-  ]
+	"values": [
+		"minecraft:beef",
+		"minecraft:mutton",
+		"minecraft:porkchop",
+		"minecraft:rotten_flesh",
+		{
+			"id": "farmersdelight:ham",
+			"required": false
+		},
+		{
+			"id": "#forge:bacon",
+			"required": false
+		},
+		{
+			"id": "#forge:raw_pork",
+			"required": false
+		},
+		{
+			"id": "#forge:raw_beef",
+			"required": false
+		},
+		{
+			"id": "#forge:raw_mutton",
+			"required": false
+		},
+		{
+			"id": "#forge:raw_venison",
+			"required": false
+		},
+		{
+			"id": "#forge:raw_bacon",
+			"required": false
+		}
+	]
 }

@@ -1,12 +1,16 @@
 {
-  "values": [
-    "#caupona:cereals/rice",
-    "#caupona:cereals/baked",
-    "minecraft:wheat",
-    "minecraft:wheat_seeds"
-  ],
-  "optional": [
-    "#forge:grain",
-  	"#forge:bread"
-  ]
+	"values": [
+		"#caupona:cereals/rice",
+		"#caupona:cereals/baked",
+		"minecraft:wheat",
+		"minecraft:wheat_seeds",
+		{
+			"id": "#forge:grain",
+			"required": false
+		},
+		{
+			"id": "#forge:bread",
+			"required": false
+		}
+	]
 }

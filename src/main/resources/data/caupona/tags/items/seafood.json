@@ -1,8 +1,8 @@
 {
-  "values": [
-    "#caupona:seafood/fish",
-    "#caupona:seafood/crustaceans",
-    "minecraft:kelp",
-    "minecraft:dried_kelp"
-  ]
+	"values": [
+		"#caupona:seafood/fish",
+		"#caupona:seafood/crustaceans",
+		"minecraft:kelp",
+		"minecraft:dried_kelp"
+	]
 }
