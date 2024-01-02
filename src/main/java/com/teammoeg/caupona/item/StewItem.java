@@ -72,7 +72,7 @@ public class StewItem extends EdibleBlock{
 
 	public static StewInfo getInfo(ItemStack stack) {
 		if (stack.hasTag()) {
-			CompoundTag soupTag = Utils.extractData(stack);
+			CompoundTag soupTag = Utils.extractDataElement(stack, "soup");
 			return soupTag == null ? new StewInfo(Utils.getFluidTypeRL(stack))
 					: new StewInfo(soupTag);
 		}
@@ -125,6 +125,7 @@ public class StewItem extends EdibleBlock{
 		CPItems.stews.add(this);
 		this.fluid = fluid;
 	}
+
 
 	@Override
 	public FoodProperties getFoodProperties(ItemStack stack, LivingEntity entity) {

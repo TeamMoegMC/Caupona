@@ -72,10 +72,16 @@ public class EdibleBlock extends CPBlockItem {
 	}
 
 	public ItemStack finishUsingItem(ItemStack itemstack, Level worldIn, LivingEntity entityLiving) {
+		System.out.println("finished using "+this.getFoodProperties(itemstack, entityLiving).getNutrition());
 		super.finishUsingItem(itemstack, worldIn, entityLiving);
 		return new ItemStack(Items.BOWL);
 	}
 
+	@Override
+	public boolean isEdible() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 	/**
 	 * Called when this item is used when targetting a Block
 	 */
