@@ -1,1 +1,2 @@
-Fix tag support
+Repaired stew item hunger values
+Repaired mushroom dish priority
