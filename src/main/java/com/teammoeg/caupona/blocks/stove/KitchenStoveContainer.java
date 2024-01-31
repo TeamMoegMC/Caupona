@@ -28,7 +28,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
 
 public class KitchenStoveContainer extends CPBaseContainer<KitchenStoveBlockEntity> {
 
@@ -41,7 +41,7 @@ public class KitchenStoveContainer extends CPBaseContainer<KitchenStoveBlockEnti
 		this.addSlot(new Slot(blockEntity, 0, 80, 55) {
 			@Override
 			public boolean mayPlace(ItemStack stack) {
-				return ForgeHooks.getBurnTime(stack, null) > 0 && stack.getCraftingRemainingItem().isEmpty();
+				return CommonHooks.getBurnTime(stack, null) > 0 && stack.getCraftingRemainingItem().isEmpty();
 			}
 		});
 		super.addPlayerInventory(inv,8,84,142);

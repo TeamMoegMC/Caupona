@@ -29,9 +29,9 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.ModelData;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.model.data.ModelData;
 
 @OnlyIn(Dist.CLIENT)
 public class LayeredBakedModel implements BakedModel {
@@ -44,7 +44,7 @@ public class LayeredBakedModel implements BakedModel {
 	protected final ItemTransforms transforms;
 	protected final ItemOverrides overrides;
 	public final int cacheNo=0;
-	protected final net.minecraftforge.client.ChunkRenderTypeSet blockRenderTypes;
+	protected final net.neoforged.neoforge.client.ChunkRenderTypeSet blockRenderTypes;
 	protected final List<net.minecraft.client.renderer.RenderType> itemRenderTypes;
 	protected final List<net.minecraft.client.renderer.RenderType> fabulousItemRenderTypes;
 	private final Function<Map.Entry<String,int[]>,int[]> values;
@@ -53,12 +53,12 @@ public class LayeredBakedModel implements BakedModel {
 	public LayeredBakedModel(List<BakedQuad> pUnculledFaces, boolean pHasAmbientOcclusion, boolean pUsesBlockLight,
 			boolean pIsGui3d, TextureAtlasSprite pParticleIcon, ItemTransforms pTransforms, ItemOverrides pOverrides) {
 		this(pUnculledFaces,new HashMap<>(),pHasAmbientOcclusion, pUsesBlockLight, pIsGui3d, pParticleIcon, pTransforms, pOverrides,
-				net.minecraftforge.client.RenderTypeGroup.EMPTY);
+				net.neoforged.neoforge.client.RenderTypeGroup.EMPTY);
 	}
 
 	public LayeredBakedModel(List<BakedQuad> pUnculledFaces,Map<String,int[]> names, boolean pHasAmbientOcclusion, boolean pUsesBlockLight,
 			boolean pIsGui3d, TextureAtlasSprite pParticleIcon, ItemTransforms pTransforms, ItemOverrides pOverrides,
-			net.minecraftforge.client.RenderTypeGroup renderTypes) {
+			net.neoforged.neoforge.client.RenderTypeGroup renderTypes) {
 		this.unculledFaces = pUnculledFaces;
 		this.hasAmbientOcclusion = pHasAmbientOcclusion;
 		this.isGui3d = pIsGui3d;
@@ -68,7 +68,7 @@ public class LayeredBakedModel implements BakedModel {
 		this.overrides = pOverrides;
 		this.faces=names;
 		this.blockRenderTypes = !renderTypes.isEmpty()
-				? net.minecraftforge.client.ChunkRenderTypeSet.of(renderTypes.block())
+				? net.neoforged.neoforge.client.ChunkRenderTypeSet.of(renderTypes.block())
 				: null;
 		this.itemRenderTypes = !renderTypes.isEmpty() ? List.of(renderTypes.entity()) : null;
 		this.fabulousItemRenderTypes = !renderTypes.isEmpty() ? List.of(renderTypes.entityFabulous()) : null;
@@ -114,9 +114,9 @@ public class LayeredBakedModel implements BakedModel {
 	}
 
 	@Override
-	public net.minecraftforge.client.ChunkRenderTypeSet getRenderTypes(
+	public net.neoforged.neoforge.client.ChunkRenderTypeSet getRenderTypes(
 			@org.jetbrains.annotations.NotNull BlockState state, @org.jetbrains.annotations.NotNull RandomSource rand,
-			@org.jetbrains.annotations.NotNull net.minecraftforge.client.model.data.ModelData data) {
+			@org.jetbrains.annotations.NotNull net.neoforged.neoforge.client.model.data.ModelData data) {
 		if (blockRenderTypes != null)
 			return blockRenderTypes;
 		return BakedModel.super.getRenderTypes(state, rand, data);
@@ -177,7 +177,7 @@ public class LayeredBakedModel implements BakedModel {
 			return this;
 		}
 
-		public BakedModel build(net.minecraftforge.client.RenderTypeGroup renderTypes) {
+		public BakedModel build(net.neoforged.neoforge.client.RenderTypeGroup renderTypes) {
 			Map<String,int[]> rfaces=new HashMap<>();
 			ToIntFunction<Integer> identity=e->e;
 			for(Entry<String, Set<Integer>> k:faces.entrySet()) {

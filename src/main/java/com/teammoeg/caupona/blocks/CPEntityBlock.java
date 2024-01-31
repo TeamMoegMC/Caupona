@@ -30,7 +30,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public interface CPEntityBlock<V extends BlockEntity> extends EntityBlock {
 	@Override
@@ -38,7 +38,7 @@ public interface CPEntityBlock<V extends BlockEntity> extends EntityBlock {
 		return getBlock().get().create(p, s);
 	}
 
-	RegistryObject<BlockEntityType<V>> getBlock();
+	DeferredHolder<BlockEntityType<V>,BlockEntityType<V>> getBlock();
 
 	@Override
 	public default <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState,

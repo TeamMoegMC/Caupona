@@ -21,13 +21,16 @@
 
 package com.teammoeg.caupona.blocks;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ComparatorBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class CPHorizontalBlock extends HorizontalDirectionalBlock{
-
+	public static MapCodec<CPHorizontalBlock> CODEC = simpleCodec(CPHorizontalBlock::new);
 	public CPHorizontalBlock(Properties p_54120_) {
 		super(p_54120_);
 	}
@@ -43,5 +46,10 @@ public class CPHorizontalBlock extends HorizontalDirectionalBlock{
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
 
+	}
+
+	@Override
+	protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+		return CODEC;
 	}
 }

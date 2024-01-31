@@ -36,6 +36,8 @@ import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.FoodMaterialInfo;
 import com.teammoeg.caupona.util.TabType;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -43,12 +45,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPItems {
-	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, CPMain.MODID);
+	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, CPMain.MODID);
 	public static final String[] soups = new String[] { "acquacotta", "bisque", "borscht", "borscht_cream", "congee",
 			"cream_of_meat_soup", "cream_of_mushroom_soup", "custard", "dilute_soup", "egg_drop_soup", "egg_tongsui",
 			"fish_chowder", "fish_soup", "fricassee", "goji_tongsui", "goulash", "gruel", "hodgepodge", "meat_soup",
@@ -64,7 +65,7 @@ public class CPItems {
 			"sauteed_vegetables", "seared_fillet", "seared_poultry" };
 	public static final String[] spices = new String[] { "chives_spice_jar", "garum_spice_jar", "sugar_spice_jar",
 			"vinegar_spice_jar", "sapa_spice_jar", "asafoetida_spice_jar" };
-	public static final List<RegistryObject<Item>> spicesItems = new ArrayList<>();
+	public static final List<DeferredHolder<Item,Item>> spicesItems = new ArrayList<>();
 	public static final FoodMaterialInfo[] food_material = new FoodMaterialInfo[] { 
 			new FoodMaterialInfo("fig",4,0.3f,0.6f), 
 			new FoodMaterialInfo("walnut",4,0.3f,0.6f),
@@ -77,21 +78,21 @@ public class CPItems {
 
 	public static final List<Item> stews = new ArrayList<>();
 	
-	public static RegistryObject<Item> anyWater = icon("water_or_stock_based");
-	public static RegistryObject<Item> stock = icon("stock_based");
-	public static RegistryObject<Item> milk = icon("milk_based");
-	public static RegistryObject<Item> any = icon("any_based");
-	public static RegistryObject<Item> water_bowl = stew("water", new ResourceLocation("water"), createSoupProps());
-	public static RegistryObject<Item> milk_bowl = stew("milk", new ResourceLocation("milk"), createSoupProps());
-	public static RegistryObject<Item> clay_pot = item("clay_cistern", createProps(),TabType.MAIN);
-	public static RegistryObject<Item> soot = item("soot", createProps(),TabType.MAIN);
-	public static RegistryObject<PortableBrazierItem> pbrazier = ITEMS.register("portable_brazier",()->new PortableBrazierItem( createProps()));
-	public static RegistryObject<Item> situla = ITEMS.register("situla",()->new SitulaItem( createProps().stacksTo(1)));
-	public static RegistryObject<Item> redstone_ladle= item("redstone_ladle",createProps(),TabType.MAIN);
-	public static RegistryObject<Item> scraps= CPCommonBootStrap.asCompositable(item("scraps",createProps(),TabType.MAIN),0.7f);
+	public static DeferredHolder<Item,Item> anyWater = icon("water_or_stock_based");
+	public static DeferredHolder<Item,Item> stock = icon("stock_based");
+	public static DeferredHolder<Item,Item> milk = icon("milk_based");
+	public static DeferredHolder<Item,Item> any = icon("any_based");
+	public static DeferredHolder<Item,Item> water_bowl = stew("water", new ResourceLocation("water"), createSoupProps());
+	public static DeferredHolder<Item,Item> milk_bowl = stew("milk", new ResourceLocation("milk"), createSoupProps());
+	public static DeferredHolder<Item,Item> clay_pot = item("clay_cistern", createProps(),TabType.MAIN);
+	public static DeferredHolder<Item,Item> soot = item("soot", createProps(),TabType.MAIN);
+	public static DeferredHolder<Item,PortableBrazierItem> pbrazier = ITEMS.register("portable_brazier",()->new PortableBrazierItem( createProps()));
+	public static DeferredHolder<Item,Item> situla = ITEMS.register("situla",()->new SitulaItem( createProps().stacksTo(1)));
+	public static DeferredHolder<Item,Item> redstone_ladle= item("redstone_ladle",createProps(),TabType.MAIN);
+	public static DeferredHolder<?,Item> scraps= CPCommonBootStrap.asCompositable(item("scraps",createProps(),TabType.MAIN),0.7f);
 	
-	public static RegistryObject<SkimmerItem> b_skimmer = ITEMS.register("bamboo_skimmer",()->new SkimmerItem( createProps().durability(20)));
-	public static RegistryObject<SkimmerItem> i_skimmer = ITEMS.register("iron_skimmer",()->new SkimmerItem( createProps().durability(200)));
+	public static DeferredHolder<Item,SkimmerItem> b_skimmer = ITEMS.register("bamboo_skimmer",()->new SkimmerItem( createProps().durability(20)));
+	public static DeferredHolder<Item,SkimmerItem> i_skimmer = ITEMS.register("iron_skimmer",()->new SkimmerItem( createProps().durability(200)));
 	static{
 		for (String s : soups) {
 			stew(s, new ResourceLocation(CPMain.MODID, s), createSoupProps());
@@ -112,22 +113,22 @@ public class CPItems {
 			if(s.food!=null)
 				props.food(s.food.build());
 				
-			RegistryObject<Item> item=item(s.name,props,TabType.FOODS);
+			DeferredHolder<Item,Item> item=item(s.name,props,TabType.FOODS);
 			if(s.composite!=0)
 				CPCommonBootStrap.asCompositable(item,s.composite);
 		}
 	}
-	public static RegistryObject<CPBlockItem> gravy_boat = ITEMS.register("gravy_boat",()->new CPBlockItem(CPBlocks.GRAVY_BOAT.get(), createProps().durability(5).setNoRepair(),TabType.FOODS));
-	public static RegistryObject<CPBoatItem> walnut_boat = ITEMS.register("walnut_boat", ()->new CPBoatItem("walnut", createProps()));
-	public static RegistryObject<Chronoconis> chronoconis = ITEMS.register("chronoconis",()->new Chronoconis( createProps()));
+	public static DeferredHolder<Item,CPBlockItem> gravy_boat = ITEMS.register("gravy_boat",()->new CPBlockItem(CPBlocks.GRAVY_BOAT.get(), createProps().durability(5).setNoRepair(),TabType.FOODS));
+	public static DeferredHolder<Item,CPBoatItem> walnut_boat = ITEMS.register("walnut_boat", ()->new CPBoatItem("walnut", createProps()));
+	public static DeferredHolder<Item,Chronoconis> chronoconis = ITEMS.register("chronoconis",()->new Chronoconis( createProps()));
 	//public static Item haze = icon("culinary_heat_haze");
-	public static RegistryObject<Item> icon(String name){
+	public static DeferredHolder<Item,Item> icon(String name){
 		return ITEMS.register(name,IconItem::new);
 	}
-	public static RegistryObject<Item> item(String name,Properties props,TabType tab){
+	public static DeferredHolder<Item,Item> item(String name,Properties props,TabType tab){
 		return ITEMS.register(name,()->new CPItem(props,tab));
 	}
-	public static RegistryObject<Item> stew(String name,ResourceLocation base,Properties props){
+	public static DeferredHolder<Item,Item> stew(String name,ResourceLocation base,Properties props){
 		return ITEMS.register(name,()->new StewItem(base,props));
 	}
 
@@ -140,6 +141,6 @@ public class CPItems {
 		return new Item.Properties();
 	}
 	public static ItemStack getSapa() {
-		return new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID,"sapa_spice_jar")),1);
+		return new ItemStack(BuiltInRegistries.ITEM.get(new ResourceLocation(CPMain.MODID,"sapa_spice_jar")),1);
 	}
 }

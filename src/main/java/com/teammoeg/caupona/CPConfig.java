@@ -23,10 +23,11 @@ package com.teammoeg.caupona;
 
 import java.util.ArrayList;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec.ConfigValue;
+
 
 public class CPConfig {
 
@@ -42,7 +43,7 @@ public class CPConfig {
 		/**
 		 * @param builder
 		 */
-		Client(ForgeConfigSpec.Builder builder) {
+		Client(ModConfigSpec.Builder builder) {
 		}
 	}
 
@@ -53,7 +54,7 @@ public class CPConfig {
 		 * @param builder
 		 */
 
-		Common(ForgeConfigSpec.Builder builder) {
+		Common(ModConfigSpec.Builder builder) {
 			builder.push("recipe");
 			staticTime = builder.comment("Ticks before do still recipe").defineInRange("StillRecipeTicks", 12000, 1,
 					Integer.MAX_VALUE);
@@ -94,7 +95,7 @@ public class CPConfig {
 		public ConfigValue<Double> leadenGenRate;
 		
 		public ConfigValue<Boolean> addManual;
-		Server(ForgeConfigSpec.Builder builder) {
+		Server(ModConfigSpec.Builder builder) {
 			builder.push("recipes");
 
 			potCookTimeBase = builder.comment("Stew pot cooking mininum time in ticks").defineInRange("potCookMinTicks",
@@ -162,8 +163,8 @@ public class CPConfig {
 	}
 
 	// public static final ForgeConfigSpec CLIENT_CONFIG;
-	public static final ForgeConfigSpec COMMON_CONFIG;
-	public static final ForgeConfigSpec SERVER_CONFIG;
+	public static final ModConfigSpec COMMON_CONFIG;
+	public static final ModConfigSpec SERVER_CONFIG;
 	// public static final Client CLIENT;
 	public static final Common COMMON;
 	public static final Server SERVER;
@@ -174,10 +175,10 @@ public class CPConfig {
 		// ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
 		// CLIENT = new Client(CLIENT_BUILDER);
 		// CLIENT_CONFIG = CLIENT_BUILDER.build();
-		ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
+		ModConfigSpec.Builder COMMON_BUILDER = new ModConfigSpec.Builder();
 		COMMON = new Common(COMMON_BUILDER);
 		COMMON_CONFIG = COMMON_BUILDER.build();
-		ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
+		ModConfigSpec.Builder SERVER_BUILDER = new ModConfigSpec.Builder();
 		SERVER = new Server(SERVER_BUILDER);
 		SERVER_CONFIG = SERVER_BUILDER.build();
 	}

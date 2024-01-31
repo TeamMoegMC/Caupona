@@ -5,12 +5,14 @@ import java.util.List;
 
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
+import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
@@ -25,6 +27,7 @@ public class MosaicBlock extends CPHorizontalBlock{
 	public static final EnumProperty<MosaicPattern> PATTERN=EnumProperty.create("pattern", MosaicPattern.class);
 	public MosaicBlock(Properties pProperties) {
 		super(pProperties);
+		CODEC = simpleCodec(MosaicBlock::new);
 	}
 	@Override
 	protected void createBlockStateDefinition(Builder<Block, BlockState> pBuilder) {
@@ -53,7 +56,7 @@ public class MosaicBlock extends CPHorizontalBlock{
 		return ret;
 	}
 	@Override
-	public ItemStack getCloneItemStack(BlockGetter pLevel, BlockPos pPos, BlockState state) {
+	public ItemStack getCloneItemStack(LevelReader pLevel, BlockPos pPos, BlockState state) {
 		ItemStack is=new ItemStack(CPBlocks.MOSAIC.get());
 		MosaicItem.setMosaic(is,state.getValue(MATERIAL_1),state.getValue(MATERIAL_2),state.getValue(PATTERN));
 		return is;

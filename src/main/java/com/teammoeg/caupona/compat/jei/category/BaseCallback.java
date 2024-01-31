@@ -27,9 +27,9 @@ import com.teammoeg.caupona.util.Utils;
 
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class BaseCallback implements IRecipeSlotTooltipCallback {
 	ResourceLocation base;
@@ -45,7 +45,7 @@ public class BaseCallback implements IRecipeSlotTooltipCallback {
 	public void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {
 		if (base != null)
 			tooltip.add(Utils.translate("recipe.caupona.base",
-					ForgeRegistries.FLUIDS.getValue(base).getFluidType().getDescription()));
+					BuiltInRegistries.FLUID.get(base).getFluidType().getDescription()));
 		if (dense != 0)
 			tooltip.add(Utils.translate("recipe.caupona.density", dense));
 	}

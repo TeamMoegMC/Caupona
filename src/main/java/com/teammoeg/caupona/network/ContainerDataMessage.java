@@ -21,19 +21,20 @@
 
 package com.teammoeg.caupona.network;
 
-import java.util.function.Supplier;
-
+import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.client.ClientProxy;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
-public class ContainerDataMessage {
+public class ContainerDataMessage implements CustomPacketPayload{
 	private CompoundTag nbt;
-
+	public static final ResourceLocation path=new ResourceLocation(CPMain.MODID,"container_data");
 	public ContainerDataMessage(CompoundTag message) {
 		this.nbt = message;
 	}
@@ -42,15 +43,21 @@ public class ContainerDataMessage {
 		nbt = buffer.readNbt();
 	}
 
-	void encode(FriendlyByteBuf buffer) {
+	public void write(FriendlyByteBuf buffer) {
 		buffer.writeNbt(nbt);
 	}
 
-	void handle(Supplier<NetworkEvent.Context> context) {
-		context.get().enqueueWork(() -> {
+	void handle(PlayPayloadContext context) {
+		{
 			ClientProxy.data = nbt;
-			DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ClientProxy::run);
-		});
-		context.get().setPacketHandled(true);
+			if(FMLEnvironment.dist==Dist.CLIENT)
+				ClientProxy.run();
+		}
 	}
+
+	@Override
+	public ResourceLocation id() {
+		return path;
+	}
+
 }

@@ -39,8 +39,8 @@ import com.teammoeg.caupona.util.ICreativeModeTabItem;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.tags.FluidTags;
@@ -60,24 +60,26 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fluids.FluidActionResult;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-import net.minecraftforge.fluids.capability.wrappers.BucketPickupHandlerWrapper;
-import net.minecraftforge.fluids.capability.wrappers.FluidBlockWrapper;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.fluids.FluidActionResult;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.IFluidBlock;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
+import net.neoforged.neoforge.fluids.capability.wrappers.BucketPickupHandlerWrapper;
+import net.neoforged.neoforge.fluids.capability.wrappers.FluidBlockWrapper;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
-@Mod.EventBusSubscriber(modid = CPMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CPMain.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class CPCommonBootStrap {
 	public static final List<Pair<Supplier<? extends ItemLike>, Float>> compositables = new ArrayList<>();
 	public static final List<Pair<Supplier<? extends Block>,Pair<Integer,Integer>>> flamables=new ArrayList<>();
@@ -92,12 +94,17 @@ public class CPCommonBootStrap {
 		helper.register(event);
 
 	}
+	@SubscribeEvent
+	public static void onCapabilityInject(RegisterCapabilitiesEvent event) {
+		event.registerItem(Capabilities.FluidHandler.ITEM,(stack,o)->new FluidHandlerItemStack(stack,1250), CPItems.situla.get());
 
-	public static <T extends ItemLike> RegistryObject<T> asCompositable(RegistryObject<T> obj, float val) {
+	}
+	
+	public static <T extends ItemLike> DeferredHolder<?,T> asCompositable(DeferredHolder<?,T> obj, float val) {
 		compositables.add(Pair.of(obj, val));
 		return obj;
 	}
-	public static <T extends Block> RegistryObject<T> asFlamable(RegistryObject<T> obj,int v1,int v2) {
+	public static <T extends Block> DeferredHolder<?,T> asFlamable(DeferredHolder<?,T> obj,int v1,int v2) {
 		flamables.add(Pair.of(obj, Pair.of(v1, v2)));
 		return obj;
 	}
@@ -117,13 +124,13 @@ public class CPCommonBootStrap {
 			@SuppressWarnings("resource")
 			@Override
 			protected ItemStack execute(BlockSource bp, ItemStack is) {
-
-				Direction d = bp.getBlockState().getValue(DispenserBlock.FACING);
-				BlockPos front = bp.getPos().relative(d);
-				FluidState fs = bp.getLevel().getBlockState(front).getFluidState();
-				BlockEntity blockEntity = bp.getLevel().getBlockEntity(front);
+				
+				Direction d = bp.state().getValue(DispenserBlock.FACING);
+				BlockPos front = bp.pos().relative(d);
+				FluidState fs = bp.level().getBlockState(front).getFluidState();
+				BlockEntity blockEntity = bp.level().getBlockEntity(front);
 				if (blockEntity != null) {
-					LazyOptional<IFluidHandler> ip = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER,
+					LazyOptional<IFluidHandler> ip = blockEntity.getCapability(Capabilities.FluidHandler.ITEM,
 							d.getOpposite());
 					if (ip.isPresent()) {
 						ItemStack ret = CauponaApi.fillBowl(ip.resolve().get()).orElse(null);
@@ -442,7 +449,7 @@ public class CPCommonBootStrap {
 
 		};
 		DispenserBlock.registerBehavior(Items.FLOWER_POT, pot);
-		for (RegistryObject<Item> i : CPItems.spicesItems) {
+		for (DeferredHolder<Item> i : CPItems.spicesItems) {
 			DispenserBlock.registerBehavior(i.get(), spice);
 		}
 	}

@@ -48,10 +48,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.api.distmarker.Dist;
+import net.neoforged.neoforge.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.NetworkHooks;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntity> {
 
@@ -60,7 +60,7 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntit
 	public static final BooleanProperty ASH = BooleanProperty.create("ash");
 	public static final IntegerProperty FUELED = IntegerProperty.create("fueled", 0, 3);
 
-	public KitchenStove(Properties blockProps, RegistryObject<BlockEntityType<KitchenStoveBlockEntity>> ste) {
+	public KitchenStove(Properties blockProps, DeferredHolder<BlockEntityType<KitchenStoveBlockEntity>> ste) {
 		super(blockProps, ste);
 	}
 

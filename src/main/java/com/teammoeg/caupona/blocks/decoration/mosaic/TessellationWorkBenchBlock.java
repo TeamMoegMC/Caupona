@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
+import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -22,13 +23,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
 
 public class TessellationWorkBenchBlock extends CPHorizontalBlock {
 
 	public TessellationWorkBenchBlock(Properties pProperties) {
 		super(pProperties);
-		// TODO Auto-generated constructor stub
+		CODEC = simpleCodec(TessellationWorkBenchBlock::new);
 	}
 	static final VoxelShape shape = Block.box(0, 0, 0, 16, 11, 16);
 
@@ -43,10 +43,9 @@ public class TessellationWorkBenchBlock extends CPHorizontalBlock {
 			BlockHitResult pHit) {
 		if (pLevel.isClientSide) {
 			return InteractionResult.SUCCESS;
-		} else {
-			NetworkHooks.openScreen((ServerPlayer) pPlayer, this.getMenuProvider(pState, pLevel, pPos),pPos);
-			return InteractionResult.CONSUME;
 		}
+		pPlayer.openMenu(this.getMenuProvider(pState, pLevel, pPos),pPos);
+		return InteractionResult.CONSUME;
 	}
 
 	@Nullable

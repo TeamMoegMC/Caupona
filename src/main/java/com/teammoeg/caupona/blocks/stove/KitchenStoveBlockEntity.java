@@ -50,7 +50,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.ForgeHooks;
 
 public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Container, MenuProvider, IStove, IInfinitable {
 	private NonNullList<ItemStack> fuel = NonNullList.withSize(1, ItemStack.EMPTY);

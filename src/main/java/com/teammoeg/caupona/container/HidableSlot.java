@@ -24,8 +24,8 @@ package com.teammoeg.caupona.container;
 import java.util.function.Supplier;
 
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 
 public class HidableSlot extends SlotItemHandler {
 	Supplier<Boolean> vs;

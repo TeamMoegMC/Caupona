@@ -45,16 +45,16 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.crafting.StrictNBTIngredient;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.common.crafting.StrictNBTIngredient;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class DoliumRecipe extends IDataRecipe {
 	public static List<DoliumRecipe> recipes;
-	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
-	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
+	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {

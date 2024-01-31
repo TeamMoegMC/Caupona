@@ -26,7 +26,7 @@ import java.util.function.Consumer;
 import com.teammoeg.caupona.util.TabType;
 
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 
 public class CPGravyBoatItem extends CPBlockItem {
 

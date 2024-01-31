@@ -27,22 +27,22 @@ import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.util.Utils;
 
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class PotRestingCategory implements IRecipeCategory<DoliumRecipe> {
 	public static RecipeType<DoliumRecipe> TYPE=RecipeType.create(CPMain.MODID, "pot_resting",DoliumRecipe.class);
@@ -51,7 +51,7 @@ public class PotRestingCategory implements IRecipeCategory<DoliumRecipe> {
 
 	public PotRestingCategory(IGuiHelper guiHelper) {
 		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK,
-				new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID, "goulash_aspic"))));
+				new ItemStack(BuiltInRegistries.ITEM.get(new ResourceLocation(CPMain.MODID, "goulash_aspic"))));
 		ResourceLocation guiMain = new ResourceLocation(CPMain.MODID, "textures/gui/jei/fluid_resting.png");
 		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 	}
@@ -83,7 +83,7 @@ public class PotRestingCategory implements IRecipeCategory<DoliumRecipe> {
 	public void setRecipe(IRecipeLayoutBuilder builder, DoliumRecipe recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 24).addIngredient(VanillaTypes.ITEM_STACK, recipe.output);
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 9)
-				.addIngredient(ForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, recipe.amount))
+				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, recipe.amount))
 				.setFluidRenderer(1250, false, 16, 46)
 				.addTooltipCallback(new BaseCallback(recipe.base, recipe.density));
 	}

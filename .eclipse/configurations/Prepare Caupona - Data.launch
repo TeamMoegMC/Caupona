@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<launchConfiguration type="org.eclipse.buildship.core.launch.runconfiguration">
+    <listAttribute key="tasks">
+        <listEntry value="dataIdeBeforeRun"></listEntry>
+    </listAttribute>
+    <stringAttribute key="working_dir" value="${workspace_loc:Caupona}"></stringAttribute>
+    <stringAttribute key="gradle_distribution" value="GRADLE_DISTRIBUTION(WRAPPER)"></stringAttribute>
+    <booleanAttribute key="offline_mode" value="false"></booleanAttribute>
+    <booleanAttribute key="show_console_view" value="true"></booleanAttribute>
+    <booleanAttribute key="show_execution_view" value="true"></booleanAttribute>
+    <listAttribute key="arguments">
+    </listAttribute>
+    <listAttribute key="jvm_arguments">
+    </listAttribute>
+    <booleanAttribute key="override_workspace_settings" value="false"></booleanAttribute>
+</launchConfiguration>

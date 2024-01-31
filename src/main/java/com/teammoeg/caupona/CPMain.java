@@ -34,14 +34,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 @Mod(CPMain.MODID)
 public class CPMain {
@@ -51,18 +50,17 @@ public class CPMain {
 	public static final Logger logger = LogManager.getLogger(MODNAME);
 	public static final String BOOK_NBT_TAG=CPMain.MODID+":book_given";
 	public static DeferredRegister<CreativeModeTab> TABS=DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CPMain.MODID);
-	public static RegistryObject<CreativeModeTab> main=TABS.register("aaa_caupona_cpn_main",()->CreativeModeTab.builder().withTabsBefore(CreativeModeTabs.SPAWN_EGGS).icon(()->new ItemStack(CPBlocks.STEW_POT.get())).title(Utils.translate("itemGroup.caupona")).build());
-	public static RegistryObject<CreativeModeTab> decoration=TABS.register("aaa_caupona_cpn_decorations",()->CreativeModeTab.builder().withTabsBefore(main.getKey()).icon(()->new ItemStack(CPBlocks.PUMICE_BLOOM.get())).title(Utils.translate("itemGroup.caupona_decorations")).build());
-	public static RegistryObject<CreativeModeTab> foods=TABS.register("aaa_caupona_cpn_food", ()->CreativeModeTab.builder().withTabsBefore(main.getKey(),decoration.getKey()).icon(()->new ItemStack(CPItems.gravy_boat.get())).title(Utils.translate("itemGroup.caupona_foods")).build());
+	public static DeferredHolder<CreativeModeTab,CreativeModeTab> main=TABS.register("aaa_caupona_cpn_main",()->CreativeModeTab.builder().withTabsBefore(CreativeModeTabs.SPAWN_EGGS).icon(()->new ItemStack(CPBlocks.STEW_POT.get())).title(Utils.translate("itemGroup.caupona")).build());
+	public static DeferredHolder<CreativeModeTab,CreativeModeTab> decoration=TABS.register("aaa_caupona_cpn_decorations",()->CreativeModeTab.builder().withTabsBefore(main.getKey()).icon(()->new ItemStack(CPBlocks.PUMICE_BLOOM.get())).title(Utils.translate("itemGroup.caupona_decorations")).build());
+	public static DeferredHolder<CreativeModeTab,CreativeModeTab> foods=TABS.register("aaa_caupona_cpn_food", ()->CreativeModeTab.builder().withTabsBefore(main.getKey(),decoration.getKey()).icon(()->new ItemStack(CPItems.gravy_boat.get())).title(Utils.translate("itemGroup.caupona_foods")).build());
 	
 	public static ResourceLocation rl(String path) {
 		return new ResourceLocation(MODID, path);
 	}
 
-	public CPMain() {
-		IEventBus mod = FMLJavaModLoadingContext.get().getModEventBus();
-		ForgeMod.enableMilkFluid();
-		MinecraftForge.EVENT_BUS.register(RecipeReloadListener.class);
+	public CPMain(IEventBus mod) {
+		NeoForgeMod.enableMilkFluid();
+
 		mod.addListener(this::enqueueIMC);
 		CPBlockEntityTypes.REGISTER.register(mod);
 		CPGui.CONTAINERS.register(mod);

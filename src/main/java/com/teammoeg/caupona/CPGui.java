@@ -28,26 +28,26 @@ import com.teammoeg.caupona.blocks.pot.StewPotContainer;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveContainer;
 import com.teammoeg.caupona.container.PortableBrazierContainer;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraftforge.common.extensions.IForgeMenuType;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPGui {
-	public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES,
+	public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(Registries.MENU,
 			CPMain.MODID);
-	public static final RegistryObject<MenuType<StewPotContainer>> STEWPOT = CONTAINERS.register("stew_pot",
-			() -> IForgeMenuType.create(StewPotContainer::new));
-	public static final RegistryObject<MenuType<KitchenStoveContainer>> STOVE = CONTAINERS.register("kitchen_stove",
-			() -> IForgeMenuType.create(KitchenStoveContainer::new));
-	public static final RegistryObject<MenuType<DoliumContainer>> DOLIUM = CONTAINERS.register("dolium",
-			() -> IForgeMenuType.create(DoliumContainer::new));
-	public static final RegistryObject<MenuType<PortableBrazierContainer>> BRAZIER = CONTAINERS
-			.register("portable_brazier", () -> IForgeMenuType.create(PortableBrazierContainer::new));
-	public static final RegistryObject<MenuType<PanContainer>> PAN = CONTAINERS.register("pan",
-			() -> IForgeMenuType.create(PanContainer::new));
-	public static final RegistryObject<MenuType<TBenchMenu>> T_BENCH = CONTAINERS.register("tessellation_workbench",
-			() -> IForgeMenuType.create(TBenchMenu::new));
+	public static final DeferredHolder<MenuType<?>,MenuType<StewPotContainer>> STEWPOT = CONTAINERS.register("stew_pot",
+			() -> IMenuTypeExtension.create(StewPotContainer::new));
+	public static final DeferredHolder<MenuType<?>,MenuType<KitchenStoveContainer>> STOVE = CONTAINERS.register("kitchen_stove",
+			() -> IMenuTypeExtension.create(KitchenStoveContainer::new));
+	public static final DeferredHolder<MenuType<?>,MenuType<DoliumContainer>> DOLIUM = CONTAINERS.register("dolium",
+			() -> IMenuTypeExtension.create(DoliumContainer::new));
+	public static final DeferredHolder<MenuType<?>,MenuType<PortableBrazierContainer>> BRAZIER = CONTAINERS
+			.register("portable_brazier", () -> IMenuTypeExtension.create(PortableBrazierContainer::new));
+	public static final DeferredHolder<MenuType<?>,MenuType<PanContainer>> PAN = CONTAINERS.register("pan",
+			() -> IMenuTypeExtension.create(PanContainer::new));
+	public static final DeferredHolder<MenuType<?>,MenuType<TBenchMenu>> T_BENCH = CONTAINERS.register("tessellation_workbench",
+			() -> IMenuTypeExtension.create(TBenchMenu::new));
 
 }

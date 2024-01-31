@@ -24,16 +24,20 @@ package com.teammoeg.caupona.network;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import com.teammoeg.caupona.CPMain;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
-public class ClientDataMessage {
+public class ClientDataMessage  implements CustomPacketPayload{
 	private final short type;
 	private final int message;
 	private final BlockPos pos;
-
+	public static final ResourceLocation path=new ResourceLocation(CPMain.MODID,"client_data");
 	public ClientDataMessage(BlockPos pos, short type, int message) {
 		this.pos = pos;
 		this.type = type;
@@ -46,21 +50,26 @@ public class ClientDataMessage {
 		message = buffer.readInt();
 	}
 
-	void encode(FriendlyByteBuf buffer) {
+	public void write(FriendlyByteBuf buffer) {
 		buffer.writeBlockPos(pos);
 		buffer.writeShort(type);
 		buffer.writeInt(message);
 	}
 
 	@SuppressWarnings({ "resource" })
-	void handle(Supplier<NetworkEvent.Context> context) {
-		context.get().enqueueWork(() -> {
-			ServerLevel world = Objects.requireNonNull(context.get().getSender()).serverLevel();
-			if (world.isLoaded(pos)) {
-				if (world.getBlockEntity(pos) instanceof CPBaseBlockEntity entity)
-					entity.handleMessage(type, message);
-			}
-		});
-		context.get().setPacketHandled(true);
+	void handle(PlayPayloadContext context) {
+		
+		ServerLevel world = (ServerLevel) context.level().get();
+		if (world.isLoaded(pos)) {
+			if (world.getBlockEntity(pos) instanceof CPBaseBlockEntity entity)
+				entity.handleMessage(type, message);
+		}
+		
+		//context.get().setPacketHandled(true);
+	}
+
+	@Override
+	public ResourceLocation id() {
+		return path;
 	}
 }

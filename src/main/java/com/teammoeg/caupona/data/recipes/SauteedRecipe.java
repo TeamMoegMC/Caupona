@@ -41,14 +41,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 	public static Set<CookIngredients> cookables;
 	public static List<SauteedRecipe> sorted;
-	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
-	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
+	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
 	public static boolean isCookable(ItemStack stack) {
 		FloatemTagStack s = new FloatemTagStack(stack);
 		return stack.is(Items.COOKABLE) || cookables.stream().anyMatch(e -> e.fits(s));

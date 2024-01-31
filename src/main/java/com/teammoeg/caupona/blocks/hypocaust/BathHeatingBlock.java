@@ -30,11 +30,11 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public abstract class BathHeatingBlock<V extends BathHeatingBlockEntity> extends CPHorizontalEntityBlock<V> {
 
-	public BathHeatingBlock(RegistryObject<BlockEntityType<V>> blockEntity, Properties p_54120_) {
+	public BathHeatingBlock(DeferredHolder<BlockEntityType<V>> blockEntity, Properties p_54120_) {
 		super(blockEntity, p_54120_);
 	}
 

@@ -24,6 +24,8 @@ package com.teammoeg.caupona.api;
 import java.util.List;
 import java.util.Optional;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.item.DishItem;
@@ -35,10 +37,9 @@ import com.teammoeg.caupona.util.Utils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 
 public class CauponaHooks {
 
@@ -51,9 +52,9 @@ public class CauponaHooks {
 		if (stack.getItem() instanceof StewItem) {
 			return Optional.of(StewItem.getItems(stack));
 		}
-		LazyOptional<IFluidHandlerItem> cap = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
-		if (cap.isPresent()) {
-			IFluidHandlerItem data = cap.resolve().get();
+		@Nullable IFluidHandlerItem cap = stack.getCapability(Capabilities.FluidHandler.ITEM);
+		if (cap!=null) {
+			IFluidHandlerItem data = cap;
 			FluidStack fs = data.getFluidInTank(0);
 			// TODO: CHECK STEW TAG
 			return Optional.of(SoupFluid.getItems(fs));
@@ -64,9 +65,9 @@ public class CauponaHooks {
 	}
 
 	public static ResourceLocation getBase(ItemStack stack) {
-		LazyOptional<IFluidHandlerItem> cap = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
-		if (cap.isPresent()) {
-			IFluidHandlerItem data = cap.resolve().get();
+		@Nullable IFluidHandlerItem cap = stack.getCapability(Capabilities.FluidHandler.ITEM);
+		if (cap!=null) {
+			IFluidHandlerItem data = cap;
 			return SoupFluid.getBase(data.getFluidInTank(0));
 		}else if(Utils.getFluidType(stack)!=Fluids.EMPTY) {
 			return StewItem.getBase(stack);
@@ -78,9 +79,9 @@ public class CauponaHooks {
 		if (stack.getItem() instanceof StewItem) {
 			return Optional.of(StewItem.getInfo(stack));
 		}
-		LazyOptional<IFluidHandlerItem> cap = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
-		if (cap.isPresent()) {
-			IFluidHandlerItem data = cap.resolve().get();
+		@Nullable IFluidHandlerItem cap = stack.getCapability(Capabilities.FluidHandler.ITEM);
+		if (cap!=null) {
+			IFluidHandlerItem data = cap;
 			return Optional.of(SoupFluid.getInfo(data.getFluidInTank(0)));
 		}
 		if(stack.getItem() instanceof DishItem)

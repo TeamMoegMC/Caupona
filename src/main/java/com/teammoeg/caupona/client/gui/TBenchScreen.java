@@ -14,8 +14,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class TBenchScreen extends AbstractContainerScreen<TBenchMenu> {
@@ -38,7 +38,7 @@ public class TBenchScreen extends AbstractContainerScreen<TBenchMenu> {
    }
 
    protected void renderBg(GuiGraphics p_283115_, float p_282453_, int p_282940_, int p_282328_) {
-      this.renderBackground(p_283115_);
+	   this.renderBackground(p_283115_,p_282940_,p_282328_,p_282453_);
       int i = this.leftPos;
       int j = this.topPos;
       p_283115_.blit(BG_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);

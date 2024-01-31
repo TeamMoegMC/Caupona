@@ -52,23 +52,24 @@ import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.ClientHooks;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = CPMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = CPMain.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class CPClientRegistry {
 	@SuppressWarnings("unused")
 	@SubscribeEvent
 	public static void onClientSetupEvent(FMLClientSetupEvent event) {
 		LayerDefinition layer = BoatModel.createBodyModel();
 		for (String wood : CPBlocks.woods)
-			ForgeHooksClient.registerLayerDefinition(
+			ClientHooks.registerLayerDefinition(
 					new ModelLayerLocation(new ResourceLocation(CPMain.MODID, "boat/" + wood), "main"), () -> layer);
 		MenuScreens.register(CPGui.STEWPOT.get(), StewPotScreen::new);
 		MenuScreens.register(CPGui.STOVE.get(), KitchenStoveScreen::new);
@@ -105,11 +106,11 @@ public class CPClientRegistry {
 		ev.register((p_92626_, p_92627_, p_92628_, p_92629_) -> {
 			return p_92627_ != null && p_92628_ != null ? BiomeColors.getAverageFoliageColor(p_92627_, p_92628_)
 					: FoliageColor.getDefaultColor();
-		}, CPBlocks.leaves.stream().map(RegistryObject<Block>::get).toArray(Block[]::new));
+		}, CPBlocks.leaves.stream().map(DeferredHolder<Block,Block>::get).toArray(Block[]::new));
 	}
 
 	@SubscribeEvent
 	public static void onTint(RegisterColorHandlersEvent.Item ev) {
-		ev.register((i, t) -> 0x5bd449,CPBlocks.leaves.stream().map(RegistryObject<Block>::get).toArray(Block[]::new));
+		ev.register((i, t) -> 0x5bd449,CPBlocks.leaves.stream().map(DeferredHolder<Block,Block>::get).toArray(Block[]::new));
 	}
 }

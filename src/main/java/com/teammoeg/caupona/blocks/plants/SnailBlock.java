@@ -63,13 +63,13 @@ public class SnailBlock extends FruitBlock {
 		int i = this.getAge(pState);
 		if (i < this.getMaxAge(pState)) {
 			
-			if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(pLevel, pPos, pState,pRandom.nextInt(3) == 0)) {
+			if (net.neoforged.neoforge.common.ForgeHooks.onCropsGrowPre(pLevel, pPos, pState,pRandom.nextInt(3) == 0)) {
 				int eat=eatFirstEdible(pPos,pLevel);
 				if(eat>0) {
 					if(eat==2)
 						pState=pState.setValue(EATEN_FRUIT, true);
 					pLevel.setBlock(pPos, this.getStateForAge(pState, i + 1), 2);
-					net.minecraftforge.common.ForgeHooks.onCropsGrowPost(pLevel, pPos, pState);
+					net.neoforged.neoforge.common.ForgeHooks.onCropsGrowPost(pLevel, pPos, pState);
 				}
 			}
 		}else {

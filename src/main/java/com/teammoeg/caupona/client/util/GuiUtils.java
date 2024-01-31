@@ -43,9 +43,9 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.IFluidTank;
 
 /**
  * Fluid render codes adapted from Immersive Engineering and modified.
@@ -71,12 +71,21 @@ public class GuiUtils {
 		buffer.endBatch();
 		transform.popPose();
 	}
+	private class RenderStateShardAccess extends RenderStateShard{
 
+		public RenderStateShardAccess(String pName, Runnable pSetupState, Runnable pClearState) {
+			super(pName, pSetupState, pClearState);
+		}
+		public static ShaderStateShard POSITION_COLOR_TEX_SHADER() {
+			return POSITION_COLOR_TEX_SHADER;
+		}
+		
+	}
 	private static final Function<ResourceLocation, RenderType> GUI_CUTOUT = Util
 			.memoize(texture -> RenderType.create("gui_" + texture, DefaultVertexFormat.POSITION_COLOR_TEX, Mode.QUADS,
 					256, false, false,
 					RenderType.CompositeState.builder().setTextureState(new TextureStateShard(texture, false, false))
-							.setShaderState(RenderStateShard.POSITION_COLOR_TEX_SHADER).createCompositeState(false)));
+							.setShaderState(RenderStateShardAccess.POSITION_COLOR_TEX_SHADER()).createCompositeState(false)));
 
 	private static void buildVertex(VertexConsumer bu, PoseStack transform, float r, float g, float b, float a,
 			float p1, float p2, float u0, float u1, int light, int overlay) {

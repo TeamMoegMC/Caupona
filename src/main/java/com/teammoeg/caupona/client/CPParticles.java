@@ -25,16 +25,16 @@ import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.core.registries.Registries;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPParticles {
 	public static final DeferredRegister<ParticleType<?>> REGISTER = DeferredRegister
-			.create(ForgeRegistries.PARTICLE_TYPES, CPMain.MODID);
+			.create(Registries.PARTICLE_TYPE, CPMain.MODID);
 
-	public static final RegistryObject<SimpleParticleType> STEAM = REGISTER.register("steam",
+	public static final DeferredHolder<?,SimpleParticleType> STEAM = REGISTER.register("steam",
 			() -> new SimpleParticleType(false));
-	public static final RegistryObject<SimpleParticleType> SOOT = REGISTER.register("soot_smoke",
+	public static final DeferredHolder<?,SimpleParticleType> SOOT = REGISTER.register("soot_smoke",
 			() -> new SimpleParticleType(false));
 }

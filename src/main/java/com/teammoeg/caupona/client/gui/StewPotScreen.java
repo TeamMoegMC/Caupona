@@ -108,7 +108,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 				if (fs != null)
 					tooltip.add(Utils.translate("tooltip.caupona.main_ingredient",
 							fs.getStack().getDisplayName()));
-				Utils.addPotionTooltip(si.effects, tooltip, 1);
+				Utils.addPotionTooltip(si.effects, tooltip, 1,blockEntity.getLevel());
 			}
 			GuiUtils.handleGuiTank(transform.pose(), blockEntity.getTank(), leftPos + 105, topPos + 20, 16, 46);
 		}
@@ -129,7 +129,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 
 	@Override
 	protected void renderBg(GuiGraphics transform, float partial, int x, int y) {
-		this.renderBackground(transform);
+		this.renderBackground(transform,x,y,partial);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
 		transform.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);

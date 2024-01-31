@@ -26,7 +26,7 @@ import com.teammoeg.caupona.network.PacketHandler;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public interface INetworkContainer {
 	void handle(CompoundTag nbt);
@@ -34,6 +34,6 @@ public interface INetworkContainer {
 	ServerPlayer getOpenedPlayer();
 
 	default void sendMessage(CompoundTag nbt) {
-		PacketHandler.send(PacketDistributor.PLAYER.with(this::getOpenedPlayer), new ContainerDataMessage(nbt));
+		PacketHandler.send(PacketDistributor.PLAYER.with(getOpenedPlayer()), new ContainerDataMessage(nbt));
 	}
 }

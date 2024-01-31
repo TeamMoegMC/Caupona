@@ -67,12 +67,12 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmokingRecipe;
-import net.minecraftforge.client.event.RecipesUpdatedEvent;
-import net.minecraftforge.event.TagsUpdatedEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.event.RecipesUpdatedEvent;
+import net.neoforged.neoforge.event.TagsUpdatedEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class RecipeReloadListener implements ResourceManagerReloadListener {
 	ReloadableServerResources data;
@@ -220,7 +220,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 	}
 
 	static <R extends Recipe<?>> Stream<R> filterRecipes(Collection<Recipe<?>> recipes, Class<R> recipeClass,
-			RegistryObject<RecipeType<Recipe<?>>> recipeType) {
+			DeferredHolder<?,RecipeType<Recipe<?>>> recipeType) {
 		return recipes.stream().filter(iRecipe -> iRecipe.getType() == recipeType.get()).map(recipeClass::cast);
 	}
 }

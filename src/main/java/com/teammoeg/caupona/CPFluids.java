@@ -31,18 +31,18 @@ import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.generated.CPStewTexture;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistries.Keys;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries.Keys;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPFluids {
 	private static class TextureColorPair {
@@ -91,7 +91,7 @@ public class CPFluids {
 	private static final ResourceLocation STILL_WATER_TEXTURE = new ResourceLocation("block/water_still");
 	private static final ResourceLocation STILL_SOUP_TEXTURE = new ResourceLocation(CPMain.MODID, "block/soup_fluid");
 	private static final ResourceLocation STILL_MILK_TEXTURE = new ResourceLocation("forge", "block/milk_still");
-	static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, CPMain.MODID);
+	static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Registries.FLUID, CPMain.MODID);
 	static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(Keys.FLUID_TYPES, CPMain.MODID);
 	//private static final Map<String, TextureColorPair> soupfluids = new HashMap<>();
 
@@ -109,7 +109,7 @@ public class CPFluids {
 
 	public static Stream<Fluid> getAll() {
 		return Arrays.stream(CPItems.soups).map(e -> new ResourceLocation(CPMain.MODID, e))
-				.map(ForgeRegistries.FLUIDS::getValue);
+				.map(BuiltInRegistries.FLUID::get);
 	}
 	public static Stream<ResourceKey<Fluid>> getAllKeys() {
 		return Arrays.stream(CPItems.soups).map(e -> new ResourceLocation(CPMain.MODID, e))
@@ -117,10 +117,10 @@ public class CPFluids {
 	}
 	static {
 		for (String i : CPItems.soups) {
-			RegistryObject<FluidType> type=FLUID_TYPES.register(i,()->new TextureColorPair(CPStewTexture.texture.getOrDefault(i, STILL_SOUP_TEXTURE),0xffffffff).create(i));
+			DeferredHolder<FluidType,FluidType> type=FLUID_TYPES.register(i,()->new TextureColorPair(CPStewTexture.texture.getOrDefault(i, STILL_SOUP_TEXTURE),0xffffffff).create(i));
 			LazySupplier<Fluid> crf=new LazySupplier<>();
 			crf.setVal(FLUIDS.register(i,
-					() -> new SoupFluid(new ForgeFlowingFluid.Properties(type, crf,
+					() -> new SoupFluid(new BaseFlowingFluid.Properties(type, crf,
 							crf).slopeFindDistance(1)
 											.explosionResistance(100F))));
 		}

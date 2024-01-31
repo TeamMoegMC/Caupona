@@ -33,7 +33,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.ForgeRegistries;
 
 public class CPBoat extends Boat {
 	private static final EntityDataAccessor<String> WOOD_TYPE = SynchedEntityData.defineId(CPBoat.class,

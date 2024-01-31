@@ -48,15 +48,15 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.network.NetworkHooks;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> implements LiquidBlockContainer {
 	public static final EnumProperty<Axis> FACING = BlockStateProperties.HORIZONTAL_AXIS;
 
-	public StewPot(Properties blockProps, RegistryObject<BlockEntityType<StewPotBlockEntity>> ste) {
+	public StewPot(Properties blockProps, DeferredHolder<BlockEntityType<StewPotBlockEntity>> ste) {
 		super(blockProps, ste);
 	}
 

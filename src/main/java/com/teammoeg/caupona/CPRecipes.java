@@ -34,17 +34,17 @@ import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class CPRecipes {
 	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister
-			.create(ForgeRegistries.RECIPE_SERIALIZERS, CPMain.MODID);
+			.create(Registries.RECIPE_SERIALIZER, CPMain.MODID);
 	public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister
-			.create(ForgeRegistries.RECIPE_TYPES, CPMain.MODID);
+			.create(Registries.RECIPE_TYPE, CPMain.MODID);
 	static {
 		StewCookingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("cooking",
 				() -> new CPRecipeSerializer<StewCookingRecipe>(StewCookingRecipe::new, StewCookingRecipe::new,

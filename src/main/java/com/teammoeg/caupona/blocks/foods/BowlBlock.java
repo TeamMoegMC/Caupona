@@ -41,14 +41,14 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.api.distmarker.Dist;
+import net.neoforged.neoforge.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 
-	public BowlBlock(Properties blockProps, RegistryObject<BlockEntityType<BowlBlockEntity>> ste) {
+	public BowlBlock(Properties blockProps, DeferredHolder<BlockEntityType<BowlBlockEntity>> ste) {
 		super( blockProps, ste);
 	}
 

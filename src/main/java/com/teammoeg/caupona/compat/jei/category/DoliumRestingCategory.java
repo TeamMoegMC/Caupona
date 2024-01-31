@@ -33,13 +33,13 @@ import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.util.Utils;
 
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
@@ -51,9 +51,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.crafting.AbstractIngredient;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 public class DoliumRestingCategory implements IRecipeCategory<DoliumRecipe> {
 	public static RecipeType<DoliumRecipe> TYPE=RecipeType.create(CPMain.MODID, "dolium_resting",DoliumRecipe.class);
@@ -97,7 +96,7 @@ public class DoliumRestingCategory implements IRecipeCategory<DoliumRecipe> {
 	}
 
 	private static List<ItemStack> unpack(Ingredient ps) {
-		if (ps instanceof AbstractIngredient)
+		if (ps.getClass()!=Ingredient.class)
 			return Arrays.asList(ps.getItems());
 		List<ItemStack> sl = new ArrayList<>();
 		for (ItemStack is : ps.getItems())
@@ -159,7 +158,7 @@ public class DoliumRestingCategory implements IRecipeCategory<DoliumRecipe> {
 		}
 		if (!(recipe.fluid == Fluids.EMPTY))
 			builder.addSlot(RecipeIngredientRole.INPUT, 26, 9)
-					.addIngredient(ForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, recipe.amount))
+					.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, recipe.amount))
 					.setFluidRenderer(1250, false, 16, 46)
 					.addTooltipCallback(new BaseCallback(recipe.base, recipe.density));
 

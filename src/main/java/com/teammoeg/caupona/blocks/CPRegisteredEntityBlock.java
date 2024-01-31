@@ -24,20 +24,20 @@ package com.teammoeg.caupona.blocks;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPRegisteredEntityBlock<T extends BlockEntity> extends Block implements CPEntityBlock<T> {
-	private final RegistryObject<BlockEntityType<T>> blockEntity;
+	private final DeferredHolder<BlockEntityType<T>,BlockEntityType<T>> blockEntity;
 
-	public CPRegisteredEntityBlock(Properties blockProps, RegistryObject<BlockEntityType<T>> ste ){
+	public CPRegisteredEntityBlock(Properties blockProps, DeferredHolder<BlockEntityType<?>,BlockEntityType<T>> ste ){
 		super(blockProps);
-		blockEntity = ste;
+		blockEntity = (DeferredHolder)ste;
 		
 
 	}
 
 	@Override
-	public RegistryObject<BlockEntityType<T>> getBlock() {
+	public DeferredHolder<BlockEntityType<T>,BlockEntityType<T>> getBlock() {
 		return blockEntity;
 	}
 

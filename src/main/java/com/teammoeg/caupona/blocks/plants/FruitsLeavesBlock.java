@@ -35,12 +35,12 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class FruitsLeavesBlock extends LeavesBlock implements BonemealableBlock {
-	RegistryObject<Block> fruit;
+	DeferredHolder<Block> fruit;
 
-	public FruitsLeavesBlock(Properties p_54422_, RegistryObject<Block> fruit2) {
+	public FruitsLeavesBlock(Properties p_54422_, DeferredHolder<Block> fruit2) {
 		super(p_54422_);
 		this.fruit = fruit2;
 	}

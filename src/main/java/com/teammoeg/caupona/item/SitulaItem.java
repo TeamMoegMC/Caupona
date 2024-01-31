@@ -20,6 +20,8 @@ package com.teammoeg.caupona.item;
 
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.FloatemStack;
@@ -29,6 +31,7 @@ import com.teammoeg.caupona.util.TabType;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -44,19 +47,17 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidActionResult;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.fluids.capability.ItemFluidContainer;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidActionResult;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 
-public class SitulaItem extends ItemFluidContainer  implements ICreativeModeTabItem{
+public class SitulaItem extends Item  implements ICreativeModeTabItem{
     public SitulaItem(Properties props) {
-        super(props, 1250);
+        super(props);
     }
 
     @Override
@@ -67,7 +68,8 @@ public class SitulaItem extends ItemFluidContainer  implements ICreativeModeTabI
 
 	@Override
 	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(e->{
+		@Nullable IFluidHandlerItem e=stack.getCapability(Capabilities.FluidHandler.ITEM);
+		if(e!=null){
 			FluidStack f=e.getFluidInTank(0);
 			if(!f.isEmpty()) {
 				tooltip.add(f.getDisplayName());
@@ -85,12 +87,12 @@ public class SitulaItem extends ItemFluidContainer  implements ICreativeModeTabI
 				ResourceLocation base = info.base;
 				if (base != null&&!info.stacks.isEmpty())
 					tooltip.add(Utils.translate("tooltip.caupona.base", 
-							ForgeRegistries.FLUIDS.getValue(base).getFluidType().getDescription()));
-				Utils.addPotionTooltip(info.effects, tooltip, 1);
+							BuiltInRegistries.FLUID.get(base).getFluidType().getDescription()));
+				Utils.addPotionTooltip(info.effects, tooltip, 1,worldIn);
 
 				tooltip.add(Utils.string(f.getAmount()+"/1250 mB"));
 			}
-		});
+		}
 		
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
@@ -105,7 +107,7 @@ public class SitulaItem extends ItemFluidContainer  implements ICreativeModeTabI
 			BlockState blk=worldIn.getBlockState(blockpos);
 			
 			if(blk.getBlock() instanceof BucketPickup bucket) {
-				IFluidHandlerItem handler=cur.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
+				IFluidHandlerItem handler=cur.getCapability(Capabilities.FluidHandler.ITEM);
 				if(handler!=null) {
 					FluidStack fluid=handler.getFluidInTank(0);
 					if(!fluid.isEmpty()&&fluid.getAmount()<handler.getTankCapacity(0)&&fluid.getFluid().isSame(state.getType())) {
@@ -124,7 +126,7 @@ public class SitulaItem extends ItemFluidContainer  implements ICreativeModeTabI
 			}
 		}else if(ray.getType() == Type.MISS) {
 			if(playerIn.isShiftKeyDown()) {
-				IFluidHandlerItem handler=cur.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
+				IFluidHandlerItem handler=cur.getCapability(Capabilities.FluidHandler.ITEM);
 				if(handler!=null) {
 					FluidStack fluid=handler.getFluidInTank(0);
 					if(!fluid.isEmpty()) {

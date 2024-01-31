@@ -31,6 +31,7 @@ import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -81,8 +82,9 @@ public class SauteedFoodInfo extends SpicedFoodInfo implements IFoodInfo{
 
 	public void completeData() {
 		stacks.sort(Comparator.comparingInt(e -> Item.getId(e.stack.getItem())));
+		
 		foodeffect.sort(
-				Comparator.<Pair<MobEffectInstance, Float>>comparingInt(e -> MobEffect.getId(e.getFirst().getEffect()))
+				Comparator.<Pair<MobEffectInstance, Float>>comparingInt(e ->  BuiltInRegistries.MOB_EFFECT.getId(e.getFirst().getEffect()))
 						.thenComparing(Pair::getSecond));
 	}
 

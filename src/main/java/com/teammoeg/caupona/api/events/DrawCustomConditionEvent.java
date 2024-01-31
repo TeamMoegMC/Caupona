@@ -6,13 +6,11 @@ import com.teammoeg.caupona.data.recipes.IngredientCondition;
 
 import mezz.jei.api.helpers.IGuiHelper;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.eventbus.api.Cancelable;
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.Event;
 
 @OnlyIn(Dist.CLIENT)
-@Cancelable
 public class DrawCustomConditionEvent extends Event{
 	IGuiHelper guihelper;
 	List<IngredientCondition> conditions;

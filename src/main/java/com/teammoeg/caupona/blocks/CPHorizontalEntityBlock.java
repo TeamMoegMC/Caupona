@@ -23,18 +23,18 @@ package com.teammoeg.caupona.blocks;
 
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPHorizontalEntityBlock<V extends BlockEntity> extends CPHorizontalBlock implements CPEntityBlock<V> {
-	private final RegistryObject<BlockEntityType<V>> blockEntity;
+	private final DeferredHolder<BlockEntityType<V>, BlockEntityType<V>> blockEntity;
 
-	public CPHorizontalEntityBlock(RegistryObject<BlockEntityType<V>> blockEntity, Properties p_54120_) {
+	public CPHorizontalEntityBlock(DeferredHolder<BlockEntityType<?>,BlockEntityType<V>> blockEntity, Properties p_54120_) {
 		super(p_54120_);
-		this.blockEntity = blockEntity;
+		this.blockEntity = (DeferredHolder)blockEntity;
 	}
 
 	@Override
-	public RegistryObject<BlockEntityType<V>> getBlock() {
+	public DeferredHolder<BlockEntityType<V>, BlockEntityType<V>> getBlock() {
 		return blockEntity;
 	}
 

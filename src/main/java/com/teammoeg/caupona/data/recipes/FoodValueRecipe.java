@@ -50,13 +50,13 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class FoodValueRecipe extends IDataRecipe {
 	public static Map<Item, FoodValueRecipe> recipes;
-	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
-	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
+	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
 	public static Set<FoodValueRecipe> recipeset;
 
 	@Override

@@ -26,10 +26,10 @@ import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.util.Utils;
 
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
@@ -38,7 +38,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class BowlEmptyCategory implements IRecipeCategory<BowlContainingRecipe> {
 
@@ -75,7 +75,7 @@ public class BowlEmptyCategory implements IRecipeCategory<BowlContainingRecipe> 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 56, 37).addIngredient(VanillaTypes.ITEM_STACK,
 				new ItemStack(Items.BOWL));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 9)
-				.addIngredient(ForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, 250))
+				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, 250))
 				.setFluidRenderer(250, true, 16, 46);
 	}
 

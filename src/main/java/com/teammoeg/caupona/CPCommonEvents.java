@@ -23,6 +23,8 @@ package com.teammoeg.caupona;
 
 import java.util.Optional;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.teammoeg.caupona.api.CauponaApi;
 import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
 import com.teammoeg.caupona.api.events.FoodExchangeItemEvent;
@@ -48,24 +50,24 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.Event.Result;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.items.ItemHandlerHelper;
-import vazkii.patchouli.api.PatchouliAPI;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.neoforge.event.TickEvent.Phase;
+import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.bus.api.Event.Result;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class CPCommonEvents {
 	@SubscribeEvent
 	public static void addReloadListeners(AddReloadListenerEvent event) {
@@ -126,7 +128,8 @@ public class CPCommonEvents {
 		BlockPos blockpos = event.getPos();
 		BlockEntity blockEntity = worldIn.getBlockEntity(blockpos);
 		if (blockEntity != null) {
-			blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER, event.getFace()).ifPresent(handler -> {
+			@Nullable IFluidHandler handler=worldIn.getCapability(Capabilities.FluidHandler.BLOCK, blockpos, event.getFace());
+			if(handler!=null){
 				Optional<ItemStack> out=CauponaApi.getFilledItemStack(handler,is);
 				if(out.isPresent()) {
 					ItemStack ret = out.get();
@@ -140,7 +143,7 @@ public class CPCommonEvents {
 					} else
 						playerIn.setItemInHand(event.getHand(), ret);
 				}
-			});
+			}
 		}
 
 	}
@@ -180,10 +183,10 @@ public class CPCommonEvents {
 		if (event.getEntity() != null && !event.getEntity().level().isClientSide
 				&& event.getEntity() instanceof ServerPlayer) {
 			ItemStack stack = event.getItemStack();
-			LazyOptional<IFluidHandlerItem> cap = stack
-					.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
-			if (cap.isPresent() && stack.is(CPTags.Items.CONTAINER)) {
-				IFluidHandlerItem data = cap.resolve().get();
+			@Nullable IFluidHandlerItem cap = stack
+					.getCapability(Capabilities.FluidHandler.ITEM);
+			if (cap!=null && stack.is(CPTags.Items.CONTAINER)) {
+				IFluidHandlerItem data = cap;
 				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid) {
 					StewInfo si = SoupFluid.getInfo(data.getFluidInTank(0));
 					if (!event.getEntity().canEat(si.canAlwaysEat())) {
@@ -200,10 +203,10 @@ public class CPCommonEvents {
 		if (event.getEntity() != null && !event.getEntity().level().isClientSide
 				&& event.getEntity() instanceof ServerPlayer) {
 			ItemStack stack = event.getItem();
-			LazyOptional<IFluidHandlerItem> cap = stack
-					.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
-			if (cap.isPresent() && stack.is(CPTags.Items.CONTAINER)) {
-				IFluidHandlerItem data = cap.resolve().get();
+			@Nullable IFluidHandlerItem cap = stack
+					.getCapability(Capabilities.FluidHandler.ITEM);
+			if (cap!=null && stack.is(CPTags.Items.CONTAINER)) {
+				IFluidHandlerItem data = cap;
 				if (data.getFluidInTank(0).getFluid() instanceof SoupFluid)
 					CauponaApi.apply(event.getEntity().level(), event.getEntity(),
 							SoupFluid.getInfo(data.getFluidInTank(0)));

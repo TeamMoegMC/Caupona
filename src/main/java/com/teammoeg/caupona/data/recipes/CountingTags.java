@@ -36,12 +36,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CountingTags extends IDataRecipe {
 	public static Set<ResourceLocation> tags;
-	public static RegistryObject<RecipeType<Recipe<?>>> TYPE;
-	public static RegistryObject<RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
+	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
 	public List<ResourceLocation> tag;
 
 	@Override

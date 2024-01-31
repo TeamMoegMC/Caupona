@@ -23,33 +23,25 @@ package com.teammoeg.caupona.network;
 
 import com.teammoeg.caupona.CPMain;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
+import net.neoforged.neoforge.network.registration.IPayloadRegistrar;
 
 public class PacketHandler {
-	private static final String VERSION = Integer.toString(1);
-	private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-			new ResourceLocation(CPMain.MODID, "network"), () -> VERSION, VERSION::equals, VERSION::equals);
 
-	public static void send(PacketDistributor.PacketTarget target, Object message) {
-		CHANNEL.send(target, message);
+	public static void send(PacketDistributor.PacketTarget target, CustomPacketPayload message) {
+		target.send(message);
 	}
 
-	public static void sendToServer(Object message) {
-		CHANNEL.sendToServer(message);
+	public static void sendToServer(CustomPacketPayload message) {
+		PacketDistributor.SERVER.noArg().send(message);
 	}
-
-	public static SimpleChannel get() {
-		return CHANNEL;
-	}
-
-	public static void register() {
-		int id = 0;
-		CHANNEL.registerMessage(id++, ClientDataMessage.class, ClientDataMessage::encode, ClientDataMessage::new,
-				ClientDataMessage::handle);
-		CHANNEL.registerMessage(id++, ContainerDataMessage.class, ContainerDataMessage::encode,
-				ContainerDataMessage::new, ContainerDataMessage::handle);
+	public static void registerPackets(RegisterPayloadHandlerEvent ev) {
+		
+		IPayloadRegistrar Ch=ev.registrar(CPMain.MODID);
+		Ch.play(ClientDataMessage.path, ClientDataMessage::new,ClientDataMessage::handle);
+		Ch.play(ContainerDataMessage.path, ContainerDataMessage::new,ContainerDataMessage::handle);
+		Ch.versioned("1");
 	}
 }

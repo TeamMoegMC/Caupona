@@ -22,43 +22,35 @@
 package com.teammoeg.caupona.util;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import com.google.common.collect.Lists;
-import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
 import com.teammoeg.caupona.api.events.FoodExchangeItemEvent;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.network.chat.contents.PlainTextContents;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffectUtil;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.Event.Result;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.bus.api.Event.Result;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class Utils {
 
@@ -69,12 +61,12 @@ public class Utils {
 	}
 	public static ContanerContainFoodEvent contain(ItemStack its2,FluidStack fs,boolean simulate){
 		ContanerContainFoodEvent ev=new ContanerContainFoodEvent(its2,fs,simulate,false);
-		MinecraftForge.EVENT_BUS.post(ev);
+		NeoForge.EVENT_BUS.post(ev);
 		return ev;
 	}
 	public static ContanerContainFoodEvent containBlock(ItemStack its2,FluidStack fs){
 		ContanerContainFoodEvent ev=new ContanerContainFoodEvent(its2,fs,false,true);
-		MinecraftForge.EVENT_BUS.post(ev);
+		NeoForge.EVENT_BUS.post(ev);
 		return ev;
 	}
 	public static ItemStack extractOutput(IItemHandler inv,int count) {
@@ -87,12 +79,12 @@ public class Utils {
 	}
 	public static boolean isExtractAllowed(ItemStack is) {
 		FoodExchangeItemEvent ev=new FoodExchangeItemEvent.Pre(is);
-		MinecraftForge.EVENT_BUS.post(ev);
+		NeoForge.EVENT_BUS.post(ev);
 		return ev.getResult()==Result.ALLOW;
 	}
 	public static boolean isExchangeAllowed(ItemStack or,ItemStack rs) {
 		FoodExchangeItemEvent ev=new FoodExchangeItemEvent.Post(or,rs);
-		MinecraftForge.EVENT_BUS.post(ev);
+		NeoForge.EVENT_BUS.post(ev);
 		return ev.getResult()==Result.ALLOW;
 	}
 	public static void writeItemFluid(ItemStack is,FluidStack stack) {
@@ -112,7 +104,7 @@ public class Utils {
 			CompoundTag tag = item.getTag();
 			if(tag.contains(FLUID_TAG_KEY)) {
 				tag=tag.getCompound(FLUID_TAG_KEY);
-				Fluid f = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
+				Fluid f = BuiltInRegistries.FLUID.get(new ResourceLocation(tag.getString("type")));
 				if (f != null&&f!=Fluids.EMPTY) {
 					FluidStack res = new FluidStack(f, 250);
 					if(tag.contains("data")) {
@@ -122,7 +114,7 @@ public class Utils {
 					return res;
 				}
 			}else if (tag.contains("type")) {
-				Fluid f = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
+				Fluid f = BuiltInRegistries.FLUID.get(new ResourceLocation(tag.getString("type")));
 				if (f != null&&f!=Fluids.EMPTY) {
 					FluidStack res = new FluidStack(f, 250);
 					CompoundTag ntag = tag.copy();
@@ -183,9 +175,9 @@ public class Utils {
 			CompoundTag tag = item.getTag();
 			if(tag.contains(FLUID_TAG_KEY)) {
 				tag=tag.getCompound(FLUID_TAG_KEY);
-				return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
+				return BuiltInRegistries.FLUID.get(new ResourceLocation(tag.getString("type")));
 			}else if (tag.contains("type")) {
-				return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("type")));
+				return BuiltInRegistries.FLUID.get(new ResourceLocation(tag.getString("type")));
 			}
 		}
 		return Fluids.EMPTY;
@@ -226,22 +218,22 @@ public class Utils {
 		return translate(format,fallback,new Object[0]);
 	}
 	public static MutableComponent string(String content) {
-		return MutableComponent.create(new LiteralContents(content));
+		return MutableComponent.create(PlainTextContents.create(content));
 	}
 	public static ResourceLocation getRegistryName(Fluid f) {
-		return ForgeRegistries.FLUIDS.getKey(f);
+		return BuiltInRegistries.FLUID.getKey(f);
 	}
-	public static ResourceLocation getRegistryName(RegistryObject<?> r) {
+	public static ResourceLocation getRegistryName(DeferredHolder<?,?> r) {
 		return r.getId();
 	}
 	public static ResourceLocation getRegistryName(Item i) {
-		return ForgeRegistries.ITEMS.getKey(i);
+		return BuiltInRegistries.ITEM.getKey(i);
 	}
 	public static ResourceLocation getRegistryName(ItemStack i) {
 		return getRegistryName(i.getItem());
 	}
 	public static ResourceLocation getRegistryName(Block b) {
-		return ForgeRegistries.BLOCKS.getKey(b);
+		return BuiltInRegistries.BLOCK.getKey(b);
 	}
 
 	public static ResourceLocation getRegistryName(FluidStack f) {
@@ -249,73 +241,11 @@ public class Utils {
 	}
 
 	public static ResourceLocation getRegistryName(MobEffect effect) {
-		return ForgeRegistries.MOB_EFFECTS.getKey(effect);
+		return BuiltInRegistries.MOB_EFFECT.getKey(effect);
 	}
-	public static void addPotionTooltip(List<MobEffectInstance> list, List<Component> lores, float durationFactor) {
-		List<Pair<Attribute, AttributeModifier>> list1 = Lists.newArrayList();
-		if (!list.isEmpty()) {
-			for (MobEffectInstance effectinstance : list) {
-				MutableComponent iformattabletextcomponent = translate(
-						effectinstance.getDescriptionId());
-				MobEffect effect = effectinstance.getEffect();
-				Map<Attribute, AttributeModifier> map = effect.getAttributeModifiers();
-				if (!map.isEmpty()) {
-					for (Entry<Attribute, AttributeModifier> entry : map.entrySet()) {
-						AttributeModifier attributemodifier = entry.getValue();
-						AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(),
-								effect.getAttributeModifierValue(effectinstance.getAmplifier(), attributemodifier),
-								attributemodifier.getOperation());
-						list1.add(new Pair<>(entry.getKey(), attributemodifier1));
-					}
-				}
 	
-				if (effectinstance.getAmplifier() > 0) {
-					iformattabletextcomponent = translate("potion.withAmplifier",
-							iformattabletextcomponent,
-							translate("potion.potency." + effectinstance.getAmplifier()));
-				}
-	
-				if (effectinstance.getDuration() > 20) {
-					iformattabletextcomponent = translate("potion.withDuration",
-							iformattabletextcomponent, MobEffectUtil.formatDuration(effectinstance, durationFactor));
-				}
-	
-				lores.add(iformattabletextcomponent.withStyle(effect.getCategory().getTooltipFormatting()));
-			}
-		}
-	
-		if (!list1.isEmpty()) {
-			lores.add(Component.empty());
-			lores.add((translate("potion.whenDrank")).withStyle(ChatFormatting.DARK_PURPLE));
-	
-			for (Pair<Attribute, AttributeModifier> pair : list1) {
-				AttributeModifier attributemodifier2 = pair.getSecond();
-				double d0 = attributemodifier2.getAmount();
-				double d1;
-				if (attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_BASE
-						&& attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_TOTAL) {
-					d1 = attributemodifier2.getAmount();
-				} else {
-					d1 = attributemodifier2.getAmount() * 100.0D;
-				}
-	
-				if (d0 > 0.0D) {
-					lores.add((translate(
-							"attribute.modifier.plus." + attributemodifier2.getOperation().toValue(),
-							ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
-							translate(pair.getFirst().getDescriptionId())))
-									.withStyle(ChatFormatting.BLUE));
-				} else if (d0 < 0.0D) {
-					d1 = d1 * -1.0D;
-					lores.add((translate(
-							"attribute.modifier.take." + attributemodifier2.getOperation().toValue(),
-							ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
-							translate(pair.getFirst().getDescriptionId())))
-									.withStyle(ChatFormatting.RED));
-				}
-			}
-		}
-	
+	public static void addPotionTooltip(List<MobEffectInstance> list, List<Component> lores, float durationFactor,Level pLevel) {
+		PotionUtils.addPotionTooltip(list, lores, durationFactor, pLevel.tickRateManager().tickrate());
 	}
 
 }

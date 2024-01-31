@@ -42,14 +42,15 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public class GravyBoatBlock extends CPHorizontalBlock implements ICreativeModeTabItem{
 	public static final IntegerProperty LEVEL = IntegerProperty.create("damage", 0, 5);
 
 	public GravyBoatBlock(Properties p_54120_) {
 		super(p_54120_);
+		CODEC = simpleCodec(GravyBoatBlock::new);
 	}
 
 	static final VoxelShape shapeNS = Block.box(3, 0, 4, 13, 7, 12);

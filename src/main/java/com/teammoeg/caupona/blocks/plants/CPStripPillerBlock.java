@@ -25,14 +25,14 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.common.ToolAction;
+import net.neoforged.neoforge.common.ToolActions;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPStripPillerBlock extends RotatedPillarBlock {
-	RegistryObject<Block> stripped;
+	DeferredHolder<Block> stripped;
 
-	public CPStripPillerBlock(RegistryObject<Block> stripped, Properties p_55926_) {
+	public CPStripPillerBlock(DeferredHolder<Block> stripped, Properties p_55926_) {
 		super(p_55926_);
 		this.stripped = stripped;
 	}

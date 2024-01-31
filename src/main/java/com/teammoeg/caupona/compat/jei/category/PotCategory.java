@@ -26,22 +26,22 @@ import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.util.Utils;
 
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class PotCategory implements IRecipeCategory<AspicMeltingRecipe> {
 	public static RecipeType<AspicMeltingRecipe> TYPE=RecipeType.create(CPMain.MODID, "aspic_thawing_pot",AspicMeltingRecipe.class);
@@ -50,7 +50,7 @@ public class PotCategory implements IRecipeCategory<AspicMeltingRecipe> {
 
 	public PotCategory(IGuiHelper guiHelper) {
 		this.ICON = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK,
-				new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID, "goulash"))));
+				new ItemStack(BuiltInRegistries.ITEM.get(new ResourceLocation(CPMain.MODID, "goulash"))));
 		ResourceLocation guiMain = new ResourceLocation(CPMain.MODID, "textures/gui/jei/aspic_thawing_pot.png");
 		this.BACKGROUND = guiHelper.createDrawable(guiMain, 0, 0, 127, 63);
 	}
@@ -82,7 +82,7 @@ public class PotCategory implements IRecipeCategory<AspicMeltingRecipe> {
 	public void setRecipe(IRecipeLayoutBuilder builder, AspicMeltingRecipe recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 28).addIngredients(recipe.aspic);
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 9)
-				.addIngredient(ForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, recipe.amount))
+				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, recipe.amount))
 				.setFluidRenderer(1250, false, 16, 46);
 	}
 

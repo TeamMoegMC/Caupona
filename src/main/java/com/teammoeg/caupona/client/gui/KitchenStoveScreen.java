@@ -55,7 +55,7 @@ public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveCont
 
 	@Override
 	protected void renderBg(GuiGraphics matrixStack, float partialTicks, int x, int y) {
-		this.renderBackground(matrixStack);
+		this.renderBackground(matrixStack,x,y,partialTicks);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		matrixStack.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (blockEntity.processMax > 0 && blockEntity.process > 0) {

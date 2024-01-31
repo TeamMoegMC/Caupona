@@ -29,7 +29,7 @@ import com.teammoeg.caupona.container.OutputSlot;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 
 public class StewPotContainer extends CPBaseContainer<StewPotBlockEntity> {
 	public StewPotContainer(int id, Inventory inv, FriendlyByteBuf buffer) {

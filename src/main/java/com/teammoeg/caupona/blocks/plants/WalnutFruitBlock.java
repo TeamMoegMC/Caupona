@@ -26,7 +26,7 @@ public class WalnutFruitBlock extends FruitBlock {
 		if (pLevel.getRawBrightness(pPos, 0) >= 9) {
 			int i = this.getAge(pState);
 			if (i < this.getMaxAge()) {
-				if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(pLevel, pPos, pState,
+				if (net.neoforged.neoforge.common.ForgeHooks.onCropsGrowPre(pLevel, pPos, pState,
 						pRandom.nextInt(17) == 0)) {
 					if (i == this.getMaxAge() - 1 && pLevel.dimensionTypeId().equals(BuiltinDimensionTypes.NETHER)
 							&& pRandom.nextDouble()<CPConfig.SERVER.leadenGenRate.get()) {
@@ -34,7 +34,7 @@ public class WalnutFruitBlock extends FruitBlock {
 					} else {
 						pLevel.setBlock(pPos, this.getStateForAge(i + 1), 2);
 					}
-					net.minecraftforge.common.ForgeHooks.onCropsGrowPost(pLevel, pPos, pState);
+					net.neoforged.neoforge.common.ForgeHooks.onCropsGrowPost(pLevel, pPos, pState);
 				}
 			}
 		}

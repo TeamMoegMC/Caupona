@@ -31,6 +31,7 @@ import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.StewInfo;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -40,7 +41,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class StewItem extends EdibleBlock{
 
@@ -65,8 +65,8 @@ public class StewItem extends EdibleBlock{
 		ResourceLocation base = info.base;
 		if (base != null&&!info.stacks.isEmpty())
 			tooltip.add(Utils.translate("tooltip.caupona.base", 
-					ForgeRegistries.FLUIDS.getValue(base).getFluidType().getDescription()));
-		Utils.addPotionTooltip(info.effects, tooltip, 1);
+					BuiltInRegistries.FLUID.get(base).getFluidType().getDescription()));
+		Utils.addPotionTooltip(info.effects, tooltip, 1,worldIn);
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
 

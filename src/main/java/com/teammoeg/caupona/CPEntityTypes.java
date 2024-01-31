@@ -23,17 +23,17 @@ package com.teammoeg.caupona;
 
 import com.teammoeg.caupona.entity.CPBoat;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPEntityTypes {
-	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES,
+	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE,
 			CPMain.MODID);
-	public static final RegistryObject<EntityType<CPBoat>> BOAT = ENTITY_TYPES.register("boat",
+	public static final DeferredHolder<?,EntityType<CPBoat>> BOAT = ENTITY_TYPES.register("boat",
 			() -> EntityType.Builder.<CPBoat>of(CPBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10)
 					.build(new ResourceLocation(CPMain.MODID, "boat").toString()));
 

@@ -32,6 +32,7 @@ import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -154,12 +155,12 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 	public void completeData() {
 		stacks.sort(Comparator.comparingInt(e -> Item.getId(e.stack.getItem())));
 		foodeffect.sort(
-				Comparator.<Pair<MobEffectInstance, Float>>comparingInt(e -> MobEffect.getId(e.getFirst().getEffect()))
+				Comparator.<Pair<MobEffectInstance, Float>>comparingInt(e -> BuiltInRegistries.MOB_EFFECT.getId(e.getFirst().getEffect()))
 						.thenComparing(Pair::getSecond));
 	}
 
 	public void completeEffects() {
-		effects.sort(Comparator.<MobEffectInstance>comparingInt(x -> MobEffect.getId(x.getEffect()))
+		effects.sort(Comparator.<MobEffectInstance>comparingInt(x -> BuiltInRegistries.MOB_EFFECT.getId(x.getEffect()))
 				.thenComparingInt(e -> e.getDuration()));
 	}
 

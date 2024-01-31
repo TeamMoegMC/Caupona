@@ -66,7 +66,7 @@ public class FloatemStack {
 	}
 
 	public CompoundTag serializeNBT() {
-		CompoundTag cnbt = stack.serializeNBT();
+		CompoundTag cnbt = stack.save(new CompoundTag());
 		cnbt.putFloat("th_countf", count);
 		return cnbt;
 	}
@@ -117,17 +117,6 @@ public class FloatemStack {
 		return stack.getMaxDamage();
 	}
 
-	public CompoundTag getShareTag() {
-		return stack.getShareTag();
-	}
-
-	public void readShareTag(CompoundTag nbt) {
-		stack.readShareTag(nbt);
-	}
-
-	public boolean areShareTagsEqual(ItemStack other) {
-		return stack.areShareTagsEqual(other);
-	}
 
 	public FloatemStack copy() {
 		return new FloatemStack(stack.copy(), this.count);

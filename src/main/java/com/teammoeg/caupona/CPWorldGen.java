@@ -34,19 +34,19 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerTy
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPWorldGen {
 	public static final DeferredRegister<FoliagePlacerType<?>> FOILAGE_TYPES = DeferredRegister.create(Registries.FOLIAGE_PLACER_TYPE, CPMain.MODID);
 	public static final DeferredRegister<TrunkPlacerType<?>> TRUNK_TYPES = DeferredRegister.create(Registries.TRUNK_PLACER_TYPE, CPMain.MODID);
 	public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES = DeferredRegister.create(Registries.STRUCTURE_TYPE, CPMain.MODID);
 	
-	public static final RegistryObject<FoliagePlacerType<BushFoliagePlacer>> BUSH_PLACER = FOILAGE_TYPES.register("bush_foliage_placer", () -> new FoliagePlacerType<>(BushFoliagePlacer.CODEC));
+	public static final DeferredHolder<FoliagePlacerType<?>,FoliagePlacerType<BushFoliagePlacer>> BUSH_PLACER = FOILAGE_TYPES.register("bush_foliage_placer", () -> new FoliagePlacerType<>(BushFoliagePlacer.CODEC));
 	
-	public static final RegistryObject<TrunkPlacerType<BushStraightTrunkPlacer>> BUSH_TRUNK = TRUNK_TYPES.register("bush_chunk", () -> new TrunkPlacerType<>(BushStraightTrunkPlacer.CODEC));
+	public static final DeferredHolder<TrunkPlacerType<?>,TrunkPlacerType<BushStraightTrunkPlacer>> BUSH_TRUNK = TRUNK_TYPES.register("bush_chunk", () -> new TrunkPlacerType<>(BushStraightTrunkPlacer.CODEC));
 	
-	public static final RegistryObject<StructureType<FumaroleStructure>> FUMAROLE = STRUCTURE_TYPES.register("fumarole",()->()->FumaroleStructure.CODEC);
+	public static final DeferredHolder<StructureType<?>,StructureType<FumaroleStructure>> FUMAROLE = STRUCTURE_TYPES.register("fumarole",()->()->FumaroleStructure.CODEC);
 	
 	public static final ResourceKey<PlacedFeature> TREES_WALNUT = PlacementUtils.createKey("caupona:trees_walnut");
 	public static final ResourceKey<PlacedFeature> TREES_FIG = PlacementUtils.createKey("caupona:trees_fig");

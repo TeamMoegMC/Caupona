@@ -39,7 +39,8 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.bus.api.Event.Result;
+import net.neoforged.neoforge.common.NeoForge;
 
 public abstract class IConditionalCategory<T extends IConditionalRecipe> implements IRecipeCategory<T> {
 	private IDrawable BACKGROUND;
@@ -100,7 +101,7 @@ public abstract class IConditionalCategory<T extends IConditionalRecipe> impleme
 		if(conditions==null||conditions.isEmpty()) {
 			COND_NONE.draw(stack,offX,offY);
 		}else {
-			if(MinecraftForge.EVENT_BUS.post(new DrawCustomConditionEvent(helper, conditions, stack, offX, offY)))return false;
+			if(NeoForge.EVENT_BUS.post(new DrawCustomConditionEvent(helper, conditions, stack, offX, offY)).getResult()==Result.DENY)return false;
 			COND_LIST.draw(stack,offX,offY);
 			DETAIL.draw(stack,offX+13,offY+14);
 		}
