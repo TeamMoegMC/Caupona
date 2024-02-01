@@ -41,6 +41,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 	public List<FloatemStack> stacks;
@@ -204,10 +205,10 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 				foodeffect.addAll(f.getEffects());
 			}
 		}
-		FluidFoodValueRecipe ffvr = FluidFoodValueRecipe.recipes.get(this.base);
+		RecipeHolder<FluidFoodValueRecipe> ffvr = FluidFoodValueRecipe.recipes.get(this.base);
 		if (ffvr != null) {
-			nh += ffvr.heal * (1 + this.shrinkedFluid);
-			ns += ffvr.sat * (1 + this.shrinkedFluid);
+			nh += ffvr.value().heal * (1 + this.shrinkedFluid);
+			ns += ffvr.value().sat * (1 + this.shrinkedFluid);
 		}
 		float dense = this.getDensity();
 		/*

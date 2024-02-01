@@ -27,7 +27,7 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 public class CPDoorBlock extends DoorBlock {
 
 	public CPDoorBlock(Properties p_273303_, BlockSetType p_272854_) {
-		super(p_273303_, p_272854_);
+		super(p_272854_, p_273303_);
 	}
 
 }

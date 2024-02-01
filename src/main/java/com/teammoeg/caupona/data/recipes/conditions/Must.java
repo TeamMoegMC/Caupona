@@ -22,6 +22,7 @@
 package com.teammoeg.caupona.data.recipes.conditions;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
@@ -29,10 +30,8 @@ import com.teammoeg.caupona.data.recipes.IPendingContext;
 import net.minecraft.network.FriendlyByteBuf;
 
 public class Must extends NumberedStewCondition {
+	public static final Codec<Must> CODEC=NumberedStewCondition.createCodec(Must::new);
 
-	public Must(JsonObject obj) {
-		super(obj);
-	}
 
 	public Must(CookIngredients number) {
 		super(number);
@@ -43,11 +42,7 @@ public class Must extends NumberedStewCondition {
 		return n > 0;
 	}
 
-	@Override
-	public JsonObject serialize() {
-		JsonObject jo = super.serialize();
-		return jo;
-	}
+
 
 	public Must(FriendlyByteBuf buffer) {
 		super(buffer);

@@ -45,10 +45,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
@@ -151,7 +151,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 		nbt.putBoolean("inf", isInfinite);
 		if (!isClient) {
 			nbt.put("inventory", inv.serializeNBT());
-			nbt.put("inner", inner.serializeNBT());
+			nbt.put("inner", inner.save(new CompoundTag()));
 			
 		}
 
@@ -217,10 +217,10 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 		ItemStack is = inv.getStackInSlot(4);
 		if (!is.isEmpty() && inv.getStackInSlot(5).isEmpty()) {
 			if (is.getItem() == Items.BOWL && tank.getFluidAmount() >= 250) {
-				BowlContainingRecipe recipe = BowlContainingRecipe.recipes.get(this.tank.getFluid().getFluid());
+				RecipeHolder<BowlContainingRecipe> recipe = BowlContainingRecipe.recipes.get(this.tank.getFluid().getFluid());
 				if (recipe != null) {
 					is.shrink(1);
-					inv.setStackInSlot(5, recipe.handle(tryAddSpice(tank.drain(250, FluidAction.EXECUTE))));
+					inv.setStackInSlot(5, recipe.value().handle(tryAddSpice(tank.drain(250, FluidAction.EXECUTE))));
 					process = -1;
 					return true;
 				}
@@ -345,21 +345,9 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 		}
 
 	});
-	LazyOptional<IItemHandler> up = LazyOptional.of(() -> ingredient);
-	LazyOptional<IItemHandler> side = LazyOptional.of(() -> bowl);
-	LazyOptional<IFluidHandler> fl = LazyOptional.of(() -> handler);
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-		if (cap == ForgeCapabilities.ITEM_HANDLER) {
-			if (side == Direction.UP)
-				return up.cast();
-			return this.side.cast();
-		}
-		if (cap == ForgeCapabilities.FLUID_HANDLER)
-			return fl.cast();
-		return super.getCapability(cap, side);
-	}
+
+
 
 	@Override
 	public boolean setInfinity() {
@@ -369,4 +357,17 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 	public ItemStackHandler getInv() {
 		return inv;
 	}
+
+	@Override
+	public Object getCapability(BlockCapability<?, Direction> cap, Direction side) {
+		if (cap == Capabilities.ItemHandler.BLOCK) {
+			if (side == Direction.UP)
+				return ingredient;
+			return this.bowl;
+		}
+		if (cap == Capabilities.FluidHandler.BLOCK)
+			return handler;
+		return null;
+	}
+
 }

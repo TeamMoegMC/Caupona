@@ -8,6 +8,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
+import net.neoforged.neoforge.common.CommonHooks;
 
 public class WalnutFruitBlock extends FruitBlock {
 	public WalnutFruitBlock(Properties p_52247_) {
@@ -26,7 +27,7 @@ public class WalnutFruitBlock extends FruitBlock {
 		if (pLevel.getRawBrightness(pPos, 0) >= 9) {
 			int i = this.getAge(pState);
 			if (i < this.getMaxAge()) {
-				if (net.neoforged.neoforge.common.ForgeHooks.onCropsGrowPre(pLevel, pPos, pState,
+				if (CommonHooks.onCropsGrowPre(pLevel, pPos, pState,
 						pRandom.nextInt(17) == 0)) {
 					if (i == this.getMaxAge() - 1 && pLevel.dimensionTypeId().equals(BuiltinDimensionTypes.NETHER)
 							&& pRandom.nextDouble()<CPConfig.SERVER.leadenGenRate.get()) {
@@ -34,7 +35,7 @@ public class WalnutFruitBlock extends FruitBlock {
 					} else {
 						pLevel.setBlock(pPos, this.getStateForAge(i + 1), 2);
 					}
-					net.neoforged.neoforge.common.ForgeHooks.onCropsGrowPost(pLevel, pPos, pState);
+					CommonHooks.onCropsGrowPost(pLevel, pPos, pState);
 				}
 			}
 		}

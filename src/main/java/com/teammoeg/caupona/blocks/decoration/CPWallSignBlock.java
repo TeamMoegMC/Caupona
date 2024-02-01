@@ -32,7 +32,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 public class CPWallSignBlock extends WallSignBlock {
 
 	public CPWallSignBlock(Properties propertiesIn, WoodType woodTypeIn) {
-		super(propertiesIn, woodTypeIn);
+		super(woodTypeIn, propertiesIn);
 		CPBlocks.signs.add(this);
 	}
 

@@ -22,12 +22,15 @@
 package com.teammoeg.caupona.data.recipes.numbers;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
@@ -40,6 +43,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public class ItemIngredient implements CookIngredients {
+	public static final Codec<ItemIngredient> CODEC=
+		RecordCodecBuilder.create(t->t.group(Ingredient.CODEC.fieldOf("ingredient").forGetter(o->o.i),
+			Codec.STRING.optionalFieldOf("translation").forGetter(o->Optional.ofNullable(o.translation))).apply(t, ItemIngredient::new));
 	Ingredient i;
 	String translation="";
 	public ItemIngredient(JsonElement jo) {
@@ -52,7 +58,11 @@ public class ItemIngredient implements CookIngredients {
 		super();
 		this.i = i;
 	}
-
+	public ItemIngredient(Ingredient i, Optional<String> translation) {
+		super();
+		this.i = i;
+		this.translation = translation.orElse(null);
+	}
 	public ItemIngredient(Ingredient i, String translation) {
 		super();
 		this.i = i;
@@ -67,14 +77,6 @@ public class ItemIngredient implements CookIngredients {
 	@Override
 	public boolean fits(FloatemTagStack stack) {
 		return i.test(stack.getStack());
-	}
-
-	@Override
-	public JsonElement serialize() {
-		JsonObject th = new JsonObject();
-		th.add("ingredient", Utils.toJson(i));
-		th.addProperty("description", translation);
-		return th;
 	}
 
 	@Override

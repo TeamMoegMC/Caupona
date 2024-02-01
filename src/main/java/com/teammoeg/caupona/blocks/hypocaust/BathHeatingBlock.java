@@ -34,7 +34,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public abstract class BathHeatingBlock<V extends BathHeatingBlockEntity> extends CPHorizontalEntityBlock<V> {
 
-	public BathHeatingBlock(DeferredHolder<BlockEntityType<V>> blockEntity, Properties p_54120_) {
+	public BathHeatingBlock(DeferredHolder<BlockEntityType<?>,BlockEntityType<V>> blockEntity, Properties p_54120_) {
 		super(blockEntity, p_54120_);
 	}
 

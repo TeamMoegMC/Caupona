@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.neoforged.neoforge.common.CommonHooks;
 
 public class SnailBlock extends FruitBlock {
 	public static final BooleanProperty EATEN_FRUIT = BooleanProperty.create("plump");
@@ -34,7 +35,7 @@ public class SnailBlock extends FruitBlock {
 	}
 
 	@Override
-	public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {
+	public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState) {
 		return false;
 	}
 
@@ -63,13 +64,13 @@ public class SnailBlock extends FruitBlock {
 		int i = this.getAge(pState);
 		if (i < this.getMaxAge(pState)) {
 			
-			if (net.neoforged.neoforge.common.ForgeHooks.onCropsGrowPre(pLevel, pPos, pState,pRandom.nextInt(3) == 0)) {
+			if (CommonHooks.onCropsGrowPre(pLevel, pPos, pState,pRandom.nextInt(3) == 0)) {
 				int eat=eatFirstEdible(pPos,pLevel);
 				if(eat>0) {
 					if(eat==2)
 						pState=pState.setValue(EATEN_FRUIT, true);
 					pLevel.setBlock(pPos, this.getStateForAge(pState, i + 1), 2);
-					net.neoforged.neoforge.common.ForgeHooks.onCropsGrowPost(pLevel, pPos, pState);
+					CommonHooks.onCropsGrowPost(pLevel, pPos, pState);
 				}
 			}
 		}else {

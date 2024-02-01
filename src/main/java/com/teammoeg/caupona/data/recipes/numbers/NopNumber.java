@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
+import com.mojang.serialization.Codec;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
@@ -36,7 +37,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class NopNumber implements CookIngredients {
 	public static final NopNumber INSTANCE = new NopNumber();
-
+	public static final Codec<NopNumber> CODEC=Codec.unit(INSTANCE);
 	/**
 	 * @param elm
 	 */
@@ -61,11 +62,6 @@ public class NopNumber implements CookIngredients {
 	@Override
 	public boolean fits(FloatemTagStack stack) {
 		return false;
-	}
-
-	@Override
-	public JsonElement serialize() {
-		return JsonNull.INSTANCE;
 	}
 
 	@Override

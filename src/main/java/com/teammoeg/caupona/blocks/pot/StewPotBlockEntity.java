@@ -52,6 +52,7 @@ import com.teammoeg.caupona.util.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -64,12 +65,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
@@ -79,7 +80,6 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.RangedWrapper;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvider, IInfinitable {
 	private ItemStackHandler inv = new ItemStackHandler(12) {
@@ -266,10 +266,10 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		ItemStack is = inv.getStackInSlot(9);
 		if (!is.isEmpty() && inv.getStackInSlot(10).isEmpty()) {
 			if (is.getItem() == Items.BOWL && tank.getFluidAmount() >= 250) {
-				BowlContainingRecipe recipe = BowlContainingRecipe.recipes.get(this.tank.getFluid().getFluid());
+				RecipeHolder<BowlContainingRecipe> recipe = BowlContainingRecipe.recipes.get(this.tank.getFluid().getFluid());
 				if (recipe != null) {
 					is.shrink(1);
-					inv.setStackInSlot(10, recipe.handle(tryAddSpice(tank.drain(250, FluidAction.EXECUTE))));
+					inv.setStackInSlot(10, recipe.value().handle(tryAddSpice(tank.drain(250, FluidAction.EXECUTE))));
 					still.rewind();
 					return true;
 				}
@@ -332,7 +332,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 			working = nbt.getBoolean("working");
 		tank.readFromNBT(nbt);
 		if (nbt.contains("result"))
-			become = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(nbt.getString("result")));
+			become = BuiltInRegistries.FLUID.get(new ResourceLocation(nbt.getString("result")));
 		else
 			become = null;
 		isInfinite = nbt.getBoolean("inf");
@@ -410,9 +410,10 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 	}
 
 	private boolean doBoil() {
-		BoilingRecipe recipe = BoilingRecipe.recipes.get(this.tank.getFluid().getFluid());
-		if (recipe == null)
+		RecipeHolder<BoilingRecipe> recipeh = BoilingRecipe.recipes.get(this.tank.getFluid().getFluid());
+		if (recipeh == null)
 			return false;
+		BoilingRecipe recipe=recipeh.value();
 		become = recipe.after;
 		this.processMax = (int) (recipe.time * (this.tank.getFluidAmount() / 250f));
 		this.process = 0;
@@ -420,9 +421,10 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 	}
 
 	private void finishBoil() {
-		BoilingRecipe recipe = BoilingRecipe.recipes.get(this.tank.getFluid().getFluid());
-		if (recipe == null)
+		RecipeHolder<BoilingRecipe> recipeh = BoilingRecipe.recipes.get(this.tank.getFluid().getFluid());
+		if (recipeh == null)
 			return;
+		BoilingRecipe recipe=recipeh.value();
 		current = null;
 		tank.setFluid(recipe.handle(tank.getFluid()));
 	}
@@ -504,9 +506,9 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 			if (is.isEmpty())
 				break;
 			current.addItem(is, parts);
-			for (DissolveRecipe rs : DissolveRecipe.recipes) {
-				if (rs.item.test(is)) {
-					tpt += rs.time;
+			for (RecipeHolder<DissolveRecipe> rs : DissolveRecipe.recipes) {
+				if (rs.value().item.test(is)) {
+					tpt += rs.value().time;
 					continue outer;
 				}
 			}
@@ -530,16 +532,16 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 			return 0;
 		}
 		
-		for (StewCookingRecipe cr : StewCookingRecipe.sorted) {
-			int mt = cr.matches(ctx);
+		for (RecipeHolder<StewCookingRecipe> cr : StewCookingRecipe.sorted) {
+			int mt = cr.value().matches(ctx);
 			if (mt != 0) {
 				if (mt == 2)
 					nextbase = Utils.getRegistryName(become);
 				else
 					nextbase = current.base;
-				become = cr.output;
-				removesNBT=cr.removeNBT;
-				return cr.time;
+				become = cr.value().output;
+				removesNBT=cr.value().removeNBT;
+				return cr.value().time;
 			}
 		}
 
@@ -581,10 +583,10 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		StewInfo n = SoupFluid.getInfo(fs);
 		if (!getCurrent().base.equals(n.base) && !current.base.equals(Utils.getRegistryName(fs))
 				&& !n.base.equals(Utils.getRegistryName(tank.getFluid()))) {
-			BoilingRecipe bnx = BoilingRecipe.recipes.get(fs.getFluid());
+			RecipeHolder<BoilingRecipe> bnx = BoilingRecipe.recipes.get(fs.getFluid());
 			if (bnx == null)
 				return false;
-			if (!current.base.equals(Utils.getRegistryName(bnx.after)))
+			if (!current.base.equals(Utils.getRegistryName(bnx.value().after)))
 				return false;
 		}
 		return current.canMerge(n, tank.getFluidAmount() / 250f, fs.getAmount() / 250f);
@@ -631,13 +633,13 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 
 		if (!getCurrent().base.equals(n.base) && !current.base.equals(Utils.getRegistryName(fs))
 				&& !n.base.equals(Utils.getRegistryName(tank.getFluid()))) {
-			BoilingRecipe bnx = BoilingRecipe.recipes.get(fs.getFluid());
+			RecipeHolder<BoilingRecipe> bnx = BoilingRecipe.recipes.get(fs.getFluid());
 			if (bnx == null)
 				return false;
-			if (!getCurrent().base.equals(Utils.getRegistryName(bnx.after)))
+			if (!getCurrent().base.equals(Utils.getRegistryName(bnx.value().after)))
 				return false;
-			fs = bnx.handle(fs);
-			pm = (int) (bnx.time * (fs.getAmount() / 250f));
+			fs = bnx.value().handle(fs);
+			pm = (int) (bnx.value().time * (fs.getAmount() / 250f));
 		}
 
 		if (current.merge(n, tank.getFluidAmount() / 250f, fs.getAmount() / 250f)) {
@@ -784,21 +786,19 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 			return ItemStack.EMPTY;
 		}
 	};
-	LazyOptional<IItemHandler> up = LazyOptional.of(() -> ingredient);
-	LazyOptional<IItemHandler> side = LazyOptional.of(() -> bowl);
-	LazyOptional<IFluidHandler> fl = LazyOptional.of(() -> handler);
 
 	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-		if (cap == ForgeCapabilities.ITEM_HANDLER) {
+	public Object getCapability(BlockCapability<?, Direction> cap, Direction side) {
+		if (cap == Capabilities.ItemHandler.BLOCK) {
 			if (side == Direction.UP)
-				return up.cast();
-			return this.side.cast();
+				return ingredient;
+			return this.bowl;
 		}
-		if (cap == ForgeCapabilities.FLUID_HANDLER)
-			return fl.cast();
-		return super.getCapability(cap, side);
+		if (cap == Capabilities.FluidHandler.BLOCK)
+			return handler;
+		return null;
 	}
+
 
 	public StewInfo getCurrent() {
 		if (current == null)
@@ -810,4 +810,5 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 	public boolean setInfinity() {
 		return isInfinite = !isInfinite;
 	}
+
 }

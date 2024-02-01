@@ -34,6 +34,7 @@ import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.entity.CPBoat;
+import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.ICreativeModeTabItem;
 import com.teammoeg.caupona.util.Utils;
@@ -43,6 +44,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
@@ -57,6 +59,7 @@ import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
@@ -77,6 +80,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
 import net.neoforged.neoforge.fluids.capability.wrappers.BucketPickupHandlerWrapper;
 import net.neoforged.neoforge.fluids.capability.wrappers.FluidBlockWrapper;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 @EventBusSubscriber(modid = CPMain.MODID, bus = EventBusSubscriber.Bus.MOD)
@@ -97,14 +101,19 @@ public class CPCommonBootStrap {
 	@SubscribeEvent
 	public static void onCapabilityInject(RegisterCapabilitiesEvent event) {
 		event.registerItem(Capabilities.FluidHandler.ITEM,(stack,o)->new FluidHandlerItemStack(stack,1250), CPItems.situla.get());
-
+		for(BlockEntityType<?> be:BuiltInRegistries.BLOCK_ENTITY_TYPE) {
+			event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, be,
+				(block,ctx)->(IItemHandler)((CPBaseBlockEntity)block).getCapability(Capabilities.ItemHandler.BLOCK, ctx));
+			event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, be,
+				(block,ctx)->(IFluidHandler)((CPBaseBlockEntity)block).getCapability(Capabilities.FluidHandler.BLOCK, ctx));
+		}
 	}
 	
-	public static <T extends ItemLike> DeferredHolder<?,T> asCompositable(DeferredHolder<?,T> obj, float val) {
+	public static <R extends ItemLike,T extends R> DeferredHolder<?,T> asCompositable(DeferredHolder<R,T> obj, float val) {
 		compositables.add(Pair.of(obj, val));
 		return obj;
 	}
-	public static <T extends Block> DeferredHolder<?,T> asFlamable(DeferredHolder<?,T> obj,int v1,int v2) {
+	public static <R extends Block,T extends R> DeferredHolder<R,T> asFlamable(DeferredHolder<R,T> obj,int v1,int v2) {
 		flamables.add(Pair.of(obj, Pair.of(v1, v2)));
 		return obj;
 	}
@@ -138,14 +147,14 @@ public class CPCommonBootStrap {
 							if (is.getCount() == 1)
 								return ret;
 							is.shrink(1);
-							if (bp.<DispenserBlockEntity>getEntity().addItem(ret) == -1)
+							if (bp.<DispenserBlockEntity>blockEntity().addItem(ret) == -1)
 								this.defaultBehaviour.dispense(bp, ret);
 						}
 					} else if (blockEntity instanceof PanBlockEntity pan) {
 						ItemStack out = pan.inv.getStackInSlot(10);
 						if (!out.isEmpty()) {
 							pan.inv.setStackInSlot(10, ItemStack.EMPTY);
-							if (bp.<DispenserBlockEntity>getEntity().addItem(out) == -1)
+							if (bp.<DispenserBlockEntity>blockEntity().addItem(out) == -1)
 								this.defaultBehaviour.dispense(bp, out);
 						}
 					}
@@ -157,7 +166,7 @@ public class CPCommonBootStrap {
 						if (is.getCount() == 1)
 							return ret;
 						is.shrink(1);
-						if (bp.<DispenserBlockEntity>getEntity().addItem(ret) == -1)
+						if (bp.<DispenserBlockEntity>blockEntity().addItem(ret) == -1)
 							this.defaultBehaviour.dispense(bp, ret);
 					}
 					return is;
@@ -171,10 +180,10 @@ public class CPCommonBootStrap {
 			@Override
 			protected ItemStack execute(BlockSource bp, ItemStack is) {
 
-				Direction d = bp.getBlockState().getValue(DispenserBlock.FACING);
-				BlockPos front = bp.getPos().relative(d);
-				BlockPos back = bp.getPos().relative(d.getOpposite());
-				Block src = bp.getLevel().getBlockState(front).getBlock();
+				Direction d = bp.state().getValue(DispenserBlock.FACING);
+				BlockPos front = bp.pos().relative(d);
+				BlockPos back = bp.pos().relative(d.getOpposite());
+				Block src = bp.level().getBlockState(front).getBlock();
 				LazyOptional<IFluidHandler> blockSource = FluidUtil.getFluidHandler(bp.getLevel(), front,
 						d.getOpposite());
 				BlockEntity besrc=bp.getLevel().getBlockEntity(front);
@@ -259,12 +268,12 @@ public class CPCommonBootStrap {
 			private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
 
 			public ItemStack execute(BlockSource pSource, ItemStack pStack) {
-				Direction direction = pSource.getBlockState().getValue(DispenserBlock.FACING);
-				Level level = pSource.getLevel();
-				double d0 = pSource.x() + direction.getStepX() * 1.125F;
-				double d1 = pSource.y() + direction.getStepY() * 1.125F;
-				double d2 = pSource.z() + direction.getStepZ() * 1.125F;
-				BlockPos blockpos = pSource.getPos().relative(direction);
+				Direction direction = pSource.state().getValue(DispenserBlock.FACING);
+				Level level = pSource.level();
+				double d0 = pSource.pos().getX() + direction.getStepX() * 1.125F;
+				double d1 = pSource.pos().getY() + direction.getStepY() * 1.125F;
+				double d2 = pSource.pos().getZ() + direction.getStepZ() * 1.125F;
+				BlockPos blockpos = pSource.pos().relative(direction);
 				double d3;
 				if (level.getFluidState(blockpos).is(FluidTags.WATER)) {
 					d3 = 1.0D;
@@ -295,9 +304,9 @@ public class CPCommonBootStrap {
 			@Override
 			protected ItemStack execute(BlockSource bp, ItemStack is) {
 
-				Direction d = bp.getBlockState().getValue(DispenserBlock.FACING);
-				BlockPos front = bp.getPos().relative(d);
-				BlockState bs = bp.getLevel().getBlockState(front);
+				Direction d = bp.state().getValue(DispenserBlock.FACING);
+				BlockPos front = bp.pos().relative(d);
+				BlockEntity blockEntity = bp.level().getBlockEntity(front);
 				if (bs.is(CPBlocks.GRAVY_BOAT.get())) {
 					int idmg = is.getDamageValue();
 					is.setDamageValue(bs.getValue(GravyBoatBlock.LEVEL));
@@ -317,9 +326,9 @@ public class CPCommonBootStrap {
 			@SuppressWarnings("resource")
 			public ItemStack execute(BlockSource source, ItemStack stack) {
 
-				Level world = source.getLevel();
-				Direction d = source.getBlockState().getValue(DispenserBlock.FACING);
-				BlockPos front = source.getPos().relative(d);
+				Level world = source.level();
+				Direction d = source.state().getValue(DispenserBlock.FACING);
+				BlockPos front = source.pos().relative(d);
 				BlockEntity blockEntity = world.getBlockEntity(front);
 				if (blockEntity != null) {
 					LazyOptional<IFluidHandler> ip = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER,
@@ -347,9 +356,9 @@ public class CPCommonBootStrap {
 			@Override
 			protected ItemStack execute(BlockSource source, ItemStack stack) {
 				FluidStack fs = Utils.extractFluid(stack);
-				Direction d = source.getBlockState().getValue(DispenserBlock.FACING);
-				BlockPos front = source.getPos().relative(d);
-				BlockEntity blockEntity = source.getLevel().getBlockEntity(front);
+				Direction d = source.state().getValue(DispenserBlock.FACING);
+				BlockPos front = source.pos().relative(d);
+				BlockEntity blockEntity = source.level().getBlockEntity(front);
 
 				if (!fs.isEmpty()) {
 					if (blockEntity instanceof StewPotBlockEntity pot) {
@@ -358,7 +367,7 @@ public class CPCommonBootStrap {
 							if (stack.getCount() == 1)
 								return ret;
 							stack.shrink(1);
-							if (source.<DispenserBlockEntity>getEntity().addItem(ret) == -1)
+							if (source.<DispenserBlockEntity>blockEntity().addItem(ret) == -1)
 								this.defaultBehaviour.dispense(source, ret);
 						}
 					} else if (blockEntity != null) {
@@ -372,7 +381,7 @@ public class CPCommonBootStrap {
 								if (stack.getCount() == 1)
 									return ret;
 								stack.shrink(1);
-								if (source.<DispenserBlockEntity>getEntity().addItem(ret) == -1)
+								if (source.<DispenserBlockEntity>blockEntity().addItem(ret) == -1)
 									this.defaultBehaviour.dispense(source, ret);
 							}
 						}
@@ -392,9 +401,9 @@ public class CPCommonBootStrap {
 			@SuppressWarnings("resource")
 			@Override
 			protected ItemStack execute(BlockSource source, ItemStack stack) {
-				Direction d = source.getBlockState().getValue(DispenserBlock.FACING);
-				BlockPos front = source.getPos().relative(d);
-				BlockEntity blockEntity = source.getLevel().getBlockEntity(front);
+				Direction d = source.state().getValue(DispenserBlock.FACING);
+				BlockPos front = source.pos().relative(d);
+				BlockEntity blockEntity = source.level().getBlockEntity(front);
 
 				if (blockEntity instanceof StewPotBlockEntity pot) {
 					ItemStack ospice = pot.getInv().getStackInSlot(11);
@@ -420,26 +429,26 @@ public class CPCommonBootStrap {
 			@SuppressWarnings("resource")
 			@Override
 			protected ItemStack execute(BlockSource source, ItemStack stack) {
-				Direction d = source.getBlockState().getValue(DispenserBlock.FACING);
-				BlockPos front = source.getPos().relative(d);
-				BlockEntity blockEntity = source.getLevel().getBlockEntity(front);
+				Direction d = source.state().getValue(DispenserBlock.FACING);
+				BlockPos front = source.pos().relative(d);
+				BlockEntity blockEntity = source.level().getBlockEntity(front);
 
 				if (blockEntity instanceof StewPotBlockEntity pot) {
 					ItemStack ospice = pot.getInv().getStackInSlot(11);
 					pot.getInv().setStackInSlot(11, ItemStack.EMPTY);
-					if (source.<DispenserBlockEntity>getEntity().addItem(ospice) == -1)
+					if (source.<DispenserBlockEntity>blockEntity().addItem(ospice) == -1)
 						this.defaultBehaviour.dispense(source, ospice);
 					return stack;
 				} else if (blockEntity instanceof PanBlockEntity pan) {
 					ItemStack ospice = pan.getInv().getStackInSlot(11);
 					pan.getInv().setStackInSlot(11, ItemStack.EMPTY);
-					if (source.<DispenserBlockEntity>getEntity().addItem(ospice) == -1)
+					if (source.<DispenserBlockEntity>blockEntity().addItem(ospice) == -1)
 						this.defaultBehaviour.dispense(source, ospice);
 					return stack;
 				} else if (blockEntity instanceof CounterDoliumBlockEntity dolium) {
 					ItemStack ospice = dolium.getInv().getStackInSlot(3);
 					dolium.getInv().setStackInSlot(3, ItemStack.EMPTY);
-					if (source.<DispenserBlockEntity>getEntity().addItem(ospice) == -1)
+					if (source.<DispenserBlockEntity>blockEntity().addItem(ospice) == -1)
 						this.defaultBehaviour.dispense(source, ospice);
 					return stack;
 				}
@@ -449,7 +458,7 @@ public class CPCommonBootStrap {
 
 		};
 		DispenserBlock.registerBehavior(Items.FLOWER_POT, pot);
-		for (DeferredHolder<Item> i : CPItems.spicesItems) {
+		for (DeferredHolder<?,Item> i : CPItems.spicesItems) {
 			DispenserBlock.registerBehavior(i.get(), spice);
 		}
 	}

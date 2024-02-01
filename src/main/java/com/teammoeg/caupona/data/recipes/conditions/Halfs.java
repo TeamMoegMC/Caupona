@@ -21,17 +21,14 @@
 
 package com.teammoeg.caupona.data.recipes.conditions;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
-
 import net.minecraft.network.FriendlyByteBuf;
 
 public class Halfs extends NumberedStewCondition {
-	public Halfs(JsonObject obj) {
-		super(obj);
-	}
+	public static final Codec<Halfs> CODEC=NumberedStewCondition.createCodec(Halfs::new);
 
 	public Halfs(CookIngredients number) {
 		super(number);
@@ -42,11 +39,7 @@ public class Halfs extends NumberedStewCondition {
 		return n > t.getTotalItems() / 2;
 	}
 
-	@Override
-	public JsonObject serialize() {
-		JsonObject jo = super.serialize();
-		return jo;
-	}
+
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {

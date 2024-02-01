@@ -5,11 +5,11 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 import com.teammoeg.caupona.CPMain;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 public enum MosaicMaterial implements StringRepresentable{
 	brick("t"),
@@ -22,7 +22,7 @@ public enum MosaicMaterial implements StringRepresentable{
 	private Item tell;
 	private Item getTesserae() {
 		if(tell==null) {
-			tell=ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID,name()+"_tesserae"));
+			tell=BuiltInRegistries.ITEM.get(new ResourceLocation(CPMain.MODID,name()+"_tesserae"));
 		}
 		return tell;
 	}

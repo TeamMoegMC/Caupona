@@ -22,12 +22,15 @@
 package com.teammoeg.caupona.network;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.capabilities.Capabilities;
 
 public abstract class CPBaseBlockEntity extends BlockEntity {
 
@@ -56,7 +59,9 @@ public abstract class CPBaseBlockEntity extends BlockEntity {
 	}
 
 	public abstract void tick();
-
+	public Object getCapability(BlockCapability<?,Direction> type,Direction d) {
+		return null;
+	};
 	@Override
 	public void load(CompoundTag nbt) {
 		this.readCustomNBT(nbt, false);

@@ -22,6 +22,8 @@
 package com.teammoeg.caupona.data.recipes.baseconditions;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 import com.teammoeg.caupona.util.Utils;
@@ -33,11 +35,15 @@ import net.minecraft.world.level.material.Fluid;
 
 public class FluidTypeType implements StewBaseCondition {
 	ResourceLocation of;
-
+	public static final Codec<FluidTypeType> CODEC=RecordCodecBuilder
+		.create(c->c.group(ResourceLocation.CODEC.fieldOf("base").forGetter(t->t.of)
+		).apply(c, FluidTypeType::new));
 	public FluidTypeType(JsonObject jo) {
 		of = new ResourceLocation(jo.get("base").getAsString());
 	}
-
+	public FluidTypeType(String of) {
+		this(new ResourceLocation(of));
+	}
 	public FluidTypeType(ResourceLocation of) {
 		super();
 		this.of = of;

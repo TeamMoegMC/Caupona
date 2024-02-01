@@ -38,9 +38,9 @@ import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class FruitsLeavesBlock extends LeavesBlock implements BonemealableBlock {
-	DeferredHolder<Block> fruit;
+	DeferredHolder<Block,Block> fruit;
 
-	public FruitsLeavesBlock(Properties p_54422_, DeferredHolder<Block> fruit2) {
+	public FruitsLeavesBlock(Properties p_54422_, DeferredHolder<Block,Block> fruit2) {
 		super(p_54422_);
 		this.fruit = fruit2;
 	}
@@ -66,7 +66,8 @@ public class FruitsLeavesBlock extends LeavesBlock implements BonemealableBlock 
 		if (!pLevel.isAreaLoaded(pPos, 1))
 			return false;
 		int cnt = 0;
-		AABB aabb = new AABB(pPos.offset(-1, 0, -1), pPos.offset(1, 0, 1));
+		
+		AABB aabb = new AABB(pPos.getX()-1,pPos.getY(),pPos.getZ()-1, pPos.getX()+1,pPos.getY(),pPos.getZ()+1);
 		Iterator<BlockState> it = pLevel.getBlockStates(aabb).iterator();
 		while (it.hasNext()) {
 			if (it.next().getBlock() == fruit.get())
@@ -81,7 +82,7 @@ public class FruitsLeavesBlock extends LeavesBlock implements BonemealableBlock 
 	}
 
 	@Override
-	public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {
+	public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState) {
 		return !pState.getValue(PERSISTENT) && pState.getValue(DISTANCE) != 7;
 	}
 

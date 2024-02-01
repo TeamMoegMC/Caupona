@@ -26,8 +26,8 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 
 public class CPButtonBlock extends ButtonBlock {
 
-	public CPButtonBlock(Properties p_273290_, BlockSetType p_273462_, int p_273212_, boolean p_272786_) {
-		super(p_273290_, p_273462_, p_273212_, p_272786_);
+	public CPButtonBlock(Properties p_273290_, BlockSetType p_273462_, int p_273212_) {
+		super(p_273462_, p_273212_,p_273290_);
 	}
 
 }

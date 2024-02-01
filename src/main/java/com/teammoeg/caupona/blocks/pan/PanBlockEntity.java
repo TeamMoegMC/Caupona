@@ -43,6 +43,7 @@ import com.teammoeg.caupona.util.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -54,15 +55,14 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.RangedWrapper;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,IInfinitable,IFoodContainer {
 	//process
@@ -150,8 +150,6 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 			return ItemStack.EMPTY;
 		}
 	};
-	LazyOptional<IItemHandler> up = LazyOptional.of(() -> ingredient);
-	LazyOptional<IItemHandler> side = LazyOptional.of(() -> bowl);
 	public PanBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPBlockEntityTypes.PAN.get(), pWorldPosition, pBlockState);
 	}
@@ -191,7 +189,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 				current = null;
 			removesNBT=nbt.getBoolean("removeNbt");
 		}
-		preout = ForgeRegistries.ITEMS.getValue(new ResourceLocation(nbt.getString("out")));
+		preout = BuiltInRegistries.ITEM.get(new ResourceLocation(nbt.getString("out")));
 
 	}
 
@@ -202,7 +200,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		nbt.putBoolean("rsstate", rsstate);
 		nbt.putInt("process", process);
 		nbt.putInt("processMax", processMax);
-		nbt.put("sout", sout.serializeNBT());
+		nbt.put("sout", sout.save(new CompoundTag()));
 		nbt.put("items", inv.serializeNBT());
 		if (!isClient) {
 			nbt.putInt("amount", oamount);
@@ -368,12 +366,12 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		Item preout=Items.AIR;
 		int processMax=0;
 		boolean removesNBT=false;
-		for (SauteedRecipe cr : SauteedRecipe.sorted) {
-			if (cr.matches(ctx)) {
-				processMax = Math.max(cr.time, tpt);
-				preout = cr.output;
-				removesNBT=cr.removeNBT;
-				tcount=cr.count;
+		for (RecipeHolder<SauteedRecipe> cr : SauteedRecipe.sorted) {
+			if (cr.value().matches(ctx)) {
+				processMax = Math.max(cr.value().time, tpt);
+				preout = cr.value().output;
+				removesNBT=cr.value().removeNBT;
+				tcount=cr.value().count;
 				break;
 			}
 		}
@@ -416,15 +414,6 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	public Component getDisplayName() {
 		return Utils.translate("container." + CPMain.MODID + ".pan.title");
 	}
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-		if (cap == ForgeCapabilities.ITEM_HANDLER) {
-			if (side == Direction.UP)
-				return up.cast();
-			return this.side.cast();
-		}
-		return super.getCapability(cap, side);
-	}
 
 	public ItemStackHandler getInv() {
 		return inv;
@@ -458,4 +447,15 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	public boolean accepts(int num, ItemStack is) {
 		return is.is(Items.BOWL);
 	}
+
+	@Override
+	public Object getCapability(BlockCapability<?, Direction> type, Direction d) {
+		if(type==Capabilities.ItemHandler.BLOCK) {
+			if(d==Direction.UP)
+				return ingredient;
+			return bowl;
+		}
+		return null;
+	}
+
 }

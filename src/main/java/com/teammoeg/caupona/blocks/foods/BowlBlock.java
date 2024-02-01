@@ -41,15 +41,15 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.api.distmarker.Dist;
-import net.neoforged.neoforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 
-	public BowlBlock(Properties blockProps, DeferredHolder<BlockEntityType<BowlBlockEntity>> ste) {
-		super( blockProps, ste);
+	public BowlBlock(Properties blockProps, DeferredHolder<BlockEntityType<?>,BlockEntityType<BowlBlockEntity>> ste) {
+		super(blockProps, ste);
 	}
 
 	static final VoxelShape shape = Block.box(2.8, 0, 2.8, 13.2, 5.2, 13.2);

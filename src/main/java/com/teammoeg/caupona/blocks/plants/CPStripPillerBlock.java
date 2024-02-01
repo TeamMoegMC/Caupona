@@ -30,9 +30,9 @@ import net.neoforged.neoforge.common.ToolActions;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPStripPillerBlock extends RotatedPillarBlock {
-	DeferredHolder<Block> stripped;
+	DeferredHolder<Block,Block> stripped;
 
-	public CPStripPillerBlock(DeferredHolder<Block> stripped, Properties p_55926_) {
+	public CPStripPillerBlock(DeferredHolder<Block,Block> stripped, Properties p_55926_) {
 		super(p_55926_);
 		this.stripped = stripped;
 	}

@@ -106,11 +106,11 @@ public class CPClientRegistry {
 		ev.register((p_92626_, p_92627_, p_92628_, p_92629_) -> {
 			return p_92627_ != null && p_92628_ != null ? BiomeColors.getAverageFoliageColor(p_92627_, p_92628_)
 					: FoliageColor.getDefaultColor();
-		}, CPBlocks.leaves.stream().map(DeferredHolder<Block,Block>::get).toArray(Block[]::new));
+		}, CPBlocks.leaves.stream().map(t->t.value()).toArray(Block[]::new));
 	}
 
 	@SubscribeEvent
 	public static void onTint(RegisterColorHandlersEvent.Item ev) {
-		ev.register((i, t) -> 0x5bd449,CPBlocks.leaves.stream().map(DeferredHolder<Block,Block>::get).toArray(Block[]::new));
+		ev.register((i, t) -> 0x5bd449,CPBlocks.leaves.stream().map(t->t.value()).toArray(Block[]::new));
 	}
 }

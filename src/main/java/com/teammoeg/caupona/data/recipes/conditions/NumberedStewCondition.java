@@ -21,12 +21,16 @@
 
 package com.teammoeg.caupona.data.recipes.conditions;
 
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
+import com.teammoeg.caupona.data.recipes.numbers.ItemTag;
 import com.teammoeg.caupona.data.recipes.numbers.Numbers;
 
 import net.minecraft.network.FriendlyByteBuf;
@@ -35,10 +39,9 @@ import net.minecraft.resources.ResourceLocation;
 public abstract class NumberedStewCondition implements IngredientCondition {
 	protected CookIngredients number;
 
-	public NumberedStewCondition(JsonObject obj) {
-		this.number = Numbers.of(obj.get("type"));
+	public static <T extends NumberedStewCondition> Codec<T> createCodec(Function<CookIngredients,T> factory) {
+		return RecordCodecBuilder.create(t->t.group(Numbers.CODEC.fieldOf("number").forGetter(o->o.number)).apply(t, factory));
 	}
-
 	public NumberedStewCondition(CookIngredients number) {
 		this.number = number;
 	}
@@ -58,15 +61,6 @@ public abstract class NumberedStewCondition implements IngredientCondition {
 	public NumberedStewCondition(FriendlyByteBuf buffer) {
 		number = Numbers.of(buffer);
 	}
-
-	@Override
-	public JsonObject serialize() {
-		JsonObject jo = new JsonObject();
-		jo.addProperty("cond", getType());
-		jo.add("type", number.serialize());
-		return jo;
-	}
-
 	@Override
 	public Stream<CookIngredients> getAllNumbers() {
 		return Stream.of(number);

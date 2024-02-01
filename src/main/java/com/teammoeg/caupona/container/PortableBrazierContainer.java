@@ -38,6 +38,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 
@@ -205,14 +206,14 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 					&& items.getStackInSlot(FUEL).is(Items.PORTABLE_BRAZIER_FUEL_TYPE)) {
 				AspicMeltingRecipe recipe = AspicMeltingRecipe.find(items.getStackInSlot(INGREDIENT));
 				if (recipe != null) {
-					BowlContainingRecipe recipe2 = BowlContainingRecipe.recipes.get(recipe.fluid);
+					RecipeHolder<BowlContainingRecipe> recipe2 = BowlContainingRecipe.recipes.get(recipe.fluid);
 					if (recipe2 != null) {
 						this.processMax = recipe.time;
 						this.process = 0;
 						bowl = items.getStackInSlot(CONTAINER).split(1);
 						aspic = items.getStackInSlot(INGREDIENT).split(1);
 						items.getStackInSlot(FUEL).shrink(1);
-						pout = recipe2.handle(recipe.handle(aspic));
+						pout = recipe2.value().handle(recipe.handle(aspic));
 					}
 				}
 			}

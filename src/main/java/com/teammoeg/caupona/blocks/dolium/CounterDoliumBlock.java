@@ -44,12 +44,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.api.distmarker.Dist;
-import net.neoforged.neoforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
-import net.neoforged.neoforge.network.NetworkHooks;
 
 public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlockEntity> implements LiquidBlockContainer {
 
@@ -111,7 +110,7 @@ public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlo
 	
 			if (handIn == InteractionHand.MAIN_HAND) {
 				if (!worldIn.isClientSide&&(player.getAbilities().instabuild||!dolium.isInfinite))
-					NetworkHooks.openScreen((ServerPlayer) player, dolium, dolium.getBlockPos());
+					((ServerPlayer) player).openMenu(dolium, dolium.getBlockPos());
 				return InteractionResult.SUCCESS;
 			}
 		}
@@ -119,7 +118,7 @@ public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlo
 	}
 
 	@Override
-	public boolean canPlaceLiquid(BlockGetter w, BlockPos p, BlockState s, Fluid f) {
+	public boolean canPlaceLiquid(Player ps,BlockGetter w, BlockPos p, BlockState s, Fluid f) {
 		if(w.getBlockEntity(p) instanceof CounterDoliumBlockEntity dolium)
 			return dolium.tank.fill(new FluidStack(f, 1000), FluidAction.SIMULATE) == 1000;
 		return false;

@@ -53,7 +53,7 @@ public class DishBlockEntity extends CPBaseBlockEntity implements IInfinitable,I
 
 	@Override
 	public void writeCustomNBT(CompoundTag nbt, boolean isClient) {
-		nbt.put("bowl", internal.serializeNBT());
+		nbt.put("bowl", internal.save(new CompoundTag()));
 		nbt.putBoolean("inf", isInfinite);
 	}
 

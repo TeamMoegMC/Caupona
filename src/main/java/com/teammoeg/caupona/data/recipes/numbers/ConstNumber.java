@@ -25,6 +25,8 @@ import java.util.stream.Stream;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
@@ -36,7 +38,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class ConstNumber implements CookIngredients {
 	float n;
-
+	public static final Codec<ConstNumber> CODEC=RecordCodecBuilder.create(t->t.group(Codec.FLOAT.fieldOf("num").forGetter(o->o.n)).apply(t, ConstNumber::new));
 	public ConstNumber(JsonElement num) {
 		if (num.isJsonPrimitive())
 			n = num.getAsFloat();
@@ -57,11 +59,6 @@ public class ConstNumber implements CookIngredients {
 	@Override
 	public boolean fits(FloatemTagStack stack) {
 		return false;
-	}
-
-	@Override
-	public JsonElement serialize() {
-		return new JsonPrimitive(n);
 	}
 
 	@Override

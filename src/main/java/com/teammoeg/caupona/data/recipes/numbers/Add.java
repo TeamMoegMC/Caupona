@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import com.google.gson.JsonElement;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.ComplexCalculated;
@@ -39,14 +41,8 @@ import net.minecraft.world.item.ItemStack;
 
 public class Add implements CookIngredients, ComplexCalculated {
 	List<CookIngredients> nums;
-
-	public Add(JsonElement jo) {
-		if (jo.isJsonObject())
-			nums = SerializeUtil.parseJsonElmList(jo.getAsJsonObject().get("types").getAsJsonArray(),
-					Numbers::of);
-		else if (jo.isJsonArray())
-			nums = SerializeUtil.parseJsonElmList(jo.getAsJsonArray(), Numbers::of);
-	}
+	public static final Codec<Add> CODEC=
+		RecordCodecBuilder.create(t->t.group(Codec.list(Numbers.CODEC).fieldOf("types").forGetter(o->o.nums)).apply(t, Add::new));
 
 	public Add() {
 		this(new ArrayList<>());
@@ -82,11 +78,6 @@ public class Add implements CookIngredients, ComplexCalculated {
 	 */
 	public void add(CookIngredients sn) {
 		nums.add(sn);
-	}
-
-	@Override
-	public JsonElement serialize() {
-		return SerializeUtil.toJsonList(nums, CookIngredients::serialize);
 	}
 
 	@Override

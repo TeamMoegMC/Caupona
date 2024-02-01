@@ -50,13 +50,12 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.network.NetworkHooks;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> implements LiquidBlockContainer {
 	public static final EnumProperty<Axis> FACING = BlockStateProperties.HORIZONTAL_AXIS;
 
-	public StewPot(Properties blockProps, DeferredHolder<BlockEntityType<StewPotBlockEntity>> ste) {
+	public StewPot(Properties blockProps, DeferredHolder<BlockEntityType<?>,BlockEntityType<StewPotBlockEntity>> ste) {
 		super(blockProps, ste);
 	}
 
@@ -98,14 +97,14 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 		}
 		if (handIn == InteractionHand.MAIN_HAND) {
 			if (blockEntity != null && !worldIn.isClientSide&&(player.getAbilities().instabuild||!blockEntity.isInfinite))
-				NetworkHooks.openScreen((ServerPlayer) player, blockEntity, blockEntity.getBlockPos());
+				((ServerPlayer) player).openMenu( blockEntity, blockEntity.getBlockPos());
 			return InteractionResult.SUCCESS;
 		}
 		return p;
 	}
 
 	@Override
-	public boolean canPlaceLiquid(BlockGetter w, BlockPos p, BlockState s, Fluid f) {
+	public boolean canPlaceLiquid(Player ps,BlockGetter w, BlockPos p, BlockState s, Fluid f) {
 		StewPotBlockEntity blockEntity = (StewPotBlockEntity) w.getBlockEntity(p);
 		return blockEntity.canAddFluid(new FluidStack(f, 1000));
 	}
@@ -185,4 +184,6 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 		}
 		return 0;
 	}
+
+
 }

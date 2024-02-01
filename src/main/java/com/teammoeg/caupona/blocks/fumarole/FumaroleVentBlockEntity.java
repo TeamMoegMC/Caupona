@@ -122,12 +122,11 @@ public class FumaroleVentBlockEntity extends CPBaseBlockEntity implements IStove
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public static boolean shouldPlacePumice(Level pLevel, BlockPos pPos) {
 		if (!pLevel.isAreaLoaded(pPos, 1))
 			return false;
 		int cnt = 0;
-		AABB aabb = new AABB(pPos.offset(-1, 0, -1), pPos.offset(1, 0, 1));
+		AABB aabb = new AABB(pPos.getX()-1,pPos.getY(),pPos.getZ()-1, pPos.getX()+1,pPos.getY(),pPos.getZ()+1);
 		Iterator<BlockState> it = pLevel.getBlockStates(aabb).iterator();
 		while (it.hasNext()) {
 			if (it.next().getBlock() == CPBlocks.PUMICE_BLOOM.get())

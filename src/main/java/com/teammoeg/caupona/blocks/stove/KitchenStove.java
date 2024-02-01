@@ -48,9 +48,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.api.distmarker.Dist;
-import net.neoforged.neoforge.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.network.NetworkHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntity> {
@@ -60,7 +59,7 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntit
 	public static final BooleanProperty ASH = BooleanProperty.create("ash");
 	public static final IntegerProperty FUELED = IntegerProperty.create("fueled", 0, 3);
 
-	public KitchenStove(Properties blockProps, DeferredHolder<BlockEntityType<KitchenStoveBlockEntity>> ste) {
+	public KitchenStove(Properties blockProps, DeferredHolder<BlockEntityType<?>,BlockEntityType<KitchenStoveBlockEntity>> ste) {
 		super(blockProps, ste);
 	}
 
@@ -99,7 +98,7 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntit
 		 */
 		if (handIn == InteractionHand.MAIN_HAND) {
 			if (blockEntity != null && !worldIn.isClientSide&&(player.getAbilities().instabuild||!blockEntity.isInfinite))
-				NetworkHooks.openScreen((ServerPlayer) player, blockEntity, blockEntity.getBlockPos());
+				((ServerPlayer) player).openMenu(blockEntity, blockEntity.getBlockPos());
 			return InteractionResult.SUCCESS;
 		}
 		return p;

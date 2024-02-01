@@ -23,10 +23,12 @@ package com.teammoeg.caupona.data.recipes.conditions;
 
 import java.util.stream.Stream;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
+import com.teammoeg.caupona.data.recipes.numbers.Numbers;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.network.FriendlyByteBuf;
@@ -34,11 +36,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class MainlyOfType extends NumberedStewCondition {
 	private final ResourceLocation type;
-
-	public MainlyOfType(JsonObject obj) {
-		super(obj);
-		type = new ResourceLocation(obj.get("tag").getAsString());
-	}
+	public static final Codec<MainlyOfType> CODEC=RecordCodecBuilder.create(t->t.group(Numbers.CODEC.fieldOf("number").forGetter(o->o.number),ResourceLocation.CODEC.fieldOf("tag").forGetter(o->o.type)).apply(t, MainlyOfType::new));
 
 	public MainlyOfType(CookIngredients obj, ResourceLocation type) {
 		super(obj);
@@ -56,12 +54,6 @@ public class MainlyOfType extends NumberedStewCondition {
 				.values().stream().allMatch(e -> e < n);
 	}
 
-	@Override
-	public JsonObject serialize() {
-		JsonObject jo = super.serialize();
-		jo.addProperty("tag", type.toString());
-		return jo;
-	}
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {

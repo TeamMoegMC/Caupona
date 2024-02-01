@@ -21,16 +21,15 @@
 
 package com.teammoeg.caupona.data.recipes.numbers;
 
+import java.util.Objects;
 import java.util.stream.Stream;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
-import com.teammoeg.caupona.util.Utils;
-
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -39,17 +38,12 @@ import net.minecraft.world.item.ItemStack;
 
 public class ItemType implements CookIngredients {
 	Item type;
-	ResourceLocation loc;
-
-	public ItemType(JsonElement jo) {
-		type = BuiltInRegistries.ITEM
-				.get(loc = new ResourceLocation(jo.getAsJsonObject().get("item").getAsString()));
-	}
+	public static final Codec<ItemType> CODEC=
+		RecordCodecBuilder.create(t->t.group(BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(o->o.type)).apply(t, ItemType::new));
 
 	public ItemType(Item type) {
 		super();
 		this.type = type;
-		this.loc = Utils.getRegistryName(type);
 	}
 
 	@Override
@@ -65,20 +59,13 @@ public class ItemType implements CookIngredients {
 	}
 
 	@Override
-	public JsonElement serialize() {
-		JsonObject th = new JsonObject();
-		th.addProperty("item", loc.toString());
-		return th;
-	}
-
-	@Override
 	public void write(FriendlyByteBuf buffer) {
-		buffer.writeResourceLocation(loc);
+		buffer.writeId(BuiltInRegistries.ITEM,type);
 	}
 
 	public ItemType(FriendlyByteBuf buffer) {
-		loc = buffer.readResourceLocation();
-		type = BuiltInRegistries.ITEM.get(loc);
+		type = buffer.readById(BuiltInRegistries.ITEM);
+
 	}
 
 	@Override
@@ -91,27 +78,20 @@ public class ItemType implements CookIngredients {
 		return Stream.of(this);
 	}
 
+
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((loc == null) ? 0 : loc.hashCode());
-		return result;
+		return Objects.hash(type);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!(obj instanceof ItemType))
-			return false;
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
 		ItemType other = (ItemType) obj;
-		if (loc == null) {
-			if (other.loc != null)
-				return false;
-		} else if (!loc.equals(other.loc))
-			return false;
-		return true;
+		return Objects.equals(type, other.type);
 	}
 
 	@Override

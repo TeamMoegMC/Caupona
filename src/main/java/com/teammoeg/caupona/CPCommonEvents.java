@@ -43,6 +43,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.ClipContext.Fluid;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -95,9 +96,9 @@ public class CPCommonEvents {
 	@SubscribeEvent
 	public static void bowlContainerFood(ContanerContainFoodEvent ev) {
 		if(ev.origin.getItem()==Items.BOWL) {
-			BowlContainingRecipe recipe=BowlContainingRecipe.recipes.get(ev.fs.getFluid());
+			RecipeHolder<BowlContainingRecipe> recipe=BowlContainingRecipe.recipes.get(ev.fs.getFluid());
 			if(recipe!=null) {
-				ev.out=recipe.handle(ev.fs);
+				ev.out=recipe.value().handle(ev.fs);
 				ev.setResult(Result.ALLOW);
 			}
 		}

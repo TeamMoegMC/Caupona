@@ -25,6 +25,8 @@ import java.util.stream.Stream;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
@@ -37,16 +39,9 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemTag implements CookIngredients {
-
+	public static final Codec<ItemTag> CODEC=
+		RecordCodecBuilder.create(t->t.group(ResourceLocation.CODEC.fieldOf("tag").forGetter(o->o.tag)).apply(t, ItemTag::new));
 	ResourceLocation tag;
-
-	public ItemTag(JsonElement jo) {
-		if (jo.isJsonObject())
-			tag = new ResourceLocation(jo.getAsJsonObject().get("tag").getAsString());
-		else
-			tag = new ResourceLocation(jo.getAsString());
-	}
-
 	public ItemTag(ResourceLocation tag) {
 		super();
 		this.tag = tag;
@@ -62,10 +57,6 @@ public class ItemTag implements CookIngredients {
 		return stack.getTags().contains(tag);
 	}
 
-	@Override
-	public JsonElement serialize() {
-		return new JsonPrimitive(tag.toString());
-	}
 
 	@Override
 	public void write(FriendlyByteBuf buffer) {

@@ -31,7 +31,6 @@ import com.teammoeg.caupona.data.Writeable;
 import net.minecraft.resources.ResourceLocation;
 
 public interface IngredientCondition extends Predicate<IPendingContext>, Writeable, ITranlatable {
-	public JsonObject serialize();
 
 	public String getType();
 

@@ -6,40 +6,33 @@ import java.util.Set;
 import java.util.function.Function;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.teammoeg.caupona.data.CachedDataDeserializer;
 import com.teammoeg.caupona.data.Deserializer;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
+import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 
 import net.minecraft.network.FriendlyByteBuf;
 
 public class Conditions {
-	private static CachedDataDeserializer<IngredientCondition,JsonObject> numbers=new CachedDataDeserializer<>() {
-
-		@Override
-		protected IngredientCondition internalOf(JsonObject json) {
-			return getDeserializer(json.get("cond").getAsString()).read(json);
-		}
-		
-	};
+	private static CachedDataDeserializer<IngredientCondition,JsonObject> numbers=new CachedDataDeserializer<>();
+	public static final MapCodec<IngredientCondition> CODEC=Codec.STRING.dispatchMap("type", t->t.getType(), t->numbers.getCodec(t));
 	static {
-		register("half", Halfs::new, Halfs::new);
-		register("mainly", Mainly::new, Mainly::new);
-		register("contains", Must::new, Must::new);
-		register("mainlyOf", MainlyOfType::new, MainlyOfType::new);
-		register("only", Only::new, Only::new);
+		register("half", Halfs.CODEC, Halfs::new);
+		register("mainly", Mainly.CODEC, Mainly::new);
+		register("contains", Must.CODEC, Must::new);
+		register("mainlyOf", MainlyOfType.CODEC, MainlyOfType::new);
+		register("only", Only.CODEC, Only::new);
 	}
 	public static void register(String name, Deserializer<JsonObject, IngredientCondition> des) {
 		numbers.register(name, des);
 	}
 
-	public static void register(String name, Function<JsonObject, IngredientCondition> rjson,
+	public static void register(String name, Codec<? extends IngredientCondition> rjson,
 			Function<FriendlyByteBuf, IngredientCondition> rpacket) {
 		numbers.register(name, rjson, rpacket);
-	}
-
-	public static IngredientCondition of(JsonObject jsonElement) {
-		return numbers.of(jsonElement);
 	}
 
 	public static IngredientCondition of(FriendlyByteBuf buffer) {

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -73,8 +74,6 @@ import com.teammoeg.caupona.item.CPSignItem;
 import com.teammoeg.caupona.item.DishItem;
 import com.teammoeg.caupona.util.MaterialType;
 import com.teammoeg.caupona.util.TabType;
-import com.teammoeg.caupona.worldgen.DefaultTreeGrower;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
@@ -93,7 +92,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.grower.AbstractTreeGrower;
+import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.OffsetType;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
@@ -103,7 +102,6 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPBlocks {
@@ -134,7 +132,7 @@ public class CPBlocks {
 	public static final List<Block> dishes = new ArrayList<>();
 	public static final List<Block> caliduct = new ArrayList<>();
 	public static final List<Block> firebox = new ArrayList<>();
-	public static final List<DeferredHolder<Block,Block>> leaves = new ArrayList<>();
+	public static final List<DeferredHolder<?,Block>> leaves = new ArrayList<>();
 
 	// Other useful blocks
 	public static final DeferredHolder<Block,FumaroleBoulderBlock> FUMAROLE_BOULDER = decoblock("fumarole_boulder",
@@ -249,9 +247,9 @@ public class CPBlocks {
 			}
 		}
 
-		registerWood("walnut", WALNUT, DefaultTreeGrower.supply(CPWorldGen.WALNUT),WALNUT_FRUIT);
-		registerBush("fig", DefaultTreeGrower.supply(CPWorldGen.FIG));
-		registerBush("wolfberry", DefaultTreeGrower.supply(CPWorldGen.WOLFBERRY));
+		registerWood("walnut", WALNUT,()-> new TreeGrower("walnut",Optional.empty(),Optional.of(CPWorldGen.WALNUT),Optional.empty()),WALNUT_FRUIT);
+		registerBush("fig", ()-> new TreeGrower("fig",Optional.empty(),Optional.of(CPWorldGen.FIG),Optional.empty()));
+		registerBush("wolfberry", ()-> new TreeGrower("wolfberry",Optional.empty(),Optional.of(CPWorldGen.WOLFBERRY),Optional.empty()));
 		for (String s : CPItems.dishes) {
 			baseblock(s,
 				() -> new DishBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
@@ -264,7 +262,7 @@ public class CPBlocks {
 	// Convenient block registry wrapper
 
 	// create a bush
-	private static void registerBush(String wood, Supplier<AbstractTreeGrower> growth) {
+	private static void registerBush(String wood, Supplier<TreeGrower> growth) {
 		decoblock(wood + "_log", () -> new BushLogBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
 				.strength(2.0F).noOcclusion().sound(SoundType.WOOD)));
 		DeferredHolder<Block,Block> a = decoblock(wood + "_fruits", () -> new FruitBlock(BlockBehaviour.Properties.of()
@@ -280,29 +278,28 @@ public class CPBlocks {
 	}
 
 	// create a wood
-	private static void registerWood(String wood, WoodType wt, Supplier<AbstractTreeGrower> growth,DeferredHolder<Block,Block> f) {
+	private static void registerWood(String wood, WoodType wt, Supplier<TreeGrower> growth,DeferredHolder<Block,Block> f) {
 		DeferredHolder<Block,Block> planks = CPCommonBootStrap.asFlamable(block(wood + "_planks",
 				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava(),TabType.DECORATION)
 				,5,20);
 		decoblock(wood + "_button",
 				() -> new CPButtonBlock(
 						BlockBehaviour.Properties.of().noCollission().strength(0.5F).sound(SoundType.WOOD).ignitedByLava(), WALNUT_TYPE,
-						30, true));
+						30));
 		decoblock(wood + "_door", () -> new CPDoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
 				.strength(3.0F).sound(SoundType.WOOD).noOcclusion().ignitedByLava(), WALNUT_TYPE));
 		CPCommonBootStrap.asFlamable(decoblock(wood + "_fence", () -> new FenceBlock(
 				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava())),5,20);
 		CPCommonBootStrap.asFlamable(decoblock(wood + "_fence_gate", () -> new FenceGateBlock(
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava(),
-				WALNUT)),5,20);
+				WALNUT,
+				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava())),5,20);
 		
 		leaves.add(CPCommonBootStrap.asCompositable(decoblock(wood + "_leaves", () -> leaves(SoundType.GRASS, f)), 0.3F));
 		DeferredHolder<Block,Block> sl = CPCommonBootStrap.asFlamable(decoblock("stripped_" + wood + "_log", () -> log(null)),5,5);
 		CPCommonBootStrap.asFlamable(decoblock(wood + "_log", () -> log(sl)),5,5);
 
 		decoblock(wood + "_pressure_plate",
-				() -> new CPPressurePlateBlock(
-						PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of()
+				() -> new CPPressurePlateBlock(BlockBehaviour.Properties.of()
 								.mapColor(MapColor.WOOD).noCollission().strength(0.5F).sound(SoundType.WOOD).ignitedByLava(),
 						WALNUT_TYPE));
 		CPCommonBootStrap.asCompositable(
@@ -331,7 +328,7 @@ public class CPBlocks {
 
 	// create a stove
 	static DeferredHolder<Block,KitchenStove> stove(String name, Properties props,
-			DeferredHolder<Block,BlockEntityType<KitchenStoveBlockEntity>> tile) {
+			DeferredHolder<BlockEntityType<?>,BlockEntityType<KitchenStoveBlockEntity>> tile) {
 		DeferredHolder<Block,KitchenStove> bl = BLOCKS.register(name, () -> new KitchenStove(props, tile));
 		stoves.add(bl);
 

@@ -50,7 +50,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
 
 public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Container, MenuProvider, IStove, IInfinitable {
 	private NonNullList<ItemStack> fuel = NonNullList.withSize(1, ItemStack.EMPTY);
@@ -104,7 +104,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 		nbt.putInt("fuel_type", last.ordinal());
 		if (!isClient) {
 			nbt.putInt("cd", cd);
-			nbt.put("fuel", fuel.get(0).serializeNBT());
+			nbt.put("fuel", fuel.get(0).save(new CompoundTag()));
 			nbt.putInt("chimneyTick", chimneyTicks);
 			nbt.putBoolean("inf", isInfinite);
 		}
@@ -156,7 +156,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 	@Override
 	public boolean canPlaceItem(int index, ItemStack stack) {
 		ItemStack itemstack = fuel.get(0);
-		return ForgeHooks.getBurnTime(stack, null) > 0 && itemstack.getCraftingRemainingItem().isEmpty();
+		return CommonHooks.getBurnTime(stack, null) > 0 && itemstack.getCraftingRemainingItem().isEmpty();
 	}
 
 	@Override
@@ -170,7 +170,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 	}
 
 	private boolean consumeFuel() {
-		int time = ForgeHooks.getBurnTime(fuel.get(0), RecipeType.SMELTING);
+		int time = CommonHooks.getBurnTime(fuel.get(0), RecipeType.SMELTING);
 		if (time <= 0) {
 			process = processMax = 0;
 			return false;
@@ -291,7 +291,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 
 	@Override
 	public boolean canEmitHeat() {
-		return this.process > 0 || ForgeHooks.getBurnTime(fuel.get(0), RecipeType.SMELTING) > 0;
+		return this.process > 0 || CommonHooks.getBurnTime(fuel.get(0), RecipeType.SMELTING) > 0;
 	}
 
 	public int getSpeed() {

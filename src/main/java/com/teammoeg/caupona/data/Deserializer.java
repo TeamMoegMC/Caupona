@@ -3,22 +3,19 @@ package com.teammoeg.caupona.data;
 import java.util.function.Function;
 
 import com.google.gson.JsonElement;
+import com.mojang.serialization.Codec;
 
 import net.minecraft.network.FriendlyByteBuf;
 
 public class Deserializer<T extends JsonElement, U extends Writeable> {
 	private int id;
-	public Function<T, U> fromJson;
+	public Codec<U> fromJson;
 	public Function<FriendlyByteBuf, U> fromPacket;
 
-	public Deserializer(Function<T, U> fromJson, Function<FriendlyByteBuf, U> fromPacket) {
+	public Deserializer(Codec<U> fromJson, Function<FriendlyByteBuf, U> fromPacket) {
 		super();
 		this.fromJson = fromJson;
 		this.fromPacket = fromPacket;
-	}
-
-	public U read(T json) {
-		return fromJson.apply(json);
 	}
 
 	public U read(FriendlyByteBuf packet) {

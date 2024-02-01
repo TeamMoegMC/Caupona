@@ -38,7 +38,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.network.NetworkHooks;
 
 public class PanBlock extends CPHorizontalEntityBlock<PanBlockEntity> {
 
@@ -66,7 +65,7 @@ public class PanBlock extends CPHorizontalEntityBlock<PanBlockEntity> {
 		PanBlockEntity blockEntity = (PanBlockEntity) worldIn.getBlockEntity(pos);
 		if (handIn == InteractionHand.MAIN_HAND) {
 			if (blockEntity != null && !worldIn.isClientSide)
-				NetworkHooks.openScreen((ServerPlayer) player, blockEntity, blockEntity.getBlockPos());
+				((ServerPlayer) player).openMenu( blockEntity, blockEntity.getBlockPos());
 			return InteractionResult.SUCCESS;
 		}
 		return p;

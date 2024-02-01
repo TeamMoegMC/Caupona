@@ -30,7 +30,6 @@ import net.minecraft.network.FriendlyByteBuf;
  * This is not a typo but to differ from java writable
  */
 public interface Writeable {
-	public JsonElement serialize();
 
 	public void write(FriendlyByteBuf buffer);
 }
