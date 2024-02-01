@@ -47,10 +47,10 @@ public class CPRecipes {
 			.create(Registries.RECIPE_TYPE, CPMain.MODID);
 	static {
 		StewCookingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("cooking",
-				() -> new CPRecipeSerializer<StewCookingRecipe>(StewCookingRecipe::new, StewCookingRecipe::new,
+				() -> new CPRecipeSerializer<StewCookingRecipe>(StewCookingRecipe.CODEC, StewCookingRecipe::new,
 						StewCookingRecipe::write));
 		SauteedRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("frying",
-				() -> new CPRecipeSerializer<SauteedRecipe>(SauteedRecipe::new, SauteedRecipe::new, SauteedRecipe::write));
+				() -> new CPRecipeSerializer<SauteedRecipe>(SauteedRecipe.CODEC, SauteedRecipe::new, SauteedRecipe::write));
 		DoliumRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("dolium",
 				() -> new CPRecipeSerializer<DoliumRecipe>(DoliumRecipe.CODEC, DoliumRecipe::new, DoliumRecipe::write));
 		BoilingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("boiling",

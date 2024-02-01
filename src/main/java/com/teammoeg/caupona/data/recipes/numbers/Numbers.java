@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import com.teammoeg.caupona.data.CachedDataDeserializer;
+import com.teammoeg.caupona.data.DataDeserializerRegistry;
 import com.teammoeg.caupona.data.Deserializer;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
@@ -15,7 +15,7 @@ import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 import net.minecraft.network.FriendlyByteBuf;
 
 public class Numbers{
-	private static CachedDataDeserializer<CookIngredients> numbers=new CachedDataDeserializer<>();
+	private static DataDeserializerRegistry<CookIngredients> numbers=new DataDeserializerRegistry<>();
 	public static final Codec<CookIngredients> CODEC=numbers.createCodec();
 	static {
 		register("add", Add.class, Add.CODEC, Add::new);

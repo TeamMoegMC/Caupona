@@ -11,10 +11,9 @@ import com.teammoeg.caupona.util.CacheMap;
 
 import net.minecraft.network.FriendlyByteBuf;
 
-public class CachedDataDeserializer<T extends Writeable> {
+public class DataDeserializerRegistry<T extends Writeable> {
 	private HashMap<String, Deserializer<T>> deserializers = new HashMap<>();
 	private List<Deserializer<T>> byIdx=new ArrayList<>();
-	private CacheMap<T> cache = new CacheMap<>();
 	private HashMap<Class<?>,String> nameOfClass=new HashMap<>();
 	public void register(String name, Deserializer<T> des) {
 		deserializers.put(name, des);
@@ -30,10 +29,9 @@ public class CachedDataDeserializer<T extends Writeable> {
 		return deserializers.get(type);
 	}
 	public T of(FriendlyByteBuf buffer) {
-		return cache.of(byIdx.get(buffer.readByte()).read(buffer));
+		return byIdx.get(buffer.readByte()).read(buffer);
 	}
 	public void clearCache() {
-		cache.clear();
 	}
 	public void write(FriendlyByteBuf buffer,T obj) {
 		deserializers.get(nameOfClass.get(obj.getClass())).write(buffer, obj);

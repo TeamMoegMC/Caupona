@@ -8,7 +8,7 @@ import java.util.function.Function;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import com.teammoeg.caupona.data.CachedDataDeserializer;
+import com.teammoeg.caupona.data.DataDeserializerRegistry;
 import com.teammoeg.caupona.data.Deserializer;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
@@ -16,7 +16,7 @@ import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import net.minecraft.network.FriendlyByteBuf;
 
 public class Conditions {
-	private static CachedDataDeserializer<IngredientCondition> numbers=new CachedDataDeserializer<>();
+	private static DataDeserializerRegistry<IngredientCondition> numbers=new DataDeserializerRegistry<>();
 	public static final Codec<IngredientCondition> CODEC=numbers.createCodec();
 	static {
 		register("half",Halfs.class, Halfs.CODEC, Halfs::new);

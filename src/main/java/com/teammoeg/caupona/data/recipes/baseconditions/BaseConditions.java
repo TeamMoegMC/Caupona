@@ -5,7 +5,7 @@ import java.util.function.Function;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import com.teammoeg.caupona.data.CachedDataDeserializer;
+import com.teammoeg.caupona.data.DataDeserializerRegistry;
 import com.teammoeg.caupona.data.Deserializer;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 
@@ -13,7 +13,7 @@ import net.minecraft.network.FriendlyByteBuf;
 
 public class BaseConditions {
 
-	private static CachedDataDeserializer<StewBaseCondition> numbers=new CachedDataDeserializer<>();
+	private static DataDeserializerRegistry<StewBaseCondition> numbers=new DataDeserializerRegistry<>();
 	public static final Codec<StewBaseCondition> CODEC=numbers.createCodec();
 	static {
 		register("tag", FluidTag.class, FluidTag.CODEC, FluidTag::new);
