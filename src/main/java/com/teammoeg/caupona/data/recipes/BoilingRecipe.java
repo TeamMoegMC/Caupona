@@ -66,7 +66,7 @@ public class BoilingRecipe extends IDataRecipe {
 	}
 
 
-	public BoilingRecipe(ResourceLocation id, FriendlyByteBuf data) {
+	public BoilingRecipe(FriendlyByteBuf data) {
 		before = data.readById(BuiltInRegistries.FLUID);
 		after = data.readById(BuiltInRegistries.FLUID);
 		time = data.readVarInt();
