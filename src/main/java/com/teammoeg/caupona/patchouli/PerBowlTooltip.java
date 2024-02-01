@@ -53,7 +53,7 @@ public class PerBowlTooltip implements ICustomComponent {
 	public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
 		recipe = lookup.apply(recipe);
 		ResourceLocation out = new ResourceLocation(recipe.asString());
-		Recipe<?> r = Minecraft.getInstance().level.getRecipeManager().byKey(out).orElse(null);
+		Recipe<?> r = Minecraft.getInstance().level.getRecipeManager().byKey(out).map(t->t.value()).orElse(null);
 		if (r instanceof SauteedRecipe cr) {
 			output=new ItemStack(cr.output);
 			CompoundTag tags=output.getOrCreateTag();

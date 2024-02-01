@@ -37,6 +37,7 @@ import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -50,7 +51,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class FoodValueRecipe extends IDataRecipe {
@@ -92,8 +92,8 @@ public class FoodValueRecipe extends IDataRecipe {
 		sat = jo.get("sat").getAsFloat();
 		processtimes = SerializeUtil.parseJsonList(jo.get("items"), x -> {
 			ResourceLocation rl = new ResourceLocation(x.get("item").getAsString());
-			if (ForgeRegistries.ITEMS.containsKey(rl)) {
-				Item i = ForgeRegistries.ITEMS.getValue(rl);
+			if (BuiltInRegistries.ITEM.containsKey(rl)) {
+				Item i = BuiltInRegistries.ITEM.get(rl);
 				int f = 0;
 				if (x.has("time"))
 					f = x.get("time").getAsInt();
@@ -107,14 +107,14 @@ public class FoodValueRecipe extends IDataRecipe {
 			throw new InvalidRecipeException();
 		effects = SerializeUtil.parseJsonList(jo.get("effects"), x -> {
 			ResourceLocation rl = new ResourceLocation(x.get("effect").getAsString());
-			if (ForgeRegistries.POTIONS.containsKey(rl)) {
+			if (BuiltInRegistries.POTION.containsKey(rl)) {
 				int amplifier = 0;
 				if (x.has("level"))
 					amplifier = x.get("level").getAsInt();
 				int duration = 0;
 				if (x.has("time"))
 					duration = x.get("time").getAsInt();
-				MobEffect eff = ForgeRegistries.MOB_EFFECTS.getValue(rl);
+				MobEffect eff = BuiltInRegistries.MOB_EFFECT.get(rl);
 				if (eff == null)
 					return null;
 				MobEffectInstance effect = new MobEffectInstance(eff, duration, amplifier);
@@ -128,7 +128,7 @@ public class FoodValueRecipe extends IDataRecipe {
 		if (effects != null)
 			effects.removeIf(e -> e == null);
 		if (jo.has("item")) {
-			ItemStack[] i = Ingredient.fromJson(jo.get("item")).getItems();
+			ItemStack[] i = Ingredient.fromJson(jo.get("item"),true).getItems();
 			if (i.length > 0)
 				repersent = i[0];
 		}
@@ -157,7 +157,7 @@ public class FoodValueRecipe extends IDataRecipe {
 				return jo;
 			}));
 		if (repersent != null)
-			json.add("item", Ingredient.of(repersent).toJson());
+			json.add("item", Utils.toJson(Ingredient.of(repersent)));
 
 	}
 
@@ -165,7 +165,7 @@ public class FoodValueRecipe extends IDataRecipe {
 		super(id);
 		heal = data.readVarInt();
 		sat = data.readFloat();
-		processtimes = SerializeUtil.readList(data, d -> new Pair<>(d.readRegistryIdUnsafe(ForgeRegistries.ITEMS), d.readVarInt())).stream()
+		processtimes = SerializeUtil.readList(data, d -> new Pair<>(d.readById(BuiltInRegistries.ITEM), d.readVarInt())).stream()
 				.collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
 		effects = SerializeUtil.readList(data, d -> new Pair<>(MobEffectInstance.load(d.readNbt()), d.readFloat()));
 		repersent = SerializeUtil.readOptional(data, d -> ItemStack.of(d.readNbt())).orElse(null);
@@ -175,7 +175,7 @@ public class FoodValueRecipe extends IDataRecipe {
 		data.writeVarInt(heal);
 		data.writeFloat(sat);
 		SerializeUtil.writeList2(data, processtimes.entrySet(), (d, e) -> {
-			d.writeRegistryIdUnsafe(ForgeRegistries.ITEMS,e.getKey());
+			d.writeId(BuiltInRegistries.ITEM,e.getKey());
 
 			d.writeVarInt(e.getValue());
 		});
@@ -185,7 +185,7 @@ public class FoodValueRecipe extends IDataRecipe {
 			d.writeNbt(nc);
 			d.writeFloat(e.getSecond());
 		});
-		SerializeUtil.writeOptional(data, repersent, (d, e) -> e.writeNbt(d.serializeNBT()));
+		SerializeUtil.writeOptional(data, repersent, (d, e) -> e.writeNbt(d.save(new CompoundTag())));
 	}
 
 	public void clearCache() {
@@ -196,7 +196,7 @@ public class FoodValueRecipe extends IDataRecipe {
 	
 		if (tags == null)
 			tags = processtimes.keySet().stream()
-					.flatMap(i -> ForgeRegistries.ITEMS.getHolder(i).map(Holder<Item>::tags).orElseGet(Stream::empty).map(TagKey::location))
+					.flatMap(i -> BuiltInRegistries.ITEM.getHolder(BuiltInRegistries.ITEM.getId(i)).map(Holder<Item>::tags).orElseGet(Stream::empty).map(TagKey::location))
 					.filter(CountingTags.tags::contains).collect(Collectors.toSet());
 		return tags;
 	}

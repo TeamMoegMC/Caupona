@@ -42,6 +42,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
@@ -52,7 +53,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe {
 	public static Set<CookIngredients> cookables;
 	public static Set<Fluid> allOutput;
-	public static List<StewCookingRecipe> sorted;
+	public static List<RecipeHolder<StewCookingRecipe>> sorted;
 	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
 	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
 

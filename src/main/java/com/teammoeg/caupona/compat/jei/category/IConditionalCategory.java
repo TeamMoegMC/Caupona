@@ -39,10 +39,12 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.bus.api.Event.Result;
 import net.neoforged.neoforge.common.NeoForge;
 
-public abstract class IConditionalCategory<T extends IConditionalRecipe> implements IRecipeCategory<T> {
+public abstract class IConditionalCategory<T extends IConditionalRecipe&Recipe<?>> implements IRecipeCategory<RecipeHolder<T>> {
 	private IDrawable BACKGROUND;
 	private IGuiHelper helper;
 	public static IDrawable COND_NONE;
@@ -89,12 +91,12 @@ public abstract class IConditionalCategory<T extends IConditionalRecipe> impleme
 		return helper.createDrawable(new ResourceLocation(CPMain.MODID,"textures/gui/recipes/elements/recipe_page_elements.png"), x*47+dx, y*53+dy, w, h);
 	}
 	public abstract IDrawable getHeadings();
-	public abstract void drawCustom(T recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,double mouseY);
+	public abstract void drawCustom(RecipeHolder<T> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,double mouseY);
 	@Override
-	public void draw(T recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,double mouseY) {
+	public void draw(RecipeHolder<T> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,double mouseY) {
 		getHeadings().draw(stack);
-		drawConditionList(stack,recipe.getAllow(),1,52);
-		drawConditionList(stack,recipe.getDeny(),52,52);
+		drawConditionList(stack,recipe.value().getAllow(),1,52);
+		drawConditionList(stack,recipe.value().getDeny(),52,52);
 		drawCustom(recipe,recipeSlotsView,stack,mouseX,mouseY);
 	}
 	public boolean drawConditionList(GuiGraphics stack,List<IngredientCondition> conditions,int offX,int offY) {
@@ -117,15 +119,15 @@ public abstract class IConditionalCategory<T extends IConditionalRecipe> impleme
 	}
 
 	@Override
-	public List<Component> getTooltipStrings(T recipe, IRecipeSlotsView recipeSlotsView, double mouseX,
+	public List<Component> getTooltipStrings(RecipeHolder<T> recipe, IRecipeSlotsView recipeSlotsView, double mouseX,
 			double mouseY) {
 		if (inRange(mouseX, mouseY, 0, 50, 100, 50)) {
 			List<Component> allowence = null;
 			List<IngredientCondition> conds;
 			if (mouseX < 50)
-				conds = recipe.getAllow();
+				conds = recipe.value().getAllow();
 			else
-				conds = recipe.getDeny();
+				conds = recipe.value().getDeny();
 			if (conds != null)
 				allowence = conds.stream().map(e -> e.getTranslation(GameTranslation.get())).map(Utils::string)
 						.collect(Collectors.toList());

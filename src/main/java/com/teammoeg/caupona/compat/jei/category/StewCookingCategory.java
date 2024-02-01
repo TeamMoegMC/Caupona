@@ -28,6 +28,7 @@ import java.util.List;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.util.Utils;
@@ -47,11 +48,12 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 public class StewCookingCategory extends IConditionalCategory<StewCookingRecipe> {
-	public static RecipeType<StewCookingRecipe> TYPE=RecipeType.create(CPMain.MODID, "stew_cooking",StewCookingRecipe.class);
+	public static RecipeType<RecipeHolder<StewCookingRecipe>> TYPE=RecipeType.create(CPMain.MODID, "stew_cooking",RecipeHolder.class);
 	private IDrawable ICON;
 	private IGuiHelper helper;
 
@@ -65,26 +67,26 @@ public class StewCookingCategory extends IConditionalCategory<StewCookingRecipe>
 		return Utils.translate("gui.jei.category." + CPMain.MODID + ".stew_cooking.title");
 	}
 	@Override
-	public void drawCustom(StewCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
+	public void drawCustom(RecipeHolder<StewCookingRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
 			double mouseY) {
 		IDrawable density;
-		if(recipe.getDensity()<0.4)
+		if(recipe.value().getDensity()<0.4)
 			density=DENSITY[0];
-		else if(recipe.getDensity()<0.6)
+		else if(recipe.value().getDensity()<0.6)
 			density=DENSITY[1];
-		else if(recipe.getDensity()<0.8)
+		else if(recipe.value().getDensity()<0.8)
 			density=DENSITY[2];
-		else if(recipe.getDensity()<1.2)
+		else if(recipe.value().getDensity()<1.2)
 			density=DENSITY[3];
 		else
 			density=DENSITY[4];
 		density.draw(stack,25,15);
 	}
 	@Override
-	public void draw(StewCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
+	public void draw(RecipeHolder<StewCookingRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
 			double mouseY) {
 		
-		ResourceLocation imagePath=new ResourceLocation(recipe.getId().getNamespace(),"textures/gui/recipes/" + recipe.getId().getPath() + ".png");
+		ResourceLocation imagePath=new ResourceLocation(recipe.id().getNamespace(),"textures/gui/recipes/" + recipe.id().getPath() + ".png");
 		if(Minecraft.getInstance().getResourceManager().getResource(imagePath).isPresent()) {
 			PoseStack mstack=stack.pose();
 			mstack.pushPose();
@@ -102,11 +104,11 @@ public class StewCookingCategory extends IConditionalCategory<StewCookingRecipe>
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, StewCookingRecipe recipe, IFocusGroup focuses) {
-		if (recipe.getBase() != null && recipe.getBase().size() > 0) {
+	public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<StewCookingRecipe> recipe, IFocusGroup focuses) {
+		if (recipe.value().getBase() != null && recipe.value().getBase().size() > 0) {
 			List<FluidStack> fss = new ArrayList<>();
 			for (Fluid f : BuiltInRegistries.FLUID) {
-				for (StewBaseCondition base : recipe.getBase())
+				for (StewBaseCondition base : recipe.value().getBase())
 					if (base.test(f))
 						fss.add(new FluidStack(f, 250));
 			}
@@ -116,21 +118,21 @@ public class StewCookingCategory extends IConditionalCategory<StewCookingRecipe>
 			builder.addSlot(RecipeIngredientRole.INPUT, 30, 13).addIngredient(VanillaTypes.ITEM_STACK,
 					new ItemStack(CPItems.any.get()));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 61, 18)
-				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.output, 250))
+				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.value().output, 250))
 				.setFluidRenderer(250, false, 16, 16);
 	}
 
 	@Override
-	public List<Component> getTooltipStrings(StewCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX,
+	public List<Component> getTooltipStrings(RecipeHolder<StewCookingRecipe> recipe, IRecipeSlotsView recipeSlotsView, double mouseX,
 			double mouseY) {
 		if (inRange(mouseX, mouseY, 21, 6, 34, 30)) {
-			return Arrays.asList(Utils.translate("recipe.caupona.density", recipe.getDensity()));
+			return Arrays.asList(Utils.translate("recipe.caupona.density", recipe.value().getDensity()));
 		}
 		return super.getTooltipStrings(recipe, recipeSlotsView, mouseX, mouseY);
 	}
 
 	@Override
-	public RecipeType<StewCookingRecipe> getRecipeType() {
+	public RecipeType<RecipeHolder<StewCookingRecipe>> getRecipeType() {
 		return TYPE;
 	}
 

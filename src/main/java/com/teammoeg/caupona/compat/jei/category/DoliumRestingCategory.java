@@ -50,12 +50,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 
-public class DoliumRestingCategory implements IRecipeCategory<DoliumRecipe> {
-	public static RecipeType<DoliumRecipe> TYPE=RecipeType.create(CPMain.MODID, "dolium_resting",DoliumRecipe.class);
+public class DoliumRestingCategory implements IRecipeCategory<RecipeHolder<DoliumRecipe>> {
+	public static RecipeType<RecipeHolder<DoliumRecipe>> TYPE=RecipeType.create(CPMain.MODID, "dolium_resting",RecipeHolder.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
@@ -72,7 +73,7 @@ public class DoliumRestingCategory implements IRecipeCategory<DoliumRecipe> {
 
 	@SuppressWarnings("resource")
 	@Override
-	public void draw(DoliumRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
+	public void draw(RecipeHolder<DoliumRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
 			double mouseY) {
 		String burnTime = String.valueOf(CPConfig.COMMON.staticTime.get() / 20f) + "s";
 		stack.drawString(Minecraft.getInstance().font,  burnTime, 100, 55, 0xFFFFFF);
@@ -136,37 +137,37 @@ public class DoliumRestingCategory implements IRecipeCategory<DoliumRecipe> {
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, DoliumRecipe recipe, IFocusGroup focuses) {
-		if (recipe.items.size() > 0) {
-			builder.addSlot(type(recipe.items.get(0)), 4, 6)
-					.addIngredients(VanillaTypes.ITEM_STACK, unpack(recipe.items.get(0)))
-					.addTooltipCallback(cb(recipe.items.get(0)));
-			if (recipe.items.size() > 1) {
-				builder.addSlot(type(recipe.items.get(1)), 4, 24)
-						.addIngredients(VanillaTypes.ITEM_STACK, unpack(recipe.items.get(1)))
-						.addTooltipCallback(cb(recipe.items.get(1)));
-				if (recipe.items.size() > 2) {
-					builder.addSlot(type(recipe.items.get(2)), 4, 42)
-							.addIngredients(VanillaTypes.ITEM_STACK, unpack(recipe.items.get(2)))
-							.addTooltipCallback(cb(recipe.items.get(2)));
+	public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<DoliumRecipe> recipe, IFocusGroup focuses) {
+		if (recipe.value().items.size() > 0) {
+			builder.addSlot(type(recipe.value().items.get(0)), 4, 6)
+					.addIngredients(VanillaTypes.ITEM_STACK, unpack(recipe.value().items.get(0)))
+					.addTooltipCallback(cb(recipe.value().items.get(0)));
+			if (recipe.value().items.size() > 1) {
+				builder.addSlot(type(recipe.value().items.get(1)), 4, 24)
+						.addIngredients(VanillaTypes.ITEM_STACK, unpack(recipe.value().items.get(1)))
+						.addTooltipCallback(cb(recipe.value().items.get(1)));
+				if (recipe.value().items.size() > 2) {
+					builder.addSlot(type(recipe.value().items.get(2)), 4, 42)
+							.addIngredients(VanillaTypes.ITEM_STACK, unpack(recipe.value().items.get(2)))
+							.addTooltipCallback(cb(recipe.value().items.get(2)));
 				}
 			}
 		}
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 109, 24).addIngredient(VanillaTypes.ITEM_STACK, recipe.output);
-		if (recipe.extra != null) {
-			builder.addSlot(RecipeIngredientRole.INPUT, 89, 10).addIngredients(VanillaTypes.ITEM_STACK, unpack(recipe.extra));
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 109, 24).addIngredient(VanillaTypes.ITEM_STACK, recipe.value().output);
+		if (recipe.value().extra != null) {
+			builder.addSlot(RecipeIngredientRole.INPUT, 89, 10).addIngredients(VanillaTypes.ITEM_STACK, unpack(recipe.value().extra));
 		}
-		if (!(recipe.fluid == Fluids.EMPTY))
+		if (!(recipe.value().fluid == Fluids.EMPTY))
 			builder.addSlot(RecipeIngredientRole.INPUT, 26, 9)
-					.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, recipe.amount))
+					.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.value().fluid, recipe.value().amount))
 					.setFluidRenderer(1250, false, 16, 46)
-					.addTooltipCallback(new BaseCallback(recipe.base, recipe.density));
+					.addTooltipCallback(new BaseCallback(recipe.value().base, recipe.value().density));
 
 	}
 
 
 	@Override
-	public RecipeType<DoliumRecipe> getRecipeType() {
+	public RecipeType<RecipeHolder<DoliumRecipe>> getRecipeType() {
 		return TYPE;
 	}
 

@@ -31,21 +31,22 @@ import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.StewInfo;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class AspicMeltingRecipe extends IDataRecipe {
-	public static List<AspicMeltingRecipe> recipes;
+	public static List<RecipeHolder<AspicMeltingRecipe>> recipes;
 	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
 	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
 
@@ -66,8 +67,8 @@ public class AspicMeltingRecipe extends IDataRecipe {
 
 	public AspicMeltingRecipe(ResourceLocation id, JsonObject jo) {
 		super(id);
-		aspic = Ingredient.fromJson(jo.get("aspic"));
-		fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(jo.get("fluid").getAsString()));
+		aspic = Ingredient.fromJson(jo.get("aspic"),true);
+		fluid = BuiltInRegistries.FLUID.get(new ResourceLocation(jo.get("fluid").getAsString()));
 		if (jo.has("time"))
 			time = jo.get("time").getAsInt();
 		if (jo.has("amount"))
@@ -79,7 +80,7 @@ public class AspicMeltingRecipe extends IDataRecipe {
 	public AspicMeltingRecipe(ResourceLocation id, FriendlyByteBuf pb) {
 		super(id);
 		aspic = Ingredient.fromNetwork(pb);
-		fluid = pb.readRegistryIdUnsafe(ForgeRegistries.FLUIDS);
+		fluid = pb.readById(BuiltInRegistries.FLUID);
 		amount = pb.readVarInt();
 		time = pb.readVarInt();
 	}
@@ -92,13 +93,13 @@ public class AspicMeltingRecipe extends IDataRecipe {
 
 	public void write(FriendlyByteBuf pack) {
 		aspic.toNetwork(pack);
-		pack.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS, fluid);
+		pack.writeId(BuiltInRegistries.FLUID, fluid);
 		pack.writeVarInt(amount);
 		pack.writeVarInt(time);
 	}
 
 	public void serializeRecipeData(JsonObject jo) {
-		jo.add("aspic", aspic.toJson());
+		jo.add("aspic", Utils.toJson(aspic));
 		jo.addProperty("fluid", Utils.getRegistryName(fluid).toString());
 		jo.addProperty("amount", amount);
 		jo.addProperty("time", time);

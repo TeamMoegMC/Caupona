@@ -71,21 +71,12 @@ public class GuiUtils {
 		buffer.endBatch();
 		transform.popPose();
 	}
-	private class RenderStateShardAccess extends RenderStateShard{
 
-		public RenderStateShardAccess(String pName, Runnable pSetupState, Runnable pClearState) {
-			super(pName, pSetupState, pClearState);
-		}
-		public static ShaderStateShard POSITION_COLOR_TEX_SHADER() {
-			return POSITION_COLOR_TEX_SHADER;
-		}
-		
-	}
 	private static final Function<ResourceLocation, RenderType> GUI_CUTOUT = Util
 			.memoize(texture -> RenderType.create("gui_" + texture, DefaultVertexFormat.POSITION_COLOR_TEX, Mode.QUADS,
 					256, false, false,
 					RenderType.CompositeState.builder().setTextureState(new TextureStateShard(texture, false, false))
-							.setShaderState(RenderStateShardAccess.POSITION_COLOR_TEX_SHADER()).createCompositeState(false)));
+							.setShaderState(RenderStateShard.POSITION_COLOR_TEX_SHADER).createCompositeState(false)));
 
 	private static void buildVertex(VertexConsumer bu, PoseStack transform, float r, float g, float b, float a,
 			float p1, float p2, float u0, float u1, int light, int overlay) {

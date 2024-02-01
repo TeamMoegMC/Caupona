@@ -25,12 +25,12 @@ import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 public class FluidTag implements StewBaseCondition {
 	TagKey<Fluid> f;
@@ -55,7 +55,7 @@ public class FluidTag implements StewBaseCondition {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean test(ResourceLocation t) {
-		Fluid f = ForgeRegistries.FLUIDS.getValue(t);
+		Fluid f = BuiltInRegistries.FLUID.get(t);
 		if (f == null)
 			return false;
 

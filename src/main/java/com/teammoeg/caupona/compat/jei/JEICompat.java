@@ -100,7 +100,7 @@ public class JEICompat implements IModPlugin {
 		registration.addRecipes(StewCookingCategory.TYPE,new ArrayList<>(StewCookingRecipe.sorted));
 		registration.addRecipes(FryingCategory.TYPE,new ArrayList<>(SauteedRecipe.sorted));
 		registration.addRecipes(PotRestingCategory.TYPE,
-				DoliumRecipe.recipes.stream().filter(e -> e.items.size() == 0).collect(Collectors.toList())
+				DoliumRecipe.recipes.stream().filter(e -> e.value().items.size() == 0).collect(Collectors.toList())
 				);
 		registration.addItemStackInfo(new ItemStack(BuiltInRegistries.ITEM.get(new ResourceLocation(CPMain.MODID,"leaden_walnut"))),Utils.translate("gui.jei.caupona.info.leaden_walnut"));
 	}

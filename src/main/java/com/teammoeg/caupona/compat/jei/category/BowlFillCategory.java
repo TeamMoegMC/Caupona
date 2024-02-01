@@ -39,10 +39,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.fluids.FluidStack;
 
-public class BowlFillCategory implements IRecipeCategory<BowlContainingRecipe> {
-	public static RecipeType<BowlContainingRecipe> TYPE=RecipeType.create(CPMain.MODID, "bowl_filling",BowlContainingRecipe.class);
+public class BowlFillCategory implements IRecipeCategory<RecipeHolder<BowlContainingRecipe>> {
+	public static RecipeType<RecipeHolder<BowlContainingRecipe>> TYPE=RecipeType.create(CPMain.MODID, "bowl_filling",RecipeHolder.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
@@ -68,18 +69,18 @@ public class BowlFillCategory implements IRecipeCategory<BowlContainingRecipe> {
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, BowlContainingRecipe recipe, IFocusGroup focuses) {
+	public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<BowlContainingRecipe> recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 28).addIngredient(VanillaTypes.ITEM_STACK,
-				new ItemStack(recipe.bowl));
+				new ItemStack(recipe.value().bowl));
 		builder.addSlot(RecipeIngredientRole.INPUT, 56, 14).addIngredient(VanillaTypes.ITEM_STACK, new ItemStack(Items.BOWL));
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 9)
-				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, 250))
+				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.value().fluid, 250))
 				.setFluidRenderer(250, true, 16, 46);
 	}
 
 
 	@Override
-	public RecipeType<BowlContainingRecipe> getRecipeType() {
+	public RecipeType<RecipeHolder<BowlContainingRecipe>> getRecipeType() {
 		return TYPE;
 	}
 

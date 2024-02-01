@@ -26,10 +26,10 @@ import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 public class FluidTypeType implements StewBaseCondition {
 	ResourceLocation of;
@@ -107,7 +107,7 @@ public class FluidTypeType implements StewBaseCondition {
 
 	@Override
 	public String getTranslation(TranslationProvider p) {
-		return p.getTranslation(ForgeRegistries.FLUIDS.getValue(of).getFluidType().getDescriptionId());
+		return p.getTranslation(BuiltInRegistries.FLUID.get(of).getFluidType().getDescriptionId());
 	}
 
 }

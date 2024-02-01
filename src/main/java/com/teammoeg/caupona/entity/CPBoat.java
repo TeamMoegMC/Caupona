@@ -24,6 +24,7 @@ package com.teammoeg.caupona.entity;
 import com.teammoeg.caupona.CPEntityTypes;
 import com.teammoeg.caupona.CPMain;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -33,7 +34,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 public class CPBoat extends Boat {
 	private static final EntityDataAccessor<String> WOOD_TYPE = SynchedEntityData.defineId(CPBoat.class,
@@ -79,7 +79,7 @@ public class CPBoat extends Boat {
 
 	@Override
 	public Item getDropItem() {
-		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID, getWoodType() + "_boat"));
+		return BuiltInRegistries.ITEM.get(new ResourceLocation(CPMain.MODID, getWoodType() + "_boat"));
 	}
 
 	/*@Override

@@ -24,6 +24,7 @@ package com.teammoeg.caupona.compat.jei.category;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.util.Utils;
 
@@ -40,9 +41,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 public class FryingCategory extends IConditionalCategory<SauteedRecipe> {
-	public static RecipeType<SauteedRecipe> TYPE=RecipeType.create(CPMain.MODID, "frying",SauteedRecipe.class);
+	public static RecipeType<RecipeHolder<SauteedRecipe>> TYPE=RecipeType.create(CPMain.MODID, "frying",RecipeHolder.class);
 	private IDrawable ICON;
 	private IGuiHelper helper;
 
@@ -58,10 +60,10 @@ public class FryingCategory extends IConditionalCategory<SauteedRecipe> {
 	}
 
 	@Override
-	public void draw(SauteedRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guistack, double mouseX,
+	public void draw(RecipeHolder<SauteedRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guistack, double mouseX,
 			double mouseY) {
 		PoseStack stack=guistack.pose();
-		ResourceLocation imagePath=new ResourceLocation(recipe.getId().getNamespace(),"textures/gui/recipes/" + recipe.getId().getPath() + ".png");
+		ResourceLocation imagePath=new ResourceLocation(recipe.id().getNamespace(),"textures/gui/recipes/" + recipe.id().getPath() + ".png");
 		if(Minecraft.getInstance().getResourceManager().getResource(imagePath).isPresent()) {
 			stack.pushPose();
 			stack.scale(0.5f, 0.5f, 0);
@@ -76,16 +78,16 @@ public class FryingCategory extends IConditionalCategory<SauteedRecipe> {
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, SauteedRecipe recipe, IFocusGroup focuses) {
+	public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<SauteedRecipe> recipe, IFocusGroup focuses) {
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 13).addIngredient(VanillaTypes.ITEM_STACK,
 				new ItemStack(CPItems.gravy_boat.get()));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 61, 18).addIngredient(VanillaTypes.ITEM_STACK,
-				new ItemStack(recipe.output)).addTooltipCallback((v,t)->{t.add(Utils.translate("gui.jei.category.caupona.ingredientPer",recipe.count));});
+				new ItemStack(recipe.value().output)).addTooltipCallback((v,t)->{t.add(Utils.translate("gui.jei.category.caupona.ingredientPer",recipe.value().count));});
 	}
 
 	@Override
-	public RecipeType<SauteedRecipe> getRecipeType() {
+	public RecipeType<RecipeHolder<SauteedRecipe>> getRecipeType() {
 		return TYPE;
 	}
 
@@ -97,7 +99,7 @@ public class FryingCategory extends IConditionalCategory<SauteedRecipe> {
 
 
 	@Override
-	public void drawCustom(SauteedRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
+	public void drawCustom(RecipeHolder<SauteedRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
 			double mouseY) {
 	}
 

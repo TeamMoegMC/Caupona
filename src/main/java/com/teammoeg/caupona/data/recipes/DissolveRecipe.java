@@ -25,18 +25,20 @@ import java.util.List;
 
 import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.IDataRecipe;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class DissolveRecipe extends IDataRecipe {
-	public static List<DissolveRecipe> recipes;
+	public static List<RecipeHolder<DissolveRecipe>> recipes;
 	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
 	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
 
@@ -61,7 +63,7 @@ public class DissolveRecipe extends IDataRecipe {
 
 	public DissolveRecipe(ResourceLocation id, JsonObject jo) {
 		super(id);
-		item = Ingredient.fromJson(jo.get("item"));
+		item = Ingredient.fromJson(jo.get("item"),true);
 		time = jo.get("time").getAsInt();
 	}
 
@@ -82,7 +84,7 @@ public class DissolveRecipe extends IDataRecipe {
 
 	@Override
 	public void serializeRecipeData(JsonObject json) {
-		json.add("item", item.toJson());
+		json.add("item", Utils.toJson(item));
 		json.addProperty("time", time);
 	}
 

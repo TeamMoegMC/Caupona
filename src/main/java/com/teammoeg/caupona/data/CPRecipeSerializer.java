@@ -50,7 +50,7 @@ public class CPRecipeSerializer<T extends IDataRecipe> implements RecipeSerializ
 	}
 
 	@Override
-	public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+	public T fromNetwork(FriendlyByteBuf buffer) {
 		return pkfactory.apply(recipeId, buffer);
 	}
 

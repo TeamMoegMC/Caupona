@@ -30,11 +30,11 @@ import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 public class ItemTag implements CookIngredients {
 
@@ -121,6 +121,6 @@ public class ItemTag implements CookIngredients {
 
 	@Override
 	public Stream<ItemStack> getStacks() {
-		return ForgeRegistries.ITEMS.tags().getTag(ItemTags.create(tag)).stream().map(ItemStack::new);
+		return BuiltInRegistries.ITEM.getTag(ItemTags.create(tag)).stream().flatMap(t->t.stream()).map(t->new ItemStack(t.value()));
 	}
 }

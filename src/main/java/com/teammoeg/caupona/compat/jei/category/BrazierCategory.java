@@ -41,10 +41,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.fluids.FluidStack;
 
-public class BrazierCategory implements IRecipeCategory<AspicMeltingRecipe> {
-	public static RecipeType<AspicMeltingRecipe> TYPE=RecipeType.create(CPMain.MODID, "aspic_thawing_brazier",AspicMeltingRecipe.class);
+public class BrazierCategory implements IRecipeCategory<RecipeHolder<AspicMeltingRecipe>> {
+	public static RecipeType<RecipeHolder<AspicMeltingRecipe>> TYPE=RecipeType.create(CPMain.MODID, "aspic_thawing_brazier",RecipeHolder.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
@@ -61,9 +63,9 @@ public class BrazierCategory implements IRecipeCategory<AspicMeltingRecipe> {
 
 	@SuppressWarnings("resource")
 	@Override
-	public void draw(AspicMeltingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
+	public void draw(RecipeHolder<AspicMeltingRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
 			double mouseY) {
-		String burnTime = String.valueOf(recipe.time / 20f) + "s";
+		String burnTime = String.valueOf(recipe.value().time / 20f) + "s";
 		stack.drawString(Minecraft.getInstance().font,  burnTime, 103, 55, 0xFFFFFF);
 	}
 
@@ -78,18 +80,18 @@ public class BrazierCategory implements IRecipeCategory<AspicMeltingRecipe> {
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, AspicMeltingRecipe recipe, IFocusGroup focuses) {
-		builder.addSlot(RecipeIngredientRole.INPUT, 30, 28).addIngredients(recipe.aspic);
+	public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<AspicMeltingRecipe> recipe, IFocusGroup focuses) {
+		builder.addSlot(RecipeIngredientRole.INPUT, 30, 28).addIngredients(recipe.value().aspic);
 		builder.addSlot(RecipeIngredientRole.INPUT, 57, 14).addIngredient(VanillaTypes.ITEM_STACK,
 				new ItemStack(CPItems.water_bowl.get()));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 9)
-				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, recipe.amount))
+				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.value().fluid, recipe.value().amount))
 				.setFluidRenderer(1250, false, 16, 46);
 	}
 
 
 	@Override
-	public RecipeType<AspicMeltingRecipe> getRecipeType() {
+	public RecipeType<RecipeHolder<AspicMeltingRecipe>> getRecipeType() {
 		return TYPE;
 	}
 

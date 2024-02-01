@@ -28,6 +28,7 @@ import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -38,7 +39,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class SpiceRecipe extends IDataRecipe {
@@ -62,7 +62,7 @@ public class SpiceRecipe extends IDataRecipe {
 
 	public SpiceRecipe(ResourceLocation id, JsonObject jo) {
 		super(id);
-		spice = Ingredient.fromJson(jo.get("spice"));
+		spice = Ingredient.fromJson(jo.get("spice"),true);
 		if (jo.has("effect")) {
 			JsonObject x = jo.get("effect").getAsJsonObject();
 			int amplifier = 0;
@@ -71,7 +71,7 @@ public class SpiceRecipe extends IDataRecipe {
 			int duration = 0;
 			if (x.has("time"))
 				duration = x.get("time").getAsInt();
-			MobEffect eff = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(x.get("effect").getAsString()));
+			MobEffect eff = BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(x.get("effect").getAsString()));
 			if (eff != null)
 				effect = new MobEffectInstance(eff, duration, amplifier);
 		}
@@ -107,7 +107,7 @@ public class SpiceRecipe extends IDataRecipe {
 	}
 
 	public void serializeRecipeData(JsonObject jx) {
-		jx.add("spice", spice.toJson());
+		jx.add("spice", Utils.toJson(spice));
 		if (effect != null) {
 			JsonObject jo = new JsonObject();
 			jo.addProperty("level", effect.getAmplifier());

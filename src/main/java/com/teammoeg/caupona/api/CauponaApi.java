@@ -41,6 +41,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -124,9 +125,9 @@ public class CauponaApi {
 	public static Optional<ItemStack> fillBowl(FluidStack stack) {
 		if (stack.getAmount() != 250)
 			return Optional.empty();
-		BowlContainingRecipe recipe = BowlContainingRecipe.recipes.get(stack.getFluid());
+		RecipeHolder<BowlContainingRecipe> recipe = BowlContainingRecipe.recipes.get(stack.getFluid());
 		if (recipe != null) {
-			ItemStack ret = recipe.handle(stack);
+			ItemStack ret = recipe.value().handle(stack);
 			return Optional.of(ret);
 		}
 		return Optional.empty();

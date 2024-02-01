@@ -41,12 +41,12 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.PrimitiveCodec;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 /**
  * Tool class for serialize data, packets etc
@@ -146,7 +146,7 @@ public class SerializeUtil {
 		return FluidStack.CODEC.decode(JsonOps.INSTANCE,jsonIn).result().map(Pair::getFirst).orElse(FluidStack.EMPTY);
 	}
 	public static FluidStack readFluidStack(FriendlyByteBuf in) {
-		Fluid f=in.readRegistryIdUnsafe(ForgeRegistries.FLUIDS);
+		Fluid f=in.readById(BuiltInRegistries.FLUID);
 		int amount=in.readVarInt();
 		FluidStack fs=new FluidStack(f,amount);
 		readOptional(in,d->d.readNbt()).ifPresent(e->fs.setTag(e));
@@ -156,7 +156,7 @@ public class SerializeUtil {
 		return FluidStack.CODEC.encodeStart(JsonOps.INSTANCE,stack).result().orElse(null);
 	}
 	public static void writeFluidStack(FriendlyByteBuf out,FluidStack stack) {
-		out.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS,stack.getFluid());
+		out.writeId(BuiltInRegistries.FLUID,stack.getFluid());
 		out.writeVarInt(stack.getAmount());
 		writeOptional(out,stack.getTag(),(s,d)->d.writeNbt(s));
 	}

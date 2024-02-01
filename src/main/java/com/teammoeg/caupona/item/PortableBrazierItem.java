@@ -36,7 +36,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.network.NetworkHooks;
 
 public class PortableBrazierItem extends CPItem implements MenuProvider {
 
@@ -51,7 +50,7 @@ public class PortableBrazierItem extends CPItem implements MenuProvider {
 			return ret;
 		if (!pPlayer.isShiftKeyDown()) {
 			if (pPlayer instanceof ServerPlayer player) {
-				NetworkHooks.openScreen(player, this);
+				player.openMenu(this);
 			}
 			return InteractionResultHolder.sidedSuccess(pPlayer.getItemInHand(pUsedHand), pLevel.isClientSide);
 		}

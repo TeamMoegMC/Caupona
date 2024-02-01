@@ -28,19 +28,20 @@ import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class BoilingRecipe extends IDataRecipe {
-	public static Map<Fluid, BoilingRecipe> recipes;
+	public static Map<Fluid, RecipeHolder<BoilingRecipe>> recipes;
 	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
 	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
 	public Fluid before;
@@ -59,8 +60,8 @@ public class BoilingRecipe extends IDataRecipe {
 
 	public BoilingRecipe(ResourceLocation id, JsonObject jo) {
 		super(id);
-		before = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(jo.get("from").getAsString()));
-		after = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(jo.get("to").getAsString()));
+		before = BuiltInRegistries.FLUID.get(new ResourceLocation(jo.get("from").getAsString()));
+		after = BuiltInRegistries.FLUID.get(new ResourceLocation(jo.get("to").getAsString()));
 		time = jo.get("time").getAsInt();
 		if (before == Fluids.EMPTY || after == Fluids.EMPTY)
 			throw new InvalidRecipeException();
@@ -68,8 +69,8 @@ public class BoilingRecipe extends IDataRecipe {
 
 	public BoilingRecipe(ResourceLocation id, FriendlyByteBuf data) {
 		super(id);
-		before = data.readRegistryIdUnsafe(ForgeRegistries.FLUIDS);
-		after = data.readRegistryIdUnsafe(ForgeRegistries.FLUIDS);
+		before = data.readById(BuiltInRegistries.FLUID);
+		after = data.readById(BuiltInRegistries.FLUID);
 		time = data.readVarInt();
 	}
 
@@ -81,8 +82,8 @@ public class BoilingRecipe extends IDataRecipe {
 	}
 
 	public void write(FriendlyByteBuf data) {
-		data.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS,before);
-		data.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS,after);
+		data.writeId(BuiltInRegistries.FLUID,before);
+		data.writeId(BuiltInRegistries.FLUID,after);
 		data.writeVarInt(time);
 	}
 

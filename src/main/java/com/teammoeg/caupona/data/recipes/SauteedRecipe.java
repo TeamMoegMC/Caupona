@@ -34,19 +34,20 @@ import com.teammoeg.caupona.data.recipes.conditions.Conditions;
 import com.teammoeg.caupona.util.FloatemTagStack;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 	public static Set<CookIngredients> cookables;
-	public static List<SauteedRecipe> sorted;
+	public static List<RecipeHolder<SauteedRecipe>> sorted;
 	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
 	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
 	public static boolean isCookable(ItemStack stack) {
@@ -89,7 +90,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 		if (data.has("priority"))
 			priority = data.get("priority").getAsInt();
 		time = data.get("time").getAsInt();
-		output = ForgeRegistries.ITEMS.getValue(new ResourceLocation(data.get("output").getAsString()));
+		output = BuiltInRegistries.ITEM.get(new ResourceLocation(data.get("output").getAsString()));
 		if (output == null)
 			throw new InvalidRecipeException();
 		if(data.has("removeNBT"))
@@ -104,7 +105,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 		deny = SerializeUtil.readList(data, Conditions::of);
 		priority = data.readVarInt();
 		time = data.readVarInt();
-		output = data.readRegistryIdUnsafe(ForgeRegistries.ITEMS);
+		output = data.readById(BuiltInRegistries.ITEM);
 		removeNBT=data.readBoolean();
 		count=data.readFloat();
 	}
@@ -125,7 +126,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 		SerializeUtil.writeList(data, deny, Conditions::write);
 		data.writeVarInt(priority);
 		data.writeVarInt(time);
-		data.writeRegistryIdUnsafe(ForgeRegistries.ITEMS, output);
+		data.writeId(BuiltInRegistries.ITEM, output);
 		data.writeBoolean(removeNBT);
 		data.writeFloat(count);
 	}

@@ -30,6 +30,7 @@ import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -38,14 +39,14 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class FluidFoodValueRecipe extends IDataRecipe {
-	public static Map<ResourceLocation, FluidFoodValueRecipe> recipes;
+	public static Map<ResourceLocation, RecipeHolder<FluidFoodValueRecipe>> recipes;
 	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
 	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
 
@@ -91,7 +92,7 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 			int duration = 0;
 			if (x.has("time"))
 				duration = x.get("time").getAsInt();
-			MobEffect eff = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(x.get("effect").getAsString()));
+			MobEffect eff = BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(x.get("effect").getAsString()));
 			if (eff == null)
 				return null;
 			MobEffectInstance effect = new MobEffectInstance(eff, duration, amplifier);
@@ -103,7 +104,7 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 		if (effects != null)
 			effects.removeIf(e -> e == null);
 		if (jo.has("item")) {
-			ItemStack[] i = Ingredient.fromJson(jo.get("item")).getItems();
+			ItemStack[] i = Ingredient.fromJson(jo.get("item"),true).getItems();
 			if (i.length > 0)
 				repersent = i[0];
 		}
@@ -125,7 +126,7 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 				return jo;
 			}));
 		if (repersent != null)
-			json.add("item", Ingredient.of(repersent).toJson());
+			json.add("item", Utils.toJson(Ingredient.of(repersent)));
 
 	}
 
@@ -160,7 +161,7 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 			d.writeNbt(nc);
 			d.writeFloat(e.getSecond());
 		});
-		SerializeUtil.writeOptional(data, repersent, (d, e) -> e.writeNbt(d.serializeNBT()));
+		SerializeUtil.writeOptional(data, repersent, (d, e) -> e.writeNbt(d.save(new CompoundTag())));
 	}
 
 	public ItemStack getRepersent() {

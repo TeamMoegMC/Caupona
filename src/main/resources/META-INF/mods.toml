@@ -10,6 +10,10 @@ authors = "[TeamMoeg] khjxiaogu, Lyuuke"
 description = '''
 Cook anything into stew
 '''
+[[accessTransformers]]
+file="META-INF/accesstransformer.cfg"
+[[mixins]]
+config="caupona.mixins.json"
 [[dependencies.caupona]]
     modId = "minecraft"
     mandatory = true

@@ -38,14 +38,14 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.fluids.FluidStack;
 
-public class BoilingCategory implements IRecipeCategory<BoilingRecipe> {
-	public static RecipeType<BoilingRecipe> TYPE=RecipeType.create(CPMain.MODID, "boiling",BoilingRecipe.class);
+public class BoilingCategory implements IRecipeCategory<RecipeHolder<BoilingRecipe>> {
+	public static RecipeType<RecipeHolder<BoilingRecipe>> TYPE=RecipeType.create(CPMain.MODID, "boiling",RecipeHolder.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
@@ -65,9 +65,9 @@ public class BoilingCategory implements IRecipeCategory<BoilingRecipe> {
 
 	@SuppressWarnings("resource")
 	@Override
-	public void draw(BoilingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
+	public void draw(RecipeHolder<BoilingRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
 			double mouseY) {
-		String burnTime = String.valueOf(recipe.time / 20f) + "s";
+		String burnTime = String.valueOf(recipe.value().time / 20f) + "s";
 		stack.drawString(Minecraft.getInstance().font, burnTime, 103, 55, 0xFFFFFF);
 
 	}
@@ -83,19 +83,19 @@ public class BoilingCategory implements IRecipeCategory<BoilingRecipe> {
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, BoilingRecipe recipe, IFocusGroup focuses) {
+	public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<BoilingRecipe> recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 9)
-				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.before, 250))
+				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.value().before, 250))
 				.setFluidRenderer(1250, false, 16, 46);
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 9)
-				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.after, 250))
+				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.value().after, 250))
 				.setFluidRenderer(1250, false, 16, 46);
 	}
 
 
 
 	@Override
-	public RecipeType<BoilingRecipe> getRecipeType() {
+	public RecipeType<RecipeHolder<BoilingRecipe>> getRecipeType() {
 		return TYPE;
 	}
 

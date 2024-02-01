@@ -22,6 +22,10 @@
 package com.teammoeg.caupona.util;
 
 import java.util.List;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.mojang.serialization.JsonOps;
 import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
 import com.teammoeg.caupona.api.events.FoodExchangeItemEvent;
 
@@ -40,6 +44,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
@@ -68,6 +73,9 @@ public class Utils {
 		ContanerContainFoodEvent ev=new ContanerContainFoodEvent(its2,fs,false,true);
 		NeoForge.EVENT_BUS.post(ev);
 		return ev;
+	}
+	public static JsonElement toJson(Ingredient i) {
+		return Ingredient.CODEC.encodeStart(JsonOps.INSTANCE,i).get().left().orElse(JsonNull.INSTANCE);
 	}
 	public static ItemStack extractOutput(IItemHandler inv,int count) {
 		ItemStack is=ItemStack.EMPTY;

@@ -113,7 +113,7 @@ public class SitulaItem extends Item  implements ICreativeModeTabItem{
 					if(!fluid.isEmpty()&&fluid.getAmount()<handler.getTankCapacity(0)&&fluid.getFluid().isSame(state.getType())) {
 						int amt=handler.fill(new FluidStack(state.getType(),FluidType.BUCKET_VOLUME),FluidAction.EXECUTE);
 						if(amt>0) {
-							bucket.pickupBlock(worldIn, blockpos, blk);
+							bucket.pickupBlock(playerIn,worldIn, blockpos, blk);
 							return InteractionResultHolder.sidedSuccess(cur,worldIn.isClientSide);
 						}
 					}

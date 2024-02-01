@@ -79,7 +79,6 @@ public class CPMain {
 		CPMobEffects.EFFECTS.register(mod);
 		CPData.LOOT_MODIFIERS.register(mod);
 		CPConfig.register();
-		PacketHandler.register();
 	}
 
 	@SuppressWarnings("unused")

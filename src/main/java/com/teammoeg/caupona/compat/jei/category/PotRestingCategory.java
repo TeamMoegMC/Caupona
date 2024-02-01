@@ -23,6 +23,7 @@ package com.teammoeg.caupona.compat.jei.category;
 
 import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.util.Utils;
 
@@ -42,10 +43,11 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.fluids.FluidStack;
 
-public class PotRestingCategory implements IRecipeCategory<DoliumRecipe> {
-	public static RecipeType<DoliumRecipe> TYPE=RecipeType.create(CPMain.MODID, "pot_resting",DoliumRecipe.class);
+public class PotRestingCategory implements IRecipeCategory<RecipeHolder<DoliumRecipe>> {
+	public static RecipeType<RecipeHolder<DoliumRecipe>> TYPE=RecipeType.create(CPMain.MODID, "pot_resting",RecipeHolder.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
@@ -63,7 +65,7 @@ public class PotRestingCategory implements IRecipeCategory<DoliumRecipe> {
 
 	@SuppressWarnings("resource")
 	@Override
-	public void draw(DoliumRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
+	public void draw(RecipeHolder<DoliumRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics stack, double mouseX,
 			double mouseY) {
 		String burnTime = String.valueOf(CPConfig.COMMON.staticTime.get() / 20f) + "s";
 		stack.drawString(Minecraft.getInstance().font, burnTime, 90, 55, 0xFFFFFF);
@@ -80,17 +82,17 @@ public class PotRestingCategory implements IRecipeCategory<DoliumRecipe> {
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, DoliumRecipe recipe, IFocusGroup focuses) {
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 24).addIngredient(VanillaTypes.ITEM_STACK, recipe.output);
+	public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<DoliumRecipe> recipe, IFocusGroup focuses) {
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 83, 24).addIngredient(VanillaTypes.ITEM_STACK, recipe.value().output);
 		builder.addSlot(RecipeIngredientRole.INPUT, 30, 9)
-				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.fluid, recipe.amount))
+				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.value().fluid, recipe.value().amount))
 				.setFluidRenderer(1250, false, 16, 46)
-				.addTooltipCallback(new BaseCallback(recipe.base, recipe.density));
+				.addTooltipCallback(new BaseCallback(recipe.value().base, recipe.value().density));
 	}
 
 
 	@Override
-	public RecipeType<DoliumRecipe> getRecipeType() {
+	public RecipeType<RecipeHolder<DoliumRecipe>> getRecipeType() {
 		return TYPE;
 	}
 

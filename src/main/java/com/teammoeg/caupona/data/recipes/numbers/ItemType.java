@@ -31,19 +31,19 @@ import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 public class ItemType implements CookIngredients {
 	Item type;
 	ResourceLocation loc;
 
 	public ItemType(JsonElement jo) {
-		type = ForgeRegistries.ITEMS
-				.getValue(loc = new ResourceLocation(jo.getAsJsonObject().get("item").getAsString()));
+		type = BuiltInRegistries.ITEM
+				.get(loc = new ResourceLocation(jo.getAsJsonObject().get("item").getAsString()));
 	}
 
 	public ItemType(Item type) {
@@ -78,7 +78,7 @@ public class ItemType implements CookIngredients {
 
 	public ItemType(FriendlyByteBuf buffer) {
 		loc = buffer.readResourceLocation();
-		type = ForgeRegistries.ITEMS.getValue(loc);
+		type = BuiltInRegistries.ITEM.get(loc);
 	}
 
 	@Override

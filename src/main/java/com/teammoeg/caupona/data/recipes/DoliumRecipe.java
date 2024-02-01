@@ -36,23 +36,24 @@ import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.StewInfo;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.neoforged.neoforge.common.crafting.StrictNBTIngredient;
+import net.neoforged.neoforge.common.crafting.NBTIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class DoliumRecipe extends IDataRecipe {
-	public static List<DoliumRecipe> recipes;
+	public static List<RecipeHolder<DoliumRecipe>> recipes;
 	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
 	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
 
@@ -101,21 +102,21 @@ public class DoliumRecipe extends IDataRecipe {
 		super(id);
 		if (jo.has("items"))
 			items = SerializeUtil.parseJsonList(jo.get("items"),
-					j -> Pair.of(Ingredient.fromJson(j.get("item")), (j.has("count") ? j.get("count").getAsInt() : 1)));
+					j -> Pair.of(Ingredient.fromJson(j.get("item"),true), (j.has("count") ? j.get("count").getAsInt() : 1)));
 
 		if (jo.has("base"))
 			base = new ResourceLocation(jo.get("base").getAsString());
 		if (jo.has("fluid"))
-			fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(jo.get("fluid").getAsString()));
+			fluid = BuiltInRegistries.FLUID.get(new ResourceLocation(jo.get("fluid").getAsString()));
 		if (jo.has("amount"))
 			amount = jo.get("amount").getAsInt();
 		if (jo.has("density"))
 			density = jo.get("density").getAsFloat();
 		if (jo.has("keepInfo"))
 			keepInfo = jo.get("keepInfo").getAsBoolean();
-		output = Ingredient.fromJson(jo.get("output")).getItems()[0];
+		output = Ingredient.fromJson(jo.get("output"),true).getItems()[0];
 		if (jo.has("container"))
-			extra = Ingredient.fromJson(jo.get("container"));
+			extra = Ingredient.fromJson(jo.get("container"),true);
 		if (output == null)
 			throw new InvalidRecipeException("cannot load" + id + ": no output found!");
 	}
@@ -240,7 +241,7 @@ public class DoliumRecipe extends IDataRecipe {
 		super(id);
 		items = SerializeUtil.readList(data, d -> Pair.of(Ingredient.fromNetwork(d), d.readVarInt()));
 		base = SerializeUtil.readOptional(data, FriendlyByteBuf::readResourceLocation).orElse(null);
-		fluid = data.readRegistryIdUnsafe(ForgeRegistries.FLUIDS);
+		fluid = data.readById(BuiltInRegistries.FLUID);
 		amount = data.readVarInt();
 		density = data.readFloat();
 		keepInfo = data.readBoolean();
@@ -254,7 +255,7 @@ public class DoliumRecipe extends IDataRecipe {
 			data.writeVarInt(r.getSecond());
 		});
 		SerializeUtil.writeOptional2(data, base, FriendlyByteBuf::writeResourceLocation);
-		data.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS, fluid);
+		data.writeId(BuiltInRegistries.FLUID, fluid);
 		data.writeVarInt(amount);
 		data.writeFloat(density);
 		data.writeBoolean(keepInfo);
@@ -266,7 +267,7 @@ public class DoliumRecipe extends IDataRecipe {
 	public void serializeRecipeData(JsonObject json) {
 		json.add("items", SerializeUtil.toJsonList(items, (r) -> {
 			JsonObject jo = new JsonObject();
-			jo.add("item", r.getFirst().toJson());
+			jo.add("item", Utils.toJson(r.getFirst()));
 			jo.addProperty("count", r.getSecond());
 			return jo;
 		}));
@@ -277,9 +278,9 @@ public class DoliumRecipe extends IDataRecipe {
 		json.addProperty("density", density);
 		json.addProperty("amount", amount);
 		json.addProperty("keepInfo", keepInfo);
-		json.add("output", StrictNBTIngredient.of(output).toJson());
+		json.add("output", Utils.toJson(NBTIngredient.of(output)));
 		if (extra != null)
-			json.add("container", extra.toJson());
+			json.add("container", Utils.toJson(extra));
 	}
 
 }

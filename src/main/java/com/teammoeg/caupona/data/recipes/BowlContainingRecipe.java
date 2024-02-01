@@ -28,22 +28,23 @@ import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class BowlContainingRecipe extends IDataRecipe {
-	public static Map<Fluid, BowlContainingRecipe> recipes;
+	public static Map<Fluid, RecipeHolder<BowlContainingRecipe>> recipes;
 	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
 	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
  
@@ -62,16 +63,16 @@ public class BowlContainingRecipe extends IDataRecipe {
 
 	public BowlContainingRecipe(ResourceLocation id, JsonObject jo) {
 		super(id);
-		bowl = ForgeRegistries.ITEMS.getValue(new ResourceLocation(jo.get("item").getAsString()));
-		fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(jo.get("fluid").getAsString()));
+		bowl = BuiltInRegistries.ITEM.get(new ResourceLocation(jo.get("item").getAsString()));
+		fluid = BuiltInRegistries.FLUID.get(new ResourceLocation(jo.get("fluid").getAsString()));
 		if (bowl == null || bowl == Items.AIR || fluid == null || fluid == Fluids.EMPTY)
 			throw new InvalidRecipeException();
 	}
 
 	public BowlContainingRecipe(ResourceLocation id, FriendlyByteBuf pb) {
 		super(id);
-		bowl = pb.readRegistryIdUnsafe(ForgeRegistries.ITEMS);
-		fluid = pb.readRegistryIdUnsafe(ForgeRegistries.FLUIDS);
+		bowl = pb.readById(BuiltInRegistries.ITEM);
+		fluid = pb.readById(BuiltInRegistries.FLUID);
 	}
 
 	public BowlContainingRecipe(ResourceLocation id, Item bowl, Fluid fluid) {
@@ -81,8 +82,8 @@ public class BowlContainingRecipe extends IDataRecipe {
 	}
 
 	public void write(FriendlyByteBuf pack) {
-		pack.writeRegistryIdUnsafe(ForgeRegistries.ITEMS, bowl);
-		pack.writeRegistryIdUnsafe(ForgeRegistries.FLUIDS, fluid);
+		pack.writeId(BuiltInRegistries.ITEM, bowl);
+		pack.writeId(BuiltInRegistries.FLUID, fluid);
 	}
 
 	public void serializeRecipeData(JsonObject jo) {

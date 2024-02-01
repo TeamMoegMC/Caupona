@@ -25,11 +25,14 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.JsonOps;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -40,7 +43,7 @@ public class ItemIngredient implements CookIngredients {
 	Ingredient i;
 	String translation="";
 	public ItemIngredient(JsonElement jo) {
-		i = Ingredient.fromJson(jo.getAsJsonObject().get("ingredient"));
+		i = Ingredient.fromJson(jo.getAsJsonObject().get("ingredient"),false);
 		if(jo.getAsJsonObject().has("description"))
 		translation=jo.getAsJsonObject().get("description").getAsString();
 	}
@@ -69,7 +72,7 @@ public class ItemIngredient implements CookIngredients {
 	@Override
 	public JsonElement serialize() {
 		JsonObject th = new JsonObject();
-		th.add("ingredient", i.toJson());
+		th.add("ingredient", Utils.toJson(i));
 		th.addProperty("description", translation);
 		return th;
 	}

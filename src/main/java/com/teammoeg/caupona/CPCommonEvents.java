@@ -66,6 +66,7 @@ import net.neoforged.fml.common.Mod.EventBusSubscriber;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
+import vazkii.patchouli.api.PatchouliAPI;
 
 @EventBusSubscriber
 public class CPCommonEvents {

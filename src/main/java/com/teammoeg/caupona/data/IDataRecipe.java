@@ -31,11 +31,6 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 
 public abstract class IDataRecipe implements Recipe<Container> {
-	@Override
-	public ResourceLocation getId() {
-		return id;
-	}
-
 	ResourceLocation id;
 
 	public IDataRecipe(ResourceLocation id) {
