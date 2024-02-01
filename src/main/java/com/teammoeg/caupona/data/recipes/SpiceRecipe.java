@@ -24,6 +24,8 @@ package com.teammoeg.caupona.data.recipes;
 import java.util.List;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.util.Utils;
@@ -59,9 +61,18 @@ public class SpiceRecipe extends IDataRecipe {
 	public Ingredient spice;
 	public MobEffectInstance effect;
 	public boolean canReactLead=false;
+	public static final Codec<SpiceRecipe> CODEC=
+			RecordCodecBuilder.create(t->t.group(
+					Ingredient.CODEC_NONEMPTY.fieldOf("spice").forGetter(o->o.spice),
+					RecordCodecBuilder.<MobEffectInstance>create(u->u.group(
+							BuiltInRegistries.MOB_EFFECT.byNameCodec().fieldOf("effect").forGetter(o->o.getEffect()),
+							Codec.INT.fieldOf("time").forGetter(o->o.getDuration()),
+							Codec.INT.fieldOf("level").forGetter(o->o.getAmplifier())
+							).apply(u,MobEffectInstance::new)).fieldOf("effect").forGetter(o->o.effect),
+					Codec.BOOL.fieldOf("reacts_lead").forGetter(o->o.canReactLead)
+					).apply(t, SpiceRecipe::new));
+	public SpiceRecipe(JsonObject jo) {
 
-	public SpiceRecipe(ResourceLocation id, JsonObject jo) {
-		super(id);
 		spice = Ingredient.fromJson(jo.get("spice"),true);
 		if (jo.has("effect")) {
 			JsonObject x = jo.get("effect").getAsJsonObject();
@@ -79,22 +90,19 @@ public class SpiceRecipe extends IDataRecipe {
 			canReactLead=jo.get("reacts_lead").getAsBoolean();
 	}
 
-	public SpiceRecipe(ResourceLocation id, FriendlyByteBuf pb) {
-		super(id);
+	public SpiceRecipe(FriendlyByteBuf pb) {
 		spice = Ingredient.fromNetwork(pb);
 
 		effect = SerializeUtil.readOptional(pb, b -> MobEffectInstance.load(b.readNbt())).orElse(null);
 		canReactLead=pb.readBoolean();
 	}
 
-	public SpiceRecipe(ResourceLocation id, Ingredient spice, MobEffectInstance effect) {
-		super(id);
+	public SpiceRecipe(Ingredient spice, MobEffectInstance effect) {
 		this.spice = spice;
 		this.effect = effect;
 	}
 
-	public SpiceRecipe(ResourceLocation id, Ingredient spice, MobEffectInstance effect, boolean canReactLead) {
-		super(id);
+	public SpiceRecipe(Ingredient spice, MobEffectInstance effect, boolean canReactLead) {
 		this.spice = spice;
 		this.effect = effect;
 		this.canReactLead = canReactLead;
