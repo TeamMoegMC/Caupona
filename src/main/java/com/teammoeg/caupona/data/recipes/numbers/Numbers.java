@@ -15,32 +15,28 @@ import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 import net.minecraft.network.FriendlyByteBuf;
 
 public class Numbers{
-	private static CachedDataDeserializer<CookIngredients,JsonElement> numbers=new CachedDataDeserializer<>();
-	public static final Codec<CookIngredients> CODEC=Codec.STRING.dispatch("type", t->t.getType(), t->numbers.getCodec(t));;
+	private static CachedDataDeserializer<CookIngredients> numbers=new CachedDataDeserializer<>();
+	public static final Codec<CookIngredients> CODEC=numbers.createCodec();
 	static {
-		register("add", Add.CODEC, Add::new);
-		register("ingredient", ItemIngredient.CODEC, ItemIngredient::new);
-		register("item", ItemType.CODEC, ItemType::new);
-		register("tag", ItemTag.CODEC, ItemTag::new);
-		register("nop", NopNumber.CODEC, NopNumber::of);
-		register("const", ConstNumber.CODEC, ConstNumber::new);
+		register("add", Add.class, Add.CODEC, Add::new);
+		register("ingredient", ItemIngredient.class, ItemIngredient.CODEC, ItemIngredient::new);
+		register("item", ItemType.class, ItemType.CODEC, ItemType::new);
+		register("tag", ItemTag.class, ItemTag.CODEC, ItemTag::new);
+		register("nop", NopNumber.class, NopNumber.CODEC, NopNumber::of);
+		register("const", ConstNumber.class, ConstNumber.CODEC, ConstNumber::new);
 	}
 	private Numbers(){
 		
 	}
-	public static void register(String name, Deserializer<JsonElement, CookIngredients> des) {
-		numbers.register(name, des);
-	}
-	public static void register(String name, Codec<? extends CookIngredients> rjson,
-			Function<FriendlyByteBuf, CookIngredients> rpacket) {
-		numbers.register(name, rjson, rpacket);
+	public static <T extends CookIngredients> void register(String name,Class<T> cls, Codec<T> rjson,
+			Function<FriendlyByteBuf, T> rpacket) {
+		numbers.register(name, cls, rjson, rpacket);
 	}
 	public static CookIngredients of(FriendlyByteBuf buffer) {
 		return numbers.of(buffer);
 	}
 	public static void write(CookIngredients e, FriendlyByteBuf buffer) {
-		buffer.writeUtf(e.getType());
-		e.write(buffer);
+		numbers.write(buffer, e);
 	}
 	public static void clearCache() {
 		numbers.clearCache();

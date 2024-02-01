@@ -31,11 +31,6 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 
 public abstract class IDataRecipe implements Recipe<Container> {
-	ResourceLocation id;
-
-	public IDataRecipe(ResourceLocation id) {
-		this.id = id;
-	}
 
 	@Override
 	public boolean matches(Container inv, Level worldIn) {
@@ -46,9 +41,6 @@ public abstract class IDataRecipe implements Recipe<Container> {
 	public boolean canCraftInDimensions(int width, int height) {
 		return false;
 	}
-
-	public abstract void serializeRecipeData(JsonObject json);
-
 	@Override
 	public ItemStack assemble(Container p_44001_, RegistryAccess p_267165_) {
 		return ItemStack.EMPTY;

@@ -28,6 +28,8 @@ import java.util.Objects;
 
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.SerializeUtil;
@@ -76,14 +78,26 @@ public class DoliumRecipe extends IDataRecipe {
 	public boolean keepInfo = false;
 	public ItemStack output;
 
-	public DoliumRecipe(ResourceLocation id, ResourceLocation base, Fluid fluid, int amount, float density,
+	public DoliumRecipe(ResourceLocation base, Fluid fluid, int amount, float density,
 			boolean keep, ItemStack out, List<Pair<Ingredient, Integer>> items) {
-		this(id, base, fluid, amount, density, keep, out, items, null);
+		this( base, fluid, amount, density, keep, out, items, null);
 	}
 
-	public DoliumRecipe(ResourceLocation id, ResourceLocation base, Fluid fluid, int amount, float density,
+	public DoliumRecipe(List<Pair<Ingredient, Integer>> items, Ingredient extra, ResourceLocation base, Fluid fluid,
+			int amount, float density, boolean keepInfo, Ingredient output) {
+		super();
+		this.items = items;
+		this.extra = extra;
+		this.base = base;
+		this.fluid = fluid;
+		this.amount = amount;
+		this.density = density;
+		this.keepInfo = keepInfo;
+		this.output = output.getItems()[0];
+	}
+
+	public DoliumRecipe(ResourceLocation base, Fluid fluid, int amount, float density,
 			boolean keep, ItemStack out, Collection<Pair<Ingredient, Integer>> items, Ingredient ext) {
-		super(id);
 		if (items != null)
 			this.items = new ArrayList<>(items);
 		else
@@ -97,9 +111,18 @@ public class DoliumRecipe extends IDataRecipe {
 		this.extra = ext;
 		keepInfo = keep;
 	}
-
-	public DoliumRecipe(ResourceLocation id, JsonObject jo) {
-		super(id);
+	public static final Codec<DoliumRecipe> CODEC=
+			RecordCodecBuilder.create(t->t.group(
+					Codec.list(Codec.pair(Ingredient.CODEC_NONEMPTY, Codec.INT)).fieldOf("items").forGetter(o->o.items),
+					Ingredient.CODEC.fieldOf("container").forGetter(o->o.extra),
+					ResourceLocation.CODEC.fieldOf("base").forGetter(o->o.base),
+					BuiltInRegistries.FLUID.byNameCodec().fieldOf("fluid").forGetter(o->o.fluid),
+					Codec.INT.fieldOf("amount").forGetter(o->o.amount),
+					Codec.FLOAT.fieldOf("density").forGetter(o->o.density),
+					Codec.BOOL.fieldOf("keepInfo").forGetter(o->o.keepInfo),
+					Ingredient.CODEC_NONEMPTY.fieldOf("output").forGetter(o->Ingredient.of(o.output))
+					).apply(t, DoliumRecipe::new));
+	public DoliumRecipe(JsonObject jo) {
 		if (jo.has("items"))
 			items = SerializeUtil.parseJsonList(jo.get("items"),
 					j -> Pair.of(Ingredient.fromJson(j.get("item"),true), (j.has("count") ? j.get("count").getAsInt() : 1)));
@@ -117,20 +140,18 @@ public class DoliumRecipe extends IDataRecipe {
 		output = Ingredient.fromJson(jo.get("output"),true).getItems()[0];
 		if (jo.has("container"))
 			extra = Ingredient.fromJson(jo.get("container"),true);
-		if (output == null)
-			throw new InvalidRecipeException("cannot load" + id + ": no output found!");
 	}
 
 	public static DoliumRecipe testPot(FluidStack fluidStack) {
-		return recipes.stream().filter(t -> t.test(fluidStack, ItemStack.EMPTY)).findFirst().orElse(null);
+		return recipes.stream().map(t->t.value()).filter(t -> t.test(fluidStack, ItemStack.EMPTY)).findFirst().orElse(null);
 	}
 
 	public static boolean testInput(ItemStack stack) {
-		return recipes.stream().anyMatch(t -> t.items.stream().anyMatch(i -> i.getFirst().test(stack)));
+		return recipes.stream().map(t->t.value()).anyMatch(t -> t.items.stream().anyMatch(i -> i.getFirst().test(stack)));
 	}
 
 	public static boolean testContainer(ItemStack stack) {
-		return recipes.stream().map(t -> t.extra).filter(Objects::nonNull).anyMatch(t -> t.test(stack));
+		return recipes.stream().map(t->t.value()).map(t -> t.extra).filter(Objects::nonNull).anyMatch(t -> t.test(stack));
 	}
 
 	public static DoliumRecipe testDolium(FluidStack f, ItemStackHandler inv) {
@@ -138,7 +159,7 @@ public class DoliumRecipe extends IDataRecipe {
 		ItemStack is1 = inv.getStackInSlot(1);
 		ItemStack is2 = inv.getStackInSlot(2);
 		ItemStack cont = inv.getStackInSlot(4);
-		return recipes.stream().filter(t -> t.test(f, cont, is0, is1, is2)).findFirst().orElse(null);
+		return recipes.stream().map(t->t.value()).filter(t -> t.test(f, cont, is0, is1, is2)).findFirst().orElse(null);
 	}
 
 	public boolean test(FluidStack f, ItemStack container, ItemStack... ss) {
@@ -237,8 +258,7 @@ public class DoliumRecipe extends IDataRecipe {
 		return out;
 	}
 
-	public DoliumRecipe(ResourceLocation id, FriendlyByteBuf data) {
-		super(id);
+	public DoliumRecipe(FriendlyByteBuf data) {
 		items = SerializeUtil.readList(data, d -> Pair.of(Ingredient.fromNetwork(d), d.readVarInt()));
 		base = SerializeUtil.readOptional(data, FriendlyByteBuf::readResourceLocation).orElse(null);
 		fluid = data.readById(BuiltInRegistries.FLUID);
@@ -263,24 +283,5 @@ public class DoliumRecipe extends IDataRecipe {
 		SerializeUtil.writeOptional(data, extra, Ingredient::toNetwork);
 	}
 
-	@Override
-	public void serializeRecipeData(JsonObject json) {
-		json.add("items", SerializeUtil.toJsonList(items, (r) -> {
-			JsonObject jo = new JsonObject();
-			jo.add("item", Utils.toJson(r.getFirst()));
-			jo.addProperty("count", r.getSecond());
-			return jo;
-		}));
-		if (base != null)
-			json.addProperty("base", base.toString());
-		if (!fluid.isSame(Fluids.EMPTY))
-			json.addProperty("fluid", Utils.getRegistryName(fluid).toString());
-		json.addProperty("density", density);
-		json.addProperty("amount", amount);
-		json.addProperty("keepInfo", keepInfo);
-		json.add("output", Utils.toJson(NBTIngredient.of(output)));
-		if (extra != null)
-			json.add("container", Utils.toJson(extra));
-	}
 
 }

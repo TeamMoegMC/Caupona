@@ -24,8 +24,11 @@ package com.teammoeg.caupona.data.recipes;
 import java.util.List;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
+import com.teammoeg.caupona.data.recipes.numbers.ItemType;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.StewInfo;
@@ -49,7 +52,12 @@ public class AspicMeltingRecipe extends IDataRecipe {
 	public static List<RecipeHolder<AspicMeltingRecipe>> recipes;
 	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
 	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
-
+	public static final Codec<AspicMeltingRecipe> CODEC=
+			RecordCodecBuilder.create(t->t.group(
+					Ingredient.CODEC.fieldOf("aspic").forGetter(o->o.aspic),
+					BuiltInRegistries.FLUID.byNameCodec().fieldOf("fluid").forGetter(o->o.fluid),
+					Codec.INT.fieldOf("amount").forGetter(o->o.amount),
+					Codec.INT.fieldOf("time").forGetter(o->o.time)).apply(t, AspicMeltingRecipe::new));
 	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER.get();
@@ -65,30 +73,25 @@ public class AspicMeltingRecipe extends IDataRecipe {
 	public int amount = 250;
 	public int time = 100;
 
-	public AspicMeltingRecipe(ResourceLocation id, JsonObject jo) {
-		super(id);
-		aspic = Ingredient.fromJson(jo.get("aspic"),true);
-		fluid = BuiltInRegistries.FLUID.get(new ResourceLocation(jo.get("fluid").getAsString()));
-		if (jo.has("time"))
-			time = jo.get("time").getAsInt();
-		if (jo.has("amount"))
-			amount = jo.get("amount").getAsInt();
-		if (fluid == null || fluid == Fluids.EMPTY)
-			throw new InvalidRecipeException();
-	}
+	public AspicMeltingRecipe(FriendlyByteBuf pb) {
 
-	public AspicMeltingRecipe(ResourceLocation id, FriendlyByteBuf pb) {
-		super(id);
 		aspic = Ingredient.fromNetwork(pb);
 		fluid = pb.readById(BuiltInRegistries.FLUID);
 		amount = pb.readVarInt();
 		time = pb.readVarInt();
 	}
 
-	public AspicMeltingRecipe(ResourceLocation id, Ingredient aspic, Fluid fluid) {
-		super(id);
+	public AspicMeltingRecipe(Ingredient aspic, Fluid fluid) {
 		this.aspic = aspic;
 		this.fluid = fluid;
+	}
+
+	public AspicMeltingRecipe(Ingredient aspic, Fluid fluid, int amount, int time) {
+		super();
+		this.aspic = aspic;
+		this.fluid = fluid;
+		this.amount = amount;
+		this.time = time;
 	}
 
 	public void write(FriendlyByteBuf pack) {
@@ -96,13 +99,6 @@ public class AspicMeltingRecipe extends IDataRecipe {
 		pack.writeId(BuiltInRegistries.FLUID, fluid);
 		pack.writeVarInt(amount);
 		pack.writeVarInt(time);
-	}
-
-	public void serializeRecipeData(JsonObject jo) {
-		jo.add("aspic", Utils.toJson(aspic));
-		jo.addProperty("fluid", Utils.getRegistryName(fluid).toString());
-		jo.addProperty("amount", amount);
-		jo.addProperty("time", time);
 	}
 
 	public FluidStack handle(ItemStack s) {
@@ -118,7 +114,7 @@ public class AspicMeltingRecipe extends IDataRecipe {
 	}
 
 	public static AspicMeltingRecipe find(ItemStack aspic) {
-		return recipes.stream().filter(t -> t.aspic.test(aspic)).findFirst().orElse(null);
+		return recipes.stream().map(t->t.value()).filter(t -> t.aspic.test(aspic)).findFirst().orElse(null);
 
 	}
 }

@@ -13,20 +13,20 @@ import net.minecraft.network.FriendlyByteBuf;
 
 public class BaseConditions {
 
-	private static CachedDataDeserializer<StewBaseCondition,JsonObject> numbers=new CachedDataDeserializer<>();
-	public static final Codec<StewBaseCondition> CODEC=Codec.STRING.dispatch("type", t->t.getType(), t->numbers.getCodec(t));
+	private static CachedDataDeserializer<StewBaseCondition> numbers=new CachedDataDeserializer<>();
+	public static final Codec<StewBaseCondition> CODEC=numbers.createCodec();
 	static {
-		register("tag", FluidTag.CODEC, FluidTag::new);
-		register("fluid", FluidType.CODEC, FluidType::new);
-		register("fluid_type", FluidTypeType.CODEC, FluidTypeType::new);
+		register("tag", FluidTag.class, FluidTag.CODEC, FluidTag::new);
+		register("fluid", FluidType.class, FluidType.CODEC, FluidType::new);
+		register("fluid_type", FluidTypeType.class, FluidTypeType.CODEC, FluidTypeType::new);
 	}
-	public static void register(String name, Deserializer<JsonObject, StewBaseCondition> des) {
+	public static void register(String name, Deserializer<StewBaseCondition> des) {
 		numbers.register(name, des);
 	}
 
-	public static void register(String name, Codec<? extends StewBaseCondition> rjson,
-			Function<FriendlyByteBuf, StewBaseCondition> rpacket) {
-		numbers.register(name, rjson, rpacket);
+	public static <R extends StewBaseCondition> void register(String name,Class<R> cls, Codec<R> rjson,
+			Function<FriendlyByteBuf, R> rpacket) {
+		numbers.register(name, cls, rjson, rpacket);
 	}
 
 	public static StewBaseCondition of(FriendlyByteBuf buffer) {
@@ -34,8 +34,7 @@ public class BaseConditions {
 	}
 
 	public static void write(StewBaseCondition e, FriendlyByteBuf buffer) {
-		buffer.writeUtf(e.getType());
-		e.write(buffer);
+		numbers.write(buffer, e);
 	}
 
 	public static void clearCache() {

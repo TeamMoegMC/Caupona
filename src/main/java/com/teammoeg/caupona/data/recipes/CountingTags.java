@@ -28,9 +28,12 @@ import java.util.Set;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.SerializeUtil;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
@@ -43,7 +46,10 @@ public class CountingTags extends IDataRecipe {
 	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
 	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
 	public List<ResourceLocation> tag;
-
+	public static final Codec<CountingTags> CODEC=
+			RecordCodecBuilder.create(t->t.group(
+					Codec.list(ResourceLocation.CODEC).fieldOf("tags").forGetter(o->o.tag)
+					).apply(t, CountingTags::new));
 	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER.get();
@@ -54,31 +60,28 @@ public class CountingTags extends IDataRecipe {
 		return TYPE.get();
 	}
 
-	public CountingTags(ResourceLocation id) {
-		super(id);
+	public CountingTags() {
 		tag = new ArrayList<>();
 	}
 
-	public CountingTags(ResourceLocation id, JsonObject jo) {
-		super(id);
+	public CountingTags(List<ResourceLocation> tag) {
+		super();
+		this.tag = tag;
+	}
+
+	public CountingTags(JsonObject jo) {
 		if (jo.has("tag"))
 			tag = ImmutableList.of(new ResourceLocation(jo.get("tag").getAsString()));
 		else if (jo.has("tags"))
 			tag = SerializeUtil.parseJsonElmList(jo.get("tags"), e -> new ResourceLocation(e.getAsString()));
 	}
 
-	public CountingTags(ResourceLocation id, FriendlyByteBuf data) {
-		super(id);
+	public CountingTags(FriendlyByteBuf data) {
 		tag = SerializeUtil.readList(data, FriendlyByteBuf::readResourceLocation);
 	}
 
 	public void write(FriendlyByteBuf data) {
 		SerializeUtil.<ResourceLocation>writeList2(data, tag, FriendlyByteBuf::writeResourceLocation);
-	}
-
-	@Override
-	public void serializeRecipeData(JsonObject json) {
-		json.add("tags", SerializeUtil.toJsonList(tag, e -> new JsonPrimitive(e.toString())));
 	}
 
 }

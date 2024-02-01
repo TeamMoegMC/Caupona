@@ -70,10 +70,6 @@ public class ConstNumber implements CookIngredients {
 		n = buffer.readFloat();
 	}
 
-	@Override
-	public String getType() {
-		return "const";
-	}
 
 	@Override
 	public Stream<CookIngredients> getItemRelated() {

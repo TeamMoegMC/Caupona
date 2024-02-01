@@ -76,11 +76,6 @@ public class NopNumber implements CookIngredients {
 	}
 
 	@Override
-	public String getType() {
-		return "nop";
-	}
-
-	@Override
 	public Stream<CookIngredients> getItemRelated() {
 		return Stream.empty();
 	}

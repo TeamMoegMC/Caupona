@@ -16,22 +16,22 @@ import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import net.minecraft.network.FriendlyByteBuf;
 
 public class Conditions {
-	private static CachedDataDeserializer<IngredientCondition,JsonObject> numbers=new CachedDataDeserializer<>();
-	public static final MapCodec<IngredientCondition> CODEC=Codec.STRING.dispatchMap("type", t->t.getType(), t->numbers.getCodec(t));
+	private static CachedDataDeserializer<IngredientCondition> numbers=new CachedDataDeserializer<>();
+	public static final Codec<IngredientCondition> CODEC=numbers.createCodec();
 	static {
-		register("half", Halfs.CODEC, Halfs::new);
-		register("mainly", Mainly.CODEC, Mainly::new);
-		register("contains", Must.CODEC, Must::new);
-		register("mainlyOf", MainlyOfType.CODEC, MainlyOfType::new);
-		register("only", Only.CODEC, Only::new);
+		register("half",Halfs.class, Halfs.CODEC, Halfs::new);
+		register("mainly",Mainly.class, Mainly.CODEC, Mainly::new);
+		register("contains",Must.class, Must.CODEC, Must::new);
+		register("mainlyOf",MainlyOfType.class, MainlyOfType.CODEC, MainlyOfType::new);
+		register("only",Only.class, Only.CODEC, Only::new);
 	}
-	public static void register(String name, Deserializer<JsonObject, IngredientCondition> des) {
+	public static void register(String name, Deserializer<IngredientCondition> des) {
 		numbers.register(name, des);
 	}
 
-	public static void register(String name, Codec<? extends IngredientCondition> rjson,
-			Function<FriendlyByteBuf, IngredientCondition> rpacket) {
-		numbers.register(name, rjson, rpacket);
+	public static <R extends IngredientCondition> void register(String name,Class<R> cls, Codec<R> rjson,
+			Function<FriendlyByteBuf, R> rpacket) {
+		numbers.register(name,cls, rjson, rpacket);
 	}
 
 	public static IngredientCondition of(FriendlyByteBuf buffer) {
@@ -57,8 +57,7 @@ public class Conditions {
 	}
 
 	public static void write(IngredientCondition e, FriendlyByteBuf buffer) {
-		buffer.writeUtf(e.getType());
-		e.write(buffer);
+		numbers.write(buffer, e);
 	}
 
 	public static void clearCache() {

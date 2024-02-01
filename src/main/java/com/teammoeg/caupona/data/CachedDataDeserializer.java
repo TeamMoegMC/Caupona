@@ -1,6 +1,8 @@
 package com.teammoeg.caupona.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Function;
 
 import com.google.gson.JsonElement;
@@ -9,30 +11,41 @@ import com.teammoeg.caupona.util.CacheMap;
 
 import net.minecraft.network.FriendlyByteBuf;
 
-public class CachedDataDeserializer<T extends Writeable,U extends JsonElement> {
-	private HashMap<String, Deserializer<U,T>> deserializers = new HashMap<>();
+public class CachedDataDeserializer<T extends Writeable> {
+	private HashMap<String, Deserializer<T>> deserializers = new HashMap<>();
+	private List<Deserializer<T>> byIdx=new ArrayList<>();
 	private CacheMap<T> cache = new CacheMap<>();
-	public void register(String name, Deserializer<U,T> des) {
+	private HashMap<Class<?>,String> nameOfClass=new HashMap<>();
+	public void register(String name, Deserializer<T> des) {
 		deserializers.put(name, des);
 	}
-	public void register(String name, Codec<? extends T> rjson,
-			Function<FriendlyByteBuf, T> rpacket) {
-		register(name, new Deserializer<>((Codec<T>)(Codec)rjson, rpacket));
+	public <R extends T> void register(String name,Class<R> cls, Codec<? extends R> rjson,
+			Function<FriendlyByteBuf, R> rpacket) {
+		Deserializer<T> des=new Deserializer<T>((Codec<T>)(Codec)rjson, (Function<FriendlyByteBuf, T>)(Function)rpacket,byIdx.size());
+		register(name, des);
+		byIdx.add(des);
+		nameOfClass.put(cls, name);
 	}
-	public Deserializer<U,T> getDeserializer(String type){
+	public Deserializer<T> getDeserializer(String type){
 		return deserializers.get(type);
 	}
 	public T of(FriendlyByteBuf buffer) {
-		return cache.of(getDeserializer(buffer.readUtf()).read(buffer));
+		return cache.of(byIdx.get(buffer.readByte()).read(buffer));
 	}
 	public void clearCache() {
 		cache.clear();
 	}
+	public void write(FriendlyByteBuf buffer,T obj) {
+		deserializers.get(nameOfClass.get(obj.getClass())).write(buffer, obj);
+	}
 	public Codec<T> getCodec(String t) {
-		Deserializer<U,T> des=getDeserializer(t);
+		Deserializer<T> des=getDeserializer(t);
 		if(des==null)
 			return null;
 		return des.fromJson;
+	}
+	public Codec<T> createCodec(){
+		return Codec.STRING.dispatch("type", t->t==null?null:nameOfClass.get(t.getClass()), t->getCodec(t));
 	}
 	
 }

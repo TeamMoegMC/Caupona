@@ -34,8 +34,6 @@ import net.minecraft.world.item.ItemStack;
 public interface CookIngredients extends Function<IPendingContext, Float>, Writeable, ITranlatable {
 	public boolean fits(FloatemTagStack stack);
 
-	public String getType();
-
 	public Stream<CookIngredients> getItemRelated();
 
 	public Stream<ResourceLocation> getTags();

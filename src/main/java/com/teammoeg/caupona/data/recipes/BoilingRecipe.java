@@ -24,6 +24,8 @@ package com.teammoeg.caupona.data.recipes;
 import java.util.Map;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.util.Utils;
@@ -31,6 +33,7 @@ import com.teammoeg.caupona.util.Utils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -47,7 +50,11 @@ public class BoilingRecipe extends IDataRecipe {
 	public Fluid before;
 	public Fluid after;
 	public int time;
-
+	public static final Codec<BoilingRecipe> CODEC=
+			RecordCodecBuilder.create(t->t.group(
+					BuiltInRegistries.FLUID.byNameCodec().fieldOf("from").forGetter(o->o.before),
+					BuiltInRegistries.FLUID.byNameCodec().fieldOf("to").forGetter(o->o.after),
+					Codec.INT.fieldOf("time").forGetter(o->o.time)).apply(t, BoilingRecipe::new));
 	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return SERIALIZER.get();
@@ -58,24 +65,14 @@ public class BoilingRecipe extends IDataRecipe {
 		return TYPE.get();
 	}
 
-	public BoilingRecipe(ResourceLocation id, JsonObject jo) {
-		super(id);
-		before = BuiltInRegistries.FLUID.get(new ResourceLocation(jo.get("from").getAsString()));
-		after = BuiltInRegistries.FLUID.get(new ResourceLocation(jo.get("to").getAsString()));
-		time = jo.get("time").getAsInt();
-		if (before == Fluids.EMPTY || after == Fluids.EMPTY)
-			throw new InvalidRecipeException();
-	}
 
 	public BoilingRecipe(ResourceLocation id, FriendlyByteBuf data) {
-		super(id);
 		before = data.readById(BuiltInRegistries.FLUID);
 		after = data.readById(BuiltInRegistries.FLUID);
 		time = data.readVarInt();
 	}
 
-	public BoilingRecipe(ResourceLocation id, Fluid before, Fluid after, int time) {
-		super(id);
+	public BoilingRecipe(Fluid before, Fluid after, int time) {
 		this.before = before;
 		this.after = after;
 		this.time = time;
@@ -85,13 +82,6 @@ public class BoilingRecipe extends IDataRecipe {
 		data.writeId(BuiltInRegistries.FLUID,before);
 		data.writeId(BuiltInRegistries.FLUID,after);
 		data.writeVarInt(time);
-	}
-
-	@Override
-	public void serializeRecipeData(JsonObject json) {
-		json.addProperty("from", Utils.getRegistryName(before).toString());
-		json.addProperty("to", Utils.getRegistryName(after).toString());
-		json.addProperty("time", time);
 	}
 
 	public FluidStack handle(FluidStack org) {

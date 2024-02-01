@@ -89,10 +89,6 @@ public class Add implements CookIngredients, ComplexCalculated {
 		nums = SerializeUtil.readList(buffer, Numbers::of);
 	}
 
-	@Override
-	public String getType() {
-		return "add";
-	}
 
 	@Override
 	public Stream<CookIngredients> getItemRelated() {

@@ -24,6 +24,8 @@ package com.teammoeg.caupona.data.recipes;
 import java.util.Map;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.util.Utils;
@@ -60,23 +62,18 @@ public class BowlContainingRecipe extends IDataRecipe {
 
 	public Item bowl;
 	public Fluid fluid;
+	public static final Codec<BowlContainingRecipe> CODEC=
+			RecordCodecBuilder.create(t->t.group(
+					BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(o->o.bowl),
+					BuiltInRegistries.FLUID.byNameCodec().fieldOf("fluid").forGetter(o->o.fluid)
+					).apply(t, BowlContainingRecipe::new));
 
-	public BowlContainingRecipe(ResourceLocation id, JsonObject jo) {
-		super(id);
-		bowl = BuiltInRegistries.ITEM.get(new ResourceLocation(jo.get("item").getAsString()));
-		fluid = BuiltInRegistries.FLUID.get(new ResourceLocation(jo.get("fluid").getAsString()));
-		if (bowl == null || bowl == Items.AIR || fluid == null || fluid == Fluids.EMPTY)
-			throw new InvalidRecipeException();
-	}
-
-	public BowlContainingRecipe(ResourceLocation id, FriendlyByteBuf pb) {
-		super(id);
+	public BowlContainingRecipe(FriendlyByteBuf pb) {
 		bowl = pb.readById(BuiltInRegistries.ITEM);
 		fluid = pb.readById(BuiltInRegistries.FLUID);
 	}
 
-	public BowlContainingRecipe(ResourceLocation id, Item bowl, Fluid fluid) {
-		super(id);
+	public BowlContainingRecipe(Item bowl, Fluid fluid) {
 		this.bowl = bowl;
 		this.fluid = fluid;
 	}
@@ -86,10 +83,6 @@ public class BowlContainingRecipe extends IDataRecipe {
 		pack.writeId(BuiltInRegistries.FLUID, fluid);
 	}
 
-	public void serializeRecipeData(JsonObject jo) {
-		jo.addProperty("item", Utils.getRegistryName(bowl).toString());
-		jo.addProperty("fluid", Utils.getRegistryName(fluid).toString());
-	}
 
 	public ItemStack handle(Fluid f) {
 		ItemStack is = new ItemStack(bowl);

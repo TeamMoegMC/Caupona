@@ -68,11 +68,6 @@ public class ItemTag implements CookIngredients {
 	}
 
 	@Override
-	public String getType() {
-		return "tag";
-	}
-
-	@Override
 	public Stream<CookIngredients> getItemRelated() {
 		return Stream.of(this);
 	}
