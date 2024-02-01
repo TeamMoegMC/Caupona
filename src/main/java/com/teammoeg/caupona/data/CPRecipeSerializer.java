@@ -23,11 +23,13 @@ package com.teammoeg.caupona.data;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
 import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.network.FriendlyByteBuf;
@@ -35,23 +37,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 public class CPRecipeSerializer<T extends IDataRecipe> implements RecipeSerializer<T> {
-	BiFunction<ResourceLocation, JsonObject, T> jsfactory;
-	BiFunction<ResourceLocation, FriendlyByteBuf, T> pkfactory;
+	Codec<T> codec;
+	Function<FriendlyByteBuf, T> pkfactory;
 	BiConsumer<T, FriendlyByteBuf> writer;
 	static final Logger logger = LogManager.getLogger(CPMain.MODID + " recipe serialize");
 
-	@Override
-	public T fromJson(ResourceLocation recipeId, JsonObject json) {
-		try {
-			return jsfactory.apply(recipeId, json);
-		} catch (InvalidRecipeException e) {
-			return null;
-		}
-	}
 
 	@Override
 	public T fromNetwork(FriendlyByteBuf buffer) {
-		return pkfactory.apply(recipeId, buffer);
+		return pkfactory.apply(buffer);
 	}
 
 	@Override
@@ -59,11 +53,16 @@ public class CPRecipeSerializer<T extends IDataRecipe> implements RecipeSerializ
 		writer.accept(recipe, buffer);
 	}
 
-	public CPRecipeSerializer(BiFunction<ResourceLocation, JsonObject, T> jsfactory,
-			BiFunction<ResourceLocation, FriendlyByteBuf, T> pkfactory, BiConsumer<T, FriendlyByteBuf> writer) {
-		this.jsfactory = jsfactory;
+	public CPRecipeSerializer(Codec<T> codec,
+			Function<FriendlyByteBuf, T> pkfactory, BiConsumer<T, FriendlyByteBuf> writer) {
+		this.codec = codec;
 		this.pkfactory = pkfactory;
 		this.writer = writer;
+	}
+
+	@Override
+	public Codec<T> codec() {
+		return codec;
 	}
 
 }

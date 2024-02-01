@@ -26,8 +26,4 @@ public class Deserializer<T extends JsonElement, U extends Writeable> {
 		packet.writeVarInt(id);
 		obj.write(packet);
 	}
-
-	public JsonElement serialize(U obj) {
-		return obj.serialize();
-	}
 }

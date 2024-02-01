@@ -23,7 +23,10 @@ package com.teammoeg.caupona;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
+
+import org.jetbrains.annotations.Nullable;
 
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.api.CauponaApi;
@@ -139,10 +142,9 @@ public class CPCommonBootStrap {
 				FluidState fs = bp.level().getBlockState(front).getFluidState();
 				BlockEntity blockEntity = bp.level().getBlockEntity(front);
 				if (blockEntity != null) {
-					LazyOptional<IFluidHandler> ip = blockEntity.getCapability(Capabilities.FluidHandler.ITEM,
-							d.getOpposite());
-					if (ip.isPresent()) {
-						ItemStack ret = CauponaApi.fillBowl(ip.resolve().get()).orElse(null);
+					IFluidHandler ip=bp.level().getCapability(Capabilities.FluidHandler.BLOCK,front, d.getOpposite());
+					if (ip!=null) {
+						ItemStack ret = CauponaApi.fillBowl(ip).orElse(null);
 						if (ret != null) {
 							if (is.getCount() == 1)
 								return ret;
@@ -184,30 +186,30 @@ public class CPCommonBootStrap {
 				BlockPos front = bp.pos().relative(d);
 				BlockPos back = bp.pos().relative(d.getOpposite());
 				Block src = bp.level().getBlockState(front).getBlock();
-				LazyOptional<IFluidHandler> blockSource = FluidUtil.getFluidHandler(bp.getLevel(), front,
+				Optional<IFluidHandler> blockSource = FluidUtil.getFluidHandler(bp.level(), front,
 						d.getOpposite());
-				BlockEntity besrc=bp.getLevel().getBlockEntity(front);
-				BlockEntity blockTarget = bp.getLevel().getBlockEntity(back);
+				BlockEntity besrc=bp.level().getBlockEntity(front);
+				BlockEntity blockTarget = bp.level().getBlockEntity(back);
 				if (blockTarget != null) {
-					LazyOptional<IFluidHandler> iptar = blockTarget.getCapability(ForgeCapabilities.FLUID_HANDLER, d);
-					if (iptar.isPresent()) {
+					@Nullable IFluidHandler iptar =bp.level().getCapability(Capabilities.FluidHandler.BLOCK,back, d);
+					if (iptar!=null) {
 						if (blockSource.isPresent()) {
-							FluidUtil.tryFluidTransfer(iptar.orElse(null), blockSource.orElse(null), 250, true);
+							FluidUtil.tryFluidTransfer(iptar, blockSource.orElse(null), 250, true);
 
 						} else if (src instanceof BucketPickup bpu) {
-							FluidUtil.tryFluidTransfer(iptar.orElse(null),
-									new BucketPickupHandlerWrapper(bpu, bp.getLevel(), front), FluidType.BUCKET_VOLUME,
+							FluidUtil.tryFluidTransfer(iptar,
+									new BucketPickupHandlerWrapper(null,bpu, bp.level(), front), FluidType.BUCKET_VOLUME,
 									true);
 						} else if (src instanceof IFluidBlock bpu) {
-							FluidUtil.tryFluidTransfer(iptar.orElse(null),
-									new FluidBlockWrapper(bpu, bp.getLevel(), front), Integer.MAX_VALUE, true);
+							FluidUtil.tryFluidTransfer(iptar,
+									new FluidBlockWrapper(bpu, bp.level(), front), Integer.MAX_VALUE, true);
 						}else if(besrc instanceof IFoodContainer cont) {
 							for(int i=0;i<cont.getSlots();i++) {
 								ItemStack its=cont.getInternal(i);
 								FluidStack fs=Utils.extractFluid(its);
 								if(!fs.isEmpty()) {
-									if(iptar.orElse(null).fill(fs, FluidAction.SIMULATE)==fs.getAmount()) {
-										iptar.orElse(null).fill(fs, FluidAction.EXECUTE);
+									if(iptar.fill(fs, FluidAction.SIMULATE)==fs.getAmount()) {
+										iptar.fill(fs, FluidAction.EXECUTE);
 										cont.setInternal(i,its.getCraftingRemainingItem());
 										break;
 									}
@@ -216,7 +218,8 @@ public class CPCommonBootStrap {
 							}
 						}
 					}else if(blockTarget instanceof IFoodContainer contt) {
-						LazyOptional<IFluidHandler> ipsrc = besrc.getCapability(ForgeCapabilities.FLUID_HANDLER, d.getOpposite());
+						
+						@Nullable IFluidHandler ipsrc = bp.level().getCapability(Capabilities.FluidHandler.BLOCK,front, d.getOpposite());
 						if(besrc instanceof IFoodContainer cont) {
 							outer:for(int i=0;i<cont.getSlots();i++) {
 								ItemStack its=cont.getInternal(i);
@@ -232,8 +235,8 @@ public class CPCommonBootStrap {
 									}
 								}
 							}
-						}else if(ipsrc.isPresent()){
-							IFluidHandler tank=ipsrc.orElse(null);
+						}else if(ipsrc!=null){
+							IFluidHandler tank=ipsrc;
 							
 							FluidStack fs=tank.drain(250, FluidAction.SIMULATE);
 							if(!fs.isEmpty()) {
@@ -294,7 +297,7 @@ public class CPCommonBootStrap {
 			}
 
 			protected void playSound(BlockSource pSource) {
-				pSource.getLevel().levelEvent(1000, pSource.getPos(), 0);
+				pSource.level().levelEvent(1000, pSource.pos(), 0);
 			}
 		});
 		DispenserBlock.registerBehavior(CPItems.gravy_boat.get(), new DefaultDispenseItemBehavior() {
@@ -303,14 +306,14 @@ public class CPCommonBootStrap {
 			@SuppressWarnings("resource")
 			@Override
 			protected ItemStack execute(BlockSource bp, ItemStack is) {
-
+				
 				Direction d = bp.state().getValue(DispenserBlock.FACING);
 				BlockPos front = bp.pos().relative(d);
-				BlockEntity blockEntity = bp.level().getBlockEntity(front);
+				BlockState bs=bp.level().getBlockState(front);
 				if (bs.is(CPBlocks.GRAVY_BOAT.get())) {
 					int idmg = is.getDamageValue();
 					is.setDamageValue(bs.getValue(GravyBoatBlock.LEVEL));
-					bp.getLevel().setBlockAndUpdate(front, bs.setValue(GravyBoatBlock.LEVEL, idmg));
+					bp.level().setBlockAndUpdate(front, bs.setValue(GravyBoatBlock.LEVEL, idmg));
 					return is;
 				}
 				return this.defaultBehaviour.dispense(bp, is);
@@ -326,25 +329,22 @@ public class CPCommonBootStrap {
 			@SuppressWarnings("resource")
 			public ItemStack execute(BlockSource source, ItemStack stack) {
 
-				Level world = source.level();
 				Direction d = source.state().getValue(DispenserBlock.FACING);
 				BlockPos front = source.pos().relative(d);
-				BlockEntity blockEntity = world.getBlockEntity(front);
-				if (blockEntity != null) {
-					LazyOptional<IFluidHandler> ip = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER,
-							d.getOpposite());
-					if (ip.isPresent()) {
-						FluidActionResult fa = FluidUtil.tryEmptyContainerAndStow(stack, ip.resolve().get(), null, 1250,
-								null, true);
-						if (fa.isSuccess()) {
-							if (fa.getResult() != null)
-								return fa.getResult();
-							stack.shrink(1);
+				@Nullable IFluidHandler ip = source.level().getCapability(Capabilities.FluidHandler.BLOCK,front, d.getOpposite());
+				if (ip!=null) {
+					FluidActionResult fa = FluidUtil.tryEmptyContainerAndStow(stack, ip, null, 1250,
+							null, true);
+					if (fa.isSuccess()) {
+						if (fa.getResult() != null)
+							return fa.getResult();
+						stack.shrink(1);
 
-						}
 					}
 					return stack;
 				}
+					
+				
 				return this.defaultBehaviour.dispense(source, stack);
 			}
 		};
@@ -371,10 +371,9 @@ public class CPCommonBootStrap {
 								this.defaultBehaviour.dispense(source, ret);
 						}
 					} else if (blockEntity != null) {
-						LazyOptional<IFluidHandler> ip = blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER,
-								d.getOpposite());
-						if (ip.isPresent()) {
-							IFluidHandler handler = ip.resolve().get();
+						@Nullable IFluidHandler ip = source.level().getCapability(Capabilities.FluidHandler.BLOCK,front, d.getOpposite());
+						if (ip!=null) {
+							IFluidHandler handler = ip;
 							if (handler.fill(fs, FluidAction.SIMULATE) == fs.getAmount()) {
 								handler.fill(fs, FluidAction.EXECUTE);
 								ItemStack ret = stack.getCraftingRemainingItem();

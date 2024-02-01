@@ -12,7 +12,6 @@ import com.teammoeg.caupona.data.CachedDataDeserializer;
 import com.teammoeg.caupona.data.Deserializer;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
-import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 
 import net.minecraft.network.FriendlyByteBuf;
 
