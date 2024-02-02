@@ -7,8 +7,6 @@
   "items": [],
   "keepInfo": true,
   "output": {
-    "type": "forge:nbt",
-    "count": 1,
     "item": "caupona:poultry_soup_aspic"
   }
 }

@@ -37,6 +37,7 @@ import net.minecraft.advancements.critereon.BlockPredicate;
 import net.minecraft.advancements.critereon.LocationPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
@@ -63,7 +64,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePrope
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.minecraftforge.registries.ForgeRegistries;
+
 
 public class CPLootGenerator extends LootTableProvider {
 
@@ -76,10 +77,10 @@ public class CPLootGenerator extends LootTableProvider {
 		return Arrays.asList(new SubProviderEntry(() -> new LTBuilder(), LootContextParamSets.BLOCK),new SubProviderEntry(() -> new OTHBuilder(), LootContextParamSets.CHEST));
 	}
 	static Block cp(String name) {
-		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(CPMain.MODID, name));
+		return BuiltInRegistries.BLOCK.get(new ResourceLocation(CPMain.MODID, name));
 	}
 	static Item cpi(String name) {
-		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID, name));
+		return BuiltInRegistries.ITEM.get(new ResourceLocation(CPMain.MODID, name));
 	}
 	/*@Override
 	protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationcontext) {
@@ -204,14 +205,14 @@ public class CPLootGenerator extends LootTableProvider {
 					.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)))
 			.when(LocationCheck.checkLocation(LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block()
 					.of(pBlock)
-					.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER).build()).build())
+					.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER)))
 					, new BlockPos(0, 1, 0))))
 			.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(pItemBuilder)
 				.when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(pBlock)
 							.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER)))
 				.when(LocationCheck.checkLocation(LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block()
 					.of(pBlock)
-					.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER).build()).build())
+					.setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)))
 					, new BlockPos(0, -1, 0))));
 		}
 

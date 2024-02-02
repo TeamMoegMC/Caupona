@@ -2,7 +2,7 @@
 	"values": [
 		"minecraft:bread",
 		{
-			"id": "#forge:pasta",
+			"id": "#neoforge:pasta",
 			"required": false
 		},
 		{
@@ -10,7 +10,7 @@
 			"required": false
 		},
 		{
-			"id": "forge:bread",
+			"id": "neoforge:bread",
 			"required": false
 		}
 	]

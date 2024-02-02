@@ -19,7 +19,7 @@
 	"amount": 1000,
 	"keepInfo": false,
 	"output": {
-		"type": "forge:nbt",
+		"type": "neoforge:nbt",
 		"item": "minecraft:oak_sapling",
 		"count": 1
 	}

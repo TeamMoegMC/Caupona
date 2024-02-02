@@ -2,27 +2,48 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": [
-        "caupona:vegetables",
-        "caupona:meats"
-      ],
-      "cond": "half"
+      "type": "half",
+      "number": {
+        "type": "add",
+        "types": [
+          {
+            "type": "tag",
+            "tag": "caupona:vegetables"
+          },
+          {
+            "type": "tag",
+            "tag": "caupona:meats"
+          }
+        ]
+      }
     },
     {
-      "type": "caupona:vegetables",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:vegetables"
+      }
     },
     {
-      "type": "caupona:meats",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:meats"
+      }
     },
     {
-      "type": "caupona:ice",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:ice"
+      }
     }
   ],
+  "base": [],
   "density": 0.75,
+  "deny": [],
   "output": "caupona:okroshka",
   "priority": 1152,
+  "removeNBT": false,
   "time": 200
 }

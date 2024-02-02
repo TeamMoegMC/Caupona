@@ -270,7 +270,7 @@
 	"tag.caupona.ice": "Hielo",
 	"tag.caupona.wolfberries": "Bayas de goji",
 	"tag.caupona.bone": "Hueso",
-	"tag.forge.raw_beef": "Ternera",
+	"tag.neoforge.raw_beef": "Ternera",
 	"tooltip.caupona.display_only": "For creative display only",
 	"tooltip.caupona.cook_required": "Cook to get actual effects",
 	"recipe.caupona.cond.mainly": "Mayoría de %s",

@@ -44,7 +44,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 
 public class BowlEmptyCategory implements IRecipeCategory<RecipeHolder<BowlContainingRecipe>> {
 
-	public static RecipeType<RecipeHolder<BowlContainingRecipe>> TYPE=RecipeType.create(CPMain.MODID, "bowl_draining",RecipeHolder.class);
+	public static RecipeType<RecipeHolder> TYPE=RecipeType.create(CPMain.MODID, "bowl_draining",RecipeHolder.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
@@ -85,7 +85,7 @@ public class BowlEmptyCategory implements IRecipeCategory<RecipeHolder<BowlConta
 
 	@Override
 	public RecipeType<RecipeHolder<BowlContainingRecipe>> getRecipeType() {
-		return TYPE;
+		return (RecipeType)TYPE;
 	}
 
 }

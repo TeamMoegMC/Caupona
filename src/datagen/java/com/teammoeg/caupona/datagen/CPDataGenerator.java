@@ -24,8 +24,6 @@ package com.teammoeg.caupona.datagen;
 import java.util.concurrent.CompletableFuture;
 
 import com.teammoeg.caupona.CPMain;
-import com.teammoeg.caupona.util.Utils;
-
 import net.minecraft.Util;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -34,15 +32,16 @@ import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 
-@Mod.EventBusSubscriber(modid = CPMain.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CPMain.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class CPDataGenerator {
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent event) {
+		System.out.println("Gather data");
 		DataGenerator gen = event.getGenerator();
 		ExistingFileHelper exHelper = event.getExistingFileHelper();
 		

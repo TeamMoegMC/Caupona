@@ -3,15 +3,15 @@
 		"minecraft:egg",
 		"caupona:snail_block",
 		{
-			"id": "#forge:eggs",
+			"id": "#neoforge:eggs",
 			"required": false
 		},
 		{
-			"id": "#forge:cooked_eggs",
+			"id": "#neoforge:cooked_eggs",
 			"required": false
 		},
 		{
-			"id": "#forge:roe",
+			"id": "#neoforge:roe",
 			"required": false
 		}
 	]

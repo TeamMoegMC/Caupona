@@ -21,6 +21,7 @@
 
 package com.teammoeg.caupona;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -56,10 +57,10 @@ public class CPBlockEntityTypes {
 	public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<StewPotBlockEntity>> STEW_POT = REGISTER.register("stew_pot",makeTypes2(StewPotBlockEntity::new, 
 					()->List.of(CPBlocks.STEW_POT,CPBlocks.STEW_POT_LEAD)));
 	public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<KitchenStoveBlockEntity>> STOVE_T1 = REGISTER.register("kitchen_stove_basic", makeTypes(KitchenStoveT1::new,
-					()->CPBlocks.stoves.stream().map(e->e.get()).filter(e->e.getBlock().get()==CPBlockEntityTypes.STOVE_T1.get()).collect(Collectors.toList())));
+					()->CPBlocks.stoves.stream().map(e->e.get()).filter(e->e.getBlock()==CPBlockEntityTypes.STOVE_T1).collect(Collectors.toList())));
 	public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<KitchenStoveBlockEntity>> STOVE_T2 = REGISTER
 			.register("kitchen_stove_fast", makeTypes(KitchenStoveT2::new,
-					()->CPBlocks.stoves.stream().map(e->e.get()).filter(e->e.getBlock().get()==CPBlockEntityTypes.STOVE_T2.get()).collect(Collectors.toList())));
+					()->CPBlocks.stoves.stream().map(e->e.get()).filter(e->e.getBlock()==CPBlockEntityTypes.STOVE_T2).collect(Collectors.toList())));
 	public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<BowlBlockEntity>> BOWL = REGISTER.register("bowl",makeType(BowlBlockEntity::new, 
 					()->CPBlocks.BOWL));
 	public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<CPSignBlockEntity>> SIGN = REGISTER.register("sign",makeTypes(CPSignBlockEntity::new,
@@ -80,7 +81,9 @@ public class CPBlockEntityTypes {
 					()->CPBlocks.firebox));
 	public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<WolfStatueBlockEntity>> WOLF_STATUE = REGISTER.register("wolf_statue",makeType(WolfStatueBlockEntity::new, 
 					()->CPBlocks.WOLF));
-
+	private static <T extends BlockEntity> DeferredHolder<BlockEntityType<?>,BlockEntityType<T>> register(String key,BlockEntitySupplier<T> factory,DeferredHolder<Block,? extends Block>...validBlocks){
+		return REGISTER.register(key, () -> new BlockEntityType<T>(factory,(Arrays.stream(validBlocks).map(t->t.get()).collect(Collectors.toSet())), null));
+	}
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntitySupplier<T> create,
 			Supplier<DeferredHolder<Block,? extends Block>> valid) {
 		return () -> new BlockEntityType<>(create, ImmutableSet.of(valid.get().get()), null);

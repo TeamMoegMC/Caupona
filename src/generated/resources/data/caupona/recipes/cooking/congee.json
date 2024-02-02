@@ -2,17 +2,23 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": "caupona:cereals/rice",
-      "cond": "half"
+      "type": "half",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:cereals/rice"
+      }
     }
   ],
   "base": [
     {
+      "type": "tag",
       "tag": "caupona:water"
     }
   ],
   "density": 0.25,
+  "deny": [],
   "output": "caupona:congee",
   "priority": 64,
+  "removeNBT": false,
   "time": 200
 }

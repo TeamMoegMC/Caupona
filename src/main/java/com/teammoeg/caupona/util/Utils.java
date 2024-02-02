@@ -25,7 +25,10 @@ import java.util.List;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
 import com.teammoeg.caupona.api.events.FoodExchangeItemEvent;
 
@@ -62,8 +65,24 @@ public class Utils {
 	public static final Direction[] horizontals = new Direction[] { Direction.EAST, Direction.WEST, Direction.SOUTH,
 			Direction.NORTH };
 	public static final String FLUID_TAG_KEY="caupona:fluid";
+	public static final Codec<MobEffectInstance> MOB_EFFECT_CODEC=RecordCodecBuilder.create(u->u.group(
+		BuiltInRegistries.MOB_EFFECT.byNameCodec().fieldOf("effect").forGetter(o->o.getEffect()),
+		Codec.INT.fieldOf("time").forGetter(o->o.getDuration()),
+		Codec.INT.fieldOf("level").forGetter(o->o.getAmplifier())
+		).apply(u,MobEffectInstance::new));
+	public static final Codec<Pair<MobEffectInstance,Float>> MOB_EFFECT_FLOAT_CODEC=
+		RecordCodecBuilder.create(u->u.group(
+		BuiltInRegistries.MOB_EFFECT.byNameCodec().fieldOf("effect").forGetter(o->o.getFirst().getEffect()),
+		Codec.INT.fieldOf("time").forGetter(o->o.getFirst().getDuration()),
+		Codec.INT.fieldOf("level").forGetter(o->o.getFirst().getAmplifier()),
+		Codec.FLOAT.fieldOf("chance").forGetter(o->o.getSecond())
+		).apply(u,(a,b,c,d)->Pair.of(new MobEffectInstance(a,b,c), d)));
 	private Utils() {
 	}
+	public static <K,V> Codec<Pair<K,V>> pairCodec(String nkey,Codec<K> key,String nval,Codec<V> val){
+		return RecordCodecBuilder.create(t->t.group(key.fieldOf(nkey).forGetter(Pair::getFirst), val.fieldOf(nval).forGetter(Pair::getSecond))
+			.apply(t,Pair::of));
+	} 
 	public static ContanerContainFoodEvent contain(ItemStack its2,FluidStack fs,boolean simulate){
 		ContanerContainFoodEvent ev=new ContanerContainFoodEvent(its2,fs,simulate,false);
 		NeoForge.EVENT_BUS.post(ev);

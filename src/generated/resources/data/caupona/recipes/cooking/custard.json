@@ -2,16 +2,23 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": "caupona:eggs",
-      "cond": "mainly"
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:eggs"
+      }
     }
   ],
   "base": [
     {
+      "type": "fluid",
       "fluid": "caupona:scalded_milk"
     }
   ],
   "density": 0.5,
+  "deny": [],
   "output": "caupona:custard",
+  "priority": 0,
+  "removeNBT": false,
   "time": 200
 }

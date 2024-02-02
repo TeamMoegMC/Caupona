@@ -2,17 +2,23 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": "caupona:cereals/baked",
-      "cond": "mainly"
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:cereals/baked"
+      }
     }
   ],
   "base": [
     {
+      "type": "tag",
       "tag": "caupona:water"
     }
   ],
   "density": 0.75,
+  "deny": [],
   "output": "caupona:acquacotta",
   "priority": 128,
+  "removeNBT": false,
   "time": 200
 }

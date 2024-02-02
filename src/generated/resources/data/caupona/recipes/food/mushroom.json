@@ -6,10 +6,12 @@
   },
   "items": [
     {
-      "item": "minecraft:red_mushroom"
+      "item": "minecraft:red_mushroom",
+      "time": 0
     },
     {
-      "item": "minecraft:brown_mushroom"
+      "item": "minecraft:brown_mushroom",
+      "time": 0
     }
   ],
   "sat": 0.6

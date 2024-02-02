@@ -33,7 +33,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 public class CPEntityTypes {
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE,
 			CPMain.MODID);
-	public static final DeferredHolder<?,EntityType<CPBoat>> BOAT = ENTITY_TYPES.register("boat",
+	public static final DeferredHolder<EntityType<?>,EntityType<CPBoat>> BOAT = ENTITY_TYPES.register("boat",
 			() -> EntityType.Builder.<CPBoat>of(CPBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10)
 					.build(new ResourceLocation(CPMain.MODID, "boat").toString()));
 

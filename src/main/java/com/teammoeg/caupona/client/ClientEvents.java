@@ -24,7 +24,7 @@ public class ClientEvents {
 	@SubscribeEvent
 	public static void registerLoaders(ModelEvent.RegisterGeometryLoaders ev)
 	{
-		ev.register("layered",new LayeredElementsModel.Loader());
+		ev.register(new ResourceLocation(CPMain.MODID,"layered"),new LayeredElementsModel.Loader());
 	}
 	
 }

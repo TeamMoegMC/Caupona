@@ -21,16 +21,20 @@
 
 package com.teammoeg.caupona.data.recipes;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.SerializeUtil;
@@ -55,8 +59,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class FoodValueRecipe extends IDataRecipe {
 	public static Map<Item, FoodValueRecipe> recipes;
-	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
 	public static Set<FoodValueRecipe> recipeset;
 
 	@Override
@@ -75,9 +79,31 @@ public class FoodValueRecipe extends IDataRecipe {
 	public final Map<Item, Integer> processtimes;
 	private ItemStack repersent;
 	public transient Set<ResourceLocation> tags;
-
-	public FoodValueRecipe(ResourceLocation id, int heal, float sat, ItemStack rps, Item... types) {
-		super(id);
+	public static final Codec<FoodValueRecipe> CODEC=
+		RecordCodecBuilder.create(t->t.group(
+			Codec.INT.fieldOf("heal").forGetter(o->o.heal),
+			Codec.FLOAT.fieldOf("sat").forGetter(o->o.sat),
+			
+			Codec.optionalField("effects",Codec.list(Utils.MOB_EFFECT_FLOAT_CODEC)).forGetter(o->Optional.ofNullable(o.effects)),
+			Codec.list(Utils.pairCodec("item",BuiltInRegistries.ITEM.byNameCodec(), "time", Codec.INT)).fieldOf("items").forGetter(o->o.getProcessTime()),
+			Ingredient.CODEC.fieldOf("item").forGetter(o->Ingredient.of(o.repersent))
+				).apply(t, FoodValueRecipe::new));
+	public FoodValueRecipe(int heal, float sat,Optional<List<Pair<MobEffectInstance, Float>>> effects, List<Pair<Item, Integer>> processtimes, Ingredient repersent) {
+		super();
+		this.heal = heal;
+		this.sat = sat;
+		this.effects = effects.orElse(null);
+		this.processtimes = new HashMap<>();
+		for(Pair<Item, Integer> i:processtimes) {
+			this.processtimes.put(i.getFirst(), i.getSecond());
+		}
+		if(!repersent.isEmpty())
+		this.repersent = repersent.getItems()[0];
+	}
+	public List<Pair<Item, Integer>> getProcessTime(){
+		return processtimes.entrySet().stream().map(t->Pair.of(t.getKey(),t.getValue())).toList();
+	}
+	public FoodValueRecipe(int heal, float sat, ItemStack rps, Item... types) {
 		this.heal = heal;
 		this.sat = sat;
 		processtimes = new LinkedHashMap<>();
@@ -85,84 +111,7 @@ public class FoodValueRecipe extends IDataRecipe {
 		for (Item i : types)
 			processtimes.put(i, 0);
 	}
-
-	public FoodValueRecipe(ResourceLocation id, JsonObject jo) {
-		super(id);
-		heal = jo.get("heal").getAsInt();
-		sat = jo.get("sat").getAsFloat();
-		processtimes = SerializeUtil.parseJsonList(jo.get("items"), x -> {
-			ResourceLocation rl = new ResourceLocation(x.get("item").getAsString());
-			if (BuiltInRegistries.ITEM.containsKey(rl)) {
-				Item i = BuiltInRegistries.ITEM.get(rl);
-				int f = 0;
-				if (x.has("time"))
-					f = x.get("time").getAsInt();
-				if (i == Items.AIR)
-					return null;
-				return new Pair<Item, Integer>(i, f);
-			}
-			return null;
-		}).stream().filter(Objects::nonNull).collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
-		if (processtimes.isEmpty())
-			throw new InvalidRecipeException();
-		effects = SerializeUtil.parseJsonList(jo.get("effects"), x -> {
-			ResourceLocation rl = new ResourceLocation(x.get("effect").getAsString());
-			if (BuiltInRegistries.POTION.containsKey(rl)) {
-				int amplifier = 0;
-				if (x.has("level"))
-					amplifier = x.get("level").getAsInt();
-				int duration = 0;
-				if (x.has("time"))
-					duration = x.get("time").getAsInt();
-				MobEffect eff = BuiltInRegistries.MOB_EFFECT.get(rl);
-				if (eff == null)
-					return null;
-				MobEffectInstance effect = new MobEffectInstance(eff, duration, amplifier);
-				float f = 1;
-				if (x.has("chance"))
-					f = x.get("chance").getAsInt();
-				return new Pair<>(effect, f);
-			}
-			return null;
-		}).stream().filter(Objects::nonNull).collect(Collectors.toList());
-		if (effects != null)
-			effects.removeIf(e -> e == null);
-		if (jo.has("item")) {
-			ItemStack[] i = Ingredient.fromJson(jo.get("item"),true).getItems();
-			if (i.length > 0)
-				repersent = i[0];
-		}
-
-	}
-
-	@Override
-	public void serializeRecipeData(JsonObject json) {
-		json.addProperty("heal", heal);
-		json.addProperty("sat", sat);
-		if (processtimes != null && !processtimes.isEmpty())
-			json.add("items", SerializeUtil.toJsonList(processtimes.entrySet(), e -> {
-				JsonObject jo = new JsonObject();
-				jo.addProperty("item", Utils.getRegistryName(e.getKey()).toString());
-				if (e.getValue() != 0)
-					jo.addProperty("time", e.getValue());
-				return jo;
-			}));
-		if (effects != null && !effects.isEmpty())
-			json.add("effects", SerializeUtil.toJsonList(effects, x -> {
-				JsonObject jo = new JsonObject();
-				jo.addProperty("level", x.getFirst().getAmplifier());
-				jo.addProperty("time", x.getFirst().getDuration());
-				jo.addProperty("effect", Utils.getRegistryName(x.getFirst().getEffect()).toString());
-				jo.addProperty("chance", x.getSecond());
-				return jo;
-			}));
-		if (repersent != null)
-			json.add("item", Utils.toJson(Ingredient.of(repersent)));
-
-	}
-
-	public FoodValueRecipe(ResourceLocation id, FriendlyByteBuf data) {
-		super(id);
+	public FoodValueRecipe( FriendlyByteBuf data) {
 		heal = data.readVarInt();
 		sat = data.readFloat();
 		processtimes = SerializeUtil.readList(data, d -> new Pair<>(d.readById(BuiltInRegistries.ITEM), d.readVarInt())).stream()

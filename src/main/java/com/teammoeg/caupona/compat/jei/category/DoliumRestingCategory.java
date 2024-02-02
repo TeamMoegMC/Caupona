@@ -56,7 +56,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 public class DoliumRestingCategory implements IRecipeCategory<RecipeHolder<DoliumRecipe>> {
-	public static RecipeType<RecipeHolder<DoliumRecipe>> TYPE=RecipeType.create(CPMain.MODID, "dolium_resting",RecipeHolder.class);
+	public static RecipeType<RecipeHolder> TYPE=RecipeType.create(CPMain.MODID, "dolium_resting",RecipeHolder.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
@@ -168,7 +168,7 @@ public class DoliumRestingCategory implements IRecipeCategory<RecipeHolder<Doliu
 
 	@Override
 	public RecipeType<RecipeHolder<DoliumRecipe>> getRecipeType() {
-		return TYPE;
+		return (RecipeType)TYPE;
 	}
 
 }

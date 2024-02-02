@@ -13,7 +13,7 @@
 	"amount": 500,
 	"keepInfo": false,
 	"output": {
-		"type": "forge:nbt",
+		"type": "neoforge:nbt",
 		"item": "minecraft:brown_dye",
 		"count": 4
 	}

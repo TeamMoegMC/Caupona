@@ -2,22 +2,31 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": "caupona:eggs",
-      "cond": "mainly"
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:eggs"
+      }
     }
   ],
   "base": [
     {
+      "type": "tag",
       "tag": "caupona:water"
     }
   ],
   "density": 0.5,
   "deny": [
     {
-      "type": "caupona:vegetables",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:vegetables"
+      }
     }
   ],
   "output": "caupona:egg_drop_soup",
+  "priority": 0,
+  "removeNBT": false,
   "time": 200
 }

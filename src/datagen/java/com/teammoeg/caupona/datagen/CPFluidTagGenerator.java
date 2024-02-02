@@ -30,6 +30,7 @@ import com.teammoeg.caupona.CPTags;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
@@ -39,10 +40,9 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 
@@ -53,16 +53,16 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 	@Override
 	protected void addTags(Provider p) {
 		TagAppender<Fluid> stews=tag(CPTags.Fluids.STEWS);
-		TagAppender<Fluid> boilable=tag(CPTags.Fluids.BOILABLE).add(ForgeRegistries.FLUIDS.getResourceKey(Fluids.WATER).get()).add(ForgeMod.MILK.getKey())
+		TagAppender<Fluid> boilable=tag(CPTags.Fluids.BOILABLE).add(BuiltInRegistries.FLUID.getResourceKey(Fluids.WATER).get()).add(NeoForgeMod.MILK.getKey())
 				.addTag(CPTags.Fluids.STEWS);
 		CPFluids.getAllKeys().forEach(stews::add);
 		tag(CPTags.Fluids.ANY_WATER).add(ResourceKey.create(Registries.FLUID,mrl("stock"))).add(ResourceKey.create(Registries.FLUID,mrl("nail_soup")));
 		
-		tag(CPTags.Fluids.PUMICE_ON).add(ForgeRegistries.FLUIDS.getResourceKey(Fluids.WATER).get());
+		tag(CPTags.Fluids.PUMICE_ON).add(BuiltInRegistries.FLUID.getResourceKey(Fluids.WATER).get());
 		tag(new ResourceLocation("watersource", "drink")).add(ResourceKey.create(Registries.FLUID,mrl("nail_soup")));
 	}
 	private Fluid cp(String s) {
-		Fluid i = ForgeRegistries.FLUIDS.getValue(mrl(s));
+		Fluid i = BuiltInRegistries.FLUID.get(mrl(s));
 		return i;// just going to cause trouble if not exists
 	}
 	private TagAppender<Fluid> tag(String s) {
@@ -73,7 +73,7 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 		return this.tag(FluidTags.create(s));
 	}
 
-	private ResourceLocation rl(RegistryObject<Fluid> it) {
+	private ResourceLocation rl(DeferredHolder<Fluid,Fluid> it) {
 		return it.getId();
 	}
 

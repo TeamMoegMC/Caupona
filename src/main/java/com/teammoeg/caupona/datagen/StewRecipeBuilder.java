@@ -23,9 +23,11 @@ package com.teammoeg.caupona.datagen;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
@@ -140,12 +142,12 @@ public class StewRecipeBuilder {
 		return this;
 	}
 	public StewCookingRecipe end() {
-		return new StewCookingRecipe(id, allow, deny, priority, time, density, base, output,removeNBT);
+		return new StewCookingRecipe( allow, deny, priority, time, density, base, output,removeNBT);
 	}
 
-	public StewCookingRecipe finish(Consumer<? super StewCookingRecipe> csr) {
+	public StewCookingRecipe finish(BiConsumer<ResourceLocation, IDataRecipe> out) {
 		StewCookingRecipe r = end();
-		csr.accept(r);
+		out.accept(id,r);
 		return r;
 	}
 }

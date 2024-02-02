@@ -270,7 +270,7 @@
 	"tag.caupona.ice": "Лед",
 	"tag.caupona.wolfberries": "Волчьи ягоды",
 	"tag.caupona.bone": "Кости",
-	"tag.forge.raw_beef": "Говядина",
+	"tag.neoforge.raw_beef": "Говядина",
 	"tooltip.caupona.display_only":"For creative display only",
 	"tooltip.caupona.cook_required":"Cook to get actual effects",
 	"recipe.caupona.cond.mainly": "Большинство %s",

@@ -6,7 +6,8 @@
   },
   "items": [
     {
-      "item": "caupona:snail_block"
+      "item": "caupona:snail_block",
+      "time": 0
     }
   ],
   "sat": 0.5

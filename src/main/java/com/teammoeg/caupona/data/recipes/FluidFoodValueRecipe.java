@@ -23,9 +23,12 @@ package com.teammoeg.caupona.data.recipes;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.util.Utils;
@@ -47,8 +50,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class FluidFoodValueRecipe extends IDataRecipe {
 	public static Map<ResourceLocation, RecipeHolder<FluidFoodValueRecipe>> recipes;
-	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
@@ -66,9 +69,16 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 	private ItemStack repersent;
 	public int parts;
 	public ResourceLocation f;
-
-	public FluidFoodValueRecipe(ResourceLocation id, int heal, float sat, ItemStack repersent, int parts, Fluid f) {
-		super(id);
+	public static final Codec<FluidFoodValueRecipe> CODEC=
+		RecordCodecBuilder.create(t->t.group(
+			Codec.INT.fieldOf("heal").forGetter(o->o.heal),
+			Codec.FLOAT.fieldOf("sat").forGetter(o->o.sat),
+			Codec.optionalField("effects",Codec.list(Utils.MOB_EFFECT_FLOAT_CODEC)).forGetter(o->Optional.ofNullable(o.effects)),
+			Codec.optionalField("item",Ingredient.CODEC).forGetter(o->o.repersent==null?Optional.empty():Optional.of(Ingredient.of(o.repersent))),
+			Codec.INT.fieldOf("parts").forGetter(o->o.parts),
+			ResourceLocation.CODEC.fieldOf("fluid").forGetter(o->o.f)
+				).apply(t, FluidFoodValueRecipe::new));
+	public FluidFoodValueRecipe(int heal, float sat, ItemStack repersent, int parts, Fluid f) {
 		this.heal = heal;
 		this.sat = sat;
 		this.repersent = repersent;
@@ -76,62 +86,7 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 		this.f = Utils.getRegistryName(f);
 	}
 
-	public FluidFoodValueRecipe(ResourceLocation id, JsonObject jo) {
-		super(id);
-		heal = jo.get("heal").getAsInt();
-		sat = jo.get("sat").getAsFloat();
-		f = new ResourceLocation(jo.get("fluid").getAsString());
-		if (jo.has("parts"))
-			parts = jo.get("parts").getAsInt();
-		else
-			parts = 1;
-		effects = SerializeUtil.parseJsonList(jo.get("effects"), x -> {
-			int amplifier = 0;
-			if (x.has("level"))
-				amplifier = x.get("level").getAsInt();
-			int duration = 0;
-			if (x.has("time"))
-				duration = x.get("time").getAsInt();
-			MobEffect eff = BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(x.get("effect").getAsString()));
-			if (eff == null)
-				return null;
-			MobEffectInstance effect = new MobEffectInstance(eff, duration, amplifier);
-			float f = 1;
-			if (x.has("chance"))
-				f = x.get("chance").getAsInt();
-			return new Pair<>(effect, f);
-		});
-		if (effects != null)
-			effects.removeIf(e -> e == null);
-		if (jo.has("item")) {
-			ItemStack[] i = Ingredient.fromJson(jo.get("item"),true).getItems();
-			if (i.length > 0)
-				repersent = i[0];
-		}
-	}
-
-	@Override
-	public void serializeRecipeData(JsonObject json) {
-		json.addProperty("heal", heal);
-		json.addProperty("sat", sat);
-		json.addProperty("parts", parts);
-		json.addProperty("fluid", f.toString());
-		if (effects != null && !effects.isEmpty())
-			json.add("effects", SerializeUtil.toJsonList(effects, x -> {
-				JsonObject jo = new JsonObject();
-				jo.addProperty("level", x.getFirst().getAmplifier());
-				jo.addProperty("time", x.getFirst().getDuration());
-				jo.addProperty("effect", Utils.getRegistryName(x.getFirst().getEffect()).toString());
-				jo.addProperty("chance", x.getSecond());
-				return jo;
-			}));
-		if (repersent != null)
-			json.add("item", Utils.toJson(Ingredient.of(repersent)));
-
-	}
-
-	public FluidFoodValueRecipe(ResourceLocation id, FriendlyByteBuf data) {
-		super(id);
+	public FluidFoodValueRecipe(FriendlyByteBuf data) {
 		heal = data.readVarInt();
 		sat = data.readFloat();
 		parts = data.readVarInt();
@@ -140,15 +95,26 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 		repersent = SerializeUtil.readOptional(data, d -> ItemStack.of(d.readNbt())).orElse(null);
 	}
 
-	public FluidFoodValueRecipe(ResourceLocation id, int heal, float sat, ItemStack repersent, int parts,
+	public FluidFoodValueRecipe(int heal, float sat, Optional<List<Pair<MobEffectInstance, Float>>> effects, Optional<Ingredient> repersent, int parts, ResourceLocation f) {
+		super();
+		this.heal = heal;
+		this.sat = sat;
+		this.effects = effects.orElse(null);
+		if (!repersent.isEmpty())
+		this.repersent = repersent.map(o->o.getItems()[0]).orElse(null);
+		this.parts = parts;
+		this.f = f;
+	}
+
+	public FluidFoodValueRecipe(int heal, float sat, ItemStack repersent, int parts,
 			ResourceLocation f) {
-		super(id);
 		this.heal = heal;
 		this.sat = sat;
 		this.repersent = repersent;
 		this.parts = parts;
 		this.f = f;
 	}
+
 
 	public void write(FriendlyByteBuf data) {
 		data.writeVarInt(heal);

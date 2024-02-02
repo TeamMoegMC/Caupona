@@ -52,6 +52,7 @@ import com.teammoeg.caupona.util.MaterialType;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
@@ -63,9 +64,8 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 @SuppressWarnings("unused")
 public class CPItemTagGenerator extends TagsProvider<Item> {
@@ -216,9 +216,9 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 	}
 	private ResourceKey<Item> rk(Item b) {
 		
-		return ForgeRegistries.ITEMS.getResourceKey(b).orElseGet(()->b.builtInRegistryHolder().key());
+		return BuiltInRegistries.ITEM.getResourceKey(b).orElseThrow();
 	}
-	private ResourceLocation rl(RegistryObject<Item> it) {
+	private ResourceLocation rl(DeferredHolder<Item,Item> it) {
 		return it.getId();
 	}
 

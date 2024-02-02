@@ -1,6 +1,10 @@
 {
   "type": "caupona:frying",
+  "allow": [],
+  "deny": [],
   "ingredientPerDish": 2.0,
   "output": "caupona:sauteed_hodgepodge",
+  "priority": 0,
+  "removeNBT": false,
   "time": 200
 }

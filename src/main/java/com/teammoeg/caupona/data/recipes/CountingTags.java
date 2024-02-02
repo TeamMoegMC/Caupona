@@ -43,8 +43,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CountingTags extends IDataRecipe {
 	public static Set<ResourceLocation> tags;
-	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
 	public List<ResourceLocation> tag;
 	public static final Codec<CountingTags> CODEC=
 			RecordCodecBuilder.create(t->t.group(

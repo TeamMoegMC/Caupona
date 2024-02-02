@@ -45,7 +45,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 public class BoilingCategory implements IRecipeCategory<RecipeHolder<BoilingRecipe>> {
-	public static RecipeType<RecipeHolder<BoilingRecipe>> TYPE=RecipeType.create(CPMain.MODID, "boiling",RecipeHolder.class);
+	public static RecipeType<RecipeHolder> TYPE=RecipeType.create(CPMain.MODID, "boiling",RecipeHolder.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
@@ -96,7 +96,7 @@ public class BoilingCategory implements IRecipeCategory<RecipeHolder<BoilingReci
 
 	@Override
 	public RecipeType<RecipeHolder<BoilingRecipe>> getRecipeType() {
-		return TYPE;
+		return (RecipeType)TYPE;
 	}
 
 }

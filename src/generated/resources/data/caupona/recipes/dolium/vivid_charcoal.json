@@ -19,8 +19,6 @@
   ],
   "keepInfo": false,
   "output": {
-    "type": "forge:nbt",
-    "count": 8,
     "item": "caupona:vivid_charcoal"
   }
 }

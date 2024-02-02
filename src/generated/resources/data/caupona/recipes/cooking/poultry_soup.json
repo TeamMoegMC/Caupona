@@ -2,16 +2,23 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": "caupona:meats/poultry",
-      "cond": "mainly"
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:meats/poultry"
+      }
     }
   ],
   "base": [
     {
+      "type": "tag",
       "tag": "caupona:water"
     }
   ],
   "density": 0.75,
+  "deny": [],
   "output": "caupona:poultry_soup",
+  "priority": 0,
+  "removeNBT": false,
   "time": 200
 }

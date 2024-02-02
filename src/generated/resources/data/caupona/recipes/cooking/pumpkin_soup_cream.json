@@ -2,22 +2,31 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": "caupona:vegetables",
-      "cond": "mainly"
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:vegetables"
+      }
     },
     {
-      "type": "caupona:vegetables/pumpkin",
-      "cond": "mainlyOf",
+      "type": "mainlyOf",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:vegetables/pumpkin"
+      },
       "tag": "caupona:vegetables"
     }
   ],
   "base": [
     {
+      "type": "fluid",
       "fluid": "caupona:scalded_milk"
     }
   ],
   "density": 0.75,
+  "deny": [],
   "output": "caupona:pumpkin_soup_cream",
   "priority": 128,
+  "removeNBT": false,
   "time": 200
 }

@@ -2,12 +2,17 @@
   "type": "caupona:frying",
   "allow": [
     {
-      "type": "forge:raw_beef",
-      "cond": "mainly"
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "forge:raw_beef"
+      }
     }
   ],
+  "deny": [],
   "ingredientPerDish": 2.0,
   "output": "caupona:sauteed_beef",
   "priority": 128,
+  "removeNBT": false,
   "time": 200
 }

@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_cobblestone",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_cobblestone"
     ]
   ],
   "rewards": {
     "recipes": [
       "caupona:mud_kitchen_stove"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

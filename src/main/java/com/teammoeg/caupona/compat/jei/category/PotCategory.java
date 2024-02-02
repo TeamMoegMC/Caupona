@@ -46,7 +46,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 public class PotCategory implements IRecipeCategory<RecipeHolder<AspicMeltingRecipe>> {
-	public static RecipeType<RecipeHolder<AspicMeltingRecipe>> TYPE=RecipeType.create(CPMain.MODID, "aspic_thawing_pot",RecipeHolder.class);
+	public static RecipeType<RecipeHolder> TYPE=RecipeType.create(CPMain.MODID, "aspic_thawing_pot",RecipeHolder.class);
 	private IDrawable BACKGROUND;
 	private IDrawable ICON;
 
@@ -91,7 +91,7 @@ public class PotCategory implements IRecipeCategory<RecipeHolder<AspicMeltingRec
 
 	@Override
 	public RecipeType<RecipeHolder<AspicMeltingRecipe>> getRecipeType() {
-		return TYPE;
+		return (RecipeType)TYPE;
 	}
 
 }

@@ -38,7 +38,7 @@ public interface CPEntityBlock<V extends BlockEntity> extends EntityBlock {
 		return getBlock().get().create(p, s);
 	}
 
-	DeferredHolder<BlockEntityType<V>,BlockEntityType<V>> getBlock();
+	DeferredHolder<BlockEntityType<?>,BlockEntityType<V>> getBlock();
 
 	@Override
 	public default <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState,

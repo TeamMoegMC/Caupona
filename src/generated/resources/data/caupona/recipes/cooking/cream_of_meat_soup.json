@@ -2,16 +2,23 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": "caupona:meats/meat",
-      "cond": "mainly"
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:meats/meat"
+      }
     }
   ],
   "base": [
     {
+      "type": "fluid",
       "fluid": "caupona:scalded_milk"
     }
   ],
   "density": 0.75,
+  "deny": [],
   "output": "caupona:cream_of_meat_soup",
+  "priority": 0,
+  "removeNBT": false,
   "time": 200
 }

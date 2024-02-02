@@ -6,7 +6,8 @@
   },
   "items": [
     {
-      "item": "minecraft:honeycomb"
+      "item": "minecraft:honeycomb",
+      "time": 0
     }
   ],
   "sat": 0.4

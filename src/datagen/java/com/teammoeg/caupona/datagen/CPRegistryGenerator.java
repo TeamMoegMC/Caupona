@@ -33,6 +33,7 @@ import com.teammoeg.caupona.worldgen.BushStraightTrunkPlacer;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.worldgen.BootstapContext;
@@ -56,8 +57,8 @@ import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
-import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
+
 
 public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
 	@SuppressWarnings("unchecked")
@@ -110,7 +111,7 @@ public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
 		return block(type+"_log");
 	}
 	public static Block block(String type) {
-		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(CPMain.MODID,type));
+		return BuiltInRegistries.BLOCK.get(new ResourceLocation(CPMain.MODID,type));
 	}
 	@Override
 	public String getName() {

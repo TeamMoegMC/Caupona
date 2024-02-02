@@ -112,7 +112,7 @@ public class CPCommonBootStrap {
 		}
 	}
 	
-	public static <R extends ItemLike,T extends R> DeferredHolder<?,T> asCompositable(DeferredHolder<R,T> obj, float val) {
+	public static <R extends ItemLike,T extends R> DeferredHolder<R,T> asCompositable(DeferredHolder<R,T> obj, float val) {
 		compositables.add(Pair.of(obj, val));
 		return obj;
 	}
@@ -457,7 +457,7 @@ public class CPCommonBootStrap {
 
 		};
 		DispenserBlock.registerBehavior(Items.FLOWER_POT, pot);
-		for (DeferredHolder<?,Item> i : CPItems.spicesItems) {
+		for (DeferredHolder<Item,Item> i : CPItems.spicesItems) {
 			DispenserBlock.registerBehavior(i.get(), spice);
 		}
 	}

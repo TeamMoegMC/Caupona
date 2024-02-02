@@ -2,16 +2,23 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": "caupona:vegetables",
-      "cond": "mainly"
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:vegetables"
+      }
     }
   ],
   "base": [
     {
+      "type": "tag",
       "tag": "caupona:water"
     }
   ],
   "density": 0.75,
+  "deny": [],
   "output": "caupona:vegetable_soup",
+  "priority": 0,
+  "removeNBT": false,
   "time": 200
 }

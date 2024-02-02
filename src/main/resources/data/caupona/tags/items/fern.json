@@ -3,11 +3,11 @@
 		"minecraft:fern",
 		"minecraft:large_fern",
 		{
-			"id": "#forge:nettle",
+			"id": "#neoforge:nettle",
 			"required": false
 		},
 		{
-			"id": "#forge:ferns",
+			"id": "#neoforge:ferns",
 			"required": false
 		}
 	]

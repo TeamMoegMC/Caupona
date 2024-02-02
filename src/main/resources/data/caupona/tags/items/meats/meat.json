@@ -9,27 +9,27 @@
 			"required": false
 		},
 		{
-			"id": "#forge:bacon",
+			"id": "#neoforge:bacon",
 			"required": false
 		},
 		{
-			"id": "#forge:raw_pork",
+			"id": "#neoforge:raw_pork",
 			"required": false
 		},
 		{
-			"id": "#forge:raw_beef",
+			"id": "#neoforge:raw_beef",
 			"required": false
 		},
 		{
-			"id": "#forge:raw_mutton",
+			"id": "#neoforge:raw_mutton",
 			"required": false
 		},
 		{
-			"id": "#forge:raw_venison",
+			"id": "#neoforge:raw_venison",
 			"required": false
 		},
 		{
-			"id": "#forge:raw_bacon",
+			"id": "#neoforge:raw_bacon",
 			"required": false
 		}
 	]

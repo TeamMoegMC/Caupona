@@ -74,6 +74,7 @@ import com.teammoeg.caupona.item.CPSignItem;
 import com.teammoeg.caupona.item.DishItem;
 import com.teammoeg.caupona.util.MaterialType;
 import com.teammoeg.caupona.util.TabType;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
@@ -84,7 +85,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.LeavesBlock;
-import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SlabBlock;
@@ -101,8 +101,8 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class CPBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, CPMain.MODID);
@@ -132,7 +132,7 @@ public class CPBlocks {
 	public static final List<Block> dishes = new ArrayList<>();
 	public static final List<Block> caliduct = new ArrayList<>();
 	public static final List<Block> firebox = new ArrayList<>();
-	public static final List<DeferredHolder<?,Block>> leaves = new ArrayList<>();
+	public static final List<DeferredHolder<Block,Block>> leaves = new ArrayList<>();
 
 	// Other useful blocks
 	public static final DeferredHolder<Block,FumaroleBoulderBlock> FUMAROLE_BOULDER = decoblock("fumarole_boulder",

@@ -6,7 +6,8 @@
   },
   "items": [
     {
-      "item": "caupona:fresh_wolfberry_leaves"
+      "item": "caupona:fresh_wolfberry_leaves",
+      "time": 0
     }
   ],
   "sat": 0.4

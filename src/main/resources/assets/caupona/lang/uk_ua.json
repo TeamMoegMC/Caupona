@@ -331,7 +331,7 @@
 	"tag.caupona.ice": "Лід",
 	"tag.caupona.wolfberries": "Ягоди годжі",
 	"tag.caupona.bone": "Кістка",
-	"tag.forge.raw_beef": "Яловичина",
+	"tag.neoforge.raw_beef": "Яловичина",
 	"tooltip.caupona.display_only": "Лише для екрана творчості",
 	"tooltip.caupona.cook_required": "Приготуйте для отримання дійсних ефектів",
 	"recipe.caupona.cond.mainly": "У більшості %s",

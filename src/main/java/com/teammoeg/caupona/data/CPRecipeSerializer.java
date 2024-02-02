@@ -22,18 +22,15 @@
 package com.teammoeg.caupona.data;
 
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 public class CPRecipeSerializer<T extends IDataRecipe> implements RecipeSerializer<T> {

@@ -44,7 +44,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
 public class FryingCategory extends IConditionalCategory<SauteedRecipe> {
-	public static RecipeType<RecipeHolder<SauteedRecipe>> TYPE=RecipeType.create(CPMain.MODID, "frying",RecipeHolder.class);
+	public static RecipeType<RecipeHolder> TYPE=RecipeType.create(CPMain.MODID, "frying",RecipeHolder.class);
 	private IDrawable ICON;
 	private IGuiHelper helper;
 
@@ -88,7 +88,7 @@ public class FryingCategory extends IConditionalCategory<SauteedRecipe> {
 
 	@Override
 	public RecipeType<RecipeHolder<SauteedRecipe>> getRecipeType() {
-		return TYPE;
+		return (RecipeType)TYPE;
 	}
 
 

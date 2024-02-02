@@ -33,8 +33,8 @@ public class CPParticles {
 	public static final DeferredRegister<ParticleType<?>> REGISTER = DeferredRegister
 			.create(Registries.PARTICLE_TYPE, CPMain.MODID);
 
-	public static final DeferredHolder<?,SimpleParticleType> STEAM = REGISTER.register("steam",
+	public static final DeferredHolder<ParticleType<?>,SimpleParticleType> STEAM = REGISTER.register("steam",
 			() -> new SimpleParticleType(false));
-	public static final DeferredHolder<?,SimpleParticleType> SOOT = REGISTER.register("soot_smoke",
+	public static final DeferredHolder<ParticleType<?>,SimpleParticleType> SOOT = REGISTER.register("soot_smoke",
 			() -> new SimpleParticleType(false));
 }

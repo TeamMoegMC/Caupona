@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
@@ -48,12 +49,12 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class CPBookGenerator extends JsonGenerator {
 	private Map<String, JsonObject> langs = new HashMap<>();
-	private Map<String, StewCookingRecipe> recipes;
-	private Map<String, SauteedRecipe> frecipes;
+	private Map<String, Pair<ResourceLocation,StewCookingRecipe>> recipes;
+	private Map<String, Pair<ResourceLocation,SauteedRecipe>> frecipes;
 
 	class DatagenTranslationProvider implements TranslationProvider {
 		String lang;
@@ -101,11 +102,12 @@ public class CPBookGenerator extends JsonGenerator {
 	}
 	@Override
 	protected void gather(JsonStorage reciver) {
-		recipes = CPRecipeProvider.recipes.stream().filter(i -> i instanceof StewCookingRecipe)
-				.map(e -> ((StewCookingRecipe) e))
-				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.output).getPath(), e -> e));
-		frecipes= CPRecipeProvider.recipes.stream().filter(i -> i instanceof SauteedRecipe).map(e -> ((SauteedRecipe) e))
-				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.output).getPath(), e -> e));
+		recipes = CPRecipeProvider.recipes.stream().filter(i -> i.getSecond() instanceof StewCookingRecipe)
+				.map(e -> Pair.of(e.getFirst(),(StewCookingRecipe) e.getSecond()))
+				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.getSecond().output).getPath(), e -> e));
+		frecipes= CPRecipeProvider.recipes.stream().filter(i -> i.getSecond() instanceof SauteedRecipe)
+			.map(e -> Pair.of(e.getFirst(),(SauteedRecipe) e.getSecond()))
+				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.getSecond().output).getPath(), e -> e));
 		for (String lang : allangs)
 			loadLang(lang);
 
@@ -117,31 +119,31 @@ public class CPBookGenerator extends JsonGenerator {
 				defaultFryPage(reciver, s,frecipes.get(s));
 		}
 	}
-	private void defaultPage(JsonStorage reciver, String name, StewCookingRecipe stewCookingRecipe) {
+	private void defaultPage(JsonStorage reciver, String name, Pair<ResourceLocation, StewCookingRecipe> pair) {
 		for (String lang : allangs)
-			saveEntry(name, lang, reciver, createRecipe(name, lang,stewCookingRecipe));
+			saveEntry(name, lang, reciver, createRecipe(name, lang,pair));
 	}
 
-	private void defaultFryPage(JsonStorage reciver, String name, SauteedRecipe sauteedRecipe) {
+	private void defaultFryPage(JsonStorage reciver, String name, Pair<ResourceLocation, SauteedRecipe> pair) {
 		for (String lang : allangs)
-			saveFryEntry(name, lang, reciver, createFryingRecipe(name, lang, sauteedRecipe));
+			saveFryEntry(name, lang, reciver, createFryingRecipe(name, lang, pair));
 		
 	}
 
 	StewBaseCondition anyW = new FluidTag(CPTags.Fluids.ANY_WATER);
 	StewBaseCondition stock = new FluidType(CPRecipeProvider.stock);
 	StewBaseCondition milk = new FluidType(CPRecipeProvider.milk);
-	private ResourceLocation PictureRL(Recipe<?> r) {
-		return new ResourceLocation(r.getId().getNamespace(), "textures/gui/recipes/" + r.getId().getPath() + ".png");
+	private ResourceLocation PictureRL(Pair<ResourceLocation, ?> pair) {
+		return new ResourceLocation(pair.getFirst().getNamespace(), "textures/gui/recipes/" + pair.getFirst().getPath() + ".png");
 	}
-	private JsonObject createRecipe(String name, String locale, StewCookingRecipe r) {
+	private JsonObject createRecipe(String name, String locale, Pair<ResourceLocation, StewCookingRecipe> pair) {
 		JsonObject page = new JsonObject();
 		page.add("name", langs.get(locale).get("item.caupona." + name));
 		page.addProperty("icon", new ResourceLocation(CPMain.MODID, name).toString());
 		page.addProperty("category", "caupona:cook_recipes");
 		Item baseType = CPItems.any.get();
-		if (r.getBase() != null && !r.getBase().isEmpty()) {
-			StewBaseCondition sbc = r.getBase().get(0);
+		if (pair.getSecond().getBase() != null && !pair.getSecond().getBase().isEmpty()) {
+			StewBaseCondition sbc = pair.getSecond().getBase().get(0);
 			if (sbc.equals(anyW))
 				baseType = CPItems.anyWater.get();
 			else if (sbc.equals(stock))
@@ -152,16 +154,16 @@ public class CPBookGenerator extends JsonGenerator {
 		JsonArray pages = new JsonArray();
 		JsonObject imgpage = new JsonObject();
 		imgpage.addProperty("type", "caupona:cookrecipe");
-		imgpage.addProperty("img",PictureRL(r).toString());
+		imgpage.addProperty("img",PictureRL(pair).toString());
 		imgpage.addProperty("result", new ResourceLocation(CPMain.MODID, name).toString());
-		imgpage.addProperty("recipe", r.getId().toString());
+		imgpage.addProperty("recipe", pair.getFirst().toString());
 		imgpage.addProperty("base", Utils.getRegistryName(baseType).toString());
 		pages.add(imgpage);
 		page.add("pages", pages);
 		return page;
 	}
 
-	private JsonObject createFryingRecipe(String name, String locale, SauteedRecipe r) {
+	private JsonObject createFryingRecipe(String name, String locale, Pair<ResourceLocation, SauteedRecipe> pair) {
 		JsonObject page = new JsonObject();
 		page.add("name", langs.get(locale).get("item.caupona." + name));
 		page.addProperty("icon", new ResourceLocation(CPMain.MODID, name).toString());
@@ -169,9 +171,9 @@ public class CPBookGenerator extends JsonGenerator {
 		JsonArray pages = new JsonArray();
 		JsonObject imgpage = new JsonObject();
 		imgpage.addProperty("type", "caupona:fryrecipe");
-		imgpage.addProperty("img",PictureRL(r).toString());
+		imgpage.addProperty("img",PictureRL(pair).toString());
 		imgpage.addProperty("result",new ResourceLocation(CPMain.MODID, name).toString());
-		imgpage.addProperty("recipe", r.getId().toString());
+		imgpage.addProperty("recipe", pair.getFirst().toString());
 		imgpage.addProperty("base", Utils.getRegistryName(CPBlocks.GRAVY_BOAT).toString());
 		pages.add(imgpage);
 		page.add("pages", pages);

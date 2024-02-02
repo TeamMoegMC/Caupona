@@ -26,7 +26,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPHorizontalEntityBlock<V extends BlockEntity> extends CPHorizontalBlock implements CPEntityBlock<V> {
-	private final DeferredHolder<BlockEntityType<V>, BlockEntityType<V>> blockEntity;
+	private final DeferredHolder<BlockEntityType<?>, BlockEntityType<V>> blockEntity;
 
 	public CPHorizontalEntityBlock(DeferredHolder<BlockEntityType<?>,BlockEntityType<V>> blockEntity, Properties p_54120_) {
 		super(p_54120_);
@@ -34,7 +34,7 @@ public class CPHorizontalEntityBlock<V extends BlockEntity> extends CPHorizontal
 	}
 
 	@Override
-	public DeferredHolder<BlockEntityType<V>, BlockEntityType<V>> getBlock() {
+	public DeferredHolder<BlockEntityType<?>, BlockEntityType<V>> getBlock() {
 		return blockEntity;
 	}
 

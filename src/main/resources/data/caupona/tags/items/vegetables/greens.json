@@ -5,43 +5,43 @@
 		"minecraft:allium",
 		"caupona:fresh_wolfberry_leaves",
 		{
-			"id": "#forge:crops/asparagus",
+			"id": "#neoforge:crops/asparagus",
 			"required": false
 		},
 		{
-			"id": "#forge:crops/cabbage",
+			"id": "#neoforge:crops/cabbage",
 			"required": false
 		},
 		{
-			"id": "#forge:crops/leek",
+			"id": "#neoforge:crops/leek",
 			"required": false
 		},
 		{
-			"id": "#forge:crops/kale",
+			"id": "#neoforge:crops/kale",
 			"required": false
 		},
 		{
-			"id": "#forge:crops/lettuce",
+			"id": "#neoforge:crops/lettuce",
 			"required": false
 		},
 		{
-			"id": "#forge:crops/cauliflower",
+			"id": "#neoforge:crops/cauliflower",
 			"required": false
 		},
 		{
-			"id": "#forge:crops/broccoli",
+			"id": "#neoforge:crops/broccoli",
 			"required": false
 		},
 		{
-			"id": "#forge:crops/spinach",
+			"id": "#neoforge:crops/spinach",
 			"required": false
 		},
 		{
-			"id": "#forge:crops/brusselsprout",
+			"id": "#neoforge:crops/brusselsprout",
 			"required": false
 		},
 		{
-			"id": "#forge:crops/artichoke",
+			"id": "#neoforge:crops/artichoke",
 			"required": false
 		}
 	]

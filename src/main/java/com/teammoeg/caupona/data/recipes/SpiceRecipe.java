@@ -45,8 +45,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class SpiceRecipe extends IDataRecipe {
 	public static List<SpiceRecipe> recipes;
-	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
@@ -64,11 +64,7 @@ public class SpiceRecipe extends IDataRecipe {
 	public static final Codec<SpiceRecipe> CODEC=
 			RecordCodecBuilder.create(t->t.group(
 					Ingredient.CODEC_NONEMPTY.fieldOf("spice").forGetter(o->o.spice),
-					RecordCodecBuilder.<MobEffectInstance>create(u->u.group(
-							BuiltInRegistries.MOB_EFFECT.byNameCodec().fieldOf("effect").forGetter(o->o.getEffect()),
-							Codec.INT.fieldOf("time").forGetter(o->o.getDuration()),
-							Codec.INT.fieldOf("level").forGetter(o->o.getAmplifier())
-							).apply(u,MobEffectInstance::new)).fieldOf("effect").forGetter(o->o.effect),
+					Utils.MOB_EFFECT_CODEC.fieldOf("effect").forGetter(o->o.effect),
 					Codec.BOOL.fieldOf("reacts_lead").forGetter(o->o.canReactLead)
 					).apply(t, SpiceRecipe::new));
 	public SpiceRecipe(JsonObject jo) {

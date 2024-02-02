@@ -42,8 +42,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class DissolveRecipe extends IDataRecipe {
 	public static List<RecipeHolder<DissolveRecipe>> recipes;
-	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {

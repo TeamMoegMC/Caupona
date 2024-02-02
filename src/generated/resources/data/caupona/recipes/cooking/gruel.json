@@ -2,16 +2,23 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": "caupona:cereals",
-      "cond": "half"
+      "type": "half",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:cereals"
+      }
     }
   ],
   "base": [
     {
+      "type": "tag",
       "tag": "caupona:water"
     }
   ],
   "density": 0.25,
+  "deny": [],
   "output": "caupona:gruel",
+  "priority": 0,
+  "removeNBT": false,
   "time": 200
 }

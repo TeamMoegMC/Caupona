@@ -13,7 +13,7 @@
 	"amount": 250,
 	"keepInfo": false,
 	"output": {
-		"type": "forge:nbt",
+		"type": "neoforge:nbt",
 		"item": "minecraft:black_dye",
 		"count": 2
 	}

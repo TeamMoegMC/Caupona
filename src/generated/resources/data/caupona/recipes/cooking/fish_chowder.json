@@ -2,16 +2,23 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": "caupona:seafood",
-      "cond": "mainly"
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:seafood"
+      }
     }
   ],
   "base": [
     {
+      "type": "fluid",
       "fluid": "caupona:scalded_milk"
     }
   ],
   "density": 0.75,
+  "deny": [],
   "output": "caupona:fish_chowder",
+  "priority": 0,
+  "removeNBT": false,
   "time": 200
 }

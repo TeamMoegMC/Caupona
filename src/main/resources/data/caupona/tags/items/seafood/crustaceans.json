@@ -11,23 +11,23 @@
 			"required": false
 		},
 		{
-			"id": "#forge:crabs",
+			"id": "#neoforge:crabs",
 			"required": false
 		},
 		{
-			"id": "#forge:crab_legs",
+			"id": "#neoforge:crab_legs",
 			"required": false
 		},
 		{
-			"id": "#forge:clams",
+			"id": "#neoforge:clams",
 			"required": false
 		},
 		{
-			"id": "#forge:lobsters",
+			"id": "#neoforge:lobsters",
 			"required": false
 		},
 		{
-			"id": "#forge:mussel",
+			"id": "#neoforge:mussel",
 			"required": false
 		},
 		{

@@ -7,8 +7,6 @@
   "items": [],
   "keepInfo": true,
   "output": {
-    "type": "forge:nbt",
-    "count": 1,
     "item": "caupona:egg_drop_soup_aspic"
   }
 }

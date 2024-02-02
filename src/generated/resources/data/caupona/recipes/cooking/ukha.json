@@ -2,38 +2,61 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": [
-        "caupona:seafood/fish",
-        "caupona:vegetables/roots"
-      ],
-      "cond": "half"
+      "type": "half",
+      "number": {
+        "type": "add",
+        "types": [
+          {
+            "type": "tag",
+            "tag": "caupona:seafood/fish"
+          },
+          {
+            "type": "tag",
+            "tag": "caupona:vegetables/roots"
+          }
+        ]
+      }
     },
     {
-      "type": "caupona:seafood/fish",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:seafood/fish"
+      }
     },
     {
-      "type": "caupona:vegetables/roots",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:vegetables/roots"
+      }
     }
   ],
   "base": [
     {
+      "type": "fluid",
       "fluid": "caupona:nail_soup"
     }
   ],
   "density": 0.75,
   "deny": [
     {
-      "type": "caupona:meats",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:meats"
+      }
     },
     {
-      "type": "caupona:cereals",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:cereals"
+      }
     }
   ],
   "output": "caupona:ukha",
   "priority": 1088,
+  "removeNBT": false,
   "time": 200
 }

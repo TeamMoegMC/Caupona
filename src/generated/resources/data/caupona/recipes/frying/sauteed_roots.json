@@ -2,12 +2,17 @@
   "type": "caupona:frying",
   "allow": [
     {
-      "type": "caupona:vegetables/roots",
-      "cond": "mainly"
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:vegetables/roots"
+      }
     }
   ],
+  "deny": [],
   "ingredientPerDish": 2.0,
   "output": "caupona:sauteed_roots",
   "priority": 128,
+  "removeNBT": false,
   "time": 200
 }

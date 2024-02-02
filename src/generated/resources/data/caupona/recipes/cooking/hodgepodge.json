@@ -1,7 +1,11 @@
 {
   "type": "caupona:cooking",
+  "allow": [],
+  "base": [],
   "density": 0.75,
+  "deny": [],
   "output": "caupona:hodgepodge",
   "priority": -1,
+  "removeNBT": false,
   "time": 200
 }

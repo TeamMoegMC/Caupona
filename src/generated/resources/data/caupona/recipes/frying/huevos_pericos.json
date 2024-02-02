@@ -2,12 +2,17 @@
   "type": "caupona:frying",
   "allow": [
     {
-      "type": "caupona:eggs",
-      "cond": "mainly"
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:eggs"
+      }
     }
   ],
+  "deny": [],
   "ingredientPerDish": 2.0,
   "output": "caupona:huevos_pericos",
   "priority": 128,
+  "removeNBT": false,
   "time": 200
 }

@@ -2,19 +2,23 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": {
+      "type": "mainly",
+      "number": {
+        "type": "item",
         "item": "minecraft:kelp"
-      },
-      "cond": "mainly"
+      }
     }
   ],
   "base": [
     {
+      "type": "tag",
       "tag": "caupona:water"
     }
   ],
   "density": 0.75,
+  "deny": [],
   "output": "caupona:seaweed_soup",
   "priority": 64,
+  "removeNBT": false,
   "time": 200
 }

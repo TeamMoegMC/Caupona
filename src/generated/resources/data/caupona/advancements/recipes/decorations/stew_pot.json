@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_claypot",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_claypot"
     ]
   ],
   "rewards": {
     "recipes": [
       "caupona:stew_pot"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

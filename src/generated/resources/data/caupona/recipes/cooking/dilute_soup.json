@@ -1,7 +1,11 @@
 {
   "type": "caupona:cooking",
+  "allow": [],
+  "base": [],
   "density": 0.0,
+  "deny": [],
   "output": "caupona:dilute_soup",
   "priority": -2,
+  "removeNBT": false,
   "time": 200
 }

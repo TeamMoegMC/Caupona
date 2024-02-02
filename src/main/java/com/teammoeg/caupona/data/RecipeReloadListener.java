@@ -55,7 +55,6 @@ import com.teammoeg.caupona.data.recipes.numbers.Numbers;
 
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
@@ -68,10 +67,10 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmokingRecipe;
-import net.neoforged.neoforge.client.event.RecipesUpdatedEvent;
-import net.neoforged.neoforge.event.TagsUpdatedEvent;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RecipesUpdatedEvent;
+import net.neoforged.neoforge.event.TagsUpdatedEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class RecipeReloadListener implements ResourceManagerReloadListener {
@@ -135,7 +134,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 		if (force) {
 			FoodProperties of = iis.getFoodProperties(null);
 			FoodValueRecipe ret = FoodValueRecipe.recipes.computeIfAbsent(i,
-					e -> new FoodValueRecipe(new ResourceLocation(CPMain.MODID, "food/generated/" + (generated_fv++)), 0,
+					e -> new FoodValueRecipe(0,
 							0, iis, e));
 			if (of != null && of.getNutrition() > ret.heal) {
 				ret.effects = of.getEffects();
@@ -220,7 +219,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 	}
 
 	static <R extends Recipe<?>> Stream<RecipeHolder<R>> filterRecipes(Collection<RecipeHolder<?>> recipes, Class<R> class1,
-			DeferredHolder<?,RecipeType<Recipe<?>>> recipeType) {
+			DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> recipeType) {
 		return recipes.stream().filter(iRecipe -> iRecipe.value().getType() == recipeType.get()).map(t->(RecipeHolder)t);
 	}
 }

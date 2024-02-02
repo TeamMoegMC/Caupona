@@ -5,6 +5,7 @@
     "item": "minecraft:flower_pot"
   },
   "density": 0.0,
+  "fluid": "minecraft:empty",
   "items": [
     {
       "count": 4,
@@ -15,9 +16,6 @@
   ],
   "keepInfo": false,
   "output": {
-    "type": "forge:nbt",
-    "count": 1,
-    "item": "caupona:vinegar_spice_jar",
-    "nbt": "{Damage:0}"
+    "item": "caupona:vinegar_spice_jar"
   }
 }

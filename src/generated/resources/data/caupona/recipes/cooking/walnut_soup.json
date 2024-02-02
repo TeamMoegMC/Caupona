@@ -2,39 +2,59 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": "caupona:walnut",
-      "cond": "half"
+      "type": "half",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:walnut"
+      }
     },
     {
-      "type": "caupona:sugar",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:sugar"
+      }
     }
   ],
   "base": [
     {
+      "type": "fluid",
       "fluid": "caupona:nail_soup"
     }
   ],
   "density": 0.75,
   "deny": [
     {
-      "type": "caupona:meats",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:meats"
+      }
     },
     {
-      "type": "caupona:seafood",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:seafood"
+      }
     },
     {
-      "type": "caupona:vegetables",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:vegetables"
+      }
     },
     {
-      "type": "caupona:wolfberries",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:wolfberries"
+      }
     }
   ],
   "output": "caupona:walnut_soup",
   "priority": 1088,
+  "removeNBT": false,
   "time": 200
 }

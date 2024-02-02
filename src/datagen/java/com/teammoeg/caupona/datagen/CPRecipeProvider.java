@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import com.google.common.collect.ImmutableSet;
@@ -64,10 +65,11 @@ import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
@@ -85,69 +87,41 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.NeoForgeMod;
 
 public class CPRecipeProvider extends RecipeProvider {
 	private final HashMap<String, Integer> PATH_COUNT = new HashMap<>();
 
 	static final Fluid water = fluid(mrl("nail_soup")), milk = fluid(mrl("scalded_milk")), stock = fluid(mrl("stock"));
-	public static List<IDataRecipe> recipes = new ArrayList<>();
+	public static List<Pair<ResourceLocation,IDataRecipe>> recipes = new ArrayList<>();
 
 	public CPRecipeProvider(DataGenerator generatorIn) {
 		super(generatorIn.getPackOutput());
 	}
 
 	@Override
-	protected void buildRecipes(Consumer<FinishedRecipe> outx) {
-		Consumer<IDataRecipe> out = r -> {
-			outx.accept(new FinishedRecipe() {
-
-				@Override
-				public void serializeRecipeData(JsonObject jo) {
-					r.serializeRecipeData(jo);
-				}
-
-				@Override
-				public ResourceLocation getId() {
-					return r.getId();
-				}
-
-				@Override
-				public JsonObject serializeAdvancement() {
-					return null;
-				}
-
-				@Override
-				public ResourceLocation getAdvancementId() {
-					return null;
-				}
-
-				@Override
-				public RecipeSerializer<?> getType() {
-					return r.getSerializer();
-				}
-
-			});
+	protected void buildRecipes(RecipeOutput outx) {
+		BiConsumer<ResourceLocation,IDataRecipe> out = (r1,r2) -> {
+			outx.accept(r1,r2,null);
 		};
 		for (String s : CPFluids.getSoupfluids()) {
 			ResourceLocation fs = mrl(s);
-			out.accept(new BowlContainingRecipe(rl("bowl/" + s), item(fs), fluid(fs)));
+			out.accept(rl("bowl/" + s),new BowlContainingRecipe( item(fs), fluid(fs)));
 		}
 		// out.accept(dissolve(RankineItems.CORN_EAR.get()));
-		out.accept(new BowlContainingRecipe(rl("bowl/water"), cpitem("water"), Fluids.WATER));
-		out.accept(new BowlContainingRecipe(rl("bowl/milk"), cpitem("milk"), ForgeMod.MILK.get()));
-		out.accept(new BoilingRecipe(rl("boil/water"), fluid(mcrl("water")), fluid(mrl("nail_soup")), 200));
-		out.accept(new BoilingRecipe(rl("boil/milk"), fluid(mcrl("milk")), fluid(mrl("scalded_milk")), 200));
-		out.accept(new FoodValueRecipe(rl("food/mushroom"), 3, 0.6f, new ItemStack(Items.RED_MUSHROOM),
+		out.accept(rl("bowl/water"),new BowlContainingRecipe( cpitem("water"), Fluids.WATER));
+		out.accept(rl("bowl/milk"),new BowlContainingRecipe( cpitem("milk"), NeoForgeMod.MILK.get()));
+		out.accept(rl("boil/water"),new BoilingRecipe( fluid(mcrl("water")), fluid(mrl("nail_soup")), 200));
+		out.accept(rl("boil/milk"),new BoilingRecipe( fluid(mcrl("milk")), fluid(mrl("scalded_milk")), 200));
+		out.accept(rl("food/mushroom"),new FoodValueRecipe( 3, 0.6f, new ItemStack(Items.RED_MUSHROOM),
 				Items.RED_MUSHROOM, Items.BROWN_MUSHROOM));
-		out.accept(new FoodValueRecipe(rl("food/pumpkin"), 3, 0.6f, new ItemStack(Items.PUMPKIN), Items.PUMPKIN,
+		out.accept(rl("food/pumpkin"),new FoodValueRecipe( 3, 0.6f, new ItemStack(Items.PUMPKIN), Items.PUMPKIN,
 				Items.CARVED_PUMPKIN));
-		out.accept(new FoodValueRecipe(rl("food/wheat"), 3, 0.6f, new ItemStack(Items.WHEAT), Items.WHEAT,
+		out.accept(rl("food/wheat"), new FoodValueRecipe(3, 0.6f, new ItemStack(Items.WHEAT), Items.WHEAT,
 				Items.WHEAT_SEEDS));
-		out.accept(
-				new FoodValueRecipe(rl("food/fern"), 2, 0.3f, new ItemStack(Items.FERN), Items.FERN, Items.LARGE_FERN));
-		out.accept(new FoodValueRecipe(rl("food/allium"), 1, 0.2f, new ItemStack(Items.ALLIUM), Items.ALLIUM));
+		out.accept(rl("food/fern"), 
+				new FoodValueRecipe(2, 0.3f, new ItemStack(Items.FERN), Items.FERN, Items.LARGE_FERN));
+		out.accept(rl("food/allium"), new FoodValueRecipe(1, 0.2f, new ItemStack(Items.ALLIUM), Items.ALLIUM));
 		// System.out.println(CPBlocks.stove1.asItem());
 		// System.out.println(CPBlocks.stove1.asItem().getItemCategory());
 		ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,cpitem("mud_kitchen_stove")).define('D', Items.DIRT).define('S', Items.COBBLESTONE)
@@ -168,9 +142,9 @@ public class CPRecipeProvider extends RecipeProvider {
 		// hasItem(Items.BRICK)).build(out);
 		// ShapelessRecipeBuilder.shapelessRecipe(THPItems.BOOK).addIngredient(Items.BOOK).addIngredient(Items.BOWL).unlockedBy("has_bowl",
 		// hasItem(Items.BOWL)).build(out);
-		out.accept(new FluidFoodValueRecipe(rl("fluid_food/milk"), 0, 1f, new ItemStack(Items.MILK_BUCKET), 4,
+		out.accept(rl("fluid_food/milk"), new FluidFoodValueRecipe(0, 1f, new ItemStack(Items.MILK_BUCKET), 4,
 				new ResourceLocation(CPMain.MODID, "scalded_milk")));
-		out.accept(new FluidFoodValueRecipe(rl("fluid_food/stock"), 2, 1f, null, 4,
+		out.accept(rl("fluid_food/stock"), new FluidFoodValueRecipe(2, 1f, null, 4,
 				new ResourceLocation(CPMain.MODID, "stock")));
 		simpleFood(out, 2, 0.4f, Items.HONEYCOMB);
 		/*
@@ -208,41 +182,41 @@ public class CPRecipeProvider extends RecipeProvider {
 		spice(cpitem("sapa_spice_jar"), CPMobEffects.HYPERACTIVE.get(), out);
 		stewCooking(out);
 		frying(out);
-		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/garum_spice_jar"), null, Fluids.EMPTY, 0,
+		out.accept(new ResourceLocation(CPMain.MODID, "dolium/garum_spice_jar"), new DoliumRecipe(null, Fluids.EMPTY, 0,
 				0f, false, new ItemStack(cpitem("garum_spice_jar")),
 				Arrays.asList(
 						Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(CPMain.MODID, "garum_fish"))), 4)),
 				Ingredient.of(Items.FLOWER_POT)));
-		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/vinegar_spice_jar_from_fruits"), null,
+		out.accept(new ResourceLocation(CPMain.MODID, "dolium/vinegar_spice_jar_from_fruits"), new DoliumRecipe(null,
 				Fluids.EMPTY, 0, 0f, false, new ItemStack(cpitem("vinegar_spice_jar")),
 				Arrays.asList(
 						Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(CPMain.MODID, "vinegar_fruits"))), 4)),
 				Ingredient.of(Items.FLOWER_POT)));
-		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/vinegar_spice_jar_from_berries"), null,
+		out.accept(new ResourceLocation(CPMain.MODID, "dolium/vinegar_spice_jar_from_berries"), new DoliumRecipe(null,
 				Fluids.EMPTY, 0, 0f, false, new ItemStack(cpitem("vinegar_spice_jar")),
 				Arrays.asList(Pair.of(
 						Ingredient.of(ItemTags.create(new ResourceLocation(CPMain.MODID, "vinegar_fruits_small"))), 16)),
 				Ingredient.of(Items.FLOWER_POT)));
-		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/gravy_boat"), null, Fluids.EMPTY, 0, 0f,
+		out.accept(new ResourceLocation(CPMain.MODID, "dolium/gravy_boat"), new DoliumRecipe(null, Fluids.EMPTY, 0, 0f,
 				false, new ItemStack(CPItems.gravy_boat.get()),
 				Arrays.asList(Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(CPMain.MODID, "walnut"))), 8),
 						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
 				Ingredient.of(CPItems.gravy_boat.get())));
-		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/gravy_boat_glass_bottle"), null,
+		out.accept(new ResourceLocation(CPMain.MODID, "dolium/gravy_boat_glass_bottle"), new DoliumRecipe(null,
 				Fluids.EMPTY, 0, 0f, false, new ItemStack(CPItems.gravy_boat.get()),
 				Arrays.asList(Pair.of(Ingredient.of(ItemTags.create(new ResourceLocation(CPMain.MODID, "walnut"))), 8),
 						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
 				Ingredient.of(Items.GLASS_BOTTLE)));
-		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/vivid_charcoal"), null, Fluids.LAVA, 250,
+		out.accept(new ResourceLocation(CPMain.MODID, "dolium/vivid_charcoal"), new DoliumRecipe(null, Fluids.LAVA, 250,
 				0f, false, new ItemStack(cpitem("vivid_charcoal"), 8),
 				Arrays.asList(Pair.of(Ingredient.of(ItemTags.COALS), 3), Pair.of(Ingredient.of(Items.SLIME_BALL), 1)),
 				null));
-		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/asafoetida"), null, Fluids.EMPTY, 0, 0f,
+		out.accept(new ResourceLocation(CPMain.MODID, "dolium/asafoetida"), new DoliumRecipe(null, Fluids.EMPTY, 0, 0f,
 				false, new ItemStack(cpitem("asafoetida")),
 				Arrays.asList(Pair.of(Ingredient.of(cpitem("silphium")), 1),
 						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
 				null));
-		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/litharge_cake"), null, Fluids.EMPTY, 0, 0f,
+		out.accept(new ResourceLocation(CPMain.MODID, "dolium/litharge_cake"), new DoliumRecipe(null, Fluids.EMPTY, 0, 0f,
 				false, new ItemStack(cpitem("litharge_cake")),
 				Arrays.asList(Pair.of(Ingredient.of(cpitem("leaden_walnut")), 1),
 						Pair.of(Ingredient.of(ItemTags.ANVIL), 0)),
@@ -251,8 +225,8 @@ public class CPRecipeProvider extends RecipeProvider {
 		//SimpleCookingRecipeBuilder.smelting(Ingredient.of(cpitem("litharge_cake")),RecipeCategory.MISC,cpitem("lead_nugget"), 0.7f, 200).unlockedBy("has_litharge_cake", has(cpitem("litharge_cake"))).save(outx,new ResourceLocation(CPMain.MODID, "smelting/lead_nugget"));
 	}
 
-	private void frying(Consumer<IDataRecipe> out) {
-		out = out.andThen(recipes::add);
+	private void frying(BiConsumer<ResourceLocation, IDataRecipe> out) {
+		out = out.andThen((r1,r2)->recipes.add(Pair.of(r1, r2)));
 		fry("huevos_pericos").high().require().mainly().of(EGGS).and().then().finish(out);
 		fry("sauteed_beef").high().require().mainly().of(ftag("raw_beef")).and().then().finish(out);
 		fry("sauteed_greens").high().require().mainly().of(GREENS).and().then().finish(out);
@@ -266,8 +240,8 @@ public class CPRecipeProvider extends RecipeProvider {
 		fry("sauteed_hodgepodge").low().finish(out);
 	}
 
-	private void stewCooking(Consumer<IDataRecipe> out) {
-		out = out.andThen(recipes::add);
+	private void stewCooking(BiConsumer<ResourceLocation, IDataRecipe> out) {
+		out = out.andThen((r1,r2)->recipes.add(Pair.of(r1, r2)));
 		cook("acquacotta").high().base().tag(ANY_WATER).and().require().mainly().of(BAKED).and().then().finish(out);
 		cook("congee").med().base().tag(ANY_WATER).and().require().half().of(RICE).and().then().dense(0.25).finish(out);
 		cook("rice_pudding").med().base().type(milk).and().require().half().of(RICE).and().then().dense(0.25)
@@ -327,43 +301,42 @@ public class CPRecipeProvider extends RecipeProvider {
 		//cook("scalded_milk").require().any().of(Ingredient.of(Items.ACACIA_BOAT),"Test").and().any().of(Ingredient.of(Items.ACACIA_BOAT),"item.caupona.any_based").and().then().dense(3).finish(out);
 	}
 
-	private void spice(Item spice, MobEffect eff, Consumer<IDataRecipe> out) {
-		out.accept(new SpiceRecipe(new ResourceLocation(CPMain.MODID, "spice/" + Utils.getRegistryName(spice).getPath()),
+	private void spice(Item spice, MobEffect eff, BiConsumer<ResourceLocation, IDataRecipe> out) {
+		out.accept(new ResourceLocation(CPMain.MODID, "spice/" + Utils.getRegistryName(spice).getPath()),new SpiceRecipe(
 				Ingredient.of(spice), new MobEffectInstance(eff, 200)));
 
 	}
-	private void spiceLead(Item spice, MobEffect eff, Consumer<IDataRecipe> out) {
-		out.accept(new SpiceRecipe(new ResourceLocation(CPMain.MODID, "spice/" + Utils.getRegistryName(spice).getPath()),
+	private void spiceLead(Item spice, MobEffect eff, BiConsumer<ResourceLocation, IDataRecipe> out) {
+		out.accept(new ResourceLocation(CPMain.MODID, "spice/" + Utils.getRegistryName(spice).getPath()),new SpiceRecipe(
 				Ingredient.of(spice), new MobEffectInstance(eff, 200),true));
 
 	}
-	private void aspic(String soup, Consumer<IDataRecipe> out) {
-		out.accept(
-				new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/" + soup + "_aspic"), Utils.getRegistryName(stock),
+	private void aspic(String soup, BiConsumer<ResourceLocation, IDataRecipe> out) {
+		out.accept(new ResourceLocation(CPMain.MODID, "dolium/" + soup + "_aspic"), 
+				new DoliumRecipe(Utils.getRegistryName(stock),
 						cpfluid(soup), 250, 0.25F, true, new ItemStack(cpitem(soup + "_aspic")), null));
-		out.accept(new AspicMeltingRecipe(new ResourceLocation(CPMain.MODID, "melt/" + soup + "_aspic"),
-				Ingredient.of(cpitem(soup + "_aspic")), cpfluid(soup)));
+		out.accept(new ResourceLocation(CPMain.MODID, "melt/" + soup + "_aspic"),
+			new AspicMeltingRecipe(Ingredient.of(cpitem(soup + "_aspic")), cpfluid(soup)));
 	}
-	private void aspicNoBase(String soup, Consumer<IDataRecipe> out) {
-		out.accept(new DoliumRecipe(new ResourceLocation(CPMain.MODID, "dolium/" + soup + "_aspic"), null,cpfluid(soup), 250, 0.25F, true, new ItemStack(cpitem(soup + "_aspic")), null));
-		out.accept(new AspicMeltingRecipe(new ResourceLocation(CPMain.MODID, "melt/" + soup + "_aspic"),
-				Ingredient.of(cpitem(soup + "_aspic")), cpfluid(soup)));
+	private void aspicNoBase(String soup, BiConsumer<ResourceLocation, IDataRecipe> out) {
+		out.accept(new ResourceLocation(CPMain.MODID, "dolium/" + soup + "_aspic"), new DoliumRecipe(null,cpfluid(soup), 250, 0.25F, true, new ItemStack(cpitem(soup + "_aspic")), null));
+		out.accept(new ResourceLocation(CPMain.MODID, "melt/" + soup + "_aspic"),new AspicMeltingRecipe(Ingredient.of(cpitem(soup + "_aspic")), cpfluid(soup)));
 	}
 
 	private Fluid cpfluid(String name) {
-		return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(CPMain.MODID, name));
+		return BuiltInRegistries.FLUID.get(new ResourceLocation(CPMain.MODID, name));
 	}
 
 	private Item cpitem(String name) {
-		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(CPMain.MODID, name));
+		return BuiltInRegistries.ITEM.get(new ResourceLocation(CPMain.MODID, name));
 	}
 
 	private Item mitem(String name) {
-		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(name));
+		return BuiltInRegistries.ITEM.get(new ResourceLocation(name));
 	}
 
-	private void simpleFood(Consumer<IDataRecipe> out, int h, float s, Item i) {
-		out.accept(new FoodValueRecipe(rl("food/" + Utils.getRegistryName(i).getPath()), h, s, new ItemStack(i), i));
+	private void simpleFood(BiConsumer<ResourceLocation, IDataRecipe> out, int h, float s, Item i) {
+		out.accept(rl("food/" + Utils.getRegistryName(i).getPath()), new FoodValueRecipe(h, s, new ItemStack(i), i));
 	}
 
 	private StewRecipeBuilder cook(String s) {
@@ -376,11 +349,11 @@ public class CPRecipeProvider extends RecipeProvider {
 	}
 
 	private Item item(ResourceLocation rl) {
-		return ForgeRegistries.ITEMS.getValue(rl);
+		return BuiltInRegistries.ITEM.get(rl);
 	}
 
 	private static Fluid fluid(ResourceLocation rl) {
-		return ForgeRegistries.FLUIDS.getValue(rl);
+		return BuiltInRegistries.FLUID.get(rl);
 	}
 
 	private static ResourceLocation mrl(String s) {

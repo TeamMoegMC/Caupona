@@ -47,8 +47,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class BowlContainingRecipe extends IDataRecipe {
 	public static Map<Fluid, RecipeHolder<BowlContainingRecipe>> recipes;
-	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
  
 	@Override
 	public RecipeSerializer<?> getSerializer() {

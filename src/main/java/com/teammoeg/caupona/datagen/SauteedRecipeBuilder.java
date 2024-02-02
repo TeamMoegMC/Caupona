@@ -23,9 +23,11 @@ package com.teammoeg.caupona.datagen;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.util.Utils;
@@ -98,12 +100,12 @@ public class SauteedRecipeBuilder {
 		return this;
 	}
 	public SauteedRecipe end() {
-		return new SauteedRecipe(id, allow, deny, priority, time, output,removeNBT,per);
+		return new SauteedRecipe(allow, deny, priority, time, output,removeNBT,per);
 	}
 
-	public SauteedRecipe finish(Consumer<? super SauteedRecipe> csr) {
+	public SauteedRecipe finish(BiConsumer<ResourceLocation, IDataRecipe> out) {
 		SauteedRecipe r = end();
-		csr.accept(r);
+		out.accept(id,r);
 		return r;
 	}
 }

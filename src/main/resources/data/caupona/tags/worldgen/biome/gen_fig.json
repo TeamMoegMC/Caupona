@@ -2,7 +2,7 @@
   "replace": false,
 
   "values": [
-    "#forge:is_plains",
+    "#neoforge:is_plains",
     "minecraft:savanna",
     "minecraft:savanna_plateau"
   ]

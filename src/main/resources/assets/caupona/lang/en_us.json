@@ -331,7 +331,7 @@
 	"tag.caupona.ice": "Ice",
 	"tag.caupona.wolfberries": "Wolfberries",
 	"tag.caupona.bone": "Bone",
-	"tag.forge.raw_beef": "Beef",
+	"tag.neoforge.raw_beef": "Beef",
 	"tooltip.caupona.display_only":"For creative display only",
 	"tooltip.caupona.cook_required":"Cook to reveal actual effects",
 	"recipe.caupona.cond.mainly": "The largest portion must be %s",

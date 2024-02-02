@@ -2,31 +2,45 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": "forge:raw_beef",
-      "cond": "mainly"
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "forge:raw_beef"
+      }
     },
     {
-      "type": "caupona:vegetables",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:vegetables"
+      }
     }
   ],
   "base": [
     {
+      "type": "fluid",
       "fluid": "caupona:stock"
     }
   ],
   "density": 0.75,
   "deny": [
     {
-      "type": "caupona:seafood",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:seafood"
+      }
     },
     {
-      "type": "caupona:cereals",
-      "cond": "contains"
+      "type": "contains",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:cereals"
+      }
     }
   ],
   "output": "caupona:goulash",
   "priority": 1152,
+  "removeNBT": false,
   "time": 200
 }

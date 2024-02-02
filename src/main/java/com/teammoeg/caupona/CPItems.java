@@ -89,7 +89,7 @@ public class CPItems {
 	public static DeferredHolder<Item,PortableBrazierItem> pbrazier = ITEMS.register("portable_brazier",()->new PortableBrazierItem( createProps()));
 	public static DeferredHolder<Item,Item> situla = ITEMS.register("situla",()->new SitulaItem( createProps().stacksTo(1)));
 	public static DeferredHolder<Item,Item> redstone_ladle= item("redstone_ladle",createProps(),TabType.MAIN);
-	public static DeferredHolder<?,Item> scraps= CPCommonBootStrap.asCompositable(item("scraps",createProps(),TabType.MAIN),0.7f);
+	public static DeferredHolder<Item,Item> scraps= CPCommonBootStrap.asCompositable(item("scraps",createProps(),TabType.MAIN),0.7f);
 	
 	public static DeferredHolder<Item,SkimmerItem> b_skimmer = ITEMS.register("bamboo_skimmer",()->new SkimmerItem( createProps().durability(20)));
 	public static DeferredHolder<Item,SkimmerItem> i_skimmer = ITEMS.register("iron_skimmer",()->new SkimmerItem( createProps().durability(200)));

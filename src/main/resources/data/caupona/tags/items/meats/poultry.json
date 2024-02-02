@@ -15,11 +15,11 @@
 			"required": false
 		},
 		{
-			"id": "#forge:raw_chicken",
+			"id": "#neoforge:raw_chicken",
 			"required": false
 		},
 		{
-			"id": "#forge:raw_rabbit",
+			"id": "#neoforge:raw_rabbit",
 			"required": false
 		}
 	]

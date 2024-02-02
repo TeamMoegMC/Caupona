@@ -53,7 +53,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 public class StewCookingCategory extends IConditionalCategory<StewCookingRecipe> {
-	public static RecipeType<RecipeHolder<StewCookingRecipe>> TYPE=RecipeType.create(CPMain.MODID, "stew_cooking",RecipeHolder.class);
+	public static RecipeType<RecipeHolder> TYPE=RecipeType.create(CPMain.MODID, "stew_cooking",RecipeHolder.class);
 	private IDrawable ICON;
 	private IGuiHelper helper;
 
@@ -133,7 +133,7 @@ public class StewCookingCategory extends IConditionalCategory<StewCookingRecipe>
 
 	@Override
 	public RecipeType<RecipeHolder<StewCookingRecipe>> getRecipeType() {
-		return TYPE;
+		return (RecipeType)TYPE;
 	}
 
 	@Override

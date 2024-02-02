@@ -2,24 +2,31 @@
   "type": "caupona:cooking",
   "allow": [
     {
-      "type": "caupona:vegetables",
-      "cond": "mainly"
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:vegetables"
+      }
     },
     {
-      "type": {
+      "type": "mainlyOf",
+      "number": {
+        "type": "item",
         "item": "minecraft:beetroot"
       },
-      "cond": "mainlyOf",
       "tag": "caupona:vegetables"
     }
   ],
   "base": [
     {
+      "type": "tag",
       "tag": "caupona:water"
     }
   ],
   "density": 0.75,
+  "deny": [],
   "output": "caupona:borscht",
   "priority": 128,
+  "removeNBT": false,
   "time": 200
 }

@@ -27,7 +27,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPRegisteredEntityBlock<T extends BlockEntity> extends Block implements CPEntityBlock<T> {
-	private final DeferredHolder<BlockEntityType<T>,BlockEntityType<T>> blockEntity;
+	private final DeferredHolder<BlockEntityType<?>,BlockEntityType<T>> blockEntity;
 
 	public CPRegisteredEntityBlock(Properties blockProps, DeferredHolder<BlockEntityType<?>,BlockEntityType<T>> ste ){
 		super(blockProps);
@@ -37,7 +37,7 @@ public class CPRegisteredEntityBlock<T extends BlockEntity> extends Block implem
 	}
 
 	@Override
-	public DeferredHolder<BlockEntityType<T>,BlockEntityType<T>> getBlock() {
+	public DeferredHolder<BlockEntityType<?>,BlockEntityType<T>> getBlock() {
 		return blockEntity;
 	}
 

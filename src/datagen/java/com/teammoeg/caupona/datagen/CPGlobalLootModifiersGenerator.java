@@ -7,9 +7,10 @@ import com.teammoeg.caupona.data.loot.AddPoolLootModifier;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.GlobalLootModifierProvider;
-import net.minecraftforge.common.loot.LootTableIdCondition;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
+import net.neoforged.neoforge.common.loot.LootTableIdCondition;
+
 
 public class CPGlobalLootModifiersGenerator extends GlobalLootModifierProvider {
 

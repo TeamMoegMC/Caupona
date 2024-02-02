@@ -22,10 +22,13 @@
 package com.teammoeg.caupona.data.recipes;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.CPTags;
 import com.teammoeg.caupona.CPTags.Items;
 import com.teammoeg.caupona.data.IDataRecipe;
@@ -51,11 +54,23 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe {
+	public StewCookingRecipe(List<IngredientCondition> allow, List<IngredientCondition> deny, int priority, int time, float density, List<StewBaseCondition> base, Fluid output, boolean removeNBT) {
+		super();
+		this.allow = allow;
+		this.deny = deny;
+		this.priority = priority;
+		this.time = time;
+		this.density = density;
+		this.base = base;
+		this.output = output;
+		this.removeNBT = removeNBT;
+	}
+
 	public static Set<CookIngredients> cookables;
 	public static Set<Fluid> allOutput;
 	public static List<RecipeHolder<StewCookingRecipe>> sorted;
-	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
 
 	public static boolean isCookable(ItemStack stack) {
 		FloatemTagStack s = new FloatemTagStack(stack);
@@ -87,36 +102,18 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 	List<StewBaseCondition> base;
 	public Fluid output;
 	public boolean removeNBT=false;
-	public StewCookingRecipe(ResourceLocation id) {
-		super(id);
-	}
-
-	public StewCookingRecipe(ResourceLocation id, JsonObject data) {
-		super(id);
-		if (data.has("allow")) {
-			allow = SerializeUtil.parseJsonList(data.get("allow"), Conditions::of);
-			Conditions.checkConditions(allow);
-		}
-		if (data.has("deny")) {
-			deny = SerializeUtil.parseJsonList(data.get("deny"), Conditions::of);
-			Conditions.checkConditions(deny);
-		}
-		if (data.has("priority"))
-			priority = data.get("priority").getAsInt();
-		if (data.has("density"))
-			density = data.get("density").getAsFloat();
-		time = data.get("time").getAsInt();
-		if (data.has("base"))
-			base = SerializeUtil.parseJsonList(data.get("base"), BaseConditions::of);
-		output = BuiltInRegistries.FLUID.get(new ResourceLocation(data.get("output").getAsString()));
-		if (output == Fluids.EMPTY)
-			throw new InvalidRecipeException();
-		if(data.has("removeNBT"))
-			removeNBT=data.get("removeNBT").getAsBoolean();
-	}
-
-	public StewCookingRecipe(ResourceLocation id, FriendlyByteBuf data) {
-		super(id);
+	public static final Codec<StewCookingRecipe> CODEC=
+		RecordCodecBuilder.create(t->t.group(
+			Codec.optionalField("allow",Codec.list(Conditions.CODEC)).forGetter(o->Optional.ofNullable(o.allow)),
+			Codec.optionalField("deny",Codec.list(Conditions.CODEC)).forGetter(o->Optional.ofNullable(o.deny)),
+			Codec.INT.fieldOf("priority").forGetter(o->o.priority),
+			Codec.INT.fieldOf("time").forGetter(o->o.time),
+			Codec.FLOAT.fieldOf("density").forGetter(o->o.density),
+			Codec.optionalField("base",Codec.list(BaseConditions.CODEC)).forGetter(o->Optional.ofNullable(o.base)),
+			BuiltInRegistries.FLUID.byNameCodec().fieldOf("output").forGetter(o->o.output),
+			Codec.BOOL.fieldOf("removeNBT").forGetter(o->o.removeNBT)
+				).apply(t, StewCookingRecipe::new));
+	public StewCookingRecipe(FriendlyByteBuf data) {
 		allow = SerializeUtil.readList(data, Conditions::of);
 		deny = SerializeUtil.readList(data, Conditions::of);
 		priority = data.readVarInt();
@@ -127,15 +124,14 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 		removeNBT=data.readBoolean();
 	}
 
-	public StewCookingRecipe(ResourceLocation id, List<IngredientCondition> allow, List<IngredientCondition> deny,
-			int priority, int time, float density, List<StewBaseCondition> base, Fluid output,boolean removeNBT) {
-		super(id);
-		this.allow = allow;
-		this.deny = deny;
+	public StewCookingRecipe(Optional<List<IngredientCondition>> allow, Optional<List<IngredientCondition>> deny,
+			int priority, int time, float density, Optional<List<StewBaseCondition>> base, Fluid output,boolean removeNBT) {
+		this.allow = allow.orElse(null);
+		this.deny = deny.orElse(null);
 		this.priority = priority;
 		this.time = time;
 		this.density = density;
-		this.base = base;
+		this.base = base.orElse(null);
 		this.output = output;
 		this.removeNBT=removeNBT;
 	}
@@ -173,26 +169,6 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 			if (deny.stream().anyMatch(ctx::compute))
 				return 0;
 		return matchtype;
-	}
-
-	@Override
-	public void serializeRecipeData(JsonObject json) {
-		if (allow != null && !allow.isEmpty()) {
-			json.add("allow", SerializeUtil.toJsonList(allow, IngredientCondition::serialize));
-		}
-		if (deny != null && !deny.isEmpty()) {
-			json.add("deny", SerializeUtil.toJsonList(deny, IngredientCondition::serialize));
-		}
-		if (priority != 0)
-			json.addProperty("priority", priority);
-		json.addProperty("density", density);
-		json.addProperty("time", time);
-		if (base != null && !base.isEmpty()) {
-			json.add("base", SerializeUtil.toJsonList(base, StewBaseCondition::serialize));
-		}
-		json.addProperty("output",Utils.getRegistryName(output).toString());
-		if(removeNBT)
-			json.addProperty("removeNBT",removeNBT);
 	}
 
 	public Stream<CookIngredients> getAllNumbers() {

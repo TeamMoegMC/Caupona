@@ -22,15 +22,19 @@
 package com.teammoeg.caupona.data.recipes;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.CPTags.Items;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.recipes.conditions.Conditions;
+import com.teammoeg.caupona.data.recipes.numbers.Numbers;
 import com.teammoeg.caupona.util.FloatemTagStack;
 import com.teammoeg.caupona.util.Utils;
 
@@ -39,6 +43,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -46,10 +51,21 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
+	public SauteedRecipe(List<IngredientCondition> allow, List<IngredientCondition> deny, int priority, int time, Item output, boolean removeNBT, float count) {
+		super();
+		this.allow = allow;
+		this.deny = deny;
+		this.priority = priority;
+		this.time = time;
+		this.output = output;
+		this.removeNBT = removeNBT;
+		this.count = count;
+	}
+
 	public static Set<CookIngredients> cookables;
 	public static List<RecipeHolder<SauteedRecipe>> sorted;
-	public static DeferredHolder<?,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<?,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
 	public static boolean isCookable(ItemStack stack) {
 		FloatemTagStack s = new FloatemTagStack(stack);
 		return stack.is(Items.COOKABLE) || cookables.stream().anyMatch(e -> e.fits(s));
@@ -73,34 +89,19 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 	public Item output;
 	public boolean removeNBT=false;
 	public float count=2f;
-	public SauteedRecipe(ResourceLocation id) {
-		super(id);
-	}
+	public static final Codec<SauteedRecipe> CODEC=
+		RecordCodecBuilder.create(t->t.group(
+			Codec.optionalField("allow",Codec.list(Conditions.CODEC)).forGetter(o->Optional.ofNullable(o.allow)),
+			Codec.optionalField("deny",Codec.list(Conditions.CODEC)).forGetter(o->Optional.ofNullable(o.deny)),
+			Codec.INT.fieldOf("priority").forGetter(o->o.priority),
+			Codec.INT.fieldOf("time").forGetter(o->o.time),
+			BuiltInRegistries.ITEM.byNameCodec().fieldOf("output").forGetter(o->o.output),
+			Codec.BOOL.fieldOf("removeNBT").forGetter(o->o.removeNBT),
+			Codec.FLOAT.fieldOf("ingredientPerDish").forGetter(o->o.count)
+				).apply(t, SauteedRecipe::new));
 
-	public SauteedRecipe(ResourceLocation id, JsonObject data) {
-		super(id);
-		if (data.has("allow")) {
-			allow = SerializeUtil.parseJsonList(data.get("allow"), Conditions::of);
-			Conditions.checkConditions(allow);
-		}
-		if (data.has("deny")) {
-			deny = SerializeUtil.parseJsonList(data.get("deny"), Conditions::of);
-			Conditions.checkConditions(deny);
-		}
-		if (data.has("priority"))
-			priority = data.get("priority").getAsInt();
-		time = data.get("time").getAsInt();
-		output = BuiltInRegistries.ITEM.get(new ResourceLocation(data.get("output").getAsString()));
-		if (output == null)
-			throw new InvalidRecipeException();
-		if(data.has("removeNBT"))
-			removeNBT=data.get("removeNBT").getAsBoolean();
-		if(data.has("ingredientPerDish"))
-			count=data.get("ingredientPerDish").getAsFloat();
-	}
 
-	public SauteedRecipe(ResourceLocation id, FriendlyByteBuf data) {
-		super(id);
+	public SauteedRecipe(FriendlyByteBuf data) {
 		allow = SerializeUtil.readList(data, Conditions::of);
 		deny = SerializeUtil.readList(data, Conditions::of);
 		priority = data.readVarInt();
@@ -109,11 +110,10 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 		removeNBT=data.readBoolean();
 		count=data.readFloat();
 	}
-	public SauteedRecipe(ResourceLocation id, List<IngredientCondition> allow, List<IngredientCondition> deny,
+	public SauteedRecipe(Optional<List<IngredientCondition>> allow, Optional<List<IngredientCondition>> deny,
 			int priority, int time, Item output,boolean removeNBT,float count) {
-		super(id);
-		this.allow = allow;
-		this.deny = deny;
+		this.allow = allow.orElse(null);
+		this.deny = deny.orElse(null);
 		this.priority = priority;
 		this.time = time;
 		this.output = output;
@@ -139,23 +139,6 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 			if (deny.stream().anyMatch(ctx::compute))
 				return false;
 		return true;
-	}
-
-	@Override
-	public void serializeRecipeData(JsonObject json) {
-		if (allow != null && !allow.isEmpty()) {
-			json.add("allow", SerializeUtil.toJsonList(allow, IngredientCondition::serialize));
-		}
-		if (deny != null && !deny.isEmpty()) {
-			json.add("deny", SerializeUtil.toJsonList(deny, IngredientCondition::serialize));
-		}
-		if (priority != 0)
-			json.addProperty("priority", priority);
-		json.addProperty("time", time);
-		json.addProperty("output", Utils.getRegistryName(output).toString());
-		if(removeNBT)
-			json.addProperty("removeNBT",removeNBT);
-		json.addProperty("ingredientPerDish", count);
 	}
 
 	public Stream<CookIngredients> getAllNumbers() {
