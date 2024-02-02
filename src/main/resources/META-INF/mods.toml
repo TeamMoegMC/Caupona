@@ -1,5 +1,5 @@
 modLoader = "javafml" #mandatory
-loaderVersion = "[2,)" #mandatory This is typically bumped every Minecraft version by neoforge. See our download page for lists of versions.
+loaderVersion = "[2,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 license = "GPLv3"
 issueTrackerURL = "https://github.com/TeamMoegMC/Caupona/issues"
 [[mods]] #mandatory
@@ -7,10 +7,37 @@ modId = "caupona" #mandatory
 version = "${file.jarVersion}" #mandatory
 displayName = "Caupona" #mandatory
 authors = "[TeamMoeg] khjxiaogu, Lyuuke"
+logoFile="caupona.png"
 description = '''
-Cook anything into stew
+A mod brings immersive cook and decoration to minecraft
 '''
 [[accessTransformers]]
 file="META-INF/accesstransformer.cfg"
 [[mixins]]
 config="caupona.mixins.json"
+# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
+[[dependencies.caupona]] #optional
+    # the modid of the dependency
+    modId="neoforge" #mandatory
+    # The type of the dependency. Can be one of "required", "optional", "incompatible" or "discouraged" (case insensitive).
+    # 'required' requires the mod to exist, 'optional' does not
+    # 'incompatible' will prevent the game from loading when the mod exists, and 'discouraged' will show a warning
+    type="required" #mandatory
+    # Optional field describing why the dependency is required or why it is incompatible
+    # reason="..."
+    # The version range of the dependency
+    versionRange="[20.4,)" #mandatory
+    # An ordering relationship for the dependency.
+    # BEFORE - This mod is loaded BEFORE the dependency
+    # AFTER - This mod is loaded AFTER the dependency
+    ordering="NONE"
+    # Side this dependency is applied on - BOTH, CLIENT, or SERVER
+    side="BOTH"
+# Here's another dependency
+[[dependencies.caupona]]
+    modId="minecraft"
+    type="required"
+    # This version range declares a minimum of the current minecraft version up to but not including the next major version
+    versionRange="[1.20.4,1.21)"
+    ordering="NONE"
+    side="BOTH"
