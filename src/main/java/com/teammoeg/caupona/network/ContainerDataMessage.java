@@ -48,11 +48,12 @@ public class ContainerDataMessage implements CustomPacketPayload{
 	}
 
 	void handle(PlayPayloadContext context) {
+		context.workHandler().execute(()->
 		{
 			ClientProxy.data = nbt;
 			if(FMLEnvironment.dist==Dist.CLIENT)
 				ClientProxy.run();
-		}
+		});
 	}
 
 	@Override

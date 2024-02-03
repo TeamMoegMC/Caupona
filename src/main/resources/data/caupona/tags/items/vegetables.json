@@ -8,51 +8,51 @@
 		"#caupona:vegetables/roots",
 		"#caupona:vegetables/pumpkin",
 		{
-			"id": "#neoforge:vegetables",
+			"id": "#forge:vegetables",
 			"required": false
 		},
 		{
-			"id": "#neoforge:vegetable",
+			"id": "#forge:vegetable",
 			"required": false
 		},
 		{
-			"id": "#neoforge:salad_ingredients",
+			"id": "#forge:salad_ingredients",
 			"required": false
 		},
 		{
-			"id": "#neoforge:crops/onion",
+			"id": "#forge:crops/onion",
 			"required": false
 		},
 		{
-			"id": "#neoforge:crops/bellpepper",
+			"id": "#forge:crops/bellpepper",
 			"required": false
 		},
 		{
-			"id": "#neoforge:crops/pepper",
+			"id": "#forge:crops/pepper",
 			"required": false
 		},
 		{
-			"id": "#neoforge:crops/tomato",
+			"id": "#forge:crops/tomato",
 			"required": false
 		},
 		{
-			"id": "#neoforge:crops/eggplant",
+			"id": "#forge:crops/eggplant",
 			"required": false
 		},
 		{
-			"id": "#neoforge:crops/cucumber",
+			"id": "#forge:crops/cucumber",
 			"required": false
 		},
 		{
-			"id": "#neoforge:crops/radish",
+			"id": "#forge:crops/radish",
 			"required": false
 		},
 		{
-			"id": "#neoforge:crops/pea",
+			"id": "#forge:crops/pea",
 			"required": false
 		},
 		{
-			"id": "#neoforge:crops/bean",
+			"id": "#forge:crops/bean",
 			"required": false
 		}
 	]

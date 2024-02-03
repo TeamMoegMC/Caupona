@@ -21,6 +21,7 @@
 
 package com.teammoeg.caupona.data;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -67,6 +68,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmokingRecipe;
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.RecipesUpdatedEvent;
@@ -171,7 +173,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 
 		BoilingRecipe.recipes = filterRecipes(recipes, BoilingRecipe.class, BoilingRecipe.TYPE)
 				.collect(Collectors.toMap(e -> e.value().before, UnaryOperator.identity()));
-
+		BoilingRecipe.allBoilables=BoilingRecipe.recipes.values().stream().flatMap(t->Arrays.stream(new Fluid[] {t.value().before,t.value().after})).collect(Collectors.toSet());
 		FluidFoodValueRecipe.recipes = filterRecipes(recipes, FluidFoodValueRecipe.class, FluidFoodValueRecipe.TYPE)
 				.collect(Collectors.toMap(e -> e.value().f, UnaryOperator.identity()));
 

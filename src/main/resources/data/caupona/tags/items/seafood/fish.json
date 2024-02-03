@@ -2,11 +2,11 @@
 	"values": [
 		"#minecraft:fishes",
 		{
-			"id": "#neoforge:raw_fishes",
+			"id": "#forge:raw_fishes",
 			"required": false
 		},
 		{
-			"id": "#neoforge:cooked_fishes",
+			"id": "#forge:cooked_fishes",
 			"required": false
 		}
 	]

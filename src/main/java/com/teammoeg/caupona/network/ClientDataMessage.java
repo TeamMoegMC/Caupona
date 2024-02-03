@@ -58,13 +58,13 @@ public class ClientDataMessage  implements CustomPacketPayload{
 
 	@SuppressWarnings({ "resource" })
 	void handle(PlayPayloadContext context) {
-		
-		ServerLevel world = (ServerLevel) context.level().get();
-		if (world.isLoaded(pos)) {
-			if (world.getBlockEntity(pos) instanceof CPBaseBlockEntity entity)
-				entity.handleMessage(type, message);
-		}
-		
+		context.workHandler().execute(()->{
+			ServerLevel world = (ServerLevel) context.level().get();
+			if (world.isLoaded(pos)) {
+				if (world.getBlockEntity(pos) instanceof CPBaseBlockEntity entity)
+					entity.handleMessage(type, message);
+			}
+		});
 		//context.get().setPacketHandled(true);
 	}
 

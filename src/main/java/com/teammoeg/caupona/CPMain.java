@@ -60,7 +60,7 @@ public class CPMain {
 
 	public CPMain(IEventBus mod) {
 		NeoForgeMod.enableMilkFluid();
-
+		mod.addListener(PacketHandler::registerPackets);
 		mod.addListener(this::enqueueIMC);
 		CPBlockEntityTypes.REGISTER.register(mod);
 		CPGui.CONTAINERS.register(mod);

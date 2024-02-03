@@ -4,7 +4,7 @@
 		"minecraft:honeycomb",
 		"minecraft:honey_bottle",
 		{
-			"id": "#neoforge:caramel",
+			"id": "#forge:caramel",
 			"required": false
 		}
 	]

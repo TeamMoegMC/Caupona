@@ -2,7 +2,7 @@
 	"values": [
 		"caupona:walnut",
 		{
-			"id": "#neoforge:nuts/walnut",
+			"id": "#forge:nuts/walnut",
 			"required": false
 		}
 	]

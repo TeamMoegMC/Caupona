@@ -1,7 +1,7 @@
 {
 	"values": [
 		{
-			"id": "#neoforge:grain/rice",
+			"id": "#forge:grain/rice",
 			"required": false
 		}
 	]

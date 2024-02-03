@@ -5,11 +5,11 @@
 		"minecraft:wheat",
 		"minecraft:wheat_seeds",
 		{
-			"id": "#neoforge:grain",
+			"id": "#forge:grain",
 			"required": false
 		},
 		{
-			"id": "#neoforge:bread",
+			"id": "#forge:bread",
 			"required": false
 		}
 	]

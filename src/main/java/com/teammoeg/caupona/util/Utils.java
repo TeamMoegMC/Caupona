@@ -272,7 +272,7 @@ public class Utils {
 	}
 	
 	public static void addPotionTooltip(List<MobEffectInstance> list, List<Component> lores, float durationFactor,Level pLevel) {
-		PotionUtils.addPotionTooltip(list, lores, durationFactor, pLevel.tickRateManager().tickrate());
+		PotionUtils.addPotionTooltip(list, lores, durationFactor, pLevel == null ? 20.0F : pLevel.tickRateManager().tickrate());
 	}
 
 }

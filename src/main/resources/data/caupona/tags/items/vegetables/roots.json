@@ -3,31 +3,31 @@
 		"minecraft:potato",
 		"minecraft:baked_potato",
 		{
-			"id": "#neoforge:rootvegetables",
+			"id": "#forge:rootvegetables",
 			"required": false
 		},
 		{
-			"id": "#neoforge:crops/parsnip",
+			"id": "#forge:crops/parsnip",
 			"required": false
 		},
 		{
-			"id": "#neoforge:crops/turnip",
+			"id": "#forge:crops/turnip",
 			"required": false
 		},
 		{
-			"id": "#neoforge:crops/radish",
+			"id": "#forge:crops/radish",
 			"required": false
 		},
 		{
-			"id": "#neoforge:crops/cassava",
+			"id": "#forge:crops/cassava",
 			"required": false
 		},
 		{
-			"id": "#neoforge:crops/yam",
+			"id": "#forge:crops/yam",
 			"required": false
 		},
 		{
-			"id": "#neoforge:crops/sweet_potato",
+			"id": "#forge:crops/sweet_potato",
 			"required": false
 		}
 	]

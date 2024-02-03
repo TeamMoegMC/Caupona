@@ -104,12 +104,13 @@ public class CPCommonBootStrap {
 	@SubscribeEvent
 	public static void onCapabilityInject(RegisterCapabilitiesEvent event) {
 		event.registerItem(Capabilities.FluidHandler.ITEM,(stack,o)->new FluidHandlerItemStack(stack,1250), CPItems.situla.get());
-		for(BlockEntityType<?> be:BuiltInRegistries.BLOCK_ENTITY_TYPE) {
-			event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, be,
+		CPBlockEntityTypes.REGISTER.getEntries().stream().map(t->t.get()).forEach(be->{
+			event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, (BlockEntityType<?>)be,
 				(block,ctx)->(IItemHandler)((CPBaseBlockEntity)block).getCapability(Capabilities.ItemHandler.BLOCK, ctx));
-			event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, be,
+			event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, (BlockEntityType<?>)be,
 				(block,ctx)->(IFluidHandler)((CPBaseBlockEntity)block).getCapability(Capabilities.FluidHandler.BLOCK, ctx));
-		}
+			});
+		
 	}
 	
 	public static <R extends ItemLike,T extends R> DeferredHolder<R,T> asCompositable(DeferredHolder<R,T> obj, float val) {
