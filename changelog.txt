@@ -1,2 +1,2 @@
-Repaired stew item hunger values
-Repaired mushroom dish priority
+Stew can now put into containers of other mods
+Remake diet api

@@ -162,7 +162,7 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    //implementation fg.deobf("curse.maven:diet-443570:3758891")
+    implementation fg.deobf("curse.maven:diet-443570:4813904")
 
 	//compileOnly fg.deobf("mezz.jei:jei-1.19.2-common-api:11.2.0.247")
 	implementation fg.deobf("curse.maven:jei-238222:4597711")
