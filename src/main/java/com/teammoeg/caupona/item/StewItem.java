@@ -137,12 +137,6 @@ public class StewItem extends EdibleBlock{
 		return getInfo(stack).getFood();
 		
 	}
-
-	@Override
-	public ItemStack getCraftingRemainingItem(ItemStack itemStack) {
-		return new ItemStack(Items.BOWL);
-	}
-
 	@Override
 	public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
 		return new FluidItemWrapper(stack);
