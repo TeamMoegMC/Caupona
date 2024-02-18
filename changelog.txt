@@ -1,2 +1,3 @@
 Stew can now put into containers of other mods
 Remake diet api
+Reduced spice jar durability but improve buff
