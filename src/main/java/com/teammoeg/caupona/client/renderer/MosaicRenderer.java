@@ -46,19 +46,10 @@ public class MosaicRenderer extends BlockEntityWithoutLevelRenderer {
 		BlockState bs=CPBlocks.MOSAIC.get().defaultBlockState();
 		bs=bs.setValue(MosaicBlock.MATERIAL_1, m1).setValue(MosaicBlock.MATERIAL_2, m2).setValue(MosaicBlock.PATTERN, pattern);
 		BlockRenderDispatcher rd = Minecraft.getInstance().getBlockRenderer();
-		//matrixStack.translate(1F, 0, 0);
-		//model.get()
-		//.applyTransform(ctx, matrixStack, ctx==ItemDisplayContext.FIRST_PERSON_LEFT_HAND);
-		//BlockRenderDispatcher rdr = Minecraft.getInstance().getBlockRenderer();
-		//BakedModel bakedmodel = rdr.getBlockModel(bs);
-		//bakedmodel.applyTransform(ctx, matrixStack, false);
-       // for (net.minecraft.client.renderer.RenderType rt : bakedmodel.getRenderTypes(pState, RandomSource.create(42), modelData))
-         //  rdr.getModelRenderer().renderModel(pPoseStack.last(), pBufferSource.getBuffer(renderType != null ? renderType : net.minecraftforge.client.RenderTypeHelper.getEntityRenderType(rt, false)), bs, bakedmodel, 1f, 1f, 1f,combinedLightIn, combinedOverlayIn, modelData, rt);
 		BakedModel bm=rd.getBlockModel(bs);
 		ItemRenderer ir=Minecraft.getInstance().getItemRenderer();
 		VertexConsumer pBuffer = buffer.getBuffer(RenderType.cutout());
 		RandomSource randomsource = RandomSource.create();
-		//Lighting.setupForEntityInInventory();;
 		for (Direction direction : Direction.values()) {
 			randomsource.setSeed(42L);
 			ir.renderQuadList(matrixStack, pBuffer, bm.getQuads(bs, direction, randomsource), is, combinedLightIn,
@@ -68,8 +59,6 @@ public class MosaicRenderer extends BlockEntityWithoutLevelRenderer {
 		randomsource.setSeed(42L);
 		ir.renderQuadList(matrixStack, pBuffer, bm.getQuads(bs, (Direction) null, randomsource), is, combinedLightIn,
 				combinedOverlayIn);
-		//this.renderByItem(is, ctx, matrixStack, buffer, combinedLightIn, combinedOverlayIn);
-		//rd.renderSingleBlock(bs, matrixStack, buffer, combinedLightIn, combinedOverlayIn,ModelData.builder().build(),RenderType.cutout());
 	}
 
 }
