@@ -14,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
@@ -47,8 +48,12 @@ public class MosaicRenderer extends BlockEntityWithoutLevelRenderer {
 		bs=bs.setValue(MosaicBlock.MATERIAL_1, m1).setValue(MosaicBlock.MATERIAL_2, m2).setValue(MosaicBlock.PATTERN, pattern);
 		BlockRenderDispatcher rd = Minecraft.getInstance().getBlockRenderer();
 		BakedModel bm=rd.getBlockModel(bs);
+		
 		ItemRenderer ir=Minecraft.getInstance().getItemRenderer();
-		VertexConsumer pBuffer = buffer.getBuffer(RenderType.cutout());
+		//ir.re
+		BlockRenderDispatcher br=Minecraft.getInstance().getBlockRenderer();
+		br.renderSingleBlock(bs, matrixStack, buffer, combinedLightIn, combinedOverlayIn, ModelData.EMPTY, Sheets.cutoutBlockSheet());
+		/*VertexConsumer pBuffer = buffer.getBuffer(RenderType.cutout());
 		RandomSource randomsource = RandomSource.create();
 		for (Direction direction : Direction.values()) {
 			randomsource.setSeed(42L);
@@ -58,7 +63,7 @@ public class MosaicRenderer extends BlockEntityWithoutLevelRenderer {
 
 		randomsource.setSeed(42L);
 		ir.renderQuadList(matrixStack, pBuffer, bm.getQuads(bs, (Direction) null, randomsource), is, combinedLightIn,
-				combinedOverlayIn);
+				combinedOverlayIn);*/
 	}
 
 }
