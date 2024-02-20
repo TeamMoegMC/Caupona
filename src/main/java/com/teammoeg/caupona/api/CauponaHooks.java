@@ -21,8 +21,10 @@
 
 package com.teammoeg.caupona.api;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.fluid.SoupFluid;
@@ -37,7 +39,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 
 public class CauponaHooks {
@@ -46,21 +47,34 @@ public class CauponaHooks {
 	}
 
 	public static final ResourceLocation stew = new ResourceLocation(CPMain.MODID, "stews");
-
+	private static final LinkedHashMap<String,Function<ItemStack,IFoodInfo>> foodInfoHooks=new LinkedHashMap<>();
+	static {
+		foodInfoHooks.put("caupona:stew_item",stack->{
+			if (stack.getItem() instanceof StewItem) {
+				return StewItem.getInfo(stack);
+			}
+			return null;
+		});
+		foodInfoHooks.put("caupona:soup_fluid_handler",stack->{
+			LazyOptional<IFluidHandlerItem> cap = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
+			if (cap.isPresent()) {
+				IFluidHandlerItem data = cap.resolve().get();
+				return SoupFluid.getInfoOrNull(data.getFluidInTank(0));
+			}
+			return null;
+		});
+		foodInfoHooks.put("caupona:dish_item",stack->{
+			if(stack.getItem() instanceof DishItem)
+				return DishItem.getInfo(stack);
+			return null;
+		});
+	}
+	public static void registerInfoProvider(String name,Function<ItemStack,IFoodInfo> funcs) {
+		foodInfoHooks.put(name, funcs);
+	}
+	
 	public static Optional<List<FloatemStack>> getItems(ItemStack stack) {
-		if (stack.getItem() instanceof StewItem) {
-			return Optional.of(StewItem.getItems(stack));
-		}
-		LazyOptional<IFluidHandlerItem> cap = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
-		if (cap.isPresent()) {
-			IFluidHandlerItem data = cap.resolve().get();
-			FluidStack fs = data.getFluidInTank(0);
-			// TODO: CHECK STEW TAG
-			return Optional.of(SoupFluid.getItems(fs));
-		}
-		if(stack.getItem() instanceof DishItem)
-			return Optional.of(DishItem.getItems(stack));
-		return Optional.empty();
+		return getInfo(stack).map(t->t.getStacks());
 	}
 
 	public static ResourceLocation getBase(ItemStack stack) {
@@ -75,17 +89,7 @@ public class CauponaHooks {
 	}
 
 	public static Optional<IFoodInfo> getInfo(ItemStack stack) {
-		if (stack.getItem() instanceof StewItem) {
-			return Optional.of(StewItem.getInfo(stack));
-		}
-		LazyOptional<IFluidHandlerItem> cap = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM);
-		if (cap.isPresent()) {
-			IFluidHandlerItem data = cap.resolve().get();
-			return Optional.of(SoupFluid.getInfo(data.getFluidInTank(0)));
-		}
-		if(stack.getItem() instanceof DishItem)
-			return Optional.of(DishItem.getInfo(stack));
-		return Optional.empty();
+		return foodInfoHooks.values().stream().map(t->t.apply(stack)).filter(t->t!=null).findFirst();
 	}
 	
 }

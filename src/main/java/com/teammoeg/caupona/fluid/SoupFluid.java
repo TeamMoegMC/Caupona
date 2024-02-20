@@ -80,6 +80,14 @@ public class SoupFluid extends ForgeFlowingFluid {
 		}
 		return new StewInfo(Utils.getRegistryName(stack.getFluid()));
 	}
+	public static StewInfo getInfoOrNull(FluidStack stack) {
+		if (stack.hasTag()) {
+			CompoundTag nbt = stack.getChildTag("soup");
+			if (nbt != null)
+				return new StewInfo(nbt);
+		}
+		return null;
+	}
 
 	public static void setInfo(FluidStack stack, StewInfo si) {
 		if (!si.isEmpty())
