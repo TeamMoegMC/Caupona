@@ -2,9 +2,7 @@ package com.teammoeg.caupona.data.recipes.baseconditions;
 
 import java.util.function.Function;
 
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 import com.teammoeg.caupona.data.DataDeserializerRegistry;
 import com.teammoeg.caupona.data.Deserializer;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;

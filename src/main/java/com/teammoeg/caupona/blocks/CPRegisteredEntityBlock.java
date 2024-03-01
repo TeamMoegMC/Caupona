@@ -31,7 +31,7 @@ public class CPRegisteredEntityBlock<T extends BlockEntity> extends Block implem
 
 	public CPRegisteredEntityBlock(Properties blockProps, DeferredHolder<BlockEntityType<?>,BlockEntityType<T>> ste ){
 		super(blockProps);
-		blockEntity = (DeferredHolder)ste;
+		blockEntity = ste;
 		
 
 	}

@@ -21,8 +21,6 @@
 
 package com.teammoeg.caupona.data;
 
-import com.google.gson.JsonElement;
-
 import net.minecraft.network.FriendlyByteBuf;
 
 /**

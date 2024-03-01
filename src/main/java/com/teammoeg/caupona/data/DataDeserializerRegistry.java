@@ -5,10 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
 
-import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
-import com.teammoeg.caupona.util.CacheMap;
-
 import net.minecraft.network.FriendlyByteBuf;
 
 public class DataDeserializerRegistry<T extends Writeable> {
@@ -18,9 +15,10 @@ public class DataDeserializerRegistry<T extends Writeable> {
 	public void register(String name, Deserializer<T> des) {
 		deserializers.put(name, des);
 	}
+	@SuppressWarnings("unchecked")
 	public <R extends T> void register(String name,Class<R> cls, Codec<? extends R> rjson,
 			Function<FriendlyByteBuf, R> rpacket) {
-		Deserializer<T> des=new Deserializer<T>((Codec<T>)(Codec)rjson, (Function<FriendlyByteBuf, T>)(Function)rpacket,byIdx.size());
+		Deserializer<T> des=new Deserializer<T>((Codec<T>)rjson, (Function<FriendlyByteBuf, T>)rpacket,byIdx.size());
 		register(name, des);
 		byIdx.add(des);
 		nameOfClass.put(cls, name);

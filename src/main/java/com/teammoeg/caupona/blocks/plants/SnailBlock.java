@@ -55,9 +55,7 @@ public class SnailBlock extends FruitBlock {
 	/**
 	 * Performs a random tick on a block.
 	 */
-	@SuppressWarnings("deprecation")
 	@Override
-
 	public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
 		if (!pLevel.isAreaLoaded(pPos, 1))
 			return; // Forge: prevent loading unloaded chunks when checking neighbor's light

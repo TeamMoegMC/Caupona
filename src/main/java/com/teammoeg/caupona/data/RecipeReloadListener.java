@@ -218,8 +218,9 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 		logger.info("Recipes built, cost {}", sw);
 	}
 
+	@SuppressWarnings("unchecked")
 	static <R extends Recipe<?>> Stream<RecipeHolder<R>> filterRecipes(Collection<RecipeHolder<?>> recipes, Class<R> class1,
 			DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> recipeType) {
-		return recipes.stream().filter(iRecipe -> iRecipe.value().getType() == recipeType.get()).map(t->(RecipeHolder)t);
+		return recipes.stream().filter(iRecipe -> iRecipe.value().getType() == recipeType.get()).map(t->(RecipeHolder<R>)t);
 	}
 }

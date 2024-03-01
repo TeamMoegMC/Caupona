@@ -61,7 +61,6 @@ public class FruitsLeavesBlock extends LeavesBlock implements BonemealableBlock 
 			}
 		}
 	}
-	@SuppressWarnings("deprecation")
 	public boolean shouldPlaceFruit(Level pLevel, BlockPos pPos) {
 		if (!pLevel.isAreaLoaded(pPos, 1))
 			return false;

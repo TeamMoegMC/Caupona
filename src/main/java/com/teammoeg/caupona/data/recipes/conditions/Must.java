@@ -21,7 +21,6 @@
 
 package com.teammoeg.caupona.data.recipes.conditions;
 
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.CookIngredients;

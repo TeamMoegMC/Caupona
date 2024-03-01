@@ -22,7 +22,6 @@
 package com.teammoeg.caupona.compat.jei.category;
 
 import com.teammoeg.caupona.CPMain;
-import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.util.Utils;
 

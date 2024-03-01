@@ -26,7 +26,6 @@ public class SnailBaitBlock extends FruitBlock {
 		return 7;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
 		if (!pLevel.isAreaLoaded(pPos, 1))

@@ -24,7 +24,6 @@ package com.teammoeg.caupona.data.recipes;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import com.google.gson.JsonObject;
 import com.teammoeg.caupona.data.ITranlatable;
 import com.teammoeg.caupona.data.Writeable;
 

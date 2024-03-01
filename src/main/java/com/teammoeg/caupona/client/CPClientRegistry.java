@@ -40,7 +40,6 @@ import com.teammoeg.caupona.client.renderer.CounterDoliumRenderer;
 import com.teammoeg.caupona.client.renderer.PanRenderer;
 import com.teammoeg.caupona.client.renderer.StewPotRenderer;
 
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -54,13 +53,12 @@ import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.common.Mod.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = CPMain.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class CPClientRegistry {
@@ -71,12 +69,7 @@ public class CPClientRegistry {
 		for (String wood : CPBlocks.woods)
 			ClientHooks.registerLayerDefinition(
 					new ModelLayerLocation(new ResourceLocation(CPMain.MODID, "boat/" + wood), "main"), () -> layer);
-		MenuScreens.register(CPGui.STEWPOT.get(), StewPotScreen::new);
-		MenuScreens.register(CPGui.STOVE.get(), KitchenStoveScreen::new);
-		MenuScreens.register(CPGui.DOLIUM.get(), DoliumScreen::new);
-		MenuScreens.register(CPGui.BRAZIER.get(), PortableBrazierScreen::new);
-		MenuScreens.register(CPGui.PAN.get(), PanScreen::new);
-		MenuScreens.register(CPGui.T_BENCH.get(), TBenchScreen::new);
+
 		/*ItemBlockRenderTypes.setRenderLayer(CPBlocks.stew_pot, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove1, RenderType.cutout());
 		ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove2, RenderType.cutout());
@@ -94,7 +87,16 @@ public class CPClientRegistry {
 		EntityRenderers.register(CPEntityTypes.BOAT.get(), c->new CPBoatRenderer(c,false));
 
 	}
-
+	
+	@SubscribeEvent
+	public static void registerParticleFactories(RegisterMenuScreensEvent event) {
+		event.register(CPGui.STEWPOT.get(), StewPotScreen::new);
+		event.register(CPGui.STOVE.get(), KitchenStoveScreen::new);
+		event.register(CPGui.DOLIUM.get(), DoliumScreen::new);
+		event.register(CPGui.BRAZIER.get(), PortableBrazierScreen::new);
+		event.register(CPGui.PAN.get(), PanScreen::new);
+		event.register(CPGui.T_BENCH.get(), TBenchScreen::new);
+	}
 	@SubscribeEvent
 	public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
 		event.registerSpriteSet(CPParticles.STEAM.get(), SteamParticle.Factory::new);

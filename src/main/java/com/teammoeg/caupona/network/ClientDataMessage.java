@@ -21,9 +21,6 @@
 
 package com.teammoeg.caupona.network;
 
-import java.util.Objects;
-import java.util.function.Supplier;
-
 import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.core.BlockPos;

@@ -63,16 +63,14 @@ import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.common.Mod.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
@@ -149,14 +147,14 @@ public class CPCommonBootStrap {
 							if (is.getCount() == 1)
 								return ret;
 							is.shrink(1);
-							if (bp.<DispenserBlockEntity>blockEntity().addItem(ret) == -1)
+							if (bp.blockEntity().addItem(ret) == -1)
 								this.defaultBehaviour.dispense(bp, ret);
 						}
 					} else if (blockEntity instanceof PanBlockEntity pan) {
 						ItemStack out = pan.inv.getStackInSlot(10);
 						if (!out.isEmpty()) {
 							pan.inv.setStackInSlot(10, ItemStack.EMPTY);
-							if (bp.<DispenserBlockEntity>blockEntity().addItem(out) == -1)
+							if (bp.blockEntity().addItem(out) == -1)
 								this.defaultBehaviour.dispense(bp, out);
 						}
 					}
@@ -168,7 +166,7 @@ public class CPCommonBootStrap {
 						if (is.getCount() == 1)
 							return ret;
 						is.shrink(1);
-						if (bp.<DispenserBlockEntity>blockEntity().addItem(ret) == -1)
+						if (bp.blockEntity().addItem(ret) == -1)
 							this.defaultBehaviour.dispense(bp, ret);
 					}
 					return is;
@@ -367,7 +365,7 @@ public class CPCommonBootStrap {
 							if (stack.getCount() == 1)
 								return ret;
 							stack.shrink(1);
-							if (source.<DispenserBlockEntity>blockEntity().addItem(ret) == -1)
+							if (source.blockEntity().addItem(ret) == -1)
 								this.defaultBehaviour.dispense(source, ret);
 						}
 					} else if (blockEntity != null) {
@@ -380,7 +378,7 @@ public class CPCommonBootStrap {
 								if (stack.getCount() == 1)
 									return ret;
 								stack.shrink(1);
-								if (source.<DispenserBlockEntity>blockEntity().addItem(ret) == -1)
+								if (source.blockEntity().addItem(ret) == -1)
 									this.defaultBehaviour.dispense(source, ret);
 							}
 						}
@@ -435,19 +433,19 @@ public class CPCommonBootStrap {
 				if (blockEntity instanceof StewPotBlockEntity pot) {
 					ItemStack ospice = pot.getInv().getStackInSlot(11);
 					pot.getInv().setStackInSlot(11, ItemStack.EMPTY);
-					if (source.<DispenserBlockEntity>blockEntity().addItem(ospice) == -1)
+					if (source.blockEntity().addItem(ospice) == -1)
 						this.defaultBehaviour.dispense(source, ospice);
 					return stack;
 				} else if (blockEntity instanceof PanBlockEntity pan) {
 					ItemStack ospice = pan.getInv().getStackInSlot(11);
 					pan.getInv().setStackInSlot(11, ItemStack.EMPTY);
-					if (source.<DispenserBlockEntity>blockEntity().addItem(ospice) == -1)
+					if (source.blockEntity().addItem(ospice) == -1)
 						this.defaultBehaviour.dispense(source, ospice);
 					return stack;
 				} else if (blockEntity instanceof CounterDoliumBlockEntity dolium) {
 					ItemStack ospice = dolium.getInv().getStackInSlot(3);
 					dolium.getInv().setStackInSlot(3, ItemStack.EMPTY);
-					if (source.<DispenserBlockEntity>blockEntity().addItem(ospice) == -1)
+					if (source.blockEntity().addItem(ospice) == -1)
 						this.defaultBehaviour.dispense(source, ospice);
 					return stack;
 				}

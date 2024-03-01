@@ -125,11 +125,13 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven { url "https://maven.shedaniel.me" }
     //for patchouli books
     maven { url 'https://maven.blamejared.com' }
     maven {
         url "https://maven.architectury.dev/"
     }
+    
     maven {
         url "https://maven.saps.dev/minecraft"
         content {
@@ -164,7 +166,7 @@ dependencies {
 
     //compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-81-FORGE:api")
     compileOnly "vazkii.patchouli:Patchouli:1.20.1-81-FORGE:api"
-
+	implementation "me.shedaniel:RoughlyEnoughItems-neoforge:14.0.688"
     // FG5 requires 0.8.3
     //annotationProcessor "org.spongepowered:mixin:0.8.3:processor"
     //testAnnotationProcessor "org.spongepowered:mixin:0.8.3:processor"

@@ -30,7 +30,7 @@ public class CPHorizontalEntityBlock<V extends BlockEntity> extends CPHorizontal
 
 	public CPHorizontalEntityBlock(DeferredHolder<BlockEntityType<?>,BlockEntityType<V>> blockEntity, Properties p_54120_) {
 		super(p_54120_);
-		this.blockEntity = (DeferredHolder)blockEntity;
+		this.blockEntity = blockEntity;
 	}
 
 	@Override

@@ -21,7 +21,6 @@
 
 package com.teammoeg.caupona;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -47,8 +46,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.BlockEntityType.BlockEntitySupplier;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class CPBlockEntityTypes {
 	public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister
@@ -81,9 +80,9 @@ public class CPBlockEntityTypes {
 					()->CPBlocks.firebox));
 	public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<WolfStatueBlockEntity>> WOLF_STATUE = REGISTER.register("wolf_statue",makeType(WolfStatueBlockEntity::new, 
 					()->CPBlocks.WOLF));
-	private static <T extends BlockEntity> DeferredHolder<BlockEntityType<?>,BlockEntityType<T>> register(String key,BlockEntitySupplier<T> factory,DeferredHolder<Block,? extends Block>...validBlocks){
+	/*private static <T extends BlockEntity> DeferredHolder<BlockEntityType<?>,BlockEntityType<T>> register(String key,BlockEntitySupplier<T> factory,DeferredHolder<Block,? extends Block>...validBlocks){
 		return REGISTER.register(key, () -> new BlockEntityType<T>(factory,(Arrays.stream(validBlocks).map(t->t.get()).collect(Collectors.toSet())), null));
-	}
+	}*/
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntitySupplier<T> create,
 			Supplier<DeferredHolder<Block,? extends Block>> valid) {
 		return () -> new BlockEntityType<>(create, ImmutableSet.of(valid.get().get()), null);
