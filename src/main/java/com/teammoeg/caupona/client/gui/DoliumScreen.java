@@ -72,7 +72,6 @@ public class DoliumScreen extends AbstractContainerScreen<DoliumContainer> {
 
 	@Override
 	protected void renderBg(GuiGraphics transform, float partial, int x, int y) {
-		this.renderBackground(transform,x,y,partial);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		transform.blit(TEXTURE,leftPos, topPos, 0, 0, imageWidth, imageHeight);
 		if (blockEntity.process > 0) {

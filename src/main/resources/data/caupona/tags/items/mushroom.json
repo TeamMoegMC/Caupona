@@ -3,7 +3,7 @@
 		"minecraft:brown_mushroom",
 		"minecraft:red_mushroom",
 		{
-			"id": "#neoforge:mushrooms",
+			"id": "#forge:mushrooms",
 			"required": false
 		}
 	]

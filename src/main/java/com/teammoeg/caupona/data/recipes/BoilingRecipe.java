@@ -22,6 +22,7 @@
 package com.teammoeg.caupona.data.recipes;
 
 import java.util.Map;
+import java.util.Set;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -40,6 +41,7 @@ public class BoilingRecipe extends IDataRecipe {
 	public static Map<Fluid, RecipeHolder<BoilingRecipe>> recipes;
 	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
 	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
+	public static Set<Fluid> allBoilables;
 	public Fluid before;
 	public Fluid after;
 	public int time;

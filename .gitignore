@@ -6,7 +6,7 @@
 *.iml
 *.ipr
 *.iws
-
+.eclipse/
 # IntelliJ
 out/
 # mpeltonen/sbt-idea plugin

@@ -38,7 +38,6 @@ public class TBenchScreen extends AbstractContainerScreen<TBenchMenu> {
    }
 
    protected void renderBg(GuiGraphics p_283115_, float p_282453_, int p_282940_, int p_282328_) {
-	   this.renderBackground(p_283115_,p_282940_,p_282328_,p_282453_);
       int i = this.leftPos;
       int j = this.topPos;
       p_283115_.blit(BG_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);

@@ -4,11 +4,11 @@
 		"minecraft:blue_ice",
 		"minecraft:packed_ice",
 		{
-			"id": "#neoforge:ices",
+			"id": "#forge:ices",
 			"required": false
 		},
 		{
-			"id": "#neoforge:ice_cubes",
+			"id": "#forge:ice_cubes",
 			"required": false
 		}
 	]

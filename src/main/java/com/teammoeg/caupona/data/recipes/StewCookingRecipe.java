@@ -76,7 +76,7 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 	@SuppressWarnings("deprecation")
 	public static boolean isBoilable(FluidStack f) {
 		Fluid fd = f.getFluid();
-		return fd instanceof SoupFluid || f.getFluid().is(CPTags.Fluids.BOILABLE);
+		return fd instanceof SoupFluid || f.getFluid().is(CPTags.Fluids.BOILABLE)||BoilingRecipe.allBoilables.contains(f.getFluid());
 	}
 
 	@Override
