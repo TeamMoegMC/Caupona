@@ -9,15 +9,15 @@
       }
     },
     "foliage_placer": {
-      "type": "caupona:bush_foliage_placer",
+      "type": "minecraft:fancy_foliage_placer",
       "height": 3,
-      "offset": 0,
+      "offset": 3,
       "radius": 2
     },
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "caupona:wolfberry_leaves",
+        "Name": "caupona:walnut_leaves",
         "Properties": {
           "distance": "7",
           "persistent": "false",
@@ -34,21 +34,17 @@
       "upper_size": 1
     },
     "trunk_placer": {
-      "type": "caupona:bush_chunk",
-      "base_height": 4,
+      "type": "minecraft:fancy_trunk_placer",
+      "base_height": 6,
       "height_rand_a": 2,
-      "height_rand_b": 0
+      "height_rand_b": 1
     },
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "caupona:wolfberry_log",
+        "Name": "caupona:walnut_log",
         "Properties": {
-          "e": "false",
-          "fully_foliaged": "false",
-          "n": "false",
-          "s": "false",
-          "w": "false"
+          "axis": "y"
         }
       }
     }
