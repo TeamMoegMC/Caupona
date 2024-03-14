@@ -24,6 +24,7 @@ package com.teammoeg.caupona.util;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,7 @@ import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
+import com.teammoeg.caupona.item.StewItem;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -63,7 +65,9 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 	public StewInfo() {
 		this(new ArrayList<>(), new ArrayList<>(), 0, 0, new ResourceLocation("minecraft:water"));
 	}
-
+	public StewInfo(ItemStack is) {
+		this.read(StewItem.getInfo(is).serializeNBT());
+	}
 	public static List<FloatemStack> getStacks(CompoundTag nbt) {
 		return nbt.getList("items", 10).stream().map(e -> (CompoundTag) e).map(FloatemStack::new)
 				.collect(Collectors.toList());
@@ -77,19 +81,8 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 	}
 
 	public StewInfo(CompoundTag nbt) {
-		super(nbt);
-		stacks = nbt.getList("items", 10).stream().map(e -> (CompoundTag) e).map(FloatemStack::new)
-				.collect(Collectors.toList());
-		effects = nbt.getList("effects", 10).stream().map(e -> (CompoundTag) e).map(MobEffectInstance::load)
-				.collect(Collectors.toList());
-		healing = nbt.getInt("heal");
-		saturation = nbt.getFloat("sat");
-		foodeffect = nbt.getList("feffects", 10).stream().map(e -> (CompoundTag) e)
-				.map(e -> new Pair<>(MobEffectInstance.load(e.getCompound("effect")), e.getFloat("chance")))
-				.collect(Collectors.toList());
-		base = new ResourceLocation(nbt.getString("base"));
-
-		shrinkedFluid = nbt.getFloat("afluid");
+		super();
+		deserializeNBT(nbt);
 	}
 
 	public boolean isEmpty() {
@@ -343,6 +336,44 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 			li.add(Pair.of(()->new MobEffectInstance(ef.getFirst()), ef.getSecond()));
 		}
 		return null;
+	}
+
+
+	@Override
+	public void read(CompoundTag nbt) {
+		super.read(nbt);
+		stacks = nbt.getList("items", 10).stream().map(e -> (CompoundTag) e).map(FloatemStack::new)
+			.collect(Collectors.toList());
+		effects = nbt.getList("effects", 10).stream().map(e -> (CompoundTag) e).map(MobEffectInstance::load)
+				.collect(Collectors.toList());
+		healing = nbt.getInt("heal");
+		saturation = nbt.getFloat("sat");
+		foodeffect = nbt.getList("feffects", 10).stream().map(e -> (CompoundTag) e)
+				.map(e -> new Pair<>(MobEffectInstance.load(e.getCompound("effect")), e.getFloat("chance")))
+				.collect(Collectors.toList());
+		base = new ResourceLocation(nbt.getString("base"));
+	
+		shrinkedFluid = nbt.getFloat("afluid");
+		
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(base, effects, foodeffect, healing, saturation, shrinkedFluid, stacks);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (!super.equals(obj)) return false;
+		if (getClass() != obj.getClass()) return false;
+		StewInfo other = (StewInfo) obj;
+		return Objects.equals(base, other.base) && Objects.equals(effects, other.effects) && Objects.equals(foodeffect, other.foodeffect) && healing == other.healing
+			&& Float.floatToIntBits(saturation) == Float.floatToIntBits(other.saturation) && Float.floatToIntBits(shrinkedFluid) == Float.floatToIntBits(other.shrinkedFluid)
+			&& Objects.equals(stacks, other.stacks);
 	}
 
 

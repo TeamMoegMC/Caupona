@@ -24,8 +24,11 @@ package com.teammoeg.caupona.item;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.teammoeg.caupona.CPCapability;
+import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.blocks.foods.DishBlock;
 import com.teammoeg.caupona.util.FloatemStack;
+import com.teammoeg.caupona.util.IFoodInfo;
 import com.teammoeg.caupona.util.SauteedFoodInfo;
 import com.teammoeg.caupona.util.Utils;
 
@@ -46,6 +49,7 @@ public class DishItem extends EdibleBlock {
 
 	public DishItem(DishBlock block, Properties props) {
 		super(block, props.food(fakefood));
+		CPItems.dish.add(this);
 		bl = block;
 	}
 
@@ -60,47 +64,26 @@ public class DishItem extends EdibleBlock {
 		return UseAnim.EAT;
 	}
 
-	public static List<FloatemStack> getItems(ItemStack stack) {
-		if (stack.hasTag()) {
-			CompoundTag soupTag = stack.getTagElement("dish");
-			if (soupTag != null)
-				return SauteedFoodInfo.getStacks(soupTag);
-		}
-		return Lists.newArrayList();
-	}
-	public static SauteedFoodInfo getInfo(ItemStack stack) {
-		if (stack.hasTag()) {
-			CompoundTag soupTag = stack.getTagElement("dish");
-			if (soupTag != null)
-				return new SauteedFoodInfo(soupTag);
-		}
-		return new SauteedFoodInfo();
-	}
-
-	public static void setInfo(ItemStack stack, SauteedFoodInfo current) {
-		if (!current.isEmpty())
-			stack.getOrCreateTag().put("dish", current.save());
-	}
-
 	@Override
 	public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		SauteedFoodInfo info = DishItem.getInfo(stack);
-		FloatemStack fs = info.stacks.stream()
-				.max((t1, t2) -> t1.getCount() > t2.getCount() ? 1 : (t1.getCount() == t2.getCount() ? 0 : -1))
-				.orElse(null);
-		if (fs != null)
-			tooltip.add(Utils.translate("tooltip.caupona.main_ingredient", fs.getStack().getDisplayName()));
-		ResourceLocation rl = info.spiceName;
-		if (rl != null)
-			tooltip.add(Utils.translate("tooltip.caupona.spice",
-					Utils.translate("spice." + rl.getNamespace() + "." + rl.getPath())));
-		;
+		IFoodInfo iinfo = CPCapability.FOOD_INFO.getCapability(stack, null);
+		if(iinfo instanceof SauteedFoodInfo info) {
+			FloatemStack fs = info.stacks.stream()
+					.max((t1, t2) -> t1.getCount() > t2.getCount() ? 1 : (t1.getCount() == t2.getCount() ? 0 : -1))
+					.orElse(null);
+			if (fs != null)
+				tooltip.add(Utils.translate("tooltip.caupona.main_ingredient", fs.getStack().getDisplayName()));
+			ResourceLocation rl = info.spiceName;
+			if (rl != null)
+				tooltip.add(Utils.translate("tooltip.caupona.spice",
+						Utils.translate("spice." + rl.getNamespace() + "." + rl.getPath())));
+		}
 		super.appendHoverText(stack, worldIn, tooltip, flagIn);
 	}
 
 	@Override
 	public FoodProperties getFoodProperties(ItemStack stack, LivingEntity entity) {
-		return getInfo(stack).getFood();
+		return CPCapability.FOOD_INFO.getCapability(stack, null).getFood();
 		
 	}
 }

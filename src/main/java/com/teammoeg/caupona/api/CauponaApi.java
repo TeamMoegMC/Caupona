@@ -27,12 +27,8 @@ import java.util.function.Supplier;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
-import com.teammoeg.caupona.fluid.SoupFluid;
-import com.teammoeg.caupona.item.DishItem;
-import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.IFoodInfo;
 import com.teammoeg.caupona.util.SauteedFoodInfo;
-import com.teammoeg.caupona.util.StewInfo;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.nbt.CompoundTag;
@@ -53,40 +49,8 @@ public class CauponaApi {
 	private CauponaApi() {
 	}
 
-	public static StewInfo getStewInfo(ItemStack item) {
-		return StewItem.getInfo(item);
-	}
-
-	public static StewInfo getStewInfo(FluidStack item) {
-		return SoupFluid.getInfo(item);
-	}
-
-	public static StewInfo getStewInfo(CompoundTag nbt) {
-		return new StewInfo(nbt);
-	}
-	public static SauteedFoodInfo getSauteedInfo(ItemStack item) {
-		return DishItem.getInfo(item);
-	}
-
 	public static SauteedFoodInfo getSauteedInfo(CompoundTag nbt) {
 		return new SauteedFoodInfo(nbt);
-	}
-	public static void setInfo(ItemStack item, StewInfo info) {
-		StewItem.setInfo(item, info);
-	}
-
-	public static void setInfo(FluidStack item, StewInfo info) {
-		SoupFluid.setInfo(item, info);
-	}
-
-	public static void setInfo(CompoundTag nbt, StewInfo info) {
-		info.write(nbt);
-	}
-	public static void setInfo(ItemStack item, SauteedFoodInfo info) {
-		DishItem.setInfo(item, info);
-	}
-	public static void setInfo(CompoundTag nbt, SauteedFoodInfo info) {
-		info.write(nbt);
 	}
 
 	public static void apply(Level worldIn, LivingEntity entityLiving, IFoodInfo info) {

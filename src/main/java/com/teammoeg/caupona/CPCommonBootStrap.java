@@ -40,6 +40,8 @@ import com.teammoeg.caupona.entity.CPBoat;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.ICreativeModeTabItem;
+import com.teammoeg.caupona.util.IFoodInfo;
+import com.teammoeg.caupona.util.StewInfo;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
@@ -102,13 +104,15 @@ public class CPCommonBootStrap {
 	@SubscribeEvent
 	public static void onCapabilityInject(RegisterCapabilitiesEvent event) {
 		event.registerItem(Capabilities.FluidHandler.ITEM,(stack,o)->new FluidHandlerItemStack(stack,1250), CPItems.situla.get());
+		event.registerItem(CPCapability.FOOD_INFO,(stack,o)->stack.getData(CPCapability.STEW_INFO), CPItems.stews.toArray(Item[]::new));
+		event.registerItem(CPCapability.FOOD_INFO,(stack,o)->stack.getData(CPCapability.SAUTEED_INFO), CPItems.dish.toArray(Item[]::new));
 		CPBlockEntityTypes.REGISTER.getEntries().stream().map(t->t.get()).forEach(be->{
 			event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, (BlockEntityType<?>)be,
 				(block,ctx)->(IItemHandler)((CPBaseBlockEntity)block).getCapability(Capabilities.ItemHandler.BLOCK, ctx));
 			event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, (BlockEntityType<?>)be,
 				(block,ctx)->(IFluidHandler)((CPBaseBlockEntity)block).getCapability(Capabilities.FluidHandler.BLOCK, ctx));
 			});
-		
+
 	}
 	
 	public static <R extends ItemLike,T extends R> DeferredHolder<R,T> asCompositable(DeferredHolder<R,T> obj, float val) {

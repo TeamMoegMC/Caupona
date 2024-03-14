@@ -21,12 +21,16 @@
 
 package com.teammoeg.caupona.util;
 
+import java.util.Objects;
+
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
-public class SpicedFoodInfo {
+public class SpicedFoodInfo implements INBTSerializable<Tag>{
 	public MobEffectInstance spice;
 	public boolean hasSpice = false;
 	public ResourceLocation spiceName;
@@ -34,13 +38,6 @@ public class SpicedFoodInfo {
 	public SpicedFoodInfo() {
 	}
 
-	public SpicedFoodInfo(CompoundTag nbt) {
-		hasSpice = nbt.getBoolean("hasSpice");
-		if (nbt.contains("spice"))
-			spice = MobEffectInstance.load(nbt.getCompound("spice"));
-		if (nbt.contains("spiceName"))
-			spiceName = new ResourceLocation(nbt.getString("spiceName"));
-	}
 	public static ResourceLocation getSpice(CompoundTag nbt) {
 		if (nbt.contains("spiceName"))
 			return new ResourceLocation(nbt.getString("spiceName"));
@@ -73,10 +70,45 @@ public class SpicedFoodInfo {
 		if (spiceName != null)
 			nbt.putString("spiceName", spiceName.toString());
 	}
-
+	public void read(CompoundTag nbt) {
+		hasSpice = nbt.getBoolean("hasSpice");
+		if (nbt.contains("spice"))
+			spice = MobEffectInstance.load(nbt.getCompound("spice"));
+		if (nbt.contains("spiceName"))
+			spiceName = new ResourceLocation(nbt.getString("spiceName"));
+	}
+	
 	public CompoundTag save() {
 		CompoundTag nbt = new CompoundTag();
 		write(nbt);
 		return nbt;
+	}
+
+	@Override
+	public CompoundTag serializeNBT() {
+		return save();
+	}
+
+	@Override
+	public void deserializeNBT(Tag nbt) {
+		if(nbt instanceof CompoundTag)
+			read((CompoundTag)nbt);
+		else
+			read(new CompoundTag());
+		
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(hasSpice, spice, spiceName);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		SpicedFoodInfo other = (SpicedFoodInfo) obj;
+		return hasSpice == other.hasSpice && Objects.equals(spice, other.spice) && Objects.equals(spiceName, other.spiceName);
 	}
 }

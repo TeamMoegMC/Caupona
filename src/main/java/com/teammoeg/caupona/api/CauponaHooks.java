@@ -26,12 +26,14 @@ import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.item.DishItem;
 import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.IFoodInfo;
+import com.teammoeg.caupona.util.SauteedFoodInfo;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.resources.ResourceLocation;
@@ -49,8 +51,9 @@ public class CauponaHooks {
 	public static final ResourceLocation stew = new ResourceLocation(CPMain.MODID, "stews");
 
 	public static Optional<List<FloatemStack>> getItems(ItemStack stack) {
-		if (stack.getItem() instanceof StewItem) {
-			return Optional.of(StewItem.getItems(stack));
+		IFoodInfo fi=CPCapability.FOOD_INFO.getCapability(stack, null);
+		if (fi!=null) {
+			return Optional.of(fi.getStacks());
 		}
 		@Nullable IFluidHandlerItem cap = stack.getCapability(Capabilities.FluidHandler.ITEM);
 		if (cap!=null) {
@@ -59,8 +62,6 @@ public class CauponaHooks {
 			// TODO: CHECK STEW TAG
 			return Optional.of(SoupFluid.getItems(fs));
 		}
-		if(stack.getItem() instanceof DishItem)
-			return Optional.of(DishItem.getItems(stack));
 		return Optional.empty();
 	}
 
@@ -76,16 +77,15 @@ public class CauponaHooks {
 	}
 
 	public static Optional<IFoodInfo> getInfo(ItemStack stack) {
-		if (stack.getItem() instanceof StewItem) {
-			return Optional.of(StewItem.getInfo(stack));
+		IFoodInfo fi=CPCapability.FOOD_INFO.getCapability(stack, null);
+		if (fi!=null) {
+			return Optional.of(fi);
 		}
 		@Nullable IFluidHandlerItem cap = stack.getCapability(Capabilities.FluidHandler.ITEM);
 		if (cap!=null) {
 			IFluidHandlerItem data = cap;
 			return Optional.of(SoupFluid.getInfo(data.getFluidInTank(0)));
 		}
-		if(stack.getItem() instanceof DishItem)
-			return Optional.of(DishItem.getInfo(stack));
 		return Optional.empty();
 	}
 	

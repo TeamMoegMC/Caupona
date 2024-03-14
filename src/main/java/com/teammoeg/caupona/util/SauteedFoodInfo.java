@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
+import com.teammoeg.caupona.item.DishItem;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -61,15 +62,10 @@ public class SauteedFoodInfo extends SpicedFoodInfo implements IFoodInfo{
 	}
 
 	public SauteedFoodInfo(CompoundTag nbt) {
-		super(nbt);
-		stacks = nbt.getList("items", 10).stream().map(e -> (CompoundTag) e).map(FloatemStack::new)
-				.collect(Collectors.toList());
-		healing = nbt.getInt("heal");
-		saturation = nbt.getFloat("sat");
-		foodeffect = nbt.getList("feffects", 10).stream().map(e -> (CompoundTag) e)
-				.map(e -> new Pair<>(MobEffectInstance.load(e.getCompound("effect")), e.getFloat("chance")))
-				.collect(Collectors.toList());
+		super();
+		read(nbt);
 	}
+
 
 	public boolean isEmpty() {
 		return stacks.isEmpty();
@@ -200,5 +196,18 @@ public class SauteedFoodInfo extends SpicedFoodInfo implements IFoodInfo{
 			li.add(Pair.of(()->new MobEffectInstance(ef.getFirst()), ef.getSecond()));
 		}
 		return null;
+	}
+
+	@Override
+	public void read(CompoundTag nbt) {
+		// TODO Auto-generated method stub
+		super.read(nbt);
+		stacks = nbt.getList("items", 10).stream().map(e -> (CompoundTag) e).map(FloatemStack::new)
+			.collect(Collectors.toList());
+		healing = nbt.getInt("heal");
+		saturation = nbt.getFloat("sat");
+		foodeffect = nbt.getList("feffects", 10).stream().map(e -> (CompoundTag) e)
+				.map(e -> new Pair<>(MobEffectInstance.load(e.getCompound("effect")), e.getFloat("chance")))
+				.collect(Collectors.toList());
 	}
 }

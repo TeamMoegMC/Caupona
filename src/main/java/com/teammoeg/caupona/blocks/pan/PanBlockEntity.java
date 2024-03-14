@@ -25,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
@@ -34,7 +35,6 @@ import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.PanPendingContext;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
-import com.teammoeg.caupona.item.DishItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
 import com.teammoeg.caupona.util.SauteedFoodInfo;
@@ -224,11 +224,11 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 			}
 		}
 		if (spice != null && SpiceRecipe.getMaxUse(ospi) >= fs.getCount()) {
-			SauteedFoodInfo si = DishItem.getInfo(fs);
-			if (!isInfinite) 
-				inv.setStackInSlot(11, SpiceRecipe.handle(ospi, fs.getCount()));
-			si.addSpice(spice.effect, spi);
-			DishItem.setInfo(fs, si);
+			if(CPCapability.FOOD_INFO.getCapability(fs, null) instanceof SauteedFoodInfo si) {
+				if (!isInfinite) 
+					inv.setStackInSlot(11, SpiceRecipe.handle(ospi, fs.getCount()));
+				si.addSpice(spice.effect, spi);
+			}
 		}
 		return fs;
 	}
@@ -284,8 +284,6 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 
 	private void doWork() {
 		ItemStack is = new ItemStack(preout, oamount);
-		if(!removesNBT)
-			DishItem.setInfo(is, current);
 		removesNBT=false;
 		current = null;
 		oamount = 0;

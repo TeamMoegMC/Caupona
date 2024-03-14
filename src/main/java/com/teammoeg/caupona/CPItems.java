@@ -77,6 +77,7 @@ public class CPItems {
 																"asses","brick_tesserae","basalt_tesserae","pumice_tesserae", "fresh_wolfberry_leaves"};
 
 	public static final List<Item> stews = new ArrayList<>();
+	public static final List<Item> dish = new ArrayList<>();
 	
 	public static DeferredHolder<Item,Item> anyWater = icon("water_or_stock_based");
 	public static DeferredHolder<Item,Item> stock = icon("stock_based");
