@@ -25,6 +25,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.teammoeg.caupona.client.CPParticles;
+import com.teammoeg.caupona.network.PacketHandler;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.registries.Registries;

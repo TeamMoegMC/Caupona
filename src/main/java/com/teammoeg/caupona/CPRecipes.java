@@ -22,6 +22,7 @@
 package com.teammoeg.caupona;
 
 import com.teammoeg.caupona.data.CPRecipeSerializer;
+import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
@@ -46,35 +47,17 @@ public class CPRecipes {
 	public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister
 			.create(Registries.RECIPE_TYPE, CPMain.MODID);
 	static {
-		StewCookingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("cooking",
-				() -> new CPRecipeSerializer<StewCookingRecipe>(StewCookingRecipe.CODEC, StewCookingRecipe::new,
-						StewCookingRecipe::write));
-		SauteedRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("frying",
-				() -> new CPRecipeSerializer<SauteedRecipe>(SauteedRecipe.CODEC, SauteedRecipe::new, SauteedRecipe::write));
-		DoliumRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("dolium",
-				() -> new CPRecipeSerializer<DoliumRecipe>(DoliumRecipe.CODEC, DoliumRecipe::new, DoliumRecipe::write));
-		BoilingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("boiling",
-				() -> new CPRecipeSerializer<BoilingRecipe>(BoilingRecipe.CODEC, BoilingRecipe::new,
-						BoilingRecipe::write));
-		BowlContainingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("bowl",
-				() -> new CPRecipeSerializer<BowlContainingRecipe>(BowlContainingRecipe.CODEC, BowlContainingRecipe::new,
-						BowlContainingRecipe::write));
-		DissolveRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("dissolve",
-				() -> new CPRecipeSerializer<DissolveRecipe>(DissolveRecipe.CODEC, DissolveRecipe::new,
-						DissolveRecipe::write));
-		CountingTags.SERIALIZER = RECIPE_SERIALIZERS.register("tags",
-				() -> new CPRecipeSerializer<CountingTags>(CountingTags.CODEC, CountingTags::new, CountingTags::write));
-		FoodValueRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("food",
-				() -> new CPRecipeSerializer<FoodValueRecipe>(FoodValueRecipe.CODEC, FoodValueRecipe::new,
-						FoodValueRecipe::write));
-		FluidFoodValueRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("fluid_food",
-				() -> new CPRecipeSerializer<FluidFoodValueRecipe>(FluidFoodValueRecipe.CODEC, FluidFoodValueRecipe::new,
-						FluidFoodValueRecipe::write));
-		AspicMeltingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("aspic_melt",
-				() -> new CPRecipeSerializer<AspicMeltingRecipe>(AspicMeltingRecipe.CODEC, AspicMeltingRecipe::new,
-						AspicMeltingRecipe::write));
-		SpiceRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("spice",
-				() -> new CPRecipeSerializer<SpiceRecipe>(SpiceRecipe.CODEC, SpiceRecipe::new, SpiceRecipe::write));
+		StewCookingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("cooking",() -> new CPRecipeSerializer<StewCookingRecipe>(StewCookingRecipe.CODEC));
+		SauteedRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("frying",() -> new CPRecipeSerializer<SauteedRecipe>(SauteedRecipe.CODEC));
+		DoliumRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("dolium",() -> new CPRecipeSerializer<DoliumRecipe>(DoliumRecipe.CODEC));
+		BoilingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("boiling",() -> new CPRecipeSerializer<BoilingRecipe>(BoilingRecipe.CODEC));
+		BowlContainingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("bowl",() -> new CPRecipeSerializer<BowlContainingRecipe>(BowlContainingRecipe.CODEC));
+		DissolveRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("dissolve",() -> new CPRecipeSerializer<DissolveRecipe>(DissolveRecipe.CODEC));
+		CountingTags.SERIALIZER = RECIPE_SERIALIZERS.register("tags",() -> new CPRecipeSerializer<CountingTags>(CountingTags.CODEC));
+		FoodValueRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("food",() -> new CPRecipeSerializer<FoodValueRecipe>(FoodValueRecipe.CODEC));
+		FluidFoodValueRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("fluid_food",() -> new CPRecipeSerializer<FluidFoodValueRecipe>(FluidFoodValueRecipe.CODEC));
+		AspicMeltingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("aspic_melt",() -> new CPRecipeSerializer<AspicMeltingRecipe>(AspicMeltingRecipe.CODEC));
+		SpiceRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("spice",() -> new CPRecipeSerializer<SpiceRecipe>(SpiceRecipe.CODEC));
 	}
 
 	static {

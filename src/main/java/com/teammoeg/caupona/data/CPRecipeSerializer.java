@@ -35,26 +35,21 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 
 public class CPRecipeSerializer<T extends IDataRecipe> implements RecipeSerializer<T> {
 	Codec<T> codec;
-	Function<FriendlyByteBuf, T> pkfactory;
-	BiConsumer<T, FriendlyByteBuf> writer;
 	static final Logger logger = LogManager.getLogger(CPMain.MODID + " recipe serialize");
 
 
 	@Override
 	public T fromNetwork(FriendlyByteBuf buffer) {
-		return pkfactory.apply(buffer);
+		return SerializeUtil.readCodec(buffer, codec);
 	}
 
 	@Override
 	public void toNetwork(FriendlyByteBuf buffer, T recipe) {
-		writer.accept(recipe, buffer);
+		SerializeUtil.writeCodec(buffer, codec, recipe);
 	}
 
-	public CPRecipeSerializer(Codec<T> codec,
-			Function<FriendlyByteBuf, T> pkfactory, BiConsumer<T, FriendlyByteBuf> writer) {
+	public CPRecipeSerializer(Codec<T> codec) {
 		this.codec = codec;
-		this.pkfactory = pkfactory;
-		this.writer = writer;
 	}
 
 	@Override

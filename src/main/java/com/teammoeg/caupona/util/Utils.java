@@ -22,6 +22,8 @@
 package com.teammoeg.caupona.util;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
@@ -83,6 +85,9 @@ public class Utils {
 		return RecordCodecBuilder.create(t->t.group(key.fieldOf(nkey).forGetter(Pair::getFirst), val.fieldOf(nval).forGetter(Pair::getSecond))
 			.apply(t,Pair::of));
 	} 
+	public static <K,V> Codec<Map<K,V>> mapCodec(Codec<K> keyCodec,Codec<V> valueCodec){
+		return Codec.compoundList(keyCodec, valueCodec).xmap(pl->pl.stream().collect(Collectors.toMap(Pair::getFirst,Pair::getSecond)),pl->pl.entrySet().stream().map(ent->Pair.of(ent.getKey(), ent.getValue())).toList()); 
+	}
 	public static ContanerContainFoodEvent contain(ItemStack its2,FluidStack fs,boolean simulate){
 		ContanerContainFoodEvent ev=new ContanerContainFoodEvent(its2,fs,simulate,false);
 		NeoForge.EVENT_BUS.post(ev);
