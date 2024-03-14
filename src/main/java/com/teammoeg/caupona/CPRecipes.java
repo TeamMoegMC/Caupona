@@ -22,7 +22,6 @@
 package com.teammoeg.caupona;
 
 import com.teammoeg.caupona.data.CPRecipeSerializer;
-import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
 import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
@@ -34,6 +33,7 @@ import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
+import com.teammoeg.caupona.util.SerializeUtil;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;

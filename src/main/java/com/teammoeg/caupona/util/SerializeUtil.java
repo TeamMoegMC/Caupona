@@ -19,7 +19,7 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.data;
+package com.teammoeg.caupona.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,7 +40,6 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
-import com.teammoeg.caupona.util.DataOps;
 
 import io.netty.handler.codec.DecoderException;
 import io.netty.handler.codec.EncoderException;

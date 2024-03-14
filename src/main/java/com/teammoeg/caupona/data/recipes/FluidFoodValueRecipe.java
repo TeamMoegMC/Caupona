@@ -29,7 +29,7 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.IDataRecipe;
-import com.teammoeg.caupona.data.SerializeUtil;
+import com.teammoeg.caupona.util.SerializeUtil;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.nbt.CompoundTag;

@@ -29,6 +29,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.mojang.serialization.Codec;
 import com.teammoeg.caupona.CPMain;
+import com.teammoeg.caupona.util.SerializeUtil;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.crafting.RecipeSerializer;

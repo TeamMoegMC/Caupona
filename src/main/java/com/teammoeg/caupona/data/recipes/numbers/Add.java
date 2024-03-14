@@ -27,12 +27,12 @@ import java.util.stream.Stream;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.ComplexCalculated;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
+import com.teammoeg.caupona.util.SerializeUtil;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

@@ -28,7 +28,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import com.mojang.datafixers.util.Pair;
-import com.teammoeg.caupona.data.SerializeUtil;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.item.DishItem;
 
