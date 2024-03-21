@@ -1,7 +1,24 @@
 {
   "type": "minecraft:tree",
   "config": {
-    "decorators": [],
+    "decorators": [
+      {
+        "type": "caupona:leaving_log_replacer",
+        "replace": {
+          "type": "minecraft:simple_state_provider",
+          "state": {
+            "Name": "caupona:fig_log",
+            "Properties": {
+              "e": "true",
+              "fully_foliaged": "true",
+              "n": "true",
+              "s": "true",
+              "w": "true"
+            }
+          }
+        }
+      }
+    ],
     "dirt_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
@@ -9,15 +26,15 @@
       }
     },
     "foliage_placer": {
-      "type": "minecraft:fancy_foliage_placer",
-      "height": 5,
-      "offset": 1,
-      "radius": 1
+      "type": "minecraft:blob_foliage_placer",
+      "height": 2,
+      "offset": 0,
+      "radius": 2
     },
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "caupona:wolfberry_leaves",
+        "Name": "caupona:fig_leaves",
         "Properties": {
           "distance": "7",
           "persistent": "false",
@@ -42,7 +59,7 @@
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "caupona:wolfberry_log",
+        "Name": "caupona:fig_log",
         "Properties": {
           "e": "false",
           "fully_foliaged": "false",

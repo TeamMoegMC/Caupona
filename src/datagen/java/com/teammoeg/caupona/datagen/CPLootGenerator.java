@@ -171,9 +171,9 @@ public class CPLootGenerator extends LootTableProvider {
 			dropSelf(CPBlocks.GRAVY_BOAT.get());
 			for (String wood : ImmutableSet.of("fig", "wolfberry")) {
 				dropSelf(cp(wood + "_sapling"));
-				add(cp(wood + "_leaves"), createLeavesDrops(cp(wood + "_leaves"), cp(wood + "_sapling"), 0.05F, 0.0625F,
-						0.083333336F, 0.1F));
-			}
+		
+			}		add(cp("fig_leaves"), createLeavesDrops(cp("fig_leaves"), cp("fig_sapling"), 0.05F, 0.0625F,
+				0.083333336F, 0.1F));
 			
 			/*add(CPBlocks.SNAIL_MUCUS.get(),createSilkTouchOrShearsDispatchTable(CPBlocks.SNAIL_MUCUS.get(),
 					this.applyExplosionDecay(CPBlocks.SNAIL_MUCUS.get(), LootItem.lootTableItem(Items.STICK)

@@ -21,9 +21,9 @@
 
 package com.teammoeg.caupona;
 
-import com.teammoeg.caupona.worldgen.BushFoliagePlacer;
 import com.teammoeg.caupona.worldgen.BushStraightTrunkPlacer;
 import com.teammoeg.caupona.worldgen.FumaroleStructure;
+import com.teammoeg.caupona.worldgen.LeavingLogReplacer;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.features.FeatureUtils;
@@ -31,6 +31,7 @@ import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.StructureType;
@@ -38,11 +39,11 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 public class CPWorldGen {
-	public static final DeferredRegister<FoliagePlacerType<?>> FOILAGE_TYPES = DeferredRegister.create(Registries.FOLIAGE_PLACER_TYPE, CPMain.MODID);
+	public static final DeferredRegister<TreeDecoratorType<?>> DECORATOR_TYPES = DeferredRegister.create(Registries.TREE_DECORATOR_TYPE, CPMain.MODID);
 	public static final DeferredRegister<TrunkPlacerType<?>> TRUNK_TYPES = DeferredRegister.create(Registries.TRUNK_PLACER_TYPE, CPMain.MODID);
 	public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES = DeferredRegister.create(Registries.STRUCTURE_TYPE, CPMain.MODID);
 	
-	public static final RegistryObject<FoliagePlacerType<BushFoliagePlacer>> BUSH_PLACER = FOILAGE_TYPES.register("bush_foliage_placer", () -> new FoliagePlacerType<>(BushFoliagePlacer.CODEC));
+	public static final RegistryObject<TreeDecoratorType<LeavingLogReplacer>> REPLACE_LOG = DECORATOR_TYPES.register("leaving_log_replacer", () -> new TreeDecoratorType<>(LeavingLogReplacer.CODEC));
 	
 	public static final RegistryObject<TrunkPlacerType<BushStraightTrunkPlacer>> BUSH_TRUNK = TRUNK_TYPES.register("bush_chunk", () -> new TrunkPlacerType<>(BushStraightTrunkPlacer.CODEC));
 	

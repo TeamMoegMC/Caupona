@@ -21,14 +21,16 @@
 
 package com.teammoeg.caupona.datagen;
 
+import java.util.Arrays;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.CPWorldGen;
-import com.teammoeg.caupona.worldgen.BushFoliagePlacer;
+import com.teammoeg.caupona.blocks.plants.BushLogBlock;
 import com.teammoeg.caupona.worldgen.BushStraightTrunkPlacer;
+import com.teammoeg.caupona.worldgen.LeavingLogReplacer;
 
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup.Provider;
@@ -79,28 +81,29 @@ public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
 				RarityFilter.onAverageOnceEvery(10), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome());
 	}
 	public static void bootstrapCFeatures(BootstapContext<ConfiguredFeature<?,?>> pContext) {
-		// FeatureUtils.register(pContext,CPWorldGen.WALNUT,Feature.TREE,createStraightBlobTree(log("walnut"),leave("walnut"), 4, 2, 0, 2).ignoreVines().build());
-		// FeatureUtils.register(pContext,CPWorldGen.FIG,Feature.TREE,createStraightBlobBush(log("fig"), leave("fig"), 4, 2, 0, 2).ignoreVines().build());
-		// FeatureUtils.register(pContext,CPWorldGen.WOLFBERRY,Feature.TREE,createStraightBlobBush(log("wolfberry"),leave("wolfberry"), 4, 2, 0, 2).ignoreVines().build());
+		FeatureUtils.register(pContext,CPWorldGen.WALNUT,Feature.TREE,createStraightBlobTree(log("walnut"),leave("walnut"), 6, 2, 1, 2,3,3).ignoreVines().build());
+		FeatureUtils.register(pContext,CPWorldGen.FIG,Feature.TREE,createStraightBlobBush(log("fig"), leave("fig"), 3, 2, 1, 2,0,2).ignoreVines().build());
+		FeatureUtils.register(pContext,CPWorldGen.WOLFBERRY,Feature.TREE,createStraightBlobBush(log("wolfberry"),leave("wolfberry"), 3, 2, 1, 1,1,5).ignoreVines().build());
 		FeatureUtils.register(pContext,CPWorldGen.SILPHIUM, Feature.RANDOM_PATCH,
 				new RandomPatchConfiguration(12,4,3,PlacementUtils.filtered(Feature.SIMPLE_BLOCK,new SimpleBlockConfiguration(BlockStateProvider.simple(CPBlocks.SILPHIUM.get())),BlockPredicate.ONLY_IN_AIR_PREDICATE)));
 	}
 	private static TreeConfiguration.TreeConfigurationBuilder createStraightBlobTree(Block log, Block leave, int height,
-			int randA, int randB, int foliage) {
+			int randA, int randB, int fradius, int foffset, int fheight) {
 		return new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(log),
 				new StraightTrunkPlacer(height, randA, randB), BlockStateProvider.simple(leave),
-				new BlobFoliagePlacer(ConstantInt.of(foliage), ConstantInt.of(0), 3),
+				new BlobFoliagePlacer(ConstantInt.of(fradius), ConstantInt.of(foffset), fheight),
 				new TwoLayersFeatureSize(1, 0, 1));
 	}
 
 	private static TreeConfiguration.TreeConfigurationBuilder createStraightBlobBush(Block log, Block leave, int height,
-			int randA, int randB, int foliage) {
+			int randA, int randB, int fradius, int foffset, int fheight) {
 		return new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(log),
 				new BushStraightTrunkPlacer(height, randA, randB), BlockStateProvider.simple(leave),
-				new BushFoliagePlacer(ConstantInt.of(foliage), ConstantInt.of(0), 3),
-				new TwoLayersFeatureSize(1, 0, 1));
+				//radius offset height
+				new BlobFoliagePlacer(ConstantInt.of(fradius), ConstantInt.of(foffset), fheight),
+				new TwoLayersFeatureSize(1, 0, 1)).decorators(Arrays.asList(new LeavingLogReplacer(BlockStateProvider.simple(BushLogBlock.setFullShape(log.defaultBlockState())))));
 	}
-	public static Block leave(String type) {
+	public static Block leave(String type) {  
 		return block(type+"_leaves");
 	}
 	public static Block sap(String type) {

@@ -76,7 +76,7 @@ public class CPMain {
 		CPEntityTypes.ENTITY_TYPES.register(mod);
 		CPRecipes.RECIPE_TYPES.register(mod);
 		CPWorldGen.STRUCTURE_TYPES.register(mod);
-		CPWorldGen.FOILAGE_TYPES.register(mod);
+		CPWorldGen.DECORATOR_TYPES.register(mod);
 		CPWorldGen.TRUNK_TYPES.register(mod);
 		CPMobEffects.EFFECTS.register(mod);
 		CPData.LOOT_MODIFIERS.register(mod);
