@@ -40,8 +40,6 @@ import com.teammoeg.caupona.entity.CPBoat;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.ICreativeModeTabItem;
-import com.teammoeg.caupona.util.IFoodInfo;
-import com.teammoeg.caupona.util.StewInfo;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
@@ -49,7 +47,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;

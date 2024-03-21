@@ -36,16 +36,14 @@ sourceSets {
     }
 	datagen {
         compileClasspath += main.compileClasspath
-        runtimeClasspath += main.runtimeClasspath
         compileClasspath += main.output
-        runtimeClasspath += main.output
         resources {
             srcDirs = [
                     "$rootDir/src/datagen/resources",
             ]
         }
     }
-    buildtools
+    client {}
 }
 minecraft {
   accessTransformers {
@@ -72,6 +70,8 @@ runs {
 
     client {
         // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+        modSource project.sourceSets.client
+        modSource project.sourceSets.main
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
     }
 
@@ -92,6 +92,7 @@ runs {
         // workingDirectory project.file('run-data')
 		//modSource project.sourceSets.datagen
         // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+        modSource project.sourceSets.main
         modSource project.sourceSets.datagen
         programArguments.addAll '--mod', project.mod_id,
          '--all',
@@ -167,7 +168,8 @@ dependencies {
 
     //compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-81-FORGE:api")
     compileOnly "vazkii.patchouli:Patchouli:1.20.1-81-FORGE:api"
-	implementation "me.shedaniel:RoughlyEnoughItems-neoforge:14.0.688"
+	compileOnly "me.shedaniel:RoughlyEnoughItems-neoforge:14.0.688"
+	//clientRuntimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:14.0.688"
     // FG5 requires 0.8.3
     //annotationProcessor "org.spongepowered:mixin:0.8.3:processor"
     //testAnnotationProcessor "org.spongepowered:mixin:0.8.3:processor"

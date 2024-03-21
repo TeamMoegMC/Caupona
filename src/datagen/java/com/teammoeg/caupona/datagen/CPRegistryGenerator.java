@@ -24,10 +24,12 @@ package com.teammoeg.caupona.datagen;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
+import com.google.common.collect.ImmutableList;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.CPWorldGen;
-import com.teammoeg.caupona.worldgen.BushFoliagePlacer;
+import com.teammoeg.caupona.blocks.plants.BushLogBlock;
+import com.teammoeg.caupona.worldgen.LeavingLogReplacer;
 import com.teammoeg.caupona.worldgen.BushStraightTrunkPlacer;
 
 import net.minecraft.core.HolderGetter;
@@ -52,6 +54,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.TreeConfigurati
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
@@ -98,8 +101,11 @@ public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
 			int randA, int randB, int foliage) {
 		return new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(log),
 				new BushStraightTrunkPlacer(height, randA, randB), BlockStateProvider.simple(leave),
-				new BushFoliagePlacer(ConstantInt.of(foliage), ConstantInt.of(0), 3),
-				new TwoLayersFeatureSize(1, 0, 1));
+				new BlobFoliagePlacer(ConstantInt.of(foliage), ConstantInt.of(0), 3),
+				new TwoLayersFeatureSize(1, 0, 1))
+			.decorators(ImmutableList.<TreeDecorator>builder()
+				.add(new LeavingLogReplacer(BlockStateProvider.simple(BushLogBlock.setFullShape(log.defaultBlockState())))).build())
+			;
 	}
 	public static Block leave(String type) {
 		return block(type+"_leaves");

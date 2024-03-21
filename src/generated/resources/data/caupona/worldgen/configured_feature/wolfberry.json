@@ -1,7 +1,24 @@
 {
   "type": "minecraft:tree",
   "config": {
-    "decorators": [],
+    "decorators": [
+      {
+        "type": "caupona:leaving_log_replacer",
+        "replace": {
+          "type": "minecraft:simple_state_provider",
+          "state": {
+            "Name": "caupona:wolfberry_log",
+            "Properties": {
+              "e": "true",
+              "fully_foliaged": "true",
+              "n": "true",
+              "s": "true",
+              "w": "true"
+            }
+          }
+        }
+      }
+    ],
     "dirt_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
@@ -9,7 +26,7 @@
       }
     },
     "foliage_placer": {
-      "type": "caupona:bush_foliage_placer",
+      "type": "minecraft:blob_foliage_placer",
       "height": 3,
       "offset": 0,
       "radius": 2

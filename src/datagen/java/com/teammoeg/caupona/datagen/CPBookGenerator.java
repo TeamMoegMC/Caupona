@@ -48,7 +48,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class CPBookGenerator extends JsonGenerator {

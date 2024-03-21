@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona;
 
-import com.teammoeg.caupona.worldgen.BushFoliagePlacer;
+import com.teammoeg.caupona.worldgen.LeavingLogReplacer;
 import com.teammoeg.caupona.worldgen.BushStraightTrunkPlacer;
 import com.teammoeg.caupona.worldgen.FumaroleStructure;
 
@@ -31,6 +31,7 @@ import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.StructureType;
@@ -38,11 +39,11 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class CPWorldGen {
-	public static final DeferredRegister<FoliagePlacerType<?>> FOILAGE_TYPES = DeferredRegister.create(Registries.FOLIAGE_PLACER_TYPE, CPMain.MODID);
+	public static final DeferredRegister<TreeDecoratorType<?>> FOILAGE_TYPES = DeferredRegister.create(Registries.TREE_DECORATOR_TYPE, CPMain.MODID);
 	public static final DeferredRegister<TrunkPlacerType<?>> TRUNK_TYPES = DeferredRegister.create(Registries.TRUNK_PLACER_TYPE, CPMain.MODID);
 	public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES = DeferredRegister.create(Registries.STRUCTURE_TYPE, CPMain.MODID);
 	
-	public static final DeferredHolder<FoliagePlacerType<?>,FoliagePlacerType<BushFoliagePlacer>> BUSH_PLACER = FOILAGE_TYPES.register("bush_foliage_placer", () -> new FoliagePlacerType<>(BushFoliagePlacer.CODEC));
+	public static final DeferredHolder<TreeDecoratorType<?>,TreeDecoratorType<LeavingLogReplacer>> BUSH_PLACER = FOILAGE_TYPES.register("leaving_log_replacer", () -> new TreeDecoratorType<>(LeavingLogReplacer.CODEC));
 	
 	public static final DeferredHolder<TrunkPlacerType<?>,TrunkPlacerType<BushStraightTrunkPlacer>> BUSH_TRUNK = TRUNK_TYPES.register("bush_chunk", () -> new TrunkPlacerType<>(BushStraightTrunkPlacer.CODEC));
 	

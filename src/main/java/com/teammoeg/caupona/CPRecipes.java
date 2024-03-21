@@ -33,7 +33,6 @@ import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
-import com.teammoeg.caupona.util.SerializeUtil;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;

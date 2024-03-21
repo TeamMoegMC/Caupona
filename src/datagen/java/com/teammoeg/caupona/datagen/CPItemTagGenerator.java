@@ -23,31 +23,12 @@ package com.teammoeg.caupona.datagen;
 
 
 
-import static com.teammoeg.caupona.CPTags.Items.BAKED;
-import static com.teammoeg.caupona.CPTags.Items.CEREALS;
-import static com.teammoeg.caupona.CPTags.Items.CRUSTACEANS;
-import static com.teammoeg.caupona.CPTags.Items.EGGS;
-import static com.teammoeg.caupona.CPTags.Items.FISH;
-import static com.teammoeg.caupona.CPTags.Items.GREENS;
-import static com.teammoeg.caupona.CPTags.Items.MEAT;
-import static com.teammoeg.caupona.CPTags.Items.MEATS;
-import static com.teammoeg.caupona.CPTags.Items.MUSHROOMS;
-import static com.teammoeg.caupona.CPTags.Items.POULTRY;
-import static com.teammoeg.caupona.CPTags.Items.PUMPKIN;
-import static com.teammoeg.caupona.CPTags.Items.RICE;
-import static com.teammoeg.caupona.CPTags.Items.ROOTS;
-import static com.teammoeg.caupona.CPTags.Items.SEAFOOD;
-import static com.teammoeg.caupona.CPTags.Items.SUGAR;
-import static com.teammoeg.caupona.CPTags.Items.VEGETABLES;
-import static com.teammoeg.caupona.CPTags.Items.WALNUT;
-
 import java.util.concurrent.CompletableFuture;
 
 import com.google.common.collect.ImmutableList;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
-import com.teammoeg.caupona.CPTags;
 import com.teammoeg.caupona.util.MaterialType;
 
 import net.minecraft.core.HolderLookup;
@@ -56,14 +37,12 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
-import net.minecraft.data.tags.TagsProvider.TagAppender;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 

@@ -24,6 +24,7 @@ package com.teammoeg.caupona.datagen;
 import java.util.concurrent.CompletableFuture;
 
 import com.teammoeg.caupona.CPMain;
+
 import net.minecraft.Util;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;

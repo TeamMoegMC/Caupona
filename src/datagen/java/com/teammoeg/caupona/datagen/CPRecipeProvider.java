@@ -21,34 +21,16 @@
 
 package com.teammoeg.caupona.datagen;
 
-import static com.teammoeg.caupona.CPTags.Fluids.ANY_WATER;
-import static com.teammoeg.caupona.CPTags.Items.BAKED;
-import static com.teammoeg.caupona.CPTags.Items.CEREALS;
-import static com.teammoeg.caupona.CPTags.Items.CRUSTACEANS;
-import static com.teammoeg.caupona.CPTags.Items.EGGS;
-import static com.teammoeg.caupona.CPTags.Items.FISH;
-import static com.teammoeg.caupona.CPTags.Items.GREENS;
-import static com.teammoeg.caupona.CPTags.Items.MEAT;
-import static com.teammoeg.caupona.CPTags.Items.MEATS;
-import static com.teammoeg.caupona.CPTags.Items.MUSHROOMS;
-import static com.teammoeg.caupona.CPTags.Items.POULTRY;
-import static com.teammoeg.caupona.CPTags.Items.PUMPKIN;
-import static com.teammoeg.caupona.CPTags.Items.RICE;
-import static com.teammoeg.caupona.CPTags.Items.ROOTS;
-import static com.teammoeg.caupona.CPTags.Items.SEAFOOD;
-import static com.teammoeg.caupona.CPTags.Items.SUGAR;
-import static com.teammoeg.caupona.CPTags.Items.VEGETABLES;
-import static com.teammoeg.caupona.CPTags.Items.WALNUT;
+import static com.teammoeg.caupona.CPTags.Fluids.*;
+import static com.teammoeg.caupona.CPTags.Items.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPFluids;
@@ -83,7 +65,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;

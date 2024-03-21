@@ -47,10 +47,10 @@ public class CPMain {
 	public static final String MODNAME = "Caupona";
 	public static final Logger logger = LogManager.getLogger(MODNAME);
 	public static final String BOOK_NBT_TAG=CPMain.MODID+":book_given";
-	public static DeferredRegister<CreativeModeTab> TABS=DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CPMain.MODID);
-	public static DeferredHolder<CreativeModeTab,CreativeModeTab> main=TABS.register("aaa_caupona_cpn_main",()->CreativeModeTab.builder().withTabsBefore(CreativeModeTabs.SPAWN_EGGS).icon(()->new ItemStack(CPBlocks.STEW_POT.get())).title(Utils.translate("itemGroup.caupona")).build());
-	public static DeferredHolder<CreativeModeTab,CreativeModeTab> decoration=TABS.register("aaa_caupona_cpn_decorations",()->CreativeModeTab.builder().withTabsBefore(main.getKey()).icon(()->new ItemStack(CPBlocks.PUMICE_BLOOM.get())).title(Utils.translate("itemGroup.caupona_decorations")).build());
-	public static DeferredHolder<CreativeModeTab,CreativeModeTab> foods=TABS.register("aaa_caupona_cpn_food", ()->CreativeModeTab.builder().withTabsBefore(main.getKey(),decoration.getKey()).icon(()->new ItemStack(CPItems.gravy_boat.get())).title(Utils.translate("itemGroup.caupona_foods")).build());
+	public static final DeferredRegister<CreativeModeTab> TABS=DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CPMain.MODID);
+	public static final DeferredHolder<CreativeModeTab,CreativeModeTab> main=TABS.register("aaa_caupona_cpn_main",()->CreativeModeTab.builder().withTabsBefore(CreativeModeTabs.SPAWN_EGGS).icon(()->new ItemStack(CPBlocks.STEW_POT.get())).title(Utils.translate("itemGroup.caupona")).build());
+	public static final DeferredHolder<CreativeModeTab,CreativeModeTab> decoration=TABS.register("aaa_caupona_cpn_decorations",()->CreativeModeTab.builder().withTabsBefore(main.getKey()).icon(()->new ItemStack(CPBlocks.PUMICE_BLOOM.get())).title(Utils.translate("itemGroup.caupona_decorations")).build());
+	public static final DeferredHolder<CreativeModeTab,CreativeModeTab> foods=TABS.register("aaa_caupona_cpn_food", ()->CreativeModeTab.builder().withTabsBefore(main.getKey(),decoration.getKey()).icon(()->new ItemStack(CPItems.gravy_boat.get())).title(Utils.translate("itemGroup.caupona_foods")).build());
 	
 	public static ResourceLocation rl(String path) {
 		return new ResourceLocation(MODID, path);
@@ -76,6 +76,7 @@ public class CPMain {
 		CPWorldGen.TRUNK_TYPES.register(mod);
 		CPMobEffects.EFFECTS.register(mod);
 		CPData.LOOT_MODIFIERS.register(mod);
+		CPCapability.REGISTRY.register(mod);
 		CPConfig.register();
 	}
 

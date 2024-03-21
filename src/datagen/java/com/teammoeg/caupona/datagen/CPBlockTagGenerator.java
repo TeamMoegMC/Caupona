@@ -160,8 +160,8 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 	}
 	@SafeVarargs
 	private void adds(TagAppender<Block> ta,ResourceKey<? extends Block>... keys) {
-		ResourceKey[] rk=keys;
-		ta.add(rk);
+		for(ResourceKey<? extends Block> blk:keys)
+		ta.add((ResourceKey<Block>) blk);
 	}
 	private TagAppender<Block> tag(String s) {
 		return this.tag(BlockTags.create(mrl(s)));
