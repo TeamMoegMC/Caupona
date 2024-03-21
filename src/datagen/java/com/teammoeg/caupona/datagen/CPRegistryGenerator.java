@@ -52,7 +52,9 @@ import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConf
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FancyFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
@@ -83,15 +85,15 @@ public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
 	public static void bootstrapCFeatures(BootstapContext<ConfiguredFeature<?,?>> pContext) {
 		FeatureUtils.register(pContext,CPWorldGen.WALNUT,Feature.TREE,createStraightBlobTree(log("walnut"),leave("walnut"), 6, 2, 1, 2,3,3).ignoreVines().build());
 		FeatureUtils.register(pContext,CPWorldGen.FIG,Feature.TREE,createStraightBlobBush(log("fig"), leave("fig"), 3, 2, 1, 2,0,2).ignoreVines().build());
-		FeatureUtils.register(pContext,CPWorldGen.WOLFBERRY,Feature.TREE,createStraightBlobBush(log("wolfberry"),leave("wolfberry"), 3, 2, 1, 1,1,5).ignoreVines().build());
+		FeatureUtils.register(pContext,CPWorldGen.WOLFBERRY,Feature.TREE,createStraightFancyBush(log("wolfberry"),leave("wolfberry"), 3, 2, 1, 1,1,5).ignoreVines().build());
 		FeatureUtils.register(pContext,CPWorldGen.SILPHIUM, Feature.RANDOM_PATCH,
 				new RandomPatchConfiguration(12,4,3,PlacementUtils.filtered(Feature.SIMPLE_BLOCK,new SimpleBlockConfiguration(BlockStateProvider.simple(CPBlocks.SILPHIUM.get())),BlockPredicate.ONLY_IN_AIR_PREDICATE)));
 	}
 	private static TreeConfiguration.TreeConfigurationBuilder createStraightBlobTree(Block log, Block leave, int height,
 			int randA, int randB, int fradius, int foffset, int fheight) {
 		return new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(log),
-				new StraightTrunkPlacer(height, randA, randB), BlockStateProvider.simple(leave),
-				new BlobFoliagePlacer(ConstantInt.of(fradius), ConstantInt.of(foffset), fheight),
+				new FancyTrunkPlacer(height, randA, randB), BlockStateProvider.simple(leave),
+				new FancyFoliagePlacer(ConstantInt.of(fradius), ConstantInt.of(foffset), fheight),
 				new TwoLayersFeatureSize(1, 0, 1));
 	}
 
@@ -103,6 +105,14 @@ public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
 				new BlobFoliagePlacer(ConstantInt.of(fradius), ConstantInt.of(foffset), fheight),
 				new TwoLayersFeatureSize(1, 0, 1)).decorators(Arrays.asList(new LeavingLogReplacer(BlockStateProvider.simple(BushLogBlock.setFullShape(log.defaultBlockState())))));
 	}
+	private static TreeConfiguration.TreeConfigurationBuilder createStraightFancyBush(Block log, Block leave, int height,
+		int randA, int randB, int fradius, int foffset, int fheight) {
+	return new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(log),
+			new BushStraightTrunkPlacer(height, randA, randB), BlockStateProvider.simple(leave),
+			//radius offset height
+			new FancyFoliagePlacer(ConstantInt.of(fradius), ConstantInt.of(foffset), fheight),
+			new TwoLayersFeatureSize(1, 0, 1)).decorators(Arrays.asList(new LeavingLogReplacer(BlockStateProvider.simple(BushLogBlock.setFullShape(log.defaultBlockState())))));
+}
 	public static Block leave(String type) {  
 		return block(type+"_leaves");
 	}
