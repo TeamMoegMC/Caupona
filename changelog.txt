@@ -1,6 +1,1 @@
-Repair multiple issues:
-Dolium resets process when opening interface.
-Cooked Dishes restores too much hunger.
-Some crashes.
-Sauteed greens and some specific frying recipe can not be made.
-Synchronization issues
+Add compat to HT's treechop
