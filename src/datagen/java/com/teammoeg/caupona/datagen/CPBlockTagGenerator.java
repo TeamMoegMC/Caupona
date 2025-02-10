@@ -147,7 +147,9 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 			tag(BlockTags.MINEABLE_WITH_AXE).add(cp(bush + "_log"));
 			tag(BlockTags.MINEABLE_WITH_HOE).add(cp(bush + "_leaves")).add(cp(bush + "_fruits"));
 			tag(CPTags.Blocks.SNAIL_PLUMP_FOOD).add(cp(bush + "_fruits"));
+			tag(new ResourceLocation("treechop:leaves_like")).add(cp(bush + "_fruits"));
 		}
+		adds(tag(new ResourceLocation("treechop:leaves_like")),CPBlocks.SNAIL_MUCUS.getKey(),CPBlocks.SNAIL_BAIT.getKey(),CPBlocks.SNAIL.getKey(),CPBlocks.WALNUT_FRUIT.getKey());
 		adds(tag(BlockTags.MINEABLE_WITH_HOE),CPBlocks.SNAIL.getKey(),CPBlocks.SNAIL_BAIT.getKey(),CPBlocks.SNAIL_MUCUS.getKey());
 		adds(pickaxe,CPBlocks.PUMICE_BLOOM.getKey(), CPBlocks.FUMAROLE_BOULDER.getKey(), CPBlocks.FUMAROLE_VENT.getKey(), CPBlocks.PUMICE.getKey());
 		adds(pickaxe,CPBlocks.WOLF.getKey(), CPBlocks.STONE_PAN.getKey(), CPBlocks.COPPER_PAN.getKey(), CPBlocks.IRON_PAN.getKey(),CPBlocks.LEAD_PAN.getKey());
@@ -156,7 +158,8 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 		tag(CPTags.Blocks.SNAIL_GROWABLE_ON).addTag(CPTags.Blocks.FRUITS_GROWABLE_ON).addTag(BlockTags.LEAVES).add(CPBlocks.SNAIL_MUCUS.getKey());
 		tag(CPTags.Blocks.SNAIL_PLUMP_FOOD).add(CPBlocks.WALNUT_FRUIT.getKey());
 		adds(tag(CPTags.Blocks.SNAIL_FOOD).addTag(CPTags.Blocks.FRUITS_GROWABLE_ON).addTag(BlockTags.LEAVES).addTag(CPTags.Blocks.SNAIL_PLUMP_FOOD),CPBlocks.SNAIL_BAIT.getKey());
-
+		
+		
 	}
 	@SafeVarargs
 	private void adds(TagAppender<Block> ta,ResourceKey<? extends Block>... keys) {

@@ -173,7 +173,7 @@ dependencies {
     
 	//implementation fg.deobf("curse.maven:kiwi-303657:3974084")
 	
-	//implementation fg.deobf("curse.maven:treechop-421377:4365698")
+	implementation fg.deobf("curse.maven:treechop-421377:5565422")
 
 	//implementation fg.deobf("curse.maven:create-328085:4371809")
 

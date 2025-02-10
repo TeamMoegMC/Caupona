@@ -199,6 +199,8 @@ public class CPBlocks {
 	public static final RegistryObject<SnailBaitBlock> SNAIL_BAIT = baseblock("snail_bait", ()->new SnailBaitBlock(BlockBehaviour.Properties.of()
 			.mapColor(MapColor.PLANT).noCollission().randomTicks().offsetType(OffsetType.XZ).instabreak().sound(SoundType.CROP).isViewBlocking(CPBlocks::isntSolid)),x->new CPBlockItem(x,CPItems.createProps(),TabType.MAIN));
 	public static final RegistryObject<Block> LEAD_BLOCK=block("lead_block",BlockBehaviour.Properties.of().mapColor(MapColor.METAL).sound(SoundType.METAL).strength(3.5f, 10).requiresCorrectToolForDrops(),TabType.DECORATION);
+	public static final RegistryObject<Block> FIG_LOG=registerBush("fig", DefaultTreeGrower.supply(CPWorldGen.FIG));
+	public static final RegistryObject<Block> WOLFBERRY_LOG=registerBush("wolfberry", DefaultTreeGrower.supply(CPWorldGen.WOLFBERRY));
 	// Bulk register blocks
 	static {
 
@@ -250,8 +252,7 @@ public class CPBlocks {
 		}
 
 		registerWood("walnut", WALNUT, DefaultTreeGrower.supply(CPWorldGen.WALNUT),WALNUT_FRUIT);
-		registerBush("fig", DefaultTreeGrower.supply(CPWorldGen.FIG));
-		registerBush("wolfberry", DefaultTreeGrower.supply(CPWorldGen.WOLFBERRY));
+	
 		for (String s : CPItems.dishes) {
 			baseblock(s,
 				() -> new DishBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
@@ -264,8 +265,8 @@ public class CPBlocks {
 	// Convenient block registry wrapper
 
 	// create a bush
-	private static void registerBush(String wood, Supplier<AbstractTreeGrower> growth) {
-		decoblock(wood + "_log", () -> new BushLogBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
+	private static RegistryObject<Block> registerBush(String wood, Supplier<AbstractTreeGrower> growth) {
+		RegistryObject<Block> LOG=decoblock(wood + "_log", () -> new BushLogBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
 				.strength(2.0F).noOcclusion().sound(SoundType.WOOD)));
 		RegistryObject<Block> a = decoblock(wood + "_fruits", () -> new FruitBlock(BlockBehaviour.Properties.of()
 				.mapColor(MapColor.PLANT).offsetType(OffsetType.XZ).noCollission().randomTicks().instabreak().sound(SoundType.CROP)));
@@ -276,6 +277,7 @@ public class CPBlocks {
 				maindecoblock(wood + "_sapling", () -> new SaplingBlock(growth.get(), BlockBehaviour.Properties.of()
 						.mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS))),
 				0.3F);
+		return LOG;
 
 	}
 
