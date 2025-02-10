@@ -261,7 +261,7 @@ public class CPRecipeProvider extends RecipeProvider {
 		fry("sauteed_roots").high().require().mainly().of(ROOTS).and().then().finish(out);
 		fry("sauteed_seafood").med().require().mainly().of(SEAFOOD).and().then().finish(out);
 		fry("sauteed_vegetables").med().require().mainly().of(VEGETABLES).and().then().finish(out);
-		fry("seared_fillet").med().require().mainly().of(FISH).and().then().finish(out);
+		fry("seared_fillet").high().require().mainly().of(FISH).and().then().finish(out);
 		fry("seared_poultry").high().require().mainly().of(POULTRY).and().then().finish(out);
 		fry("sauteed_hodgepodge").low().finish(out);
 	}
