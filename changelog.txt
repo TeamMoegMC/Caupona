@@ -1,2 +1,2 @@
-Fix datapack cause crash.
+Fix a dupe glitch (#104)
   

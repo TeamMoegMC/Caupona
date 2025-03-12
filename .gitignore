@@ -3,6 +3,7 @@
 /.project
 /.classpath
 .settings/
+.eclipse/
 *.iml
 *.ipr
 *.iws
@@ -122,3 +123,4 @@ run/
 /src/generated/resources/.cache/
 /bin/
 /run1/
+/runs/

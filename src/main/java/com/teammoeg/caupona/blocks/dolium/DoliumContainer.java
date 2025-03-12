@@ -61,7 +61,7 @@ public class DoliumContainer extends AbstractContainerMenu {
 
 	@Override
 	public boolean stillValid(Player playerIn) {
-		return true;
+		return !tile.isRemoved();
 	}
 
 	@Override
