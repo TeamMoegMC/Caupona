@@ -7,6 +7,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.Vec3;
 
 public abstract class CPBaseContainer<T extends BlockEntity> extends AbstractContainerMenu {
 	protected T blockEntity;
@@ -72,7 +73,7 @@ public abstract class CPBaseContainer<T extends BlockEntity> extends AbstractCon
 	}
 	@Override
 	public boolean stillValid(Player pPlayer) {
-		return !blockEntity.isRemoved();
+		return !blockEntity.isRemoved()&&pPlayer.position().distanceToSqr(Vec3.atCenterOf(blockEntity.getBlockPos()))<64;
 	}
 
 }

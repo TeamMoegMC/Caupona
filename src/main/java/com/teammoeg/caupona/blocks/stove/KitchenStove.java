@@ -125,6 +125,7 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntit
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (state.getBlock() != newState.getBlock()&&worldIn.getBlockEntity(pos) instanceof KitchenStoveBlockEntity stove) {
 			ItemStack is = stove.getItem(0);
+			stove.setItem(0, ItemStack.EMPTY);
 			if (!is.isEmpty())
 				super.popResource(worldIn, pos, is);
 		}

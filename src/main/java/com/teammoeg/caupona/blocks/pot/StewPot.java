@@ -138,11 +138,13 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 			if (pot.proctype != 2)
 				for (int i = 0; i < 9; i++) {
 					ItemStack is = pot.getInv().getStackInSlot(i);
+					pot.getInv().setStackInSlot(i, ItemStack.EMPTY);
 					if (!is.isEmpty())
 						super.popResource(worldIn, pos, is);
 				}
 			for (int i = 9; i < 12; i++) {
 				ItemStack is = pot.getInv().getStackInSlot(i);
+				pot.getInv().setStackInSlot(i, ItemStack.EMPTY);
 				if (!is.isEmpty())
 					super.popResource(worldIn, pos, is);
 			}

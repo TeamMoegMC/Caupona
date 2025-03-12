@@ -138,6 +138,7 @@ public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlo
 		if (state.getBlock() != newState.getBlock() && worldIn.getBlockEntity(pos) instanceof CounterDoliumBlockEntity dolium) {
 			for (int i = 0; i < 6; i++) {
 				ItemStack is = dolium.inv.getStackInSlot(i);
+				dolium.inv.setStackInSlot(i, ItemStack.EMPTY);
 				if (!is.isEmpty())
 					super.popResource(worldIn, pos, is);
 			}

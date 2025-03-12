@@ -78,12 +78,15 @@ public class PanBlock extends CPHorizontalEntityBlock<PanBlockEntity> {
 		if (state.getBlock() != newState.getBlock()&&worldIn.getBlockEntity(pos) instanceof PanBlockEntity pan) {
 			if (pan.processMax == 0)
 				for (int i = 0; i < 9; i++) {
+					
 					ItemStack is = pan.inv.getStackInSlot(i);
+					pan.inv.setStackInSlot(i, ItemStack.EMPTY);
 					if (!is.isEmpty())
 						super.popResource(worldIn, pos, is);
 				}
 			for (int i = 9; i < 12; i++) {
 				ItemStack is = pan.inv.getStackInSlot(i);
+				pan.inv.setStackInSlot(i, ItemStack.EMPTY);
 				if (!is.isEmpty())
 					super.popResource(worldIn, pos, is);
 			}
