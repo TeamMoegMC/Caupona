@@ -9,18 +9,6 @@
 					"type": "minecraft:item",
 					"name": "caupona:wolfberries"
 				}
-			],
-			"conditions": [
-				{
-					"condition": "minecraft:block_state_property",
-					"block": "caupona:wolfberry_fruits",
-					"properties": {
-						"age": {
-							"min": "1",
-							"max": "4"
-						}
-					}
-				}
 			]
 		},
 		{

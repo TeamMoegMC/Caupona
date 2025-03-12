@@ -9,18 +9,6 @@
 					"type": "minecraft:item",
 					"name": "caupona:fig"
 				}
-			],
-			"conditions": [
-				{
-					"condition": "minecraft:block_state_property",
-					"block": "caupona:fig_fruits",
-					"properties": {
-						"age": {
-							"min": "1",
-							"max": "4"
-						}
-					}
-				}
 			]
 		},
 		{

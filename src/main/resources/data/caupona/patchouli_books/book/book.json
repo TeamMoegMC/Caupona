@@ -6,6 +6,5 @@
   "model": "caupona:book",
   "show_progress": false,
   "filler_texture":"caupona:textures/gui/page_filler.png",
-  "creative_tab": "caupona:main",
-  "use_resource_pack": true
+  "creative_tab": "caupona"
 }

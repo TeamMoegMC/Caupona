@@ -23,17 +23,21 @@ package com.teammoeg.caupona.datagen;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
-import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.CPTags;
+import com.teammoeg.caupona.Main;
 import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
@@ -42,6 +46,9 @@ import com.teammoeg.caupona.data.recipes.baseconditions.FluidTag;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidType;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.data.CachedOutput;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.DataProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
@@ -49,7 +56,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
-public class CPBookGenerator extends JsonGenerator {
+public class CPBookGenerator implements DataProvider {
+	private static final Logger LOGGER = LogManager.getLogger();
+	protected final DataGenerator generator;
+	private Path bookmain;
+	private ExistingFileHelper helper;
 	private Map<String, JsonObject> langs = new HashMap<>();
 	private Map<String, StewCookingRecipe> recipes;
 	private Map<String, SauteedRecipe> frecipes;
@@ -78,17 +89,36 @@ public class CPBookGenerator extends JsonGenerator {
 
 	}
 
-
-
-	public CPBookGenerator(PackOutput output, ExistingFileHelper helper) {
-		super(PackType.CLIENT_RESOURCES,output, helper,"Caupona Patchouli");
+	public CPBookGenerator(DataGenerator generatorIn, ExistingFileHelper efh) {
+		this.generator = generatorIn;
+		this.helper = efh;
 	}
 
 	String[] allangs = { "zh_cn", "en_us", "es_es", "ru_ru" };
 
+	@Override
+	public void run(CachedOutput cache) throws IOException {
+		bookmain = this.generator.getOutputFolder().resolve("data/" + Main.MODID + "/patchouli_books/book/");
+		recipes = CPRecipeProvider.recipes.stream().filter(i -> i instanceof StewCookingRecipe)
+				.map(e -> ((StewCookingRecipe) e))
+				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.output).getPath(), e -> e));
+		frecipes = CPRecipeProvider.recipes.stream().filter(i -> i instanceof SauteedRecipe).map(e -> ((SauteedRecipe) e))
+				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.output).getPath(), e -> e));
+		for (String lang : allangs)
+			loadLang(lang);
+
+		for (String s : CPItems.soups)
+			if (recipes.containsKey(s)&&helper.exists(PictureRL(recipes.get(s)),PackType.CLIENT_RESOURCES))
+				defaultPage(cache, s);
+		for (String s : CPItems.dishes) {
+			if (frecipes.containsKey(s)&&helper.exists(PictureRL(frecipes.get(s)),PackType.CLIENT_RESOURCES))
+				defaultFryPage(cache, s);
+		}
+	}
+	
 	private void loadLang(String locale) {
 		try {
-			Resource rc = helper.getResource(new ResourceLocation(CPMain.MODID, "lang/" + locale + ".json"),
+			Resource rc = helper.getResource(new ResourceLocation(Main.MODID, "lang/" + locale + ".json"),
 					PackType.CLIENT_RESOURCES);
 			JsonObject jo = JsonParser.parseReader(new InputStreamReader(rc.open(), "UTF-8")).getAsJsonObject();
 			langs.put(locale, jo);
@@ -98,33 +128,21 @@ public class CPBookGenerator extends JsonGenerator {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
-	protected void gather(JsonStorage reciver) {
-		recipes = CPRecipeProvider.recipes.stream().filter(i -> i instanceof StewCookingRecipe)
-				.map(e -> ((StewCookingRecipe) e))
-				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.output).getPath(), e -> e));
-		frecipes= CPRecipeProvider.recipes.stream().filter(i -> i instanceof SauteedRecipe).map(e -> ((SauteedRecipe) e))
-				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.output).getPath(), e -> e));
-		for (String lang : allangs)
-			loadLang(lang);
-
-		for (String s : CPItems.soups)
-			if (recipes.containsKey(s)&&helper.exists(PictureRL(recipes.get(s)),PackType.CLIENT_RESOURCES))
-				defaultPage(reciver, s,recipes.get(s));
-		for (String s : CPItems.dishes) {
-			if (frecipes.containsKey(s)&&helper.exists(PictureRL(frecipes.get(s)),PackType.CLIENT_RESOURCES))
-				defaultFryPage(reciver, s,frecipes.get(s));
-		}
-	}
-	private void defaultPage(JsonStorage reciver, String name, StewCookingRecipe stewCookingRecipe) {
-		for (String lang : allangs)
-			saveEntry(name, lang, reciver, createRecipe(name, lang,stewCookingRecipe));
+	public String getName() {
+		return Main.MODID + " recipe patchouli generator";
 	}
 
-	private void defaultFryPage(JsonStorage reciver, String name, SauteedRecipe sauteedRecipe) {
+	private void defaultPage(CachedOutput cache, String name) {
 		for (String lang : allangs)
-			saveFryEntry(name, lang, reciver, createFryingRecipe(name, lang, sauteedRecipe));
-		
+			saveEntry(name, lang, cache, createRecipe(name, lang));
+	}
+
+	private void defaultFryPage(CachedOutput cache, String name) {
+		for (String lang : allangs)
+			saveFryEntry(name, lang, cache, createFryingRecipe(name, lang));
+
 	}
 
 	StewBaseCondition anyW = new FluidTag(CPTags.Fluids.ANY_WATER);
@@ -133,11 +151,12 @@ public class CPBookGenerator extends JsonGenerator {
 	private ResourceLocation PictureRL(Recipe<?> r) {
 		return new ResourceLocation(r.getId().getNamespace(), "textures/gui/recipes/" + r.getId().getPath() + ".png");
 	}
-	private JsonObject createRecipe(String name, String locale, StewCookingRecipe r) {
+	private JsonObject createRecipe(String name, String locale) {
 		JsonObject page = new JsonObject();
 		page.add("name", langs.get(locale).get("item.caupona." + name));
-		page.addProperty("icon", new ResourceLocation(CPMain.MODID, name).toString());
+		page.addProperty("icon", new ResourceLocation(Main.MODID, name).toString());
 		page.addProperty("category", "caupona:cook_recipes");
+		StewCookingRecipe r = recipes.get(name);
 		Item baseType = CPItems.any.get();
 		if (r.getBase() != null && !r.getBase().isEmpty()) {
 			StewBaseCondition sbc = r.getBase().get(0);
@@ -152,7 +171,7 @@ public class CPBookGenerator extends JsonGenerator {
 		JsonObject imgpage = new JsonObject();
 		imgpage.addProperty("type", "caupona:cookrecipe");
 		imgpage.addProperty("img",PictureRL(r).toString());
-		imgpage.addProperty("result", new ResourceLocation(CPMain.MODID, name).toString());
+		imgpage.addProperty("result", new ResourceLocation(Main.MODID, name).toString());
 		imgpage.addProperty("recipe", r.getId().toString());
 		imgpage.addProperty("base", Utils.getRegistryName(baseType).toString());
 		pages.add(imgpage);
@@ -160,16 +179,17 @@ public class CPBookGenerator extends JsonGenerator {
 		return page;
 	}
 
-	private JsonObject createFryingRecipe(String name, String locale, SauteedRecipe r) {
+	private JsonObject createFryingRecipe(String name, String locale) {
 		JsonObject page = new JsonObject();
 		page.add("name", langs.get(locale).get("item.caupona." + name));
-		page.addProperty("icon", new ResourceLocation(CPMain.MODID, name).toString());
+		page.addProperty("icon", new ResourceLocation(Main.MODID, name).toString());
 		page.addProperty("category", "caupona:sautee_recipes");
+		SauteedRecipe r = frecipes.get(name);
 		JsonArray pages = new JsonArray();
 		JsonObject imgpage = new JsonObject();
 		imgpage.addProperty("type", "caupona:fryrecipe");
 		imgpage.addProperty("img",PictureRL(r).toString());
-		imgpage.addProperty("result",new ResourceLocation(CPMain.MODID, name).toString());
+		imgpage.addProperty("result", new ResourceLocation(Main.MODID, name).toString());
 		imgpage.addProperty("recipe", r.getId().toString());
 		imgpage.addProperty("base", Utils.getRegistryName(CPBlocks.GRAVY_BOAT).toString());
 		pages.add(imgpage);
@@ -177,14 +197,21 @@ public class CPBookGenerator extends JsonGenerator {
 		return page;
 	}
 
-	private void saveEntry(String name, String locale,JsonStorage reciver, JsonObject entry) {
-		reciver.accept(new ResourceLocation(CPMain.MODID,"patchouli_books/book/"+locale + "/entries/recipes/" + name + ".json"),entry);
+	private void saveEntry(String name, String locale, CachedOutput cache, JsonObject entry) {
+		saveJson(cache, entry, bookmain.resolve(locale + "/entries/recipes/" + name + ".json"));
 	}
 
-	private void saveFryEntry(String name, String locale,JsonStorage reciver, JsonObject entry) {
-		reciver.accept(new ResourceLocation(CPMain.MODID,"patchouli_books/book/"+locale + "/entries/sautee_recipes/" + name + ".json"),entry);
+	private void saveFryEntry(String name, String locale, CachedOutput cache, JsonObject entry) {
+		saveJson(cache, entry, bookmain.resolve(locale + "/entries/sautee_recipes/" + name + ".json"));
 	}
 
+	private static void saveJson(CachedOutput cache, JsonObject recipeJson, Path path) {
+		try {
+			DataProvider.saveStable(cache, recipeJson, path);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			LOGGER.error("Couldn't save data json {}", path, e);
+		}
 
-
+	}
 }
