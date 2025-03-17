@@ -29,11 +29,9 @@ import org.jetbrains.annotations.Nullable;
 import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.fluid.SoupFluid;
-import com.teammoeg.caupona.item.DishItem;
 import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.IFoodInfo;
-import com.teammoeg.caupona.util.SauteedFoodInfo;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.resources.ResourceLocation;

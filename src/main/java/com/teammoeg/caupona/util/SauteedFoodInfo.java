@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
-import com.teammoeg.caupona.item.DishItem;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;

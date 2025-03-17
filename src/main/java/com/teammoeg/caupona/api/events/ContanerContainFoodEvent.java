@@ -2,8 +2,10 @@ package com.teammoeg.caupona.api.events;
 
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.Event.HasResult;
 import net.neoforged.neoforge.fluids.FluidStack;
 
+@HasResult
 public class ContanerContainFoodEvent extends Event {
 	public final ItemStack origin;
 	public ItemStack out=ItemStack.EMPTY;
