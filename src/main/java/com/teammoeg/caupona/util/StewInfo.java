@@ -341,7 +341,7 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 		for (Pair<MobEffectInstance, Float> ef : foodeffect) {
 			li.add(Pair.of(()->new MobEffectInstance(ef.getFirst()), ef.getSecond()));
 		}
-		return null;
+		return li;
 	}
 
 
