@@ -72,6 +72,7 @@ public class CPTags {
 		public static final TagKey<Fluid> ANY_WATER = create("water");
 		public static final TagKey<Fluid> BOILABLE = create("boilable");
 		public static final TagKey<Fluid> PUMICE_ON = create("pumice_bloom_grow_on");
+		public static final TagKey<Fluid> NO_LADLE_TRANSFER = create("no_ladle_transfer");
 		private static TagKey<Fluid> create(String s){
 			return FluidTags.create(new ResourceLocation(CPMain.MODID, s));
 		}

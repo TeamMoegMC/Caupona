@@ -60,6 +60,7 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 		
 		tag(CPTags.Fluids.PUMICE_ON).add(ForgeRegistries.FLUIDS.getResourceKey(Fluids.WATER).get());
 		tag(new ResourceLocation("watersource", "drink")).add(ResourceKey.create(Registries.FLUID,mrl("nail_soup")));
+		tag(CPTags.Fluids.NO_LADLE_TRANSFER);
 	}
 	private Fluid cp(String s) {
 		Fluid i = ForgeRegistries.FLUIDS.getValue(mrl(s));

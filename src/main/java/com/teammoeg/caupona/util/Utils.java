@@ -27,6 +27,7 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
+import com.teammoeg.caupona.CPTags;
 import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
 import com.teammoeg.caupona.api.events.FoodExchangeItemEvent;
 
@@ -52,8 +53,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
@@ -76,6 +80,9 @@ public class Utils {
 		ContanerContainFoodEvent ev=new ContanerContainFoodEvent(its2,fs,false,true);
 		MinecraftForge.EVENT_BUS.post(ev);
 		return ev;
+	}
+	public static boolean isValidTransferableByLadle(LazyOptional<IFluidHandler> ifh,int amt) {
+		return !ifh.map(t->t.drain(amt, FluidAction.SIMULATE)).map(t->t.getFluid().getFluidType().isLighterThanAir()||t.getFluid().is(CPTags.Fluids.NO_LADLE_TRANSFER)).orElse(false);
 	}
 	public static ItemStack extractOutput(IItemHandler inv,int count) {
 		ItemStack is=ItemStack.EMPTY;

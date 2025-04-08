@@ -23,6 +23,7 @@ package com.teammoeg.caupona.blocks.pot;
 
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 import com.teammoeg.caupona.client.CPParticles;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
@@ -52,7 +53,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
 
-public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> implements LiquidBlockContainer {
+public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> {
 	public static final EnumProperty<Axis> FACING = BlockStateProperties.HORIZONTAL_AXIS;
 
 	public StewPot(Properties blockProps, RegistryObject<BlockEntityType<StewPotBlockEntity>> ste) {
@@ -80,7 +81,8 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 				blockEntity.getTank().setFluid(FluidStack.EMPTY);
 				return InteractionResult.SUCCESS;
 			}
-			/*FluidStack out=Utils.extractFluid(held);
+			FluidStack out=Utils.extractFluid(held);
+			//System.out.println(out);
 			if (!out.isEmpty()) {
 				if (blockEntity.tryAddFluid(out)) {
 					ItemStack ret = held.getCraftingRemainingItem();
@@ -90,7 +92,7 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 				}
 
 				return InteractionResult.sidedSuccess(worldIn.isClientSide);
-			}*/
+			}
 			if (FluidUtil.interactWithFluidHandler(player, handIn, blockEntity.getTank()))
 				return InteractionResult.SUCCESS;
 
@@ -103,20 +105,6 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 		return p;
 	}
 
-	@Override
-	public boolean canPlaceLiquid(BlockGetter w, BlockPos p, BlockState s, Fluid f) {
-		StewPotBlockEntity blockEntity = (StewPotBlockEntity) w.getBlockEntity(p);
-		return blockEntity.canAddFluid(new FluidStack(f, 1000));
-	}
-
-	@Override
-	public boolean placeLiquid(LevelAccessor w, BlockPos p, BlockState s, FluidState f) {
-		StewPotBlockEntity blockEntity = (StewPotBlockEntity) w.getBlockEntity(p);
-		if (blockEntity.tryAddFluid(new FluidStack(f.getType(), 1000))) {
-			return true;
-		}
-		return false;
-	}
 
 	@Override
 	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {

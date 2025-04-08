@@ -176,14 +176,17 @@ public class CPCommonBootStrap {
 					LazyOptional<IFluidHandler> iptar = blockTarget.getCapability(ForgeCapabilities.FLUID_HANDLER, d);
 					if (iptar.isPresent()) {
 						if (blockSource.isPresent()) {
-							FluidUtil.tryFluidTransfer(iptar.orElse(null), blockSource.orElse(null), 250, true);
+							if(Utils.isValidTransferableByLadle(blockSource, 250))
+								FluidUtil.tryFluidTransfer(iptar.orElse(null), blockSource.orElse(null), 250, true);
 
 						} else if (src instanceof BucketPickup bpu) {
-							FluidUtil.tryFluidTransfer(iptar.orElse(null),
+							if(Utils.isValidTransferableByLadle(blockSource, 250))
+								FluidUtil.tryFluidTransfer(iptar.orElse(null),
 									new BucketPickupHandlerWrapper(bpu, bp.getLevel(), front), FluidType.BUCKET_VOLUME,
 									true);
 						} else if (src instanceof IFluidBlock bpu) {
-							FluidUtil.tryFluidTransfer(iptar.orElse(null),
+							if(Utils.isValidTransferableByLadle(blockSource, 250))
+								FluidUtil.tryFluidTransfer(iptar.orElse(null),
 									new FluidBlockWrapper(bpu, bp.getLevel(), front), Integer.MAX_VALUE, true);
 						}else if(besrc instanceof IFoodContainer cont) {
 							for(int i=0;i<cont.getSlots();i++) {
@@ -217,23 +220,25 @@ public class CPCommonBootStrap {
 								}
 							}
 						}else if(ipsrc.isPresent()){
-							IFluidHandler tank=ipsrc.orElse(null);
-							
-							FluidStack fs=tank.drain(250, FluidAction.SIMULATE);
-							if(!fs.isEmpty()) {
-								for(int j=0;j<contt.getSlots();j++) {
-									ItemStack its2=contt.getInternal(j);
-									if(its2.getCount()==1) {
-										ContanerContainFoodEvent ev=Utils.contain(its2, fs,true);
-										if(ev.isAllowed()) {
-											if(contt.accepts(j, ev.out)) {
-												fs=tank.drain(ev.drainAmount, FluidAction.EXECUTE);
-												if(fs.getAmount()==ev.drainAmount) {
-													ev=Utils.contain(its2, fs,false);
-													contt.setInternal(j,ev.out);
+							if(Utils.isValidTransferableByLadle(ipsrc, 250)) {
+								IFluidHandler tank=ipsrc.orElse(null);
+								
+								FluidStack fs=tank.drain(250, FluidAction.SIMULATE);
+								if(!fs.isEmpty()) {
+									for(int j=0;j<contt.getSlots();j++) {
+										ItemStack its2=contt.getInternal(j);
+										if(its2.getCount()==1) {
+											ContanerContainFoodEvent ev=Utils.contain(its2, fs,true);
+											if(ev.isAllowed()) {
+												if(contt.accepts(j, ev.out)) {
+													fs=tank.drain(ev.drainAmount, FluidAction.EXECUTE);
+													if(fs.getAmount()==ev.drainAmount) {
+														ev=Utils.contain(its2, fs,false);
+														contt.setInternal(j,ev.out);
+													}
 												}
+												break;
 											}
-											break;
 										}
 									}
 								}
