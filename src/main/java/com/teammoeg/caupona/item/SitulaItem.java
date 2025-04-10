@@ -101,23 +101,8 @@ public class SitulaItem extends ItemFluidContainer  implements ICreativeModeTabI
 		ItemStack cur=playerIn.getItemInHand(pUsedHand);
 		if (ray.getType() == Type.BLOCK) {
 			BlockPos blockpos = ray.getBlockPos();
-			FluidState state = worldIn.getFluidState(blockpos);
-			BlockState blk=worldIn.getBlockState(blockpos);
-			
-			if(blk.getBlock() instanceof BucketPickup bucket) {
-				IFluidHandlerItem handler=cur.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
-				if(handler!=null) {
-					FluidStack fluid=handler.getFluidInTank(0);
-					if(!fluid.isEmpty()&&fluid.getAmount()<handler.getTankCapacity(0)&&fluid.getFluid().isSame(state.getType())) {
-						int amt=handler.fill(new FluidStack(state.getType(),FluidType.BUCKET_VOLUME),FluidAction.EXECUTE);
-						if(amt>0) {
-							bucket.pickupBlock(worldIn, blockpos, blk);
-							return InteractionResultHolder.sidedSuccess(cur,worldIn.isClientSide);
-						}
-					}
-				}
-			}
-			FluidActionResult res=FluidUtil.tryPickUpFluid(cur, playerIn, worldIn, blockpos,ray.getDirection());
+
+			FluidActionResult res=Utils.pickupFluidFromWorld(cur, playerIn, worldIn, blockpos,ray.getDirection(),true);
 			if(res.isSuccess()) {
 				
 				return InteractionResultHolder.sidedSuccess(res.getResult(),worldIn.isClientSide);

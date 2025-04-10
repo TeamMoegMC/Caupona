@@ -25,6 +25,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.Nullable;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.CPTags;
@@ -46,18 +50,26 @@ import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BucketPickup;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.Event.Result;
+import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import net.minecraftforge.fluids.capability.wrappers.BucketPickupHandlerWrapper;
+import net.minecraftforge.fluids.capability.wrappers.FluidBlockWrapper;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
@@ -325,4 +337,74 @@ public class Utils {
 	
 	}
 
+	/**
+	 * Pickup fluid from world, respect fluid container settings.
+	 * If partially fill is fulfilled, when a container with less than 1000mb space, the fluid block would still be consumed but only produce requested amount of fluid
+	 *
+	 * @param emptyContainer the container itself
+	 * @param playerIn the player
+	 * @param level world
+	 * @param pos block position
+	 * @param side direction
+	 * @param allowFillPartial allow consume full fluid block to partially fill container.
+	 * @return the fluid action result
+	 */
+	public static FluidActionResult pickupFluidFromWorld(@NotNull ItemStack emptyContainer, @Nullable Player playerIn, Level level, BlockPos pos, Direction side,boolean allowFillPartial) {
+
+		if (emptyContainer.isEmpty() || level == null || pos == null) {
+			return FluidActionResult.FAILURE;
+		}
+
+		BlockState state = level.getBlockState(pos);
+		Block block = state.getBlock();
+		IFluidHandler targetFluidHandler;
+		if(allowFillPartial) {
+			if (block instanceof IFluidBlock) {
+				targetFluidHandler = new FluidBlockWrapper((IFluidBlock) block, level, pos) {
+					@Override
+					public @NotNull FluidStack drain(FluidStack resource, FluidAction action) {
+						FluidStack ret= super.drain(new FluidStack(resource,1000), action);
+						if(ret.getAmount()==resource.getAmount())
+							return ret;
+						return new FluidStack(ret,Math.min(ret.getAmount(), resource.getAmount()));
+					}
+
+					@Override
+					public @NotNull FluidStack drain(int maxDrain, FluidAction action) {
+						FluidStack ret= super.drain(1000, action);
+						if(ret.getAmount()==maxDrain)
+							return ret;
+						return new FluidStack(ret,Math.min(ret.getAmount(), maxDrain));
+					}
+					
+				};
+			} else if (block instanceof BucketPickup) {
+				targetFluidHandler = new BucketPickupHandlerWrapper((BucketPickup) block, level, pos) {
+					@Override
+					public @NotNull FluidStack drain(FluidStack resource, FluidAction action) {
+						FluidStack ret= super.drain(new FluidStack(resource,1000), action);
+						if(ret.getAmount()==resource.getAmount())
+							return ret;
+						return new FluidStack(ret,Math.min(ret.getAmount(), resource.getAmount()));
+					}
+
+					@Override
+					public @NotNull FluidStack drain(int maxDrain, FluidAction action) {
+						FluidStack ret= super.drain(1000, action);
+						if(ret.getAmount()==maxDrain)
+							return ret;
+						return new FluidStack(ret,Math.min(ret.getAmount(), maxDrain));
+					}
+					
+				};
+			} else return FluidActionResult.FAILURE;
+		}else {
+			if (block instanceof IFluidBlock) {
+				targetFluidHandler = new FluidBlockWrapper((IFluidBlock) block, level, pos);
+			} else if (block instanceof BucketPickup) {
+				targetFluidHandler = new BucketPickupHandlerWrapper((BucketPickup) block, level, pos);
+			} else return FluidActionResult.FAILURE;
+		}
+		return FluidUtil.tryFillContainer(emptyContainer, targetFluidHandler, Integer.MAX_VALUE, playerIn, true);
+	}
 }
