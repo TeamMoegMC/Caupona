@@ -86,9 +86,13 @@ public class WolfStatueBlockEntity extends CPBaseBlockEntity {
 			if (bheat != nh) {
 				flag = true;
 			}
-			if(!isVeryHot)
-				this.setChanged();
+			boolean oldIsVeryHot=isVeryHot;
 			isVeryHot = nh > 0;
+			if(oldIsVeryHot!=isVeryHot) {
+				
+				this.level.updateNeighborsAt(worldPosition, this.getBlockState().getBlock());
+				
+			}
 			if (isVeryHot && bs.getValue(WolfStatueBlock.WATERLOGGED)) {
 				bs = bs.setValue(WolfStatueBlock.WATERLOGGED, false);
 				this.level.levelEvent(1501, worldPosition, 0);

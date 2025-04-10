@@ -92,7 +92,6 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 			if (bowl.isInfinite) {
 				if (player.canEat(fp.canAlwaysEat())) {
 					player.eat(worldIn, bowl.internal.copy());
-					bowl.syncData();
 				}
 			} else {
 				if (player.canEat(fp.canAlwaysEat())) {
@@ -100,6 +99,7 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 					player.eat(worldIn, bowl.internal);
 					bowl.internal = iout;
 					bowl.syncData();
+					worldIn.updateNeighborsAt(pos,this);
 				}
 			}
 			return InteractionResult.SUCCESS;

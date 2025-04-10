@@ -93,8 +93,9 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> {
 
 				return InteractionResult.sidedSuccess(worldIn.isClientSide);
 			}
-			if (FluidUtil.interactWithFluidHandler(player, handIn, blockEntity.getTank()))
+			if (FluidUtil.interactWithFluidHandler(player, handIn, blockEntity.getTank())) {
 				return InteractionResult.SUCCESS;
+			}
 
 		}
 		if (handIn == InteractionHand.MAIN_HAND) {

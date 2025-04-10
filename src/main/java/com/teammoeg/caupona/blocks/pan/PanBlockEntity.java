@@ -106,7 +106,10 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
 			if (slot < 9 || slot==10)
 				return stack;
-			return inv.insertItem(slot, stack, simulate);
+			ItemStack remain= inv.insertItem(slot, stack, simulate);
+			if(!simulate&&remain.getCount()!=stack.getCount())
+				updateRedstone();
+			return remain;
 		}
 
 		@Override
@@ -116,8 +119,10 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 			if(slot<9&&inv.isItemValid(slot, inv.getStackInSlot(slot)))
 				return ItemStack.EMPTY;
 			ItemStack item=inv.extractItem(slot, amount, simulate);
-			if(slot==10&&!item.isEmpty()&&sout.isEmpty())
+			if(slot==10&&!item.isEmpty()&&sout.isEmpty()) 
 				syncData();
+			if(!simulate&&item.getCount()!=0)	
+				updateRedstone();
 			return item;
 		}
 
@@ -146,6 +151,14 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	RangedWrapper ingredient = new RangedWrapper(inv, 0, 10) {
 
 		@Override
+		public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+			ItemStack remain= super.insertItem(slot, stack, simulate);
+			if(!simulate&&remain.getCount()!=stack.getCount())
+				updateRedstone();
+			return remain;
+		}
+
+		@Override
 		public ItemStack extractItem(int slot, int amount, boolean simulate) {
 			return ItemStack.EMPTY;
 		}
@@ -155,7 +168,9 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	public PanBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPBlockEntityTypes.PAN.get(), pWorldPosition, pBlockState);
 	}
-
+	public void updateRedstone() {
+		this.level.updateNeighborsAt(worldPosition, this.getBlockState().getBlock());
+	}
 	@Override
 	public void handleMessage(short type, int data) {
 		if (type == 0)

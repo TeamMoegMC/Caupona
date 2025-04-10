@@ -118,7 +118,6 @@ public class DishBlock extends CPRegisteredEntityBlock<DishBlockEntity> {
 			if (dish.isInfinite) {
 				if (player.canEat(fp.canAlwaysEat())) {
 					player.eat(worldIn, dish.internal.copy());
-					dish.syncData();
 				}
 			} else {
 				if (player.canEat(fp.canAlwaysEat())) {

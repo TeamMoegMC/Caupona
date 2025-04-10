@@ -27,6 +27,7 @@ import com.teammoeg.caupona.container.HidableSlot;
 import com.teammoeg.caupona.container.OutputSlot;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -41,10 +42,29 @@ public class PanContainer extends CPBaseContainer<PanBlockEntity> {
 	public PanContainer(int id, Inventory inv, PanBlockEntity blockEntity) {
 		super(CPGui.PAN.get(),blockEntity, id,12);
 		for (int i = 0; i < 9; i++)
-			this.addSlot(new HidableSlot(blockEntity.inv, i, 62 + (i % 3) * 18, 13 + (i / 3) * 18, () -> blockEntity.processMax == 0));
+			this.addSlot(new HidableSlot(blockEntity.inv, i, 62 + (i % 3) * 18, 13 + (i / 3) * 18, () -> blockEntity.processMax == 0) {
+
+				@Override
+				public void setChanged() {
+					super.setChanged();
+					blockEntity.updateRedstone();
+					blockEntity.setChanged();
+				}
+				
+			});
 		this.addSlot(new SlotItemHandler(blockEntity.inv, 9, 147, 13));
 
-		this.addSlot(new OutputSlot(blockEntity.inv, 10, 136, 47));
+		this.addSlot(new OutputSlot(blockEntity.inv, 10, 136, 47) {
+
+			@Override
+			public void setChanged() {
+				super.setChanged();
+				blockEntity.updateRedstone();
+				blockEntity.setChanged();
+				blockEntity.syncData();
+			}
+			
+		});
 		this.addSlot(new SlotItemHandler(blockEntity.inv, 11, 125, 13) {
 
 			@Override
@@ -60,7 +80,6 @@ public class PanContainer extends CPBaseContainer<PanBlockEntity> {
 			}});
 		super.addPlayerInventory(inv,8,84,142);
 	}
-
 
 	@Override
 	public boolean quickMoveIn(ItemStack slotStack) {

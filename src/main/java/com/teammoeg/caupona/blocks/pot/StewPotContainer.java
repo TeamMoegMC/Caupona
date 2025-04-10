@@ -39,7 +39,16 @@ public class StewPotContainer extends CPBaseContainer<StewPotBlockEntity> {
 	public StewPotContainer(int id, Inventory inv, StewPotBlockEntity blockEntity) {
 		super(CPGui.STEWPOT.get(),blockEntity, id,12);
 		for (int i = 0; i < 9; i++)
-			this.addSlot(new HidableSlot(blockEntity.getInv(), i, 45 + (i % 3) * 18, 17 + (i / 3) * 18, () -> blockEntity.proctype != 2));
+			this.addSlot(new HidableSlot(blockEntity.getInv(), i, 45 + (i % 3) * 18, 17 + (i / 3) * 18, () -> blockEntity.proctype != 2) {
+
+				@Override
+				public void setChanged() {
+					super.setChanged();
+					blockEntity.updateRedstone();
+					blockEntity.setChanged();
+				}
+				
+			});
 		this.addSlot(new SlotItemHandler(blockEntity.getInv(), 9, 154, 17));
 
 		this.addSlot(new OutputSlot(blockEntity.getInv(), 10, 143, 51));

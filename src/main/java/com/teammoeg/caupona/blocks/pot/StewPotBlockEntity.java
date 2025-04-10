@@ -114,10 +114,13 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 			if (this.isEmpty())
 				current = null;
 			still.rewind();
+			updateRedstone();
 		}
 
 	};
-
+	public void updateRedstone() {
+		this.level.updateNeighborsAt(worldPosition, this.getBlockState().getBlock());
+	}
 	public StewPotBlockEntity(BlockPos p, BlockState s) {
 		super(CPBlockEntityTypes.STEW_POT.get(), p, s);
 		still=new LazyTickWorker(CPConfig.COMMON.staticTime.get(),()->{
@@ -416,6 +419,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		become = recipe.after;
 		this.processMax = (int) (recipe.time * (this.tank.getFluidAmount() / 250f));
 		this.process = 0;
+		updateRedstone();
 		return true;
 	}
 
@@ -518,6 +522,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		tpt = Math.max(CPConfig.SERVER.potCookTimeBase.get(), tpt);
 		interninv.clear();
 		processMax = Math.max(decideSoup(), tpt);
+		updateRedstone();
 		return true;
 	}
 	
@@ -778,6 +783,14 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		}
 	};
 	RangedWrapper ingredient = new RangedWrapper(inv, 0, 10) {
+
+		@Override
+		public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+			ItemStack remain= super.insertItem(slot, stack, simulate);
+			if(!simulate&&remain.getCount()!=stack.getCount())
+				updateRedstone();
+			return remain;
+		}
 
 		@Override
 		public ItemStack extractItem(int slot, int amount, boolean simulate) {
