@@ -281,13 +281,15 @@ curseforge {
         changelogType = 'html'
         releaseType = project.curse_type
         addGameVersion project.minecraft_version
-		
+
         mainArtifact (jar) {
         	relations{
 				optionalDependency "patchouli"
 				optionalDependency "jei"
 			}
         }
+        addArtifact sourcesJar
+        addArtifact deobfJar
     }
 }
 modrinth {
