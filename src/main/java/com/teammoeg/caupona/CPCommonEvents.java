@@ -114,6 +114,7 @@ public class CPCommonEvents {
 	@SuppressWarnings("resource")
 	@SubscribeEvent
 	public static void onBlockClick(PlayerInteractEvent.RightClickBlock event) {
+		if(event.getLevel().isClientSide)return;//Workaround for https://github.com/TeamMoegMC/Caupona/issues/107
 		ItemStack is = event.getItemStack();
 		Player playerIn = event.getEntity();
 		Level worldIn = event.getLevel();
