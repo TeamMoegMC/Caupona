@@ -348,8 +348,8 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 			nbt.putBoolean("working", working);
 
 		tank.writeToNBT(provider, nbt);
-		if(output!=null)
-			nbt.put("output", output.save(provider));
+		if(output!=null)//Why not allow writing empty stack?
+			nbt.put("output", output.saveOptional(provider));
 		
 		nbt.putBoolean("inf", isInfinite);
 		if (!isClient) {
@@ -382,8 +382,10 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 
 	private void doWork() {
 		if(output!=null) {
-			this.tank.setFluid(output);
+			FluidStack in=output;
 			output=null;
+			this.tank.setFluid(in);
+			
 			if (proctype == 1) {
 				boolean hasItem = false;
 				for (int i = 0; i < 9; i++) {
