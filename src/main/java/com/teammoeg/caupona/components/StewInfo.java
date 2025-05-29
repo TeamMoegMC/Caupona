@@ -50,6 +50,7 @@ import net.minecraft.world.food.FoodProperties.PossibleEffect;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.util.Lazy;
@@ -211,12 +212,12 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 		}
 	}
 
-	public void recalculateHAS() {
+	public void recalculateHAS(Level l) {
 		foodeffect.clear();
 		float nh = 0;
 		float ns = 0;
 		for (FloatemStack fs : stacks) {
-			FoodValueRecipe fvr = FoodValueRecipe.recipes.get(fs.getItem());
+			FoodValueRecipe fvr = FoodValueRecipe.getComputedRecipes(l,fs.getStack());
 			if (fvr != null) {
 				nh += fvr.heal * fs.count;
 				ns += fvr.sat * fs.count;

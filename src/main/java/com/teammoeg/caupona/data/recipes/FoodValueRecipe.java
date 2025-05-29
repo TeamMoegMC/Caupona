@@ -22,6 +22,7 @@
 package com.teammoeg.caupona.data.recipes;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,7 @@ import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -48,10 +50,14 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.item.crafting.SmokingRecipe;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class FoodValueRecipe extends IDataRecipe {
-	public static Map<Item, FoodValueRecipe> recipes;
+	public static Map<Item, FoodValueRecipe> datapackRecipes;
+	private static Map<Item, FoodValueRecipe> recipes;
 	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
 	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
 	public static Set<FoodValueRecipe> recipeset;
@@ -154,5 +160,64 @@ public class FoodValueRecipe extends IDataRecipe {
 			this.repersent = null;
 	}
 
+	public static FoodValueRecipe getComputedRecipes(Level l,ItemStack is) {
+		return recipes;
+	}
 
+	private static FoodValueRecipe addCookingTime(Item i, ItemStack iis,Set<Item> added, List<SmokingRecipe> irs, boolean force) {
+		if (FoodValueRecipe.getRecipes().containsKey(i))
+			return FoodValueRecipe.datapackRecipes.get(i);
+		added.add(i);
+		for (SmokingRecipe sr : irs) {
+			if(sr.getIngredients().size()>0)
+			if (sr.getIngredients().get(0).test(iis)) {
+				SingleRecipeInput fake=new SingleRecipeInput(iis);
+				ItemStack reslt = sr.assemble(fake,RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY));
+				if (DissolveRecipe.recipes.stream().anyMatch(e -> e.value().test(reslt)))
+					continue;
+				if(added.contains(reslt.getItem()))
+					break;
+				FoodValueRecipe ret = addCookingTime(reslt.getItem(), reslt,added, irs, true);
+				FoodProperties of = reslt.getFoodProperties(null);
+				if (of != null && of.nutrition() > ret.heal) {
+					ret.effects = of.effects();
+					ret.heal = of.nutrition();
+					ret.sat = of.saturation();
+					ret.setRepersent(iis);
+				}
+				FoodValueRecipe.getRecipes().put(i, ret);
+				ret.processtimes.put(i, sr.getCookingTime() + ret.processtimes.getOrDefault(reslt.getItem(), 0));
+				return ret;
+			}
+		}
+		if (force) {
+			FoodProperties of = iis.getFoodProperties(null);
+			FoodValueRecipe ret = FoodValueRecipe.getRecipes().computeIfAbsent(i,
+					e -> new FoodValueRecipe(0,
+							0, iis, e));
+			if (of != null && of.nutrition() > ret.heal) {
+				ret.effects = of.effects();
+				ret.heal = of.nutrition();
+				ret.sat = of.saturation();
+				ret.setRepersent(iis);
+			}
+			return ret;
+		}
+		return null;
+	}
+
+	public static void populateRecipes(Level l) {
+		List<SmokingRecipe> irs = l.getRecipeManager().getAllRecipesFor(RecipeType.SMOKING).stream().map(t->t.value()).toList();
+		Set<Item> is=new HashSet<>();
+		for (Item i : BuiltInRegistries.ITEM) {
+			ItemStack iis = new ItemStack(i);
+			if (FoodValueRecipe.getRecipes().containsKey(i))
+				continue;
+			if (DissolveRecipe.recipes.stream().anyMatch(e -> e.value().test(iis)))
+				continue;
+			addCookingTime(i, iis,is, irs, false);
+		}
+
+		FoodValueRecipe.recipeset = new HashSet<>(FoodValueRecipe.getRecipes().values());
+	}
 }

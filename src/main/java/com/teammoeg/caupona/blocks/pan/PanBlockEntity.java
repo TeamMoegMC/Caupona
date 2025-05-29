@@ -348,7 +348,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 			if (is.isEmpty())
 				break;
 			current.addItem(is);
-			FoodValueRecipe fvr = FoodValueRecipe.recipes.get(is.getItem());
+			FoodValueRecipe fvr = FoodValueRecipe.getComputedRecipes(this.level,is);
 			if (fvr != null)
 				tpt += fvr.processtimes.getOrDefault(is.getItem(), 0);
 		}
@@ -390,7 +390,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		this.processMax = process = 0;
 		tpt = Math.max(CPConfig.SERVER.fryTimeBase.get(), tpt);
 		current.setParts(cook);
-		current.recalculateHAS();
+		current.recalculateHAS(this.level);
 		this.preout=new ItemStack(preout,cook);
 		this.preout.set(CPCapability.SAUTEED_INFO, current);
 		this.processMax=processMax;

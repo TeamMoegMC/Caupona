@@ -31,11 +31,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public interface CookIngredients extends Function<IPendingContext, Float>,/* Writeable,*/ ITranlatable {
-	public boolean fits(FloatemTagStack stack);
+	public boolean fits(IPendingContext t,FloatemTagStack stack);
 
 	public Stream<CookIngredients> getItemRelated();
 
-	public Stream<ResourceLocation> getTags();
+	public Stream<ResourceLocation> getTags(IPendingContext t);
 	
 	public Stream<ItemStack> getStacks();
 }

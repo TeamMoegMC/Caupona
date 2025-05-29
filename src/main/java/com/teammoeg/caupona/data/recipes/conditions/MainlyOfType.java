@@ -48,8 +48,8 @@ public class MainlyOfType extends NumberedStewCondition {
 		if (n < thistype / 3)
 			return false;
 		return FloatemTagStack
-				.calculateTypes(
-						t.getItems().stream().filter(e -> e.getTags().contains(type)).filter(e -> !number.fits(e)))
+				.calculateTypes(t.getLevel(),
+						t.getItems().stream().filter(e -> e.getTags(t.getLevel()).contains(type)).filter(e -> !number.fits(t,e)))
 				.values().stream().allMatch(e -> e < n);
 	}
 

@@ -65,7 +65,7 @@ public class ItemIngredient implements CookIngredients {
 	}
 
 	@Override
-	public boolean fits(FloatemTagStack stack) {
+	public boolean fits(IPendingContext t,FloatemTagStack stack) {
 		return i.test(stack.getStack());
 	}
 
@@ -109,7 +109,7 @@ public class ItemIngredient implements CookIngredients {
 	}
 
 	@Override
-	public Stream<ResourceLocation> getTags() {
+	public Stream<ResourceLocation> getTags(IPendingContext t) {
 		return Stream.empty();
 	}
 

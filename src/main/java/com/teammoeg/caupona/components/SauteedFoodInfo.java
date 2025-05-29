@@ -39,6 +39,7 @@ import net.minecraft.world.food.FoodProperties.Builder;
 import net.minecraft.world.food.FoodProperties.PossibleEffect;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 
 public class SauteedFoodInfo extends SpicedFoodInfo implements IFoodInfo{
@@ -94,12 +95,12 @@ public class SauteedFoodInfo extends SpicedFoodInfo implements IFoodInfo{
 		return t1.getEffect() == t2.getEffect() && t1.getAmplifier() == t2.getAmplifier();
 	}
 
-	public void recalculateHAS() {
+	public void recalculateHAS(Level l) {
 		foodeffect.clear();
 		float nh = 0;
 		float ns = 0;
 		for (FloatemStack fs : stacks) {
-			FoodValueRecipe fvr = FoodValueRecipe.recipes.get(fs.getItem());
+			FoodValueRecipe fvr = FoodValueRecipe.getComputedRecipes(l,fs.getStack());
 			if (fvr != null) {
 				nh += fvr.heal * fs.count;
 				ns += fvr.sat * fs.count;

@@ -62,7 +62,7 @@ public class SkimmerItem extends CPItem {
 					 for(FloatemStack lstack:si.getStacks()) {
 						 lstack.shrink(lstack.getCount()/dense*toreduce);
 					 }
-					 si.recalculateHAS();
+					 si.recalculateHAS(context.getLevel());
 					 Utils.setInfo(fluid, si);
 					 tank.setFluid(fluid);
 					 stack.hurtAndBreak( 1,context.getPlayer(),context.getHand()==InteractionHand.MAIN_HAND?EquipmentSlot.MAINHAND:EquipmentSlot.OFFHAND);

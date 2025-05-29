@@ -108,48 +108,6 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 
 	static int generated_fv = 0;
 	
-	private static FoodValueRecipe addCookingTime(Item i, ItemStack iis,Set<Item> added, List<SmokingRecipe> irs, boolean force) {
-		if (FoodValueRecipe.recipes.containsKey(i))
-			return FoodValueRecipe.recipes.get(i);
-		added.add(i);
-		for (SmokingRecipe sr : irs) {
-			if(sr.getIngredients().size()>0)
-			if (sr.getIngredients().get(0).test(iis)) {
-				SingleRecipeInput fake=new SingleRecipeInput(iis);
-				ItemStack reslt = sr.assemble(fake,RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY));
-				if (DissolveRecipe.recipes.stream().anyMatch(e -> e.value().test(reslt)))
-					continue;
-				if(added.contains(reslt.getItem()))
-					break;
-				FoodValueRecipe ret = addCookingTime(reslt.getItem(), reslt,added, irs, true);
-				FoodProperties of = reslt.getFoodProperties(null);
-				if (of != null && of.nutrition() > ret.heal) {
-					ret.effects = of.effects();
-					ret.heal = of.nutrition();
-					ret.sat = of.saturation();
-					ret.setRepersent(iis);
-				}
-				FoodValueRecipe.recipes.put(i, ret);
-				ret.processtimes.put(i, sr.getCookingTime() + ret.processtimes.getOrDefault(reslt.getItem(), 0));
-				return ret;
-			}
-		}
-		if (force) {
-			FoodProperties of = iis.getFoodProperties(null);
-			FoodValueRecipe ret = FoodValueRecipe.recipes.computeIfAbsent(i,
-					e -> new FoodValueRecipe(0,
-							0, iis, e));
-			if (of != null && of.nutrition() > ret.heal) {
-				ret.effects = of.effects();
-				ret.heal = of.nutrition();
-				ret.sat = of.saturation();
-				ret.setRepersent(iis);
-			}
-			return ret;
-		}
-		return null;
-	}
-
 	public static void buildRecipeLists(RecipeManager recipeManager) {
 
 		Collection<RecipeHolder<?>> recipes = recipeManager.getRecipes();
@@ -165,10 +123,10 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 		filterRecipes(recipes, BowlContainingRecipe.class, BowlContainingRecipe.TYPE)
 			.forEach(o->BowlContainingRecipe.recipes.computeIfAbsent(o.value().inBowl, n->new ArrayList<>()).add(o));
 
-		FoodValueRecipe.recipes = filterRecipes(recipes, FoodValueRecipe.class, FoodValueRecipe.TYPE)
+		FoodValueRecipe.datapackRecipes = filterRecipes(recipes, FoodValueRecipe.class, FoodValueRecipe.TYPE)
 				.flatMap(t -> t.value().processtimes.keySet().stream().map(i -> new Pair<>(i, t.value())))
 				.collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
-		List<SmokingRecipe> irs = recipeManager.getAllRecipesFor(RecipeType.SMOKING).stream().map(t->t.value()).toList();
+
 
 		DissolveRecipe.recipes = filterRecipes(recipes, DissolveRecipe.class, DissolveRecipe.TYPE)
 				.collect(Collectors.toList());
@@ -210,17 +168,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 				.collect(Collectors.toList());
 
 		SpiceRecipe.recipes = filterRecipes(recipes, SpiceRecipe.class, SpiceRecipe.TYPE).map(t->t.value()).collect(Collectors.toList());
-		Set<Item> is=new HashSet<>();
-		for (Item i : BuiltInRegistries.ITEM) {
-			ItemStack iis = new ItemStack(i);
-			if (FoodValueRecipe.recipes.containsKey(i))
-				continue;
-			if (DissolveRecipe.recipes.stream().anyMatch(e -> e.value().test(iis)))
-				continue;
-			addCookingTime(i, iis,is, irs, false);
-		}
 
-		FoodValueRecipe.recipeset = new HashSet<>(FoodValueRecipe.recipes.values());
 
 		sw.stop();
 		logger.info("Recipes built, cost {}", sw);

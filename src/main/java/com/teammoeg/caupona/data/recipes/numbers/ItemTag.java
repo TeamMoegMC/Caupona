@@ -50,8 +50,8 @@ public class ItemTag implements CookIngredients {
 	}
 
 	@Override
-	public boolean fits(FloatemTagStack stack) {
-		return stack.getTags().contains(tag);
+	public boolean fits(IPendingContext t,FloatemTagStack stack) {
+		return stack.getTags(t.getLevel()).contains(tag);
 	}
 
 
@@ -93,7 +93,7 @@ public class ItemTag implements CookIngredients {
 	}
 
 	@Override
-	public Stream<ResourceLocation> getTags() {
+	public Stream<ResourceLocation> getTags(IPendingContext t) {
 		return Stream.of(tag);
 	}
 

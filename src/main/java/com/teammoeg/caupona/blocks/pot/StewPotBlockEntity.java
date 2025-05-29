@@ -503,7 +503,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 					continue outer;
 				}
 			}
-			FoodValueRecipe fvr = FoodValueRecipe.recipes.get(is.getItem());
+			FoodValueRecipe fvr = FoodValueRecipe.getComputedRecipes(this.level,is);
 			if (fvr != null)
 				tpt += fvr.processtimes.getOrDefault(is.getItem(), 0);
 		}
@@ -543,7 +543,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				if(!cr.value().removeNBT) {
 					currentInfo.setBase(nextbase);
 					preout.applyComponents(output.getComponentsPatch());
-					currentInfo.recalculateHAS();
+					currentInfo.recalculateHAS(this.level);
 					Utils.setInfo(preout, currentInfo);
 				}
 				output=preout;

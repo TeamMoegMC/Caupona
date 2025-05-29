@@ -87,7 +87,7 @@ public abstract class NumberedStewCondition implements IngredientCondition {
 	}
 
 	@Override
-	public Stream<ResourceLocation> getTags() {
-		return number.getTags();
+	public Stream<ResourceLocation> getTags(IPendingContext t) {
+		return number.getTags(t);
 	}
 }

@@ -34,6 +34,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class FloatemTagStack {
 	Set<ResourceLocation> tags;
@@ -41,28 +42,27 @@ public class FloatemTagStack {
 	float count;
 
 	public FloatemTagStack(FloatemStack stack) {
-		FoodValueRecipe fvr = FoodValueRecipe.recipes.get(stack.getItem());
-		if (fvr == null)
-			tags = stack.getTags().filter(CountingTags.tags::contains).collect(Collectors.toSet());
-		else
-			tags = fvr.getTags();
+
 		this.stack = stack.getStack();
 		this.count = stack.count;
 	}
 
 	public FloatemTagStack(ItemStack stack) {
-		FoodValueRecipe fvr = FoodValueRecipe.recipes.get(stack.getItem());
-		if (fvr == null) {
-			tags = stack.getTags().map(TagKey::location).filter(CountingTags.tags::contains)
-					.collect(Collectors.toSet());
-		} else
-			tags = fvr.getTags();
+
 		this.stack = stack;
 
 		this.count = stack.getCount();
 	}
 
-	public Set<ResourceLocation> getTags() {
+	public Set<ResourceLocation> getTags(Level l) {
+		if(tags==null) {
+			FoodValueRecipe fvr = FoodValueRecipe.getComputedRecipes(l,stack);
+			if (fvr == null)
+				tags = stack.getTags().map(TagKey::location).filter(CountingTags.tags::contains)
+					.collect(Collectors.toSet());
+			else
+				tags = fvr.getTags();
+		}
 		return tags;
 	}
 
@@ -74,11 +74,11 @@ public class FloatemTagStack {
 		return count;
 	}
 
-	public static Map<ResourceLocation, Float> calculateTypes(Stream<FloatemTagStack> stacks) {
+	public static Map<ResourceLocation, Float> calculateTypes(Level l,Stream<FloatemTagStack> stacks) {
 		Map<ResourceLocation, Float> map = new HashMap<>();
 		stacks.forEach(e -> {
 			float c = e.count;
-			for (ResourceLocation tag : e.tags)
+			for (ResourceLocation tag : e.getTags(l))
 				map.merge(tag, c, Float::sum);
 		});
 		return map;
@@ -90,6 +90,6 @@ public class FloatemTagStack {
 
 	@Override
 	public String toString() {
-		return "FloatemTagStack [tags=" + tags + ", stack=" + stack + ", count=" + count + "]";
+		return "FloatemTagStack [ stack=" + stack + ", count=" + count + "]";
 	}
 }

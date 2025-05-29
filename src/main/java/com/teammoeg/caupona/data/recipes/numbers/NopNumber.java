@@ -59,7 +59,7 @@ public class NopNumber implements CookIngredients {
 	}
 
 	@Override
-	public boolean fits(FloatemTagStack stack) {
+	public boolean fits(IPendingContext t,FloatemTagStack stack) {
 		return false;
 	}
 
@@ -90,7 +90,7 @@ public class NopNumber implements CookIngredients {
 	}
 
 	@Override
-	public Stream<ResourceLocation> getTags() {
+	public Stream<ResourceLocation> getTags(IPendingContext t) {
 		return Stream.empty();
 	}
 

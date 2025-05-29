@@ -66,8 +66,8 @@ public class Add implements CookIngredients, ComplexCalculated {
 	}
 
 	@Override
-	public boolean fits(FloatemTagStack stack) {
-		return nums.stream().anyMatch(s -> s.fits(stack));
+	public boolean fits(IPendingContext t,FloatemTagStack stack) {
+		return nums.stream().anyMatch(s -> s.fits(t,stack));
 	}
 
 	/**
@@ -117,8 +117,8 @@ public class Add implements CookIngredients, ComplexCalculated {
 	}
 
 	@Override
-	public Stream<ResourceLocation> getTags() {
-		return nums.stream().flatMap(CookIngredients::getTags);
+	public Stream<ResourceLocation> getTags(IPendingContext t) {
+		return nums.stream().flatMap(n->n.getTags(t));
 	}
 
 	@Override

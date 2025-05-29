@@ -29,16 +29,19 @@ import com.teammoeg.caupona.util.ResultCachingMap;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class IPendingContext {
 
 	protected List<FloatemTagStack> items;
 	protected float totalItems;
+	private Level l;
 	private ResultCachingMap<CookIngredients, Float> numbers = new ResultCachingMap<>(e -> e.apply(this));
 	private ResultCachingMap<IngredientCondition, Boolean> results = new ResultCachingMap<>(e -> e.test(this));
 
-	public IPendingContext() {
+	public IPendingContext(Level l) {
 		super();
+		this.l = l;
 	}
 
 	public float compute(CookIngredients sn) {
@@ -50,7 +53,7 @@ public class IPendingContext {
 	}
 
 	public float getOfType(ResourceLocation rl) {
-		return (float) items.stream().filter(e -> e.getTags().contains(rl)).mapToDouble(FloatemTagStack::getCount)
+		return (float) items.stream().filter(e -> e.getTags(l).contains(rl)).mapToDouble(FloatemTagStack::getCount)
 				.sum();
 	}
 
@@ -68,5 +71,8 @@ public class IPendingContext {
 	public List<FloatemTagStack> getItems() {
 		return items;
 	}
+	public Level getLevel() {
+		return l;
+	};
 
 }
