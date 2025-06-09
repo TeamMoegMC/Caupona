@@ -33,6 +33,7 @@ import com.teammoeg.caupona.blocks.foods.IFoodContainer;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.components.SauteedFoodInfo;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
+import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.PanPendingContext;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
@@ -83,7 +84,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
 			if (slot < 9)
-				return SauteedRecipe.isCookable(stack);
+				return SauteedRecipe.isCookable(level,stack);
 			if (slot == 9) {
 				return SauteedRecipe.isBowl(stack);
 			}
@@ -294,10 +295,11 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		//Do simulation requirement check
 		//Ensure everything cookable
 		int itms = 0;
+		IPendingContext ipc=new IPendingContext(level);
 		for (int i = 0; i < 9; i++) {
 			ItemStack is = inv.getStackInSlot(i);
 			if (!is.isEmpty()) {
-				if (SauteedRecipe.isCookable(is))
+				if (SauteedRecipe.isCookable(ipc,is))
 					itms++;
 				else
 					return;
@@ -355,7 +357,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		interninv.clear();
 		current.completeAll();
 		
-		PanPendingContext ctx = new PanPendingContext(current);
+		PanPendingContext ctx = new PanPendingContext(level,current);
 		//Do recipe check
 		float tcount=0;
 		

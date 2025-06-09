@@ -122,7 +122,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 		BowlContainingRecipe.recipes=new HashMap<>();
 		filterRecipes(recipes, BowlContainingRecipe.class, BowlContainingRecipe.TYPE)
 			.forEach(o->BowlContainingRecipe.recipes.computeIfAbsent(o.value().inBowl, n->new ArrayList<>()).add(o));
-
+		FoodValueRecipe.reload();
 		FoodValueRecipe.datapackRecipes = filterRecipes(recipes, FoodValueRecipe.class, FoodValueRecipe.TYPE)
 				.flatMap(t -> t.value().processtimes.keySet().stream().map(i -> new Pair<>(i, t.value())))
 				.collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
@@ -149,13 +149,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 		SauteedRecipe.sorted.sort((t2, t1) -> t1.value().getPriority() - t2.value().getPriority());
 		SauteedRecipe.cookables = SauteedRecipe.sorted.stream().map(t->t.value()).flatMap(SauteedRecipe::getAllNumbers).collect(Collectors.toSet());
 		SauteedRecipe.bowls =SauteedRecipe.sorted.stream().map(t->t.value().bowl).collect(Collectors.toSet());
-		CountingTags.tags = 
-				Stream.concat(
-					Stream.concat(filterRecipes(recipes, CountingTags.class, CountingTags.TYPE).flatMap(r -> r.value().tag.stream()),
-							StewCookingRecipe.sorted.stream().map(t->t.value()).flatMap(StewCookingRecipe::getTags)),
-							SauteedRecipe.sorted.stream().map(t->t.value()).flatMap(SauteedRecipe::getTags)
-						)
-				.collect(Collectors.toSet());
+		CountingTags.reload();
 		DoliumRecipe.recipes = filterRecipes(recipes, DoliumRecipe.class, DoliumRecipe.TYPE)
 				.collect(Collectors.toList());
 		DoliumRecipe.recipes

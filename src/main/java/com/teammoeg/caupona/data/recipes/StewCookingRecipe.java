@@ -45,6 +45,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -68,12 +69,15 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
 	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
 
-	public static boolean isCookable(ItemStack stack) {
-		FloatemTagStack s = new FloatemTagStack(stack);
-		return stack.is(Items.COOKABLE) || cookables.stream().anyMatch(e -> e.fits(s));
+	public static boolean isCookable(Level l,ItemStack stack) {
+		return isCookable(new IPendingContext(l),stack);
 		// return true;
 	}
-
+	public static boolean isCookable(IPendingContext l,ItemStack stack) {
+		FloatemTagStack s = new FloatemTagStack(stack);
+		return stack.is(Items.COOKABLE) || cookables.stream().anyMatch(e -> e.fits(l,s));
+		// return true;
+	}
 	@SuppressWarnings("deprecation")
 	public static boolean isBoilable(FluidStack f) {
 		Fluid fd = f.getFluid();
@@ -173,9 +177,9 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 				deny.stream().flatMap(IngredientCondition::getAllNumbers));
 	}
 
-	public Stream<ResourceLocation> getTags() {
-		return Stream.concat(allow.stream().flatMap(IngredientCondition::getTags),
-				deny.stream().flatMap(IngredientCondition::getTags));
+	public Stream<ResourceLocation> getTags(IPendingContext l) {
+		return Stream.concat(allow.stream().flatMap(t->t.getTags(l)),
+				deny.stream().flatMap(t->t.getTags(l)));
 	}
 
 	public int getPriority() {

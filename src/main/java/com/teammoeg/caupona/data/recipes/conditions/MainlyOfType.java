@@ -96,8 +96,8 @@ public class MainlyOfType extends NumberedStewCondition {
 	}
 
 	@Override
-	public Stream<ResourceLocation> getTags() {
-		return Stream.concat(super.getTags(), Stream.of(type));
+	public Stream<ResourceLocation> getTags(IPendingContext t) {
+		return Stream.concat(super.getTags(t), Stream.of(type));
 	}
 
 	@Override

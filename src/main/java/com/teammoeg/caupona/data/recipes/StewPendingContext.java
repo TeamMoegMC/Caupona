@@ -28,6 +28,7 @@ import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.FloatemTagStack;
 import com.teammoeg.caupona.util.ResultCachingMap;
 
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 
 /**
@@ -43,8 +44,8 @@ public class StewPendingContext extends IPendingContext {
 		return cur;
 	}
 
-	public StewPendingContext(StewInfo info, Fluid current) {
-		super();
+	public StewPendingContext(Level l,StewInfo info, Fluid current) {
+		super(l);
 		this.info = info;
 		items = new ArrayList<>(info.getStacks().size());
 		for (FloatemStack fs : info.getStacks()) {

@@ -36,7 +36,7 @@ public interface IngredientCondition extends Predicate<IPendingContext>, /*Write
 		return Stream.empty();
 	};
 
-	public default Stream<ResourceLocation> getTags() {
+	public default Stream<ResourceLocation> getTags(IPendingContext t) {
 		return Stream.empty();
 	};
 	public default boolean isMajor() {
@@ -45,4 +45,5 @@ public interface IngredientCondition extends Predicate<IPendingContext>, /*Write
 	public default boolean isExclusive() {
 		return false;
 	}
+
 }

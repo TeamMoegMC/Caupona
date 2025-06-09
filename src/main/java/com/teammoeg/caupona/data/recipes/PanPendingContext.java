@@ -27,9 +27,12 @@ import com.teammoeg.caupona.components.SauteedFoodInfo;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
+import net.minecraft.world.level.Level;
+
 public class PanPendingContext extends IPendingContext {
 
-	public PanPendingContext(SauteedFoodInfo info) {
+	public PanPendingContext(Level l,SauteedFoodInfo info) {
+		super(l);
 		items = new ArrayList<>(info.stacks.size());
 		for (FloatemStack fs : info.stacks) {
 			super.items.add(new FloatemTagStack(fs));

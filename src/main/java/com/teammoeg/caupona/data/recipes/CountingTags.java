@@ -24,6 +24,8 @@ package com.teammoeg.caupona.data.recipes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -34,13 +36,15 @@ import com.teammoeg.caupona.util.SerializeUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CountingTags extends IDataRecipe {
-	public static Set<ResourceLocation> tags;
-	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
+	private static Set<ResourceLocation> tags;
+	public static DeferredHolder<RecipeType<?>,RecipeType<CountingTags>> TYPE;
 	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
 	public List<ResourceLocation> tag;
 	public static final MapCodec<CountingTags> CODEC=
@@ -60,7 +64,7 @@ public class CountingTags extends IDataRecipe {
 	public CountingTags() {
 		tag = new ArrayList<>();
 	}
-
+	
 	public CountingTags(List<ResourceLocation> tag) {
 		super();
 		this.tag = tag;
@@ -80,5 +84,22 @@ public class CountingTags extends IDataRecipe {
 	public void write(FriendlyByteBuf data) {
 		SerializeUtil.<ResourceLocation>writeList2(data, tag, FriendlyByteBuf::writeResourceLocation);
 	}
+	public static Set<ResourceLocation> getTags(Level l){
+		if(tags!=null)return tags;
+		RecipeManager rm=l.getRecipeManager();
+		IPendingContext ipc=new IPendingContext(l);
+		tags = Stream.concat(
+				Stream.concat(rm.getAllRecipesFor(CountingTags.TYPE.get()).stream().flatMap(r -> r.value().tag.stream()),
+						StewCookingRecipe.sorted.stream().map(t->t.value()).flatMap(t->t.getTags(ipc))),
+						SauteedRecipe.sorted.stream().map(t->t.value()).flatMap(t->t.getTags(ipc))
+					)
+			.collect(Collectors.toSet());
+		return tags;
+	}
+
+	public static void reload() {
+		tags=null;
+		
+	} 
 
 }

@@ -102,6 +102,9 @@ public class FoodValueRecipe extends IDataRecipe {
 	public List<Pair<Item, Integer>> getProcessTime(){
 		return processtimes.entrySet().stream().map(t->Pair.of(t.getKey(),t.getValue())).toList();
 	}
+	public FoodValueRecipe copy() {
+		return new FoodValueRecipe(heal,sat,Optional.ofNullable(effects),getProcessTime(),Ingredient.of(repersent));
+	}
 	public FoodValueRecipe(int heal, float sat, ItemStack rps, Item... types) {
 		this.heal = heal;
 		this.sat = sat;
@@ -140,12 +143,12 @@ public class FoodValueRecipe extends IDataRecipe {
 		tags = null;
 	}
 
-	public Set<ResourceLocation> getTags() {
+	public Set<ResourceLocation> getTags(Level l) {
 	
 		if (tags == null)
 			tags = processtimes.keySet().stream()
 					.flatMap(i -> BuiltInRegistries.ITEM.getHolder(BuiltInRegistries.ITEM.getId(i)).map(Holder<Item>::tags).orElseGet(Stream::empty).map(TagKey::location))
-					.filter(CountingTags.tags::contains).collect(Collectors.toSet());
+					.filter(CountingTags.getTags(l)::contains).collect(Collectors.toSet());
 		return tags;
 	}
 
@@ -161,12 +164,12 @@ public class FoodValueRecipe extends IDataRecipe {
 	}
 
 	public static FoodValueRecipe getComputedRecipes(Level l,ItemStack is) {
-		return recipes;
+		return recipes.get(is.getItem());
 	}
 
 	private static FoodValueRecipe addCookingTime(Item i, ItemStack iis,Set<Item> added, List<SmokingRecipe> irs, boolean force) {
-		if (FoodValueRecipe.getRecipes().containsKey(i))
-			return FoodValueRecipe.datapackRecipes.get(i);
+		if (FoodValueRecipe.datapackRecipes.containsKey(i))
+			return FoodValueRecipe.datapackRecipes.get(i).copy();
 		added.add(i);
 		for (SmokingRecipe sr : irs) {
 			if(sr.getIngredients().size()>0)
@@ -185,14 +188,14 @@ public class FoodValueRecipe extends IDataRecipe {
 					ret.sat = of.saturation();
 					ret.setRepersent(iis);
 				}
-				FoodValueRecipe.getRecipes().put(i, ret);
+				FoodValueRecipe.recipes.put(i, ret);
 				ret.processtimes.put(i, sr.getCookingTime() + ret.processtimes.getOrDefault(reslt.getItem(), 0));
 				return ret;
 			}
 		}
 		if (force) {
 			FoodProperties of = iis.getFoodProperties(null);
-			FoodValueRecipe ret = FoodValueRecipe.getRecipes().computeIfAbsent(i,
+			FoodValueRecipe ret = FoodValueRecipe.recipes.computeIfAbsent(i,
 					e -> new FoodValueRecipe(0,
 							0, iis, e));
 			if (of != null && of.nutrition() > ret.heal) {
@@ -205,19 +208,23 @@ public class FoodValueRecipe extends IDataRecipe {
 		}
 		return null;
 	}
-
+	public static void reload() {
+		recipes=null;
+	}
 	public static void populateRecipes(Level l) {
+		if(recipes!=null)
+			return;
 		List<SmokingRecipe> irs = l.getRecipeManager().getAllRecipesFor(RecipeType.SMOKING).stream().map(t->t.value()).toList();
 		Set<Item> is=new HashSet<>();
 		for (Item i : BuiltInRegistries.ITEM) {
 			ItemStack iis = new ItemStack(i);
-			if (FoodValueRecipe.getRecipes().containsKey(i))
+			if (FoodValueRecipe.datapackRecipes.containsKey(i))
 				continue;
 			if (DissolveRecipe.recipes.stream().anyMatch(e -> e.value().test(iis)))
 				continue;
 			addCookingTime(i, iis,is, irs, false);
 		}
 
-		FoodValueRecipe.recipeset = new HashSet<>(FoodValueRecipe.getRecipes().values());
+		FoodValueRecipe.recipeset = new HashSet<>(FoodValueRecipe.recipes.values());
 	}
 }

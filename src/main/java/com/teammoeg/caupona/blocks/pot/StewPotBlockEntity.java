@@ -39,6 +39,7 @@ import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.data.recipes.DissolveRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
+import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.data.recipes.StewPendingContext;
@@ -84,7 +85,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
 			if (slot < 9)
-				return stack.getItem() == Items.POTION || StewCookingRecipe.isCookable(stack);
+				return stack.getItem() == Items.POTION || StewCookingRecipe.isCookable(level,stack);
 			if (slot == 9) {
 				return BowlContainingRecipe.isBowl(stack) || Utils.getFluidType(stack)!=Fluids.EMPTY || AspicMeltingRecipe.find(stack) != null;
 			}
@@ -433,6 +434,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		int itms = 0;
 		List<MobEffectInstance> cr = new ArrayList<>(currentInfo.getPotionEffects());
 		//System.out.println("3");
+		IPendingContext ipc=new IPendingContext(this.level);
 		for (int i = 0; i < 9; i++) {
 			ItemStack is = inv.getStackInSlot(i);
 			if (!is.isEmpty()) {
@@ -445,7 +447,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 						}
 						cr.add(n);
 					}
-				} else if (StewCookingRecipe.isCookable(is))
+				} else if (StewCookingRecipe.isCookable(ipc,is))
 					itms++;
 				else
 					return false;
@@ -524,7 +526,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 			output=tank.getFluid();
 		Fluid become = output.getFluid();
 		StewInfo currentInfo=Utils.getOrCreateInfo(output);
-		StewPendingContext ctx = new StewPendingContext(currentInfo, become);
+		StewPendingContext ctx = new StewPendingContext(level,currentInfo, become);
 		Fluid nextbase = become;
 		if (ctx.getItems().isEmpty()) {
 			return 0;
