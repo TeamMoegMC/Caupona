@@ -1,0 +1,26 @@
+{
+  "name": "キッチンストーブ",
+  "icon": "caupona:brick_kitchen_stove",
+  "category": "caupona:intro",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "text",
+      "text": "キッチンストーブは調理器具を加熱するために使用できます。"
+    },
+    {
+      "type": "text",
+      "text": "キッチンストーブはしばらく使われないと動作を停止します。"
+    },
+    {
+      "type": "crafting",
+      "recipe": "caupona:mud_kitchen_stove",
+      "text": "泥と石でできたストーブは安価ですが、他のストーブよりも加熱速度が半分で、$(l:worldgen/volcanic_fumarole)火山噴気孔$(/l)と同じくらいです。"
+    },
+    {
+      "type": "crafting",
+      "recipe": "caupona:crafting/brick_kitchen_stove",
+      "text": "また、$(l:intro/kitchen_materials)他の素材$(/l)で作られたストーブもあり、これらは加熱が速いですが、燃料の消費量が多いです。"
+    }
+  ]
+}

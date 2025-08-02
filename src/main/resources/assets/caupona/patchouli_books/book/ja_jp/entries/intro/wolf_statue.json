@@ -1,0 +1,16 @@
+{
+	"name": "狼の像",
+	"icon": "caupona:wolf_statue",
+	"category": "caupona:intro",
+	"sortnum": 47,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/wolf_statue"
+		},
+		{
+			"type": "text",
+			"text": "狼の像は温度計として機能し、受け取る熱によって見た目が変化します。狼の像はストーブによって直接、または近くのハイポコーストによって間接的に加熱できるため、局所的な熱流量を測定するのに使用できます。"
+		}
+	]
+}
