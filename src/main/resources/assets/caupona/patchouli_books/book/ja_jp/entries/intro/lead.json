@@ -1,0 +1,25 @@
+{
+	"name": "鉛",
+	"icon": "caupona:lead_ingot",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:leaden_walnut",
+			"link_recipe": true,
+			"text": "ネザーで育つ$(l:worldgen/plants#walnut_tree)クルミの木$(/l)から、通常のクルミの代わりに鉛のクルミができることがあります。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:litharge_cake",
+			"link_recipe": true,
+			"text": "鉛のクルミを$(l:intro/counter_with_dolium)ドリウム$(/l)の中で金床（消費されません）と一緒に休ませると、リサージケーキができます。"
+		},
+		{
+			"type": "smelting",
+			"recipe": "caupona:smelting/lead_nugget",
+			"text": "リサージケーキは精錬して鉛のナゲットにできます。"
+		}
+	]
+}

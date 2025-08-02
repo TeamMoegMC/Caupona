@@ -1,0 +1,18 @@
+{
+	"name": "鉛製調理器具",
+	"icon": "caupona:lead_stew_pot",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/lead_stew_pot",
+			"text": "$(l:intro/lead)鉛$(/l)のシチューポットは$(l:intro/stew_pots)通常のもの$(/l)と同様に機能しますが、シチューが十分に濃縮されている場合や酢が加えられた場合、鉛糖（香辛料デフルタム）がシチューに溶け出します。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/lead_frying_pan",
+			"text": "$(l:intro/lead)鉛$(/l)メッキのフライパンも$(l:intro/frying_pans)通常のもの$(/l)と同様に機能しますが、加えられた酢はすべてデフルタムに変わります。"
+		}
+	]
+}

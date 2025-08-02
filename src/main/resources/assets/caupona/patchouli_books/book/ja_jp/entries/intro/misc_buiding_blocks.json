@@ -1,0 +1,24 @@
+{
+	"name": "その他の建築ブロック",
+	"icon": "caupona:felsic_tuff_spoked_fence",
+	"category": "caupona:intro",
+	"sortnum": 30,
+	"pages": [
+		{
+			"type": "text",
+			"text": "純粋に装飾目的で追加された様々な建築ブロックがあります。各タイプごとに、異なる建築スタイルに合わせた複数の素材バージョンが用意されています。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:stone_lacunar_tile",
+			"title": "ラキュナータイル",
+			"text": "ラキュナータイルは、天井のタイル張りによく使われる、段差のある窪んだ表面を持つブロックです。石、クォーツ、カルサイト、フェルシックタフのバージョンがあります。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:stone_spoked_fence",
+			"title": "スポークフェンス",
+			"text": "スポークフェンスは壁に似ていますが、一部が中空になっています。石、クォーツ、カルサイト、フェルシックタフのバージョンがあります。"
+		}
+	]
+}

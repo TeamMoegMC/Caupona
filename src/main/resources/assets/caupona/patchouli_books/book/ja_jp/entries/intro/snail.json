@@ -1,0 +1,40 @@
+{
+	"name": "カタツムリ",
+	"icon": "caupona:snail",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:snail_bait",
+			"link_recipe": true,
+			"text": "1xパン、2x砂糖またはハニカム、2xクルミ、500mB骨ゼラチン（流体）を$(l:intro/counter_with_dolium)ドリウム$(/l)で休ませることで、カタツムリの餌を作ることができます。この餌は葉ブロックの下に設置でき、かなり長い時間の後にカタツムリを誘き寄せます。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:snail_block",
+			"text": "カタツムリは卵から孵化し（餌で誘き寄せたものを除く）、成長の各段階で葉ブロックや果物を1つ消費します。3x3の範囲で食べ物を探し、その間に特定の葉をカタツムリ粘液ブロックに変えて自分を支えます。成熟したカタツムリは食べ続け、近くの葉や粘液ブロックの下に新しい卵を産みます。"
+		},
+		{
+			"type": "image",
+			"images": ["caupona:textures/gui/entries/snail.png"],
+			"anchor": "snail",
+			"title": "カタツムリの成長"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/snail_roes",
+			"text": "孵化したカタツムリブロックはカタツムリアイテムのみをドロップし、卵はカタツムリの卵をドロップします。卵は料理で卵として扱われます。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:snail",
+			"text": "カタツムリは料理では甲殻類として扱われますが、実際には陸生のカタツムリです。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:plump_snail",
+			"text": "カタツムリは成長中に果物を食べると太ります。太ったカタツムリはより多くの空腹度を回復し、より高い満腹度を与えます。"
+		}
+	]
+}

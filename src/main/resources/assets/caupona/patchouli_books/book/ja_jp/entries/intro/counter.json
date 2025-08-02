@@ -1,0 +1,17 @@
+{
+	"name": "カウンター",
+	"icon": "caupona:brick_counter",
+	"category": "caupona:intro",
+	"sortnum": 7,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/brick_counter",
+			"text": "カウンターはキッチン設備です。他の設備と同様に、さまざまな$(l:intro/kitchen_materials)素材$(/l)のバリエーションがあります。"
+		},
+		{
+			"type": "text",
+			"text": "カウンターは装飾用であり、$(l:intro/stove)かまど$(/l)や$(l:intro/counter_with_dolium)ドリウム付きカウンター$(/l)、その他のキッチン設備をつなげるためのものです。"
+		}
+	]
+}

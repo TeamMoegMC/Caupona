@@ -1,0 +1,28 @@
+{
+	"name": "スキマー",
+	"icon": "caupona:bamboo_skimmer",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/bamboo_skimmer",
+			"text": "スキマーはスープから固形の材料を取り除くために使われます。使用するたびに濃度が0.5ずつ減少し、下限に達するまで続きます。スキミング後も種類やベースは変化しません。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "caupona:scraps",
+			"link_recipe": true,
+			"text": "すくい取られた材料はスクラップになり、堆肥化以外に使い道はありません。"
+		},
+		{
+			"type": "text",
+			"text": "鉄製と竹製のスキマーは同じように機能しますが、鉄製の方が耐久性があります。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/iron_skimmer",
+			"recipe2": "caupona:crafting/iron_skimmer_alt"
+		}
+	]
+}
