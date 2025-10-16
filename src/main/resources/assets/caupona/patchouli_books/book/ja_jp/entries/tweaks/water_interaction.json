@@ -1,0 +1,12 @@
+{
+  "name": "水に浸された",
+  "icon": "minecraft:water_bucket",
+  "category": "caupona:tweaks",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Cauponaの一部のブロックは水と特別な方法で相互作用しますが、他の一部は水によって壊れてしまいます。"
+    }
+  ]
+}

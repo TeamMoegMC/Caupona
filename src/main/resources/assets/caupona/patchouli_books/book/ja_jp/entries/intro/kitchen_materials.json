@@ -1,0 +1,37 @@
+{
+	"name": "キッチンの素材",
+	"icon": "caupona:opus_latericium_chimney_flue",
+	"category": "caupona:intro",
+	"sortnum": 30,
+	"pages": [
+		{
+			"type": "text",
+			"text": "ここで紹介するキッチン設備には、カウンター、かまど、煙突が含まれます。さまざまな建築様式に合うように、いくつかの素材の設備が用意されています。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:mud_counter",
+			"text": "泥と石だけで作れる泥とドライストーンの設備は、非常に安価でゲーム序盤から作ることができます。他の素材の設備と機能はほぼ同じですが、泥とドライストーンのかまどは加熱が遅いです。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:stone_brick_counter",
+			"text": "石の設備は、石レンガと石のハーフブロックで作られます（石レンガのハーフブロックではありません）。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:brick_counter",
+			"text": "レンガの設備は、レンガとレンガのハーフブロックで作られます。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:opus_latericium_counter",
+			"text": "オプス・ラテリキウムの設備は、オプス・ラテリキウムブロックとそのハーフブロックで作られます。レンガの設備と似ていますが、コンクリートが露出しています。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:opus_incertum_counter",
+			"text": "オプス・インケルトゥムの設備は、オプス・インケルトゥムブロックとそのハーフブロックで作られます。"
+		}
+	]
+}

@@ -1,0 +1,34 @@
+{
+	"name": "ハイポコーストと浴場",
+	"icon": "caupona:opus_incertum_hypocaust_firebox",
+	"category": "caupona:intro",
+	"sortnum": 46,
+	"pages": [
+		{
+			"type": "text",
+			"text": "ハイポコーストは古代のセントラルヒーティングシステムです。ハイポコーストシステムでは、熱は中央のブロック（火室）から発生し、比較的広い範囲に広がります。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_incertum_hypocaust_firebox"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_incertum_caliduct",
+			"text": "$(l:intro/kitchen_materials)キッチン素材$(/l)は、泥とドライストーン以外はハイポコーストの建設に使用できます。泥とドライストーンは不安定で防水性がないためです。"
+		},
+		{
+			"type": "text",
+			"text": "ハイポコーストシステムを構築する際は、中央の火室とカリダクトを水平に接続し、火室は$(l:intro/stove)かまど$(/l)や$(l:worldgen/volcanic_fumarole)火山噴気孔$(/l)などの熱源の上に設置してください。ハイポコーストシステムは複数の火室で加熱できますが、熱の範囲は加算されません。"
+		},
+		{
+			"type": "text",
+			"text": "加熱されたハイポコーストシステムは、その上の水を温め、蒸気の粒子が発生する浴槽の水にします。浴槽の水の中にいると、非常にゆっくりと経験値を得ることができます。火室は周囲9x9の範囲を加熱できます。"
+		},
+		{
+			"type": "image",
+			"images": ["caupona:textures/gui/entries/bath.png"],
+			"text": "ハイポコーストで加熱された浴場の例。"
+		}
+	]
+}

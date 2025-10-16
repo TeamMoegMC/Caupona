@@ -1,0 +1,12 @@
+{
+  "name": "新しい染料のレシピ",
+  "icon": "minecraft:orange_dye",
+  "category": "caupona:tweaks",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "text",
+      "text": "異なる比率と濃度で$(l:intro/chimney)煤$()と骨ゼラチン（流体）を休ませることで、オレンジ、黒、茶色の3色の染料が作られます。"
+    }
+  ]
+}
