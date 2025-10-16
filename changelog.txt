@@ -1,2 +1,1 @@
-Fix comparator did not update correctly when interact pot or pan.
-Fix situla can take fluid from restricted machines.
+Add Japanese translations(cr.3Min3)
