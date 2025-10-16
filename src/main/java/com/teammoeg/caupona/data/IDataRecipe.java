@@ -40,13 +40,11 @@ public abstract class IDataRecipe implements Recipe<CraftingInput> {
 	}
 	@Override
 	public ItemStack assemble(CraftingInput input, Provider registries) {
-		// TODO Auto-generated method stub
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
 	public ItemStack getResultItem(Provider registries) {
-		// TODO Auto-generated method stub
-		return null;
+		return ItemStack.EMPTY;
 	}
 }
