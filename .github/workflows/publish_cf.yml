@@ -35,4 +35,4 @@ jobs:
     - name: Build with Gradle Wrapper
       env: 
         CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_TOKEN }}
-      run: ./gradlew curseforge
+      run: ./gradlew publishCurseForge
