@@ -39,7 +39,7 @@ public class LoafProvider implements IProbeInfoProvider {
 	@Override
 	public void addProbeInfo(ProbeMode mode, IProbeInfo info, Player player, Level level, BlockState state, IProbeHitData hitResult) {
 		if(level.getBlockEntity(hitResult.getPos()) instanceof LoafDoughBlockEntity entity) {
-			info.progress(entity.process, CPConfig.COMMON.loafCooking.get(),info.defaultProgressStyle().showText(false));
+			info.progress(entity.process, CPConfig.SERVER.loafCooking.get(),info.defaultProgressStyle().showText(false));
 		}
 	}
 	@Override

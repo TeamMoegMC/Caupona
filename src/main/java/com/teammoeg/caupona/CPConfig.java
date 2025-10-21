@@ -39,7 +39,6 @@ public class CPConfig {
 	}
 
 	public static class Client {
-		public ConfigValue<Boolean> fancyPan;
 		/**
 		 * @param builder
 		 */
@@ -49,33 +48,16 @@ public class CPConfig {
 
 	public static class Common {
 		//public ConfigValue<Integer> staticTime;
-		public ConfigValue<Double> roadSpeedAddtion;
-		public ConfigValue<Integer> loafCooking;
-		public ConfigValue<Integer> loafStacking;
-		public ConfigValue<Boolean> compressCodecs;
+
+
+		
 		/**
 		 * @param builder
 		 */
 
 		Common(ModConfigSpec.Builder builder) {
-			builder.push("recipe");
-			/*staticTime = builder.comment("Ticks before do still recipe").defineInRange("StillRecipeTicks", 12000, 1,
-					Integer.MAX_VALUE);*/
-			loafCooking = builder.comment("Loaf dough cooking time").defineInRange("loafCookingTime",
-				1200, 1, Integer.MAX_VALUE);
-			loafStacking = builder.comment("Loaf dough maximum stacking height in blocks").defineInRange("maxLoafStackingHeight",
-				6, 1, Integer.MAX_VALUE);
-			builder.pop();
-			builder.push("road");
-			roadSpeedAddtion = builder.comment("Additional speed added per tick for roads").defineInRange("roadSpeedAddtion",2D,0D,10D);
-			builder.pop();
-			builder.push("misc");
-			compressCodecs = builder.comment("Compress output from codecs when sending by network to improve performance.")
-			.comment("May cause problems if some client install mods that may modify vanilla codecs but such mods are not present on server such as Sinytra.")
-			.comment("Installing such mods on both client and server is fine.")
-			.comment("If you meet network exception with some client-only mods, try turning off this")
-			.define("compressCodecOutput", true);
-			builder.pop();
+
+
 		}
 	}
 
@@ -109,6 +91,13 @@ public class CPConfig {
 		public ConfigValue<Double> leadenGenRate;
 
 		public ConfigValue<Boolean> addManual;
+		
+		public ConfigValue<Integer> loafCooking;
+		public ConfigValue<Integer> loafStacking;
+		
+		public ConfigValue<Double> roadSpeedAddtion;
+		
+		public ConfigValue<Boolean> compressCodecs;
 		Server(ModConfigSpec.Builder builder) {
 			builder.push("recipes");
 
@@ -122,7 +111,17 @@ public class CPConfig {
 					10, 1, Integer.MAX_VALUE);
 			
 			builder.pop();
-
+			
+			builder.push("road");
+			roadSpeedAddtion = builder.comment("Additional speed added per tick for roads").defineInRange("roadSpeedAddtion",2D,0D,10D);
+			builder.pop();
+			
+			builder.push("loaf");
+			loafCooking = builder.comment("Loaf dough cooking time").defineInRange("loafCookingTime",
+				1200, 1, Integer.MAX_VALUE);
+			loafStacking = builder.comment("Loaf dough maximum stacking height in blocks").defineInRange("maxLoafStackingHeight",
+				6, 1, Integer.MAX_VALUE);
+			builder.pop();
 			builder.push("chimney");
 			chimneyTicks = builder.comment("How many ticks does a chimney pot needed to make a soot")
 					.define("ChimneySootTicks", 80);
@@ -163,6 +162,11 @@ public class CPConfig {
 			builder.pop();
 
 			builder.push("misc");
+			compressCodecs = builder.comment("Compress output from codecs when sending by network to improve performance.")
+			.comment("May cause problems if some client install mods that may modify vanilla codecs but such mods are not present on server such as Sinytra.")
+			.comment("Installing such mods on both client and server is fine.")
+			.comment("If you meet network exception with some client-only mods, try turning off this")
+			.define("compressCodecOutput", true);
 			genCH = builder.comment("Super secret special content").define("specialContents", true);
 			addManual=builder.comment("Add manual to player on start").define("addManual", true);
 			leadenGenRate=builder.comment("Leaden walnut tranformation rate").defineInRange("leadenGenRate",0.05D,0D,1D);

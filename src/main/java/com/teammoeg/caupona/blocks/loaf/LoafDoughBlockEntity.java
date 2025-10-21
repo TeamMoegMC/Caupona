@@ -41,7 +41,7 @@ public class LoafDoughBlockEntity extends CPBaseBlockEntity {
 		if(!level.getBlockState(getBlockPos().below()).is(CPBlocks.LOAF_DOUGH)) {
 			heatValue=(int) LoafHelper.getFireStrengh(level, getBlockPos());
 			BlockPos crpos=getBlockPos();
-			for(int i=0;i<CPConfig.COMMON.loafStacking.get();i++) {
+			for(int i=0;i<CPConfig.SERVER.loafStacking.get();i++) {
 				crpos=crpos.above();
 				BlockState bs=level.getBlockState(crpos);
 				if(!bs.is(CPBlocks.LOAF_DOUGH)||bs.getValue(SlabBlock.WATERLOGGED)) {
@@ -79,7 +79,7 @@ public class LoafDoughBlockEntity extends CPBaseBlockEntity {
 				ltw.tick();
 				process+=heatValue;
 				this.setChanged();
-				if(process>=CPConfig.COMMON.loafCooking.get()) {
+				if(process>=CPConfig.SERVER.loafCooking.get()) {
 					level.setBlock(worldPosition,CPBlocks.LOAF.get().withPropertiesOf(this.getBlockState()), 3);
 				}
 			}else
