@@ -20,7 +20,7 @@
     {
       "type": "crafting",
       "recipe": "caupona:crafting/brick_kitchen_stove",
-      "text": "There're also stoves of $(l:intro/kitchen_materials)other materials$(/l), which are faster but consume more fuel."
+      "text": "There're also stoves of $(l:intro/kitchen_materials)other materials$(/l), which are faster and burn more quickly."
     }
   ]
 }
