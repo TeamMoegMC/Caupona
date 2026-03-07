@@ -266,6 +266,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 						process = 0;
 						processMax = 0;
 						doWork();
+						this.syncData();
 						this.setChanged();
 					}
 				} else

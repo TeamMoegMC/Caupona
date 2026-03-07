@@ -1,0 +1,25 @@
+{
+	"name": "道路",
+	"icon": "caupona:stone_road",
+	"category": "caupona:intro",
+	"sortnum": 29,
+	"pages": [
+		{
+			"type": "text",
+			"text": "道路工事は重要なプロジェクトです。Cauponaが提供する道路を建設することで、異なる場所間の移動時間を大幅に短縮できます。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/stone_road"
+		},
+		{
+			"type": "text",
+			"text": "道路には3種類の素材があります：石レンガ、フェルシックタフレンガ、砂岩です。素材以外に実用的な違いはありません。$(br)道路はダッシュ時の速度を大幅に上昇させますが、移動による空腹の減少は抑えられないため、長距離を移動する場合は十分な食料を用意することをおすすめします。$(br)道路は歩行速度を上げません。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/stone_road_side",
+			"text": "縁石付きの道路は、道路の端によく設置されます。縁石はジャンプしない限り、誤って道路から外れるのを防ぎます。"
+		}
+	]
+}

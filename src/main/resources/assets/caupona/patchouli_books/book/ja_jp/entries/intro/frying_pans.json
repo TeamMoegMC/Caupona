@@ -1,0 +1,39 @@
+{
+	"name": "フライパン",
+	"icon": "caupona:stone_griddle",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/stone_griddle",
+			"text": "フライパンや石のグリドルは、$(l:intro/sauteed_dishes)ソテーや炒め物$(/l)に使います。石のグリドルはフライパンより安価ですが、熱伝導率が低いため、金属製のフライパンよりも調理にかなり時間がかかります。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/copper_frying_pan",
+			"text": "金属製のフライパンは銅、鉄、または$(l:intro/lead_cookwares)鉛メッキ銅$(/l)で作ることができます。フライパンは$(l:intro/stove)かまど$(/l)や$(l:worldgen/volcanic_fumarole)火山噴気孔$(/l)などの熱源の上に置いてください。"
+		},
+		{
+			"type": "text",
+			"text": "フライパンは煮込み鍋と似ていますが、液体は必要ありません。左側のボタンで調理開始とレッドストーン制御の切り替えができます。デフォルトでは、フライパンはレッドストーン信号に反応しません。右側のスロットにはボウルや$(l:intro/spices)スパイス$(/l)を入れます。調理済み料理用のスロットもあります。"
+		},
+		{
+			"type": "text",
+			"text": "調理を始める前に、$(l:resting/oil)油$(/l)とボウルが十分に入っていることを確認してください。油は近くのグレイビーボートから自動的に補充されます。"
+		},
+		{
+			"type": "text",
+			"text": "液体がない場合、ソテー料理には濃縮の概念がありません。代わりに、2つの材料ごとに1つの料理ができます（端数は切り上げ）。"
+		},
+		{
+			"type": "text",
+			"text": "レッドストーン制御がオンの場合、フライパンが動作していなくてもレッドストーン信号があれば動作を試み続けます。自動化に便利です。"
+		},
+		{
+			"type": "image",
+			"images": ["caupona:textures/gui/entries/frying_pan.png"],
+			"text": "フライパンの使い方の一例です。$(l:resting/oil)油$(/l)や$(l:tweaks/dispenser)ディスペンサーによる自動化$(/l)も参照してください。"
+		}
+	]
+}

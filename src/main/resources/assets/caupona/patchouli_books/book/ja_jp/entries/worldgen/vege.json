@@ -1,0 +1,26 @@
+{
+	"name": "ハーブ",
+	"icon": "caupona:silphium_block",
+	"category": "caupona:worldgen",
+	"sortnum": 0,
+	"pages": [
+		{
+			"type": "text",
+			"text": "シルフィウムは世界に生成されるようになりました。このハーブは植えることができず、骨粉でのみ再生できます。"
+		},
+		{
+			"type": "empty"
+		},
+		{
+			"type": "image",
+			"images": ["caupona:textures/gui/entries/silphium.png"],
+			"anchor": "silphium",
+			"title": "シルフィウム"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:silphium",
+			"text": "シルフィウムはヒマワリ平原にのみ育ちます。アサフェティダという希少なスパイスは、シルフィウムと金床（消費されません）を$(l:intro/counter_with_dolium)ドルウム$(/l)で休ませることで作れます。"
+		}
+	]
+}

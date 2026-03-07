@@ -1,0 +1,17 @@
+{
+	"name": "シトゥラ",
+	"icon": "caupona:situla",
+	"category": "caupona:intro",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/situla",
+			"text": "シトゥラの内部容量は1250mBで、シチューポットやドリアと同じです。シトゥラは液体（シチューを含む）の移動に特化しています。"
+		},
+		{
+			"type": "text",
+			"text": "シトゥラはワールド内の液体と相互作用します。半分だけ満たされたシトゥラでも、残りの容量がバケツ1杯未満であっても満たされますが、余った液体は失われます。"
+		}
+	]
+}

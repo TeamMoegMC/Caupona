@@ -31,7 +31,7 @@
 		{
 			"type": "spotlight",
 			"item": "caupona:sapa_spice_jar",
-			"text": "Defrutum cannot to produced solely, but it occurs in foods cooked with $(l:intro/lead_cookwares)lead cookwares$(/l), providing Hyperactive. This effect functions similarly with Strength, but will double the damage you take."
+			"text": "You cannot brew Defrutum so far, but food from $(l:intro/lead_cookwares)lead cookwares$(/l) naturally contains it. Defrutum provides Hyperactive which functions like Strength, but doubles the damage you take."
 		},
 		{
 			"type": "crafting",

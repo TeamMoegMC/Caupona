@@ -1,0 +1,38 @@
+{
+	"name": "建築材料",
+	"icon": "caupona:opus_incertum",
+	"category": "caupona:intro",
+	"sortnum": 29,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Cauponaは建築材料やタイルも追加します。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/mixed_bricks"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/felsic_tuff",
+			"text": "フェルシックタフは$(l:worldgen/volcanic_fumarole)軽石$(/l)とタフから作られます。Cauponaの基本的な建築材料の一つです。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/felsic_tuff_bricks",
+			"text": "これらのブロックは階段、ハーフブロック、壁などにもクラフトできます。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_incertum"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_reticulatum"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/opus_latericium"
+		}
+	]
+}

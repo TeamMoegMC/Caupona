@@ -1,0 +1,30 @@
+{
+	"name": "携帯用火鉢",
+	"icon": "caupona:portable_brazier",
+	"category": "caupona:intro",
+	"sortnum": 11,
+	"pages": [
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/clay_portable_brazier"
+		},
+		{
+			"type": "smelting",
+			"recipe": "caupona:smelting/portable_brazier",
+			"text": "携帯用火鉢はインベントリに持ち運ぶことができ、右クリックで持ったまま開くことができます。唯一の用途は、$(l:resting/aspics)アスピック$(/l)をスープに解凍することです。"
+		},
+		{
+			"type": "text",
+			"text": "火鉢のGUIには、入力スロット、水入りボウルスロット、出力スロット、燃料スロットがあります。アスピックを解凍する際、シチューポットでは水は不要ですが、ここでは必ず水入りボウルが必要です。"
+		},
+		{
+			"type": "text",
+			"text": "携帯用火鉢は、動作するたびに燃料アイテムを1つ消費します。ビビッドチャコールとマグマクリームが燃料として使えます。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:vivid_charcoal",
+			"text": "ビビッドチャコールの入手方法は2つあります：マグマクリームとチャコールでクラフトするか、スライムボール・チャコール・溶岩を一緒に休ませることです。ビビッドチャコールはマグマクリームより安価で、携帯用火鉢でのみ使用できます。"
+		}
+	]
+}

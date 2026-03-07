@@ -1,0 +1,42 @@
+{
+	"name": "スパイス",
+	"icon": "caupona:chives_spice_jar",
+	"category": "caupona:intro",
+	"sortnum": 24,
+	"pages": [
+		{
+			"type": "text",
+			"text": "スパイスは、鍋やフライパンから取り出したシチューやソテー料理に加えることができます。スパイスは通常、食べ物に短時間持続する効果を与えます。味付けされた料理は、再度調理されるとスパイスの効果を失います。スパイスはスパイスジャー（実際には植木鉢）に入っており、その一部は寝かせることで作られます。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/sugar_spice_jar",
+			"text": "砂糖はスピードを付与します。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/chives_spice_jar",
+			"text": "チャイブはスローフォールを付与します。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:garum_spice_jar",
+			"text": "ガルムはドリアで魚から作られ、ジャンプブーストを付与します。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:vinegar_spice_jar",
+			"text": "ビネガーはドリアでベリーやリンゴから作られ、ナイトビジョンを付与します。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:sapa_spice_jar",
+			"text": "デフルタムは単独では作れませんが、$(l:intro/lead_cookwares)鉛製調理器具$(/l)で調理した料理に現れ、ハイパーアクティブを付与します。この効果はストレングスと似ていますが、受けるダメージが2倍になります。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/asafoetida_spice_jar",
+			"text": "アサフェティダは最終的に$(l:intro/vege#silphium)シルフィウム$(/l)から得られ、レジスタンスを付与します。"
+		}
+	]
+}
