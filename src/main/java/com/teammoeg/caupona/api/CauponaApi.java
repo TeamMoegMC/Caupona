@@ -109,12 +109,16 @@ public class CauponaApi {
 	}
 	public static Optional<ItemStack> getFilledItemStack(IFluidHandler handler,ItemStack in) {
 		FluidStack stack = handler.drain(250, FluidAction.SIMULATE);
+		if(stack.getAmount()!=250)
+			return Optional.empty();
 		ContanerContainFoodEvent ev=Utils.contain(in, stack,true);
 		if (ev.isAllowed())
 			return getFilledItemStack(handler.drain(ev.drainAmount, FluidAction.EXECUTE),in);
 		return Optional.empty();
 	}
 	public static Optional<ItemStack> getFilledItemStack(FluidStack stack,ItemStack in) {
+		if(stack.getAmount()!=250)
+			return Optional.empty();
 		ContanerContainFoodEvent ev=Utils.contain(in, stack,false);
 		if (ev.isAllowed())
 			return Optional.of(ev.out);
