@@ -37,6 +37,7 @@ import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
 import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
+import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure.MaxDistance;
 
 public class FumaroleStructure extends Structure {
 	  public static final MapCodec<FumaroleStructure> CODEC = RecordCodecBuilder.<FumaroleStructure>mapCodec((p_227640_) -> {
@@ -58,7 +59,7 @@ public class FumaroleStructure extends Structure {
 		int topLandY = ctx.chunkGenerator().getFirstFreeHeight(blockpos.getX(), blockpos.getZ(),
 				Heightmap.Types.WORLD_SURFACE_WG, ctx.heightAccessor(), ctx.randomState());
 		blockpos = blockpos.atY(topLandY - 4 + ctx.random().nextInt(1));
-		return JigsawPlacement.addPieces(ctx, this.startPool,Optional.empty(), 32, blockpos,false, Optional.empty(), 0, PoolAliasLookup.EMPTY,JigsawStructure.DEFAULT_DIMENSION_PADDING,
+		return JigsawPlacement.addPieces(ctx, this.startPool,Optional.empty(), 32, blockpos,false, Optional.empty(), new MaxDistance(0,0), PoolAliasLookup.EMPTY,JigsawStructure.DEFAULT_DIMENSION_PADDING,
             JigsawStructure.DEFAULT_LIQUID_SETTINGS);
 	}
 

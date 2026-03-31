@@ -35,11 +35,12 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.IDataRecipe;
+import com.teammoeg.caupona.util.ChancedEffect;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
@@ -68,10 +69,10 @@ public class FoodValueRecipe extends IDataRecipe {
 
 	public int heal;
 	public float sat;
-	public List<FoodProperties.PossibleEffect> effects;
+	public List<ChancedEffect> effects;
 	public final Map<Item, Integer> processtimes;
 	private ItemStack repersent;
-	public transient Set<ResourceLocation> tags;
+	public transient Set<Identifier> tags;
 	public static final MapCodec<FoodValueRecipe> CODEC=
 		RecordCodecBuilder.mapCodec(t->t.group(
 			Codec.INT.fieldOf("heal").forGetter(o->o.heal),
@@ -134,7 +135,7 @@ public class FoodValueRecipe extends IDataRecipe {
 		tags = null;
 	}
 
-	public Set<ResourceLocation> getTags() {
+	public Set<Identifier> getTags() {
 	
 		if (tags == null)
 			tags = processtimes.keySet().stream()

@@ -58,7 +58,7 @@ public class LeavingLogReplacer extends TreeDecorator {
 			boolean w=leaves.contains(bp.west());
 			//System.out.println("n:"+n+"s:"+s+"e:"+e+"w:"+w);
 			if(n||s||w||e) {
-				pContext.setBlock(bp, state.getState(pContext.random(), bp));
+				pContext.setBlock(bp, state.getState(pContext.level(), pContext.random(), bp));
 			}
 		}
 	}

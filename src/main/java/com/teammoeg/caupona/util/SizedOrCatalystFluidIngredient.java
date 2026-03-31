@@ -29,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -41,39 +42,6 @@ import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 
 public final class SizedOrCatalystFluidIngredient {
-    /**
-     * The "flat" codec for {@link SizedOrCatalystFluidIngredient}.
-     *
-     * <p>The amount is serialized inline with the rest of the ingredient, for example:
-     *
-     * <pre>{@code
-     * {
-     *     "fluid": "minecraft:water",
-     *     "amount": 250
-     * }
-     * }</pre>
-     *
-     * <p>
-     * <p>
-     * Compound fluid ingredients are always serialized using the map codec, i.e.
-     *
-     * <pre>{@code
-     * {
-     *     "type": "neoforge:compound",
-     *     "ingredients": [
-     *         { "fluid": "minecraft:water" },
-     *         { "fluid": "minecraft:milk" }
-     *     ],
-     *     "amount": 500
-     * }
-     * }</pre>
-     *
-     * <p>
-     */
-    public static final Codec<SizedOrCatalystFluidIngredient> FLAT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            FluidIngredient.MAP_CODEC_NONEMPTY.forGetter(SizedOrCatalystFluidIngredient::ingredient),
-            NeoForgeExtraCodecs.optionalFieldAlwaysWrite(ExtraCodecs.NON_NEGATIVE_INT, "amount", FluidType.BUCKET_VOLUME).forGetter(SizedOrCatalystFluidIngredient::amount))
-            .apply(instance, SizedOrCatalystFluidIngredient::new));
 
     /**
      * The "nested" codec for {@link SizedOrCatalystFluidIngredient}.
@@ -90,7 +58,7 @@ public final class SizedOrCatalystFluidIngredient {
      * }</pre>
      */
     public static final Codec<SizedOrCatalystFluidIngredient> NESTED_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            FluidIngredient.CODEC_NON_EMPTY.fieldOf("ingredient").forGetter(SizedOrCatalystFluidIngredient::ingredient),
+            FluidIngredient.CODEC.fieldOf("ingredient").forGetter(SizedOrCatalystFluidIngredient::ingredient),
             NeoForgeExtraCodecs.optionalFieldAlwaysWrite(ExtraCodecs.NON_NEGATIVE_INT, "amount", FluidType.BUCKET_VOLUME).forGetter(SizedOrCatalystFluidIngredient::amount))
             .apply(instance, SizedOrCatalystFluidIngredient::new));
 
@@ -110,14 +78,14 @@ public final class SizedOrCatalystFluidIngredient {
      * Helper method to create a simple sized ingredient that matches the given fluid stack
      */
     public static SizedOrCatalystFluidIngredient of(FluidStack stack) {
-        return new SizedOrCatalystFluidIngredient(FluidIngredient.single(stack), stack.getAmount());
+        return new SizedOrCatalystFluidIngredient(FluidIngredient.of(stack), stack.getAmount());
     }
 
     /**
      * Helper method to create a simple sized ingredient that matches fluids in a tag.
      */
     public static SizedOrCatalystFluidIngredient of(TagKey<Fluid> tag, int amount) {
-        return new SizedOrCatalystFluidIngredient(FluidIngredient.tag(tag), amount);
+        return new SizedOrCatalystFluidIngredient(BuiltInRegistries.FLUID.get(tag).map(FluidIngredient::of).orElseGet(()->FluidIngredient.of(Stream.empty())), amount);
     }
 
     private final FluidIngredient ingredient;
@@ -156,8 +124,8 @@ public final class SizedOrCatalystFluidIngredient {
      */
     public FluidStack[] getFluids() {
         if (cachedStacks == null) {
-            cachedStacks = Stream.of(ingredient.getStacks())
-                    .map(s -> s.copyWithAmount(amount>0?amount:1))
+            cachedStacks =ingredient.fluids().stream().flatMap(t->t.unwrap().right().stream())
+                    .map(s -> new FluidStack(s,amount>0?amount:1))
                     .toArray(FluidStack[]::new);
         }
         return cachedStacks;

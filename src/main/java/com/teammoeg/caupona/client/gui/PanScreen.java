@@ -36,11 +36,11 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 public class PanScreen extends AbstractContainerScreen<PanContainer> {
-	static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "textures/gui/frying_pan.png");
+	static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CPMain.MODID, "textures/gui/frying_pan.png");
 
 	PanBlockEntity blockEntity;
 

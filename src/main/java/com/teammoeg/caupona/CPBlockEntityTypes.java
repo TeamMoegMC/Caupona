@@ -93,14 +93,14 @@ public class CPBlockEntityTypes {
 	}*/
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntitySupplier<T> create,
 			Supplier<DeferredHolder<Block,? extends Block>> valid) {
-		return () -> new BlockEntityType<>(create, ImmutableSet.of(valid.get().get()), null);
+		return () -> new BlockEntityType<>(create, ImmutableSet.of(valid.get().get()));
 	}
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeTypes2(BlockEntitySupplier<T> create,
 			Supplier<List<DeferredHolder<Block,? extends Block>>> valid) {
-		return () -> new BlockEntityType<>(create, valid.get().stream().map(DeferredHolder<Block,? extends Block>::get).collect(Collectors.toSet()), null);
+		return () -> new BlockEntityType<>(create, valid.get().stream().map(DeferredHolder<Block,? extends Block>::get).collect(Collectors.toSet()));
 	}
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeTypes(BlockEntitySupplier<T> create,
 			Supplier<List<Block>> valid) {
-		return () -> new BlockEntityType<>(create, ImmutableSet.copyOf(valid.get()), null);
+		return () -> new BlockEntityType<>(create, ImmutableSet.copyOf(valid.get()));
 	}
 }

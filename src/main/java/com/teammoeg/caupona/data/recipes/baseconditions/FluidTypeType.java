@@ -35,10 +35,10 @@ public class FluidTypeType implements StewBaseCondition {
 		.mapCodec(c->c.group(BuiltInRegistries.FLUID.byNameCodec().fieldOf("base").forGetter(t->t.of)
 		).apply(c, FluidTypeType::new));
 	/*public FluidTypeType(JsonObject jo) {
-		of = ResourceLocation.parse(jo.get("base").getAsString());
+		of = Identifier.parse(jo.get("base").getAsString());
 	}*/
 	/*public FluidTypeType(String of) {
-		this(ResourceLocation.parse(of));
+		this(Identifier.parse(of));
 	}*/
 	public FluidTypeType(Fluid of) {
 		super();

@@ -38,14 +38,19 @@ import com.teammoeg.caupona.util.FoodMaterialInfo;
 import com.teammoeg.caupona.util.TabType;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.Holder.Reference;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
@@ -81,8 +86,8 @@ public class CPItems {
 			new FoodMaterialInfo("fig",4,0.3f,0.6f),
 			new FoodMaterialInfo("walnut",4,0.3f,0.6f),
 			new FoodMaterialInfo("wolfberries",4,0.3f,0.6f),
-			new FoodMaterialInfo("snail",2,0.3f,0.6f).food(c->c.effect(()->new MobEffectInstance(MobEffects.HUNGER, 600, 0), 0.3F)),
-			new FoodMaterialInfo("plump_snail",3,0.3f,0.7f).food(c->c.effect(()->new MobEffectInstance(MobEffects.HUNGER, 600, 0), 0.3F))};
+			new FoodMaterialInfo("snail",2,0.3f,0.6f).effect(c->c.onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.HUNGER, 600, 0),0.3f))),
+			new FoodMaterialInfo("plump_snail",3,0.3f,0.7f).effect(c->c.onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.HUNGER, 600, 0),0.3f)))};
 	public static final String[] base_material = new String[] { "lateres", "clay_portable_brazier", "vivid_charcoal", "silphium",
 																"asafoetida", "leaden_walnut", "litharge_cake", "lead_ingot", "lead_nugget",
 																"asses","brick_tesserae","basalt_tesserae","pumice_tesserae", "fresh_wolfberry_leaves" ,"crumb"};
@@ -110,11 +115,11 @@ public class CPItems {
 	
 	static{
 		for (String s : soups) {
-			stew(s,Lazy.of(()->BuiltInRegistries.FLUID.get(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, s))),CPBlocks.BOWL, createSoupProps());
+			stew(s,Lazy.of(()->BuiltInRegistries.FLUID.getValue(Identifier.fromNamespaceAndPath(CPMain.MODID, s))),CPBlocks.BOWL, createSoupProps());
 			
 		}
 		for(String s:bread_bowls) {
-			stew(s+"_loaf",Lazy.of(()->BuiltInRegistries.FLUID.get(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, s))),CPBlocks.LOAF_BOWL, createLoafSoupProps());
+			stew(s+"_loaf",Lazy.of(()->BuiltInRegistries.FLUID.getValue(Identifier.fromNamespaceAndPath(CPMain.MODID, s))),CPBlocks.LOAF_BOWL, createLoafSoupProps());
 		}
 		
 		
@@ -124,7 +129,7 @@ public class CPItems {
 		}
 		for (String s : spices) {
 			spicesItems.add(
-					item(s, createProps().durability(6).craftRemainder(Items.FLOWER_POT).setNoRepair(),TabType.FOODS));
+					item(s, createProps().durability(6).craftRemainder(Items.FLOWER_POT).setNoCombineRepair(),TabType.FOODS));
 		}
 		for (String s : base_material) {
 			item(s, createProps(),TabType.MAIN);
@@ -139,7 +144,7 @@ public class CPItems {
 				CPCommonBootStrap.asCompositable(item,s.composite);
 		}
 	}
-	public static DeferredHolder<Item,CPBlockItem> gravy_boat = ITEMS.register("gravy_boat",()->new CPBlockItem(CPBlocks.GRAVY_BOAT.get(), createProps().durability(5).setNoRepair(),TabType.FOODS));
+	public static DeferredHolder<Item,CPBlockItem> gravy_boat = ITEMS.register("gravy_boat",()->new CPBlockItem(CPBlocks.GRAVY_BOAT.get(), createProps().durability(5).setNoCombineRepair(),TabType.FOODS));
 	public static DeferredHolder<Item,CPBoatItem> walnut_boat = ITEMS.register("walnut_boat", ()->new CPBoatItem("walnut", createProps()));
 	public static DeferredHolder<Item,Chronoconis> chronoconis = ITEMS.register("chronoconis",()->new Chronoconis( createProps()));
 	//public static Item haze = icon("culinary_heat_haze");
@@ -148,6 +153,9 @@ public class CPItems {
 	}
 	public static DeferredHolder<Item,Item> item(String name,Properties props,TabType tab){
 		return ITEMS.register(name,()->new CPItem(props,tab));
+	}
+	public static DeferredHolder<Item,Item> stew(String name,Reference<Fluid> base,Supplier<? extends Block> block,Supplier<Properties> props){
+		return ITEMS.register(name,()->new StewItem(block.get(),()->base.unwrap().right().get(),props.get()));
 	}
 	public static DeferredHolder<Item,Item> stew(String name,Supplier<Fluid> base,Supplier<? extends Block> block,Supplier<Properties> props){
 		return ITEMS.register(name,()->new StewItem(block.get(),base,props.get()));

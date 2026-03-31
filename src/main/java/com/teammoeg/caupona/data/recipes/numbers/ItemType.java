@@ -32,7 +32,7 @@ import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -90,7 +90,7 @@ public class ItemType implements CookIngredients {
 	}
 
 	@Override
-	public Stream<ResourceLocation> getTags() {
+	public Stream<Identifier> getTags() {
 		return Stream.empty();
 	}
 

@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 
 import com.teammoeg.caupona.data.ITranlatable;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public interface IngredientCondition extends Predicate<IPendingContext>, /*Writeable,*/ ITranlatable {
 
@@ -36,7 +36,7 @@ public interface IngredientCondition extends Predicate<IPendingContext>, /*Write
 		return Stream.empty();
 	};
 
-	public default Stream<ResourceLocation> getTags() {
+	public default Stream<Identifier> getTags() {
 		return Stream.empty();
 	};
 	public default boolean isMajor() {

@@ -33,30 +33,32 @@ import com.teammoeg.caupona.components.StewInfo;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.Utils;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 
 public class CauponaHooks {
 
 	private CauponaHooks() {
 	}
 
-	public static final ResourceLocation stew = ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "stews");
+	public static final Identifier stew = Identifier.fromNamespaceAndPath(CPMain.MODID, "stews");
 
 	public static Optional<List<FloatemStack>> getItems(ItemStack stack) {
 		IFoodInfo fi=CPCapability.FOOD_INFO.getCapability(stack, null);
 		if (fi!=null) {
 			return Optional.of(fi.getStacks());
 		}
-		@Nullable IFluidHandlerItem cap = stack.getCapability(Capabilities.FluidHandler.ITEM);
+		@Nullable ResourceHandler<FluidResource> cap = stack.getCapability(Capabilities.Fluid.ITEM,ItemAccess.forStack(stack));
 		if (cap!=null) {
-			IFluidHandlerItem data = cap;
-			FluidStack fs = data.getFluidInTank(0);
+			FluidResource fs = cap.getResource(0);
 			// TODO: CHECK STEW TAG
 			return Optional.of(Utils.getOrCreateInfo(fs).getStacks());
 		}
@@ -64,10 +66,9 @@ public class CauponaHooks {
 	}
 
 	public static Fluid getBase(ItemStack stack) {
-		@Nullable IFluidHandlerItem cap = stack.getCapability(Capabilities.FluidHandler.ITEM);
+		@Nullable ResourceHandler<FluidResource> cap = stack.getCapability(Capabilities.Fluid.ITEM,ItemAccess.forStack(stack));
 		if (cap!=null) {
-			IFluidHandlerItem data = cap;
-			return Utils.getOrCreateInfo(data.getFluidInTank(0)).getBase();
+			return Utils.getOrCreateInfo(cap.getResource(0)).getBase();
 		}else {
 			@Nullable StewInfo data=stack.get(CPCapability.STEW_INFO);
 			if(data!=null)
@@ -81,10 +82,9 @@ public class CauponaHooks {
 		if (fi!=null) {
 			return Optional.of(fi);
 		}
-		@Nullable IFluidHandlerItem cap = stack.getCapability(Capabilities.FluidHandler.ITEM);
+		@Nullable ResourceHandler<FluidResource> cap = stack.getCapability(Capabilities.Fluid.ITEM,ItemAccess.forStack(stack));
 		if (cap!=null) {
-			IFluidHandlerItem data = cap;
-			return Optional.of(Utils.getOrCreateInfo(data.getFluidInTank(0)));
+			return Optional.of(Utils.getOrCreateInfo(cap.getResource(0)));
 		}
 		return Optional.empty();
 	}

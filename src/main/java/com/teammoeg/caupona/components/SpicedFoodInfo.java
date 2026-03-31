@@ -32,27 +32,27 @@ import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
 import com.teammoeg.caupona.util.SerializeUtil;
 import com.teammoeg.caupona.util.Utils;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
 
 public class SpicedFoodInfo{
 	public MobEffectInstance spice;
 	public boolean hasSpice = false;
-	public ResourceLocation spiceName;
+	public Identifier spiceName;
 	public SpicedFoodInfo() {}
-	public SpicedFoodInfo(Optional<MobEffectInstance> spice, Boolean hasSpice, Optional<ResourceLocation> spiceName) {
+	public SpicedFoodInfo(Optional<MobEffectInstance> spice, Boolean hasSpice, Optional<Identifier> spiceName) {
 		this(spice.orElse(null),hasSpice,spiceName.orElse(null));
 	}
 	
-	public SpicedFoodInfo(MobEffectInstance spice, boolean hasSpice, ResourceLocation spiceName) {
+	public SpicedFoodInfo(MobEffectInstance spice, boolean hasSpice, Identifier spiceName) {
 		super();
 		this.spice = spice;
 		this.hasSpice = hasSpice;
 		this.spiceName = spiceName;
 	}
-	public static <P extends SpicedFoodInfo> P3<Mu<P>, Optional<MobEffectInstance>, Boolean, Optional<ResourceLocation>>  codecStart(Instance<P> i) {
-		return i.group(SerializeUtil.fromRFBBStreamCodec(MobEffectInstance.STREAM_CODEC,MobEffectInstance.CODEC).optionalFieldOf("spice").forGetter(o->Optional.ofNullable(o.spice)), Codec.BOOL.fieldOf("hasSpice").forGetter(o->o.hasSpice), ResourceLocation.CODEC.optionalFieldOf("spiceName").forGetter(o->Optional.ofNullable(o.spiceName)));
+	public static <P extends SpicedFoodInfo> P3<Mu<P>, Optional<MobEffectInstance>, Boolean, Optional<Identifier>>  codecStart(Instance<P> i) {
+		return i.group(SerializeUtil.fromRFBBStreamCodec(MobEffectInstance.STREAM_CODEC,MobEffectInstance.CODEC).optionalFieldOf("spice").forGetter(o->Optional.ofNullable(o.spice)), Codec.BOOL.fieldOf("hasSpice").forGetter(o->o.hasSpice), Identifier.CODEC.optionalFieldOf("spiceName").forGetter(o->Optional.ofNullable(o.spiceName)));
 		
 	}
 	public static <T extends SpicedFoodInfo> RecordCodecBuilder<T,Optional<MobEffectInstance>> spiceCodec() {
@@ -61,8 +61,8 @@ public class SpicedFoodInfo{
 	public static <T extends SpicedFoodInfo> RecordCodecBuilder<T,Boolean> hasSpiceCodec() {
 		return Codec.BOOL.fieldOf("hasSpice").forGetter(o->o.hasSpice);
 	}
-	public static <T extends SpicedFoodInfo> RecordCodecBuilder<T,Optional<ResourceLocation>> spiceNameCodec() {
-		return ResourceLocation.CODEC.optionalFieldOf("spiceName").forGetter(o->Optional.ofNullable(o.spiceName));
+	public static <T extends SpicedFoodInfo> RecordCodecBuilder<T,Optional<Identifier>> spiceNameCodec() {
+		return Identifier.CODEC.optionalFieldOf("spiceName").forGetter(o->Optional.ofNullable(o.spiceName));
 	}
 	
 	

@@ -21,7 +21,11 @@
 
 package com.teammoeg.caupona.blocks.decoration;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 
 public class CPTrapDoorBlock extends TrapDoorBlock {
@@ -29,5 +33,13 @@ public class CPTrapDoorBlock extends TrapDoorBlock {
 	public CPTrapDoorBlock(Properties p_273079_, BlockSetType p_272964_) {
 		super(p_272964_, p_273079_);
 	}
+	@Override
+	public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return 5;
+	}
 
+	@Override
+	public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+		return 5;
+	}
 }

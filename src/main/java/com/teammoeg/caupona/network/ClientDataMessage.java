@@ -29,7 +29,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
@@ -37,7 +37,7 @@ public class ClientDataMessage  implements CustomPacketPayload{
 	private final short type;
 	private final int message;
 	private final BlockPos pos;
-	public static final Type<ClientDataMessage> path=new Type<>(ResourceLocation.fromNamespaceAndPath(CPMain.MODID,"client_data"));
+	public static final Type<ClientDataMessage> path=new Type<>(Identifier.fromNamespaceAndPath(CPMain.MODID,"client_data"));
 	public static final StreamCodec<ByteBuf, ClientDataMessage> CODEC=StreamCodec.composite(
 		BlockPos.STREAM_CODEC,ClientDataMessage::getPos,
 		ByteBufCodecs.SHORT, ClientDataMessage::getType,

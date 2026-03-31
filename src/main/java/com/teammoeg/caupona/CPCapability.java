@@ -31,14 +31,14 @@ import com.teammoeg.caupona.util.SerializeUtil;
 
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.capabilities.ItemCapability;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class CPCapability {
-	public static final ItemCapability<IFoodInfo, Void> FOOD_INFO=ItemCapability.createVoid(ResourceLocation.fromNamespaceAndPath(CPMain.MODID,"food_info"), IFoodInfo.class);
+	public static final ItemCapability<IFoodInfo, Void> FOOD_INFO=ItemCapability.createVoid(Identifier.fromNamespaceAndPath(CPMain.MODID,"food_info"), IFoodInfo.class);
 	public static final DeferredRegister<DataComponentType<?>> REGISTRY=DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, CPMain.MODID);
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<ImmutableStewInfo>> STEW_INFO=REGISTRY.register(
 		"stew_info",

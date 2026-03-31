@@ -31,7 +31,7 @@ import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import com.teammoeg.caupona.data.recipes.numbers.Numbers;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public abstract class NumberedStewCondition implements IngredientCondition {
 	protected CookIngredients number;
@@ -87,7 +87,7 @@ public abstract class NumberedStewCondition implements IngredientCondition {
 	}
 
 	@Override
-	public Stream<ResourceLocation> getTags() {
+	public Stream<Identifier> getTags() {
 		return number.getTags();
 	}
 }

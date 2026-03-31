@@ -24,17 +24,18 @@ package com.teammoeg.caupona.util;
 import com.teammoeg.caupona.data.recipes.TimedRecipe;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.level.storage.ValueInput;
 
 public class RecipeHandler<T extends Recipe<?>&TimedRecipe>{
 	private int process;
 	private int processMax;
-	private ResourceLocation lastRecipe;
+	private Identifier lastRecipe;
 	private boolean recipeTested=false;
 	private Runnable doRecipe;
-	public ResourceLocation getLastRecipe() {
+	public Identifier getLastRecipe() {
 		return lastRecipe;
 	}
 	public RecipeHandler(Runnable doRecipe) {
@@ -52,7 +53,7 @@ public class RecipeHandler<T extends Recipe<?>&TimedRecipe>{
 		if (recipe!= null) {
 			if(!recipe.id().equals(lastRecipe)) {
 				process=processMax=recipe.value().getTime();
-				lastRecipe=recipe.id();
+				lastRecipe=recipe.id().identifier();
 			}
 		}else {
 			process=processMax=0;
@@ -76,14 +77,11 @@ public class RecipeHandler<T extends Recipe<?>&TimedRecipe>{
 	public void resetProgress() {
 		process=processMax;
 	}
-	public void readCustomNBT(CompoundTag nbt, boolean isClient) {
-		process=nbt.getInt("process");
-		processMax=nbt.getInt("processMax");
+	public void readCustomNBT(ValueInput nbt, boolean isClient) {
+		process=nbt.getInt("process").orElse(0);
+		processMax=nbt.getInt("processMax").orElse(0);
 		if (!isClient) {
-			if(nbt.contains("lastRecipe"))
-				lastRecipe=ResourceLocation.parse(nbt.getString("lastRecipe"));
-			else
-				lastRecipe=null;
+			lastRecipe=nbt.getString("lastRecipe").map(Identifier::parse).orElse(null);
 		}
 
 	}

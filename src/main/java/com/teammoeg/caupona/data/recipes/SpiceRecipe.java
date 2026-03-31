@@ -71,7 +71,7 @@ public class SpiceRecipe extends IDataRecipe {
 			int duration = 0;
 			if (x.has("time"))
 				duration = x.get("time").getAsInt();
-			MobEffect eff = BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(x.get("effect").getAsString()));
+			MobEffect eff = BuiltInRegistries.MOB_EFFECT.get(new Identifier(x.get("effect").getAsString()));
 			if (eff != null)
 				effect = new MobEffectInstance(eff, duration, amplifier);
 		}

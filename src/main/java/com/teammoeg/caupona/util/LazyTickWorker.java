@@ -69,13 +69,13 @@ public class LazyTickWorker {
 	}
 	public void read(CompoundTag cnbt) {
 		if(!isStaticMax)
-			tMax=cnbt.getInt("max");
-		tCur=cnbt.getInt("cur");
+			tMax=cnbt.getInt("max").orElse(0);
+		tCur=cnbt.getInt("cur").orElse(0);
 	}
 	public void read(CompoundTag cnbt,String key) {
 		if(!isStaticMax)
-			tMax=cnbt.getInt(key+"max");
-		tCur=cnbt.getInt(key);
+			tMax=cnbt.getInt(key+"max").orElse(0);
+		tCur=cnbt.getInt(key).orElse(0);
 	}
 	public CompoundTag write(CompoundTag cnbt) {
 		if(!isStaticMax)

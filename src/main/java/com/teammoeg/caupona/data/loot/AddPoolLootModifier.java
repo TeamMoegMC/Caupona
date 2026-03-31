@@ -35,7 +35,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -71,13 +71,13 @@ public class AddPoolLootModifier extends LootModifier{
 		//}
 		return generatedLoot;
 	}
-	public static Builder builder(ResourceLocation table) {
+	public static Builder builder(Identifier table) {
 		return new Builder(table);
 	}
 	public static class Builder{
 		List<LootItemCondition> cond=new ArrayList<>();
-		ResourceLocation table;
-		Builder(ResourceLocation table) {
+		Identifier table;
+		Builder(Identifier table) {
 			super();
 			this.table = table;
 		}

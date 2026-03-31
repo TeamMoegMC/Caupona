@@ -30,12 +30,12 @@ import com.teammoeg.caupona.util.FuelType;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveContainer> {
 	KitchenStoveBlockEntity blockEntity;
-	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "textures/gui/kitchen_stove.png");
+	private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CPMain.MODID, "textures/gui/kitchen_stove.png");
 
 	public KitchenStoveScreen(KitchenStoveContainer screenContainer, Inventory inv, Component titleIn) {
 		super(screenContainer, inv, titleIn);

@@ -29,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -43,10 +44,6 @@ import net.neoforged.neoforge.common.util.NeoForgeExtraCodecs;
 
 
 public final class SizedOrCatalystIngredient {
-    public static final Codec<SizedOrCatalystIngredient> FLAT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Ingredient.MAP_CODEC_NONEMPTY.forGetter(SizedOrCatalystIngredient::ingredient),
-            NeoForgeExtraCodecs.optionalFieldAlwaysWrite(ExtraCodecs.NON_NEGATIVE_INT, "count", 1).forGetter(SizedOrCatalystIngredient::count))
-            .apply(instance, SizedOrCatalystIngredient::new));
 
     /**
      * The "nested" codec for {@link SizedIngredient}.
@@ -63,7 +60,7 @@ public final class SizedOrCatalystIngredient {
      * }</pre>
      */
     public static final Codec<SizedOrCatalystIngredient> NESTED_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(SizedOrCatalystIngredient::ingredient),
+            Ingredient.CODEC.fieldOf("ingredient").forGetter(SizedOrCatalystIngredient::ingredient),
             NeoForgeExtraCodecs.optionalFieldAlwaysWrite(ExtraCodecs.NON_NEGATIVE_INT, "count", 1).forGetter(SizedOrCatalystIngredient::count))
             .apply(instance, SizedOrCatalystIngredient::new));
 
@@ -85,7 +82,7 @@ public final class SizedOrCatalystIngredient {
      * Helper method to create a simple sized ingredient that matches items in a tag.
      */
     public static SizedOrCatalystIngredient of(TagKey<Item> tag, int count) {
-        return new SizedOrCatalystIngredient(Ingredient.of(tag), count);
+        return new SizedOrCatalystIngredient(BuiltInRegistries.ITEM.get(tag).map(Ingredient::of).orElseGet(()->Ingredient.of(Stream.empty())), count);
     }
 
     private final Ingredient ingredient;
@@ -122,8 +119,9 @@ public final class SizedOrCatalystIngredient {
      */
     public ItemStack[] getItems() {
         if (cachedStacks == null) {
-            cachedStacks = Stream.of(ingredient.getItems())
-                    .map(s -> s.copyWithCount(count>0?count:1))
+            cachedStacks = ingredient.getValues().stream()
+                    .flatMap(s -> s.unwrap().right().stream())
+                    .map(s -> new ItemStack(s,count>0?count:1))
                     .toArray(ItemStack[]::new);
         }
         return cachedStacks;

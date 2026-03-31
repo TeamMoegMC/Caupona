@@ -33,7 +33,7 @@ import java.util.stream.StreamSupport;
 
 import javax.annotation.Nullable;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jspecify.annotations.NonNull;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;

@@ -21,6 +21,8 @@
 
 package com.teammoeg.caupona.components;
 
+import java.util.function.Consumer;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.CPBlocks;
@@ -28,13 +30,19 @@ import com.teammoeg.caupona.blocks.decoration.mosaic.MosaicBlock;
 import com.teammoeg.caupona.blocks.decoration.mosaic.MosaicMaterial;
 import com.teammoeg.caupona.blocks.decoration.mosaic.MosaicPattern;
 import com.teammoeg.caupona.util.SerializeUtil;
+import com.teammoeg.caupona.util.Utils;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.Item.TooltipContext;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipProvider;
 import net.minecraft.world.level.block.state.BlockState;
 
-public record MosaicData(MosaicPattern pattern,MosaicMaterial material1,MosaicMaterial material2){
+public record MosaicData(MosaicPattern pattern,MosaicMaterial material1,MosaicMaterial material2) implements TooltipProvider{
 
 	public static final Codec<MosaicData> CODEC=RecordCodecBuilder.create(t->t.group(
 		StringRepresentable.fromValues(MosaicPattern::values).fieldOf("pattern").forGetter(o->o.pattern),
@@ -61,5 +69,11 @@ public record MosaicData(MosaicPattern pattern,MosaicMaterial material1,MosaicMa
 	}
 	public BlockState createBlock(BlockState bs) {
 		return bs.setValue(MosaicBlock.MATERIAL_1, material1).setValue(MosaicBlock.MATERIAL_2, material2).setValue(MosaicBlock.PATTERN,pattern );
+	}
+	@Override
+	public void addToTooltip(TooltipContext context, Consumer<Component> tooltipAdder, TooltipFlag tooltipFlag, DataComponentGetter components) {
+		tooltipAdder.accept(Utils.translate("tooltip.caupona.mosaic.material_1",Utils.translate("item.caupona."+getMaterial1()+"_tesserae")));
+		tooltipAdder.accept(Utils.translate("tooltip.caupona.mosaic.material_2",Utils.translate("item.caupona."+getMaterial2()+"_tesserae")));
+		tooltipAdder.accept(Utils.translate("tooltip.caupona.mosaic.pattern."+getPattern()));
 	}
 }

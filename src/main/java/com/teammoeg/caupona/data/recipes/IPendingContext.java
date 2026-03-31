@@ -27,7 +27,7 @@ import java.util.function.Predicate;
 import com.teammoeg.caupona.util.FloatemTagStack;
 import com.teammoeg.caupona.util.ResultCachingMap;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 public class IPendingContext {
@@ -49,7 +49,7 @@ public class IPendingContext {
 		return results.compute(sc);
 	}
 
-	public float getOfType(ResourceLocation rl) {
+	public float getOfType(Identifier rl) {
 		return (float) items.stream().filter(e -> e.getTags().contains(rl)).mapToDouble(FloatemTagStack::getCount)
 				.sum();
 	}

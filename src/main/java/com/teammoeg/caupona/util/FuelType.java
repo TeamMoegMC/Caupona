@@ -26,14 +26,14 @@ import java.util.Map;
 
 import com.teammoeg.caupona.CPMain;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public record FuelType (TagKey<Item> it,String modelLayer,String cold_ash,String hot_ash){
-	private static final Map<ResourceLocation,FuelType> types=new HashMap<>();
+	private static final Map<Identifier,FuelType> types=new HashMap<>();
 	public static final FuelType WOODS=register(new FuelType("fuel/woods","FirewoodFuel","ColdAsh","HotAsh"));
 	public static final FuelType CHARCOAL=register(new FuelType("fuel/charcoals","CharcoalFuel","ColdAsh","HotAsh"));
 	public static final FuelType FOSSIL=register(new FuelType("fuel/fossil","CharcoalFuel","ColdAsh","HotAsh"));
@@ -50,9 +50,9 @@ public record FuelType (TagKey<Item> it,String modelLayer,String cold_ash,String
 
 
 	public FuelType(String tagname,String modelLayer, String hot_ash, String cold_ash) {
-		this(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, tagname),modelLayer,hot_ash,cold_ash);
+		this(Identifier.fromNamespaceAndPath(CPMain.MODID, tagname),modelLayer,hot_ash,cold_ash);
 	}
-	public FuelType(ResourceLocation tag,String modelLayer, String hot_ash, String cold_ash) {
+	public FuelType(Identifier tag,String modelLayer, String hot_ash, String cold_ash) {
 		this(ItemTags.create(tag),modelLayer,hot_ash,cold_ash);
 	}
 
@@ -66,7 +66,7 @@ public record FuelType (TagKey<Item> it,String modelLayer,String cold_ash,String
 		return FuelType.OTHER;
 	}
 	public static FuelType parse(String toParse) {
-		return types.getOrDefault(ResourceLocation.parse(toParse),FuelType.OTHER);
+		return types.getOrDefault(Identifier.parse(toParse),FuelType.OTHER);
 	}
 	public String serialize() {
 		return it.location().toString();

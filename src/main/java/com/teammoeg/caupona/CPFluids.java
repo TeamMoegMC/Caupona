@@ -32,7 +32,7 @@ import com.teammoeg.caupona.fluid.SoupFluid;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
@@ -44,19 +44,19 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries.Keys;
 public class CPFluids {
 
 
-	public static final ResourceLocation STILL_WATER_TEXTURE = ResourceLocation.withDefaultNamespace("block/water_still");
-	public static final ResourceLocation STILL_SOUP_TEXTURE = ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "block/soup_fluid");
-	public static final ResourceLocation STILL_MILK_TEXTURE = ResourceLocation.fromNamespaceAndPath("neoforge", "block/milk_still");
+	public static final Identifier STILL_WATER_TEXTURE = Identifier.withDefaultNamespace("block/water_still");
+	public static final Identifier STILL_SOUP_TEXTURE = Identifier.fromNamespaceAndPath(CPMain.MODID, "block/soup_fluid");
+	public static final Identifier STILL_MILK_TEXTURE = Identifier.fromNamespaceAndPath("neoforge", "block/milk_still");
 	static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Registries.FLUID, CPMain.MODID);
 	static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(Keys.FLUID_TYPES, CPMain.MODID);
 	//private static final Map<String, TextureColorPair> soupfluids = new HashMap<>();
 
 	public static Stream<Fluid> getAll() {
-		return Arrays.stream(CPItems.soups).map(e -> ResourceLocation.fromNamespaceAndPath(CPMain.MODID, e))
-				.map(BuiltInRegistries.FLUID::get);
+		return Arrays.stream(CPItems.soups).map(e -> Identifier.fromNamespaceAndPath(CPMain.MODID, e))
+				.map(BuiltInRegistries.FLUID::get).flatMap(t->t.stream()).flatMap(t->t.unwrap().right().stream());
 	}
 	public static Stream<ResourceKey<Fluid>> getAllKeys() {
-		return Arrays.stream(CPItems.soups).map(e -> ResourceLocation.fromNamespaceAndPath(CPMain.MODID, e))
+		return Arrays.stream(CPItems.soups).map(e -> Identifier.fromNamespaceAndPath(CPMain.MODID, e))
 				.map(e->ResourceKey.create(Registries.FLUID,e));
 	}
 	static {

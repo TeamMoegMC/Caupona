@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
@@ -51,7 +51,7 @@ public class CPTags {
 		public static final TagKey<Block> LOAF_HEATING_BLOCKS=create("loaf_baking_blocks");
 		public static final TagKey<Block> LOAF_HEATING_IGNORE=create("loaf_baking_ignore");
 		private static TagKey<Block> create(String s){
-			return  BlockTags.create(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, s));
+			return  BlockTags.create(Identifier.fromNamespaceAndPath(CPMain.MODID, s));
 		}
 
 	}
@@ -85,7 +85,7 @@ public class CPTags {
 		public static final TagKey<Item> CONTAINER = create("container");
 		public static final TagKey<Item> MOSAIC_BASE = create("mosaic_bases");
 		private static TagKey<Item> create(String s){
-			return ItemTags.create(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, s));
+			return ItemTags.create(Identifier.fromNamespaceAndPath(CPMain.MODID, s));
 		}
 
 	}
@@ -97,7 +97,7 @@ public class CPTags {
 		public static final TagKey<Fluid> BOILABLE = create("boilable");
 		public static final TagKey<Fluid> PUMICE_ON = create("pumice_bloom_grow_on");
 		private static TagKey<Fluid> create(String s){
-			return FluidTags.create(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, s));
+			return FluidTags.create(Identifier.fromNamespaceAndPath(CPMain.MODID, s));
 		}
 
 

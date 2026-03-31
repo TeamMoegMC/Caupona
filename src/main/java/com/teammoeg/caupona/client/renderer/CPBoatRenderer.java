@@ -37,28 +37,28 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class CPBoatRenderer extends BoatRenderer {
-	private final Map<String, Pair<ResourceLocation,ListModel<Boat>>> boatResources;
+	private final Map<String, Pair<Identifier,ListModel<Boat>>> boatResources;
 
 	public CPBoatRenderer(Context p_173936_,boolean b) {
 		super(p_173936_, b);
 		
 		boatResources = Stream.of(CPBlocks.woods).collect(ImmutableMap.toImmutableMap(s -> s, s ->{
-			ModelPart mp=p_173936_.bakeLayer(new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "boat/" + s), "main"));
-			return Pair.of(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "textures/entity/boat/" + s + ".png"),(b?new ChestBoatModel(mp):new BoatModel(mp)));
+			ModelPart mp=p_173936_.bakeLayer(new ModelLayerLocation(Identifier.fromNamespaceAndPath(CPMain.MODID, "boat/" + s), "main"));
+			return Pair.of(Identifier.fromNamespaceAndPath(CPMain.MODID, "textures/entity/boat/" + s + ".png"),(b?new ChestBoatModel(mp):new BoatModel(mp)));
 				
 		}));
 
 	}
 
 	@Override
-	public Pair<ResourceLocation,ListModel<Boat>> getModelWithLocation(Boat boat) {
+	public Pair<Identifier,ListModel<Boat>> getModelWithLocation(Boat boat) {
 		if (boat instanceof CPBoat) {
 			return boatResources.get(((CPBoat) boat).getWoodType());
 		}

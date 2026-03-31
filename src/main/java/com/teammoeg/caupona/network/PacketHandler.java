@@ -24,14 +24,14 @@ package com.teammoeg.caupona.network;
 import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 public class PacketHandler {
 
 	public static void sendToServer(CustomPacketPayload message) {
-		PacketDistributor.sendToServer(message);
+		ClientPacketDistributor.sendToServer(message);
 	}
 	public static void registerPackets(RegisterPayloadHandlersEvent ev) {
 		

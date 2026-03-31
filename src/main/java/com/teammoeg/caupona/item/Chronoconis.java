@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona.item;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 import com.teammoeg.caupona.util.IInfinitable;
 import com.teammoeg.caupona.util.TabType;
@@ -31,6 +31,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 
 public class Chronoconis extends CPItem {
@@ -44,7 +45,7 @@ public class Chronoconis extends CPItem {
 	@Override
 	public InteractionResult useOn(UseOnContext pContext) {
 		InteractionResult def = super.useOn(pContext);
-		if (!pContext.getLevel().isClientSide) {
+		if (!pContext.getLevel().isClientSide()) {
 			if (pContext.getLevel().getBlockEntity(pContext.getClickedPos()) instanceof IInfinitable inf) {
 				pContext.getPlayer().sendSystemMessage(
 						Utils.translate("message.caupona.chronoconis", inf.setInfinity()));
@@ -56,11 +57,10 @@ public class Chronoconis extends CPItem {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack pStack,TooltipContext ctx, List<Component> pTooltipComponents,
-			TooltipFlag pIsAdvanced) {
-		pTooltipComponents.add(Utils.translate("tooltip.caupona.chronoconis"));
-		super.appendHoverText(pStack, ctx, pTooltipComponents, pIsAdvanced);
-
+	public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
+		builder.accept(Utils.translate("tooltip.caupona.chronoconis"));
+		super.appendHoverText(itemStack, context, display, builder, tooltipFlag);
 	}
+
 
 }

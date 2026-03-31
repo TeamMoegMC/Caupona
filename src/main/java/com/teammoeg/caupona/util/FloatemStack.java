@@ -31,10 +31,14 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentHolder;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -42,6 +46,31 @@ import net.minecraft.world.item.Rarity;
 
 public class FloatemStack {
 	private final ItemStack stack;
+	public <T> @org.jspecify.annotations.Nullable T set(Supplier<? extends DataComponentType<T>> componentType, @org.jspecify.annotations.Nullable T value) {
+		return stack.set(componentType, value);
+	}
+	public <T> void copyFrom(Supplier<? extends DataComponentType<T>> type, DataComponentGetter getter) {
+		stack.copyFrom(type, getter);
+	}
+	public <T> @org.jspecify.annotations.Nullable T set(DataComponentType<T> component, @org.jspecify.annotations.Nullable T p_value) {
+		return stack.set(component, p_value);
+	}
+	public <T> @org.jspecify.annotations.Nullable T set(TypedDataComponent<T> value) {
+		return stack.set(value);
+	}
+	public <T> void copyFrom(DataComponentType<T> type, DataComponentGetter source) {
+		stack.copyFrom(type, source);
+	}
+	public void applyComponentsAndValidate(DataComponentPatch components) {
+		stack.applyComponentsAndValidate(components);
+	}
+	public void applyComponents(DataComponentPatch components) {
+		stack.applyComponents(components);
+	}
+	public void applyComponents(DataComponentMap p_components) {
+		stack.applyComponents(p_components);
+	}
+
 	public float count;
 	public static final Codec<FloatemStack> CODEC=RecordCodecBuilder.create(o->o.group(SerializeUtil.fromRFBBStreamCodec(ItemStack.STREAM_CODEC,ItemStack.CODEC).fieldOf("item").forGetter(i->i.stack)
 		,Codec.FLOAT.fieldOf("count").forGetter(i->i.count))
@@ -117,13 +146,8 @@ public class FloatemStack {
 	}
 
 
-	public String getTranslationKey() {
-		return stack.getDescriptionId();
-	}
-
-
-	public Stream<ResourceLocation> getTags() {
-		return stack.getTags().map(TagKey::location);
+	public Stream<Identifier> getTags() {
+		return stack.tags().map(TagKey::location);
 	}
 	public Component getDisplayName() {
 		return stack.getHoverName();
@@ -198,9 +222,6 @@ public class FloatemStack {
 		return stack.get(type);
 	}
 
-	public <T> @Nullable T set(Supplier<? extends DataComponentType<? super T>> componentType, @Nullable T value) {
-		return stack.set(componentType, value);
-	}
 
 	public <T, U> @Nullable T update(Supplier<? extends DataComponentType<T>> componentType, T value, U updateContext, BiFunction<T, U, T> updater) {
 		return stack.update(componentType, value, updateContext, updater);
@@ -219,9 +240,6 @@ public class FloatemStack {
 		stack.copyFrom(src, componentTypes);
 	}
 
-	public <T> T set(DataComponentType<? super T> component, T value) {
-		return stack.set(component, value);
-	}
 
 	public <T, U> T update(DataComponentType<T> component, T defaultValue, U updateValue, BiFunction<T, U, T> updater) {
 		return stack.update(component, defaultValue, updateValue, updater);

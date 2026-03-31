@@ -40,21 +40,21 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
-	private ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "textures/gui/stew_pot.png");
+	private Identifier TEXTURE = Identifier.fromNamespaceAndPath(CPMain.MODID, "textures/gui/stew_pot.png");
 	private int TEXT_COLOR=0xffda856b;
 	StewPotBlockEntity blockEntity;
 
 	public StewPotScreen(StewPotContainer container, Inventory inv, Component titleIn) {
 		super(container, inv, titleIn);
 		if(container.getBlock().getBlockState().is(CPBlocks.STEW_POT_LEAD.get())) {
-			TEXTURE = ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "textures/gui/lead_stew_pot.png");
+			TEXTURE = Identifier.fromNamespaceAndPath(CPMain.MODID, "textures/gui/lead_stew_pot.png");
 			TEXT_COLOR = 0xffe4f2f2;
 		}else {
-			TEXTURE = ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "textures/gui/stew_pot.png");
+			TEXTURE = Identifier.fromNamespaceAndPath(CPMain.MODID, "textures/gui/stew_pot.png");
 			TEXT_COLOR = 0xffda856b;
 		}
 		this.titleLabelY = 4;

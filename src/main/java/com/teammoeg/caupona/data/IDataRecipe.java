@@ -23,8 +23,14 @@ package com.teammoeg.caupona.data;
 
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeBookCategories;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
 public abstract class IDataRecipe implements Recipe<CraftingInput> {
@@ -35,16 +41,37 @@ public abstract class IDataRecipe implements Recipe<CraftingInput> {
 	}
 
 	@Override
-	public boolean canCraftInDimensions(int width, int height) {
-		return false;
-	}
-	@Override
-	public ItemStack assemble(CraftingInput input, Provider registries) {
+	public ItemStack assemble(CraftingInput input) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public ItemStack getResultItem(Provider registries) {
-		return ItemStack.EMPTY;
+	public boolean showNotification() {
+		return false;
 	}
+
+	@Override
+	public String group() {
+		return "";
+	}
+
+	@Override
+	public PlacementInfo placementInfo() {
+		return PlacementInfo.NOT_PLACEABLE;
+	}
+
+	@Override
+	public RecipeBookCategory recipeBookCategory() {
+		return RecipeBookCategories.CRAFTING_MISC;
+	}
+
+	@Override
+	public boolean isSpecial() {
+		return true;
+	}
+
+	@Override
+	public abstract RecipeSerializer<? extends IDataRecipe> getSerializer();
+
+
 }

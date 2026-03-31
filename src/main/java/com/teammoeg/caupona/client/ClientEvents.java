@@ -29,7 +29,7 @@ import com.teammoeg.caupona.client.model.RotatedElementsModel;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -41,15 +41,15 @@ public class ClientEvents {
 	public static void registerModels(ModelEvent.RegisterAdditional ev)
 	{
 		Minecraft.getInstance().getResourceManager().listResources("models/block/dynamic",e->e.getPath().endsWith(".json")).keySet().forEach(rl->{
-			ev.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(rl.getNamespace(),rl.getPath().substring(0,rl.getPath().lastIndexOf(".")).substring(7))));
+			ev.register(ModelResourceLocation.standalone(Identifier.fromNamespaceAndPath(rl.getNamespace(),rl.getPath().substring(0,rl.getPath().lastIndexOf(".")).substring(7))));
 		});
 	}
 	@SubscribeEvent
 	public static void registerLoaders(ModelEvent.RegisterGeometryLoaders ev)
 	{
-		ev.register(ResourceLocation.fromNamespaceAndPath(CPMain.MODID,"layered"),new LayeredElementsModel.Loader());
-		ev.register(ResourceLocation.fromNamespaceAndPath(CPMain.MODID,"rotated"),new RotatedElementsModel.Loader());
-		ev.register(ResourceLocation.fromNamespaceAndPath(CPMain.MODID,"folder"),FolderModelLoader.INSTANCE);
+		ev.register(Identifier.fromNamespaceAndPath(CPMain.MODID,"layered"),new LayeredElementsModel.Loader());
+		ev.register(Identifier.fromNamespaceAndPath(CPMain.MODID,"rotated"),new RotatedElementsModel.Loader());
+		ev.register(Identifier.fromNamespaceAndPath(CPMain.MODID,"folder"),FolderModelLoader.INSTANCE);
 	}
 	
 }

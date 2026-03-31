@@ -46,7 +46,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -77,7 +77,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	boolean removesNBT;
 	public ItemStack preout = ItemStack.EMPTY;
 	public ItemStack sout = ItemStack.EMPTY;
-	public ResourceLocation model;
+	public Identifier model;
 	//Capabilities
 	public ItemStackHandler inv = new ItemStackHandler(12) {
 		@Override
@@ -173,7 +173,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		process = nbt.getInt("process");
 		processMax = nbt.getInt("processMax");
 		if(nbt.contains("model"))
-			model=ResourceLocation.parse(nbt.getString("model"));
+			model=Identifier.parse(nbt.getString("model"));
 		else
 			model=null;
 		if (!isClient) {
@@ -361,7 +361,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		
 		Item preout=Items.AIR;
 		int processMax=0;
-		ResourceLocation tmodel = null;
+		Identifier tmodel = null;
 		boolean removesNBT=false;
 		for (RecipeHolder<SauteedRecipe> cr : SauteedRecipe.sorted) {
 			if (cr.value().bowl.test(inv.getStackInSlot(9))&&cr.value().matches(ctx)) {

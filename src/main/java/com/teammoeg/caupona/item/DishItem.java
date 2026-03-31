@@ -34,7 +34,7 @@ import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
@@ -63,24 +63,6 @@ public class DishItem extends EdibleBlock {
 	public UseAnim getUseAnimation(ItemStack stack) {
 		return UseAnim.EAT;
 	}
-
-	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		IFoodInfo iinfo = CPCapability.FOOD_INFO.getCapability(stack, null);
-		if(iinfo instanceof SauteedFoodInfo info) {
-			FloatemStack fs = info.stacks.stream()
-					.max((t1, t2) -> t1.getCount() > t2.getCount() ? 1 : (t1.getCount() == t2.getCount() ? 0 : -1))
-					.orElse(null);
-			if (fs != null)
-				tooltip.add(Utils.translate("tooltip.caupona.main_ingredient", fs.getStack().getDisplayName()));
-			ResourceLocation rl = info.spiceName;
-			if (rl != null)
-				tooltip.add(Utils.translate("tooltip.caupona.spice",
-						Utils.translate("spice." + rl.getNamespace() + "." + rl.getPath())));
-		}
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
-	}
-
 	@Override
 	public FoodProperties getFoodProperties(ItemStack stack, LivingEntity entity) {
 		@Nullable SauteedFoodInfo info = stack.get(CPCapability.SAUTEED_INFO);

@@ -55,8 +55,10 @@ import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.data.recipes.baseconditions.BaseConditions;
 import com.teammoeg.caupona.data.recipes.conditions.Conditions;
 import com.teammoeg.caupona.data.recipes.numbers.Numbers;
+import com.teammoeg.caupona.util.ChancedEffect;
 
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -64,6 +66,8 @@ import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -73,7 +77,6 @@ import net.minecraft.world.item.crafting.SmokingRecipe;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RecipesUpdatedEvent;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 @EventBusSubscriber
@@ -101,10 +104,6 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 			FoodValueRecipe.recipeset.forEach(FoodValueRecipe::clearCache);
 	}
 
-	@SubscribeEvent(priority = EventPriority.HIGH)
-	public static void onRecipesUpdated(RecipesUpdatedEvent event) {
-		buildRecipeLists(event.getRecipeManager());
-	}
 
 	static int generated_fv = 0;
 	
@@ -113,37 +112,57 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 			return FoodValueRecipe.recipes.get(i);
 		added.add(i);
 		for (SmokingRecipe sr : irs) {
-			if(sr.getIngredients().size()>0)
-			if (sr.getIngredients().get(0).test(iis)) {
+			
+			if (sr.input().test(iis)) {
 				SingleRecipeInput fake=new SingleRecipeInput(iis);
-				ItemStack reslt = sr.assemble(fake,RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY));
+				ItemStack reslt = sr.assemble(fake);
 				if (DissolveRecipe.recipes.stream().anyMatch(e -> e.value().test(reslt)))
 					continue;
 				if(added.contains(reslt.getItem()))
 					break;
 				FoodValueRecipe ret = addCookingTime(reslt.getItem(), reslt,added, irs, true);
-				FoodProperties of = reslt.getFoodProperties(null);
+				FoodProperties of = reslt.get(DataComponents.FOOD);
+				Consumable oc = reslt.get(DataComponents.CONSUMABLE);
 				if (of != null && of.nutrition() > ret.heal) {
-					ret.effects = of.effects();
 					ret.heal = of.nutrition();
 					ret.sat = of.saturation();
 					ret.setRepersent(iis);
 				}
+				if(oc!=null) {
+					ret.effects=
+					oc.onConsumeEffects().stream().<ChancedEffect>flatMap(t->{
+						if(t instanceof ApplyStatusEffectsConsumeEffect eff) {
+							float chance=eff.probability();
+							return eff.effects().stream().map(o->new ChancedEffect(o,chance));
+						}
+						return Stream.empty();
+					}).toList();
+				}
 				FoodValueRecipe.recipes.put(i, ret);
-				ret.processtimes.put(i, sr.getCookingTime() + ret.processtimes.getOrDefault(reslt.getItem(), 0));
+				ret.processtimes.put(i, sr.cookingTime() + ret.processtimes.getOrDefault(reslt.getItem(), 0));
 				return ret;
 			}
 		}
 		if (force) {
-			FoodProperties of = iis.getFoodProperties(null);
+			FoodProperties of = iis.get(DataComponents.FOOD);
+			Consumable oc = iis.get(DataComponents.CONSUMABLE);
 			FoodValueRecipe ret = FoodValueRecipe.recipes.computeIfAbsent(i,
 					e -> new FoodValueRecipe(0,
 							0, iis, e));
 			if (of != null && of.nutrition() > ret.heal) {
-				ret.effects = of.effects();
 				ret.heal = of.nutrition();
 				ret.sat = of.saturation();
 				ret.setRepersent(iis);
+			}
+			if(oc!=null) {
+				ret.effects=
+				oc.onConsumeEffects().stream().<ChancedEffect>flatMap(t->{
+					if(t instanceof ApplyStatusEffectsConsumeEffect eff) {
+						float chance=eff.probability();
+						return eff.effects().stream().map(o->new ChancedEffect(o,chance));
+					}
+					return Stream.empty();
+				}).toList();
 			}
 			return ret;
 		}

@@ -31,7 +31,7 @@ import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 public class NopNumber implements CookIngredients {
@@ -90,7 +90,7 @@ public class NopNumber implements CookIngredients {
 	}
 
 	@Override
-	public Stream<ResourceLocation> getTags() {
+	public Stream<Identifier> getTags() {
 		return Stream.empty();
 	}
 

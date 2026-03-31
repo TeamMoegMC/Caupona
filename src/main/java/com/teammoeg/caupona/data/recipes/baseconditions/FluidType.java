@@ -35,7 +35,7 @@ public class FluidType implements StewBaseCondition {
 		.mapCodec(c->c.group(BuiltInRegistries.FLUID.byNameCodec().fieldOf("fluid").forGetter(t->t.of)
 		).apply(c, FluidType::new));
 	/*public FluidType(JsonObject jo) {
-		of = ResourceLocation.parse(jo.get("fluid").getAsString());
+		of = Identifier.parse(jo.get("fluid").getAsString());
 	}*/
 	public FluidType(Fluid of) {
 		super();

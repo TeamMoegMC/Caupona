@@ -129,7 +129,7 @@ public class TBenchMenu extends CPBaseContainer<BlockEntity> {
 			}
 
 			public void onTake(Player player, ItemStack is) {
-				is.onCraftedBy(player.level(), player, is.getCount());
+				is.onCraftedBy(player, is.getCount());
 				TBenchMenu.this.resultContainer.awardUsedRecipes(player, this.getRelevantItems());
 				ItemStack input0=TBenchMenu.this.inputSlot0.getItem();
 				if (input0.is(CPTags.Items.MOSAIC_BASE)) {

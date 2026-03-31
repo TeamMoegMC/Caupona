@@ -55,12 +55,6 @@ public class EdibleBlock extends CPBlockItem {
 		lc=lc.withLineAdded(Utils.translate("tooltip.caupona.display_only")).withLineAdded(Utils.translate("tooltip.caupona.cook_required"));
 		stack.set(DataComponents.LORE, lc);
 	}
-	/**
-	 * Returns the unlocalized name of this item.
-	 */
-	public String getDescriptionId() {
-		return this.getOrCreateDescriptionId();
-	}
 
 	/**
 	 * Called when this item is used when targetting a Block
@@ -74,9 +68,8 @@ public class EdibleBlock extends CPBlockItem {
 		if (!interactionresult.consumesAction()) {
 
 			InteractionResult interactionresult1 = this
-					.use(pContext.getLevel(), pContext.getPlayer(), pContext.getHand()).getResult();
-			return interactionresult1 == InteractionResult.CONSUME ? InteractionResult.CONSUME_PARTIAL
-					: interactionresult1;
+					.use(pContext.getLevel(), pContext.getPlayer(), pContext.getHand());
+			return interactionresult1;
 		}
 		return interactionresult;
 	}

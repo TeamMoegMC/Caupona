@@ -21,15 +21,25 @@
 
 package com.teammoeg.caupona.network;
 
+import org.slf4j.Logger;
+
+import com.mojang.logging.LogUtils;
+import com.teammoeg.caupona.CPMain;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 
 public abstract class CPBaseBlockEntity extends BlockEntity {
@@ -45,54 +55,59 @@ public abstract class CPBaseBlockEntity extends BlockEntity {
 	}
 
 	public void syncData() {
-		if(this.level!=null) {
+		if (this.level != null) {
 			this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
 		}
 		this.setChanged();
 	}
 
-	public abstract void readCustomNBT(CompoundTag nbt, boolean isClient, HolderLookup.Provider registries);
+	public abstract void readCustomNBT(ValueInput nbt, boolean isClient);
 
-	public abstract void writeCustomNBT(CompoundTag nbt, boolean isClient, HolderLookup.Provider registries);
-	private boolean fromNetwork=false;
+	public abstract void writeCustomNBT(ValueOutput nbt, boolean isClient);
+
+	private boolean fromNetwork = false;
+
 	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider registries) {
+	public void onDataPacket(Connection net, ValueInput valueInput) {
 		try {
-			fromNetwork=true;
-			super.onDataPacket(net, pkt, registries);
-		}finally{
-			fromNetwork=false;
+			fromNetwork = true;
+			super.onDataPacket(net, valueInput);
+		} finally {
+			fromNetwork = false;
 		}
 	}
 
 	public abstract void tick();
-	public Object getCapability(BlockCapability<?,Direction> type,Direction d) {
+
+	public Object getCapability(BlockCapability<?, Direction> type, Direction d) {
 		return null;
 	};
+
 	@Override
-	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
-		this.readCustomNBT(nbt, fromNetwork, registries);
-		super.loadAdditional(nbt,registries);
-		
+	public void loadAdditional(ValueInput valueInput) {
+		this.readCustomNBT(valueInput, fromNetwork);
+		super.loadAdditional(valueInput);
 
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag compound, HolderLookup.Provider registries) {
-		this.writeCustomNBT(compound, false, registries);
-		super.saveAdditional(compound,registries);
+	protected void saveAdditional(ValueOutput valueOutput) {
+		this.writeCustomNBT(valueOutput, false);
+		super.saveAdditional(valueOutput);
 	}
 
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket() {
 		return ClientboundBlockEntityDataPacket.create(this);
 	}
-
+	private static final Logger LOGGER=LogUtils.getLogger();
 	@Override
 	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-		CompoundTag nbt = super.getUpdateTag(registries);
-		writeCustomNBT(nbt, true,registries);
-		return nbt;
+		try (ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(this.problemPath(), LOGGER)) {
+			TagValueOutput tvo = TagValueOutput.createWithContext(reporter, registries);
+			writeCustomNBT(tvo, true);
+			return tvo.buildResult();
+		}
 	}
 
 	public boolean isHandlingPacket() {

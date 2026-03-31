@@ -24,7 +24,8 @@ package com.teammoeg.caupona;
 import com.teammoeg.caupona.entity.CPBoat;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -33,9 +34,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class CPEntityTypes {
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE,
 			CPMain.MODID);
-	public static final DeferredHolder<EntityType<?>,EntityType<CPBoat>> BOAT = ENTITY_TYPES.register("boat",
+	public static final DeferredHolder<EntityType<?>,EntityType<CPBoat>> BOAT = ENTITY_TYPES.register("walnut_boat",
 			() -> EntityType.Builder.<CPBoat>of(CPBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10)
-					.build(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "boat").toString()));
+					.build(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(CPMain.MODID, "walnut_boat"))));
 
 	private CPEntityTypes() {
 	}

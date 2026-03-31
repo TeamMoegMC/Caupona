@@ -30,13 +30,13 @@ import java.util.stream.Stream;
 import com.teammoeg.caupona.data.recipes.CountingTags;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class FloatemTagStack {
-	Set<ResourceLocation> tags;
+	Set<Identifier> tags;
 	final ItemStack stack;
 	float count;
 
@@ -53,7 +53,7 @@ public class FloatemTagStack {
 	public FloatemTagStack(ItemStack stack) {
 		FoodValueRecipe fvr = FoodValueRecipe.recipes.get(stack.getItem());
 		if (fvr == null) {
-			tags = stack.getTags().map(TagKey::location).filter(CountingTags.tags::contains)
+			tags = stack.tags().map(TagKey::location).filter(CountingTags.tags::contains)
 					.collect(Collectors.toSet());
 		} else
 			tags = fvr.getTags();
@@ -62,7 +62,7 @@ public class FloatemTagStack {
 		this.count = stack.getCount();
 	}
 
-	public Set<ResourceLocation> getTags() {
+	public Set<Identifier> getTags() {
 		return tags;
 	}
 
@@ -74,11 +74,11 @@ public class FloatemTagStack {
 		return count;
 	}
 
-	public static Map<ResourceLocation, Float> calculateTypes(Stream<FloatemTagStack> stacks) {
-		Map<ResourceLocation, Float> map = new HashMap<>();
+	public static Map<Identifier, Float> calculateTypes(Stream<FloatemTagStack> stacks) {
+		Map<Identifier, Float> map = new HashMap<>();
 		stacks.forEach(e -> {
 			float c = e.count;
-			for (ResourceLocation tag : e.tags)
+			for (Identifier tag : e.tags)
 				map.merge(tag, c, Float::sum);
 		});
 		return map;

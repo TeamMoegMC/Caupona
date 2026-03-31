@@ -25,9 +25,11 @@ import java.util.stream.IntStream;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.Mirror;
@@ -35,7 +37,6 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraft.world.level.pathfinder.PathComputationType;
@@ -44,7 +45,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class CPRoadSideBlock extends CPRoadBlock {
-	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+	public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
 	public static final EnumProperty<StairsShape> SHAPE = BlockStateProperties.STAIRS_SHAPE;
 	
 	protected static final VoxelShape OCTET_NW = Block.box(0.0D , 14.0D, 0.0D , 6.0D , 24.0D, 6.0D );
@@ -101,7 +102,7 @@ public class CPRoadSideBlock extends CPRoadBlock {
 	public CPRoadSideBlock(Properties pProperties) {
 		super(pProperties);
 	}
-
+	@Override
 	public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
 		return BASE_AABB;
 	}
@@ -114,7 +115,7 @@ public class CPRoadSideBlock extends CPRoadBlock {
 
 	private static final int[] SHAPE_BY_STATE = new int[] { 12, 5, 3, 10, 14, 13, 7, 11, 13, 7, 11, 14, 8, 4, 1, 2, 4,
 			1, 2, 8 };
-
+	@Override
 	public boolean useShapeForLightOcclusion(BlockState pState) {
 		return true;
 	}
@@ -122,7 +123,7 @@ public class CPRoadSideBlock extends CPRoadBlock {
 	private int getShapeIndex(BlockState pState) {
 		return pState.getValue(SHAPE).ordinal() * 4 + pState.getValue(FACING).get2DDataValue();
 	}
-
+	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext pContext) {
 		BlockPos blockpos = pContext.getClickedPos();
 		BlockState blockstate = this.defaultBlockState().setValue(FACING, pContext.getPlayer().isShiftKeyDown()?pContext.getHorizontalDirection():pContext.getHorizontalDirection().getOpposite());
@@ -138,16 +139,19 @@ public class CPRoadSideBlock extends CPRoadBlock {
 	 * Note that this method should ideally consider only the specific direction
 	 * passed in.
 	 */
-	public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel,
-			BlockPos pCurrentPos, BlockPos pFacingPos) {
 
-		return pFacing.getAxis().isHorizontal() ? pState.setValue(SHAPE, getStairsShape(pState, pLevel, pCurrentPos))
-				: pState;
-	}
 
 	public static boolean isRoadBlock(BlockState pState) {
 		return pState.getBlock() instanceof CPRoadSideBlock;
 	}
+
+	@Override
+	protected BlockState updateShape(BlockState pState, LevelReader pLevel, ScheduledTickAccess ticks, BlockPos pCurrentPos, Direction pFacing, BlockPos neighbourPos, BlockState neighbourState,
+		RandomSource random) {
+
+		return pFacing.getAxis().isHorizontal() ? pState.setValue(SHAPE, getStairsShape(pState, pLevel, pCurrentPos))
+				: pState;
+		}
 
 	/**
 	 * Returns a stair shape property based on the surrounding stairs from the given
@@ -199,6 +203,7 @@ public class CPRoadSideBlock extends CPRoadBlock {
 	 *             whenever
 	 *             possible. Implementing/overriding is fine.
 	 */
+	@Override
 	public BlockState rotate(BlockState pState, Rotation pRot) {
 		return pState.setValue(FACING, pRot.rotate(pState.getValue(FACING)));
 	}
@@ -213,6 +218,7 @@ public class CPRoadSideBlock extends CPRoadBlock {
 	 *             whenever
 	 *             possible. Implementing/overriding is fine.
 	 */
+	@Override
 	public BlockState mirror(BlockState pState, Mirror pMirror) {
 		Direction direction = pState.getValue(FACING);
 		StairsShape stairsshape = pState.getValue(SHAPE);
@@ -254,14 +260,17 @@ public class CPRoadSideBlock extends CPRoadBlock {
 
 		return super.mirror(pState, pMirror);
 	}
-
+	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
 		pBuilder.add(FACING, SHAPE);
 	}
 
-	public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
+	@Override
+	protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
+		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 
 

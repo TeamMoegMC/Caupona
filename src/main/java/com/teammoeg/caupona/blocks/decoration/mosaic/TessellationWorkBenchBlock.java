@@ -66,7 +66,7 @@ public class TessellationWorkBenchBlock extends CPHorizontalBlock {
 	@Override
 	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
 			BlockHitResult hitResult) {
-		if (level.isClientSide) {
+		if (level.isClientSide()) {
 			return InteractionResult.SUCCESS;
 		}
 		player.openMenu(this.getMenuProvider(state, level, pos),pos);

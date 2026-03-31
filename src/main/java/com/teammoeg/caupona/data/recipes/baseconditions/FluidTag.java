@@ -28,7 +28,7 @@ import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
@@ -36,13 +36,13 @@ import net.minecraft.world.level.material.Fluid;
 public class FluidTag implements StewBaseCondition {
 	TagKey<Fluid> f;
 	public static final MapCodec<FluidTag> CODEC=RecordCodecBuilder
-		.mapCodec(c->c.group(ResourceLocation.CODEC.fieldOf("tag").forGetter(t->t.f.location())
+		.mapCodec(c->c.group(Identifier.CODEC.fieldOf("tag").forGetter(t->t.f.location())
 		).apply(c, FluidTag::new));
 	/*public FluidTag(JsonObject jo) {
-		f = FluidTags.create(ResourceLocation.parse(jo.get("tag").getAsString()));
+		f = FluidTags.create(Identifier.parse(jo.get("tag").getAsString()));
 	}*/
 
-	public FluidTag(ResourceLocation tag) {
+	public FluidTag(Identifier tag) {
 		super();
 		f = FluidTags.create(tag);
 	}

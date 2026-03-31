@@ -39,7 +39,7 @@ import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -68,7 +68,7 @@ public class GuiUtils {
 		buffer.endBatch();
 	}
 
-	private static final Function<ResourceLocation, RenderType> GUI_CUTOUT = Util
+	private static final Function<Identifier, RenderType> GUI_CUTOUT = Util
 			.memoize(texture -> RenderType.create("gui_" + texture, 
 		        DefaultVertexFormat.BLOCK,
 		        VertexFormat.Mode.QUADS,

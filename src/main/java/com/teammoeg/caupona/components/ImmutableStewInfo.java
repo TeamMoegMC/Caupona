@@ -28,14 +28,14 @@ import com.google.common.collect.ImmutableList;
 import com.teammoeg.caupona.util.ChancedEffect;
 import com.teammoeg.caupona.util.FloatemStack;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 
 public class ImmutableStewInfo extends StewInfo {
 
-	public ImmutableStewInfo(Optional<MobEffectInstance> spice, Boolean hasSpice, Optional<ResourceLocation> spiceName, List<FloatemStack> stacks, List<ChancedEffect> effects,
+	public ImmutableStewInfo(Optional<MobEffectInstance> spice, Boolean hasSpice, Optional<Identifier> spiceName, List<FloatemStack> stacks, List<ChancedEffect> effects,
 		List<ChancedEffect> foodeffect, int healing, float saturation, Fluid base) {
 		super(spice, hasSpice, spiceName, stacks, effects, foodeffect, healing, saturation, base);
 	}

@@ -30,7 +30,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.neoforged.neoforge.client.model.data.ModelData;
 
@@ -41,13 +41,13 @@ public record DynamicBlockModelReference(ModelResourceLocation name) implements 
 	static {
 		RANDOM_SOURCE.setSeed(42L);
 	}
-	public static final Function<ResourceLocation,DynamicBlockModelReference> cache=Util.memoize(DynamicBlockModelReference::new);
+	public static final Function<Identifier,DynamicBlockModelReference> cache=Util.memoize(DynamicBlockModelReference::new);
 	@Deprecated
-	public DynamicBlockModelReference(ResourceLocation rl)
+	public DynamicBlockModelReference(Identifier rl)
 	{
 		this(ModelResourceLocation.standalone(rl));
 	}
-	public static DynamicBlockModelReference getModelCached(ResourceLocation rl)
+	public static DynamicBlockModelReference getModelCached(Identifier rl)
 	{
 		if(rl==null)
 			return null;

@@ -23,6 +23,7 @@ package com.teammoeg.caupona.client;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.CPEntityTypes;
 import com.teammoeg.caupona.CPGui;
 import com.teammoeg.caupona.CPItems;
@@ -43,23 +44,25 @@ import com.teammoeg.caupona.client.renderer.PanRenderer;
 import com.teammoeg.caupona.client.renderer.StewPotRenderer;
 import com.teammoeg.caupona.generated.CPStewTexture;
 
-import net.minecraft.client.model.BoatModel;
+
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.object.boat.BoatModel;
 import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
-import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
@@ -67,18 +70,19 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.event.AddAttributeTooltipsEvent;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = CPMain.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class CPClientRegistry {
-	private static final ResourceLocation STILL_WATER_TEXTURE = ResourceLocation.withDefaultNamespace("block/water_still");
+	private static final Identifier STILL_WATER_TEXTURE = Identifier.withDefaultNamespace("block/water_still");
 	@SuppressWarnings("unused")
 	@SubscribeEvent
 	public static void onClientSetupEvent(FMLClientSetupEvent event) {
-		LayerDefinition layer = BoatModel.createBodyModel();
+		LayerDefinition layer = BoatModel.createBoatModel();
 		for (String wood : CPBlocks.woods)
 			ClientHooks.registerLayerDefinition(
-				new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "boat/" + wood), "main"), () -> layer);
+				new ModelLayerLocation(Identifier.fromNamespaceAndPath(CPMain.MODID, "boat/" + wood), "main"), () -> layer);
 
 		/*
 		 * ItemBlockRenderTypes.setRenderLayer(CPBlocks.stew_pot, RenderType.cutout());
@@ -93,7 +97,7 @@ public class CPClientRegistry {
 		 */
 		BlockEntityRenderers.register(CPBlockEntityTypes.STEW_POT.get(), StewPotRenderer::new);
 		BlockEntityRenderers.register(CPBlockEntityTypes.BOWL.get(), BowlRenderer::new);
-		BlockEntityRenderers.register(CPBlockEntityTypes.SIGN.get(), SignRenderer::new);
+		BlockEntityRenderers.register(CPBlockEntityTypes.SIGN.get(), StandingSignRenderer::new);
 		BlockEntityRenderers.register(CPBlockEntityTypes.HANGING_SIGN.get(), HangingSignRenderer::new);
 		BlockEntityRenderers.register(CPBlockEntityTypes.DOLIUM.get(), CounterDoliumRenderer::new);
 		BlockEntityRenderers.register(CPBlockEntityTypes.PAN.get(), PanRenderer::new);
@@ -103,7 +107,13 @@ public class CPClientRegistry {
 		EntityRenderers.register(CPEntityTypes.BOAT.get(), c -> new CPBoatRenderer(c, false));
 
 	}
-
+	@SuppressWarnings("deprecation")
+	@SubscribeEvent
+	public static void onTooltipRegister(@SuppressWarnings("unused") AddAttributeTooltipsEvent event) {
+		event.getStack().addToTooltip(CPCapability.SAUTEED_INFO, event.getContext(), event.getContext().tooltipDisplay(), event::addTooltipLines, event.getContext().flag());
+		event.getStack().addToTooltip(CPCapability.STEW_INFO, event.getContext(), event.getContext().tooltipDisplay(), event::addTooltipLines, event.getContext().flag());
+		event.getStack().addToTooltip(CPCapability.MOSAIC_DATA, event.getContext(), event.getContext().tooltipDisplay(), event::addTooltipLines, event.getContext().flag());
+	}
 	@SubscribeEvent
 	public static void registerParticleFactories(RegisterMenuScreensEvent event) {
 		event.register(CPGui.STEWPOT.get(), StewPotScreen::new);
@@ -125,7 +135,7 @@ public class CPClientRegistry {
 
 		}, CPBlocks.MOSAIC.get().asItem());
 		for (String i : CPItems.soups) {
-			ResourceLocation rt = CPStewTexture.texture.getOrDefault(i,STILL_WATER_TEXTURE);
+			Identifier rt = CPStewTexture.texture.getOrDefault(i,STILL_WATER_TEXTURE);
 			int cx = 0xffffffff;
 			event.registerFluidType(
 				new IClientFluidTypeExtensions() {
@@ -136,16 +146,16 @@ public class CPClientRegistry {
 					}
 
 					@Override
-					public ResourceLocation getStillTexture() {
+					public Identifier getStillTexture() {
 						return rt;
 					}
 
 					@Override
-					public ResourceLocation getFlowingTexture() {
+					public Identifier getFlowingTexture() {
 						return rt;
 					}
 
-				}, NeoForgeRegistries.FLUID_TYPES.get(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, i)));
+				}, NeoForgeRegistries.FLUID_TYPES.get(Identifier.fromNamespaceAndPath(CPMain.MODID, i)));
 		}
 
 	}

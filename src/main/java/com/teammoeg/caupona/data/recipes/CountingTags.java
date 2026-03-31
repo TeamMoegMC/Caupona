@@ -32,20 +32,20 @@ import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.util.SerializeUtil;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CountingTags extends IDataRecipe {
-	public static Set<ResourceLocation> tags;
+	public static Set<Identifier> tags;
 	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
 	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
-	public List<ResourceLocation> tag;
+	public List<Identifier> tag;
 	public static final MapCodec<CountingTags> CODEC=
 			RecordCodecBuilder.mapCodec(t->t.group(
-					Codec.list(ResourceLocation.CODEC).fieldOf("tags").forGetter(o->o.tag)
+					Codec.list(Identifier.CODEC).fieldOf("tags").forGetter(o->o.tag)
 					).apply(t, CountingTags::new));
 	@Override
 	public RecipeSerializer<?> getSerializer() {
@@ -61,16 +61,16 @@ public class CountingTags extends IDataRecipe {
 		tag = new ArrayList<>();
 	}
 
-	public CountingTags(List<ResourceLocation> tag) {
+	public CountingTags(List<Identifier> tag) {
 		super();
 		this.tag = tag;
 	}
 /*
 	public CountingTags(JsonObject jo) {
 		if (jo.has("tag"))
-			tag = ImmutableList.of(ResourceLocation.parse(jo.get("tag").getAsString()));
+			tag = ImmutableList.of(Identifier.parse(jo.get("tag").getAsString()));
 		else if (jo.has("tags"))
-			tag = SerializeUtil.parseJsonElmList(jo.get("tags"), e -> new ResourceLocation(e.getAsString()));
+			tag = SerializeUtil.parseJsonElmList(jo.get("tags"), e -> new Identifier(e.getAsString()));
 	}*/
 
 	public CountingTags(FriendlyByteBuf data) {
@@ -78,7 +78,7 @@ public class CountingTags extends IDataRecipe {
 	}
 
 	public void write(FriendlyByteBuf data) {
-		SerializeUtil.<ResourceLocation>writeList2(data, tag, FriendlyByteBuf::writeResourceLocation);
+		SerializeUtil.<Identifier>writeList2(data, tag, FriendlyByteBuf::writeResourceLocation);
 	}
 
 }

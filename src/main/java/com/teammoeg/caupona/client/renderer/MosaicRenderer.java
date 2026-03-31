@@ -42,7 +42,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class MosaicRenderer extends BlockEntityWithoutLevelRenderer {
-	//ResourceLocation name=new ResourceLocation("block/block");
+	//Identifier name=new Identifier("block/block");
 	public MosaicRenderer() {
 		super(null,null);
 	}

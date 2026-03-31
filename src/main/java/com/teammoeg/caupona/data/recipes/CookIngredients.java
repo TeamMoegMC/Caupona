@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 import com.teammoeg.caupona.data.ITranlatable;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 public interface CookIngredients extends Function<IPendingContext, Float>,/* Writeable,*/ ITranlatable {
@@ -35,7 +35,7 @@ public interface CookIngredients extends Function<IPendingContext, Float>,/* Wri
 
 	public Stream<CookIngredients> getItemRelated();
 
-	public Stream<ResourceLocation> getTags();
+	public Stream<Identifier> getTags();
 	
 	public Stream<ItemStack> getStacks();
 }

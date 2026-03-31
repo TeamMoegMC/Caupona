@@ -23,19 +23,27 @@ package com.teammoeg.caupona.util;
 
 import java.util.function.Consumer;
 
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.item.component.Consumable;
 
 public class FoodMaterialInfo {
 	public String name;
 	public float composite;
 	public FoodProperties.Builder food;
+	public Consumable.Builder consumable;
 	public FoodMaterialInfo(String name, int heal, float sat) {
 		super();
 		this.name = name;
 		food=new FoodProperties.Builder();
 		food.nutrition(heal);
 		food.saturationModifier(sat);
+		consumable=defaultFood();
 	}
+    public static Consumable.Builder defaultFood() {
+        return Consumable.builder().consumeSeconds(1.6F).animation(ItemUseAnimation.EAT).sound(SoundEvents.GENERIC_EAT).hasConsumeParticles(true);
+    }
 	public FoodMaterialInfo(String name, float composite) {
 		super();
 		this.name = name;
@@ -47,6 +55,10 @@ public class FoodMaterialInfo {
 	}
 	public FoodMaterialInfo food(Consumer<FoodProperties.Builder> cons) {
 		cons.accept(food);
+		return this;
+	}
+	public FoodMaterialInfo effect(Consumer<Consumable.Builder> cons) {
+		cons.accept(consumable);
 		return this;
 	}
 }

@@ -27,7 +27,7 @@ import com.teammoeg.caupona.worldgen.LeavingLogReplacer;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
@@ -60,10 +60,10 @@ public class CPWorldGen {
 
 
     public static ResourceKey<PlacedFeature> createPlacementKey(String key) {
-        return ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(CPMain.MODID,key));
+        return ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(CPMain.MODID,key));
     }
     public static ResourceKey<ConfiguredFeature<?,?>> createFeatureKey(String key) {
-        return ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(CPMain.MODID,key));
+        return ResourceKey.create(Registries.CONFIGURED_FEATURE, Identifier.fromNamespaceAndPath(CPMain.MODID,key));
     }
 	public CPWorldGen() {
 	}

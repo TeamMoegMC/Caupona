@@ -39,7 +39,7 @@ import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -173,7 +173,7 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 				deny.stream().flatMap(IngredientCondition::getAllNumbers));
 	}
 
-	public Stream<ResourceLocation> getTags() {
+	public Stream<Identifier> getTags() {
 		return Stream.concat(allow.stream().flatMap(IngredientCondition::getTags),
 				deny.stream().flatMap(IngredientCondition::getTags));
 	}

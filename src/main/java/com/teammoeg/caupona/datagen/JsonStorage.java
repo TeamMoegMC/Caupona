@@ -27,10 +27,10 @@ import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public interface JsonStorage extends BiConsumer<ResourceLocation, JsonElement> {
-	default <T> void accept(ResourceLocation path,Codec<T> codec,T instance) {
+public interface JsonStorage extends BiConsumer<Identifier, JsonElement> {
+	default <T> void accept(Identifier path,Codec<T> codec,T instance) {
 		codec.encodeStart(JsonOps.INSTANCE, instance).result().ifPresent(j->this.accept(path,j));
 	}
 }

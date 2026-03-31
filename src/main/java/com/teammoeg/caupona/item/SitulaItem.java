@@ -34,7 +34,7 @@ import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -81,7 +81,7 @@ public class SitulaItem extends Item  implements ICreativeModeTabItem{
 						.orElse(null);
 				if (fs != null)
 					tooltip.add(Utils.translate("tooltip.caupona.main_ingredient", fs.getStack().getHoverName()));
-				ResourceLocation rl = info.spiceName;
+				Identifier rl = info.spiceName;
 				if (rl != null)
 					tooltip.add(Utils.translate("tooltip.caupona.spice",
 							Utils.translate("spice." + rl.getNamespace() + "." + rl.getPath())));

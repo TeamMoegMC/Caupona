@@ -31,15 +31,15 @@ import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemTag implements CookIngredients {
 	public static final MapCodec<ItemTag> CODEC=
-		RecordCodecBuilder.mapCodec(t->t.group(ResourceLocation.CODEC.fieldOf("tag").forGetter(o->o.tag)).apply(t, ItemTag::new));
-	ResourceLocation tag;
-	public ItemTag(ResourceLocation tag) {
+		RecordCodecBuilder.mapCodec(t->t.group(Identifier.CODEC.fieldOf("tag").forGetter(o->o.tag)).apply(t, ItemTag::new));
+	Identifier tag;
+	public ItemTag(Identifier tag) {
 		super();
 		this.tag = tag;
 	}
@@ -93,7 +93,7 @@ public class ItemTag implements CookIngredients {
 	}
 
 	@Override
-	public Stream<ResourceLocation> getTags() {
+	public Stream<Identifier> getTags() {
 		return Stream.of(tag);
 	}
 

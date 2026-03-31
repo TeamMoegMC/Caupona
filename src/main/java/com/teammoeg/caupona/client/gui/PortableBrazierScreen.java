@@ -28,11 +28,11 @@ import com.teammoeg.caupona.container.PortableBrazierContainer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 public class PortableBrazierScreen extends AbstractContainerScreen<PortableBrazierContainer> {
-	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CPMain.MODID,
+	private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CPMain.MODID,
 			"textures/gui/portable_brazier.png");
 	PortableBrazierContainer container;
 

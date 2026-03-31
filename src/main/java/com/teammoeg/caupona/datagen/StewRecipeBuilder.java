@@ -35,7 +35,7 @@ import com.teammoeg.caupona.data.recipes.baseconditions.FluidType;
 import com.teammoeg.caupona.data.recipes.baseconditions.FluidTypeType;
 import com.teammoeg.caupona.util.Utils;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 
@@ -48,7 +48,7 @@ public class StewRecipeBuilder {
 			this.parent = parent;
 		}
 
-		public StewBaseBuilder tag(ResourceLocation rl) {
+		public StewBaseBuilder tag(Identifier rl) {
 			parent.base.add(new FluidTag(rl));
 			return this;
 		}
@@ -79,15 +79,15 @@ public class StewRecipeBuilder {
 	private float density = 0.75f;
 	private List<StewBaseCondition> base = new ArrayList<>();
 	private Fluid output;
-	private ResourceLocation id;
+	private Identifier id;
 	private boolean removeNBT=false;
-	public StewRecipeBuilder(ResourceLocation id, Fluid out) {
+	public StewRecipeBuilder(Identifier id, Fluid out) {
 		output = out;
 		this.id = id;
 	}
 
 	public static StewRecipeBuilder start(Fluid out) {
-		return new StewRecipeBuilder(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "cooking/" + Utils.getRegistryName(out).getPath()),
+		return new StewRecipeBuilder(Identifier.fromNamespaceAndPath(CPMain.MODID, "cooking/" + Utils.getRegistryName(out).getPath()),
 				out);
 	}
 
@@ -144,7 +144,7 @@ public class StewRecipeBuilder {
 		return new StewCookingRecipe( allow, deny, priority, time, density, base, output,removeNBT);
 	}
 
-	public StewCookingRecipe finish(BiConsumer<ResourceLocation, IDataRecipe> out) {
+	public StewCookingRecipe finish(BiConsumer<Identifier, IDataRecipe> out) {
 		StewCookingRecipe r = end();
 		out.accept(id,r);
 		return r;

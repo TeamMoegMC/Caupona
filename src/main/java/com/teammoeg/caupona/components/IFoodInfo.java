@@ -23,11 +23,11 @@ package com.teammoeg.caupona.components;
 
 import java.util.List;
 
+import com.teammoeg.caupona.util.ChancedEffect;
 import com.teammoeg.caupona.util.FloatemStack;
 
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.food.FoodProperties.PossibleEffect;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.level.material.Fluid;
 
 public interface IFoodInfo {
@@ -35,11 +35,12 @@ public interface IFoodInfo {
 	int getHealing();
 	float getSaturation();
 	FoodProperties.Builder getFood(int extraHealing,int extraSaturation);
-	default FoodProperties getFood() {
-		return getFood(0,0).usingConvertsTo(Items.BOWL).build();
+	default FoodProperties.Builder getFood() {
+		return getFood(0,0);
 	}
+	Consumable.Builder getConsumable();
 	Fluid getBase();
-	List<PossibleEffect> getEffects();
+	List<ChancedEffect> getEffects();
 	default float getDensity() {
 		return getStacks().stream().map(FloatemStack::getCount).reduce(0f, Float::sum);
 	}

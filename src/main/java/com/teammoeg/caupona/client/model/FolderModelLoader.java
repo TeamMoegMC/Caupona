@@ -38,7 +38,7 @@ import com.google.gson.JsonParseException;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BlockModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.neoforged.neoforge.client.model.CompositeModel;
 import net.neoforged.neoforge.client.model.geometry.IGeometryLoader;
@@ -62,9 +62,9 @@ public class FolderModelLoader implements IGeometryLoader<CompositeModel> {
         //System.out.println("loading folder model ");
         if(jsonObject.has("folder")) {
             String folder=jsonObject.get("folder").getAsString();
-            ResourceLocation rf=ResourceLocation.parse(folder);
+            Identifier rf=Identifier.parse(folder);
             //System.out.println("loading from folder "+folder);
-            for(Entry<ResourceLocation, Resource> i:Minecraft.getInstance().getResourceManager().listResources("models/"+rf.getPath(),e->true).entrySet()) {
+            for(Entry<Identifier, Resource> i:Minecraft.getInstance().getResourceManager().listResources("models/"+rf.getPath(),e->true).entrySet()) {
             	//System.out.println("loading "+i.getKey()+" from folder.");
             	try (BufferedReader r=i.getValue().openAsReader()){
 					BlockModel bm=BlockModel.fromStream(r);

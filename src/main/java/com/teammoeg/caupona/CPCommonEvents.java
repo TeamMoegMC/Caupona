@@ -36,7 +36,7 @@ import com.teammoeg.caupona.util.ITickableContainer;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -54,7 +54,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
@@ -62,13 +62,15 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
-import vazkii.patchouli.api.PatchouliAPI;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 
 @EventBusSubscriber
 public class CPCommonEvents {
 	@SubscribeEvent
-	public static void addReloadListeners(AddReloadListenerEvent event) {
-		event.addListener(new RecipeReloadListener(event.getServerResources()));
+	public static void addReloadListeners(AddServerReloadListenersEvent event) {
+		event.addListener(CPMain.rl("reloadrecipe"),new RecipeReloadListener(event.getServerResources()));
 	}
 
 	@SubscribeEvent
@@ -96,7 +98,7 @@ public class CPCommonEvents {
 	}
 	@SubscribeEvent
 	public static void addManualToPlayer(PlayerEvent.PlayerLoggedInEvent event) {
-
+/*
 		if(!CPConfig.SERVER.addManual.get() || !ModList.get().isLoaded("patchouli"))return;
 		CompoundTag nbt = event.getEntity().getPersistentData();
 		CompoundTag persistent;
@@ -108,26 +110,26 @@ public class CPCommonEvents {
 		}
 		if (!persistent.contains(CPMain.BOOK_NBT_TAG)) {
 			persistent.putBoolean(CPMain.BOOK_NBT_TAG,true);
-			ItemHandlerHelper.giveItemToPlayer(event.getEntity(),PatchouliAPI.get().getBookStack(ResourceLocation.fromNamespaceAndPath(CPMain.MODID,"book")));
-		}
+			ItemHandlerHelper.giveItemToPlayer(event.getEntity(),PatchouliAPI.get().getBookStack(Identifier.fromNamespaceAndPath(CPMain.MODID,"book")));
+		}*/
 	}
 	@SuppressWarnings("resource")
 	@SubscribeEvent
 	public static void onBlockClick(PlayerInteractEvent.RightClickBlock event) {
-		if(event.getLevel().isClientSide)return;//Workaround for https://github.com/TeamMoegMC/Caupona/issues/107
+		if(event.getLevel().isClientSide())return;//Workaround for https://github.com/TeamMoegMC/Caupona/issues/107
 		ItemStack is = event.getItemStack();
 		Player playerIn = event.getEntity();
 		Level worldIn = event.getLevel();
 		BlockPos blockpos = event.getPos();
 		BlockEntity blockEntity = worldIn.getBlockEntity(blockpos);
 		if (blockEntity != null) {
-			@Nullable IFluidHandler handler=worldIn.getCapability(Capabilities.FluidHandler.BLOCK, blockpos, event.getFace());
+			ResourceHandler<FluidResource> handler=worldIn.getCapability(Capabilities.Fluid.BLOCK, blockpos, event.getFace());
 			if(handler!=null){
 				Optional<ItemStack> out=CauponaApi.getFilledItemStack(handler,is);
 				if(out.isPresent()) {
 					ItemStack ret = out.get();
 					event.setCanceled(true);
-					event.setCancellationResult(InteractionResult.sidedSuccess(worldIn.isClientSide));
+					event.setCancellationResult(worldIn.isClientSide()?InteractionResult.SUCCESS:InteractionResult.SUCCESS_SERVER);
 					if (is.getCount() > 1) {
 						is.shrink(1);
 						if (!playerIn.addItem(ret)) {
@@ -157,7 +159,7 @@ public class CPCommonEvents {
 				if(out.isPresent()) {
 					ItemStack ret = out.get();
 					event.setCanceled(true);
-					event.setCancellationResult(InteractionResult.sidedSuccess(worldIn.isClientSide));
+					event.setCancellationResult(worldIn.isClientSide()?InteractionResult.SUCCESS:InteractionResult.SUCCESS_SERVER);
 					if (is.getCount() > 1) {
 						is.shrink(1);
 						if (!playerIn.addItem(ret)) {
@@ -173,14 +175,13 @@ public class CPCommonEvents {
 
 	@SubscribeEvent
 	public static void onBowlUse(PlayerInteractEvent.RightClickItem event) {
-		if (event.getEntity() != null && !event.getEntity().level().isClientSide
+		if (event.getEntity() != null && !event.getEntity().level().isClientSide()
 				&& event.getEntity() instanceof ServerPlayer) {
 			ItemStack stack = event.getItemStack();
-			@Nullable IFluidHandlerItem cap = stack
-					.getCapability(Capabilities.FluidHandler.ITEM);
+			@Nullable ResourceHandler<FluidResource> cap = stack
+					.getCapability(Capabilities.Fluid.ITEM,ItemAccess.forPlayerInteraction(event.getEntity(), event.getHand()));
 			if (cap!=null && stack.is(CPTags.Items.CONTAINER)) {
-				IFluidHandlerItem data = cap;
-				StewInfo si = data.getFluidInTank(0).get(CPCapability.STEW_INFO);
+				StewInfo si = cap.getResource(0).get(CPCapability.STEW_INFO);
 				if (si!=null&&!event.getEntity().canEat(si.canAlwaysEat())) {
 					event.setCancellationResult(InteractionResult.FAIL);
 					event.setCanceled(true);
@@ -192,14 +193,13 @@ public class CPCommonEvents {
 
 	@SubscribeEvent
 	public static void onItemUseFinish(LivingEntityUseItemEvent.Finish event) {
-		if (event.getEntity() != null && !event.getEntity().level().isClientSide
-				&& event.getEntity() instanceof ServerPlayer) {
+		if (event.getEntity() != null && !event.getEntity().level().isClientSide()
+				&& event.getEntity() instanceof ServerPlayer sp) {
 			ItemStack stack = event.getItem();
-			@Nullable IFluidHandlerItem cap = stack
-					.getCapability(Capabilities.FluidHandler.ITEM);
+			@Nullable ResourceHandler<FluidResource> cap = stack
+				.getCapability(Capabilities.Fluid.ITEM,ItemAccess.forPlayerInteraction(sp, event.getHand()));
 			if (cap!=null && stack.is(CPTags.Items.CONTAINER)) {
-				IFluidHandlerItem data = cap;
-				StewInfo si = data.getFluidInTank(0).get(CPCapability.STEW_INFO);
+				StewInfo si = cap.getResource(0).get(CPCapability.STEW_INFO);
 				if(si!=null)
 					CauponaApi.apply(event.getEntity().level(), event.getEntity(),si);
 			}

@@ -40,7 +40,7 @@ import net.minecraft.Util;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
@@ -55,7 +55,7 @@ public abstract class FileGenerator implements DataProvider {
 			super();
 			this.out = out;
 		}
-		public void accept(ResourceLocation rl,byte[] s) {
+		public void accept(Identifier rl,byte[] s) {
 			Path p=output.getOutputFolder().resolve(type.getDirectory()+"/" + rl.getNamespace() + "/"+rl.getPath());
 			this.accept(p, s);
 		}
@@ -66,7 +66,7 @@ public abstract class FileGenerator implements DataProvider {
 		public void accept(Path t,String s) {
 			this.accept(t, s.getBytes(StandardCharsets.UTF_8));
 		}
-		public void accept(ResourceLocation rl,String s) {
+		public void accept(Identifier rl,String s) {
 			this.accept(rl, s.getBytes(StandardCharsets.UTF_8));
 		}
 		@Override

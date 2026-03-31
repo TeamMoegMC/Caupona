@@ -28,7 +28,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ImageButton extends Button {
 	public int xTexStart;
@@ -36,14 +36,14 @@ public class ImageButton extends Button {
 	private final int textureWidth;
 	private final int textureHeight;
 	public int state;
-	ResourceLocation texture;
+	Identifier texture;
 	Supplier<Tooltip> tooltipProvider;
 	private int laststate=-1;
 
 
 
 	public ImageButton(Button.Builder builder, int xTexStart, int yTexStart, int textureWidth, int textureHeight,
-			ResourceLocation texture, Supplier<Tooltip> tooltipProvider) {
+			Identifier texture, Supplier<Tooltip> tooltipProvider) {
 		super(builder);
 		this.xTexStart = xTexStart;
 		this.yTexStart = yTexStart;

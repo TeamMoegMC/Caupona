@@ -30,12 +30,12 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public class ContainerDataMessage implements CustomPacketPayload{
 	private CompoundTag nbt;
-	public static final Type<ContainerDataMessage> type=new Type<>(ResourceLocation.fromNamespaceAndPath(CPMain.MODID,"container_data"));
+	public static final Type<ContainerDataMessage> type=new Type<>(Identifier.fromNamespaceAndPath(CPMain.MODID,"container_data"));
 	public static final StreamCodec<ByteBuf, ContainerDataMessage> CODEC=ByteBufCodecs.COMPOUND_TAG.map(ContainerDataMessage::new, ContainerDataMessage::getTag);
 	public ContainerDataMessage(CompoundTag message) {
 		this.nbt = message;

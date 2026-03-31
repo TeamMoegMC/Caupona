@@ -32,47 +32,21 @@ import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.Holder.Reference;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 
 public class StewItem extends EdibleBlock{
 
-	@Override
-	public int getUseDuration(ItemStack stack,LivingEntity entity) {
-		return 16;
-	}
 
-	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		StewInfo info = stack.get(CPCapability.STEW_INFO);
-		if(info==null)return;
-		FloatemStack fs = info.getStacks().stream()
-				.max((t1, t2) -> t1.getCount() > t2.getCount() ? 1 : (t1.getCount() == t2.getCount() ? 0 : -1))
-				.orElse(null);
-		if (fs != null)
-			tooltip.add(Utils.translate("tooltip.caupona.main_ingredient", fs.getStack().getDisplayName()));
-		ResourceLocation rl = info.spiceName;
-		if (rl != null)
-			tooltip.add(Utils.translate("tooltip.caupona.spice",
-					Utils.translate("spice." + rl.getNamespace() + "." + rl.getPath())));
-		;
-		Fluid base = info.getBase();
-		if (base != null&&!info.getStacks().isEmpty())
-			tooltip.add(Utils.translate("tooltip.caupona.base", 
-					base.getFluidType().getDescription()));
-		if(!info.getPotionEffects().isEmpty())
-			PotionContents.addPotionTooltip(info.getPotionEffects(), tooltip::add, 1,20);
-		super.appendHoverText(stack, worldIn, tooltip, flagIn);
-	}
 
 	@Override
 	public void fillItemCategory(CreativeTabItemHelper helper) {
@@ -85,13 +59,9 @@ public class StewItem extends EdibleBlock{
 		}
 	}
 
-	public UseAnim getUseAnimation(ItemStack stack) {
-		return UseAnim.DRINK;
-	}
-
 	Supplier<Fluid> fluid;
 	// fake food to trick mechanics
-	public static final FoodProperties fakefood = new FoodProperties.Builder().nutrition(4).saturationModifier(0.2f).fast()
+	public static final FoodProperties fakefood = new FoodProperties.Builder().nutrition(4).saturationModifier(0.2f)
 			.build();
 
 	public StewItem(Block block,Supplier<Fluid> fluid, Properties properties) {
@@ -100,12 +70,4 @@ public class StewItem extends EdibleBlock{
 		this.fluid = fluid;
 	}
 
-
-	@Override
-	public FoodProperties getFoodProperties(ItemStack stack, LivingEntity entity) {
-		StewInfo info = stack.get(CPCapability.STEW_INFO);
-		if(info==null)return null;
-		return info.getFood(0,0).usingConvertsTo(Items.BOWL).build();
-		
-	}
 }

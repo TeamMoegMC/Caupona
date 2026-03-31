@@ -31,6 +31,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -39,22 +40,33 @@ import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.util.ChancedEffect;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.SerializeUtil;
+import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.FoodProperties.Builder;
-import net.minecraft.world.food.FoodProperties.PossibleEffect;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Item.TooltipContext;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.component.TooltipProvider;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.util.Lazy;
 
-public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
+public class StewInfo extends SpicedFoodInfo implements IFoodInfo,TooltipProvider {
 	public static final Codec<ImmutableStewInfo> CODEC=RecordCodecBuilder.create(t->t.group(
 		spiceCodec(),
 		hasSpiceCodec(),
@@ -76,7 +88,7 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 	protected float saturation;
 	protected Fluid base;
 	
-	public StewInfo(Optional<MobEffectInstance> spice, Boolean hasSpice, Optional<ResourceLocation> spiceName, List<FloatemStack> stacks, List<ChancedEffect> effects,
+	public StewInfo(Optional<MobEffectInstance> spice, Boolean hasSpice, Optional<Identifier> spiceName, List<FloatemStack> stacks, List<ChancedEffect> effects,
 		List<ChancedEffect> foodeffect, int healing, float saturation, Fluid base) {
 		super(spice, hasSpice, spiceName);
 		this.stacks = stacks;
@@ -102,7 +114,7 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 	public StewInfo() {
 		this(new ArrayList<>(), new ArrayList<>(), 0, 0, Fluids.WATER);
 	}
-	public StewInfo(MobEffectInstance spice, Boolean hasSpice, ResourceLocation spiceName, List<FloatemStack> stacks, List<ChancedEffect> effects,
+	public StewInfo(MobEffectInstance spice, Boolean hasSpice, Identifier spiceName, List<FloatemStack> stacks, List<ChancedEffect> effects,
 		List<ChancedEffect> foodeffect, int healing, float saturation, Fluid base) {
 		super(spice, hasSpice, spiceName);
 		this.stacks = stacks;
@@ -221,14 +233,23 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 				nh += fvr.heal * fs.count;
 				ns += fvr.sat * fs.count;
 				if(fvr.effects!=null)
-					fvr.effects.stream().map(ChancedEffect::new).forEach(foodeffect::add);
+					fvr.effects.stream().forEach(foodeffect::add);
 				continue;
 			}
-			FoodProperties f = fs.getStack().getFoodProperties(null);
+			FoodProperties f = fs.getStack().getComponents().get(DataComponents.FOOD);
+			Consumable c = fs.getStack().getComponents().get(DataComponents.CONSUMABLE);
 			if (f != null) {
 				nh += fs.count * f.nutrition();
 				ns += fs.count * f.saturation();
-				f.effects().stream().map(ChancedEffect::new).forEach(foodeffect::add);
+			}
+			if(c!=null) {
+				c.onConsumeEffects().stream().<ChancedEffect>flatMap(t->{
+					if(t instanceof ApplyStatusEffectsConsumeEffect eff) {
+						float chance=eff.probability();
+						return eff.effects().stream().map(o->new ChancedEffect(o,chance));
+					}
+					return Stream.empty();
+				}).forEach(foodeffect::add);
 			}
 		}
 		RecipeHolder<FluidFoodValueRecipe> ffvr = FluidFoodValueRecipe.recipes.get(this.base);
@@ -308,17 +329,12 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 		return saturation;
 	}
 	@Override
-	public List<PossibleEffect> getEffects() {
-		List<PossibleEffect> li=new ArrayList<>();
-		Consumer<PossibleEffect> consumer=li::add;
-		for (ChancedEffect eff : effects) {
-			eff.toPossibleEffects(consumer);
-		}
+	public List<ChancedEffect> getEffects() {
+		List<ChancedEffect> li=new ArrayList<>();
+		li.addAll(effects);
 		if (spice != null)
-			li.add(new PossibleEffect(()->new MobEffectInstance(spice), 1f));
-		for (ChancedEffect ef : foodeffect) {
-			ef.toPossibleEffects(consumer);
-		}
+			li.add(new ChancedEffect(new MobEffectInstance(spice), 1f));
+		li.addAll(foodeffect);
 		return null;
 	}
 	private Lazy<Collection<MobEffectInstance>> potionEffectsCollectionView=Lazy.of(()->new AbstractCollection<MobEffectInstance>() {
@@ -395,14 +411,6 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 	@Override
 	public Builder getFood(int extraHealing, int extraSaturation) {
 		FoodProperties.Builder b = new FoodProperties.Builder();
-		for (ChancedEffect eff : effects) {
-			eff.toPossibleEffects(b);
-		}
-		if (spice != null)
-			b.effect(()->new MobEffectInstance(spice), 1);
-		for (ChancedEffect ef : foodeffect) {
-			ef.toPossibleEffects(b);
-		}
 		b.nutrition(healing+extraHealing);
 		float extraSat=0;
 		if(healing+extraHealing>0) {
@@ -415,6 +423,43 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo {
 		if (canAlwaysEat())
 			b.alwaysEdible();
 		return b;
+	}
+
+	@Override
+	public Consumable.Builder getConsumable() {
+		Consumable.Builder b=Consumable.builder()
+		.consumeSeconds(1.6F)
+		.animation(ItemUseAnimation.DRINK)
+		.sound(SoundEvents.GENERIC_DRINK)
+		.hasConsumeParticles(true);
+		for (ChancedEffect eff : effects) {
+			eff.toPossibleEffects(b);
+		}
+		if (spice != null)
+			b.onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(spice)));
+		for (ChancedEffect ef : foodeffect) {
+			ef.toPossibleEffects(b);
+		}
+		return b;
+	}
+	@Override
+	public void addToTooltip(TooltipContext context, Consumer<Component> tooltipAdder, TooltipFlag tooltipFlag, DataComponentGetter components) {
+		FloatemStack fs = getStacks().stream()
+			.max((t1, t2) -> t1.getCount() > t2.getCount() ? 1 : (t1.getCount() == t2.getCount() ? 0 : -1))
+			.orElse(null);
+	if (fs != null)
+		tooltipAdder.accept(Utils.translate("tooltip.caupona.main_ingredient", fs.getStack().getDisplayName()));
+	Identifier rl = spiceName;
+	if (rl != null)
+		tooltipAdder.accept(Utils.translate("tooltip.caupona.spice",
+				Utils.translate("spice." + rl.getNamespace() + "." + rl.getPath())));
+	;
+	Fluid base = getBase();
+	if (base != null&&!getStacks().isEmpty())
+		tooltipAdder.accept(Utils.translate("tooltip.caupona.base", 
+				base.getFluidType().getDescription()));
+	if(!getPotionEffects().isEmpty())
+		PotionContents.addPotionTooltip(getPotionEffects(), tooltipAdder, 1,20);
 	}
 
 

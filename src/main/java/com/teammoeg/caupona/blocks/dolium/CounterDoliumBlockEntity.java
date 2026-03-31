@@ -41,7 +41,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -49,6 +49,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidActionResult;
@@ -59,6 +60,9 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.RangedWrapper;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
 public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuProvider, IInfinitable {
 	ItemStackHandler inv = new ItemStackHandler(6) {
@@ -84,11 +88,16 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 		}
 		
 	};
-	public final FluidTank tank = new FluidTank(1250, f -> !f.getFluid().getFluidType().isLighterThanAir()) {
+	public final FluidStacksResourceHandler tank = new FluidStacksResourceHandler(1,1250) {
 
 		@Override
-		protected void onContentsChanged() {
-			super.onContentsChanged();
+		public boolean isValid(int index, FluidResource resource) {
+			return !resource.getFluid().getFluidType().isLighterThanAir();
+		}
+
+		@Override
+		protected void onContentsChanged(int slot,FluidStack stackBefore) {
+			super.onContentsChanged(slot,stackBefore);
 			recipeHandler.onContainerChanged();
 			recipeHandler.resetProgress();
 			syncData();
@@ -126,7 +135,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 			inner=recipe.value().handleDolium(tank.getFluid(), inv);
 		}
 	});
-	ResourceLocation lastRecipe;
+	Identifier lastRecipe;
 	public CounterDoliumBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPBlockEntityTypes.DOLIUM.get(), pWorldPosition, pBlockState);
 		contain = new LazyTickWorker(CPConfig.SERVER.containerTick.get(),()->{
@@ -147,7 +156,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 	}
 
 	@Override
-	public void readCustomNBT(CompoundTag nbt, boolean isClient,HolderLookup.Provider ra) {
+	public void readCustomNBT(ValueInput nbt, boolean isClient) {
 		recipeHandler.readCustomNBT(nbt, isClient);
 		tank.readFromNBT(ra,nbt.getCompound("tank"));
 		isInfinite = nbt.getBoolean("inf");
@@ -155,7 +164,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 			inner = ItemStack.parseOptional(ra,nbt.getCompound("inner"));
 			inv.deserializeNBT(ra,nbt.getCompound("inventory"));
 			if(nbt.contains("lastRecipe"))
-				lastRecipe=ResourceLocation.parse(nbt.getString("lastRecipe"));
+				lastRecipe=Identifier.parse(nbt.getString("lastRecipe"));
 			else
 				lastRecipe=null;
 		}

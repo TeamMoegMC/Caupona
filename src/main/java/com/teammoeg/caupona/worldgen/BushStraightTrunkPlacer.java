@@ -32,9 +32,11 @@ import com.teammoeg.caupona.CPWorldGen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelSimulatedReader;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer.FoliageAttachment;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 
@@ -50,12 +52,13 @@ public class BushStraightTrunkPlacer extends TrunkPlacer {
    protected TrunkPlacerType<?> type() {
       return CPWorldGen.BUSH_TRUNK.get();
    }
-
-   public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader p_226147_, BiConsumer<BlockPos, BlockState> p_226148_, RandomSource p_226149_, int p_226150_, BlockPos p_226151_, TreeConfiguration p_226152_) {
+   @Override
+   public List<FoliagePlacer.FoliageAttachment> placeTrunk(WorldGenLevel p_226147_, BiConsumer<BlockPos, BlockState> p_226148_, RandomSource p_226149_, int p_226150_, BlockPos p_226151_, TreeConfiguration p_226152_) {
       for(int i = 0; i < p_226150_; ++i) {
          this.placeLog(p_226147_, p_226148_, p_226149_, p_226151_.above(i), p_226152_);
       }
 
       return ImmutableList.of(new FoliagePlacer.FoliageAttachment(p_226151_.above(p_226150_), 0, false));
    }
+
 }

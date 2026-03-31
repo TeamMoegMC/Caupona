@@ -32,7 +32,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction.Axis;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
@@ -83,7 +83,7 @@ public class ModelUtils {
 		return getModel(CPMain.MODID,name);
 	}
 	public static DynamicBlockModelReference getModel(String modid,String name) {
-		return DynamicBlockModelReference.getModelCached(ResourceLocation.fromNamespaceAndPath(modid, "block/dynamic/"+name));
+		return DynamicBlockModelReference.getModelCached(Identifier.fromNamespaceAndPath(modid, "block/dynamic/"+name));
 	}
 	public static void renderModelGroups(DynamicBlockModelReference model, VertexConsumer renderer,ImmutableSet<String> groups,PoseStack transform,
 			int color, int light, int overlay) {

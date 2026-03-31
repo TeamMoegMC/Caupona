@@ -28,9 +28,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.food.FoodProperties.PossibleEffect;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 
 public class ChancedEffect implements Comparable<ChancedEffect>{
 	public final static Codec<ChancedEffect> CODEC=RecordCodecBuilder.create(t->t.group(
@@ -46,14 +48,11 @@ public class ChancedEffect implements Comparable<ChancedEffect>{
 	}
 	public static ChancedEffect createByParts(MobEffectInstance effect, float parts) {
 		effect=new MobEffectInstance(effect);
-		if(BuiltInRegistries.MOB_EFFECT.get(effect.getEffect().getKey()).isInstantenous()||effect.duration<parts) {
+		if(BuiltInRegistries.MOB_EFFECT.get(effect.getEffect().getKey()).flatMap(t->t.unwrap().right().map(MobEffect::isInstantenous)).orElse(false)||effect.duration<parts) {
 			return new ChancedEffect(effect,1f/parts);
 		}
 		effect.duration=(int) (effect.duration/parts);
 		return new ChancedEffect(effect,1);
-	}
-	public ChancedEffect(PossibleEffect eff) {
-		this(eff.effect(),eff.probability());
 	}
 	public Supplier<MobEffectInstance> effectSupplier(){
 		return ()->new MobEffectInstance(effect);
@@ -64,26 +63,19 @@ public class ChancedEffect implements Comparable<ChancedEffect>{
 /*	public PossibleEffect toPossibleEffect() {
 		return new PossibleEffect(effectSupplier(),chance);
 	}*/
-	public void toPossibleEffects(Consumer<PossibleEffect> consumer) {
+	public void toPossibleEffects(Consumable.Builder builder) {
+		
 		if(chance<=1)
-			consumer.accept(new PossibleEffect(effectSupplier(),chance));
+			builder.onConsume(new ApplyStatusEffectsConsumeEffect(effect,chance));
 		else {
-			consumer.accept(new PossibleEffect(effectSupplier(),1));
-			consumer.accept(new PossibleEffect(effectSupplier(),chance-1));
-		}
-	}
-	public void toPossibleEffects(FoodProperties.Builder builder) {
-		if(chance<=1)
-			builder.effect(effectSupplier(),chance);
-		else {
-			builder.effect(effectSupplier(),1);
-			builder.effect(effectSupplier(),chance-1);
+			builder.onConsume(new ApplyStatusEffectsConsumeEffect(effect,1));
+			builder.onConsume(new ApplyStatusEffectsConsumeEffect(effect,chance-1));
 		}
 	}
 	
 	public boolean merge(ChancedEffect other,float otherCount,float thisCount) {
 		if(isEffectEquals(this.effect,other.effect)) {
-			if(this.effect.equals(other.effect)||BuiltInRegistries.MOB_EFFECT.get(this.effect.getEffect().getKey()).isInstantenous()) {
+			if(this.effect.equals(other.effect)||BuiltInRegistries.MOB_EFFECT.get(this.effect.getEffect().getKey()).flatMap(t->t.unwrap().right().map(MobEffect::isInstantenous)).orElse(false)) {
 				this.chance+=other.chance* otherCount / thisCount;
 				return true;
 			}else{
@@ -96,7 +88,7 @@ public class ChancedEffect implements Comparable<ChancedEffect>{
 	}
 	public boolean add(MobEffectInstance other,float parts) {
 		if (isEffectEquals(effect, other)) {
-			if((this.effect.equals(other)&&this.chance+1f/parts<=1)||BuiltInRegistries.MOB_EFFECT.get(this.effect.getEffect().getKey()).isInstantenous()) {
+			if((this.effect.equals(other)&&this.chance+1f/parts<=1)||BuiltInRegistries.MOB_EFFECT.get(this.effect.getEffect().getKey()).flatMap(t->t.unwrap().right().map(MobEffect::isInstantenous)).orElse(false)) {
 				this.chance+=1f/parts;
 				return true;
 			}else{
@@ -110,7 +102,7 @@ public class ChancedEffect implements Comparable<ChancedEffect>{
 		
 	}
 	public void adjustParts(float otherCount,float thisCount) {
-		if(BuiltInRegistries.MOB_EFFECT.get(this.effect.getEffect().getKey()).isInstantenous()||this.effect.duration<thisCount/otherCount) {
+		if(BuiltInRegistries.MOB_EFFECT.get(this.effect.getEffect().getKey()).flatMap(t->t.unwrap().right().map(MobEffect::isInstantenous)).orElse(false)||this.effect.duration<thisCount/otherCount) {
 			this.chance*=otherCount / thisCount;
 		}else{
 			this.effect.duration*= otherCount / thisCount;

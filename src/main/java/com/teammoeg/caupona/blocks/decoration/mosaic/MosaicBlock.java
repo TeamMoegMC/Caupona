@@ -32,6 +32,7 @@ import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 import com.teammoeg.caupona.components.MosaicData;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.LevelReader;
@@ -75,7 +76,7 @@ public class MosaicBlock extends CPHorizontalBlock{
 		return ret;
 	}
 	@Override
-	public ItemStack getCloneItemStack(LevelReader pLevel, BlockPos pPos, BlockState state) {
+	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
 		ItemStack is=new ItemStack(CPBlocks.MOSAIC.get());
 		MosaicItem.setMosaic(is,state.getValue(MATERIAL_1),state.getValue(MATERIAL_2),state.getValue(PATTERN));
 		return is;

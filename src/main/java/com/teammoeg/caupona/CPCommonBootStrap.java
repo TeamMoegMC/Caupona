@@ -49,7 +49,6 @@ import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -69,22 +68,19 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.capabilities.Capabilities.FluidHandler;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
-import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
-import net.neoforged.neoforge.fluids.capability.wrappers.BucketPickupHandlerWrapper;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.ItemAccessFluidHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
-@EventBusSubscriber(modid = CPMain.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CPMain.MODID)
 public class CPCommonBootStrap {
 	public static final List<Pair<Supplier<? extends ItemLike>, Float>> compositables = new ArrayList<>();
 	public static final List<Pair<Supplier<? extends Block>,Pair<Integer,Integer>>> flamables=new ArrayList<>();
@@ -101,27 +97,24 @@ public class CPCommonBootStrap {
 	}
 	@SubscribeEvent
 	public static void onCapabilityInject(RegisterCapabilitiesEvent event) {
-		event.registerItem(Capabilities.FluidHandler.ITEM,(stack,o)->new FluidHandlerItemStack(CPCapability.SIMPLE_FLUID,stack,1250), CPItems.situla.get());
+		event.registerItem(Capabilities.Fluid.ITEM,(stack,o)->new ItemAccessFluidHandler(o,CPCapability.SIMPLE_FLUID.get(),1250), CPItems.situla.get());
 		//event.registerItem(Capabilities.FluidHandler.ITEM,(stack,o)->new FluidHandlerItemStack(CPCapability.SIMPLE_FLUID,stack,1250), CPItems.situla.get());
 		event.registerItem(CPCapability.FOOD_INFO,(stack,o)->stack.get(CPCapability.STEW_INFO.get()), CPItems.stews.toArray(Item[]::new));
 		event.registerItem(CPCapability.FOOD_INFO,(stack,o)->stack.get(CPCapability.SAUTEED_INFO.get()), CPItems.dish.toArray(Item[]::new));
 		CPBlockEntityTypes.REGISTER.getEntries().stream().map(t->t.get()).forEach(be->{
-				event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, (BlockEntityType<?>)be,
-					(block,ctx)->(block instanceof CPBaseBlockEntity)?(IItemHandler)((CPBaseBlockEntity)block).getCapability(Capabilities.ItemHandler.BLOCK, ctx):null);
-				event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, (BlockEntityType<?>)be,
-					(block,ctx)->(block instanceof CPBaseBlockEntity)?(IFluidHandler)((CPBaseBlockEntity)block).getCapability(Capabilities.FluidHandler.BLOCK, ctx):null);
+				event.registerBlockEntity(Capabilities.Item.BLOCK, (BlockEntityType<?>)be,
+					(block,ctx)->(block instanceof CPBaseBlockEntity)?(ResourceHandler)((CPBaseBlockEntity)block).getCapability(Capabilities.Item.BLOCK, ctx):null);
+				event.registerBlockEntity(Capabilities.Fluid.BLOCK, (BlockEntityType<?>)be,
+					(block,ctx)->(block instanceof CPBaseBlockEntity)?(ResourceHandler)((CPBaseBlockEntity)block).getCapability(Capabilities.Fluid.BLOCK, ctx):null);
 			});
-		event.registerItem(Capabilities.FluidHandler.ITEM,(stack,o)->new FluidItemWrapper(stack), CPItems.stews.toArray(Item[]::new));
+		event.registerItem(Capabilities.Fluid.ITEM,(stack,o)->new FluidItemWrapper(o), CPItems.stews.toArray(Item[]::new));
 	}
 
 	public static <R extends ItemLike,T extends R> DeferredHolder<R,T> asCompositable(DeferredHolder<R,T> obj, float val) {
 		compositables.add(Pair.of(obj, val));
 		return obj;
 	}
-	public static <T extends Block> DeferredHolder<Block,T> asFlamable(DeferredHolder<Block,T> obj,int v1,int v2) {
-		flamables.add(Pair.of(obj, Pair.of(v1, v2)));
-		return obj;
-	}
+
 
 	@SuppressWarnings("deprecation")
 	@SubscribeEvent
@@ -129,8 +122,6 @@ public class CPCommonBootStrap {
 		registerDispensers();
 	
 		compositables.forEach(p -> ComposterBlock.COMPOSTABLES.put(p.getFirst().get(), (float) p.getSecond()));
-		FireBlock fire=(FireBlock) Blocks.FIRE;
-		flamables.forEach(p->fire.setFlammable(p.getFirst().get(), p.getSecond().getFirst(), p.getSecond().getSecond()));
 	}
 
 	public static void registerDispensers() {
@@ -342,7 +333,7 @@ public class CPCommonBootStrap {
 					d3 = 0.0D;
 				}
 
-				Boat boat = new CPBoat(level, d0, d1 + d3, d2);
+				CPBoat boat = new CPBoat(level, d0, d1 + d3, d2);
 				boat.setYRot(direction.toYRot());
 				level.addFreshEntity(boat);
 				pStack.shrink(1);
@@ -386,17 +377,18 @@ public class CPCommonBootStrap {
 
 				Direction d = source.state().getValue(DispenserBlock.FACING);
 				BlockPos front = source.pos().relative(d);
-				@Nullable IFluidHandler ip = source.level().getCapability(Capabilities.FluidHandler.BLOCK,front, d.getOpposite());
-				if (ip!=null) {
-					FluidActionResult fa = FluidUtil.tryEmptyContainerAndStow(stack, ip, null, 1250,
-							null, true);
-					if (fa.isSuccess()) {
-						if (fa.getResult() != null)
-							return fa.getResult();
-						stack.shrink(1);
-
+				ItemAccess isr=ItemAccess.forStack(stack);
+				@Nullable ResourceHandler<FluidResource> ip = source.level().getCapability(Capabilities.Fluid.BLOCK,front, d.getOpposite());
+				@Nullable ResourceHandler<FluidResource> ir = stack.getCapability(Capabilities.Fluid.ITEM,isr);
+				if (ip!=null&&ir!=null) {
+					try(Transaction ctx=Transaction.openRoot()){
+						int actual=ResourceHandlerUtil.move(ir, ip, t->true, 1250, ctx);
+			
+						if (actual>0) {
+							stack.shrink(1);
+						}
+						return isr.getResource().toStack(isr.getAmount());
 					}
-					return stack;
 				}
 
 
@@ -410,15 +402,18 @@ public class CPCommonBootStrap {
 			@SuppressWarnings("resource")
 			@Override
 			protected ItemStack execute(BlockSource source, ItemStack stack) {
-				FluidStack fs = FluidHandler.ITEM.getCapability(stack, null).getFluidInTank(0);
+				ItemAccess isr=ItemAccess.forStack(stack);
+				ResourceHandler<FluidResource> cap=Capabilities.Fluid.ITEM.getCapability(stack,isr);
+				FluidResource fs = cap.getResource(0);
+				int amt=cap.getAmountAsInt(0);
 				Direction d = source.state().getValue(DispenserBlock.FACING);
 				BlockPos front = source.pos().relative(d);
 				BlockEntity blockEntity = source.level().getBlockEntity(front);
 
 				if (!fs.isEmpty()) {
 					if (blockEntity instanceof StewPotBlockEntity pot) {
-						if (pot.tryAddFluid(fs)) {
-							ItemStack ret = stack.getCraftingRemainingItem();
+						if (pot.tryAddFluid(fs.toStack(amt))) {
+							ItemStack ret=isr.getResource().toStack(isr.getAmount());
 							if (stack.getCount() == 1)
 								return ret;
 							stack.shrink(1);
@@ -426,17 +421,20 @@ public class CPCommonBootStrap {
 								this.defaultBehaviour.dispense(source, ret);
 						}
 					} else if (blockEntity != null) {
-						@Nullable IFluidHandler ip = source.level().getCapability(Capabilities.FluidHandler.BLOCK,front, d.getOpposite());
+						@Nullable ResourceHandler<FluidResource> ip = source.level().getCapability(Capabilities.Fluid.BLOCK,front, d.getOpposite());
 						if (ip!=null) {
-							IFluidHandler handler = ip;
-							if (handler.fill(fs, FluidAction.SIMULATE) == fs.getAmount()) {
-								handler.fill(fs, FluidAction.EXECUTE);
-								ItemStack ret = stack.getCraftingRemainingItem();
-								if (stack.getCount() == 1)
-									return ret;
-								stack.shrink(1);
-								if (!source.blockEntity().insertItem(ret).isEmpty())
-									this.defaultBehaviour.dispense(source, ret);
+							try(Transaction ctx=Transaction.openRoot()){
+								FluidResource fr=ip.getResource(0);
+								int actual=ip.insert(fr, amt, ctx);
+								if (amt == actual) {
+									ctx.commit();
+									ItemStack ret=isr.getResource().toStack(isr.getAmount());
+									if (stack.getCount() == 1)
+										return ret;
+									stack.shrink(1);
+									if (!source.blockEntity().insertItem(ret).isEmpty())
+										this.defaultBehaviour.dispense(source, ret);
+								}
 							}
 						}
 					}
