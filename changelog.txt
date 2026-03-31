@@ -1,2 +1,4 @@
+0.5.5
+"Final Release" for 1.21.1
 Bugfix:
-  fix a crash when automating stew pot with pumps from other mods.
+  Fix pumice ghost.
