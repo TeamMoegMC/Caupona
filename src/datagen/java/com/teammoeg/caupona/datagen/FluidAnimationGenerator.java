@@ -32,7 +32,7 @@ import com.teammoeg.caupona.CPFluids;
 import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -46,15 +46,15 @@ public class FluidAnimationGenerator extends JsonGenerator {
 	@Override
 	protected void gather(JsonStorage reciver) {
 		for (String sf : CPFluids.getSoupfluids()) {
-			ResourceLocation image = ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "textures/block/soups/" + sf + ".png");
+			Identifier image = Identifier.fromNamespaceAndPath(CPMain.MODID, "textures/block/soups/" + sf + ".png");
 			genImage(image,6,reciver);
 		}
 		/*for (String sf : new String[]{"soot_smoke","steam"}) {
-			ResourceLocation image = ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "textures/particle/" + sf + ".png");
+			Identifier image = Identifier.fromNamespaceAndPath(CPMain.MODID, "textures/particle/" + sf + ".png");
 			genImage(image,2,reciver);
 		}*/
 	}
-	protected void genImage(ResourceLocation image,int ticks,JsonStorage reciver) {
+	protected void genImage(Identifier image,int ticks,JsonStorage reciver) {
 		try {
 			if (helper.exists(image, PackType.CLIENT_RESOURCES)) {
 				Resource rc = helper.getResource(image, PackType.CLIENT_RESOURCES);
@@ -70,7 +70,7 @@ public class FluidAnimationGenerator extends JsonGenerator {
 				for (int i = 0; i < num; i++)
 					ja.add(i);
 				// if(rc.)
-				reciver.accept(ResourceLocation.fromNamespaceAndPath(image.getNamespace(),image.getPath()+".mcmeta"), frame);
+				reciver.accept(Identifier.fromNamespaceAndPath(image.getNamespace(),image.getPath()+".mcmeta"), frame);
 			}
 
 		} catch (IOException e) {

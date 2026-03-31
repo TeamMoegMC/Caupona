@@ -28,7 +28,7 @@ import com.teammoeg.caupona.CPFluids;
 import com.teammoeg.caupona.CPMain;
 
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
@@ -45,15 +45,15 @@ public class RegistryJavaGenerator extends FileGenerator {
 		fo.addImport(HashMap.class);
 		fo.addImport(Map.class);
 		fo.addImportDelimeter();
-		fo.addImport(ResourceLocation.class);
-		fo.createMap("public static","texture",HashMap.class,String.class,ResourceLocation.class);
+		fo.addImport(Identifier.class);
+		fo.createMap("public static","texture",HashMap.class,String.class,Identifier.class);
 		fo.defineBlock("static");
 		for(String sf:CPFluids.getSoupfluids()) {
-			ResourceLocation image = ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "textures/block/soups/" + sf + ".png");
+			Identifier image = Identifier.fromNamespaceAndPath(CPMain.MODID, "textures/block/soups/" + sf + ".png");
 			if (helper.exists(image, PackType.CLIENT_RESOURCES)) {
 				fo.line().call("texture.put")
 					.paramString(sf)
-					.paramCall("ResourceLocation.fromNamespaceAndPath")
+					.paramCall("Identifier.fromNamespaceAndPath")
 						.paramString(CPMain.MODID)
 						.paramString("block/soups/"+sf)
 					.complete()

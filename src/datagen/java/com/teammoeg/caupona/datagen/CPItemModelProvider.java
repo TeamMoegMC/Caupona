@@ -21,29 +21,31 @@
 
 package com.teammoeg.caupona.datagen;
 
-import com.teammoeg.caupona.CPBlocks;
+import java.util.function.BiConsumer;
+
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.util.FoodMaterialInfo;
-import com.teammoeg.caupona.util.Utils;
-
-import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.ItemModelOutput;
+import net.minecraft.client.data.models.model.ModelInstance;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemDisplayContext;
-import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
-import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-public class CPItemModelProvider extends ItemModelProvider {
 
-	public CPItemModelProvider(DataGenerator generator, String modid, ExistingFileHelper existingFileHelper) {
-		super(generator.getPackOutput(), modid, existingFileHelper);
+public class CPItemModelProvider extends ItemModelGenerators {
 
+	public CPItemModelProvider(ItemModelOutput itemModelOutput, BiConsumer<Identifier, ModelInstance> modelOutput) {
+		super(itemModelOutput, modelOutput);
 	}
 
 	@Override
-	protected void registerModels() {
+	public void run() {
 		
 		for (String s : CPItems.soups) {
 			simpleTexture(s, "soups/");
@@ -83,11 +85,11 @@ public class CPItemModelProvider extends ItemModelProvider {
 		texture("iron_skimmer");
 		texture("scraps");
 		texture("walnut_hanging_sign");
-		itemModel(CPBlocks.SILPHIUM.get().asItem(),"silphium").transforms().transform(ItemDisplayContext.GUI).scale(0.5f).rotation(0, 45, 0).translation(0, -4, 0).end().end();
+		//itemModel(CPBlocks.SILPHIUM.get().asItem(),"silphium").transforms().transform(ItemDisplayContext.GUI).scale(0.5f).rotation(0, 45, 0).translation(0, -4, 0).end().end();
 		/*System.out.println(new File("").getAbsolutePath());
 		try {
 			new BufferedReader(new FileReader(new File("../src/datagen/resources/assets/caupona/block/blocks.txt"))).lines().forEach( s -> {
-				if(!ForgeRegistries.BLOCKS.containsKey(ResourceLocation.fromNamespaceAndPath(CPMain.MODID,s.substring(0,s.lastIndexOf("."))))) {
+				if(!ForgeRegistries.BLOCKS.containsKey(Identifier.fromNamespaceAndPath(CPMain.MODID,s.substring(0,s.lastIndexOf("."))))) {
 					System.out.println(s);
 				}
 			});
@@ -95,47 +97,42 @@ public class CPItemModelProvider extends ItemModelProvider {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
-		super.singleTexture("walnut_sapling", ResourceLocation.fromNamespaceAndPath("minecraft", "item/generated"), "layer0",
-				ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "block/walnut_sapling"));
-		super.singleTexture("fig_sapling", ResourceLocation.fromNamespaceAndPath("minecraft", "item/generated"), "layer0",
-				ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "block/fig_sapling"));
-		super.singleTexture("wolfberry_sapling", ResourceLocation.fromNamespaceAndPath("minecraft", "item/generated"), "layer0",
-				ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "block/wolfberry_sapling"));
+		/*super.singleTexture("walnut_sapling", Identifier.fromNamespaceAndPath("minecraft", "item/generated"), "layer0",
+				Identifier.fromNamespaceAndPath(CPMain.MODID, "block/walnut_sapling"));
+		super.singleTexture("fig_sapling", Identifier.fromNamespaceAndPath("minecraft", "item/generated"), "layer0",
+				Identifier.fromNamespaceAndPath(CPMain.MODID, "block/fig_sapling"));
+		super.singleTexture("wolfberry_sapling", Identifier.fromNamespaceAndPath("minecraft", "item/generated"), "layer0",
+				Identifier.fromNamespaceAndPath(CPMain.MODID, "block/wolfberry_sapling"));*/
 		// super.withExistingParent("clay_cistern",new
-		// ResourceLocation(Main.MODID,"block/clay_cistern"));
+		// Identifier(Main.MODID,"block/clay_cistern"));
 		for (String s : CPItems.spices)
 			simpleTexture(s, "");
 		for (String s : CPItems.dishes) {
 			simpleTexture(s, "sauteed_dishes/");
 			//simpleTexture(s+"_loaf", "bread_bowls/");
-		}
-		texture("gravy_boat", "walnut_oil_0").override().predicate(ResourceLocation.withDefaultNamespace("damaged"), 1)
-				.predicate(ResourceLocation.withDefaultNamespace("damage"), 0.2f).model(texture("walnut_oil_1")).end().override()
-				.predicate(ResourceLocation.withDefaultNamespace("damaged"), 1).predicate(ResourceLocation.withDefaultNamespace("damage"), 0.4f)
-				.model(texture("walnut_oil_2")).end().override().predicate(ResourceLocation.withDefaultNamespace("damaged"), 1)
-				.predicate(ResourceLocation.withDefaultNamespace("damage"), 0.6f).model(texture("walnut_oil_3")).end().override()
-				.predicate(ResourceLocation.withDefaultNamespace("damaged"), 1).predicate(ResourceLocation.withDefaultNamespace("damage"), 0.8f)
-				.model(texture("walnut_oil_4")).end().override().predicate(ResourceLocation.withDefaultNamespace("damaged"), 1)
-				.predicate(ResourceLocation.withDefaultNamespace("damage"), 1f).model(texture("oil_bottle")).end();
+		}/*
+		texture("gravy_boat", "walnut_oil_0").override().predicate(Identifier.withDefaultNamespace("damaged"), 1)
+				.predicate(Identifier.withDefaultNamespace("damage"), 0.2f).model(texture("walnut_oil_1")).end().override()
+				.predicate(Identifier.withDefaultNamespace("damaged"), 1).predicate(Identifier.withDefaultNamespace("damage"), 0.4f)
+				.model(texture("walnut_oil_2")).end().override().predicate(Identifier.withDefaultNamespace("damaged"), 1)
+				.predicate(Identifier.withDefaultNamespace("damage"), 0.6f).model(texture("walnut_oil_3")).end().override()
+				.predicate(Identifier.withDefaultNamespace("damaged"), 1).predicate(Identifier.withDefaultNamespace("damage"), 0.8f)
+				.model(texture("walnut_oil_4")).end().override().predicate(Identifier.withDefaultNamespace("damaged"), 1)
+				.predicate(Identifier.withDefaultNamespace("damage"), 1f).model(texture("oil_bottle")).end();*/
 	}
 
-	public ItemModelBuilder itemModel(Item item, String name) {
-		return super.withExistingParent(Utils.getRegistryName(item).getPath(), ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "block/" + name));
+	public void simpleTexture(String name, String par) {
+		ModelTemplates.FLAT_ITEM.create(CPMain.rl("item/" + name),new TextureMapping().put(TextureSlot.LAYER0, new Material(CPMain.rl("item/" + par + name),false)), this.modelOutput);
+
 	}
 
-	public ItemModelBuilder simpleTexture(String name, String par) {
-		return super.singleTexture(name, ResourceLocation.fromNamespaceAndPath("minecraft", "item/generated"), "layer0",
-				ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "item/" + par + name));
+	public void texture(String name) {
+		texture(name, name);
 	}
-
-	public ItemModelBuilder texture(String name) {
-		return texture(name, name);
+	public void texture(Item name, String par) {
+		createFlatItemModel(name,ModelTemplates.FLAT_ITEM);
 	}
-	public ItemModelBuilder texture(Item name, String par) {
-		return texture(Utils.getRegistryName(name).getPath(),par);
-	}
-	public ItemModelBuilder texture(String name, String par) {
-		return super.singleTexture(name, ResourceLocation.fromNamespaceAndPath("minecraft", "item/generated"), "layer0",
-				ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "item/" + par));
+	public void texture(String name, String par) {
+		texture(BuiltInRegistries.ITEM.getValue(CPMain.rl(name)),par);
 	}
 }

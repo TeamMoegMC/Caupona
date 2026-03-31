@@ -46,7 +46,7 @@ import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.loot.packs.VanillaBlockLoot;
 import net.minecraft.data.loot.packs.VanillaLootTableProvider;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -75,13 +75,13 @@ public class CPLootGenerator extends LootTableProvider {
 		return Arrays.asList(new SubProviderEntry(LTBuilder::new, LootContextParamSets.BLOCK),new SubProviderEntry(OTHBuilder::new, LootContextParamSets.CHEST));
 	}
 	static Block cp(String name) {
-		return BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, name));
+		return BuiltInRegistries.BLOCK.get(Identifier.fromNamespaceAndPath(CPMain.MODID, name));
 	}
 	static Item cpi(String name) {
-		return BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, name));
+		return BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath(CPMain.MODID, name));
 	}
 	/*@Override
-	protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationcontext) {
+	protected void validate(Map<Identifier, LootTable> map, ValidationContext validationcontext) {
 		map.forEach((p_278897_, p_278898_) -> {
 			p_278898_.validate(validationcontext.setParams(p_278898_.getParamSet())
 					.enterElement("{" + p_278897_ + "}", new LootDataId<>(LootDataType.TABLE, p_278897_)));

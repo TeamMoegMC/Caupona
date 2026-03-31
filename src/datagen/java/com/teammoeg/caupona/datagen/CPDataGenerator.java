@@ -40,24 +40,24 @@ public class CPDataGenerator {
 	public static void gatherData(GatherDataEvent event) {
 		System.out.println("Gather data");
 		DataGenerator gen = event.getGenerator();
-		ExistingFileHelper exHelper = event.getExistingFileHelper();
+
 		
 		CompletableFuture<HolderLookup.Provider> completablefuture = CompletableFuture.supplyAsync(VanillaRegistries::createLookup, Util.backgroundExecutor());
-		gen.addProvider(event.includeClient(),new CPItemModelProvider(gen, CPMain.MODID, exHelper));
-		gen.addProvider(event.includeServer(),new CPRecipeProvider(gen,completablefuture));
-		gen.addProvider(event.includeServer(),new CPItemTagGenerator(gen, CPMain.MODID, exHelper,event.getLookupProvider()));
-		gen.addProvider(event.includeServer(),new CPBlockTagGenerator(gen, CPMain.MODID, exHelper,event.getLookupProvider()));
-		gen.addProvider(event.includeServer(),new CPFluidTagGenerator(gen, CPMain.MODID, exHelper,event.getLookupProvider()));
-		gen.addProvider(event.includeServer(),new CPGlobalLootModifiersGenerator(gen.getPackOutput(),completablefuture,exHelper,CPMain.MODNAME+" global_modifiers"));
-		gen.addProvider(event.includeServer(),new CPLootGenerator(gen,completablefuture));
-		gen.addProvider(event.includeClient()||event.includeServer(),new CPStatesProvider(gen, CPMain.MODID, exHelper));
-		gen.addProvider(event.includeServer(),new CPBookGenerator(gen.getPackOutput(), exHelper));
-		/*gen.addProvider(event.includeServer()||event.includeClient(),new PackMetadataGenerator(gen.getPackOutput()).add(PackMetadataSection.TYPE,new PackMetadataSection(MutableComponent.create(new TranslatableContents("pack.caupona.title",CPMain.MODNAME+" Data",new Object[0])),
+		gen.addProvider(true,new CPItemModelProvider(gen, CPMain.MODID, exHelper));
+		gen.addProvider(true,new CPRecipeProvider(gen,completablefuture));
+		gen.addProvider(true,new CPItemTagGenerator(gen, CPMain.MODID, exHelper,event.getLookupProvider()));
+		gen.addProvider(true,new CPBlockTagGenerator(gen, CPMain.MODID, exHelper,event.getLookupProvider()));
+		gen.addProvider(true,new CPFluidTagGenerator(gen, CPMain.MODID, exHelper,event.getLookupProvider()));
+		gen.addProvider(true,new CPGlobalLootModifiersGenerator(gen.getPackOutput(),completablefuture,exHelper,CPMain.MODNAME+" global_modifiers"));
+		gen.addProvider(true,new CPLootGenerator(gen,completablefuture));
+		gen.addProvider(true,new CPStatesProvider(gen, CPMain.MODID, exHelper));
+		gen.addProvider(true,new CPBookGenerator(gen.getPackOutput(), exHelper));
+		/*gen.addProvider(true||true,new PackMetadataGenerator(gen.getPackOutput()).add(PackMetadataSection.TYPE,new PackMetadataSection(MutableComponent.create(new TranslatableContents("pack.caupona.title",CPMain.MODNAME+" Data",new Object[0])),
             DetectedVersion.BUILT_IN.getPackVersion(PackType.SERVER_DATA),
             Optional.of(new InclusiveRange<>(0, Integer.MAX_VALUE)))));*/
-		gen.addProvider(event.includeServer(),new CPRegistryGenerator(gen.getPackOutput(),completablefuture));
-		gen.addProvider(event.includeClient(),new FluidAnimationGenerator(gen.getPackOutput(),exHelper));
-		gen.addProvider(event.includeClient()||event.includeServer(), new RegistryJavaGenerator(gen.getPackOutput(),exHelper));
+		gen.addProvider(true,new CPRegistryGenerator(gen.getPackOutput(),completablefuture));
+		gen.addProvider(true,new FluidAnimationGenerator(gen.getPackOutput(),exHelper));
+		gen.addProvider(true, new RegistryJavaGenerator(gen.getPackOutput(),exHelper));
 		
 	}
 }

@@ -35,7 +35,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
@@ -59,7 +59,7 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 		tag(CPTags.Fluids.ANY_WATER).add(ResourceKey.create(Registries.FLUID,mrl("stock"))).add(ResourceKey.create(Registries.FLUID,mrl("nail_soup")));
 		
 		tag(CPTags.Fluids.PUMICE_ON).add(BuiltInRegistries.FLUID.getResourceKey(Fluids.WATER).get());
-		tag(ResourceLocation.fromNamespaceAndPath("watersource", "drink")).add(ResourceKey.create(Registries.FLUID,mrl("nail_soup")));
+		tag(Identifier.fromNamespaceAndPath("watersource", "drink")).add(ResourceKey.create(Registries.FLUID,mrl("nail_soup")));
 	}
 	private Fluid cp(String s) {
 		Fluid i = BuiltInRegistries.FLUID.get(mrl(s));
@@ -69,36 +69,36 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 		return this.tag(FluidTags.create(mrl(s)));
 	}
 
-	private TagAppender<Fluid> tag(ResourceLocation s) {
+	private TagAppender<Fluid> tag(Identifier s) {
 		return this.tag(FluidTags.create(s));
 	}
 
-	private ResourceLocation rl(DeferredHolder<Fluid,Fluid> it) {
+	private Identifier rl(DeferredHolder<Fluid,Fluid> it) {
 		return it.getId();
 	}
 
-	private ResourceLocation rl(String r) {
-		return ResourceLocation.parse(r);
+	private Identifier rl(String r) {
+		return Identifier.parse(r);
 	}
 
 	private TagKey<Fluid> otag(String s) {
 		return FluidTags.create(mrl(s));
 	}
 
-	private TagKey<Fluid> atag(ResourceLocation s) {
+	private TagKey<Fluid> atag(Identifier s) {
 		return FluidTags.create(s);
 	}
 
-	private ResourceLocation mrl(String s) {
-		return ResourceLocation.fromNamespaceAndPath(CPMain.MODID, s);
+	private Identifier mrl(String s) {
+		return Identifier.fromNamespaceAndPath(CPMain.MODID, s);
 	}
 
-	private ResourceLocation frl(String s) {
-		return ResourceLocation.fromNamespaceAndPath("c", s);
+	private Identifier frl(String s) {
+		return Identifier.fromNamespaceAndPath("c", s);
 	}
 
-	private ResourceLocation mcrl(String s) {
-		return ResourceLocation.withDefaultNamespace(s);
+	private Identifier mcrl(String s) {
+		return Identifier.withDefaultNamespace(s);
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 	}
 /*
 	@Override
-	protected Path getPath(ResourceLocation id) {
+	protected Path getPath(Identifier id) {
 		return this.generator.getOutputFolder()
 				.resolve("data/" + id.getNamespace() + "/tags/fluids/" + id.getPath() + ".json");
 	}*/

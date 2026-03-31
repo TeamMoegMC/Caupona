@@ -43,7 +43,7 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
@@ -117,7 +117,7 @@ public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
 		return block(type+"_log");
 	}
 	public static Block block(String type) {
-		return BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(CPMain.MODID,type));
+		return BuiltInRegistries.BLOCK.get(Identifier.fromNamespaceAndPath(CPMain.MODID,type));
 	}
 	@Override
 	public String getName() {

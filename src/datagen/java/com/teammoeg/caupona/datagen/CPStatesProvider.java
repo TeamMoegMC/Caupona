@@ -42,6 +42,8 @@ import com.teammoeg.caupona.blocks.plants.FruitBlock;
 import com.teammoeg.caupona.util.MaterialType;
 import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.model.Model;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
@@ -49,34 +51,27 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.block.state.properties.StairsShape;
-import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel.Builder;
-import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.client.model.generators.MultiPartBlockStateBuilder;
-import net.neoforged.neoforge.client.model.generators.MultiPartBlockStateBuilder.PartBuilder;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.common.data.ExistingFileHelper.ResourceType;
-
-public class CPStatesProvider extends BlockStateProvider {
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType;
+public class CPStatesProvider extends BlockModelGenerators {
 	protected static final List<Vec3i> COLUMN_THREE = ImmutableList.of(BlockPos.ZERO, BlockPos.ZERO.above(),
 		BlockPos.ZERO.above(2));
 	protected static final ResourceType MODEL = new ResourceType(PackType.CLIENT_RESOURCES, ".json", "models");
-	protected static final Map<ResourceLocation, String> generatedParticleTextures = new HashMap<>();
-	protected final ExistingFileHelper existingFileHelper;
+	protected static final Map<Identifier, String> generatedParticleTextures = new HashMap<>();
 	String modid;
 
-	public CPStatesProvider(DataGenerator gen, String modid, ExistingFileHelper exFileHelper) {
+	public CPStatesProvider(DataGenerator gen, String modid) {
 		super(gen.getPackOutput(), modid, exFileHelper);
 		this.modid = modid;
 		this.existingFileHelper = exFileHelper;
@@ -120,8 +115,8 @@ public class CPStatesProvider extends BlockStateProvider {
 		for (MosaicMaterial m : MosaicMaterial.values())
 			for (MosaicPattern p : MosaicPattern.values())
 				for (int i : new int[] { 0, 1 })
-					super.models().withExistingParent("block/mosaic/mosaic_" + p + "_" + m.shortName + "_" + i, ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "block/template_mosaic_tile_" + i))
-						.texture("" + i, ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "block/mosaic/components/mosaic_" + p + "_" + m.shortName + "_" + i)).texture("particle", "#" + i);
+					super.models().withExistingParent("block/mosaic/mosaic_" + p + "_" + m.shortName + "_" + i, Identifier.fromNamespaceAndPath(CPMain.MODID, "block/template_mosaic_tile_" + i))
+						.texture("" + i, Identifier.fromNamespaceAndPath(CPMain.MODID, "block/mosaic/components/mosaic_" + p + "_" + m.shortName + "_" + i)).texture("particle", "#" + i);
 		MultiPartBlockStateBuilder mosaic = this.getMultipartBuilder(CPBlocks.MOSAIC.get());
 		for (MosaicMaterial m : MosaicMaterial.values())
 			for (MosaicPattern p : MosaicPattern.values())
@@ -138,7 +133,7 @@ public class CPStatesProvider extends BlockStateProvider {
 			.part().modelFile(bmf("bread_bowl_dishes/"+s)).addModel().end();
 		}
 		// itemModels().getBuilder("mosaic").parent(new
-		// UncheckedModelFile(ResourceLocation.fromNamespaceAndPath("builtin/entity")));
+		// UncheckedModelFile(Identifier.fromNamespaceAndPath("builtin/entity")));
 		/*
 		 * this.getVariantBuilder(CPBlocks.MOSAIC.get()).forAllStates(t->{ MosaicPattern
 		 * p=t.getValue(MosaicBlock.PATTERN); MosaicMaterial
@@ -262,7 +257,7 @@ public class CPStatesProvider extends BlockStateProvider {
 					: "_inner_corner";
 			int i = 0;
 			while (true) {
-				ResourceLocation rl = ResourceLocation.fromNamespaceAndPath(this.modid, "block/roads/" + name + "_road" + ext + "_" + i);
+				Identifier rl = Identifier.fromNamespaceAndPath(this.modid, "block/roads/" + name + "_road" + ext + "_" + i);
 				if (!existingFileHelper.exists(rl, MODEL))
 					break;
 				if (builder == null)
@@ -279,7 +274,7 @@ public class CPStatesProvider extends BlockStateProvider {
 		Builder<?> builder = null;
 		int i = 0;
 		while (true) {
-			ResourceLocation rl = ResourceLocation.fromNamespaceAndPath(this.modid, "block/roads/" + name + "_road_" + i);
+			Identifier rl = Identifier.fromNamespaceAndPath(this.modid, "block/roads/" + name + "_road_" + i);
 			if (!existingFileHelper.exists(rl, MODEL))
 				break;
 			i++;
@@ -293,7 +288,7 @@ public class CPStatesProvider extends BlockStateProvider {
 	}
 
 	private Block cpblock(String name) {
-		return BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(this.modid, name));
+		return BuiltInRegistries.BLOCK.get(Identifier.fromNamespaceAndPath(this.modid, name));
 	}
 
 	protected void blockItemModel(String n) {
@@ -301,9 +296,9 @@ public class CPStatesProvider extends BlockStateProvider {
 	}
 
 	protected void blockItemModel(String n, String p) {
-		if (this.existingFileHelper.exists(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, "textures/item/" + n + p + ".png"),
+		if (this.existingFileHelper.exists(Identifier.fromNamespaceAndPath(CPMain.MODID, "textures/item/" + n + p + ".png"),
 			PackType.CLIENT_RESOURCES)) {
-			itemModels().basicItem(ResourceLocation.fromNamespaceAndPath(CPMain.MODID, n));
+			itemModels().basicItem(Identifier.fromNamespaceAndPath(CPMain.MODID, n));
 		} else {
 			itemModels().getBuilder(n).parent(bmf(n + p));
 		}
@@ -328,14 +323,14 @@ public class CPStatesProvider extends BlockStateProvider {
 	}
 
 	public ModelFile bmf(String name) {
-		ResourceLocation orl = ResourceLocation.fromNamespaceAndPath(this.modid, "block/" + name);
-		ResourceLocation rl = orl;
+		Identifier orl = Identifier.fromNamespaceAndPath(this.modid, "block/" + name);
+		Identifier rl = orl;
 		if (!existingFileHelper.exists(rl, MODEL)) {// not exists, let's guess
 			List<String> rn = Arrays.asList(name.split("_"));
 			for (int i = rn.size(); i >= 0; i--) {
 				List<String> rrn = new ArrayList<>(rn);
 				rrn.add(i, "0");
-				rl = ResourceLocation.fromNamespaceAndPath(this.modid, "block/" + String.join("_", rrn));
+				rl = Identifier.fromNamespaceAndPath(this.modid, "block/" + String.join("_", rrn));
 				if (existingFileHelper.exists(rl, MODEL))
 					return new ModelFile.ExistingModelFile(rl, existingFileHelper);
 			}
@@ -374,7 +369,19 @@ public class CPStatesProvider extends BlockStateProvider {
 		return block;
 	}
 
-	protected void itemModel(Block block, ModelFile model) {
+	protected void itemModel(Block block, Model model) {
 		itemModels().getBuilder(Utils.getRegistryName(block).getPath()).parent(model);
+	}
+
+	@Override
+	protected BlockStateProviderType<?> type() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BlockState getState(WorldGenLevel level, RandomSource random, BlockPos pos) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

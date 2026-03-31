@@ -38,7 +38,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -192,45 +192,45 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 		return this.tag(ItemTags.create(mrl(s)));
 	}
 
-	private TagAppender<Item> tag(ResourceLocation s) {
+	private TagAppender<Item> tag(Identifier s) {
 		return this.tag(ItemTags.create(s));
 	}
 	private ResourceKey<Item> rk(Item b) {
 		
 		return BuiltInRegistries.ITEM.getResourceKey(b).orElseThrow();
 	}
-	private ResourceLocation rl(DeferredHolder<Item,Item> it) {
+	private Identifier rl(DeferredHolder<Item,Item> it) {
 		return it.getId();
 	}
 
-	private ResourceLocation rl(String r) {
-		return ResourceLocation.parse(r);
+	private Identifier rl(String r) {
+		return Identifier.parse(r);
 	}
 
 	private TagKey<Item> otag(String s) {
 		return ItemTags.create(mrl(s));
 	}
 
-	private TagKey<Item> atag(ResourceLocation s) {
+	private TagKey<Item> atag(Identifier s) {
 		return ItemTags.create(s);
 	}
 
-	private ResourceLocation mrl(String s) {
-		return ResourceLocation.fromNamespaceAndPath(CPMain.MODID, s);
+	private Identifier mrl(String s) {
+		return Identifier.fromNamespaceAndPath(CPMain.MODID, s);
 	}
 
-	private ResourceLocation frl(String s) {
-		return ResourceLocation.fromNamespaceAndPath("c", s);
+	private Identifier frl(String s) {
+		return Identifier.fromNamespaceAndPath("c", s);
 	}
 
 	private TagKey<Item> ftag(String s) {
-		TagKey<Item> tag = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", s));
+		TagKey<Item> tag = ItemTags.create(Identifier.fromNamespaceAndPath("c", s));
 		this.tag(tag);
 		return tag;
 	}
 
-	private ResourceLocation mcrl(String s) {
-		return ResourceLocation.withDefaultNamespace(s);
+	private Identifier mcrl(String s) {
+		return Identifier.withDefaultNamespace(s);
 	}
 
 	@Override
@@ -243,7 +243,7 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 	}
 /*
 	@Override
-	protected Path getPath(ResourceLocation id) {
+	protected Path getPath(Identifier id) {
 		return this.generator.getOutputFolder()
 				.resolve("data/" + id.getNamespace() + "/tags/items/" + id.getPath() + ".json");
 	}*/

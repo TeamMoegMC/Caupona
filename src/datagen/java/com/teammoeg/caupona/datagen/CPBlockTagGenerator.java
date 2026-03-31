@@ -37,7 +37,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -178,35 +178,35 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 	private ResourceKey<Block> rk(Block  b) {
 		return BuiltInRegistries.BLOCK.getResourceKey(b).get();
 	}
-	private TagAppender<Block> tag(ResourceLocation s) {
+	private TagAppender<Block> tag(Identifier s) {
 		return this.tag(BlockTags.create(s));
 	}
-	private ResourceLocation rl(DeferredHolder<Item,Item> it) {
+	private Identifier rl(DeferredHolder<Item,Item> it) {
 		return it.getId();
 	}
 
-	private ResourceLocation rl(String r) {
-		return ResourceLocation.parse(r);
+	private Identifier rl(String r) {
+		return Identifier.parse(r);
 	}
 
 	private TagKey<Block> otag(String s) {
 		return BlockTags.create(mrl(s));
 	}
 
-	private TagKey<Item> atag(ResourceLocation s) {
+	private TagKey<Item> atag(Identifier s) {
 		return ItemTags.create(s);
 	}
 
-	private ResourceLocation mrl(String s) {
-		return ResourceLocation.fromNamespaceAndPath(CPMain.MODID, s);
+	private Identifier mrl(String s) {
+		return Identifier.fromNamespaceAndPath(CPMain.MODID, s);
 	}
 
-	private ResourceLocation frl(String s) {
-		return ResourceLocation.fromNamespaceAndPath("c", s);
+	private Identifier frl(String s) {
+		return Identifier.fromNamespaceAndPath("c", s);
 	}
 
-	private ResourceLocation mcrl(String s) {
-		return ResourceLocation.withDefaultNamespace(s);
+	private Identifier mcrl(String s) {
+		return Identifier.withDefaultNamespace(s);
 	}
 
 	@Override
@@ -216,7 +216,7 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 
 
 	/*@Override
-	protected Path getPath(ResourceLocation id) {
+	protected Path getPath(Identifier id) {
 		return super.pathProvider.json("data/" + id.getNamespace() + "/tags/blocks/" + id.getPath() + ".json");
 	}*/
 }
