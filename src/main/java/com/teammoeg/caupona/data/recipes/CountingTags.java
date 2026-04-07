@@ -33,27 +33,26 @@ import com.teammoeg.caupona.util.SerializeUtil;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CountingTags extends IDataRecipe {
 	public static Set<Identifier> tags;
-	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<CountingTags>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<CountingTags>> SERIALIZER;
 	public List<Identifier> tag;
 	public static final MapCodec<CountingTags> CODEC=
 			RecordCodecBuilder.mapCodec(t->t.group(
 					Codec.list(Identifier.CODEC).fieldOf("tags").forGetter(o->o.tag)
 					).apply(t, CountingTags::new));
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<CountingTags> getSerializer() {
 		return SERIALIZER.get();
 	}
 
 	@Override
-	public RecipeType<?> getType() {
+	public RecipeType<CountingTags> getType() {
 		return TYPE.get();
 	}
 
@@ -74,11 +73,11 @@ public class CountingTags extends IDataRecipe {
 	}*/
 
 	public CountingTags(FriendlyByteBuf data) {
-		tag = SerializeUtil.readList(data, FriendlyByteBuf::readResourceLocation);
+		tag = SerializeUtil.readList(data, FriendlyByteBuf::readIdentifier);
 	}
 
 	public void write(FriendlyByteBuf data) {
-		SerializeUtil.<Identifier>writeList2(data, tag, FriendlyByteBuf::writeResourceLocation);
+		SerializeUtil.<Identifier>writeList2(data, tag, FriendlyByteBuf::writeIdentifier);
 	}
 
 }

@@ -35,8 +35,6 @@ import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.util.ITickableContainer;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -51,7 +49,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
@@ -59,9 +56,7 @@ import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
@@ -90,11 +85,11 @@ public class CPCommonEvents {
 	}
 	@SubscribeEvent
 	public static void bowlContainerFood(ContanerContainFoodEvent ev) {
-			RecipeHolder<BowlContainingRecipe> recipe = BowlContainingRecipe.getRecipes(ev.origin).stream().filter(t->t.value().matches(ev.fs)).findFirst().orElse(null);
-			if (recipe != null) {
-				ev.out=recipe.value().handle(ev.fs);
-				ev.setResult(EventResult.ALLOW);
-			}
+		FluidStack testStack=ev.fs.toStack(ev.drainAmount);
+		RecipeHolder<BowlContainingRecipe> recipe = BowlContainingRecipe.getRecipes(ev.origin.toStack()).stream().filter(t->t.value().matches(testStack)).findFirst().orElse(null);
+		if (recipe != null) {
+			ev.setOutput(recipe.value().handle(ev.fs));
+		}
 	}
 	@SubscribeEvent
 	public static void addManualToPlayer(PlayerEvent.PlayerLoggedInEvent event) {

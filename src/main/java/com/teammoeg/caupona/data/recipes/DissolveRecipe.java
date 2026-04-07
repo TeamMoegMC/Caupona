@@ -30,7 +30,6 @@ import com.teammoeg.caupona.data.IDataRecipe;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -38,16 +37,16 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class DissolveRecipe extends IDataRecipe {
 	public static List<RecipeHolder<DissolveRecipe>> recipes;
-	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<DissolveRecipe>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<DissolveRecipe>> SERIALIZER;
 
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<DissolveRecipe> getSerializer() {
 		return SERIALIZER.get();
 	}
 
 	@Override
-	public RecipeType<?> getType() {
+	public RecipeType<DissolveRecipe> getType() {
 		return TYPE.get();
 	}
 
@@ -55,7 +54,7 @@ public class DissolveRecipe extends IDataRecipe {
 	public int time;
 	public static final MapCodec<DissolveRecipe> CODEC=
 			RecordCodecBuilder.mapCodec(t->t.group(
-					Ingredient.CODEC_NONEMPTY.fieldOf("item").forGetter(o->o.item),
+					Ingredient.CODEC.fieldOf("item").forGetter(o->o.item),
 					Codec.INT.fieldOf("time").forGetter(o->o.time)
 					).apply(t, DissolveRecipe::new));
 	public DissolveRecipe(Ingredient item, int time) {

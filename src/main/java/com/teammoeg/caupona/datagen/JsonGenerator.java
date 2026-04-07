@@ -32,18 +32,15 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.server.packs.PackType;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public abstract class JsonGenerator implements DataProvider {
 	protected final PackOutput output;
-	protected ExistingFileHelper helper;
 	private String name;
 	PackType type;
-	public JsonGenerator(PackType pt,PackOutput output, ExistingFileHelper helper, String name) {
+	public JsonGenerator(PackType pt,PackOutput output, String name) {
 		super();
 		this.type=pt;
 		this.output = output;
-		this.helper = helper;
 		this.name = name;
 	}
 	protected abstract void gather(JsonStorage reciver) ;

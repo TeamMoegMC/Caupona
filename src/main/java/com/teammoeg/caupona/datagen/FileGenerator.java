@@ -36,17 +36,15 @@ import java.util.function.Consumer;
 import com.google.common.hash.Hashing;
 import com.teammoeg.caupona.CPMain;
 
-import net.minecraft.Util;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraft.util.Util;
 
 public abstract class FileGenerator implements DataProvider {
 	protected final PackOutput output;
-	protected ExistingFileHelper helper;
 	private String name;
 	PackType type;
 	protected class FileStorage implements BiConsumer<Path,byte[]>,Consumer<FileOutput> {
@@ -91,11 +89,10 @@ public abstract class FileGenerator implements DataProvider {
 			return ps=new PrintStream(stream,true,StandardCharsets.UTF_8);
 		}
 	}
-	public FileGenerator(PackType pt,PackOutput output, ExistingFileHelper helper, String name) {
+	public FileGenerator(PackType pt,PackOutput output, String name) {
 		super();
 		this.type=pt;
 		this.output = output;
-		this.helper = helper;
 		this.name = name;
 	}
 	protected abstract void gather(FileStorage reciver) ;

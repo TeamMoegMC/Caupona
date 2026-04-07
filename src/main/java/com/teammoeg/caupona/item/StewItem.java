@@ -21,28 +21,27 @@
 
 package com.teammoeg.caupona.item;
 
-import java.util.List;
 import java.util.function.Supplier;
+
+import org.jspecify.annotations.Nullable;
 
 import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.components.ItemHoldedFluidData;
 import com.teammoeg.caupona.components.StewInfo;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
-import com.teammoeg.caupona.util.FloatemStack;
-import com.teammoeg.caupona.util.Utils;
 
-import net.minecraft.core.Holder.Reference;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 
 public class StewItem extends EdibleBlock{
 
@@ -53,19 +52,19 @@ public class StewItem extends EdibleBlock{
 		if (helper.isFoodTab()) {
 			ItemStack is = new ItemStack(this);
 			is.set(CPCapability.STEW_INFO, new StewInfo(fluid.get()).toImmutable());
-			is.set(CPCapability.ITEM_FLUID, new ItemHoldedFluidData(fluid.get()));
+			is.set(CPCapability.ITEM_FLUID, new ItemHoldedFluidData(FluidResource.of(fluid.get())));
 			super.addCreativeHints(is);
 			helper.accept(is);
 		}
 	}
+	@Override
+	public @Nullable ItemStackTemplate getCraftingRemainder(ItemInstance instance) {
+		return new ItemStackTemplate(Items.BOWL);
+	}
 
 	Supplier<Fluid> fluid;
-	// fake food to trick mechanics
-	public static final FoodProperties fakefood = new FoodProperties.Builder().nutrition(4).saturationModifier(0.2f)
-			.build();
-
 	public StewItem(Block block,Supplier<Fluid> fluid, Properties properties) {
-		super(block, properties.food(fakefood));
+		super(block, properties);
 		CPItems.stews.add(this);
 		this.fluid = fluid;
 	}

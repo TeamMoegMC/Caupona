@@ -41,7 +41,6 @@ import com.teammoeg.caupona.util.FloatemTagStack;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -65,8 +64,8 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 	public static Set<CookIngredients> cookables;
 	public static Set<Fluid> allOutput;
 	public static List<RecipeHolder<StewCookingRecipe>> sorted;
-	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<StewCookingRecipe>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<StewCookingRecipe>> SERIALIZER;
 
 	public static boolean isCookable(ItemStack stack) {
 		FloatemTagStack s = new FloatemTagStack(stack);
@@ -81,12 +80,12 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 	}
 
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<StewCookingRecipe> getSerializer() {
 		return SERIALIZER.get();
 	}
 
 	@Override
-	public RecipeType<?> getType() {
+	public RecipeType<StewCookingRecipe> getType() {
 		return TYPE.get();
 	}
 

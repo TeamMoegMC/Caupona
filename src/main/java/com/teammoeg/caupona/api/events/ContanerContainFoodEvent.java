@@ -21,33 +21,36 @@
 
 package com.teammoeg.caupona.api.events;
 
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.Event;
-import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.bus.api.ICancellableEvent;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
-public class ContanerContainFoodEvent extends Event {
-	public final ItemStack origin;
-	public ItemStack out=ItemStack.EMPTY;
-	public final FluidStack fs;
+public class ContanerContainFoodEvent extends Event implements ICancellableEvent{
+	public final ItemResource origin;
+	private ItemResource out=ItemResource.EMPTY;
+	public final FluidResource fs;
 	public final int drainAmount;
-	public final boolean isSimulated;
 	public final boolean isBlockAccess;
-	EventResult result;
-	public ContanerContainFoodEvent(ItemStack origin, FluidStack fs,boolean isSimulated,boolean isBlockAccess) {
+
+	public ContanerContainFoodEvent(ItemResource origin, FluidResource fluidIn, int drainAmount, boolean isBlockAccess) {
 		super();
 		this.origin = origin;
-		this.fs = fs;
-		this.drainAmount = fs.getAmount();
-		this.isSimulated=isSimulated;
-		this.isBlockAccess=isBlockAccess;
+		this.fs = fluidIn;
+		this.drainAmount = drainAmount;
+		this.isBlockAccess = isBlockAccess;
+	}
+	public void setOutput(ItemResource item) {
+		this.out=item;
+	}
+	public ItemResource getOutput() {
+		return out;
 	}
 	public boolean isAllowed() {
-		return this.getResult()==EventResult.ALLOW&&!out.isEmpty();
+		return !out.isEmpty()&&!ICancellableEvent.super.isCanceled();
 	}
-	public EventResult getResult() {
-		return result;
-	}
-	public void setResult(EventResult result) {
-		this.result = result;
+	@Override
+	public void setCanceled(boolean canceled) {
+		ICancellableEvent.super.setCanceled(canceled);
 	}
 }

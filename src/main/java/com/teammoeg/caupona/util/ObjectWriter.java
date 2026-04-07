@@ -100,9 +100,9 @@ public class ObjectWriter {
 		case 8:SerializeUtil.writeEntry(pb, ((Map<Object,Object>)input.value),(t,p)->{
 			TypedValue key   = getTyped(t.getKey());
 			TypedValue value = getTyped(t.getValue());
-			pb.writeByte((key.type<<4)+value.type);
-			writeTyped(pb,key);
-			writeTyped(pb,value);
+			p.writeByte((key.type<<4)+value.type);
+			writeTyped(p,key);
+			writeTyped(p,value);
 		});break;
 		case 9:byte[] bs=DataOps.INSTANCE.getByteArray(input.value).result().get();
 		pb.writeByteArray(bs);break;
@@ -133,9 +133,9 @@ public class ObjectWriter {
     	case 6:return pb.readDouble();
     	case 7:return pb.readUtf();
     	case 8:return SerializeUtil.readEntry(pb, new HashMap<>(),(p,c)->{
-    		int byt=pb.readByte();
-    		Object key=readWithType((byt>>4)&15,pb);
-    		Object value=readWithType(byt&15,pb);
+    		int byt=p.readByte();
+    		Object key=readWithType((byt>>4)&15,p);
+    		Object value=readWithType(byt&15,p);
     		c.accept(key, value);
     	})
     	;

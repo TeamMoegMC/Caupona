@@ -24,17 +24,11 @@ package com.teammoeg.caupona.entity;
 import com.teammoeg.caupona.CPEntityTypes;
 import com.teammoeg.caupona.CPItems;
 
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.level.Level;
 
 public class CPBoat extends Boat {
-	private static final EntityDataAccessor<String> WOOD_TYPE = SynchedEntityData.defineId(CPBoat.class,
-			EntityDataSerializers.STRING);
-
 
 
 	public CPBoat(EntityType<? extends Boat> type, Level level) {

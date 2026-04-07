@@ -21,53 +21,32 @@
 
 package com.teammoeg.caupona.item;
 
-import java.util.List;
+import org.jspecify.annotations.Nullable;
 
-import org.jetbrains.annotations.Nullable;
-
-import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.blocks.foods.DishBlock;
-import com.teammoeg.caupona.components.IFoodInfo;
-import com.teammoeg.caupona.components.SauteedFoodInfo;
-import com.teammoeg.caupona.util.FloatemStack;
-import com.teammoeg.caupona.util.Utils;
-
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
 
 public class DishItem extends EdibleBlock {
-	public static final FoodProperties fakefood = new FoodProperties.Builder().nutrition(4).saturationModifier(0.2f).usingConvertsTo(Items.BOWL)
-			.build();
 	public final DishBlock bl;
 
 	public DishItem(DishBlock block, Properties props) {
-		super(block, props.food(fakefood));
+		super(block, props);
 		CPItems.dish.add(this);
 		bl = block;
 	}
 
-
+	@Override
+	public @Nullable ItemStackTemplate getCraftingRemainder(ItemInstance instance) {
+		return new ItemStackTemplate(Items.BOWL);
+	}
 
 	@Override
 	public int getUseDuration(ItemStack stack,LivingEntity ent) {
 		return 32;
-	}
-
-	public UseAnim getUseAnimation(ItemStack stack) {
-		return UseAnim.EAT;
-	}
-	@Override
-	public FoodProperties getFoodProperties(ItemStack stack, LivingEntity entity) {
-		@Nullable SauteedFoodInfo info = stack.get(CPCapability.SAUTEED_INFO);
-		if(info==null)return null;
-		return info.getFood(0,0).usingConvertsTo(Items.BOWL).build();
-		
 	}
 }

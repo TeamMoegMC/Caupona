@@ -31,23 +31,22 @@ import com.teammoeg.caupona.data.IDataRecipe;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class SpiceRecipe extends IDataRecipe {
 	public static List<SpiceRecipe> recipes;
-	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<SpiceRecipe>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<SpiceRecipe>> SERIALIZER;
 
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<SpiceRecipe> getSerializer() {
 		return SERIALIZER.get();
 	}
 
 	@Override
-	public RecipeType<?> getType() {
+	public RecipeType<SpiceRecipe> getType() {
 		return TYPE.get();
 	}
 
@@ -56,7 +55,7 @@ public class SpiceRecipe extends IDataRecipe {
 	public boolean canReactLead=false;
 	public static final MapCodec<SpiceRecipe> CODEC=
 			RecordCodecBuilder.mapCodec(t->t.group(
-					Ingredient.CODEC_NONEMPTY.fieldOf("spice").forGetter(o->o.spice),
+					Ingredient.CODEC.fieldOf("spice").forGetter(o->o.spice),
 					MobEffectInstance.CODEC.fieldOf("effect").forGetter(o->o.effect),
 					Codec.BOOL.fieldOf("reacts_lead").forGetter(o->o.canReactLead)
 					).apply(t, SpiceRecipe::new));
@@ -123,7 +122,7 @@ public class SpiceRecipe extends IDataRecipe {
 		int cdmg = spice.getDamageValue();
 		cdmg += cnt;
 		if (cdmg >= spice.getMaxDamage()) {
-			return spice.getCraftingRemainingItem();
+			return spice.getCraftingRemainder().create();
 		}
 		spice.setDamageValue(cdmg);
 		return spice;

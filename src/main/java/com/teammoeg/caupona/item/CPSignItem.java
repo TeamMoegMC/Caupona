@@ -30,7 +30,7 @@ import net.minecraft.world.level.block.Block;
 
 public class CPSignItem extends SignItem implements ICreativeModeTabItem {
 	public CPSignItem(Properties pProperties, Block pStandingBlock, Block pWallBlock, TabType tab) {
-		super(pProperties, pStandingBlock, pWallBlock);
+		super(pStandingBlock,pWallBlock, pProperties);
 		this.tab = tab;
 	}
 

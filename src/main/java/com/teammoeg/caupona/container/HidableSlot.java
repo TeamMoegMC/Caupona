@@ -24,16 +24,19 @@ package com.teammoeg.caupona.container;
 import java.util.function.Supplier;
 
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.transfer.IndexModifier;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 
-public class HidableSlot extends SlotItemHandler {
+public class HidableSlot extends ResourceHandlerSlot {
+	public HidableSlot(ResourceHandler<ItemResource> handler, IndexModifier<ItemResource> slotModifier, int index, int xPosition, int yPosition) {
+		super(handler, slotModifier, index, xPosition, yPosition);
+	}
+
 	Supplier<Boolean> vs;
 
-	public HidableSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition, Supplier<Boolean> visible) {
-		super(itemHandler, index, xPosition, yPosition);
-		vs = visible;
-	}
+
 
 	@Override
 	public boolean isActive() {

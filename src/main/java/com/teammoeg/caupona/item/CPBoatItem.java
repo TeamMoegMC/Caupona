@@ -30,7 +30,7 @@ import com.teammoeg.caupona.util.TabType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.player.Player;
@@ -45,11 +45,9 @@ import net.minecraft.world.phys.Vec3;
 
 public class CPBoatItem extends CPItem {
 	private static final Predicate<Entity> ENTITY_PREDICATE = EntitySelector.NO_SPECTATORS.and(Entity::isPickable);
-	private final String type;
 
 	public CPBoatItem(String pType, Item.Properties pProperties) {
 		super(pProperties,TabType.MAIN_AND_TRANSPORTATION);
-		this.type = pType;
 	}
 
 	/**
@@ -57,11 +55,12 @@ public class CPBoatItem extends CPItem {
 	 * this item is used on a Block, see
 	 * {@link #onItemUse}.
 	 */
-	public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
+	@Override
+	public InteractionResult use(Level pLevel, Player pPlayer, InteractionHand pHand) {
 		ItemStack itemstack = pPlayer.getItemInHand(pHand);
 		HitResult hitresult = getPlayerPOVHitResult(pLevel, pPlayer, ClipContext.Fluid.ANY);
 		if (hitresult.getType() == HitResult.Type.MISS) {
-			return InteractionResultHolder.pass(itemstack);
+			return InteractionResult.PASS;
 		}
 		Vec3 vec3 = pPlayer.getViewVector(1.0F);
 		List<Entity> list = pLevel.getEntities(pPlayer,
@@ -72,7 +71,7 @@ public class CPBoatItem extends CPItem {
 			for (Entity entity : list) {
 				AABB aabb = entity.getBoundingBox().inflate(entity.getPickRadius());
 				if (aabb.contains(vec31)) {
-					return InteractionResultHolder.pass(itemstack);
+					return InteractionResult.PASS;
 				}
 			}
 		}
@@ -80,12 +79,11 @@ public class CPBoatItem extends CPItem {
 		if (hitresult.getType() == HitResult.Type.BLOCK) {
 			CPBoat boat = new CPBoat(pLevel, hitresult.getLocation().x, hitresult.getLocation().y,
 					hitresult.getLocation().z);
-			boat.setWoodType(type);
 			boat.setYRot(pPlayer.getYRot());
 			if (!pLevel.noCollision(boat, boat.getBoundingBox())) {
-				return InteractionResultHolder.fail(itemstack);
+				return InteractionResult.FAIL;
 			}
-			if (!pLevel.isClientSide) {
+			if (!pLevel.isClientSide()) {
 				pLevel.addFreshEntity(boat);
 				Vec3 hitpos=hitresult.getLocation();
 				pLevel.gameEvent(pPlayer, GameEvent.ENTITY_PLACE, new BlockPos((int)hitpos.x(),(int)hitpos.y(),(int)hitpos.z()));
@@ -95,8 +93,8 @@ public class CPBoatItem extends CPItem {
 			}
 
 			pPlayer.awardStat(Stats.ITEM_USED.get(this));
-			return InteractionResultHolder.sidedSuccess(itemstack, pLevel.isClientSide());
+			return InteractionResult.SUCCESS;
 		}
-		return InteractionResultHolder.pass(itemstack);
+		return InteractionResult.PASS;
 	}
 }

@@ -34,6 +34,7 @@ import com.teammoeg.caupona.api.CauponaHooks;
 import com.teammoeg.caupona.components.IFoodInfo;
 import com.teammoeg.caupona.components.StewInfo;
 import com.teammoeg.caupona.data.IDataRecipe;
+import com.teammoeg.caupona.util.RecipeHandleStatus;
 import com.teammoeg.caupona.util.SizedOrCatalystFluidIngredient;
 import com.teammoeg.caupona.util.SizedOrCatalystIngredient;
 import com.teammoeg.caupona.util.Utils;
@@ -41,28 +42,30 @@ import com.teammoeg.caupona.util.Utils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class DoliumRecipe extends IDataRecipe implements TimedRecipe{
 	public static List<RecipeHolder<DoliumRecipe>> recipes;
-	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<DoliumRecipe>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<DoliumRecipe>> SERIALIZER;
 
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<DoliumRecipe> getSerializer() {
 		return SERIALIZER.get();
 	}
 
 	@Override
-	public RecipeType<?> getType() {
+	public RecipeType<DoliumRecipe> getType() {
 		return TYPE.get();
 	}
 
@@ -111,10 +114,10 @@ public class DoliumRecipe extends IDataRecipe implements TimedRecipe{
 	}
 	public static final MapCodec<DoliumRecipe> CODEC=
 			RecordCodecBuilder.mapCodec(t->t.group(
-					Codec.list(SizedOrCatalystIngredient.FLAT_CODEC).fieldOf("items").forGetter(o->o.items),
+					Codec.list(SizedOrCatalystIngredient.NESTED_CODEC).fieldOf("items").forGetter(o->o.items),
 					Ingredient.CODEC.optionalFieldOf("container").forGetter(o->Optional.ofNullable(o.extra)),
 					BuiltInRegistries.FLUID.byNameCodec().optionalFieldOf("base").forGetter(o->Optional.ofNullable(o.base)),
-					SizedOrCatalystFluidIngredient.FLAT_CODEC.optionalFieldOf("fluid").forGetter(o->Optional.ofNullable(o.fluid)),
+					SizedOrCatalystFluidIngredient.NESTED_CODEC.optionalFieldOf("fluid").forGetter(o->Optional.ofNullable(o.fluid)),
 					Codec.FLOAT.fieldOf("density").forGetter(o->o.density),
 					Codec.BOOL.fieldOf("keepInfo").forGetter(o->o.keepInfo),
 					ItemStack.CODEC.fieldOf("output").forGetter(o->o.output),
@@ -133,12 +136,13 @@ public class DoliumRecipe extends IDataRecipe implements TimedRecipe{
 		return recipes.stream().map(t->t.value()).map(t -> t.extra).filter(Objects::nonNull).anyMatch(t -> t.test(stack));
 	}
 
-	public static RecipeHolder<DoliumRecipe> testDolium(FluidStack f, ItemStackHandler inv) {
-		ItemStack is0 = inv.getStackInSlot(0);
-		ItemStack is1 = inv.getStackInSlot(1);
-		ItemStack is2 = inv.getStackInSlot(2);
-		ItemStack cont = inv.getStackInSlot(4);
-		return recipes.stream().filter(t -> t.value().test(f, cont, is0, is1, is2)).findFirst().orElse(null);
+	public static RecipeHolder<DoliumRecipe> testDolium(ResourceHandler<FluidResource> f, ResourceHandler<ItemResource> inv) {
+		ItemStack is0 = inv.getResource(0).toStack();
+		ItemStack is1 = inv.getResource(1).toStack();
+		ItemStack is2 = inv.getResource(2).toStack();
+		ItemStack cont = inv.getResource(4).toStack();
+		FluidStack fs=f.getResource(0).toStack(f.getAmountAsInt(0));
+		return recipes.stream().filter(t -> t.value().test(fs, cont, is0, is1, is2)).findFirst().orElse(null);
 	}
 
 	public boolean test(FluidStack f, ItemStack container, ItemStack... ss) {
@@ -181,60 +185,75 @@ public class DoliumRecipe extends IDataRecipe implements TimedRecipe{
 		return true;
 	}
 
-	public ItemStack handle(FluidStack f) {
-		int times = 1;
-		if (fluid.amount() > 0)
-			times = f.getAmount() / fluid.amount();
-		ItemStack out = output.copy();
-		out.setCount(out.getCount() * times);
-		if (keepInfo) {
-			StewInfo info = Utils.getOrCreateInfoForRead(f);
-			Utils.setInfo(out, info);
+	public RecipeHandleStatus handle(ResourceHandler<FluidResource> f,ResourceHandler<ItemResource> inv,int outSlot) {
+		try(Transaction child=Transaction.openRoot()){
+			int times = 1;
+			if (fluid.amount() > 0)
+				times = f.getAmountAsInt(0) / fluid.amount();
+			times=Math.min(times, (output.getCount()+inv.getAmountAsInt(outSlot))/inv.getCapacityAsInt(outSlot, ItemResource.of(output)));
+			
+			ItemStack out = output.copy();
+			FluidResource fs=f.getResource(0);
+			if (keepInfo) {
+				StewInfo info = Utils.getOrCreateInfoForRead(fs);
+				Utils.setInfo(out, info);
+			}
+			if(f.extract(fs, times * fluid.amount(), child)==times * fluid.amount()) {
+				if(inv.insert(ItemResource.of(out), output.getCount() * times, child)==output.getCount() * times) {
+					child.commit();
+					return RecipeHandleStatus.SUCCEED;
+				}else {
+					return RecipeHandleStatus.BLOCKED;
+				}
+			}
 		}
-		f.shrink(times * fluid.amount());
-		return out;
+		return RecipeHandleStatus.FAILED;
 	}
 
-	public ItemStack handleDolium(FluidStack f, ItemStackHandler inv) {
-		int times = output.getMaxStackSize();
-		if (fluid!=null&&fluid.amount() > 0)
-			times = Math.min(f.getAmount() / fluid.amount(), times);
-		if (extra != null)
-			times = Math.min(times, inv.getStackInSlot(4).getCount());
-		for (SizedOrCatalystIngredient igd : items) {
-			if (igd.count() == 0)
-				continue;
-			for (int i = 0; i < 3; i++) {
-				ItemStack is = inv.getStackInSlot(i);
-				if (igd.test(is)) {
-					times = Math.min(times, is.getCount() / igd.count());
-					break;
+	public RecipeHandleStatus handleDolium(ResourceHandler<FluidResource> f,ResourceHandler<ItemResource> inv) {
+		try(Transaction child=Transaction.openRoot()){
+			int times = output.getMaxStackSize();
+			if (fluid!=null&&fluid.amount() > 0)
+				times = Math.min(f.getAmountAsInt(0) / fluid.amount(), times);
+			if (extra != null)
+				times = Math.min(times, inv.getAmountAsInt(4));
+			times=Math.min(times, (output.getCount()+inv.getAmountAsInt(5))/inv.getCapacityAsInt(5, ItemResource.of(output)));
+			for (SizedOrCatalystIngredient igd : items) {
+				if (igd.count() == 0)
+					continue;
+				int remain=igd.count();
+				for(int i=0;i<3;i++) {
+					ItemResource rs=inv.getResource(i);
+					if(igd.test(rs.toStack())) {
+						remain-=inv.extract(i,rs, remain, child);
+					}
 				}
+				if(remain>0)
+					return RecipeHandleStatus.FAILED;
 			}
-		}
-
-		if (extra != null)
-			inv.getStackInSlot(4).shrink(times);
-		for (SizedOrCatalystIngredient igd : items) {
-			if (igd.count() == 0)
-				continue;
-			for (int i = 0; i < 3; i++) {
-				ItemStack is = inv.getStackInSlot(i);
-				if (igd.test(is)) {
-					is.shrink(times * igd.count());
-					break;
+	
+			if (extra != null) {
+				ItemResource cont=inv.getResource(4);
+				if(inv.extract(4, cont, times, child)!=times)
+					return RecipeHandleStatus.FAILED;
+			}
+			FluidResource fr=f.getResource(0);
+			ItemStack out = output.copy();
+			if (keepInfo) {
+				StewInfo info = Utils.getOrCreateInfoForRead(fr);
+				Utils.setInfo(out, info);
+			}
+			if (fluid!=null&&fluid.amount() > 0)
+				if(f.extract(fr, times * fluid.amount(), child)==times * fluid.amount()) {
+					if(inv.insert(5,ItemResource.of(out), output.getCount() * times, child)==output.getCount() * times) {
+						child.commit();
+						return RecipeHandleStatus.SUCCEED;
+					}else {
+						return RecipeHandleStatus.BLOCKED;
+					}
 				}
-			}
 		}
-		ItemStack out = output.copy();
-		out.setCount(out.getCount() * times);
-		if (keepInfo) {
-			StewInfo info = Utils.getOrCreateInfoForRead(f);
-			Utils.setInfo(out, info);
-		}
-		if (fluid!=null&&fluid.amount() > 0)
-			f.shrink(times * fluid.amount());
-		return out;
+		return RecipeHandleStatus.FAILED;
 	}
 /*
 	public DoliumRecipe(FriendlyByteBuf data) {

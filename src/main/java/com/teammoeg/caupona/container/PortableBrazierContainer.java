@@ -21,30 +21,34 @@
 
 package com.teammoeg.caupona.container;
 
-import java.util.List;
-
 import com.teammoeg.caupona.CPGui;
-import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPTags.Items;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
-import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.util.INetworkContainer;
 import com.teammoeg.caupona.util.ITickableContainer;
+import com.teammoeg.caupona.util.RecipeHandleStatus;
+import com.teammoeg.caupona.util.RecipeHandler;
+import com.teammoeg.caupona.util.SerializeUtil;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.neoforged.neoforge.common.Tags.Fluids;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class PortableBrazierContainer extends AbstractContainerMenu implements INetworkContainer, ITickableContainer {
 	public static final int INGREDIENT = 0;
@@ -52,29 +56,55 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 	private static final int FUEL = 2;
 	private static final int OUT = 3;
 	private final Player player;
-	ItemStackHandler items = new ItemStackHandler(4) {
+	ItemStacksResourceHandler items = new ItemStacksResourceHandler(4) {
 		@Override
-		public boolean isItemValid(int slot, ItemStack stack) {
+		public boolean isValid(int slot, ItemResource stack) {
 			if (slot == INGREDIENT)
 				return AspicMeltingRecipe.find(stack) != null;
-			if (slot == CONTAINER)
-				return stack.is(CPItems.water_bowl);
 			if (slot == FUEL)
 				return stack.is(Items.PORTABLE_BRAZIER_FUEL_TYPE);
-			return false;
+			return true;
 		}
 
 		@Override
-		public int getSlotLimit(int slot) {
+		public int getCapacity(int slot, ItemResource stack) {
 			return 1;
 		}
+
+		@Override
+		protected void onContentsChanged(int index, ItemStack previousContents) {
+			if(index != OUT)
+				handler.onContainerChanged();
+		}
 	};
-	ItemStack bowl = ItemStack.EMPTY;
-	ItemStack aspic = ItemStack.EMPTY;
-	ItemStack out = ItemStack.EMPTY;
-	ItemStack pout = ItemStack.EMPTY;// simulated output
-	public int process;
-	public int processMax;
+	public RecipeHandler<AspicMeltingRecipe> handler=new RecipeHandler<>(t->{
+		ItemResource aspicItem=items.getResource(INGREDIENT);
+		ItemResource container=items.getResource(CONTAINER);
+		ItemResource fuel=items.getResource(FUEL);
+		if(!container.isEmpty()&&!aspicItem.isEmpty()&&!fuel.isEmpty()) {
+			RecipeHolder<AspicMeltingRecipe> recipe = AspicMeltingRecipe.find(aspicItem);
+			if (recipe != null&&recipe.id().identifier().equals(t)) {
+				try(Transaction trans=Transaction.openRoot()){
+					int aspicCount=items.extract(INGREDIENT, aspicItem, 1, trans);
+					int containerCount=items.extract(CONTAINER, container, 1, trans);
+					int fuelCount=items.extract(FUEL, fuel, 1, trans);
+					if(aspicCount>0&&containerCount>0&&fuelCount>0) {
+						FluidStack fluid=recipe.value().handle(aspicItem.toStack(aspicCount));
+						ItemResource rs=Utils.contain(container, FluidResource.of(fluid), fluid.amount()).getOutput();
+						int filled=items.insert(OUT, rs, 1, trans);
+						if(filled>0) {
+							trans.commit();
+							return RecipeHandleStatus.SUCCEED;
+						}else {
+							return RecipeHandleStatus.BLOCKED;
+						}
+					}
+					
+				}
+			}
+		}
+		return RecipeHandleStatus.FAILED;
+	});
 
 	/**
 	 * @param data  
@@ -86,10 +116,10 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 	public PortableBrazierContainer(int id, Inventory playerInventory) {
 		super(CPGui.BRAZIER.get(), id);
 		this.player = playerInventory.player;
-		this.addSlot(new SlotItemHandler(items, INGREDIENT, 44, 11));
-		this.addSlot(new SlotItemHandler(items, CONTAINER, 74, 11));
-		this.addSlot(new SlotItemHandler(items, FUEL, 74, 44));
-		addSlot(new OutputSlot(items, OUT, 104, 11));
+		this.addSlot(new ResourceHandlerSlot(items,items::set, INGREDIENT, 44, 11));
+		this.addSlot(new ResourceHandlerSlot(items,items::set, CONTAINER, 74, 11));
+		this.addSlot(new ResourceHandlerSlot(items,items::set, FUEL, 74, 44));
+		addSlot(new OutputSlot(items,items::set, OUT, 104, 11));
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 9; j++)
 				addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 83 + i * 18));
@@ -99,10 +129,13 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 	}
 
 	private void sendUpdate() {
-
-		CompoundTag tag = new CompoundTag();
-		tag.putInt("process", process);
-		tag.putInt("processMax", processMax);
+		CompoundTag tag;
+		try(ProblemReporter.ScopedCollector rp=SerializeUtil.reporter()){
+			TagValueOutput tvo=TagValueOutput.createWithContext(rp, this.player.registryAccess());
+			handler.writeCustomNBT(tvo, true);
+			tag=tvo.buildResult();
+		}
+		
 		sendMessage(tag);
 	}
 
@@ -113,27 +146,15 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 		super.removed(pPlayer);
 
 		if (!pPlayer.isAlive() || pPlayer instanceof ServerPlayer && ((ServerPlayer) pPlayer).hasDisconnected()) {
-			for (int j = 0; j < items.getSlots(); ++j) {
-				pPlayer.drop(items.getStackInSlot(j), false);
+			for (int j = 0; j < items.size(); ++j) {
+				pPlayer.drop(items.getResource(j).toStack(items.getAmountAsInt(j)), false);
 			}
-			if (!bowl.isEmpty())
-				pPlayer.drop(bowl, false);
-			if (!aspic.isEmpty())
-				pPlayer.drop(aspic, false);
-			if (!out.isEmpty())
-				pPlayer.drop(out, false);
 		} else {
 			Inventory inventory = pPlayer.getInventory();
 			if (inventory.player instanceof ServerPlayer) {
-				for (int i = 0; i < items.getSlots(); ++i) {
-					inventory.placeItemBackInInventory(items.getStackInSlot(i));
+				for (int i = 0; i < items.size(); ++i) {
+					inventory.placeItemBackInInventory(items.getResource(i).toStack(items.getAmountAsInt(i)));
 				}
-				if (!bowl.isEmpty())
-					inventory.placeItemBackInInventory(bowl);
-				if (!aspic.isEmpty())
-					inventory.placeItemBackInInventory(aspic);
-				if (!out.isEmpty())
-					inventory.placeItemBackInInventory(out);
 			}
 		}
 
@@ -186,47 +207,31 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 		return itemStack;
 
 	}
-
+	private RecipeHolder<AspicMeltingRecipe> testRecipe() {
+		if(items.getAmountAsInt(CONTAINER)>0&&items.getAmountAsInt(INGREDIENT)>0&&items.getAmountAsInt(FUEL)>0) {
+			
+			ItemResource aspicItem=items.getResource(INGREDIENT);
+			if(!aspicItem.isEmpty()) {
+				RecipeHolder<AspicMeltingRecipe> recipe=AspicMeltingRecipe.find(aspicItem);
+				ItemResource container=items.getResource(CONTAINER);
+				if(recipe!=null) {
+					FluidStack fluid=recipe.value().handle(aspicItem.toStack(items.getAmountAsInt(INGREDIENT)));
+					ItemResource rs=Utils.contain(container, FluidResource.of(fluid), fluid.amount()).getOutput();
+					if(!rs.isEmpty())
+						return recipe;
+				}
+			}
+		}
+		return null;
+	}
 	@Override
 	public void tick(boolean isServer) {
 		if (isServer) {
-			if (processMax > 0) {
-				process++;
-				if (process >= processMax) {
-					out = Utils.insertToOutput(items, OUT, pout);
-					process = 0;
-					processMax = 0;
-					bowl = ItemStack.EMPTY;
-					aspic = ItemStack.EMPTY;
-					pout = ItemStack.EMPTY;
-				}
+			if(handler.shouldTestRecipe()) {
+				handler.setRecipe(testRecipe());
+			}
+			if (handler.tickProcess(1)) {
 				sendUpdate();
-			}
-			if (!out.isEmpty()) {
-				out = Utils.insertToOutput(items, OUT, out);
-				return;
-			}
-			if (processMax == 0 && items.getStackInSlot(OUT).isEmpty() && !items.getStackInSlot(CONTAINER).isEmpty()
-					&& items.getStackInSlot(FUEL).is(Items.PORTABLE_BRAZIER_FUEL_TYPE)) {
-				AspicMeltingRecipe recipe = AspicMeltingRecipe.find(items.getStackInSlot(INGREDIENT));
-				if (recipe != null) {
-					FluidStack simulated=new FluidStack(recipe.fluid,250);
-					List<RecipeHolder<BowlContainingRecipe>> recipeList=null;
-					FluidStack fluid=Utils.extractFluid(items.getStackInSlot(CONTAINER));
-					if(fluid.getAmount()==250&&fluid.is(Fluids.WATER))
-						recipeList=BowlContainingRecipe.getRecipes(items.getStackInSlot(CONTAINER).getCraftingRemainingItem());
-					if(recipeList!=null) {
-						RecipeHolder<BowlContainingRecipe> recipe2 = recipeList.stream().filter(t->t.value().matches(simulated)).findFirst().orElse(null);
-						if (recipe2 != null) {
-							this.processMax = recipe.time;
-							this.process = 0;
-							bowl = items.getStackInSlot(CONTAINER).split(1);
-							aspic = items.getStackInSlot(INGREDIENT).split(1);
-							items.getStackInSlot(FUEL).shrink(1);
-							pout = recipe2.value().handle(recipe.handle(aspic));
-						}
-					}
-				}
 			}
 		}
 	}
@@ -238,8 +243,8 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 
 	@Override
 	public void handle(CompoundTag nbt) {
-
-		process = nbt.getInt("process");
-		processMax = nbt.getInt("processMax");
+		try(ProblemReporter.ScopedCollector rp=SerializeUtil.reporter()){
+			handler.readCustomNBT(TagValueInput.create(rp, this.player.registryAccess(), nbt), true);
+		}
 	}
 }

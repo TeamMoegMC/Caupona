@@ -28,7 +28,7 @@ import com.teammoeg.caupona.container.OutputSlot;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 
 public class DoliumContainer extends CPBaseContainer<CounterDoliumBlockEntity> {
 
@@ -38,12 +38,12 @@ public class DoliumContainer extends CPBaseContainer<CounterDoliumBlockEntity> {
 
 	public DoliumContainer(int id, Inventory inv, CounterDoliumBlockEntity blockEntity) {
 		super(CPGui.DOLIUM.get(),blockEntity, id,6);
-		this.addSlot(new SlotItemHandler(blockEntity.inv, 0, 153, 4));
-		this.addSlot(new SlotItemHandler(blockEntity.inv, 1, 134, 8));
-		this.addSlot(new SlotItemHandler(blockEntity.inv, 2, 115, 12));
-		this.addSlot(new SlotItemHandler(blockEntity.inv, 3, 132, 35));
-		this.addSlot(new SlotItemHandler(blockEntity.inv, 4, 132, 53));
-		this.addSlot(new OutputSlot(blockEntity.inv, 5, 152, 51));
+		this.addSlot(new ResourceHandlerSlot(blockEntity.inv,blockEntity.inv::set, 0, 153, 4));
+		this.addSlot(new ResourceHandlerSlot(blockEntity.inv,blockEntity.inv::set, 1, 134, 8));
+		this.addSlot(new ResourceHandlerSlot(blockEntity.inv,blockEntity.inv::set, 2, 115, 12));
+		this.addSlot(new ResourceHandlerSlot(blockEntity.inv,blockEntity.inv::set, 3, 132, 35));
+		this.addSlot(new ResourceHandlerSlot(blockEntity.inv,blockEntity.inv::set, 4, 132, 53));
+		this.addSlot(new OutputSlot(blockEntity.inv,blockEntity.inv::set, 5, 152, 51));
 		addPlayerInventory(inv,8,83,141);
 	}
 	@Override

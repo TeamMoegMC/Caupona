@@ -96,11 +96,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FenceBlock;
-import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
@@ -219,7 +216,7 @@ public class CPBlocks {
 				.isViewBlocking(CPBlocks::isntSolid), CPBlockEntityTypes.BOWL));
 	
 	public static final DeferredHolder<Block,MosaicBlock> MOSAIC = baseblock("mosaic",
-			() -> new MosaicBlock(getStoneProps()),b->new MosaicItem(CPItems.createProps()));
+			() -> new MosaicBlock(getStoneProps()),_->new MosaicItem(CPItems.createProps()));
 	public static final DeferredHolder<Block,SilphiumBlock> SILPHIUM = mainblock("silphium_block",
 			() -> new SilphiumBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollision()
 					.instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).ignitedByLava()

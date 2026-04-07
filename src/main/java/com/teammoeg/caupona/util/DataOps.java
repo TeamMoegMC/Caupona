@@ -85,7 +85,7 @@ public class DataOps implements DynamicOps<Object> {
 
 		@Override
 		public LBuilder withErrorsFrom(final DataResult<?> result) {
-			list = list.flatMap(r -> result.map(v -> r));
+			list = list.flatMap(r -> result.map(_ -> r));
 			return this;
 		}
 	}
@@ -144,7 +144,7 @@ public class DataOps implements DynamicOps<Object> {
 
 		@Override
 		public MBuilder withErrorsFrom(final DataResult<?> result) {
-			map.flatMap(v -> result.map(r -> v));
+			map.flatMap(v -> result.map(_ -> v));
 			return this;
 		}
 	}
@@ -521,14 +521,14 @@ public class DataOps implements DynamicOps<Object> {
 	@Override
 	public Object update(Object input, String key, Function<Object, Object> function) {
 		DataResult<Map<Object,Object>> ret= castToMap(input);
-		ret.result().ifPresent(t->t.compute(key, (k,v)->function.apply(v==null?NULLTAG:v)));
+		ret.result().ifPresent(t->t.compute(key, (_,v)->function.apply(v==null?NULLTAG:v)));
 		return ret;
 	}
 
 	@Override
 	public Object updateGeneric(Object input, Object key, Function<Object, Object> function) {
 		DataResult<Map<Object,Object>> ret= castToMap(input);
-		ret.result().ifPresent(t->t.compute(key, (k,v)->function.apply(v==null?NULLTAG:v)));
+		ret.result().ifPresent(t->t.compute(key, (_,v)->function.apply(v==null?NULLTAG:v)));
 		return ret;
 	}
 

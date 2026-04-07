@@ -42,28 +42,25 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class FoodValueRecipe extends IDataRecipe {
 	public static Map<Item, FoodValueRecipe> recipes;
-	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<FoodValueRecipe>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<FoodValueRecipe>> SERIALIZER;
 	public static Set<FoodValueRecipe> recipeset;
 
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<FoodValueRecipe> getSerializer() {
 		return SERIALIZER.get();
 	}
 
 	@Override
-	public RecipeType<?> getType() {
+	public RecipeType<FoodValueRecipe> getType() {
 		return TYPE.get();
 	}
 
@@ -71,18 +68,18 @@ public class FoodValueRecipe extends IDataRecipe {
 	public float sat;
 	public List<ChancedEffect> effects;
 	public final Map<Item, Integer> processtimes;
-	private ItemStack repersent;
+	private ItemStack repersent=ItemStack.EMPTY;
 	public transient Set<Identifier> tags;
 	public static final MapCodec<FoodValueRecipe> CODEC=
 		RecordCodecBuilder.mapCodec(t->t.group(
 			Codec.INT.fieldOf("heal").forGetter(o->o.heal),
 			Codec.FLOAT.fieldOf("sat").forGetter(o->o.sat),
 			
-			Codec.optionalField("effects",Codec.list(FoodProperties.PossibleEffect.CODEC),false).forGetter(o->Optional.ofNullable(o.effects)),
+			Codec.optionalField("effects",Codec.list(ChancedEffect.CODEC),false).forGetter(o->Optional.ofNullable(o.effects)),
 			Codec.list(Utils.pairCodec("item",BuiltInRegistries.ITEM.byNameCodec(), "time", Codec.INT)).fieldOf("items").forGetter(o->o.getProcessTime()),
-			Ingredient.CODEC.fieldOf("item").forGetter(o->Ingredient.of(o.repersent))
+			ItemStack.CODEC.fieldOf("item").forGetter(o->o.repersent)
 				).apply(t, FoodValueRecipe::new));
-	public FoodValueRecipe(int heal, float sat,Optional<List<FoodProperties.PossibleEffect>> effects, List<Pair<Item, Integer>> processtimes, Ingredient repersent) {
+	public FoodValueRecipe(int heal, float sat,Optional<List<ChancedEffect>> effects, List<Pair<Item, Integer>> processtimes, ItemStack repersent) {
 		super();
 		this.heal = heal;
 		this.sat = sat;
@@ -91,8 +88,7 @@ public class FoodValueRecipe extends IDataRecipe {
 		for(Pair<Item, Integer> i:processtimes) {
 			this.processtimes.put(i.getFirst(), i.getSecond());
 		}
-		if(!repersent.isEmpty())
-		this.repersent = repersent.getItems()[0];
+		this.repersent = repersent;
 	}
 	public List<Pair<Item, Integer>> getProcessTime(){
 		return processtimes.entrySet().stream().map(t->Pair.of(t.getKey(),t.getValue())).toList();
@@ -139,7 +135,7 @@ public class FoodValueRecipe extends IDataRecipe {
 	
 		if (tags == null)
 			tags = processtimes.keySet().stream()
-					.flatMap(i -> BuiltInRegistries.ITEM.getHolder(BuiltInRegistries.ITEM.getId(i)).map(Holder<Item>::tags).orElseGet(Stream::empty).map(TagKey::location))
+					.flatMap(i -> BuiltInRegistries.ITEM.get(BuiltInRegistries.ITEM.getId(i)).map(Holder<Item>::tags).orElseGet(Stream::empty).map(TagKey::location))
 					.filter(CountingTags.tags::contains).collect(Collectors.toSet());
 		return tags;
 	}
@@ -152,7 +148,7 @@ public class FoodValueRecipe extends IDataRecipe {
 		if (repersent != null)
 			this.repersent = repersent.copy();
 		else
-			this.repersent = null;
+			this.repersent = ItemStack.EMPTY;
 	}
 
 

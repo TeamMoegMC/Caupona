@@ -30,6 +30,7 @@ import com.teammoeg.caupona.util.FloatemStack;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 
@@ -75,7 +76,7 @@ public class ImmutableStewInfo extends StewInfo {
 		throw new UnsupportedOperationException();
 	}
 	@Override
-	public boolean addSpice(MobEffectInstance spice, ItemStack im) {
+	public boolean addSpice(MobEffectInstance spice, Item im) {
 		throw new UnsupportedOperationException();
 	}
 	

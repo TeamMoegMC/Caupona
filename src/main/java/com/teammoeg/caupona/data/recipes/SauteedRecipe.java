@@ -39,7 +39,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -64,8 +63,8 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 	public static Set<CookIngredients> cookables;
 	public static Set<Ingredient> bowls;
 	public static List<RecipeHolder<SauteedRecipe>> sorted;
-	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<SauteedRecipe>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<SauteedRecipe>> SERIALIZER;
 	public static boolean isCookable(ItemStack stack) {
 		FloatemTagStack s = new FloatemTagStack(stack);
 		return stack.is(Items.COOKABLE) || cookables.stream().anyMatch(e -> e.fits(s));
@@ -79,12 +78,12 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 		return false;
 	}
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<SauteedRecipe> getSerializer() {
 		return SERIALIZER.get();
 	}
 
 	@Override
-	public RecipeType<?> getType() {
+	public RecipeType<SauteedRecipe> getType() {
 		return TYPE.get();
 	}
 

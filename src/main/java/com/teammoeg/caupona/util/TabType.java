@@ -35,7 +35,7 @@ public class TabType implements Predicate<ResourceKey<CreativeModeTab>>{
 	public static final TabType DECORATION=new TabType(e->e.equals(CPMain.decoration.getKey()));
 	public static final TabType MAIN_AND_DECORATION=new TabType(e->e.equals(CPMain.main.getKey())||e.equals(CPMain.decoration.getKey()));
 	public static final TabType MAIN_AND_TRANSPORTATION=new TabType(e->e.equals(CPMain.main.getKey())||e.equals(CreativeModeTabs.TOOLS_AND_UTILITIES));
-	public static final TabType HIDDEN=new TabType(e->false);
+	public static final TabType HIDDEN=new TabType(_->false);
 	private final Predicate<ResourceKey<CreativeModeTab>> predicate;
 
 	public TabType(Predicate<ResourceKey<CreativeModeTab>> predicate) {

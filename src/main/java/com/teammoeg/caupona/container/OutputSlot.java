@@ -22,12 +22,15 @@
 package com.teammoeg.caupona.container;
 
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.transfer.IndexModifier;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 
-public class OutputSlot extends SlotItemHandler {
-	public OutputSlot(IItemHandler inventoryIn, int index, int xPosition, int yPosition) {
-		super(inventoryIn, index, xPosition, yPosition);
+public class OutputSlot extends ResourceHandlerSlot {
+
+	public OutputSlot(ResourceHandler<ItemResource> handler, IndexModifier<ItemResource> slotModifier, int index, int xPosition, int yPosition) {
+		super(handler, slotModifier, index, xPosition, yPosition);
 	}
 
 	@Override

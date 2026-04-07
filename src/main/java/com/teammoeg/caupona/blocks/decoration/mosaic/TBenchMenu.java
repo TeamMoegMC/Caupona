@@ -301,14 +301,13 @@ public class TBenchMenu extends CPBaseContainer<BlockEntity> {
 	public void removed(Player pPlayer) {
 		super.removed(pPlayer);
 		this.resultContainer.removeItemNoUpdate(1);
-		this.access.execute((p_40313_, p_40314_) -> {
+		this.access.execute((_, _) -> {
 			this.clearContainer(pPlayer, this.container);
 		});
 	}
 
 	@Override
 	public boolean quickMoveIn(ItemStack slotStack) {
-		// TODO Auto-generated method stub
 		return this.moveItemStackTo(slotStack, 0, 3, false);
 	}
 }

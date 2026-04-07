@@ -38,7 +38,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 public class SkimmerItem extends CPItem {
 
@@ -70,7 +69,7 @@ public class SkimmerItem extends CPItem {
 					 int amt=Mth.floor(reduced);
 					 if(context.getPlayer().getRandom().nextFloat()<frac)
 						 amt++;
-					 ItemHandlerHelper.giveItemToPlayer(context.getPlayer(), new ItemStack(CPItems.scraps.get(),amt));
+					 context.getPlayer().getInventory().placeItemBackInInventory( new ItemStack(CPItems.scraps.get(),amt));
 					 return InteractionResult.SUCCESS;
 				 }
 				 

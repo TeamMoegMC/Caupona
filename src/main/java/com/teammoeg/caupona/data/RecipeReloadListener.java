@@ -22,7 +22,6 @@
 package com.teammoeg.caupona.data;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -57,7 +56,6 @@ import com.teammoeg.caupona.data.recipes.conditions.Conditions;
 import com.teammoeg.caupona.data.recipes.numbers.Numbers;
 import com.teammoeg.caupona.util.ChancedEffect;
 
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.ReloadableServerResources;
@@ -74,7 +72,6 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.crafting.SmokingRecipe;
-import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
@@ -182,12 +179,12 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 		BaseConditions.clearCache();
 		BowlContainingRecipe.recipes=new HashMap<>();
 		filterRecipes(recipes, BowlContainingRecipe.class, BowlContainingRecipe.TYPE)
-			.forEach(o->BowlContainingRecipe.recipes.computeIfAbsent(o.value().inBowl, n->new ArrayList<>()).add(o));
+			.forEach(o->BowlContainingRecipe.recipes.computeIfAbsent(o.value().inBowl, _->new ArrayList<>()).add(o));
 
 		FoodValueRecipe.recipes = filterRecipes(recipes, FoodValueRecipe.class, FoodValueRecipe.TYPE)
 				.flatMap(t -> t.value().processtimes.keySet().stream().map(i -> new Pair<>(i, t.value())))
 				.collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
-		List<SmokingRecipe> irs = recipeManager.getAllRecipesFor(RecipeType.SMOKING).stream().map(t->t.value()).toList();
+		List<SmokingRecipe> irs = recipeManager.recipeMap().byType(RecipeType.SMOKING).stream().map(t->t.value()).toList();
 
 		DissolveRecipe.recipes = filterRecipes(recipes, DissolveRecipe.class, DissolveRecipe.TYPE)
 				.collect(Collectors.toList());
@@ -195,7 +192,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 		BoilingRecipe.recipes = filterRecipes(recipes, BoilingRecipe.class, BoilingRecipe.TYPE)
 				.collect(Collectors.toList());
 		BoilingRecipe.allBoilables=BoilingRecipe.recipes.stream().flatMap(t->
-		Stream.concat(Arrays.stream(t.value().before.getStacks()).map(fs->fs.getFluid()),Stream.of(t.value().after))).collect(Collectors.toSet());
+		Stream.concat(t.value().before.fluids().stream().map(fs->fs.value()),Stream.of(t.value().after))).collect(Collectors.toSet());
 		FluidFoodValueRecipe.recipes = filterRecipes(recipes, FluidFoodValueRecipe.class, FluidFoodValueRecipe.TYPE)
 				.collect(Collectors.toMap(e -> e.value().f, UnaryOperator.identity()));
 		StewCookingRecipe.sorted = filterRecipes(recipes, StewCookingRecipe.class, StewCookingRecipe.TYPE).collect(Collectors.toList());
@@ -247,7 +244,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 
 	@SuppressWarnings("unchecked")
 	static <R extends Recipe<?>> Stream<RecipeHolder<R>> filterRecipes(Collection<RecipeHolder<?>> recipes, Class<R> class1,
-			DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> recipeType) {
+			DeferredHolder<RecipeType<?>,RecipeType<R>> recipeType) {
 		return recipes.stream().filter(iRecipe -> iRecipe.value().getType() == recipeType.get()).map(t->(RecipeHolder<R>)t);
 	}
 }

@@ -34,7 +34,7 @@ import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 
 public class SpicedFoodInfo{
 	public MobEffectInstance spice;
@@ -66,7 +66,7 @@ public class SpicedFoodInfo{
 	}
 	
 	
-	public boolean addSpice(MobEffectInstance spice, ItemStack im) {
+	public boolean addSpice(MobEffectInstance spice, Item im) {
 		if (this.spice != null)
 			return false;
 		this.spice = new MobEffectInstance(spice);

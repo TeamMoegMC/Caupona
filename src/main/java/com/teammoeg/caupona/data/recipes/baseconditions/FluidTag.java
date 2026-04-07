@@ -73,7 +73,7 @@ public class FluidTag implements StewBaseCondition {
 	}
 */
 	public FluidTag(FriendlyByteBuf buffer) {
-		f = FluidTags.create(buffer.readResourceLocation());
+		f = FluidTags.create(buffer.readIdentifier());
 	}
 
 	@Override

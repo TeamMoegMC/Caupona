@@ -18,7 +18,7 @@ public final class FluidItemWrapper extends ItemAccessResourceHandler<FluidResou
     protected FluidResource getResourceFrom(ItemResource accessResource, int index) {
     	ItemHoldedFluidData comp=accessResource.get(CPCapability.ITEM_FLUID);
         if (comp!=null) {
-            return FluidResource.of(comp.fluidType());
+            return comp.fluidType();
         }else {
             return FluidResource.EMPTY;
         }
@@ -37,8 +37,7 @@ public final class FluidItemWrapper extends ItemAccessResourceHandler<FluidResou
         } else if (newAmount != 250) {
             return ItemResource.EMPTY;
         } else {
-            var newStack = newResource.toStack(newAmount);
-            return ItemResource.of(newStack.getFluidType().getBucket(newStack));
+            return Utils.contain(accessResource, newResource, newAmount).getOutput();
         }
     }
 

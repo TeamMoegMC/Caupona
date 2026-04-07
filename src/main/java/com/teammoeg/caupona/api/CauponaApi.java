@@ -40,6 +40,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class CauponaApi {
@@ -87,18 +88,21 @@ public class CauponaApi {
 		FluidResource rs=handler.getResource(0);
 		try(Transaction ctx=Transaction.openRoot()){
 			int amt = handler.extract(rs,250, ctx);
-			ContanerContainFoodEvent ev=Utils.contain(in,rs.toStack(amt),true);
+			ContanerContainFoodEvent ev=Utils.contain(ItemResource.of(in),rs,amt);
 			if (ev.isAllowed()) {
 				ctx.commit();
-				return Optional.of(ev.out);
+				return Optional.of(ev.getOutput().toStack());
 			}
 			return Optional.empty();
 		}
 	}
 	public static Optional<ItemStack> getFilledItemStack(FluidStack stack,ItemStack in) {
-		ContanerContainFoodEvent ev=Utils.contain(in, stack,false);
-		if (ev.isAllowed())
-			return Optional.of(ev.out);
+		
+		ContanerContainFoodEvent ev=Utils.contain(ItemResource.of(in),FluidResource.of(stack),stack.amount());
+		if (ev.isAllowed()) {
+			return Optional.of(ev.getOutput().toStack());
+		}
+		
 		return Optional.empty();
 		
 	}
@@ -125,10 +129,11 @@ public class CauponaApi {
 	}
 
 	public static Optional<ItemStack> getBlockFilledItemStack(Fluid f, ItemStack is) {
-		FluidStack stack=new FluidStack(f,250);
-		ContanerContainFoodEvent ev=Utils.containBlock(is, stack);
-		if (ev.isAllowed())
-			return Optional.of(ev.out);
+		ContanerContainFoodEvent ev=Utils.containBlock(ItemResource.of(is), FluidResource.of(f), 250);
+		if (ev.isAllowed()) {
+			return Optional.of(ev.getOutput().toStack());
+		}
+		
 		return Optional.empty();
 	}
 }

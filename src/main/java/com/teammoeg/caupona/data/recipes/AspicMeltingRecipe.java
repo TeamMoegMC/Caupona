@@ -33,18 +33,18 @@ import com.teammoeg.caupona.data.IDataRecipe;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
-public class AspicMeltingRecipe extends IDataRecipe {
+public class AspicMeltingRecipe extends IDataRecipe implements TimedRecipe {
 	public static List<RecipeHolder<AspicMeltingRecipe>> recipes;
-	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<AspicMeltingRecipe>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<AspicMeltingRecipe>> SERIALIZER;
 	public static final MapCodec<AspicMeltingRecipe> CODEC=
 			RecordCodecBuilder.mapCodec(t->t.group(
 					Ingredient.CODEC.fieldOf("aspic").forGetter(o->o.aspic),
@@ -52,12 +52,12 @@ public class AspicMeltingRecipe extends IDataRecipe {
 					Codec.INT.fieldOf("amount").forGetter(o->o.amount),
 					Codec.INT.fieldOf("time").forGetter(o->o.time)).apply(t, AspicMeltingRecipe::new));
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<AspicMeltingRecipe> getSerializer() {
 		return SERIALIZER.get();
 	}
 
 	@Override
-	public RecipeType<?> getType() {
+	public RecipeType<AspicMeltingRecipe> getType() {
 		return TYPE.get();
 	}
 
@@ -106,8 +106,14 @@ public class AspicMeltingRecipe extends IDataRecipe {
 		return si;
 	}
 
-	public static AspicMeltingRecipe find(ItemStack aspic) {
-		return recipes.stream().map(t->t.value()).filter(t -> t.aspic.test(aspic)).findFirst().orElse(null);
+	public static RecipeHolder<AspicMeltingRecipe> find(ItemResource aspic) {
+		ItemStack aspicStack=aspic.toStack();
+		return recipes.stream().map(t->t).filter(t -> t.value().aspic.test(aspicStack)).findFirst().orElse(null);
 
+	}
+
+	@Override
+	public int getTime() {
+		return time;
 	}
 }

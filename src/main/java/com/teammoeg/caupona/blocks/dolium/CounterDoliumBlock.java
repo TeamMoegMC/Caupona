@@ -21,38 +21,35 @@
 
 package com.teammoeg.caupona.blocks.dolium;
 
+import java.util.List;
+
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
-import com.teammoeg.caupona.util.Utils;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.storage.loot.LootParams.Builder;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
-public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlockEntity> implements LiquidBlockContainer {
+public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlockEntity> {
 
 	public CounterDoliumBlock(Properties p) {
 		super(CPBlockEntityTypes.DOLIUM, p);
@@ -78,33 +75,23 @@ public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlo
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return shape;
 	}
-
+	@Override
 	public VoxelShape getVisualShape(BlockState pState, BlockGetter pReader, BlockPos pPos, CollisionContext pContext) {
 		return Shapes.empty();
 	}
 	@Override
-	public ItemInteractionResult useItemOn(ItemStack held,BlockState state, Level worldIn, BlockPos pos, Player player,InteractionHand hand,
+	public InteractionResult useItemOn(ItemStack held,BlockState state, Level worldIn, BlockPos pos, Player player,InteractionHand hand,
 			BlockHitResult hit) {
-		ItemInteractionResult p = super.useItemOn(held,state, worldIn, pos, player, hand, hit);
+		InteractionResult p = super.useItemOn(held,state, worldIn, pos, player, hand, hit);
 		if (p.consumesAction())
 			return p;
 		if(worldIn.getBlockEntity(pos) instanceof CounterDoliumBlockEntity dolium) {
 			if (held.isEmpty() && player.isShiftKeyDown()) {
-				dolium.tank.setFluid(FluidStack.EMPTY);
-				return ItemInteractionResult.SUCCESS;
+				dolium.tank.set(0,FluidResource.EMPTY,0);
+				return InteractionResult.SUCCESS;
 			}
-			FluidStack out=Utils.extractFluid(held);
-			if (!out.isEmpty()) {
-				if (dolium.tryAddFluid(out)) {
-					ItemStack ret = held.getCraftingRemainingItem();
-					held.shrink(1);
-					if (!player.addItem(ret))
-						player.drop(ret, false);
-				}
-				return ItemInteractionResult.sidedSuccess(worldIn.isClientSide);
-			}
-			if (FluidUtil.interactWithFluidHandler(player, hand, dolium.tank))
-				return ItemInteractionResult.SUCCESS;
+			if (FluidUtil.interactWithFluidHandler(player, hand, pos, dolium.modtank))
+				return InteractionResult.SUCCESS;
 		}
 		return p;
 	}
@@ -115,39 +102,29 @@ public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlo
 		if (p.consumesAction())
 			return p;
 		if(worldIn.getBlockEntity(pos) instanceof CounterDoliumBlockEntity dolium) {
-				if (!worldIn.isClientSide&&(player.getAbilities().instabuild||!dolium.isInfinite))
+				if (!worldIn.isClientSide()&&(player.getAbilities().instabuild||!dolium.isInfinite))
 					((ServerPlayer) player).openMenu(dolium, dolium.getBlockPos());
 				
 		}
-		return InteractionResult.sidedSuccess(worldIn.isClientSide);
+		return InteractionResult.SUCCESS;
 	}
 
-	@Override
-	public boolean canPlaceLiquid(Player ps,BlockGetter w, BlockPos p, BlockState s, Fluid f) {
-		if(w.getBlockEntity(p) instanceof CounterDoliumBlockEntity dolium)
-			return dolium.tank.fill(new FluidStack(f, 1000), FluidAction.SIMULATE) == 1000;
-		return false;
-	}
 
 	@Override
-	public boolean placeLiquid(LevelAccessor w, BlockPos p, BlockState s, FluidState f) {
-		if(w.getBlockEntity(p) instanceof CounterDoliumBlockEntity dolium)
-		if (dolium.tryAddFluid(new FluidStack(f.getType(), 1000)))
-			return true;
-		return false;
-	}
-
-	@Override
-	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (state.getBlock() != newState.getBlock() && worldIn.getBlockEntity(pos) instanceof CounterDoliumBlockEntity dolium) {
+	protected List<ItemStack> getDrops(BlockState p_state, Builder p_params) {
+		List<ItemStack> list=super.getDrops(p_state, p_params);
+		if (p_params.getParameter(LootContextParams.BLOCK_ENTITY) instanceof CounterDoliumBlockEntity dolium) {
 			for (int i = 0; i < 6; i++) {
-				ItemStack is = dolium.inv.getStackInSlot(i);
-				if (!is.isEmpty())
-					super.popResource(worldIn, pos, is);
+				ItemResource is = dolium.inv.getResource(i);
+				if (!is.isEmpty()) {
+					list.add(is.toStack(dolium.inv.getAmountAsInt(i)));
+				}
 			}
 		}
-		super.onRemove(state, worldIn, pos, newState, isMoving);
+		return list;
 	}
+
+
 	@Override
 	public boolean isPathfindable(BlockState pState, PathComputationType pType) {
 	      return false;

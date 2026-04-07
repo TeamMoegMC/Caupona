@@ -21,7 +21,6 @@
 
 package com.teammoeg.caupona.util;
 
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import com.mojang.serialization.Codec;
@@ -30,7 +29,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 

@@ -21,7 +21,6 @@
 
 package com.teammoeg.caupona.data.recipes.numbers;
 
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -120,7 +119,7 @@ public class ItemIngredient implements CookIngredients {
 
 	@Override
 	public Stream<ItemStack> getStacks() {
-		return Arrays.stream(i.getItems());
+		return i.getValues().stream().map(ItemStack::new);
 	}
 
 }

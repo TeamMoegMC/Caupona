@@ -63,7 +63,7 @@ public class AddPoolLootModifier extends LootModifier{
 	@Override
 	protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot,
 			LootContext context) {
-		LootTable lt=lootTable.map(o->context.getResolver().get(Registries.LOOT_TABLE, (ResourceKey<LootTable>)o).map(Holder::value).orElse(LootTable.EMPTY),
+		LootTable lt=lootTable.map(o->context.getResolver().get((ResourceKey<LootTable>)o).map(Holder::value).orElse(LootTable.EMPTY),
 			o->o);
 		lt.getRandomItemsRaw(new LootContext.Builder(context).withQueriedLootTableId(lt.getLootTableId()).create(null),generatedLoot::add);
 		//if(context.pushVisitedElement(LootContext.createVisitedEntry(lt))) {

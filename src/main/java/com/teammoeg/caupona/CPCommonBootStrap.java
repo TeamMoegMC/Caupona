@@ -37,6 +37,7 @@ import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.entity.CPBoat;
+import com.teammoeg.caupona.item.SitulaItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.FluidItemWrapper;
@@ -77,6 +78,7 @@ import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import net.neoforged.neoforge.transfer.fluid.ItemAccessFluidHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
@@ -97,7 +99,7 @@ public class CPCommonBootStrap {
 	}
 	@SubscribeEvent
 	public static void onCapabilityInject(RegisterCapabilitiesEvent event) {
-		event.registerItem(Capabilities.Fluid.ITEM,(stack,o)->new ItemAccessFluidHandler(o,CPCapability.SIMPLE_FLUID.get(),1250), CPItems.situla.get());
+		event.registerItem(Capabilities.Fluid.ITEM,(stack,o)->new ItemAccessFluidHandler(o,CPCapability.SIMPLE_FLUID.get(),SitulaItem.MAX_CAPACITY), CPItems.situla.get());
 		//event.registerItem(Capabilities.FluidHandler.ITEM,(stack,o)->new FluidHandlerItemStack(CPCapability.SIMPLE_FLUID,stack,1250), CPItems.situla.get());
 		event.registerItem(CPCapability.FOOD_INFO,(stack,o)->stack.get(CPCapability.STEW_INFO.get()), CPItems.stews.toArray(Item[]::new));
 		event.registerItem(CPCapability.FOOD_INFO,(stack,o)->stack.get(CPCapability.SAUTEED_INFO.get()), CPItems.dish.toArray(Item[]::new));
@@ -124,7 +126,7 @@ public class CPCommonBootStrap {
 		compositables.forEach(p -> ComposterBlock.COMPOSTABLES.put(p.getFirst().get(), (float) p.getSecond()));
 	}
 
-	public static void registerDispensers() {
+	public static void registerDispensers() {/*
 		DispenserBlock.registerBehavior(Items.BOWL, new DefaultDispenseItemBehavior() {
 			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
 
@@ -368,9 +370,6 @@ public class CPCommonBootStrap {
 		DispenseItemBehavior idispenseitembehavior1 = new DefaultDispenseItemBehavior() {
 			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
 
-			/**
-			 * Dispense the specified stack, play the dispense sound and spawn particles.
-			 */
 			@Override
 			@SuppressWarnings("resource")
 			public ItemStack execute(BlockSource source, ItemStack stack) {
@@ -512,7 +511,7 @@ public class CPCommonBootStrap {
 		DispenserBlock.registerBehavior(Items.FLOWER_POT, pot);
 		for (DeferredHolder<Item,Item> i : CPItems.spicesItems) {
 			DispenserBlock.registerBehavior(i.get(), spice);
-		}
+		}*/
 	}
 
 }

@@ -104,6 +104,6 @@ public class ItemTag implements CookIngredients {
 
 	@Override
 	public Stream<ItemStack> getStacks() {
-		return BuiltInRegistries.ITEM.getTag(ItemTags.create(tag)).stream().flatMap(t->t.stream()).map(t->new ItemStack(t.value()));
+		return BuiltInRegistries.ITEM.get(ItemTags.create(tag)).stream().flatMap(t->t.stream()).map(t->new ItemStack(t.value()));
 	}
 }

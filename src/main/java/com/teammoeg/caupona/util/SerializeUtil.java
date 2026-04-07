@@ -34,12 +34,14 @@ import java.util.stream.StreamSupport;
 import javax.annotation.Nullable;
 
 import org.jspecify.annotations.NonNull;
+import org.slf4j.Logger;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
@@ -60,6 +62,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.ProblemReporter;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 /**
@@ -68,10 +71,13 @@ import net.neoforged.neoforge.fluids.FluidStack;
 public class SerializeUtil {
 	
 
+	private static final Logger LOGGER=LogUtils.getLogger();
 	private SerializeUtil() {
 
 	}
-
+	public static ProblemReporter.ScopedCollector reporter() {
+		return new ProblemReporter.ScopedCollector(new ProblemReporter.RootFieldPathElement("$"), LOGGER);
+	}
 	public static <T> Optional<T> readOptional(FriendlyByteBuf buffer, Function<FriendlyByteBuf, T> func) {
 		if (buffer.readBoolean())
 			return Optional.ofNullable(func.apply(buffer));
@@ -178,7 +184,7 @@ public class SerializeUtil {
         return map;
     }
     public static <T> void writeCodec(RegistryFriendlyByteBuf pb, Codec<T> codec, T obj) {
-    	try (RegistryAccessorStack stack=RegistryAccessor.provideRegistryAccess(pb)){
+    	try (RegistryAccessorStack _=RegistryAccessor.provideRegistryAccess(pb)){
 	    	if(!CPConfig.COMMON.compressCodecs.get()) {
 	    		DataResult<Tag> out=codec.encodeStart(NbtOps.INSTANCE, obj);
 	    		Optional<Tag> ret=out.resultOrPartial(CPMain.logger::error);
@@ -194,7 +200,7 @@ public class SerializeUtil {
     	}
     }
     public static <T> T readCodec(RegistryFriendlyByteBuf pb, Codec<T> codec) {
-    	try(RegistryAccessorStack stack=RegistryAccessor.provideRegistryAccess(pb)){
+    	try(RegistryAccessorStack _=RegistryAccessor.provideRegistryAccess(pb)){
     		;
 	    	if(!CPConfig.COMMON.compressCodecs.get()) {
 	    		DataResult<Pair<T, Tag>> ob=codec.decode(NbtOps.INSTANCE,pb.readNbt());

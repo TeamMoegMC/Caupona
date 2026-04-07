@@ -31,13 +31,12 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.components.ItemHoldedFluidData;
 import com.teammoeg.caupona.data.IDataRecipe;
-import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -45,18 +44,20 @@ import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 public class BowlContainingRecipe extends IDataRecipe {
 	public static Map<Ingredient,List<RecipeHolder<BowlContainingRecipe>>> recipes;
-	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<BowlContainingRecipe>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<BowlContainingRecipe>> SERIALIZER;
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<BowlContainingRecipe> getSerializer() {
 		return SERIALIZER.get();
 	}
 
 	@Override
-	public RecipeType<?> getType() {
+	public RecipeType<BowlContainingRecipe> getType() {
 		return TYPE.get();
 	}
 	public static List<RecipeHolder<BowlContainingRecipe>> getRecipes(ItemStack bowl){
@@ -113,10 +114,9 @@ public class BowlContainingRecipe extends IDataRecipe {
 	}*/
 
 
-	public ItemStack handle(Fluid f) {
-		ItemStack is = new ItemStack(bowl);
-		Utils.writeItemFluid(is, f);
-		return is;
+	public ItemResource handle(FluidResource f) {
+		return ItemResource.of(bowl, DataComponentPatch.builder().set(CPCapability.ITEM_FLUID.get(), new ItemHoldedFluidData(f)).build());
+
 	}
 
 	public boolean matches(FluidStack f) {
@@ -127,7 +127,7 @@ public class BowlContainingRecipe extends IDataRecipe {
 		ItemStack is = new ItemStack(bowl);
 		
 		is.applyComponents(stack.getComponents());
-		is.set(CPCapability.ITEM_FLUID, new ItemHoldedFluidData(stack.getFluid()));
+		is.set(CPCapability.ITEM_FLUID, new ItemHoldedFluidData(FluidResource.of(stack)));
 		return is;
 	}
 

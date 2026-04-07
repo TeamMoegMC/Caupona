@@ -30,7 +30,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.IDataRecipe;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -41,8 +40,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class BoilingRecipe extends IDataRecipe {
 	public static List<RecipeHolder<BoilingRecipe>> recipes;
-	public static DeferredHolder<RecipeType<?>,RecipeType<Recipe<?>>> TYPE;
-	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<?>> SERIALIZER;
+	public static DeferredHolder<RecipeType<?>,RecipeType<BoilingRecipe>> TYPE;
+	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<BoilingRecipe>> SERIALIZER;
 	public static Set<Fluid> allBoilables;
 	public FluidIngredient before;
 	public Fluid after;
@@ -53,12 +52,12 @@ public class BoilingRecipe extends IDataRecipe {
 					BuiltInRegistries.FLUID.byNameCodec().fieldOf("to").forGetter(o->o.after),
 					Codec.INT.fieldOf("time").forGetter(o->o.time)).apply(t, BoilingRecipe::new));
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<BoilingRecipe> getSerializer() {
 		return SERIALIZER.get();
 	}
 
 	@Override
-	public RecipeType<?> getType() {
+	public RecipeType<BoilingRecipe> getType() {
 		return TYPE.get();
 	}
 /*
