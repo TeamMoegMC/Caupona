@@ -28,11 +28,11 @@ import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup.Provider;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class DishBlockEntity extends CPBaseBlockEntity implements IInfinitable,IFoodContainer {
 	private ItemStack internal = ItemStack.EMPTY;
@@ -45,18 +45,21 @@ public class DishBlockEntity extends CPBaseBlockEntity implements IInfinitable,I
 	@Override
 	public void handleMessage(short type, int data) {
 	}
-
+	
 	@Override
-	public void readCustomNBT(CompoundTag nbt, boolean isClient,Provider ra) {
-		internal = ItemStack.parseOptional(ra,nbt.getCompound("bowl"));
-		isInfinite = nbt.getBoolean("inf");
+	public void readCustomNBT(ValueInput nbt, boolean isClient) {
+	
+		internal = nbt.read("bowl", ItemStack.CODEC).orElse(ItemStack.EMPTY);
+		isInfinite = nbt.getBooleanOr("inf",false);
 	}
 
 	@Override
-	public void writeCustomNBT(CompoundTag nbt, boolean isClient,Provider ra) {
-		nbt.put("bowl", internal.saveOptional(ra));
+	public void writeCustomNBT(ValueOutput nbt, boolean isClient) {
+		if(!internal.isEmpty())
+			nbt.store("bowl", ItemStack.CODEC, internal);
 		nbt.putBoolean("inf", isInfinite);
 	}
+
 
 	@Override
 	public void tick() {

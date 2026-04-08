@@ -61,9 +61,9 @@ public class PanBlock extends CPHorizontalEntityBlock<PanBlockEntity> {
 			return p;
 		PanBlockEntity blockEntity = (PanBlockEntity) worldIn.getBlockEntity(pos);
 		
-		if (blockEntity != null && !worldIn.isClientSide)
+		if (blockEntity != null && !worldIn.isClientSide())
 			((ServerPlayer) player).openMenu( blockEntity, blockEntity.getBlockPos());
-		return InteractionResult.sidedSuccess(worldIn.isClientSide);
+		return InteractionResult.sidedSuccess(worldIn.isClientSide());
 	}
 
 	@Override

@@ -33,6 +33,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public abstract class BathHeatingBlockEntity extends CPBaseBlockEntity {
 	private double rate;
@@ -69,12 +71,12 @@ public abstract class BathHeatingBlockEntity extends CPBaseBlockEntity {
 	}
 
 	@Override
-	public void readCustomNBT(CompoundTag nbt, boolean isClient, HolderLookup.Provider registries) {
-		heat = nbt.getInt("bathHeat");
+	public void readCustomNBT(ValueInput nbt, boolean isClient) {
+		heat = nbt.getIntOr("bathHeat",0);
 	}
 
 	@Override
-	public void writeCustomNBT(CompoundTag nbt, boolean isClient, HolderLookup.Provider registries) {
+	public void writeCustomNBT(ValueOutput nbt, boolean isClient) {
 		nbt.putInt("bathHeat", heat);
 	}
 
@@ -86,10 +88,10 @@ public abstract class BathHeatingBlockEntity extends CPBaseBlockEntity {
 	}
 	protected boolean isInWater(Player p) {
 		if(water)return true;
-		if(p.isInWaterOrBubble())return true;
+		if(p.isInWater())return true;
 		Entity e=p.getVehicle();
 		while(e!=null) {
-			if(e.isInWaterOrBubble())return true;
+			if(e.isInWater())return true;
 			e=p.getVehicle();
 		}
 		return false;
@@ -97,9 +99,9 @@ public abstract class BathHeatingBlockEntity extends CPBaseBlockEntity {
 	@SuppressWarnings("resource")
 	@Override
 	public void tick() {
-		if(level.isClientSide)return;
+		if(level.isClientSide())return;
 		int heat = getHeat();
-		if (val > 0 && heat > 0 && this.level.random.nextDouble() < rate
+		if (val > 0 && heat > 0 && this.level.getRandom().nextDouble() < rate
 				&& this.getLevel().getFluidState(this.getBlockPos().above()).is(FluidTags.WATER)) {
 			int posX = this.getBlockPos().getX();
 			int posY = this.getBlockPos().getY();

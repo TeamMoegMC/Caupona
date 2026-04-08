@@ -29,6 +29,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class ChimneyPotBlockEntity extends CPBaseBlockEntity {
 	private int process;
@@ -47,13 +49,13 @@ public class ChimneyPotBlockEntity extends CPBaseBlockEntity {
 	}
 
 	@Override
-	public void readCustomNBT(CompoundTag nbt, boolean isClient, HolderLookup.Provider registries) {
-		process = nbt.getInt("process");
-		countSoot = nbt.getInt("soot");
+	public void readCustomNBT(ValueInput nbt, boolean isClient) {
+		process = nbt.getIntOr("process",0);
+		countSoot = nbt.getIntOr("soot",0);
 	}
 
 	@Override
-	public void writeCustomNBT(CompoundTag nbt, boolean isClient, HolderLookup.Provider registries) {
+	public void writeCustomNBT(ValueOutput nbt, boolean isClient) {
 		nbt.putInt("process", process);
 		nbt.putInt("soot", countSoot);
 	}
@@ -65,7 +67,7 @@ public class ChimneyPotBlockEntity extends CPBaseBlockEntity {
 
 	@Override
 	public void tick() {
-		if(!level.isClientSide)
+		if(!level.isClientSide())
 			if (process >= processMax) {
 				if (countSoot < maxStore) {
 					countSoot++;

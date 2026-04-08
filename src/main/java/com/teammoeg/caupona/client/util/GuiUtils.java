@@ -21,29 +21,23 @@
 
 package com.teammoeg.caupona.client.util;
 
-import java.util.function.Function;
-
+import org.joml.Matrix3x2f;
 import org.joml.Quaternionf;
 
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
-
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.render.TextureSetup;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.state.gui.TiledBlitRenderState;
+import net.minecraft.client.renderer.block.FluidModel;
+import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.inventory.InventoryMenu;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.IFluidTank;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 
 /**
  * Fluid render codes adapted from Immersive Engineering and modified.
@@ -56,31 +50,34 @@ public class GuiUtils {
 
 	private GuiUtils() {
 	}
+
+
 	public static Quaternionf rotate90=new Quaternionf().rotateX((float) (Math.PI/2));
-	public static void handleGuiTank(GuiGraphics transform, IFluidTank tank, int x, int y, int w, int h) {
-		FluidStack fluid = tank.getFluid();
-		
-		BufferSource buffer=transform.bufferSource();
+	public static void handleGuiTank(GuiGraphicsExtractor transform, ResourceHandler<FluidResource> tank, int x, int y, int w, int h) {
+		FluidStack fluid = tank.getResource(0).toStack(tank.getAmountAsInt(0));
 		if (fluid != null && fluid.getFluid() != null) {
-			int fluidHeight = (int) (h * (fluid.getAmount() / (float) tank.getCapacity()));
-			drawRepeatedFluidSpriteGui(buffer, transform.pose(), fluid, x, y + h - fluidHeight, w, fluidHeight);
+			int fluidHeight = (int) (h * (tank.getAmountAsInt(0) / (float) tank.getAmountAsLong(0)));
+			FluidModel model = Minecraft.getInstance().getModelManager().getFluidStateModelSet()
+				.get(fluid.getFluid().defaultFluidState());
+			int color = model.fluidTintSource().colorAsStack(fluid);
+			TextureAtlasSprite sprite=model.stillMaterial().sprite();
+			AbstractTexture spriteTexture = Minecraft.getInstance().getTextureManager().getTexture(sprite.atlasLocation());
+			GpuTextureView texture = spriteTexture.getTextureView();
+			transform.submitGuiElementRenderState(new TiledBlitRenderState(
+				RenderPipelines.GUI,
+                    TextureSetup.singleTexture(texture, spriteTexture.getSampler()),
+                    new Matrix3x2f(transform.pose()),
+                    16,16,
+                    x,y,x+w,y+fluidHeight,
+                    0,1,
+                    0,1,
+                    color,
+                    transform.peekScissorStack()
+                ));
+			
 		}
-		buffer.endBatch();
 	}
 
-	private static final Function<Identifier, RenderType> GUI_CUTOUT = Util
-			.memoize(texture -> RenderType.create("gui_" + texture, 
-		        DefaultVertexFormat.BLOCK,
-		        VertexFormat.Mode.QUADS,
-		        786432,
-		        true,
-		        false,
-		        RenderType.CompositeState.builder()
-		            .setLightmapState(RenderType.LIGHTMAP)
-		            .setShaderState(RenderType.RENDERTYPE_CUTOUT_SHADER)
-		            .setTextureState(RenderType.BLOCK_SHEET)
-		            .createCompositeState(true)
-		    ));
 
 	private static void buildVertex(VertexConsumer bu, PoseStack transform, float r, float g, float b, float a,
 			float p1, float p2, float u0, float u1, int light, int overlay) {
@@ -88,22 +85,7 @@ public class GuiUtils {
 				.setNormal(1f, 1f, 1f);
 	}
 
-	public static void drawRepeatedFluidSpriteGui(MultiBufferSource.BufferSource buffer, PoseStack transform,
-			FluidStack fluid, float x, float y, float w, float h) {
-		RenderType renderType = GUI_CUTOUT.apply(InventoryMenu.BLOCK_ATLAS);
-		VertexConsumer builder = buffer.getBuffer(renderType);
-		IClientFluidTypeExtensions attr=IClientFluidTypeExtensions.of(fluid.getFluid());
-		TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS)
-				.getSprite(attr.getStillTexture(fluid));
-		int col = attr.getTintColor(fluid);
-		float alpha=(col >> 16 & 255)/255f*.8f;
-		if(alpha<0.001)alpha=1;
-		
-		drawRepeatedSprite(builder, transform, x, y, w, h,16,16, sprite.getU0(), sprite.getU1(), sprite.getV0(),
-				sprite.getV1(), (col >> 16 & 255) / 255f, (col >> 8 & 255) / 255f, (col & 255) / 255f, alpha,
-				LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY);
-		buffer.endBatch(renderType);
-	}
+
 
 	public static void drawRepeatedSprite(VertexConsumer builder, PoseStack transform, float x, float y, float w,
 			float h, int iconWidth, int iconHeight, float uMin, float uMax, float vMin, float vMax, float r, float g,

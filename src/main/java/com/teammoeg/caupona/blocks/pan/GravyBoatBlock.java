@@ -29,9 +29,10 @@ import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.ICreativeModeTabItem;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -69,7 +70,7 @@ public class GravyBoatBlock extends CPHorizontalBlock implements ICreativeModeTa
 	}
 
 	@Override
-	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+	protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 		if(stack.is(CPItems.gravy_boat.get())) { 
 			int sdmg=stack.getDamageValue();
 			int ddmg=state.getValue(LEVEL);
@@ -90,7 +91,7 @@ public class GravyBoatBlock extends CPHorizontalBlock implements ICreativeModeTa
 				stack.setDamageValue(srcrem);
 				level.setBlock(pos, state.setValue(LEVEL, dstrem), UPDATE_ALL);
 			}
-			return ItemInteractionResult.sidedSuccess(level.isClientSide());
+			return InteractionResult.SUCCESS;
 		}
 		return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
 	}
@@ -122,7 +123,7 @@ public class GravyBoatBlock extends CPHorizontalBlock implements ICreativeModeTa
 	}
 
 	@Override
-	public boolean propagatesSkylightDown(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+	public boolean propagatesSkylightDown(BlockState pState) {
 		return true;
 	}
 
@@ -160,12 +161,13 @@ public class GravyBoatBlock extends CPHorizontalBlock implements ICreativeModeTa
 
 	}
 	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos,
-			Player player) {
+	protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
 		ItemStack is = new ItemStack(CPItems.gravy_boat.get());
 		is.setDamageValue(state.getValue(LEVEL));
 		return is;
 	}
+
+
 
 	@Override
 	public boolean hasAnalogOutputSignal(BlockState pState) {
@@ -173,7 +175,7 @@ public class GravyBoatBlock extends CPHorizontalBlock implements ICreativeModeTa
 	}
 
 	@Override
-	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
+	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos, Direction dir) {
 		return 15 - (pState.getValue(LEVEL) * 3);
 	}
 

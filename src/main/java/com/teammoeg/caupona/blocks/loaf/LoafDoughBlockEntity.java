@@ -33,6 +33,8 @@ import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class LoafDoughBlockEntity extends CPBaseBlockEntity {
 	int heatValue;
@@ -68,13 +70,13 @@ public class LoafDoughBlockEntity extends CPBaseBlockEntity {
 	}
 
 	@Override
-	public void readCustomNBT(CompoundTag arg0, boolean arg1, Provider arg2) {
-		process=arg0.getInt("process");
+	public void readCustomNBT(ValueInput arg0, boolean arg1) {
+		process=arg0.getIntOr("process",0);
 	}
 
 	@Override
 	public void tick() {
-		if(!level.isClientSide) {
+		if(!level.isClientSide()) {
 			if(!this.getBlockState().getValue(SlabBlock.WATERLOGGED)) {
 				ltw.tick();
 				process+=heatValue;
@@ -89,7 +91,7 @@ public class LoafDoughBlockEntity extends CPBaseBlockEntity {
 	}
 
 	@Override
-	public void writeCustomNBT(CompoundTag arg0, boolean arg1, Provider arg2) {
+	public void writeCustomNBT(ValueOutput arg0, boolean arg1) {
 		arg0.putInt("process", process);
 	}
 

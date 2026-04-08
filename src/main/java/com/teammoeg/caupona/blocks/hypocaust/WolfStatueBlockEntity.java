@@ -31,6 +31,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class WolfStatueBlockEntity extends CPBaseBlockEntity {
 	boolean isVeryHot;
@@ -63,19 +65,19 @@ public class WolfStatueBlockEntity extends CPBaseBlockEntity {
 	}
 
 	@Override
-	public void readCustomNBT(CompoundTag nbt, boolean isClient, HolderLookup.Provider registries) {
-		isVeryHot = nbt.getBoolean("very_hot");
+	public void readCustomNBT(ValueInput nbt, boolean isClient) {
+		isVeryHot = nbt.getBooleanOr("very_hot",false);
 	}
 
 	@Override
-	public void writeCustomNBT(CompoundTag nbt, boolean isClient, HolderLookup.Provider registries) {
+	public void writeCustomNBT(ValueOutput nbt, boolean isClient) {
 		nbt.putBoolean("very_hot", isVeryHot);
 	}
 
 	@SuppressWarnings("resource")
 	@Override
 	public void tick() {
-		if (this.level.isClientSide)
+		if (this.level.isClientSide())
 			return;
 
 		if (level.getBlockEntity(this.getBlockPos().below()) instanceof IStove stove) {

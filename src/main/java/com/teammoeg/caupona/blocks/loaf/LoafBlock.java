@@ -24,6 +24,7 @@ package com.teammoeg.caupona.blocks.loaf;
 import com.teammoeg.caupona.blocks.decoration.SelfStackingBlock;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -70,7 +71,7 @@ public class LoafBlock extends SelfStackingBlock {
 		}
 	}
     @Override
-    protected int getAnalogOutputSignal(BlockState blockState, Level level, BlockPos pos) {
+    protected int getAnalogOutputSignal(BlockState blockState, Level level, BlockPos pos, Direction dir) {
         return blockState.getValue(TYPE)==SlabType.DOUBLE?14:12;
     }
 }

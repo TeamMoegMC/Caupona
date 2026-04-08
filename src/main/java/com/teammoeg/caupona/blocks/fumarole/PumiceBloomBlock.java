@@ -1,4 +1,5 @@
-/*
+
+ /*
  * Copyright (c) 2024 TeamMoeg
  *
  * This file is part of Caupona.
@@ -23,10 +24,11 @@ package com.teammoeg.caupona.blocks.fumarole;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -67,19 +69,19 @@ public class PumiceBloomBlock extends Block implements SimpleWaterloggedBlock {
 	}
 
 	@Override
-	public boolean propagatesSkylightDown(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+	public boolean propagatesSkylightDown(BlockState pState) {
 		return true;
 	}
 
 	@Override
-	public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel,
-			BlockPos pCurrentPos, BlockPos pFacingPos) {
-		if (pState.getValue(WATERLOGGED)) {
-			pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
+	protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour, BlockPos neighbourPos, BlockState neighbourState,
+		RandomSource random) {
+		if (state.getValue(WATERLOGGED)) {
+			ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 		}
-		return pFacing == Direction.DOWN && !this.canSurvive(pState, pLevel, pCurrentPos)
+		return directionToNeighbour == Direction.DOWN && !this.canSurvive(state, level, pos)
 				? Blocks.AIR.defaultBlockState()
-				: super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+				: super.updateShape(state, level, ticks, pos, directionToNeighbour, neighbourPos, neighbourState, random);
 	}
 
 	@Override

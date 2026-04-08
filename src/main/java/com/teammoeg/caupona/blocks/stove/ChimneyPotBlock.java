@@ -28,7 +28,7 @@ import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -58,16 +58,16 @@ public class ChimneyPotBlock extends CPHorizontalEntityBlock<ChimneyPotBlockEnti
 
 
 	@Override
-	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+	protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 		if (stack.getItem() instanceof ShovelItem
 			&&level.getBlockEntity(pos) instanceof ChimneyPotBlockEntity chimneyPot) {
 			if (chimneyPot.countSoot > 0) {
-				if (!level.isClientSide) {
+				if (!level.isClientSide()) {
 					stack.hurtAndBreak(1, player,hand==InteractionHand.MAIN_HAND?EquipmentSlot.MAINHAND:EquipmentSlot.OFFHAND);
 					ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(CPItems.soot.get(), chimneyPot.countSoot));
 					chimneyPot.countSoot = 0;
 				}
-				return ItemInteractionResult.sidedSuccess(level.isClientSide());
+				return InteractionResult.SUCCESS;
 			}
 		}
 		return super.useItemOn(stack, state, level, pos, player, hand, hitResult);

@@ -21,9 +21,13 @@
 
 package com.teammoeg.caupona.blocks.stove;
 
+import java.util.List;
+
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
+import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -41,8 +45,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.storage.loot.LootParams.Builder;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -50,10 +56,11 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntity> {
 
-	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
 	//public static final BooleanProperty ASH = BooleanProperty.create("ash");
 	//public static final IntegerProperty FUELED = IntegerProperty.create("fueled", 0, 3);
@@ -97,15 +104,17 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntit
 	}
 
 	@Override
-	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (state.getBlock() != newState.getBlock()&&worldIn.getBlockEntity(pos) instanceof KitchenStoveBlockEntity stove) {
-			ItemStack is = stove.getItem(0);
-			if (!is.isEmpty())
-				super.popResource(worldIn, pos, is);
+	protected List<ItemStack> getDrops(BlockState p_state, Builder p_params) {
+		List<ItemStack> list=super.getDrops(p_state, p_params);
+		if (p_params.getParameter(LootContextParams.BLOCK_ENTITY) instanceof KitchenStoveBlockEntity stove) {
+			for (int i = 0; i < 6; i++) {
+				ItemStack is = stove.getItem(0);
+				if (!is.isEmpty())
+					list.add(is);
+			}
 		}
-		super.onRemove(state, worldIn, pos, newState, isMoving);
+		return list;
 	}
-
 	@Override
 	protected void createBlockStateDefinition(
 			net.minecraft.world.level.block.state.StateDefinition.Builder<Block, BlockState> builder) {
@@ -145,10 +154,10 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntit
 		KitchenStoveBlockEntity blockEntity = (KitchenStoveBlockEntity) worldIn.getBlockEntity(pos);
 
 			if (blockEntity != null &&(player.getAbilities().instabuild||!blockEntity.isInfinite)) {
-				if(!worldIn.isClientSide) {
+				if(!worldIn.isClientSide()) {
 				((ServerPlayer) player).openMenu(blockEntity, blockEntity.getBlockPos());
 				}
-				return InteractionResult.sidedSuccess(worldIn.isClientSide());
+				return InteractionResult.SUCCESS;
 			}
 		return p;
 	}

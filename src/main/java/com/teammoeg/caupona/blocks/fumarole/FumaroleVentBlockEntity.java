@@ -34,12 +34,12 @@ import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.LazyTickWorker;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 
 public class FumaroleVentBlockEntity extends CPBaseBlockEntity implements IStove {
@@ -79,14 +79,14 @@ public class FumaroleVentBlockEntity extends CPBaseBlockEntity implements IStove
 	}
 
 	@Override
-	public void readCustomNBT(CompoundTag nbt, boolean isClient, HolderLookup.Provider registries) {
+	public void readCustomNBT(ValueInput nbt, boolean isClient) {
 		if (isClient)
 			return;
 		update.read(nbt,"update");
 	}
 
 	@Override
-	public void writeCustomNBT(CompoundTag nbt, boolean isClient, HolderLookup.Provider registries) {
+	public void writeCustomNBT(ValueOutput nbt, boolean isClient) {
 		if (isClient)
 			return;
 		update.write(nbt,"update");
@@ -95,7 +95,7 @@ public class FumaroleVentBlockEntity extends CPBaseBlockEntity implements IStove
 	@SuppressWarnings("resource")
 	@Override
 	public void tick() {
-		if(!getLevel().isClientSide) {
+		if(!getLevel().isClientSide()) {
 			BlockState bs = this.getBlockState();
 			if (bs.getValue(FumaroleVentBlock.HEAT) == 2) {
 				update.tick();

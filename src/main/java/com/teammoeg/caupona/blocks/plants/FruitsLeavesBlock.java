@@ -32,16 +32,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.TintedParticleLeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
-public class FruitsLeavesBlock extends LeavesBlock implements BonemealableBlock {
+public class FruitsLeavesBlock extends TintedParticleLeavesBlock implements BonemealableBlock {
 	DeferredHolder<Block,Block> fruit;
 
 	public FruitsLeavesBlock(Properties p_54422_, DeferredHolder<Block,Block> fruit2) {
-		super(p_54422_);
+		super(0.01F, p_54422_);
 		this.fruit = fruit2;
 	}
 
@@ -106,5 +106,6 @@ public class FruitsLeavesBlock extends LeavesBlock implements BonemealableBlock 
 	public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return 30;
 	}
+
 
 }

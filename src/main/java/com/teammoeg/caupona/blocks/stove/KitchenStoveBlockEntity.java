@@ -54,7 +54,9 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.neoforge.client.model.data.ModelData;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.model.data.ModelData;
 
 public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Container, MenuProvider, IStove, IInfinitable {
 	private NonNullList<ItemStack> fuel = NonNullList.withSize(1, ItemStack.EMPTY);
@@ -84,31 +86,28 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 	}
 
 	@Override
-	public void readCustomNBT(CompoundTag nbt, boolean isClient, HolderLookup.Provider registries) {
-		process = nbt.getInt("process");
-		processMax = nbt.getInt("processMax");
-		if (nbt.contains("chimneyPos"))
-			attachedChimney = BlockPos.of(nbt.getLong("chimneyPos"));
-		else
-			attachedChimney = null;
-		inventory_fuel = FuelType.parse(nbt.getString("fuel_type"));
-		current = FuelType.parse(nbt.getString("current_fuel"));
+	public void readCustomNBT(ValueInput nbt, boolean isClient) {
+		process = nbt.getIntOr("process",0);
+		processMax = nbt.getIntOr("processMax",0);
+		attachedChimney = nbt.getLong("chimneyPos").map(BlockPos::of).orElse(null);
+		inventory_fuel = FuelType.parse(nbt.getStringOr("fuel_type",""));
+		current = FuelType.parse(nbt.getStringOr("current_fuel",""));
 		if (!isClient) {
-			cd = nbt.getInt("cd");
-			fuel.set(0, ItemStack.parseOptional(registries,nbt.getCompound("fuel")));
-			chimneyTicks = nbt.getInt("chimneyTick");
-			isInfinite = nbt.getBoolean("inf");
+			cd = nbt.getIntOr("cd",0);
+			fuel.set(0, nbt.read("fuel", ItemStack.CODEC).orElse(ItemStack.EMPTY));
+			chimneyTicks = nbt.getIntOr("chimneyTick",0);
+			isInfinite = nbt.getBooleanOr("inf",false);
 		}
 		refreshModel();
 	}
 	public void refreshModel() {
-		if(this.getLevel()!=null&&this.getLevel().isClientSide) {
+		if(this.getLevel()!=null&&this.getLevel().isClientSide()) {
 			getLevel().getModelDataManager().requestRefresh(this);
 			getLevel().sendBlockUpdated(this.getBlockPos(), getBlockState(),getBlockState(),3);
 		}
 	}
 	@Override
-	public void writeCustomNBT(CompoundTag nbt, boolean isClient, HolderLookup.Provider registries) {
+	public void writeCustomNBT(ValueOutput nbt, boolean isClient) {
 		nbt.putInt("process", process);
 		nbt.putInt("processMax", processMax);
 		if (attachedChimney != null)
@@ -117,7 +116,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 		nbt.putString("current_fuel", current.serialize());
 		if (!isClient) {
 			nbt.putInt("cd", cd);
-			nbt.put("fuel", fuel.get(0).saveOptional(registries));
+			nbt.store("fuel", ItemStack.CODEC, fuel.get(0));
 			nbt.putInt("chimneyTick", chimneyTicks);
 			nbt.putBoolean("inf", isInfinite);
 		}
@@ -192,7 +191,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 
 	@Override
 	public boolean canPlaceItem(int index, ItemStack stack) {
-		return stack.getBurnTime(RecipeType.SMELTING) > 0 ;
+		return stack.getBurnTime(RecipeType.SMELTING,level.fuelValues()) > 0 ;
 	}
 
 	@Override
@@ -206,14 +205,14 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 	}
 
 	private boolean consumeFuel() {
-		int time = fuel.get(0).getBurnTime(RecipeType.SMELTING);
+		int time = fuel.get(0).getBurnTime(RecipeType.SMELTING,level.fuelValues());
 		if (time <= 0) {
 			process = processMax = 0;
 			current=FuelType.OTHER;
 			return false;
 		}
 		current = FuelType.getType(fuel.get(0));
-		ItemStack remain=fuel.get(0).getCraftingRemainingItem();
+		ItemStack remain=fuel.get(0).getCraftingRemainder().create();
 		fuel.get(0).shrink(1);
 		if(fuel.get(0).isEmpty()) {
 			fuel.set(0, remain);
@@ -224,7 +223,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 		float ftime = time * fuelMod / speed;
 		float frac = Mth.frac(ftime);
 		if (frac > 0)
-			processMax = process = (int) ftime + (this.level.random.nextDouble() < frac ? 1 : 0);
+			processMax = process = (int) ftime + (this.level.getRandom().nextDouble() < frac ? 1 : 0);
 		else
 			processMax = process = (int) ftime;
 		return true;
@@ -233,7 +232,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 	@SuppressWarnings("resource")
 	@Override
 	public void tick() {
-		if (!level.isClientSide) {// server logic
+		if (!level.isClientSide()) {// server logic
 			BlockState bs = this.getBlockState();
 			
 			chimneyTicks++;
@@ -282,7 +281,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 				double d0 = this.getBlockPos().getX();
 				double d1 = this.getBlockPos().getY();
 				double d2 = this.getBlockPos().getZ();
-				RandomSource rand = this.getLevel().random;
+				RandomSource rand = this.getLevel().getRandom();
 				if (attachedChimney == null) {
 					if (rand.nextDouble() < 0.25D * speed) {
 						this.getLevel().addParticle(ParticleTypes.SMOKE, d0 + .5, d1 + 1, d2 + .5,
@@ -325,7 +324,7 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements Contai
 
 	@Override
 	public boolean canEmitHeat() {
-		return this.process > 0 || fuel.get(0).getBurnTime(RecipeType.SMELTING) > 0;
+		return this.process > 0 || fuel.get(0).getBurnTime(RecipeType.SMELTING,level.fuelValues()) > 0;
 	}
 
 	public int getSpeed() {

@@ -24,9 +24,12 @@ package com.teammoeg.caupona.blocks.plants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -72,10 +75,9 @@ public class BushLogBlock extends Block {
 			state = state.setValue(i, true);
 		return state.setValue(FOILAGED, true);
 	}
-
 	@Override
-	public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState,
-			LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pNeighborPos) {
+	protected BlockState updateShape(BlockState pState, LevelReader pLevel, ScheduledTickAccess ticks, BlockPos pCurrentPos, Direction pDirection, BlockPos pNeighborPos, BlockState pNeighborState,
+		RandomSource random) {
 		if (pDirection.getStepY() != 0)
 			return pState;
 		if (pNeighborState.is(BlockTags.LEAVES)) {
@@ -91,7 +93,7 @@ public class BushLogBlock extends Block {
 	}
 
 	@Override
-	public boolean propagatesSkylightDown(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+	public boolean propagatesSkylightDown(BlockState pState) {
 		return true;
 	}
 

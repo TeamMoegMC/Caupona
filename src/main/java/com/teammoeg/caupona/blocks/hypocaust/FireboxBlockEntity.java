@@ -38,6 +38,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class FireboxBlockEntity extends BathHeatingBlockEntity {
 	LazyTickWorker process;
@@ -62,14 +64,14 @@ public class FireboxBlockEntity extends BathHeatingBlockEntity {
 	}
 
 	@Override
-	public void readCustomNBT(CompoundTag nbt, boolean isClient, HolderLookup.Provider registries) {
-		super.readCustomNBT(nbt, isClient, registries);
-		heat = nbt.getInt("heatSpeed");
+	public void readCustomNBT(ValueInput nbt, boolean isClient) {
+		super.readCustomNBT(nbt, isClient);
+		heat = nbt.getIntOr("heatSpeed",0);
 	}
 
 	@Override
-	public void writeCustomNBT(CompoundTag nbt, boolean isClient, HolderLookup.Provider registries) {
-		super.writeCustomNBT(nbt, isClient,registries);
+	public void writeCustomNBT(ValueOutput nbt, boolean isClient) {
+		super.writeCustomNBT(nbt, isClient);
 		nbt.putInt("heatSpeed", heat);
 	}
 
@@ -99,12 +101,12 @@ public class FireboxBlockEntity extends BathHeatingBlockEntity {
 
 	@Override
 	public void tick() {
-		if (this.level.isClientSide)
+		if (this.level.isClientSide())
 			return;
 		if (level.getBlockEntity(worldPosition.below()) instanceof IStove stove) {
 			int nh = stove.requestHeat();
 			if (heat != nh) {
-				process.enqueue();;
+				process.enqueue();
 				heat = nh;
 			}
 		} else if (heat != 0) {

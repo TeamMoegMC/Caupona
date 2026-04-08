@@ -29,12 +29,17 @@ import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -83,15 +88,16 @@ public class WolfStatueBlock extends CPHorizontalEntityBlock<WolfStatueBlockEnti
 						context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER);
 
 	}
-
-	public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel,
-			BlockPos pCurrentPos, BlockPos pFacingPos) {
-		if (pState.getValue(WATERLOGGED)) {
-			pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
+	@Override
+	protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour, BlockPos neighbourPos, BlockState neighbourState,
+		RandomSource random) {
+		if (state.getValue(WATERLOGGED)) {
+			ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 		}
-		return super.updateShape(pState, pFacing, pState, pLevel, pCurrentPos, pFacingPos);
-	}
+		return super.updateShape(state, level, ticks, pos, directionToNeighbour, neighbourPos, neighbourState, random);
 
+	}
+	@Override
 	public FluidState getFluidState(BlockState pState) {
 		return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
 	}
@@ -101,12 +107,13 @@ public class WolfStatueBlock extends CPHorizontalEntityBlock<WolfStatueBlockEnti
 		return false;
 	}
 
+
 	@Override
-	public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
-		super.entityInside(pState, pLevel, pPos, pEntity);
-		if (pLevel.getBlockEntity(pPos) instanceof WolfStatueBlockEntity wst) {
+	protected void entityInside(BlockState p_state, Level p_level, BlockPos p_pos, Entity p_entity, InsideBlockEffectApplier effectApplier, boolean isPrecise) {
+		super.entityInside(p_state, p_level, p_pos, p_entity, effectApplier, isPrecise);
+		if (p_level.getBlockEntity(p_pos) instanceof WolfStatueBlockEntity wst&&p_level instanceof ServerLevel sl) {
 			if (wst.isVeryHot)
-				pEntity.hurt(pLevel.damageSources().hotFloor(), pState.getValue(HEAT));
+				p_entity.hurtServer(sl,p_level.damageSources().hotFloor(), p_state.getValue(HEAT));
 		}
 	}
 
@@ -128,7 +135,7 @@ public class WolfStatueBlock extends CPHorizontalEntityBlock<WolfStatueBlockEnti
 	}
 
 	@Override
-	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
+	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos, Direction dir) {
 		int ret=pState.getValue(HEAT)*3;
 		if (pLevel.getBlockEntity(pPos) instanceof WolfStatueBlockEntity wst) {
 			if (wst.isVeryHot)
@@ -138,6 +145,6 @@ public class WolfStatueBlock extends CPHorizontalEntityBlock<WolfStatueBlockEnti
 	}
 	@Override
 	public @Nullable PathType getBlockPathType(BlockState state, BlockGetter level, BlockPos pos, @Nullable Mob mob) {
-		return PathType.DAMAGE_FIRE;
+		return PathType.FIRE;
 	}
 }

@@ -24,6 +24,8 @@ package com.teammoeg.caupona.util;
 import java.util.function.Supplier;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class LazyTickWorker {
 	public int tMax;
@@ -67,26 +69,24 @@ public class LazyTickWorker {
 	public void stop() {
 		tMax=0;
 	}
-	public void read(CompoundTag cnbt) {
+	public void read(ValueInput cnbt) {
 		if(!isStaticMax)
-			tMax=cnbt.getInt("max").orElse(0);
-		tCur=cnbt.getInt("cur").orElse(0);
+			tMax=cnbt.getIntOr("max",0);
+		tCur=cnbt.getIntOr("cur",0);
 	}
-	public void read(CompoundTag cnbt,String key) {
+	public void read(ValueInput cnbt,String key) {
 		if(!isStaticMax)
-			tMax=cnbt.getInt(key+"max").orElse(0);
-		tCur=cnbt.getInt(key).orElse(0);
+			tMax=cnbt.getIntOr(key+"Max",0);
+		tCur=cnbt.getIntOr(key,0);
 	}
-	public CompoundTag write(CompoundTag cnbt) {
+	public void write(ValueOutput cnbt) {
 		if(!isStaticMax)
-			cnbt.putInt("max", tMax);;
+			cnbt.putInt("max", tMax);
 		cnbt.putInt("cur",tCur);
-		return cnbt;
 	}
-	public CompoundTag write(CompoundTag cnbt,String key) {
+	public void write(ValueOutput cnbt,String key) {
 		if(!isStaticMax)
-			cnbt.putInt(key+"max", tMax);
+			cnbt.putInt(key+"Max", tMax);
 		cnbt.putInt(key,tCur);
-		return cnbt;
 	}
 }

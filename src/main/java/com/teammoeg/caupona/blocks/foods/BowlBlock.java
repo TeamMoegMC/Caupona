@@ -21,25 +21,31 @@
 
 package com.teammoeg.caupona.blocks.foods;
 
+import java.util.List;
+
+import org.jspecify.annotations.Nullable;
+
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 import com.teammoeg.caupona.item.StewItem;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootParams.Builder;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
@@ -71,12 +77,15 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 	}
 
 	@Override
-	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (state.getBlock() != newState.getBlock() && worldIn.getBlockEntity(pos) instanceof BowlBlockEntity bowl) {
-			super.popResource(worldIn, pos, bowl.getInternal());
+	protected List<ItemStack> getDrops(BlockState p_state, Builder p_params) {
+		List<ItemStack> li=super.getDrops(p_state, p_params);
+		if (p_params.getParameter(LootContextParams.BLOCK_ENTITY) instanceof BowlBlockEntity bowl) {
+			li.add(bowl.getInternal());
 		}
-		super.onRemove(state, worldIn, pos, newState, isMoving);
+		return li;
 	}
+
+
 
 	@Override
 	public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player,
@@ -85,21 +94,23 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 		if (p.consumesAction())
 			return p;
 		if (worldIn.getBlockEntity(pos) instanceof BowlBlockEntity bowl&&bowl.getInternal() != null && bowl.getInternal().getItem() instanceof StewItem
-				&& bowl.getInternal().getFoodProperties(player)!=null) {
-			FoodProperties fp = bowl.getInternal().getFoodProperties(player);
-			if (bowl.isInfinite) {
-				if (player.canEat(fp.canAlwaysEat())) {
-					player.eat(worldIn, bowl.getInternal().copy());
-					bowl.syncData();
-				}
-			} else {
-				if (player.canEat(fp.canAlwaysEat())) {
-					ItemStack iout = player.eat(worldIn, bowl.getInternal());
-					bowl.setInternal(iout);
-					if(!bowl.getInternal().isEmpty()) {
+				) {
+			@Nullable Consumable fp = bowl.getInternal().get(DataComponents.CONSUMABLE);
+			if(fp!=null) {
+				if (bowl.isInfinite) {
+					if(fp.canConsume(player, bowl.getInternal())) {
+						fp.onConsume(worldIn, player, bowl.getInternal().copy());
 						bowl.syncData();
-					}else
-						worldIn.removeBlock(pos, false);
+					}
+				} else {
+					if(fp.canConsume(player, bowl.getInternal())) {
+						ItemStack iout=fp.onConsume(worldIn, player, bowl.getInternal().copy());
+						bowl.setInternal(iout);
+						if(!bowl.getInternal().isEmpty()) {
+							bowl.syncData();
+						}else
+							worldIn.removeBlock(pos, false);
+					}
 				}
 			}
 			return InteractionResult.SUCCESS;
@@ -116,15 +127,15 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 		}
 	}
 	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos,
-			Player player) {
+	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
 		if (level.getBlockEntity(pos) instanceof BowlBlockEntity bowl) {
 			if (bowl.getInternal() == null)
 				return ItemStack.EMPTY;
 			return bowl.getInternal().copy();
 		}
-		return this.getCloneItemStack(state, target, level, pos, player);
+		return super.getCloneItemStack(level, pos, state, includeData, player);
 	}
+
 
 	@Override
 	public boolean hasAnalogOutputSignal(BlockState pState) {
@@ -132,8 +143,8 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 	}
 
 	@Override
-	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
-		if (pLevel.getBlockEntity(pPos) instanceof BowlBlockEntity bowl&&bowl.getInternal() != null && !bowl.getInternal().isEmpty() && bowl.getInternal().getFoodProperties(null)!=null) {
+	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos, Direction dir) {
+		if (pLevel.getBlockEntity(pPos) instanceof BowlBlockEntity bowl&&bowl.getInternal() != null && !bowl.getInternal().isEmpty() && bowl.getInternal().get(DataComponents.CONSUMABLE)!=null) {
 			return 15;
 		}
 		return 0;

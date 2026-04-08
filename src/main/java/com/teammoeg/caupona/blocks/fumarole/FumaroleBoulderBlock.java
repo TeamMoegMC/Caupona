@@ -25,14 +25,16 @@ import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -60,15 +62,18 @@ public class FumaroleBoulderBlock extends Block implements SimpleWaterloggedBloc
 		return shape;
 	}
 
+
+
+
 	@Override
-	public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel,
-			BlockPos pCurrentPos, BlockPos pFacingPos) {
-		if (pState.getValue(WATERLOGGED)) {
-			pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
+	protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour, BlockPos neighbourPos, BlockState neighbourState,
+		RandomSource random) {
+		if (state.getValue(WATERLOGGED)) {
+			ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 		}
-		return pFacing == Direction.DOWN && !this.canSurvive(pState, pLevel, pCurrentPos)
+		return directionToNeighbour == Direction.DOWN && !this.canSurvive(state, level, pos)
 				? Blocks.AIR.defaultBlockState()
-				: super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+				: super.updateShape(state, level, ticks, pos, directionToNeighbour, neighbourPos, neighbourState, random);
 	}
 
 	@Override
@@ -97,14 +102,18 @@ public class FumaroleBoulderBlock extends Block implements SimpleWaterloggedBloc
 
 	@Override
 	public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
-		if (pEntity instanceof LivingEntity)
-			pEntity.hurt(pLevel.damageSources().sweetBerryBush(), 1.0f);
+		if (pEntity instanceof LivingEntity) {
+			if(pLevel instanceof ServerLevel sl)
+				pEntity.hurtServer(sl,pLevel.damageSources().sweetBerryBush(), 1.0f);
+			else
+				pEntity.hurtClient(pLevel.damageSources().sweetBerryBush());
+		}
 		super.stepOn(pLevel, pPos, pState, pEntity);
 	}
 
 	@Override
 	public @Nullable PathType getBlockPathType(BlockState state, BlockGetter level, BlockPos pos, @Nullable Mob mob) {
-		return PathType.DAMAGE_OTHER;
+		return PathType.DAMAGING;
 	}
 
 }

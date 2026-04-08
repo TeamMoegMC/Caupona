@@ -25,6 +25,7 @@ import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.blocks.CPEntityBlock;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -42,7 +43,7 @@ public class LoafDoughBlock extends LoafBlock implements CPEntityBlock<LoafDough
 	}
 
     @Override
-    protected int getAnalogOutputSignal(BlockState blockState, Level level, BlockPos pos) {
+    protected int getAnalogOutputSignal(BlockState blockState, Level level, BlockPos pos, Direction dir) {
         return blockState.getValue(TYPE)==SlabType.DOUBLE?4:2;
     }
 
