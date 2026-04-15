@@ -38,11 +38,11 @@ import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.storage.TagValueInput;
-import net.minecraft.world.level.storage.TagValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.item.ItemResource;
@@ -125,18 +125,7 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 				addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 83 + i * 18));
 		for (int i = 0; i < 9; i++)
 			addSlot(new Slot(playerInventory, i, 8 + i * 18, 141));
-
-	}
-
-	private void sendUpdate() {
-		CompoundTag tag;
-		try(ProblemReporter.ScopedCollector rp=SerializeUtil.reporter()){
-			TagValueOutput tvo=TagValueOutput.createWithContext(rp, this.player.registryAccess());
-			handler.writeCustomNBT(tvo, true);
-			tag=tvo.buildResult();
-		}
-		
-		sendMessage(tag);
+		this.addDataSlots(handler);
 	}
 
 	/**
@@ -159,7 +148,9 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 		}
 
 	}
-
+	public ContainerData getData() {
+		return handler;
+	}
 	/**
 	 * Determines whether supplied player can use this container
 	 */
@@ -231,7 +222,6 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 				handler.setRecipe(testRecipe());
 			}
 			if (handler.tickProcess(1)) {
-				sendUpdate();
 			}
 		}
 	}

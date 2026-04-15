@@ -78,6 +78,8 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.RangedWrapper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 
 public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvider, IInfinitable {
 	private ItemStackHandler inv = new ItemStackHandler(12) {
@@ -143,7 +145,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		});
 	}
 
-	public FluidTank getTank() {
+	public ResourceHandler<FluidResource> getTank() {
 		return tank;
 	}
 

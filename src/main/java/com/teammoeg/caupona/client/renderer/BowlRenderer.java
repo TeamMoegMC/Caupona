@@ -31,17 +31,21 @@ import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 
-public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity> {
-
+public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity,BowlRenderState> {
+	public static class BowlRenderState extends BlockEntityRenderState{
+		
+	}
 	/**
 	 * @param rendererDispatcherIn
 	 */
@@ -49,10 +53,8 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity> {
 	}
 
 
-	@SuppressWarnings({ "deprecation", "resource" })
 	@Override
-	public void render(BowlBlockEntity blockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer,
-			int combinedLightIn, int combinedOverlayIn) {
+	public void submit(BowlRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
 		if (!blockEntity.getLevel().hasChunkAt(blockEntity.getBlockPos()))
 			return;
 		BlockState state = blockEntity.getBlockState();
@@ -94,5 +96,15 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity> {
 
 		matrixStack.popPose();
 	}
+
+
+	@Override
+	public BowlRenderState createRenderState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
 
 }

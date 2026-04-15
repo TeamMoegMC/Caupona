@@ -25,8 +25,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.container.PortableBrazierContainer;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
@@ -39,31 +40,29 @@ public class PortableBrazierScreen extends AbstractContainerScreen<PortableBrazi
 	public PortableBrazierScreen(PortableBrazierContainer screenContainer, Inventory inv, Component titleIn) {
 		super(screenContainer, inv, titleIn);
 		container = screenContainer;
-	}
-
-	protected void renderLabels(GuiGraphics matrixStack, int x, int y) {
-		matrixStack.drawString(this.font, this.title, this.titleLabelX - 2, this.titleLabelY, 0xEEEEEE, false);
-		matrixStack.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX - 2, this.inventoryLabelY - 3,4210752, false);
+		
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics transform, float partial, int x, int y) {
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+	protected void extractLabels(GuiGraphicsExtractor graphics, int xm, int ym) {
+		graphics.text(this.font, this.title, this.titleLabelX - 2, this.titleLabelY, 0xEEEEEE, false);
+		graphics.text(this.font, this.playerInventoryTitle, this.inventoryLabelX - 2, this.inventoryLabelY - 3,4210752, false);
+	}
 
-		transform.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
-		if (container.processMax > 0) {
-			int h = (int) (29 * (container.process / (float) container.processMax));
-			transform.blit(TEXTURE, leftPos + 116, topPos + 36 + h, 176, 1 + h, 16, 29 - h);
+	@Override
+	public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		super.extractBackground(graphics, mouseX, mouseY, a);
+
+		graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight, 256, 256);
+		int processMax=container.getData().get(1);
+		if (processMax > 0) {
+			int process=processMax-container.getData().get(0);
+			int h = (int) (29 * (process / (float) processMax));
+			graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos + 116, topPos + 36 + h, 176, 1 + h, 16, 29 - h, 256, 256);
 		}
 	}
 
 	public boolean isMouseIn(int mouseX, int mouseY, int x, int y, int w, int h) {
 		return mouseX >= leftPos + x && mouseY >= topPos + y && mouseX < leftPos + x + w && mouseY < topPos + y + h;
-	}
-
-	@Override
-	public void render(GuiGraphics pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-		super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
-		super.renderTooltip(pPoseStack, pMouseX, pMouseY);
 	}
 }

@@ -21,15 +21,18 @@
 
 package com.teammoeg.caupona.util;
 
+import java.util.Objects;
+
 import com.teammoeg.caupona.data.recipes.TimedRecipe;
 
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
-public class RecipeHandler<T extends Recipe<?>&TimedRecipe>{
+public class RecipeHandler<T extends Recipe<?>&TimedRecipe> implements ContainerData{
 	private int process;
 	private int processMax;
 	private Identifier lastRecipe;
@@ -117,6 +120,27 @@ public class RecipeHandler<T extends Recipe<?>&TimedRecipe>{
 		if(recipeFinished)
 			return processMax;
 		return processMax-process;
+	}
+	@Override
+	public int get(int index) {
+		Objects.checkIndex(index, 2);
+		switch(index) {
+		case 0:return recipeFinished?0:process;
+		case 1:return processMax;
+		}
+		return -1;
+	}
+	@Override
+	public void set(int index, int value) {
+		Objects.checkIndex(index, 2);
+		switch(index) {
+		case 0:process=value;return;
+		case 1:processMax=value;return;
+		}
+	}
+	@Override
+	public int getCount() {
+		return 2;
 	}
 
 }

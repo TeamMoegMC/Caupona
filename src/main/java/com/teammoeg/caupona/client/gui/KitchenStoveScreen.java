@@ -27,8 +27,9 @@ import com.teammoeg.caupona.blocks.stove.KitchenStoveBlockEntity;
 import com.teammoeg.caupona.blocks.stove.KitchenStoveContainer;
 import com.teammoeg.caupona.util.FuelType;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
@@ -42,33 +43,33 @@ public class KitchenStoveScreen extends AbstractContainerScreen<KitchenStoveCont
 		blockEntity = screenContainer.getBlock();
 	}
 
-	public void render(GuiGraphics pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-		super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
-
-		this.renderTooltip(pPoseStack, pMouseX, pMouseY);
-
-	}
-
-	protected void renderLabels(GuiGraphics matrixStack, int x, int y) {
-		matrixStack.drawString(this.font, this.title, this.titleLabelX - 2, this.titleLabelY, 0xEEEEEE, false);
-		matrixStack.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX - 2, this.inventoryLabelY - 2,4210752, false);
+	@Override
+	protected void extractLabels(GuiGraphicsExtractor graphics, int xm, int ym) {
+		graphics.text(this.font, this.title, this.titleLabelX - 2, this.titleLabelY, 0xEEEEEE, false);
+		graphics.text(this.font, this.playerInventoryTitle, this.inventoryLabelX - 2, this.inventoryLabelY - 2,4210752, false);
+	
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics matrixStack, float partialTicks, int x, int y) {
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		matrixStack.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+	public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		super.extractBackground(graphics, mouseX, mouseY, a);
+		
+		graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight, 256, 256);
 		if (blockEntity.processMax > 0 && blockEntity.process > 0) {
 			int h = (int) (26 * (1 - blockEntity.process / (float) blockEntity.processMax));
-			matrixStack.blit(TEXTURE, leftPos + 61, topPos + h, 176, h, 54, 26 - h);
+			graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos + 61, topPos + h, 176, h, 54, 26 - h, 256, 256);
 			if(blockEntity.current==FuelType.CHARCOAL) {
-				matrixStack.blit(TEXTURE, leftPos + 61, topPos + 13, 176, 42, 54, 16);
+				graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos + 61, topPos + 13, 176, 42, 54, 16, 256, 256);
 			}else if(blockEntity.current==FuelType.CHARCOAL) {
-				matrixStack.blit(TEXTURE, leftPos + 61, topPos + 13, 176, 58, 54, 16);
+				graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos + 61, topPos + 13, 176, 58, 54, 16, 256, 256);
 			}else {
-				matrixStack.blit(TEXTURE, leftPos + 61, topPos + 13, 176, 26, 54, 16);
+				graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos + 61, topPos + 13, 176, 26, 54, 16, 256, 256);
 			}
 		}
 	}
+
+	
+
+
 
 }

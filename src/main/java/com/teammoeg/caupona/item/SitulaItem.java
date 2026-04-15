@@ -70,8 +70,9 @@ public class SitulaItem extends Item  implements ICreativeModeTabItem{
 
 	@Override
 	public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
-		FluidStack f=Utils.getFluid(itemStack);
-		builder.accept(Utils.string(f.getAmount()+"/"+MAX_CAPACITY+" mB"));
+		ResourceHandler<FluidResource> handler=itemStack.getCapability(Capabilities.Fluid.ITEM,ItemAccess.forStack(itemStack));
+		if(handler!=null)
+			builder.accept(Utils.string(handler.getResource(0)+"/"+MAX_CAPACITY+" mB"));
 	}
 
 

@@ -23,11 +23,10 @@ package com.teammoeg.caupona.client.gui;
 
 import java.util.function.Supplier;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 
 public class ImageButton extends Button {
@@ -57,7 +56,7 @@ public class ImageButton extends Button {
 		super.setY(yIn);
 	}
 	
-	public void renderWidget(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void extractContents(GuiGraphicsExtractor matrixStack, int mouseX, int mouseY, float partialTicks) {
 		int i = 0, j = state * this.height;
 		if(state!=laststate)
 			super.setTooltip(tooltipProvider.get());
@@ -66,11 +65,8 @@ public class ImageButton extends Button {
 			i += this.width;
 			
 		}
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F,this.alpha);
-		RenderSystem.enableDepthTest();
-		matrixStack.blit(texture, this.getX(), this.getY(), this.xTexStart + i, this.yTexStart + j, this.width, this.height,
-				this.textureWidth, this.textureHeight);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		matrixStack.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), this.xTexStart + i, this.yTexStart + j, this.width, this.height,
+				this.textureWidth, this.textureHeight,0xffffff|(((int)(this.alpha*0xff))<<24));
 
 	}
 }

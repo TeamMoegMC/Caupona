@@ -34,10 +34,11 @@ import com.teammoeg.caupona.components.StewInfo;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.Utils;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
@@ -92,15 +93,15 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 	}
 
 	@Override
-	public void render(GuiGraphics transform, int mouseX, int mouseY, float partial) {
+	public void extractRenderState(GuiGraphicsExtractor transform, int mouseX, int mouseY, float partial) {
 		tooltip.clear();
 		btn1.state = getBlockEntity().proctype > 0 ? 1 : 0;
 		btn2.state = getBlockEntity().rsstate ? 1 : 2;
-		super.render(transform, mouseX, mouseY, partial);
-		if (getBlockEntity().proctype < 2 && !getBlockEntity().getTank().isEmpty()) {
+		super.extractRenderState(transform, mouseX, mouseY, partial);
+		if (getBlockEntity().proctype < 2 && !getBlockEntity().getTank().getResource(0).isEmpty()) {
 			if (isMouseIn(mouseX, mouseY, 105, 20, 16, 46)) {
-				tooltip.add(getBlockEntity().getTank().getFluid().getHoverName());
-				StewInfo si = Utils.getOrCreateInfoForRead(getBlockEntity().getTank().getFluid());
+				tooltip.add(getBlockEntity().getTank().getResource(0).getHoverName());
+				StewInfo si = Utils.getOrCreateInfoForRead(getBlockEntity().getTank().getResource(0));
 				FloatemStack fs = si.getStacks().stream()
 						.max((t1, t2) -> t1.getCount() > t2.getCount() ? 1 : (t1.getCount() == t2.getCount() ? 0 : -1))
 						.orElse(null);
@@ -111,34 +112,35 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 			}
 			GuiUtils.handleGuiTank(transform, getBlockEntity().getTank(), leftPos + 105, topPos + 20, 16, 46);
 		}
-		if (!tooltip.isEmpty())
-			transform.renderTooltip(this.font,tooltip,Optional.empty(), mouseX, mouseY);
-		else
-			super.renderTooltip(transform, mouseX, mouseY);
+		if (!tooltip.isEmpty()) {
+			tooltip.forEach(component->
+			transform.setTooltipForNextFrame(this.font, this.font.split(component, 115), mouseX, mouseY));
+		}
 
-	}
-
-	protected void renderLabels(GuiGraphics matrixStack, int x, int y) {
-		matrixStack.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY,TEXT_COLOR, false);
-
-		Component name = this.playerInventoryTitle;
-		int w = this.font.width(name.getString());
-		matrixStack.drawString(this.font, name, this.imageWidth - w - this.inventoryLabelX, this.inventoryLabelY,TEXT_COLOR, false);
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics transform, float partial, int x, int y) {
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+	protected void extractLabels(GuiGraphicsExtractor graphics, int xm, int ym) {
+		graphics.text(this.font, this.title, this.titleLabelX, this.titleLabelY,TEXT_COLOR, false);
 
-		transform.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+		Component name = this.playerInventoryTitle;
+		int w = this.font.width(name.getString());
+		graphics.text(this.font, name, this.imageWidth - w - this.inventoryLabelX, this.inventoryLabelY,TEXT_COLOR, false);
+	}
+
+	@Override
+	public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		super.extractBackground(graphics, mouseX, mouseY, a);
+
+		graphics.blit(RenderPipelines.GUI_TEXTURED,TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight,256,256);
 		if (getBlockEntity().processMax > 0 && getBlockEntity().process > 0) {
 			int h = (int) (29 * (getBlockEntity().process / (float) getBlockEntity().processMax));
-			transform.blit(TEXTURE, leftPos + 9, topPos + 17 + h, 176, 54 + h, 16, 29 - h);
+			graphics.blit(RenderPipelines.GUI_TEXTURED,TEXTURE, leftPos + 9, topPos + 17 + h, 176, 54 + h, 16, 29 - h,256,256);
 		}
 		if (getBlockEntity().proctype > 1) {
 			if (getBlockEntity().proctype == 2)
-				transform.blit(TEXTURE, leftPos + 44, topPos + 16, 176, 0, 54, 54);
-			transform.blit(TEXTURE, leftPos + 102, topPos + 17, 230, 0, 21, 51);
+				graphics.blit(RenderPipelines.GUI_TEXTURED,TEXTURE, leftPos + 44, topPos + 16, 176, 0, 54, 54,256,256);
+			graphics.blit(RenderPipelines.GUI_TEXTURED,TEXTURE, leftPos + 102, topPos + 17, 230, 0, 21, 51,256,256);
 		}
 	}
 
