@@ -21,6 +21,8 @@
 
 package com.teammoeg.caupona.client;
 
+import java.util.List;
+
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPCapability;
@@ -44,7 +46,8 @@ import com.teammoeg.caupona.client.renderer.PanRenderer;
 import com.teammoeg.caupona.client.renderer.StewPotRenderer;
 import com.teammoeg.caupona.generated.CPStewTexture;
 
-
+import net.minecraft.client.color.block.BlockTintSources;
+import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.object.boat.BoatModel;
@@ -73,7 +76,7 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.neoforge.event.AddAttributeTooltipsEvent;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
-@EventBusSubscriber(value = Dist.CLIENT, modid = CPMain.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = CPMain.MODID)
 public class CPClientRegistry {
 	private static final Identifier STILL_WATER_TEXTURE = Identifier.withDefaultNamespace("block/water_still");
 	@SuppressWarnings("unused")
@@ -167,15 +170,7 @@ public class CPClientRegistry {
 	}
 
 	@SubscribeEvent
-	public static void onTint(RegisterColorHandlersEvent.Block ev) {
-		ev.register((p_92626_, p_92627_, p_92628_, p_92629_) -> {
-			return p_92627_ != null && p_92628_ != null ? BiomeColors.getAverageFoliageColor(p_92627_, p_92628_)
-				: FoliageColor.getDefaultColor();
-		}, CPBlocks.leaves.stream().map(t -> t.value()).toArray(Block[]::new));
-	}
-
-	@SubscribeEvent
-	public static void onTint(RegisterColorHandlersEvent.Item ev) {
-		ev.register((i, t) -> 0x5bd449, CPBlocks.leaves.stream().map(t -> t.value()).toArray(Block[]::new));
+	public static void onTint(RegisterColorHandlersEvent.BlockTintSources ev) {
+		ev.register(List.of(BlockTintSources.foliage()), CPBlocks.leaves.stream().map(t -> t.value()).toArray(Block[]::new));
 	}
 }
