@@ -21,43 +21,39 @@
 
 package com.teammoeg.caupona.client.particle;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.util.Mth;
 
-public class CPParticle extends TextureSheetParticle {
+public class CPParticle extends SingleQuadParticle {
 	protected float originalScale = 1.3F;
 	private SpriteSet spriteSet;
-	protected CPParticle(ClientLevel world, double x, double y, double z) {
-		super(world, x, y, z);
+	protected CPParticle(ClientLevel world, double x, double y, double z,SpriteSet p_sprites) {
+		super(world, x, y, z, p_sprites.first());
+		this.spriteSet=p_sprites;
 		
 	}
 
-	public CPParticle(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ) {
-		super(world, x, y, z, motionX, motionY, motionZ);
+	public CPParticle(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ,SpriteSet p_sprites) {
+		super(world, x, y, z, motionX, motionY, motionZ, p_sprites.first());
+		this.spriteSet=p_sprites;
 	}
 
 	public ParticleRenderType getRenderType() {
-		return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+		return ParticleRenderType.SINGLE_QUADS;
 	}
-	public void setSpriteSet(SpriteSet ss) {
-		this.spriteSet=ss;
-		this.setSpriteFromAge(this.spriteSet);
-	}
-	
 	@Override
-	public void render(VertexConsumer worldRendererIn, Camera entityIn, float pt) {
-		float age = (this.age + pt) / lifetime * 32.0F;
+	public void extract(QuadParticleRenderState particleTypeRenderState, Camera camera, float partialTickTime) {
+		float age = (this.age + partialTickTime) / lifetime * 32.0F;
 
 		age = Mth.clamp(age, 0.0F, 1.0F);
 
 		this.quadSize = originalScale * age;
-		super.render(worldRendererIn, entityIn, pt);
+		super.extract(particleTypeRenderState, camera, partialTickTime);
 	}
 
 	@Override
@@ -66,6 +62,11 @@ public class CPParticle extends TextureSheetParticle {
 
 		if(this.spriteSet!=null)
 			this.setSpriteFromAge(this.spriteSet);
+	}
+
+	@Override
+	protected Layer getLayer() {
+		return SingleQuadParticle.Layer.TRANSLUCENT;
 	}
 
 

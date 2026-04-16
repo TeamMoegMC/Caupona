@@ -21,23 +21,36 @@
 
 package com.teammoeg.caupona.client.renderer;
 
+import org.jspecify.annotations.Nullable;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
+import com.teammoeg.caupona.blocks.foods.BowlBlockEntity;
 import com.teammoeg.caupona.client.util.GuiUtils;
+import com.teammoeg.caupona.item.StewItem;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 
-public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumBlockEntity> {
+public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumBlockEntity,CounterDoliumRenderState> {
 
 	/**
 	 * @param rendererDispatcherIn  
@@ -45,42 +58,47 @@ public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumB
 	public CounterDoliumRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
 	}
 
-
-
-	@SuppressWarnings({ "deprecation", "resource" })
 	@Override
-	public void render(CounterDoliumBlockEntity blockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer,
-			int combinedLightIn, int combinedOverlayIn) {
-		if (!blockEntity.getLevel().hasChunkAt(blockEntity.getBlockPos()))
-			return;
-		BlockState state = blockEntity.getBlockState();
-		if (!CPBlocks.dolium.contains(state.getBlock()))
-			return;
+	public void submit(CounterDoliumRenderState state, PoseStack poseStack, SubmitNodeCollector buffer,
+			CameraRenderState camera) {
+		
+		poseStack.pushPose();
+		if (state.fs != null && !state.fs.isEmpty() && state.fs.getFluid() != null) {
+			float rr = (state.fs.getAmount() / 1250f) * 0.5f + 0.375f;
+			poseStack.translate(0, rr, 0);
+			poseStack.mulPose(GuiUtils.rotate90);
 
-		if (blockEntity.tank.isEmpty())
-			return;
-		FluidStack fs = blockEntity.tank.getFluid();
-		matrixStack.pushPose();
-		if (fs != null && !fs.isEmpty() && fs.getFluid() != null) {
-			float rr = (fs.getAmount() / 1250f) * 0.5f + 0.375f;
-			matrixStack.translate(0, rr, 0);
-			matrixStack.mulPose(GuiUtils.rotate90);
+			FluidModel model = Minecraft.getInstance().getModelManager().getFluidStateModelSet()
+					.get(state.fs.getFluid().defaultFluidState());
+			int color = model.fluidTintSource().colorAsStack(state.fs);
+			TextureAtlasSprite sprite = model.stillMaterial().sprite();
 
-			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
-			IClientFluidTypeExtensions attr=IClientFluidTypeExtensions.of(fs.getFluid());
-			TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS)
-					.getSprite(attr.getStillTexture(fs));
-			int col = attr.getTintColor(fs);
-			float alp = 1f;
-			GuiUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f,
-				(col >> 16 & 255) / 255.0f, (col >> 8 & 255) / 255.0f, (col & 255) / 255.0f, alp,
-				sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), combinedLightIn,
-					combinedOverlayIn);
+			buffer.submitCustomGeometry(poseStack, RenderTypes.translucentMovingBlock(), (matrixStack, builder) -> {
+				GuiUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f,
+						(color >> 16 & 255) , (color >> 8 & 255) , (color & 255), 255,
+						sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), state.lightCoords,
+						OverlayTexture.NO_OVERLAY);
+			});
 
-			
 		}
 
-		matrixStack.popPose();
+		poseStack.popPose();
 	}
 
+
+
+	@Override
+	public CounterDoliumRenderState createRenderState() {
+		return new CounterDoliumRenderState();
+	}
+
+	public void extractRenderState(CounterDoliumBlockEntity blockEntity, CounterDoliumRenderState state, float partialTicks,
+			Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+		state.fs=null;
+		if (blockEntity.tank.getResource(0).isEmpty())
+			return;
+		state.fs = blockEntity.tank.getResource(0).toStack(blockEntity.tank.getAmountAsInt(0));
+
+
+	}
 }

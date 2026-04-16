@@ -43,6 +43,8 @@ import com.teammoeg.caupona.components.StewInfo;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -263,7 +265,10 @@ public class Utils {
 	}
 	public static void setInfo(MutableDataComponentHolder out, StewInfo info) {
 		
-		out.set(CPCapability.STEW_INFO, info.toImmutable());
+		out.set(CPCapability.STEW_INFO.get(), info.toImmutable());
+		out.set(DataComponents.CONSUMABLE, info.getConsumable().build());
+		out.set(DataComponents.FOOD, info.getFood().build());
+		
 		
 	}
 	@SuppressWarnings("unchecked")

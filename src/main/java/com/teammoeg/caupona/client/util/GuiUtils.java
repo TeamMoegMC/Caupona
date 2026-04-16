@@ -25,14 +25,15 @@ import org.joml.Matrix3x2f;
 import org.joml.Quaternionf;
 
 import com.mojang.blaze3d.textures.GpuTextureView;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.PoseStack.Pose;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.state.gui.TiledBlitRenderState;
 import net.minecraft.client.renderer.block.FluidModel;
+import net.minecraft.client.renderer.state.gui.TiledBlitRenderState;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -79,17 +80,17 @@ public class GuiUtils {
 	}
 
 
-	private static void buildVertex(VertexConsumer bu, PoseStack transform, float r, float g, float b, float a,
+	private static void buildVertex(VertexConsumer bu, Pose transform, int r, int g, int b, int a,
 			float p1, float p2, float u0, float u1, int light, int overlay) {
-		bu.addVertex(transform.last().pose(), p1, p2, 0).setColor(r, g, b, a).setUv(u0, u1).setOverlay(overlay).setLight(light)
+		bu.addVertex(transform, p1, p2, 0).setColor(r, g, b, a).setUv(u0, u1).setOverlay(overlay).setLight(light)
 				.setNormal(1f, 1f, 1f);
 	}
 
 
 
-	public static void drawRepeatedSprite(VertexConsumer builder, PoseStack transform, float x, float y, float w,
-			float h, int iconWidth, int iconHeight, float uMin, float uMax, float vMin, float vMax, float r, float g,
-			float b, float alpha, int light, int overlay) {
+	public static void drawRepeatedSprite(VertexConsumer builder, Pose transform, float x, float y, float w,
+			float h, int iconWidth, int iconHeight, float uMin, float uMax, float vMin, float vMax, int r, int g,
+			int b, int alpha, int light, int overlay) {
 		int iterMaxW = (int) (w / iconWidth);
 		int iterMaxH = (int) (h / iconHeight);
 		float leftoverW = w % iconWidth;
@@ -115,8 +116,8 @@ public class GuiUtils {
 		}
 	}
 
-	public static void drawTexturedColoredRect(VertexConsumer builder, PoseStack transform, float x, float y, float w,
-			float h, float r, float g, float b, float alpha, float u0, float u1, float v0, float v1, int light,
+	public static void drawTexturedColoredRect(VertexConsumer builder, Pose transform, float x, float y, float w,
+			float h, int r, int g, int b, int alpha, float u0, float u1, float v0, float v1, int light,
 			int overlay) {
 		buildVertex(builder, transform, r, g, b, alpha, x, y + h, u0, v1, light, overlay);
 		buildVertex(builder, transform, r, g, b, alpha, x + w, y + h, u1, v1, light, overlay);

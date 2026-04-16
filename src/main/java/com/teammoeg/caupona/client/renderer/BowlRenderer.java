@@ -21,8 +21,9 @@
 
 package com.teammoeg.caupona.client.renderer;
 
+import org.jspecify.annotations.Nullable;
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.foods.BowlBlockEntity;
 import com.teammoeg.caupona.client.util.GuiUtils;
@@ -30,81 +31,76 @@ import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.neoforged.neoforge.fluids.FluidStack;
+import net.minecraft.world.phys.Vec3;
 
-public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity,BowlRenderState> {
-	public static class BowlRenderState extends BlockEntityRenderState{
-		
-	}
+public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity, BowlRenderState> {
 	/**
 	 * @param rendererDispatcherIn
 	 */
 	public BowlRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
 	}
 
-
-	@Override
-	public void submit(BowlRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
-		if (!blockEntity.getLevel().hasChunkAt(blockEntity.getBlockPos()))
+	public void extractRenderState(BowlBlockEntity blockEntity, BowlRenderState state, float partialTicks,
+			Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+		BlockEntityRenderState.extractBase(blockEntity, state, breakProgress);
+		BlockState bstate = blockEntity.getBlockState();
+		state.type=0;
+		state.fluid=null;
+		if (bstate.getBlock() == CPBlocks.BOWL.get()) {
+			state.type = 1;
+		} else if (bstate.getBlock() == CPBlocks.LOAF_BOWL.get()) {
+			state.type = 2;
+		} else
 			return;
-		BlockState state = blockEntity.getBlockState();
-		int type=0;
-		if (state.getBlock() == CPBlocks.BOWL.get()) {
-			type=1;
-		}else if(state.getBlock() == CPBlocks.LOAF_BOWL.get()) {
-			type=2;
-		}else
-			return;
-		
 		if (blockEntity.getInternal() == null || !(blockEntity.getInternal().getItem() instanceof StewItem))
 			return;
-		FluidStack fs = Utils.extractFluid(blockEntity.getInternal());
-		matrixStack.pushPose();
-		if (fs != null && !fs.isEmpty() && fs.getFluid() != null) {
-			float y=type==2?.3125f:.28125f;
-			float lowerXZ=.28125f;
-			float higherXZ=.4375f;
-			matrixStack.translate(0, y, 0);
-			matrixStack.mulPose(GuiUtils.rotate90);
+		state.fluid = Utils.getFluidStack(blockEntity.getInternal());
 
-			IClientFluidTypeExtensions attr = IClientFluidTypeExtensions.of(fs.getFluid());
-			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
-			TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS)
-					.getSprite(attr.getStillTexture(fs));
-			int col = attr.getTintColor(fs);
+	}
 
+	@Override
+	public void submit(BowlRenderState state, PoseStack poseStack, SubmitNodeCollector buffer,
+			CameraRenderState camera) {
 
-			float alp = 1f;
+		poseStack.pushPose();
+		if (state.fluid != null && !state.fluid.isEmpty() && state.fluid.getFluid() != null) {
+			float y = state.type == 2 ? .3125f : .28125f;
+			float lowerXZ = .28125f;
+			float higherXZ = .4375f;
+			poseStack.translate(0, y, 0);
+			poseStack.mulPose(GuiUtils.rotate90);
 
-			GuiUtils.drawTexturedColoredRect(builder, matrixStack,
-				lowerXZ , lowerXZ, higherXZ, higherXZ,
-				(col >> 16 & 255) / 255.0f, (col >> 8 & 255) / 255.0f, (col & 255) / 255.0f, alp,
-				sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(),
-					combinedLightIn, combinedOverlayIn);
+			FluidModel model = Minecraft.getInstance().getModelManager().getFluidStateModelSet()
+					.get(state.fluid.getFluid().defaultFluidState());
+			int color = model.fluidTintSource().colorAsStack(state.fluid);
+			TextureAtlasSprite sprite = model.stillMaterial().sprite();
+
+			buffer.submitCustomGeometry(poseStack, RenderTypes.translucentMovingBlock(), (matrixStack, builder) -> {
+				GuiUtils.drawTexturedColoredRect(builder, matrixStack, lowerXZ, lowerXZ, higherXZ, higherXZ,
+						(color >> 16 & 255), (color >> 8 & 255), (color & 255) , 255,
+						sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), state.lightCoords,
+						OverlayTexture.NO_OVERLAY);
+			});
 
 		}
 
-		matrixStack.popPose();
+		poseStack.popPose();
 	}
-
 
 	@Override
 	public BowlRenderState createRenderState() {
-		// TODO Auto-generated method stub
-		return null;
+		return new BowlRenderState();
 	}
-
-
-
 
 }

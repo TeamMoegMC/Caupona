@@ -26,12 +26,13 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 
 public class SootParticle extends CPParticle {
 
 	public SootParticle(ClientLevel world, double x, double y, double z, double motionX, double motionY,
-			double motionZ) {
-		super(world, x, y, z, motionX, motionY, motionZ);
+			double motionZ,SpriteSet sprite) {
+		super(world, x, y, z, motionX, motionY, motionZ,sprite);
 		this.gravity = -0.1F;
 		this.rCol = this.gCol = this.bCol = (float) (Math.random() * 0.2) + 0.8f;
 		this.originalScale = 0.25F;
@@ -49,9 +50,8 @@ public class SootParticle extends CPParticle {
 
 		@Override
 		public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z,
-				double xSpeed, double ySpeed, double zSpeed) {
-			SootParticle steamParticle = new SootParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
-			steamParticle.setSpriteSet(this.spriteSet);
+				double xSpeed, double ySpeed, double zSpeed, RandomSource random) {
+			SootParticle steamParticle = new SootParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed,this.spriteSet);
 			return steamParticle;
 		}
 	}

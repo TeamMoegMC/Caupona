@@ -22,6 +22,9 @@
 package com.teammoeg.caupona.client;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.jspecify.annotations.Nullable;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
@@ -36,12 +39,11 @@ import com.teammoeg.caupona.client.gui.PanScreen;
 import com.teammoeg.caupona.client.gui.PortableBrazierScreen;
 import com.teammoeg.caupona.client.gui.StewPotScreen;
 import com.teammoeg.caupona.client.gui.TBenchScreen;
+import com.teammoeg.caupona.client.model.MosaicModel;
 import com.teammoeg.caupona.client.particle.SootParticle;
 import com.teammoeg.caupona.client.particle.SteamParticle;
 import com.teammoeg.caupona.client.renderer.BowlRenderer;
-import com.teammoeg.caupona.client.renderer.CPBoatRenderer;
 import com.teammoeg.caupona.client.renderer.CounterDoliumRenderer;
-import com.teammoeg.caupona.client.renderer.MosaicRenderer;
 import com.teammoeg.caupona.client.renderer.PanRenderer;
 import com.teammoeg.caupona.client.renderer.StewPotRenderer;
 import com.teammoeg.caupona.generated.CPStewTexture;
@@ -53,14 +55,21 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.object.boat.BoatModel;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
+import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.core.Holder.Reference;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -68,12 +77,17 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterFluidModelsEvent;
+import net.neoforged.neoforge.client.event.RegisterItemModelsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.fluid.FluidTintSource;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.AddAttributeTooltipsEvent;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = CPMain.MODID)
@@ -107,7 +121,7 @@ public class CPClientRegistry {
 		//BlockEntityRenderers.register(CPBlockEntityTypes.BOWL.get(), LoafBowlRenderer::new);
 		
 		Sheets.addWoodType(CPBlocks.WALNUT);
-		EntityRenderers.register(CPEntityTypes.BOAT.get(), c -> new CPBoatRenderer(c, false));
+		EntityRenderers.register(CPEntityTypes.BOAT.get(), c -> new BoatRenderer(c, new ModelLayerLocation(CPMain.rl("boat/walnut"), "main")));
 
 	}
 	@SuppressWarnings("deprecation")
@@ -127,50 +141,39 @@ public class CPClientRegistry {
 		event.register(CPGui.T_BENCH.get(), TBenchScreen::new);
 	}
 	@SubscribeEvent
-	public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
-		event.registerItem(new IClientItemExtensions() {
-			MosaicRenderer renderer = new MosaicRenderer();
+	public static void registerClientExtensions(RegisterItemModelsEvent event) {
+		event.register(CPMain.rl("mosaic"), MosaicModel.Unbaked.MAP_CODEC);
+		
+	}
 
-			@Override
-			public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-				return renderer;
-			}
+    @SubscribeEvent
+    static void onRegisterFluidModels(RegisterFluidModelsEvent event) {
 
-		}, CPBlocks.MOSAIC.get().asItem());
 		for (String i : CPItems.soups) {
 			Identifier rt = CPStewTexture.texture.getOrDefault(i,STILL_WATER_TEXTURE);
 			int cx = 0xffffffff;
-			event.registerFluidType(
-				new IClientFluidTypeExtensions() {
-
-					@Override
-					public int getTintColor() {
-						return cx;
-					}
-
-					@Override
-					public Identifier getStillTexture() {
-						return rt;
-					}
-
-					@Override
-					public Identifier getFlowingTexture() {
-						return rt;
-					}
-
-				}, NeoForgeRegistries.FLUID_TYPES.get(Identifier.fromNamespaceAndPath(CPMain.MODID, i)));
+			Identifier id=Identifier.fromNamespaceAndPath(CPMain.MODID, i);
+			//@Nullable FluidType type=NeoForgeRegistries.FLUID_TYPES.getValue(id);
+			event.register(new FluidModel.Unbaked(
+                    new Material(rt),
+                    new Material(rt),
+                    null,
+                    new FluidTintSource() {
+						@Override
+						public int color(FluidState state) {
+							return cx;
+						}
+                    }),BuiltInRegistries.FLUID.getValue(id));
 		}
-
-	}
-
+    }
 	@SubscribeEvent
 	public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
 		event.registerSpriteSet(CPParticles.STEAM.get(), SteamParticle.Factory::new);
 		event.registerSpriteSet(CPParticles.SOOT.get(), SootParticle.Factory::new);
 	}
-
 	@SubscribeEvent
 	public static void onTint(RegisterColorHandlersEvent.BlockTintSources ev) {
 		ev.register(List.of(BlockTintSources.foliage()), CPBlocks.leaves.stream().map(t -> t.value()).toArray(Block[]::new));
+		
 	}
 }

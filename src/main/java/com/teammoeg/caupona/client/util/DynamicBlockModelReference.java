@@ -21,52 +21,43 @@
 
 package com.teammoeg.caupona.client.util;
 
-import java.util.List;
-import java.util.function.Function;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
-import net.minecraft.Util;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.Identifier;
-import net.minecraft.util.RandomSource;
-import net.neoforged.neoforge.client.model.data.ModelData;
 
-public record DynamicBlockModelReference(ModelResourceLocation name) implements Supplier<BakedModel>,Function<ModelData,List<BakedQuad>>
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.geometry.QuadCollection;
+import net.minecraft.util.RandomSource;
+import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
+
+public record DynamicBlockModelReference(StandaloneModelKey<QuadCollection> name) implements Supplier<QuadCollection>
 {
 
 	private static final RandomSource RANDOM_SOURCE=RandomSource.create();
 	static {
 		RANDOM_SOURCE.setSeed(42L);
 	}
-	public static final Function<Identifier,DynamicBlockModelReference> cache=Util.memoize(DynamicBlockModelReference::new);
-	@Deprecated
-	public DynamicBlockModelReference(Identifier rl)
+	
+	public static final Map<String,DynamicBlockModelReference> cache=new HashMap<>();
+	private DynamicBlockModelReference(String name)
 	{
-		this(ModelResourceLocation.standalone(rl));
+		this(new StandaloneModelKey<>(()->name));
 	}
-	public static DynamicBlockModelReference getModelCached(Identifier rl)
+	public synchronized static DynamicBlockModelReference createKey(String name) {
+		return cache.computeIfAbsent(name, DynamicBlockModelReference::new);
+		
+	}
+	public static DynamicBlockModelReference getModelCached(String rl)
 	{
 		if(rl==null)
 			return null;
-		return cache.apply(rl);
+		return cache.get(rl);
 	}
 	@Override
-	public BakedModel get()
+	public QuadCollection get()
 	{
-		return Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getModelManager().getModel(name);
-	}
-
-	public List<BakedQuad> getAllQuads()
-	{
-		return apply(ModelData.EMPTY);
-	}
-	@Override
-	public List<BakedQuad> apply(ModelData data)
-	{
-		return get().getQuads(null, null,RANDOM_SOURCE, data, null);
+		return Minecraft.getInstance().getModelManager().getStandaloneModel(name);
 	}
 	public static RandomSource getRandomSource() {
 		return RANDOM_SOURCE;

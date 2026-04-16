@@ -21,6 +21,9 @@
 
 package com.teammoeg.caupona.item;
 
+import java.util.Map.Entry;
+import java.util.Optional;
+
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.components.StewInfo;
@@ -29,6 +32,9 @@ import com.teammoeg.caupona.util.TabType;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponentPatch.Builder;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -38,6 +44,9 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class SkimmerItem extends CPItem {
 
@@ -51,25 +60,39 @@ public class SkimmerItem extends CPItem {
 		 BlockEntity be=context.getLevel().getBlockEntity(pos);
 		 if(be instanceof StewPotBlockEntity stewpot) {
 			 if(stewpot.canAddFluid()) {
-				 FluidTank tank=stewpot.getTank();
-				 FluidStack fluid=tank.getFluidInTank(0);
+				 ResourceHandler<FluidResource> tank=stewpot.getTank();
+				 FluidResource fluid=tank.getResource(0);
+				 int amount=tank.getAmountAsInt(0);
 				 StewInfo si=Utils.getOrCreateInfo(fluid);
 				 float dense=si.getDensity();
 				 if(dense>0.5) {
-					 float toreduce=Math.min(dense-0.5f,0.5f);
-					 float reduced=toreduce*fluid.getAmount()/250f;
-					 for(FloatemStack lstack:si.getStacks()) {
-						 lstack.shrink(lstack.getCount()/dense*toreduce);
+					 try(Transaction trans=Transaction.openRoot()){
+						 int extracted=tank.extract(0, fluid, amount, trans);
+						 if(extracted!=amount)
+							 return InteractionResult.FAIL;
+						 
+						 float toreduce=Math.min(dense-0.5f,0.5f);
+						 float reduced=toreduce*amount/250f;
+						 for(FloatemStack lstack:si.getStacks()) {
+							 lstack.shrink(lstack.getCount()/dense*toreduce);
+						 }
+						 si.recalculateHAS();
+						 //copy from original
+						 FluidStack neo=new FluidStack(fluid.getFluid(),extracted,fluid.getComponentsPatch());
+						 //set new info
+						 Utils.setInfo(neo, si);
+						 FluidResource fr=FluidResource.of(neo);
+						 if(tank.insert(0, fr, extracted, trans)!=extracted)
+							 return InteractionResult.FAIL;							 
+						 trans.commit();
+						 stack.hurtAndBreak( 1,context.getPlayer(),context.getHand()==InteractionHand.MAIN_HAND?EquipmentSlot.MAINHAND:EquipmentSlot.OFFHAND);
+						 float frac=Mth.frac(reduced);
+						 int amt=Mth.floor(reduced);
+						 if(context.getPlayer().getRandom().nextFloat()<frac)
+							 amt++;
+						 context.getPlayer().getInventory().placeItemBackInInventory( new ItemStack(CPItems.scraps.get(),amt));
+						 
 					 }
-					 si.recalculateHAS();
-					 Utils.setInfo(fluid, si);
-					 tank.setFluid(fluid);
-					 stack.hurtAndBreak( 1,context.getPlayer(),context.getHand()==InteractionHand.MAIN_HAND?EquipmentSlot.MAINHAND:EquipmentSlot.OFFHAND);
-					 float frac=Mth.frac(reduced);
-					 int amt=Mth.floor(reduced);
-					 if(context.getPlayer().getRandom().nextFloat()<frac)
-						 amt++;
-					 context.getPlayer().getInventory().placeItemBackInInventory( new ItemStack(CPItems.scraps.get(),amt));
 					 return InteractionResult.SUCCESS;
 				 }
 				 
