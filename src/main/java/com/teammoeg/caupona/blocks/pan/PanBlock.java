@@ -21,11 +21,15 @@
 
 package com.teammoeg.caupona.blocks.pan;
 
+import java.util.List;
+
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
+import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -34,9 +38,12 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootParams.Builder;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 public class PanBlock extends CPHorizontalEntityBlock<PanBlockEntity> {
 
@@ -63,26 +70,27 @@ public class PanBlock extends CPHorizontalEntityBlock<PanBlockEntity> {
 		
 		if (blockEntity != null && !worldIn.isClientSide())
 			((ServerPlayer) player).openMenu( blockEntity, blockEntity.getBlockPos());
-		return InteractionResult.sidedSuccess(worldIn.isClientSide());
+		return InteractionResult.SUCCESS;
 	}
-
 	@Override
-	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (state.getBlock() != newState.getBlock()&&worldIn.getBlockEntity(pos) instanceof PanBlockEntity pan) {
-			if (pan.processMax == 0)
-				for (int i = 0; i < 9; i++) {
-					ItemStack is = pan.inv.getStackInSlot(i);
-					if (!is.isEmpty())
-						super.popResource(worldIn, pos, is);
+	protected List<ItemStack> getDrops(BlockState p_state, Builder p_params) {
+		List<ItemStack> list=super.getDrops(p_state, p_params);
+		if (p_params.getParameter(LootContextParams.BLOCK_ENTITY) instanceof PanBlockEntity pan) {
+			for (int i = 0; i < 9; i++) {
+				ItemResource is = pan.inv.getResource(i);;
+				if (!is.isEmpty()) {
+					list.add(is.toStack(pan.inv.getAmountAsInt(i)));
 				}
+			}
 			for (int i = 9; i < 12; i++) {
-				ItemStack is = pan.inv.getStackInSlot(i);
+				ItemResource is = pan.inv.getResource(i);
 				if (!is.isEmpty())
-					super.popResource(worldIn, pos, is);
+					list.add(is.toStack(pan.inv.getAmountAsInt(i)));
 			}
 		}
-		super.onRemove(state, worldIn, pos, newState, isMoving);
+		return list;
 	}
+
 
 	@Override
 	public boolean hasAnalogOutputSignal(BlockState pState) {
@@ -90,16 +98,16 @@ public class PanBlock extends CPHorizontalEntityBlock<PanBlockEntity> {
 	}
 
 	@Override
-	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
+	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos,Direction dir) {
 		
 		if(pLevel.getBlockEntity(pPos) instanceof PanBlockEntity pan)
 			if (pan.processMax == 0) {
 				int ret = 1;
-				if(!pan.sout.isEmpty()||!pan.inv.getStackInSlot(10).isEmpty()) {
+				if(!pan.sout.isEmpty()||!pan.inv.getResource(10).isEmpty()) {
 					return 15;
 				}
 				for (int i = 0; i < 9; i++) {
-					ItemStack is = pan.getInv().getStackInSlot(i);
+					ItemResource is = pan.getInv().getResource(i);
 					if (!is.isEmpty())
 						ret++;
 				}

@@ -43,6 +43,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 
@@ -71,6 +72,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 		// return true;
 	}
 	public static boolean isBowl(ItemStack stack) {
+
 		for(Ingredient igd:bowls) {
 			if(igd.test(stack))
 				return true;

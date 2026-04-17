@@ -21,57 +21,60 @@
 
 package com.teammoeg.caupona.client.renderer;
 
-import com.google.common.collect.ImmutableSet;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.teammoeg.caupona.CPBlocks;
-import com.teammoeg.caupona.blocks.pan.PanBlock;
-import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
-import com.teammoeg.caupona.client.util.DisplayGroupProperty;
-import com.teammoeg.caupona.client.util.DynamicBlockModelReference;
-import com.teammoeg.caupona.client.util.ModelUtils;
+import org.jspecify.annotations.Nullable;
 
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.QuadInstance;
+import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
+import com.teammoeg.caupona.client.renderer.PanRenderState.LayerType;
+import com.teammoeg.caupona.client.util.DynamicBlockModelReference;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer.CrumblingOverlay;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.model.data.ModelData;
+import net.minecraft.world.phys.Vec3;
 
-public class PanRenderer implements BlockEntityRenderer<PanBlockEntity> {
-
+public class PanRenderer implements BlockEntityRenderer<PanBlockEntity,PanRenderState> {
+	private final QuadInstance quadInstance = new QuadInstance();
 	/**
 	 * @param rendererDispatcherIn  
 	 */
 	public PanRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
 	}
-	ModelData panLayer=ModelData.builder().with(DisplayGroupProperty.PROPERTY, ImmutableSet.of("ServingsInPan")).build();
-	ModelData plateLayer=ModelData.builder().with(DisplayGroupProperty.PROPERTY, ImmutableSet.of("ServingsOnPlate")).build();
-
-	@SuppressWarnings({ "deprecation", "resource" })
 	@Override
-	public void render(PanBlockEntity blockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer,
-			int combinedLightIn, int combinedOverlayIn) {
-		if (!blockEntity.getLevel().hasChunkAt(blockEntity.getBlockPos()))
+	public PanRenderState createRenderState() {
+		return new PanRenderState();
+	}
+	@Override
+	public void submit(PanRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
+		
+		if(state.model==null)
 			return;
-		BlockState state = blockEntity.getBlockState();
-		Block b = state.getBlock();
-		if(!(b instanceof PanBlock))return;
-		ResourceLocation torender = blockEntity.model;
-		if(torender==null)
-			return;
-		DynamicBlockModelReference model=DynamicBlockModelReference.getModelCached(torender);
-
-
-		ModelData imd;
+		DynamicBlockModelReference model=DynamicBlockModelReference.getModel(state.model);
+		submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.translucentMovingBlock(), (pose,buffer)->{
+			for(BakedQuad quad:model.get().getAll()) {
+				buffer.putBakedQuad(pose, quad, quadInstance);
+			}
+		});
+	}
+	@Override
+	public void extractRenderState(PanBlockEntity blockEntity, PanRenderState state, float partialTicks, Vec3 cameraPosition, @Nullable CrumblingOverlay breakProgress) {
+		BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
+		BlockState bstate = blockEntity.getBlockState();
+		Block b = bstate.getBlock();
 		if((b == CPBlocks.STONE_PAN.get()))
-			imd=plateLayer;
+			state.layer=LayerType.PLATE;
 		else
-			imd=panLayer;
-		if(imd==null)return;
-		ModelUtils.tesellate(blockEntity, model, buffer.getBuffer(RenderType.CUTOUT), matrixStack, combinedOverlayIn, imd);
-
+			state.layer=LayerType.PAN;
+		state.model=null;
+		if(blockEntity.model!=null)
+			state.model=blockEntity.model.withSuffix(state.layer.getPathSuffix());
 	}
 
 }

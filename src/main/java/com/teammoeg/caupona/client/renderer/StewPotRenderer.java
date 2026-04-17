@@ -21,27 +21,24 @@
 
 package com.teammoeg.caupona.client.renderer;
 
-import org.joml.Vector3f;
+import org.jspecify.annotations.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.teammoeg.caupona.blocks.pot.StewPot;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
-import com.teammoeg.caupona.client.util.GuiUtils;
+import com.teammoeg.caupona.client.util.FluidRenderHelper;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.neoforged.neoforge.fluids.FluidStack;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer.CrumblingOverlay;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.util.ARGB;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 
-public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity> {
+public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity,StewPotRenderState> {
 
 	/**
 	 * @param rendererDispatcherIn
@@ -49,65 +46,59 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity> 
 	public StewPotRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
 	}
 
-	private static Vector3f clr(int fromcol, int tocol, float proc) {
-		float fcolr = (fromcol >> 16 & 255) / 255.0f, fcolg = (fromcol >> 8 & 255) / 255.0f,
-				fcolb = (fromcol & 255) / 255.0f, tcolr = (tocol >> 16 & 255) / 255.0f,
-				tcolg = (tocol >> 8 & 255) / 255.0f, tcolb = (tocol & 255) / 255.0f;
-		return new Vector3f(fcolr + (tcolr - fcolr) * proc, fcolg + (tcolg - fcolg) * proc,
-				fcolb + (tcolb - fcolb) * proc);
-	}
 
-	private static Vector3f clr(int col) {
-		return new Vector3f((col >> 16 & 255) / 255.0f, (col >> 8 & 255) / 255.0f, (col & 255) / 255.0f);
-	}
 
-	@SuppressWarnings({ "deprecation", "resource" })
+
 	@Override
-	public void render(StewPotBlockEntity blockEntity, float partialTicks, PoseStack matrixStack,
-			MultiBufferSource buffer, int combinedLightIn, int combinedOverlayIn) {
-		if (!blockEntity.getLevel().hasChunkAt(blockEntity.getBlockPos()))
-			return;
-		BlockState state = blockEntity.getBlockState();
-		if (!(state.getBlock() instanceof StewPot))
-			return;
-		matrixStack.pushPose();
-		FluidStack fs = blockEntity.getTank().getFluid();
-		if (fs != null && !fs.isEmpty() && fs.getFluid() != null) {
-			float rr = fs.getAmount();
-			if (blockEntity.proctype == 2)// just animate fluid reduction
-				rr += 250f * (1 - blockEntity.process * 1f / blockEntity.processMax);
-			float yy = Math.min(1, rr / blockEntity.getTank().getCapacity()) * .5f + .1875f;
-			matrixStack.translate(0, yy, 0);
-			matrixStack.mulPose(GuiUtils.rotate90);
-			VertexConsumer builder = buffer.getBuffer(RenderType.translucent());
-			IClientFluidTypeExtensions attr0 = IClientFluidTypeExtensions.of(fs.getFluid());
-			TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
-			TextureAtlasSprite sprite = atlas.getSprite(attr0.getStillTexture(fs));
-			int col = attr0.getTintColor(fs);
-			Vector3f clr;
+	public StewPotRenderState createRenderState() {
+		return new StewPotRenderState();
+	}
+
+	@Override
+	public void extractRenderState(StewPotBlockEntity blockEntity, StewPotRenderState state, float partialTicks, Vec3 cameraPosition, @Nullable CrumblingOverlay breakProgress) {
+		BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
+		state.input=null;
+		state.output=null;
+		state.process=blockEntity.process;
+		state.processMax=blockEntity.processMax;
+		FluidResource cur=blockEntity.getTank().getResource(0);
+		if(!cur.isEmpty())
+			state.input=cur.toStack(blockEntity.getTank().getAmountAsInt(0));
+		state.output=blockEntity.output;
+		
+	}
+
+	@Override
+	public void submit(StewPotRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
+		poseStack.pushPose();
+		if (state.input!= null && !state.input.isEmpty() && state.input.getFluid() != null) {
+			float rr = state.input.getAmount();
+			if (state.output !=null)// just animate fluid modification
+				rr += (state.output.getAmount()-state.input.getAmount()) * ( state.process * 1f / state.processMax);
+			float yy = Math.min(1, rr / 1250) * .5f + .1875f;
+			poseStack.translate(0, yy, 0);
+			FluidModel inModel=FluidRenderHelper.getFluidModel(state.input);
+			int inColor = FluidRenderHelper.getFluidColor(inModel, state.input);
 			float alp = 1f;
-			if (blockEntity.output != null&&!blockEntity.output.isEmpty() && blockEntity.processMax > 0) {
-				IClientFluidTypeExtensions attr1 = IClientFluidTypeExtensions.of(blockEntity.output.getFluid());
-				TextureAtlasSprite sprite2 = atlas.getSprite(attr1.getStillTexture(fs));
-				float proc = blockEntity.process * 1f / blockEntity.processMax;
-				clr = clr(col, attr1.getTintColor(fs), proc);
+			if (state.output != null&&!state.output.isEmpty() && state.processMax > 0) {
+				FluidModel outModel=FluidRenderHelper.getFluidModel(state.output);
+				float proc = state.process * 1f / state.processMax;
+				int color =ARGB.srgbLerp(proc, inColor, FluidRenderHelper.getFluidColor(outModel, state.output));
 
 				alp = 1 - proc;
-				GuiUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(), clr.y(),
-						clr.z(), proc, sprite2.getU0(), sprite2.getU1(), sprite2.getV0(), sprite2.getV1(),
-						combinedLightIn, combinedOverlayIn);
+			
+				FluidRenderHelper.submitColoredTexturedRect(submitNodeCollector, poseStack, outModel.stillMaterial().sprite(), .125f, .125f, .75f, .75f, ARGB.color(proc, color), state.lightCoords, OverlayTexture.NO_OVERLAY);
 
-			} else {
-				clr = clr(col);
 
 			}
-			GuiUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f, clr.x(), clr.y(),
-					clr.z(), alp, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), combinedLightIn,
-					combinedOverlayIn);
+			FluidRenderHelper.submitColoredTexturedRect(submitNodeCollector, poseStack, inModel.stillMaterial().sprite(),
+				.125f, .125f, .75f, .75f,
+				ARGB.color(alp, inColor), state.lightCoords, OverlayTexture.NO_OVERLAY);
+
 
 		}
 
-		matrixStack.popPose();
+		poseStack.popPose();
 	}
 
 }

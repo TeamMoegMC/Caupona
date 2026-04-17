@@ -26,6 +26,7 @@ import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.client.util.DynamicBlockModelReference;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -38,9 +39,10 @@ public class ClientEvents {
 	public static void registerModels(ModelEvent.RegisterStandalone ev)
 	{
 		Minecraft.getInstance().getResourceManager().listResources("models/block/dynamic",e->e.getPath().endsWith(".json")).keySet().forEach(rl->{
+			//remove models/ and .json
 			String name=rl.getPath().substring(0,rl.getPath().lastIndexOf(".")).substring(7);
 			
-			ev.register(DynamicBlockModelReference.createKey(name).name(),SimpleUnbakedStandaloneModel.quadCollection(rl));
+			ev.register(DynamicBlockModelReference.createKey(Identifier.fromNamespaceAndPath(rl.getNamespace(), name)).name(),SimpleUnbakedStandaloneModel.quadCollection(rl));
 					
 					
 					

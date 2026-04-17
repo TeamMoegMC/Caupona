@@ -25,6 +25,7 @@ import org.joml.Matrix3x2f;
 import org.joml.Quaternionf;
 
 import com.mojang.blaze3d.textures.GpuTextureView;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.PoseStack.Pose;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -32,35 +33,45 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.FluidModel;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.gui.TiledBlitRenderState;
 import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 
 /**
- * Fluid render codes adapted from Immersive Engineering and modified.
- * Related codes fall under their license and open-sourced.
+ * Fluid render codes modified.
  * 
- * @author BluSunrize
  * @author khjxiaogu
  */
-public class GuiUtils {
+public class FluidRenderHelper {
 
-	private GuiUtils() {
+	private FluidRenderHelper() {
 	}
 
 
 	public static Quaternionf rotate90=new Quaternionf().rotateX((float) (Math.PI/2));
+	public static int getFluidColor(FluidModel model,FluidStack stack) {
+		int color = 0xffffffff;
+		if(model.fluidTintSource() != null)
+			color=model.fluidTintSource().colorAsStack(stack);
+		return color;
+	}
+	public static FluidModel getFluidModel(FluidStack stack) {
+		return Minecraft.getInstance().getModelManager().getFluidStateModelSet()
+			.get(stack.getFluid().defaultFluidState());
+	}
 	public static void handleGuiTank(GuiGraphicsExtractor transform, ResourceHandler<FluidResource> tank, int x, int y, int w, int h) {
 		FluidStack fluid = tank.getResource(0).toStack(tank.getAmountAsInt(0));
 		if (fluid != null && fluid.getFluid() != null) {
 			int fluidHeight = (int) (h * (tank.getAmountAsInt(0) / (float) tank.getAmountAsLong(0)));
-			FluidModel model = Minecraft.getInstance().getModelManager().getFluidStateModelSet()
-				.get(fluid.getFluid().defaultFluidState());
-			int color = model.fluidTintSource().colorAsStack(fluid);
+			FluidModel model = FluidRenderHelper.getFluidModel(fluid);
+			int color = FluidRenderHelper.getFluidColor(model, fluid);
 			TextureAtlasSprite sprite=model.stillMaterial().sprite();
 			AbstractTexture spriteTexture = Minecraft.getInstance().getTextureManager().getTexture(sprite.atlasLocation());
 			GpuTextureView texture = spriteTexture.getTextureView();
@@ -78,19 +89,25 @@ public class GuiUtils {
 			
 		}
 	}
+	public static void submitColoredTexturedRect(SubmitNodeCollector buffer,PoseStack poseStack,TextureAtlasSprite sprite,float x0,float z0,float x1,float z1,int color,int packedLight,int packedOverlay) {
+		buffer.submitCustomGeometry(poseStack, RenderTypes.translucentMovingBlock(), (matrixStack, builder) -> {
+			FluidRenderHelper.drawTexturedColoredRect(builder, matrixStack, x0, z0, x1, z1,
+					color,
+					sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), packedLight,
+					packedOverlay);
+		});
+	}
 
-
-	private static void buildVertex(VertexConsumer bu, Pose transform, int r, int g, int b, int a,
+	private static void buildVertex(VertexConsumer bu, Pose transform, int color,
 			float p1, float p2, float u0, float u1, int light, int overlay) {
-		bu.addVertex(transform, p1, p2, 0).setColor(r, g, b, a).setUv(u0, u1).setOverlay(overlay).setLight(light)
+		bu.addVertex(transform, p1, p2, 0).setColor(color).setUv(u0, u1).setOverlay(overlay).setLight(light)
 				.setNormal(1f, 1f, 1f);
 	}
 
 
 
 	public static void drawRepeatedSprite(VertexConsumer builder, Pose transform, float x, float y, float w,
-			float h, int iconWidth, int iconHeight, float uMin, float uMax, float vMin, float vMax, int r, int g,
-			int b, int alpha, int light, int overlay) {
+			float h, int iconWidth, int iconHeight, float uMin, float uMax, float vMin, float vMax, int color, int light, int overlay) {
 		int iterMaxW = (int) (w / iconWidth);
 		int iterMaxH = (int) (h / iconHeight);
 		float leftoverW = w % iconWidth;
@@ -102,26 +119,26 @@ public class GuiUtils {
 		for (int ww = 0; ww < iterMaxW; ww++) {
 			for (int hh = 0; hh < iterMaxH; hh++)
 				drawTexturedColoredRect(builder, transform, x + ww * iconWidth, y + hh * iconHeight, iconWidth,
-						iconHeight, r, g, b, alpha, uMin, uMax, vMin, vMax, light, overlay);
+						iconHeight, color, uMin, uMax, vMin, vMax, light, overlay);
 			drawTexturedColoredRect(builder, transform, x + ww * iconWidth, y + iterMaxH * iconHeight, iconWidth,
-					leftoverH, r, g, b, alpha, uMin, uMax, vMin, (vMin + iconVDif * leftoverHf), light, overlay);
+					leftoverH, color, uMin, uMax, vMin, (vMin + iconVDif * leftoverHf), light, overlay);
 		}
 		if (leftoverW > 0) {
 			for (int hh = 0; hh < iterMaxH; hh++)
 				drawTexturedColoredRect(builder, transform, x + iterMaxW * iconWidth, y + hh * iconHeight, leftoverW,
-						iconHeight, r, g, b, alpha, uMin, (uMin + iconUDif * leftoverWf), vMin, vMax, light, overlay);
+						iconHeight, color, uMin, (uMin + iconUDif * leftoverWf), vMin, vMax, light, overlay);
 			drawTexturedColoredRect(builder, transform, x + iterMaxW * iconWidth, y + iterMaxH * iconHeight, leftoverW,
-					leftoverH, r, g, b, alpha, uMin, (uMin + iconUDif * leftoverWf), vMin,
+					leftoverH, color, uMin, (uMin + iconUDif * leftoverWf), vMin,
 					(vMin + iconVDif * leftoverHf), light, overlay);
 		}
 	}
 
 	public static void drawTexturedColoredRect(VertexConsumer builder, Pose transform, float x, float y, float w,
-			float h, int r, int g, int b, int alpha, float u0, float u1, float v0, float v1, int light,
+			float h, int color, float u0, float u1, float v0, float v1, int light,
 			int overlay) {
-		buildVertex(builder, transform, r, g, b, alpha, x, y + h, u0, v1, light, overlay);
-		buildVertex(builder, transform, r, g, b, alpha, x + w, y + h, u1, v1, light, overlay);
-		buildVertex(builder, transform, r, g, b, alpha, x + w, y, u1, v0, light, overlay);
-		buildVertex(builder, transform, r, g, b, alpha, x, y, u0, v0, light, overlay);
+		buildVertex(builder, transform, color, x, y + h, u0, v1, light, overlay);
+		buildVertex(builder, transform, color, x + w, y + h, u1, v1, light, overlay);
+		buildVertex(builder, transform, color, x + w, y, u1, v0, light, overlay);
+		buildVertex(builder, transform, color, x, y, u0, v0, light, overlay);
 	}
 }

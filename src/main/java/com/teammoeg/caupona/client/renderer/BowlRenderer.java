@@ -26,7 +26,7 @@ import org.jspecify.annotations.Nullable;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.foods.BowlBlockEntity;
-import com.teammoeg.caupona.client.util.GuiUtils;
+import com.teammoeg.caupona.client.util.FluidRenderHelper;
 import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.Utils;
 
@@ -53,7 +53,7 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity, BowlRe
 
 	public void extractRenderState(BowlBlockEntity blockEntity, BowlRenderState state, float partialTicks,
 			Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
-		BlockEntityRenderState.extractBase(blockEntity, state, breakProgress);
+		BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
 		BlockState bstate = blockEntity.getBlockState();
 		state.type=0;
 		state.fluid=null;
@@ -79,19 +79,13 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity, BowlRe
 			float lowerXZ = .28125f;
 			float higherXZ = .4375f;
 			poseStack.translate(0, y, 0);
-			poseStack.mulPose(GuiUtils.rotate90);
+			poseStack.mulPose(FluidRenderHelper.rotate90);
 
-			FluidModel model = Minecraft.getInstance().getModelManager().getFluidStateModelSet()
-					.get(state.fluid.getFluid().defaultFluidState());
-			int color = model.fluidTintSource().colorAsStack(state.fluid);
+			FluidModel model = FluidRenderHelper.getFluidModel(state.fluid);
+			int color = FluidRenderHelper.getFluidColor(model, state.fluid);
 			TextureAtlasSprite sprite = model.stillMaterial().sprite();
-
-			buffer.submitCustomGeometry(poseStack, RenderTypes.translucentMovingBlock(), (matrixStack, builder) -> {
-				GuiUtils.drawTexturedColoredRect(builder, matrixStack, lowerXZ, lowerXZ, higherXZ, higherXZ,
-						(color >> 16 & 255), (color >> 8 & 255), (color & 255) , 255,
-						sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), state.lightCoords,
-						OverlayTexture.NO_OVERLAY);
-			});
+			FluidRenderHelper.submitColoredTexturedRect(buffer, poseStack, sprite,lowerXZ,lowerXZ,higherXZ,higherXZ, color, state.lightCoords, OverlayTexture.NO_OVERLAY);
+			
 
 		}
 

@@ -34,6 +34,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 public class FloatemTagStack {
 	Set<Identifier> tags;
@@ -60,6 +61,10 @@ public class FloatemTagStack {
 		this.stack = stack;
 
 		this.count = stack.getCount();
+	}
+
+	public FloatemTagStack(ItemResource stack2) {
+		this(stack2.toStack());
 	}
 
 	public Set<Identifier> getTags() {

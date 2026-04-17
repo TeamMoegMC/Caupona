@@ -25,30 +25,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.geometry.QuadCollection;
-import net.minecraft.util.RandomSource;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
 
 public record DynamicBlockModelReference(StandaloneModelKey<QuadCollection> name) implements Supplier<QuadCollection>
 {
-
-	private static final RandomSource RANDOM_SOURCE=RandomSource.create();
-	static {
-		RANDOM_SOURCE.setSeed(42L);
-	}
 	
-	public static final Map<String,DynamicBlockModelReference> cache=new HashMap<>();
-	private DynamicBlockModelReference(String name)
+	public static final Map<Identifier,DynamicBlockModelReference> cache=new HashMap<>();
+	private DynamicBlockModelReference(Identifier name)
 	{
-		this(new StandaloneModelKey<>(()->name));
+		this(new StandaloneModelKey<>(name::toString));
 	}
-	public synchronized static DynamicBlockModelReference createKey(String name) {
+	public synchronized static DynamicBlockModelReference createKey(Identifier name) {
 		return cache.computeIfAbsent(name, DynamicBlockModelReference::new);
 		
 	}
-	public static DynamicBlockModelReference getModelCached(String rl)
+	public static DynamicBlockModelReference getModel(Identifier rl)
 	{
 		if(rl==null)
 			return null;
@@ -58,9 +52,6 @@ public record DynamicBlockModelReference(StandaloneModelKey<QuadCollection> name
 	public QuadCollection get()
 	{
 		return Minecraft.getInstance().getModelManager().getStandaloneModel(name);
-	}
-	public static RandomSource getRandomSource() {
-		return RANDOM_SOURCE;
 	}
 
 }

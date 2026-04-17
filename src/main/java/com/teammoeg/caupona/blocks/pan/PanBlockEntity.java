@@ -57,11 +57,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.wrapper.RangedWrapper;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 
 public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,IInfinitable,IFoodContainer {
 	//process
@@ -79,24 +83,24 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	public ItemStack sout = ItemStack.EMPTY;
 	public Identifier model;
 	//Capabilities
-	public ItemStackHandler inv = new ItemStackHandler(12) {
+	public ItemStacksResourceHandler inv = new ItemStacksResourceHandler(12) {
 		@Override
-		public boolean isItemValid(int slot, ItemStack stack) {
+		public boolean isValid(int slot, ItemResource stack) {
 			if (slot < 9)
-				return SauteedRecipe.isCookable(stack);
+				return SauteedRecipe.isCookable(stack.toStack());
 			if (slot == 9) {
-				return SauteedRecipe.isBowl(stack);
+				return SauteedRecipe.isBowl(stack.toStack());
 			}
 			if (slot == 11)
-				return SpiceRecipe.isValid(stack);
+				return SpiceRecipe.isValid(stack.toStack());
 			return false;
 		}
 
 		@Override
-		public int getSlotLimit(int slot) {
+		public int getCapacity(int slot,ItemResource ir) {
 			if (slot < 9)
 				return 1;
-			return super.getSlotLimit(slot);
+			return super.getCapacity(slot, ir);
 		}
 	};
 	public IItemHandler bowl = new IItemHandler() {
@@ -166,32 +170,26 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	}
 
 	@Override
-	public void readCustomNBT(CompoundTag nbt, boolean isClient,HolderLookup.Provider ra) {
-		working = nbt.getBoolean("working");
-		operate = nbt.getBoolean("operate");
-		rsstate = nbt.getBoolean("rsstate");
-		process = nbt.getInt("process");
-		processMax = nbt.getInt("processMax");
-		if(nbt.contains("model"))
-			model=Identifier.parse(nbt.getString("model"));
-		else
-			model=null;
+	public void readCustomNBT(ValueInput nbt, boolean isClient) {
+		working = nbt.getBooleanOr("working",false);
+		operate = nbt.getBooleanOr("operate",false);
+		rsstate = nbt.getBooleanOr("rsstate",false);
+		process = nbt.getIntOr("process",0);
+		processMax = nbt.getIntOr("processMax",0);
+		model=nbt.getString("model").map(Identifier::parse).orElse(null);
 		if (!isClient) {
-			if (nbt.contains("sout"))
-				sout = ItemStack.parseOptional(ra,nbt.getCompound("sout"));
-			else
-				sout = ItemStack.EMPTY;
-			inv.deserializeNBT(ra,nbt.getCompound("items"));
-			isInfinite =nbt.getBoolean("inf");
-			removesNBT=nbt.getBoolean("removeNbt");
-			preout = ItemStack.parseOptional(ra,nbt.getCompound("result"));
+			sout=nbt.read("sout", ItemStack.CODEC).orElse(ItemStack.EMPTY);
+			inv.deserialize(nbt.childOrEmpty("items"));
+			isInfinite =nbt.getBooleanOr("inf",false);
+			removesNBT=nbt.getBooleanOr("removeNbt",false);
+			preout = nbt.read("result", ItemStack.CODEC).orElse(ItemStack.EMPTY);
 		}
 		
 
 	}
 
 	@Override
-	public void writeCustomNBT(CompoundTag nbt, boolean isClient,HolderLookup.Provider ra) {
+	public void writeCustomNBT(ValueOutput nbt, boolean isClient) {
 		nbt.putBoolean("working", working);
 		nbt.putBoolean("operate", operate);
 		nbt.putBoolean("rsstate", rsstate);
@@ -200,11 +198,11 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		if(model!=null)
 		nbt.putString("model", model.toString());
 		if (!isClient) {
-			nbt.put("sout", sout.saveOptional(ra));
-			nbt.put("items", inv.serializeNBT(ra));
+			nbt.store("sout", ItemStack.CODEC, sout);
+			inv.serialize(nbt.child("items"));
 			nbt.putBoolean("inf",isInfinite);
 			nbt.putBoolean("removeNbt",removesNBT);
-			nbt.put("result",preout.saveOptional(ra));
+			nbt.store("result", ItemStack.CODEC, preout);
 		}
 		
 		
@@ -414,7 +412,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		return Utils.translate("container." + CPMain.MODID + ".pan.title");
 	}
 
-	public ItemStackHandler getInv() {
+	public ItemStacksResourceHandler getInv() {
 		return inv;
 	}
 

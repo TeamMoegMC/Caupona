@@ -29,7 +29,7 @@ import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotContainer;
-import com.teammoeg.caupona.client.util.GuiUtils;
+import com.teammoeg.caupona.client.util.FluidRenderHelper;
 import com.teammoeg.caupona.components.StewInfo;
 import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.Utils;
@@ -110,7 +110,7 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 							fs.getStack().getDisplayName()));
 				Utils.addPotionTooltip(si.getPotionEffects(), tooltip::add, 1,getBlockEntity().getLevel());
 			}
-			GuiUtils.handleGuiTank(transform, getBlockEntity().getTank(), leftPos + 105, topPos + 20, 16, 46);
+			FluidRenderHelper.handleGuiTank(transform, getBlockEntity().getTank(), leftPos + 105, topPos + 20, 16, 46);
 		}
 		if (!tooltip.isEmpty()) {
 			tooltip.forEach(component->

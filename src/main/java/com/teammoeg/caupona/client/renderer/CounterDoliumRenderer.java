@@ -28,7 +28,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 import com.teammoeg.caupona.blocks.foods.BowlBlockEntity;
-import com.teammoeg.caupona.client.util.GuiUtils;
+import com.teammoeg.caupona.client.util.FluidRenderHelper;
 import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.util.Utils;
 
@@ -66,19 +66,13 @@ public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumB
 		if (state.fs != null && !state.fs.isEmpty() && state.fs.getFluid() != null) {
 			float rr = (state.fs.getAmount() / 1250f) * 0.5f + 0.375f;
 			poseStack.translate(0, rr, 0);
-			poseStack.mulPose(GuiUtils.rotate90);
+			poseStack.mulPose(FluidRenderHelper.rotate90);
 
-			FluidModel model = Minecraft.getInstance().getModelManager().getFluidStateModelSet()
-					.get(state.fs.getFluid().defaultFluidState());
-			int color = model.fluidTintSource().colorAsStack(state.fs);
+			FluidModel model = FluidRenderHelper.getFluidModel(state.fs);
+			int color = FluidRenderHelper.getFluidColor(model, state.fs);
 			TextureAtlasSprite sprite = model.stillMaterial().sprite();
-
-			buffer.submitCustomGeometry(poseStack, RenderTypes.translucentMovingBlock(), (matrixStack, builder) -> {
-				GuiUtils.drawTexturedColoredRect(builder, matrixStack, .125f, .125f, .75f, .75f,
-						(color >> 16 & 255) , (color >> 8 & 255) , (color & 255), 255,
-						sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), state.lightCoords,
-						OverlayTexture.NO_OVERLAY);
-			});
+			FluidRenderHelper.submitColoredTexturedRect(buffer, poseStack, sprite,.125f,.125f,.75f,.75f, color, state.lightCoords, OverlayTexture.NO_OVERLAY);
+			
 
 		}
 
@@ -94,6 +88,7 @@ public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumB
 
 	public void extractRenderState(CounterDoliumBlockEntity blockEntity, CounterDoliumRenderState state, float partialTicks,
 			Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+		BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
 		state.fs=null;
 		if (blockEntity.tank.getResource(0).isEmpty())
 			return;
