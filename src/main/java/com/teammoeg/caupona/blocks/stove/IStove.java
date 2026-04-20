@@ -21,8 +21,10 @@
 
 package com.teammoeg.caupona.blocks.stove;
 
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+
 public interface IStove {
-	public int requestHeat();
+	public int requestHeat(int maxExtract,Transaction trans);
 
 	public boolean canEmitHeat();
 }

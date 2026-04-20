@@ -32,7 +32,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
-public class RecipeHandler<T extends Recipe<?>&TimedRecipe> implements ContainerData{
+public class RecipeHandler<T extends Recipe<?>> implements ContainerData{
 	private int process;
 	private int processMax;
 	private Identifier lastRecipe;
@@ -52,11 +52,14 @@ public class RecipeHandler<T extends Recipe<?>&TimedRecipe> implements Container
 	public boolean shouldTestRecipe() {
 		return !recipeTested;
 	}
-	public void setRecipe(RecipeHolder<T> recipe) {
+	public boolean isRecipeFinished() {
+		return recipeFinished;
+	}
+	public void setRecipe(RecipeHolder<T> recipe,int calculatedProcessTime) {
 		//System.out.println("revalidate return "+recipe);
 		if (recipe!= null) {
 			if(!recipe.id().identifier().equals(lastRecipe)) {
-				process=processMax=recipe.value().getTime();
+				process=processMax=calculatedProcessTime;
 				lastRecipe=recipe.id().identifier();
 				recipeFinished=false;
 			}
@@ -66,6 +69,9 @@ public class RecipeHandler<T extends Recipe<?>&TimedRecipe> implements Container
 			recipeFinished=false;
 		}
 		recipeTested=true;
+	}
+	public boolean shouldTick() {
+		return process>0;
 	}
 	public boolean tickProcess(int num) {
 		if (process > 0) {

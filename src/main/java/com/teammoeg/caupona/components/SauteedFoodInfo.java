@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.mojang.serialization.Codec;
@@ -64,8 +65,10 @@ public class SauteedFoodInfo extends SpicedFoodInfo implements IFoodInfo,Tooltip
 	public List<ChancedEffect> foodeffect = new ArrayList<>();
 	public int healing;
 	public float saturation;
-	
-	public SauteedFoodInfo(Optional<MobEffectInstance> spice, Boolean hasSpice, Optional<Identifier> spiceName, List<FloatemStack> stacks, List<ChancedEffect> foodeffect, int healing,
+	public SauteedFoodInfo copy() {
+		return new SauteedFoodInfo(Optional.ofNullable(spice),hasSpice,Optional.ofNullable(spiceName),stacks.stream().map(t->t.copy()).collect(Collectors.toList()),foodeffect.stream().map(t->t.copy()).collect(Collectors.toList()),healing,saturation);
+	}
+	public SauteedFoodInfo(Optional<MobEffectInstance> spice, boolean hasSpice, Optional<Identifier> spiceName, List<FloatemStack> stacks, List<ChancedEffect> foodeffect, int healing,
 		float saturation) {
 		super(spice, hasSpice, spiceName);
 		this.stacks = stacks;

@@ -23,7 +23,6 @@ package com.teammoeg.caupona.util;
 
 import java.util.function.Supplier;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
@@ -58,6 +57,9 @@ public class LazyTickWorker {
 	}
 	public void rewind() {
 		tCur=0;
+	}
+	public void rewind(int num) {
+		tCur=tMax-num;
 	}
 	public void enqueue() {
 		tCur=tMax;

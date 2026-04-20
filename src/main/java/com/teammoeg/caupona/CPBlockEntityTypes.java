@@ -64,7 +64,7 @@ public class CPBlockEntityTypes {
 			.register("kitchen_stove_fast", makeTypes(KitchenStoveT2::new,
 					()->CPBlocks.stoves.stream().map(e->e.get()).filter(e->e.getBlock()==CPBlockEntityTypes.STOVE_T2).collect(Collectors.toList())));
 	public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<BowlBlockEntity>> BOWL = REGISTER.register("bowl",makeTypes2(BowlBlockEntity::new,
-					()->List.of(CPBlocks.BOWL,CPBlocks.LOAF_BOWL)));
+					()->List.of(CPBlocks.BOWL,CPBlocks.LOAF_BOWL.getSecond())));
 	public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<CPSignBlockEntity>> SIGN = REGISTER.register("sign",makeTypes(CPSignBlockEntity::new,
 					()->CPBlocks.signs));
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CPHangingSignBlockEntity>> HANGING_SIGN = REGISTER.register("hanging_sign",makeTypes(CPHangingSignBlockEntity::new,

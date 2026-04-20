@@ -24,26 +24,34 @@ package com.teammoeg.caupona.blocks.dolium;
 import com.teammoeg.caupona.CPGui;
 import com.teammoeg.caupona.container.CPBaseContainer;
 import com.teammoeg.caupona.container.OutputSlot;
+import com.teammoeg.caupona.util.LimitedInterfaceStacksHandler;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.IndexModifier;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 
 public class DoliumContainer extends CPBaseContainer<CounterDoliumBlockEntity> {
-
+	//client only
 	public DoliumContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
-		this(id, inv, (CounterDoliumBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()));
+		this(id, inv, (CounterDoliumBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()),new LimitedInterfaceStacksHandler(new ItemStacksResourceHandler(CounterDoliumBlockEntity.ACCESSIBLE_SLOTS)));
 	}
-
+	//server only
 	public DoliumContainer(int id, Inventory inv, CounterDoliumBlockEntity blockEntity) {
+		this(id, inv, blockEntity,blockEntity.getInv());
+	}
+	public DoliumContainer(int id, Inventory inv, CounterDoliumBlockEntity blockEntity,LimitedInterfaceStacksHandler blockInv) {
 		super(CPGui.DOLIUM.get(),blockEntity, id,6);
-		this.addSlot(new ResourceHandlerSlot(blockEntity.inv,blockEntity.inv::set, 0, 153, 4));
-		this.addSlot(new ResourceHandlerSlot(blockEntity.inv,blockEntity.inv::set, 1, 134, 8));
-		this.addSlot(new ResourceHandlerSlot(blockEntity.inv,blockEntity.inv::set, 2, 115, 12));
-		this.addSlot(new ResourceHandlerSlot(blockEntity.inv,blockEntity.inv::set, 3, 132, 35));
-		this.addSlot(new ResourceHandlerSlot(blockEntity.inv,blockEntity.inv::set, 4, 132, 53));
-		this.addSlot(new OutputSlot(blockEntity.inv,blockEntity.inv::set, 5, 152, 51));
+		IndexModifier<ItemResource> slotset=blockInv::set;
+		this.addSlot(new ResourceHandlerSlot(blockInv,slotset, 0, 153, 4));
+		this.addSlot(new ResourceHandlerSlot(blockInv,slotset, 1, 134, 8));
+		this.addSlot(new ResourceHandlerSlot(blockInv,slotset, 2, 115, 12));
+		this.addSlot(new ResourceHandlerSlot(blockInv,slotset, 3, 132, 35));
+		this.addSlot(new ResourceHandlerSlot(blockInv,slotset, 4, 132, 53));
+		this.addSlot(new OutputSlot(blockInv,slotset, 5, 152, 51));
 		addPlayerInventory(inv,8,83,141);
 	}
 	@Override

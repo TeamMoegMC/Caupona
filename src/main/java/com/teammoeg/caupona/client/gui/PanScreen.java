@@ -22,6 +22,7 @@
 package com.teammoeg.caupona.client.gui;
 
 import java.util.ArrayList;
+
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
 import com.teammoeg.caupona.blocks.pan.PanContainer;
@@ -79,7 +80,7 @@ public class PanScreen extends AbstractContainerScreen<PanContainer> {
 	@Override
 	public void extractRenderState(GuiGraphicsExtractor transform, int mouseX, int mouseY, float partial) {
 		tooltip.clear();
-		btn1.state = blockEntity.processMax > 0 ? 1 : 0;
+		btn1.state = blockEntity.handler.getProcessMax() > 0 ? 1 : 0;
 		btn2.state = blockEntity.rsstate ? 1 : 2;
 		super.extractRenderState(transform, mouseX, mouseY, partial);
 		if (!tooltip.isEmpty()) {
@@ -103,11 +104,11 @@ public class PanScreen extends AbstractContainerScreen<PanContainer> {
 		super.extractBackground(graphics, mouseX, mouseY, a);
 
 		graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight,256,256);
-		if (blockEntity.processMax > 0 && blockEntity.process > 0) {
-			int h = (int) (29 * (blockEntity.process / (float) blockEntity.processMax));
+		if (blockEntity.handler.getProcessMax() > 0 && blockEntity.handler.getProcess() > 0) {
+			int h = (int) (29 * (blockEntity.handler.getProcess() / (float) blockEntity.handler.getProcessMax()));
 			graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos + 39, topPos + 16 + h, 176, 54 + h, 16, 29 - h,256,256);
 		}
-		if (blockEntity.processMax > 0) {
+		if (blockEntity.handler.getProcessMax() > 0) {
 			graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos + 61, topPos + 12, 176, 0, 54, 54,256,256);
 		}
 	}

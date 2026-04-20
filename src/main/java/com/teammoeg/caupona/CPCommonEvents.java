@@ -63,10 +63,10 @@ import net.neoforged.neoforge.transfer.fluid.FluidResource;
 
 @EventBusSubscriber
 public class CPCommonEvents {
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public static void addReloadListeners(AddServerReloadListenersEvent event) {
 		event.addListener(CPMain.rl("reloadrecipe"),new RecipeReloadListener(event.getServerResources()));
-	}
+	}*/
 
 	@SubscribeEvent
 	public static void isExtractAllowed(FoodExchangeItemEvent.Pre event) {

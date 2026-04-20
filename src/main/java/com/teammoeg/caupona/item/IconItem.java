@@ -27,8 +27,8 @@ import net.minecraft.world.item.Item;
 
 public class IconItem extends CPItem {
 
-	public IconItem() {
-		super(new Item.Properties(),TabType.HIDDEN);
+	public IconItem(Item.Properties props) {
+		super(props,TabType.HIDDEN);
 	}
 
 }

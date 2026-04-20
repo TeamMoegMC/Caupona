@@ -30,22 +30,32 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.transfer.IndexModifier;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 
 public class PanContainer extends CPBaseContainer<PanBlockEntity> {
 
 	public PanContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
-		this(id, inv, (PanBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()));
+		this(id, inv, (PanBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()),new ItemStacksResourceHandler(PanBlockEntity.ACCESSIBLE_SLOTS));
 	}
-
+	public PanContainer(int id, Inventory inv, PanBlockEntity blockEntity,ItemStacksResourceHandler blockInv) {
+		this(id,inv,blockEntity,blockInv,blockInv::set);
+	}
 	public PanContainer(int id, Inventory inv, PanBlockEntity blockEntity) {
+		this(id,inv,blockEntity,blockEntity.getInv(),blockEntity.getInternInv()::set);
+	}
+	public PanContainer(int id, Inventory inv, PanBlockEntity blockEntity,ResourceHandler<ItemResource> blockInv,IndexModifier<ItemResource> slotset) {
 		super(CPGui.PAN.get(),blockEntity, id,12);
+		this.addDataSlots(blockEntity.handler);
 		for (int i = 0; i < 9; i++)
-			this.addSlot(new HidableSlot(blockEntity.inv, i, 62 + (i % 3) * 18, 13 + (i / 3) * 18, () -> blockEntity.processMax == 0));
-		this.addSlot(new SlotItemHandler(blockEntity.inv, 9, 147, 13));
+			this.addSlot(new HidableSlot(blockInv,slotset, i, 62 + (i % 3) * 18, 13 + (i / 3) * 18, () -> !blockEntity.handler.shouldTick()));
+		this.addSlot(new ResourceHandlerSlot(blockInv,slotset, 9, 147, 13));
 
-		this.addSlot(new OutputSlot(blockEntity.inv, 10, 136, 47));
-		this.addSlot(new SlotItemHandler(blockEntity.inv, 11, 125, 13) {
+		this.addSlot(new OutputSlot(blockInv,slotset, 10, 136, 47));
+		this.addSlot(new ResourceHandlerSlot(blockInv,slotset, 11, 125, 13) {
 
 			@Override
 			public boolean mayPlace(ItemStack stack) {

@@ -31,6 +31,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 public record FuelType (TagKey<Item> it,String modelLayer,String cold_ash,String hot_ash){
 	private static final Map<Identifier,FuelType> types=new HashMap<>();
@@ -56,7 +57,7 @@ public record FuelType (TagKey<Item> it,String modelLayer,String cold_ash,String
 		this(ItemTags.create(tag),modelLayer,hot_ash,cold_ash);
 	}
 
-	public static FuelType getType(ItemStack is) {
+	public static FuelType getType(ItemResource is) {
 		if(is.isEmpty())
 			return FuelType.OTHER;
 		for (FuelType ft : types.values()) {

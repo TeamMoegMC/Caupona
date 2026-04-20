@@ -28,7 +28,7 @@ import org.jspecify.annotations.Nullable;
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
-import com.teammoeg.caupona.item.DishItem;
+import com.teammoeg.caupona.util.WorldDropOperation;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -38,7 +38,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -50,8 +49,8 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class DishBlock extends CPRegisteredEntityBlock<DishBlockEntity> {
 
@@ -70,7 +69,6 @@ public class DishBlock extends CPRegisteredEntityBlock<DishBlockEntity> {
 	static final VoxelShape shape = Block.box(0, 0, 0, 16, 3, 16);
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
 		return 1.0F;
 	}
@@ -94,10 +92,12 @@ public class DishBlock extends CPRegisteredEntityBlock<DishBlockEntity> {
 	protected List<ItemStack> getDrops(BlockState p_state, Builder p_params) {
 		List<ItemStack> li=super.getDrops(p_state, p_params);
 		if (p_params.getParameter(LootContextParams.BLOCK_ENTITY) instanceof DishBlockEntity bowl) {
-			li.add(bowl.getInternal());
+			ItemResource ir=bowl.getInternal().getResource(0);
+			li.add(ir.toStack(bowl.getInternal().getAmountAsInt(0)));
 		}
 		return li;
 	}
+
 
 
 	@Override
@@ -106,25 +106,36 @@ public class DishBlock extends CPRegisteredEntityBlock<DishBlockEntity> {
 		InteractionResult p = super.useWithoutItem(state, worldIn, pos, player, hit);
 		if (p.consumesAction())
 			return p;
-		if (worldIn.getBlockEntity(pos) instanceof DishBlockEntity dish &&dish.getInternal() != null && dish.getInternal().getItem() instanceof DishItem
-				) {
-			@Nullable Consumable fp = dish.getInternal().get(DataComponents.CONSUMABLE);
+		if (worldIn.getBlockEntity(pos) instanceof DishBlockEntity bowl) {
+			ItemResource ir=bowl.getInternal().getResource(0);
+			ItemStack stack=ir.toStack();
+			@Nullable Consumable fp = ir.get(DataComponents.CONSUMABLE);
 			if(fp!=null) {
-				if (dish.isInfinite) {
-					if (fp.canConsume(player, dish.getInternal())) {
-						fp.onConsume(worldIn, player, dish.getInternal().copy());
-						dish.syncData();
+				
+				if (bowl.isInfinite) {
+					if(fp.canConsume(player, stack)) {
+						fp.onConsume(worldIn, player, stack);
+						bowl.syncData();
 					}
 				} else {
-					if (fp.canConsume(player, dish.getInternal())) {
-						ItemStack iout = fp.onConsume(worldIn, player, dish.getInternal().copy());
-						dish.setInternal(iout);
-						if (dish.getInternal().is(Items.BOWL)) {
-							worldIn.setBlockAndUpdate(pos, CPBlocks.DISH.get().defaultBlockState());
-						} else {
-							worldIn.removeBlock(pos, false);
+					if(fp.canConsume(player, stack)) {
+						try(Transaction trans=Transaction.openRoot()){
+							if(bowl.getInternal().extract(ir, 1, trans)>0) {
+								ItemStack iout=fp.onConsume(worldIn, player, stack);
+								int count=iout.getCount();
+								if(!iout.isEmpty()) {
+									ItemResource toOut=bowl.getInternal().getResourceFrom(iout);
+									count-=bowl.getInternal().insert(toOut, count, trans);
+									if(count>0) {
+										WorldDropOperation drops=new WorldDropOperation(worldIn,pos);
+										drops.addDrops(toOut.toStack(count));
+										drops.updateSnapshots(trans);
+									}
+								}else
+									worldIn.removeBlock(pos, false);
+								trans.commit();
+							}
 						}
-						dish.syncData();
 					}
 				}
 			}
@@ -136,34 +147,25 @@ public class DishBlock extends CPRegisteredEntityBlock<DishBlockEntity> {
 	@Override
 	public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, LivingEntity pPlacer, ItemStack pStack) {
 		super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
-		if (pLevel.getBlockEntity(pPos) instanceof DishBlockEntity dish) {
-			dish.setComponents(DataComponentMap.EMPTY);
-			dish.setInternal(pStack.copyWithCount(1));
+		if (pLevel.getBlockEntity(pPos) instanceof DishBlockEntity bowl) {
+			bowl.setComponents(DataComponentMap.EMPTY);
+			ItemResource ir=bowl.getInternal().getResourceFrom(pStack);
+			try(Transaction trans=Transaction.openRoot()){
+				bowl.getInternal().insert(0, ir, 1,trans);
+				trans.commit();
+			}
 		}
 	}
 	@Override
 	public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
-		if (level.getBlockEntity(pos) instanceof DishBlockEntity dish) {
-			if (dish.getInternal() == null)
+		if (level.getBlockEntity(pos) instanceof DishBlockEntity bowl) {
+			if (bowl.getInternal() == null)
 				return ItemStack.EMPTY;
-			return dish.getInternal().copy();
+			return bowl.getInternal().getResource(0).toStack();
 		}
-		return super.getCloneItemStack(level, pos,state,includeData, player);
+		return super.getCloneItemStack(level, pos, state, includeData, player);
 	}
 
-	@Override
-	public boolean hasAnalogOutputSignal(BlockState pState) {
-		return true;
-	}
-
-	@Override
-	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos,Direction pos) {
-		if (pLevel.getBlockEntity(pPos) instanceof DishBlockEntity dish)
-			if (dish.getInternal() != null && !dish.getInternal().isEmpty() && dish.getInternal().get(DataComponents.CONSUMABLE)!=null) 
-				return 15;
-		
-		return 0;
-	}
 
 	@Override
 	public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {

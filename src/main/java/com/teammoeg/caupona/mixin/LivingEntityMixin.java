@@ -34,7 +34,7 @@ public class LivingEntityMixin {
 
 	public LivingEntityMixin() {
 	}
-	@ModifyVariable(at = @At("HEAD"),method="hurt",index=2,argsOnly=true,require=1)
+	@ModifyVariable(at = @At("HEAD"),method="Lnet/minecraft/world/entity/LivingEntity;hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z",index=3,argsOnly=true,require=0)
 	public float setAmount(float amount) {
 		if(getThis().hasEffect(CPMobEffects.HYPERACTIVE))
 			return amount*2*(getThis().getEffect(CPMobEffects.HYPERACTIVE).getAmplifier()+1);

@@ -26,7 +26,6 @@ import java.util.List;
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
-import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -77,15 +76,15 @@ public class PanBlock extends CPHorizontalEntityBlock<PanBlockEntity> {
 		List<ItemStack> list=super.getDrops(p_state, p_params);
 		if (p_params.getParameter(LootContextParams.BLOCK_ENTITY) instanceof PanBlockEntity pan) {
 			for (int i = 0; i < 9; i++) {
-				ItemResource is = pan.inv.getResource(i);;
+				ItemResource is = pan.getInternInv().getResource(i);;
 				if (!is.isEmpty()) {
-					list.add(is.toStack(pan.inv.getAmountAsInt(i)));
+					list.add(is.toStack(pan.getInternInv().getAmountAsInt(i)));
 				}
 			}
 			for (int i = 9; i < 12; i++) {
-				ItemResource is = pan.inv.getResource(i);
+				ItemResource is = pan.getInternInv().getResource(i);
 				if (!is.isEmpty())
-					list.add(is.toStack(pan.inv.getAmountAsInt(i)));
+					list.add(is.toStack(pan.getInternInv().getAmountAsInt(i)));
 			}
 		}
 		return list;
@@ -101,9 +100,9 @@ public class PanBlock extends CPHorizontalEntityBlock<PanBlockEntity> {
 	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos,Direction dir) {
 		
 		if(pLevel.getBlockEntity(pPos) instanceof PanBlockEntity pan)
-			if (pan.processMax == 0) {
+			if (!pan.handler.shouldTick()) {
 				int ret = 1;
-				if(!pan.sout.isEmpty()||!pan.inv.getResource(10).isEmpty()) {
+				if(!pan.sout.isEmpty()||!pan.getInternInv().getResource(10).isEmpty()) {
 					return 15;
 				}
 				for (int i = 0; i < 9; i++) {

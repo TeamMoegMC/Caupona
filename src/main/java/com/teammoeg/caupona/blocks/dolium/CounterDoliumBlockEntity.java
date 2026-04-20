@@ -30,6 +30,7 @@ import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
 import com.teammoeg.caupona.util.LazyTickWorker;
+import com.teammoeg.caupona.util.LimitedInterfaceStacksHandler;
 import com.teammoeg.caupona.util.RecipeHandleStatus;
 import com.teammoeg.caupona.util.RecipeHandler;
 import com.teammoeg.caupona.util.SpiceAddedResourceHandler;
@@ -59,7 +60,18 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
 public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuProvider, IInfinitable {
-	ItemStacksResourceHandler inv = new ItemStacksResourceHandler(6) {
+	public static final int ACCESSIBLE_SLOTS=6;
+	private ItemStacksResourceHandler internInv = new ItemStacksResourceHandler(ACCESSIBLE_SLOTS) {
+		@Override
+		protected void onContentsChanged(int slot, ItemStack stack) {
+			if(slot<5&&slot!=3)
+				recipeHandler.onContainerChanged();
+			setChanged();
+			super.onContentsChanged(slot, stack);
+		}
+		
+	};
+	private LimitedInterfaceStacksHandler inv = new LimitedInterfaceStacksHandler(internInv) {
 		@Override
 		public boolean isValid(int slot, ItemResource stack) {
 			if (slot < 3)
@@ -69,15 +81,6 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 			}
 			return true;
 		}
-
-		@Override
-		protected void onContentsChanged(int slot, ItemStack stack) {
-			if(slot<5&&slot!=3)
-				recipeHandler.onContainerChanged();
-			setChanged();
-			super.onContentsChanged(slot, stack);
-		}
-		
 	};
 	public final FluidStacksResourceHandler tank = new FluidStacksResourceHandler(1,1250) {
 
@@ -99,13 +102,13 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 		}
 
 	};
-	public final SpiceAddedResourceHandler modtank=new SpiceAddedResourceHandler(tank,inv,3);
+	public final SpiceAddedResourceHandler modtank=new SpiceAddedResourceHandler(tank,internInv,3);
 	public LazyTickWorker contain;
 	boolean isInfinite = false;
 	public final RecipeHandler<DoliumRecipe> recipeHandler=new RecipeHandler<>(t->{
-		RecipeHolder<DoliumRecipe> recipe = DoliumRecipe.testDolium(tank, inv);
+		RecipeHolder<DoliumRecipe> recipe = DoliumRecipe.testDolium(tank, internInv, t);
 		if(recipe!=null&&recipe.id().identifier().equals(t)) {
-			return recipe.value().handleDolium(tank, inv);
+			return recipe.value().handleDolium(tank, internInv);
 		}
 		return RecipeHandleStatus.FAILED;
 	});
@@ -130,7 +133,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 		tank.deserialize(nbt.childOrEmpty("tank"));
 		isInfinite = nbt.getBooleanOr("inf",false);
 		if (!isClient) {
-			inv.deserialize(nbt.childOrEmpty("inventory"));
+			internInv.deserialize(nbt.childOrEmpty("inventory"));
 			
 		}
 
@@ -142,7 +145,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 		tank.serialize(nbt.child("tank"));
 		nbt.putBoolean("inf", isInfinite);
 		if (!isClient) {
-			inv.serialize(nbt.child("inventory"));
+			internInv.serialize(nbt.child("inventory"));
 		}
 
 	}
@@ -154,8 +157,8 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 		boolean updateNeeded = contain.tick();
 		if(!isInfinite) {
 			if(recipeHandler.shouldTestRecipe()){
-				RecipeHolder<DoliumRecipe> recipe=DoliumRecipe.testDolium(tank, inv);
-				recipeHandler.setRecipe(recipe);
+				RecipeHolder<DoliumRecipe> recipe=DoliumRecipe.testDolium(tank, internInv, null);
+				recipeHandler.setRecipe(recipe,recipe==null?0:recipe.value().getTime());
 			}
 			if (recipeHandler.tickProcess(1)) {
 				updateNeeded=true;
@@ -167,17 +170,17 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 	}
 
 	private boolean tryContianFluid() {
-		ItemResource container=inv.getResource(4);
+		ItemResource container=internInv.getResource(4);
 		if(!container.isEmpty()) {
 			try(Transaction trans=Transaction.openRoot()){
 				if(tank.getAmountAsInt(0)>=250) {
 					FluidResource rs=tank.getResource(0);
-					int itemCount=inv.extract(4, container, 1, trans);
+					int itemCount=internInv.extract(4, container, 1, trans);
 					int fluidAmount=tank.extract(rs, 250, trans);
 					if(itemCount>0&&fluidAmount>=250) {
 						ContanerContainFoodEvent result=Utils.contain(container,rs,fluidAmount);
 						if(result.isAllowed()) {
-							if(inv.insert(5,result.getOutput(), 1, trans)==1) {
+							if(internInv.insert(5,result.getOutput(), 1, trans)==1) {
 								trans.commit();
 								return true;
 							}
@@ -201,6 +204,20 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 
 	RangedResourceHandler<ItemResource> bowl = new RangedResourceHandler<>(inv, 3, 6) {
 
+		@Override
+		public int insert(int index, ItemResource resource, int amount, TransactionContext transaction) {
+			if(index==2)
+				return 0;
+			return super.insert(index, resource, amount, transaction);
+		}
+
+		@Override
+		public int extract(int index, ItemResource resource, int amount, TransactionContext transaction) {
+			if(index==2)
+				return super.extract(index, resource, amount, transaction);
+			return 0;
+		}
+		
 	};
 	RangedResourceHandler<ItemResource> ingredient = new RangedResourceHandler<>(inv, 0, 3) {
 
@@ -225,8 +242,11 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 		return isInfinite = !isInfinite;
 	}
 
-	public ItemStacksResourceHandler getInv() {
+	public LimitedInterfaceStacksHandler getInv() {
 		return inv;
+	}
+	public ItemStacksResourceHandler getInternInv() {
+		return internInv;
 	}
 
 	@Override

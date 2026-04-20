@@ -28,11 +28,12 @@ import com.teammoeg.caupona.item.CPBlockItem;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.TabType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 
 public class MosaicItem extends CPBlockItem {
 
-	public MosaicItem(Properties props) {
-		super(CPBlocks.MOSAIC.get(), props,TabType.DECORATION);
+	public MosaicItem(Block blk,Properties props) {
+		super(blk, props,TabType.DECORATION);
 	}
 	@Override
 	public void fillItemCategory(CreativeTabItemHelper helper) {

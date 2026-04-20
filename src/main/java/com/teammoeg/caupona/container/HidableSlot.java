@@ -34,6 +34,11 @@ public class HidableSlot extends ResourceHandlerSlot {
 		super(handler, slotModifier, index, xPosition, yPosition);
 	}
 
+	public HidableSlot(ResourceHandler<ItemResource> handler, IndexModifier<ItemResource> slotModifier, int index, int xPosition, int yPosition, Supplier<Boolean> vs) {
+		super(handler, slotModifier, index, xPosition, yPosition);
+		this.vs = vs;
+	}
+
 	Supplier<Boolean> vs;
 
 

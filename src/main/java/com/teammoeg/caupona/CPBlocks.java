@@ -26,9 +26,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import com.mojang.datafixers.util.Pair;
 import com.teammoeg.caupona.blocks.CPFlamableBlock;
 import com.teammoeg.caupona.blocks.CPHorizontalBlock;
 import com.teammoeg.caupona.blocks.CPSaplingBlock;
@@ -114,10 +116,11 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class CPBlocks {
-	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, CPMain.MODID);
+	public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(CPMain.MODID);
 	// static string data
 	public static final String[] woods = new String[] { "walnut" };
 	// Dynamic block types
@@ -148,95 +151,91 @@ public class CPBlocks {
 	public static final List<Block> caliduct = new ArrayList<>();
 	public static final List<Block> firebox = new ArrayList<>();
 	public static final List<DeferredHolder<Block,Block>> leaves = new ArrayList<>();
-
 	// Other useful blocks
 	public static final DeferredHolder<Block,FumaroleBoulderBlock> FUMAROLE_BOULDER = decoblock("fumarole_boulder",
-			() -> new FumaroleBoulderBlock(getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion()
-					.isSuffocating(CPBlocks::isntSolid)));
+			getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion()
+		.isSuffocating(CPBlocks::isntSolid),FumaroleBoulderBlock::new);
 	public static final DeferredHolder<Block,FumaroleVentBlock> FUMAROLE_VENT = maindecoblock("fumarole_vent",
-			() -> new FumaroleVentBlock(getStoneProps().strength(4.5f, 10).isViewBlocking(CPBlocks::isntSolid)
-					.noOcclusion().isSuffocating(CPBlocks::isntSolid)));
+			(getStoneProps().strength(4.5f, 10).isViewBlocking(CPBlocks::isntSolid)
+					.noOcclusion().isSuffocating(CPBlocks::isntSolid)),FumaroleVentBlock::new);
 	public static final DeferredHolder<Block,Block> PUMICE = block("pumice", getStoneProps(),TabType.DECORATION);
 	public static final DeferredHolder<Block,PumiceBloomBlock> PUMICE_BLOOM = maindecoblock("pumice_bloom",
-			() -> new PumiceBloomBlock(getStoneProps().noOcclusion()));
-	
+			(getStoneProps().noOcclusion()), PumiceBloomBlock::new);
 	public static final DeferredHolder<Block,FumaroleBoulderBlock> LITHARGE_FUMAROLE_BOULDER = decoblock("litharge_fumarole_boulder",
-		() -> new FumaroleBoulderBlock(getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion()
-				.isSuffocating(CPBlocks::isntSolid)));
+		getStoneProps().isViewBlocking(CPBlocks::isntSolid).noOcclusion()
+				.isSuffocating(CPBlocks::isntSolid), FumaroleBoulderBlock::new);
 	public static final DeferredHolder<Block,FumaroleVentBlock> LITHARGE_FUMAROLE_VENT = maindecoblock("litharge_fumarole_vent",
-		() -> new FumaroleVentBlock(getStoneProps().strength(4.5f, 10).isViewBlocking(CPBlocks::isntSolid)
-				.noOcclusion().isSuffocating(CPBlocks::isntSolid)));
+		(getStoneProps().strength(4.5f, 10).isViewBlocking(CPBlocks::isntSolid)
+				.noOcclusion().isSuffocating(CPBlocks::isntSolid)), FumaroleVentBlock::new);
 	public static final DeferredHolder<Block,PumiceBloomBlock> LITHARGE_BLOOM = maindecoblock("litharge_bloom",
-		() -> new PumiceBloomBlock(getStoneProps().noOcclusion()));
+		(getStoneProps().noOcclusion()), PumiceBloomBlock::new);
 	
-	public static final DeferredHolder<Block,GravyBoatBlock> GRAVY_BOAT = BLOCKS.register("gravy_boat",
-			() -> new GravyBoatBlock(Block.Properties.of().sound(SoundType.GLASS).instabreak().noOcclusion()
-					.isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid)));
+	public static final DeferredHolder<Block,GravyBoatBlock> GRAVY_BOAT = BLOCKS.registerBlock("gravy_boat", GravyBoatBlock::new,
+		()->Block.Properties.of().sound(SoundType.GLASS).instabreak().noOcclusion()
+		.isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid));
 	public static final BlockSetType WALNUT_TYPE = new BlockSetType("walnut");
 	public static final WoodType WALNUT = WoodType.register(new WoodType("caupona:walnut", WALNUT_TYPE));
 	public static final DeferredHolder<Block,WolfStatueBlock> WOLF = maindecoblock("wolf_statue",
-			() -> new WolfStatueBlock(Block.Properties.of().mapColor(MapColor.METAL).sound(SoundType.COPPER)
-					.requiresCorrectToolForDrops().strength(3.5f, 10).noOcclusion()));
+			(Block.Properties.of().mapColor(MapColor.METAL).sound(SoundType.COPPER)
+					.requiresCorrectToolForDrops().strength(3.5f, 10).noOcclusion()), WolfStatueBlock::new);
 	public static final DeferredHolder<Block,KitchenRailBlock> KITCHEN_RAIL = maindecoblock("kitchen_rail",
-		() -> new KitchenRailBlock(Block.Properties.of().sound(SoundType.WOOD).strength(2f, 3f).noOcclusion()));
-	public static final DeferredHolder<Block,PanBlock> STONE_PAN = mainblock("stone_griddle", () -> new PanBlock(
-			Block.Properties.of().mapColor(MapColor.STONE).sound(SoundType.STONE).strength(3.5f, 10).noOcclusion()));
-	public static final DeferredHolder<Block,TessellationWorkBenchBlock> T_BENCH= mainblock("tessellation_workbench",()->new TessellationWorkBenchBlock
-			(Block.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).sound(SoundType.STONE).strength(3.5f, 10).noOcclusion().requiresCorrectToolForDrops()));
-	public static final DeferredHolder<Block,PanBlock> COPPER_PAN = mainblock("copper_frying_pan", () -> new PanBlock(
-			Block.Properties.of().mapColor(MapColor.METAL).sound(SoundType.COPPER).strength(3.5f, 10).noOcclusion()));
-	public static final DeferredHolder<Block,PanBlock> IRON_PAN = mainblock("iron_frying_pan", () -> new PanBlock(
-			Block.Properties.of().mapColor(MapColor.METAL).sound(SoundType.METAL).strength(3.5f, 10).noOcclusion()));
-	public static final DeferredHolder<Block,PanBlock> LEAD_PAN = mainblock("lead_frying_pan", () -> new PanBlock(
-			Block.Properties.of().mapColor(MapColor.METAL).sound(SoundType.METAL).strength(3.5f, 10).noOcclusion()));
-	public static final DeferredHolder<Block,DishBlock> DISH = BLOCKS.register("dish",
-			() -> new DishBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
+		(Block.Properties.of().sound(SoundType.WOOD).strength(2f, 3f).noOcclusion()), KitchenRailBlock::new);
+	public static final DeferredHolder<Block,PanBlock> STONE_PAN = mainblock("stone_griddle",
+			Block.Properties.of().mapColor(MapColor.STONE).sound(SoundType.STONE).strength(3.5f, 10).noOcclusion(), PanBlock::new);
+	public static final DeferredHolder<Block,TessellationWorkBenchBlock> T_BENCH= mainblock("tessellation_workbench",
+			Block.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).sound(SoundType.STONE).strength(3.5f, 10).noOcclusion().requiresCorrectToolForDrops(), TessellationWorkBenchBlock::new);
+	public static final DeferredHolder<Block,PanBlock> COPPER_PAN = mainblock("copper_frying_pan",
+			Block.Properties.of().mapColor(MapColor.METAL).sound(SoundType.COPPER).strength(3.5f, 10).noOcclusion(), PanBlock::new);
+	public static final DeferredHolder<Block,PanBlock> IRON_PAN = mainblock("iron_frying_pan",
+			Block.Properties.of().mapColor(MapColor.METAL).sound(SoundType.METAL).strength(3.5f, 10).noOcclusion(), PanBlock::new);
+	public static final DeferredHolder<Block,PanBlock> LEAD_PAN = mainblock("lead_frying_pan",
+			Block.Properties.of().mapColor(MapColor.METAL).sound(SoundType.METAL).strength(3.5f, 10).noOcclusion(), PanBlock::new);
+	public static final DeferredHolder<Block,DishBlock> DISH = BLOCKS.registerBlock("dish", DishBlock::new,
+			()->Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
 					.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
-					.isViewBlocking(CPBlocks::isntSolid)));
+					.isViewBlocking(CPBlocks::isntSolid));
 	public static final DeferredHolder<Block,StewPot> STEW_POT = mainblock("stew_pot",
-			() -> new StewPot(
+			
 					Block.Properties.of().mapColor(MapColor.COLOR_ORANGE).sound(SoundType.STONE)
-							.requiresCorrectToolForDrops().strength(3.5f, 10).noOcclusion(),
-					CPBlockEntityTypes.STEW_POT));
+							.requiresCorrectToolForDrops().strength(3.5f, 10).noOcclusion(),p -> new StewPot(p,CPBlockEntityTypes.STEW_POT));
 	public static final DeferredHolder<Block,StewPot> STEW_POT_LEAD = mainblock("lead_stew_pot",
-			() -> new StewPot(
 					Block.Properties.of().mapColor(MapColor.COLOR_ORANGE).sound(SoundType.STONE)
-							.requiresCorrectToolForDrops().strength(3.5f, 10).noOcclusion(),
-					CPBlockEntityTypes.STEW_POT));
+							.requiresCorrectToolForDrops().strength(3.5f, 10).noOcclusion(),p -> new StewPot(p,CPBlockEntityTypes.STEW_POT));
 
-	public static final DeferredHolder<Block,BowlBlock> BOWL = BLOCKS.register("bowl",
-			() -> new BowlBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
+	public static final DeferredHolder<Block,BowlBlock> BOWL = foodblock("bowl",
+			Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
 					.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
-					.isViewBlocking(CPBlocks::isntSolid), CPBlockEntityTypes.BOWL));
-	public static final DeferredHolder<Block,BowlBlock> LOAF_BOWL = 
+					.isViewBlocking(CPBlocks::isntSolid),p -> new BowlBlock(p, CPBlockEntityTypes.BOWL));
+	public static final Pair<DeferredItem<CPBlockItem>, DeferredHolder<Block, Block>> LOAF_BOWL = 
 		
-		foodblock("loaf_bowl",
-		() -> new BowlBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
+		loafblock("loaf_bowl",Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
 				.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
-				.isViewBlocking(CPBlocks::isntSolid), CPBlockEntityTypes.BOWL));
-	
+				.isViewBlocking(CPBlocks::isntSolid),p -> new BowlBlock(p,  CPBlockEntityTypes.BOWL));
 	public static final DeferredHolder<Block,MosaicBlock> MOSAIC = baseblock("mosaic",
-			() -> new MosaicBlock(getStoneProps()),_->new MosaicItem(CPItems.createProps()));
+			getStoneProps(), MosaicBlock::new, MosaicItem::new);
 	public static final DeferredHolder<Block,SilphiumBlock> SILPHIUM = mainblock("silphium_block",
-			() -> new SilphiumBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollision()
+			BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollision()
 					.instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).ignitedByLava()
-					.pushReaction(PushReaction.DESTROY)));
-	public static final DeferredHolder<Block,Block> WALNUT_FRUIT = mainblock("walnut_fruits", () -> new WalnutFruitBlock(BlockBehaviour.Properties.of()
-			.mapColor(MapColor.PLANT).noCollision().randomTicks().offsetType(OffsetType.XZ).instabreak().sound(SoundType.CROP).ignitedByLava()));
-	public static final DeferredHolder<Block,Block> SNAIL_MUCUS=block("snail_mucus",BlockBehaviour.Properties.of()
-			.mapColor(MapColor.PLANT).randomTicks().instabreak().sound(SoundType.CROP).noOcclusion().isViewBlocking(CPBlocks::isntSolid),TabType.MAIN_AND_DECORATION);
+					.pushReaction(PushReaction.DESTROY), SilphiumBlock::new);
+	public static final DeferredHolder<Block,Block> WALNUT_FRUIT = mainblock("walnut_fruits",
+			BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollision().randomTicks().offsetType(OffsetType.XZ).instabreak().sound(SoundType.CROP).ignitedByLava(), WalnutFruitBlock::new);
+	public static final DeferredHolder<Block,Block> SNAIL_MUCUS=block("snail_mucus",
+			BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().instabreak().sound(SoundType.CROP).noOcclusion().isViewBlocking(CPBlocks::isntSolid),TabType.MAIN_AND_DECORATION);
 
-	public static final DeferredHolder<Block,SnailBlock> SNAIL = baseblock("snail_block", ()->new SnailBlock(BlockBehaviour.Properties.of()
-			.mapColor(MapColor.PLANT).noCollision().randomTicks().offsetType(OffsetType.XZ).instabreak().sound(SoundType.CROP).isViewBlocking(CPBlocks::isntSolid)),x->new CPBlockItem(x,CPItems.createProps(),TabType.MAIN));
-	public static final DeferredHolder<Block,SnailBaitBlock> SNAIL_BAIT = baseblock("snail_bait", ()->new SnailBaitBlock(BlockBehaviour.Properties.of()
-			.mapColor(MapColor.PLANT).noCollision().randomTicks().offsetType(OffsetType.XZ).instabreak().sound(SoundType.CROP).isViewBlocking(CPBlocks::isntSolid)),x->new CPBlockItem(x,CPItems.createProps(),TabType.MAIN));
-	public static final DeferredHolder<Block,Block> LEAD_BLOCK=block("lead_block",BlockBehaviour.Properties.of().mapColor(MapColor.METAL).sound(SoundType.METAL).strength(3.5f, 10).requiresCorrectToolForDrops(),TabType.DECORATION);
-	public static final DeferredHolder<Block,LoafDoughBlock> LOAF_DOUGH=foodblock("loaf_dough",()->new LoafDoughBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).sound(SoundType.WOOL).instabreak().noOcclusion()
+	public static final DeferredHolder<Block,SnailBlock> SNAIL = baseblock("snail_block",
+			BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollision().randomTicks().offsetType(OffsetType.XZ).instabreak().sound(SoundType.CROP).isViewBlocking(CPBlocks::isntSolid), SnailBlock::new, (x,y)->new CPBlockItem(x,y,TabType.MAIN));
+	public static final DeferredHolder<Block,SnailBaitBlock> SNAIL_BAIT = baseblock("snail_bait",
+			BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollision().randomTicks().offsetType(OffsetType.XZ).instabreak().sound(SoundType.CROP).isViewBlocking(CPBlocks::isntSolid), SnailBaitBlock::new, (x,y)->new CPBlockItem(x,y,TabType.MAIN));
+	public static final DeferredHolder<Block,Block> LEAD_BLOCK=block("lead_block",
+			BlockBehaviour.Properties.of().mapColor(MapColor.METAL).sound(SoundType.METAL).strength(3.5f, 10).requiresCorrectToolForDrops(),TabType.DECORATION);
+	public static final DeferredHolder<Block,LoafDoughBlock> LOAF_DOUGH=foodblock("loaf_dough",
+			BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).sound(SoundType.WOOL).instabreak().noOcclusion()
 		.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
-		.isViewBlocking(CPBlocks::isntSolid)));
-	public static final DeferredHolder<Block,SlabBlock> LOAF=foodblock("loaf",()->new LoafBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).sound(SoundType.WOOL).instabreak().noOcclusion()
+		.isViewBlocking(CPBlocks::isntSolid), LoafDoughBlock::new);
+	public static final DeferredHolder<Block,SlabBlock> LOAF=foodblock("loaf",
+			BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).sound(SoundType.WOOL).instabreak().noOcclusion()
 		.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
-		.isViewBlocking(CPBlocks::isntSolid)));
+		.isViewBlocking(CPBlocks::isntSolid), LoafBlock::new);
 
 	// Bulk register blocks
 	static {
@@ -247,47 +246,50 @@ public class CPBlocks {
 				DeferredHolder<Block,Block> base = block(name, getStoneProps(),TabType.DECORATION);
 				stoneBlocks.put(name, base);
 				type.setBase(()->base.get().defaultBlockState());
-				decoblock(name + "_slab", () -> new SlabBlock(getStoneProps()));
-				decoblock(name + "_stairs", () -> new StairBlock(type.getBase().get(), getStoneProps()));
+				decoblock(name + "_slab", getStoneProps(), SlabBlock::new);
+				decoblock(name + "_stairs",getStoneProps(), p -> new StairBlock(type.getBase().get(), p));
 				if(name.equals("loaf_heap"))
-					hiddenblock(name + "_wall", () -> new WallBlock(getStoneProps()));
+					hiddenblock(name + "_wall", getStoneProps(), WallBlock::new);
 				else
-					decoblock(name + "_wall", () -> new WallBlock(getStoneProps()));
+					decoblock(name + "_wall", getStoneProps(), WallBlock::new);
 			}
 			if (type.isCounterMaterial()) {
 				stove(name + "_kitchen_stove", getStoveProps(),
 						type.getCounterGrade() == 1 ? CPBlockEntityTypes.STOVE_T1 : CPBlockEntityTypes.STOVE_T2);
-				maindecoblock(name + "_chimney_flue", ()->new ChimneyFluteBlock(getTransparentProps()));
-				maindecoblock(name + "_chimney_pot", () -> new ChimneyPotBlock(getTransparentProps()));
-				decoblock(name + "_counter", () -> new CPHorizontalBlock(getStoneProps()));
-				maindecoblock(name + "_counter_with_dolium", () -> new CounterDoliumBlock(getTransparentProps()));
+				maindecoblock(name + "_chimney_flue", getTransparentProps(), ChimneyFluteBlock::new);
+				maindecoblock(name + "_chimney_pot", getTransparentProps(), ChimneyPotBlock::new);
+				decoblock(name + "_counter", getStoneProps(), CPHorizontalBlock::new);
+				maindecoblock(name + "_counter_with_dolium", getTransparentProps(), CounterDoliumBlock::new);
 			}
 			if (type.isHypocaustMaterial()) {
-				mainblock(name + "_caliduct", () -> new CaliductBlock(getTransparentProps()));
-				mainblock(name + "_hypocaust_firebox", () -> new FireboxBlock(getTransparentProps()));
+				mainblock(name + "_caliduct", getTransparentProps(), CaliductBlock::new);
+				mainblock(name + "_hypocaust_firebox", getTransparentProps(), FireboxBlock::new);
 			}
 			if (type.isPillarMaterial()) {
 				decoblock(name + "_column_fluted_plinth",
-						() -> new BaseColumnBlock(getTransparentProps().strength(2f, 6f), true));
+						(getTransparentProps().strength(2f, 6f)), p -> new BaseColumnBlock(p, true));
 				decoblock(name + "_column_fluted_shaft",
-						() -> new BaseColumnBlock(getTransparentProps().strength(2f, 6f), false));
+						(getTransparentProps().strength(2f, 6f)), p -> new BaseColumnBlock(p, false));
 				decoblock(name + "_column_shaft",
-						() -> new BaseColumnBlock(getTransparentProps().strength(2f, 6f), false));
+						(getTransparentProps().strength(2f, 6f)), p -> new BaseColumnBlock(p, false));
 				decoblock(name + "_column_plinth",
-						() -> new BaseColumnBlock(getTransparentProps().strength(2f, 6f), true));
+						(getTransparentProps().strength(2f, 6f)), p -> new BaseColumnBlock(p, true));
 				decoblock(name + "_ionic_column_capital",
-						() -> new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f), true));
+						(getTransparentProps().strength(2f, 6f)), p -> new ColumnCapitalBlock(p, true));
 				decoblock(name + "_tuscan_column_capital",
-						() -> new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f), false));
+						(getTransparentProps().strength(2f, 6f)), p -> new ColumnCapitalBlock(p, false));
 				decoblock(name + "_acanthine_column_capital",
-						() -> new ColumnCapitalBlock(getTransparentProps().strength(2f, 6f), true));
-				decoblock(name + "_lacunar_tile",()->new LacunarBlock(getTransparentProps().strength(2f, 6f)
-						.isViewBlocking(CPBlocks::isntSolid)));
-				decoblock(name+"_spoked_fence",()->new SpokedFenceBlock(getTransparentProps().strength(2f, 6f)));
+						(getTransparentProps().strength(2f, 6f)), p -> new ColumnCapitalBlock(p, true));
+				decoblock(name + "_lacunar_tile",
+						(getTransparentProps().strength(2f, 6f).isViewBlocking(CPBlocks::isntSolid)), LacunarBlock::new);
+				decoblock(name+"_spoked_fence",
+						(getTransparentProps().strength(2f, 6f)), SpokedFenceBlock::new);
 			}
 			if(type.isRoadMaterial()) {
-				decoblock(name+"_road_side",()->new CPRoadSideBlock(getTransparentProps().isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid).strength(2f, 6f)));
-				decoblock(name+"_road",()->new CPRoadBlock(getTransparentProps().isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid).strength(2f, 6f)));
+				decoblock(name+"_road_side",
+						(getTransparentProps().isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid).strength(2f, 6f)), CPRoadSideBlock::new);
+				decoblock(name+"_road",
+						(getTransparentProps().isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid).strength(2f, 6f)), CPRoadBlock::new);
 			}
 		}
 
@@ -296,180 +298,189 @@ public class CPBlocks {
 		registerBush("wolfberry", ()-> new TreeGrower("wolfberry",Optional.empty(),Optional.of(CPWorldGen.WOLFBERRY),Optional.empty()));
 		for (String s : CPItems.dishes) {
 			baseblock(s,
-				() -> new DishBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
+					Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
 							.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
-							.isViewBlocking(CPBlocks::isntSolid)),
-					b -> new DishItem(b, CPItems.createSoupProps().get()));
+							.isViewBlocking(CPBlocks::isntSolid),CPItems.createSoupProps().get(),
+							DishBlock::new,DishItem::new);
 			baseblock(s+"_loaf",
-				() -> new DishBlock(Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
+					Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
 							.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
-							.isViewBlocking(CPBlocks::isntSolid)),
-					b -> new LoafDishItem(b, CPItems.createLoafSoupProps().get()));
+							.isViewBlocking(CPBlocks::isntSolid),CPItems.createLoafSoupProps().get(),
+							DishBlock::new,LoafDishItem::new);
 		}
 	}
 	// Convenient block registry wrapper
 
 	// create a bush
 	private static void registerBush(String wood, Supplier<TreeGrower> growth) {
-		decoblock(wood + "_log", () -> new BushLogBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
-				.strength(2.0F).noOcclusion().sound(SoundType.WOOD)));
-		DeferredHolder<Block,Block> a = decoblock(wood + "_fruits", () -> new FruitBlock(BlockBehaviour.Properties.of()
-				.mapColor(MapColor.PLANT).offsetType(OffsetType.XZ).noCollision().randomTicks().instabreak().sound(SoundType.CROP)));
+		decoblock(wood + "_log", BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
+				.strength(2.0F).noOcclusion().sound(SoundType.WOOD),BushLogBlock::new);
+		DeferredHolder<Block,Block> a = decoblock(wood + "_fruits", BlockBehaviour.Properties.of()
+				.mapColor(MapColor.PLANT).offsetType(OffsetType.XZ).noCollision().randomTicks().instabreak().sound(SoundType.CROP),
+				FruitBlock::new);
 		leaves.add(
-				CPCommonBootStrap.asCompositable(decoblock(wood + "_leaves", () -> leaves(SoundType.GRASS, a)), 0.3F));
+				CPCommonBootStrap.asCompositable(decoblock(wood + "_leaves",BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.2F)
+					.randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(CPBlocks::ocelotOrParrot)
+					.isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid).ignitedByLava(),
+					f -> new FruitsLeavesBlock(f, a)), 0.3F));
 
+		
 		CPCommonBootStrap.asCompositable(
-				maindecoblock(wood + "_sapling", () -> new CPSaplingBlock(growth.get(), BlockBehaviour.Properties.of()
-						.mapColor(MapColor.PLANT).noCollision().randomTicks().instabreak().sound(SoundType.GRASS),5,5)),
+				maindecoblock(wood + "_sapling", BlockBehaviour.Properties.of()
+						.mapColor(MapColor.PLANT).noCollision().randomTicks().instabreak().sound(SoundType.GRASS),
+						p -> new CPSaplingBlock(growth.get(),p, 5,5)),
 				0.3F);
 
 	}
 
 	// create a wood
 	private static void registerWood(String wood, WoodType wt, Supplier<TreeGrower> growth,DeferredHolder<Block,Block> f) {
-		DeferredHolder<Block,Block> planks = decoblock(wood + "_planks",()->new CPFlamableBlock(
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava()
-				,5,20));
+		DeferredHolder<Block,Block> planks = decoblock(wood + "_planks",
+		    BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava(),
+		    props -> new CPFlamableBlock(props, 5, 20));
 		decoblock(wood + "_button",
-				() -> new CPButtonBlock(
-						BlockBehaviour.Properties.of().noCollision().strength(0.5F).sound(SoundType.WOOD).ignitedByLava(), WALNUT_TYPE,
-						30));
-		decoblock(wood + "_door", () -> new CPDoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
-				.strength(3.0F).sound(SoundType.WOOD).noOcclusion().ignitedByLava(), WALNUT_TYPE));
-		decoblock(wood + "_fence", () -> new CPWoodFenceBlock(
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava()));
-		decoblock(wood + "_fence_gate", () -> new CPWoodFenceGateBlock(
-				WALNUT,
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava()));
-
-		leaves.add(CPCommonBootStrap.asCompositable(decoblock(wood + "_leaves", () -> leaves(SoundType.GRASS, f)), 0.3F));
-		DeferredHolder<Block,Block> sl =decoblock("stripped_" + wood + "_log", () -> log(null));
-		decoblock(wood + "_log", () -> log(sl));
+		    BlockBehaviour.Properties.of().noCollision().strength(0.5F).sound(SoundType.WOOD).ignitedByLava(),
+		    props -> new CPButtonBlock(props, WALNUT_TYPE, 30));
+		decoblock(wood + "_door",
+		    BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(3.0F).sound(SoundType.WOOD).noOcclusion().ignitedByLava(),
+		    props -> new CPDoorBlock(props, WALNUT_TYPE));
+		decoblock(wood + "_fence",
+		    BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava(),
+		    CPWoodFenceBlock::new);
+		decoblock(wood + "_fence_gate",
+		    BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava(),
+		    props -> new CPWoodFenceGateBlock(WALNUT, props));
+		leaves.add(CPCommonBootStrap.asCompositable(decoblock(wood + "_leaves",BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.2F)
+			.randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(CPBlocks::ocelotOrParrot)
+			.isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid).ignitedByLava(),
+			fp -> new FruitsLeavesBlock(fp, f)), 0.3F));
+		DeferredHolder<Block,Block> sl =decoblock("stripped_" + wood + "_log",BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava(), CPWoodRotatedPillarBlock::new);
+		decoblock(wood + "_log",BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava(), p -> new CPStripPillerBlock(sl,p));
 
 		decoblock(wood + "_pressure_plate",
-				() -> new CPPressurePlateBlock(BlockBehaviour.Properties.of()
-								.mapColor(MapColor.WOOD).noCollision().strength(0.5F).sound(SoundType.WOOD).ignitedByLava(),
-						WALNUT_TYPE));
+		    BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollision().strength(0.5F).sound(SoundType.WOOD).ignitedByLava(),
+		    props -> new CPPressurePlateBlock(props, WALNUT_TYPE));
 		CPCommonBootStrap.asCompositable(
-				maindecoblock(wood + "_sapling", () -> new CPSaplingBlock(growth.get(), BlockBehaviour.Properties.of()
-						.mapColor(MapColor.PLANT).noCollision().randomTicks().instabreak().sound(SoundType.GRASS).ignitedByLava(),5,5)),
-				0.3F);
-		DeferredHolder<Block,Block> s = BLOCKS.register(wood + "_sign",
-				() -> new CPStandingSignBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollision()
-						.strength(1.0F).sound(SoundType.WOOD).ignitedByLava(), wt));
+		    maindecoblock(wood + "_sapling",
+		        BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollision().randomTicks().instabreak().sound(SoundType.GRASS).ignitedByLava(),
+		        props -> new CPSaplingBlock(growth.get(), props, 5, 5)),
+		    0.3F);
+		DeferredHolder<Block,Block> s = BLOCKS.registerBlock(wood + "_sign",
+				p -> new CPStandingSignBlock(p, wt),()->BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollision()
+				.strength(1.0F).sound(SoundType.WOOD).ignitedByLava());
 		
-		DeferredHolder<Block,Block> ws = BLOCKS.register(wood + "_wall_sign",
-				() -> new CPWallSignBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollision()
-						.strength(1.0F).sound(SoundType.WOOD).ignitedByLava(), wt));
+		DeferredHolder<Block,Block> ws = BLOCKS.registerBlock(wood + "_wall_sign",
+				p -> new CPWallSignBlock(p, wt),()->BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollision()
+				.strength(1.0F).sound(SoundType.WOOD).ignitedByLava());
 		 
-		DeferredHolder<Block,Block> hs = BLOCKS.register(wood + "_hanging_sign",
-			() -> new CPCeilingHangingSignBlock(
+		DeferredHolder<Block,Block> hs = BLOCKS.registerBlock(wood + "_hanging_sign",
+			p -> new CPCeilingHangingSignBlock(
 	            wt,
-	            BlockBehaviour.Properties.of()
-	                .mapColor(MapColor.WOOD)
-	                .forceSolidOn()
-	                .instrument(NoteBlockInstrument.BASS)
-	                .noCollision()
-	                .strength(1.0F)
-	                .ignitedByLava()
-	        ));
-		DeferredHolder<Block,Block> whs = BLOCKS.register(wood + "_wall_hanging_sign",
-			() -> new CPWallHangingSignBlock(
-	            wt,
-	            BlockBehaviour.Properties.of()
-	                .mapColor(MapColor.WOOD)
-	                .forceSolidOn()
-	                .instrument(NoteBlockInstrument.BASS)
-	                .noCollision()
-	                .strength(1.0F)
-	                .ignitedByLava()
-	        ));
+	            p
+	        ),()->BlockBehaviour.Properties.of()
+            .mapColor(MapColor.WOOD)
+            .forceSolidOn()
+            .instrument(NoteBlockInstrument.BASS)
+            .noCollision()
+            .strength(1.0F)
+            .ignitedByLava());
+		DeferredHolder<Block,Block> whs = BLOCKS.registerBlock(wood + "_wall_hanging_sign",
+			p -> new CPWallHangingSignBlock(
+	            wt,p
+	           
+	        ),()-> BlockBehaviour.Properties.of()
+            .mapColor(MapColor.WOOD)
+            .forceSolidOn()
+            .instrument(NoteBlockInstrument.BASS)
+            .noCollision()
+            .strength(1.0F)
+            .ignitedByLava());
 		
 
-		CPItems.ITEMS.register(wood + "_sign",
-				() -> new CPSignItem((new Item.Properties()).stacksTo(16), s.get(), ws.get(), TabType.DECORATION));
-		CPItems.ITEMS.register(wood + "_hanging_sign",
-			() -> new CPHangingSignItem(hs.get(), whs.get(),(new Item.Properties()).stacksTo(16), TabType.DECORATION));
+		CPItems.ITEMS.registerItem(wood + "_sign",
+				p -> new CPSignItem(p, s.get(), ws.get(), TabType.DECORATION),()->(new Item.Properties()).stacksTo(16));
+		CPItems.ITEMS.registerItem(wood + "_hanging_sign",
+			p -> new CPHangingSignItem(hs.get(), whs.get(),p, TabType.DECORATION),()->(new Item.Properties()).stacksTo(16));
 		
-		decoblock(wood + "_slab", () -> new CPWoodSlabBlock(
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava()));
-		decoblock(wood + "_stairs", () -> new CPWoodStairBlock(planks.get().defaultBlockState(),
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
-		decoblock(wood + "_trapdoor", () -> new CPTrapDoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
-				.strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(CPBlocks::never).ignitedByLava(), WALNUT_TYPE));
-		DeferredHolder<Block,Block> sw = decoblock("stripped_" + wood + "_wood", () -> new CPWoodRotatedPillarBlock(
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava()));
-		decoblock(wood + "_wood", () -> new CPStripPillerBlock(sw,
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava()));
+		decoblock(wood + "_slab", 
+		    BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava(),
+		    CPWoodSlabBlock::new);
+		decoblock(wood + "_stairs", 
+		    BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD),
+		    props -> new CPWoodStairBlock(planks.get().defaultBlockState(), props));
+		decoblock(wood + "_trapdoor", 
+		    BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(CPBlocks::never).ignitedByLava(),
+		    props -> new CPTrapDoorBlock(props, WALNUT_TYPE));
+		DeferredHolder<Block,Block> sw = decoblock("stripped_" + wood + "_wood", 
+		    BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava(),
+		    CPWoodRotatedPillarBlock::new);
+		decoblock(wood + "_wood", 
+		    BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava(),
+		    props -> new CPStripPillerBlock(sw, props));
 	}
 
 	// create a stove
 	static DeferredHolder<Block,KitchenStove> stove(String name, Properties props,
 			DeferredHolder<BlockEntityType<?>,BlockEntityType<KitchenStoveBlockEntity>> tile) {
-		DeferredHolder<Block,KitchenStove> bl = BLOCKS.register(name, () -> new KitchenStove(props, tile));
+		DeferredHolder<Block,KitchenStove> bl = BLOCKS.registerBlock(name, p -> new KitchenStove(p, tile),()->props);
 		stoves.add(bl);
-
-		CPItems.ITEMS.register(name, () -> new CPBlockItem(bl.get(), CPItems.createProps(), TabType.MAIN_AND_DECORATION));
+		CPItems.ITEMS.registerItem(name, prop -> new CPBlockItem(bl.get(), prop, TabType.MAIN_AND_DECORATION), CPItems::createProps);
 		return bl;
 	}
 
 	// register any block to caupona registry
-	static <T extends Block> DeferredHolder<Block,T> mainblock(String name, Supplier<T> bl) {
-		DeferredHolder<Block,T> blx = BLOCKS.register(name, bl);
-		CPItems.ITEMS.register(name, () -> new CPBlockItem(blx.get(), CPItems.createProps(), TabType.MAIN));
+	static <T extends Block> DeferredHolder<Block,T> mainblock(String name,Properties p, Function<Properties,T> bl) {
+		DeferredHolder<Block,T> blx = BLOCKS.registerBlock(name, bl,()->p);
+		CPItems.ITEMS.registerItem(name, prop -> new CPBlockItem(blx.get(), prop, TabType.MAIN), CPItems::createProps);
 		return blx;
 	}
 	// register any block to caupona registry
-	static <T extends Block> DeferredHolder<Block,T> foodblock(String name, Supplier<T> bl) {
-		DeferredHolder<Block,T> blx = BLOCKS.register(name, bl);
-		CPItems.ITEMS.register(name, () -> new CPBlockItem(blx.get(), CPItems.createProps(), TabType.FOODS));
+	static <T extends Block> DeferredHolder<Block,T> foodblock(String name,Properties p, Function<Properties,T> bl) {
+		DeferredHolder<Block,T> blx = BLOCKS.registerBlock(name, bl,()->p);
+		CPItems.ITEMS.registerItem(name, prop -> new CPBlockItem(blx.get(), prop, TabType.FOODS), CPItems::createProps);
 		return blx;
 	}
-	static <T extends Block> DeferredHolder<Block,T> decoblock(String name, Supplier<T> bl) {
-		DeferredHolder<Block,T> blx = BLOCKS.register(name, bl);
-		CPItems.ITEMS.register(name, () -> new CPBlockItem(blx.get(), CPItems.createProps(), TabType.DECORATION));
+	static <T extends Block> Pair<DeferredItem<CPBlockItem>,DeferredHolder<Block,T>> loafblock(String name,Properties p, Function<Properties,T> bl) {
+		DeferredHolder<Block,T> blx = BLOCKS.registerBlock(name, bl,()->p);
+		DeferredItem<CPBlockItem> it=CPItems.ITEMS.registerItem(name, prop -> new CPBlockItem(blx.get(), prop, TabType.FOODS), CPItems::createProps);
+		return Pair.of(it, blx);
+	}
+	static <T extends Block> DeferredHolder<Block,T> decoblock(String name,Properties p, Function<Properties,T> bl) {
+		DeferredHolder<Block,T> blx = BLOCKS.registerBlock(name, bl,()->p);
+		CPItems.ITEMS.registerItem(name, prop -> new CPBlockItem(blx.get(), prop, TabType.DECORATION), CPItems::createProps);
 		return blx;
 	}
-	static <T extends Block> DeferredHolder<Block,T> hiddenblock(String name, Supplier<T> bl) {
-		DeferredHolder<Block,T> blx = BLOCKS.register(name, bl);
-		CPItems.ITEMS.register(name, () -> new CPBlockItem(blx.get(), CPItems.createProps(), TabType.HIDDEN));
+	static <T extends Block> DeferredHolder<Block,T> hiddenblock(String name,Properties p, Function<Properties,T> bl) {
+		DeferredHolder<Block,T> blx = BLOCKS.registerBlock(name, bl,()->p);
+		CPItems.ITEMS.registerItem(name, prop -> new CPBlockItem(blx.get(), prop,TabType.HIDDEN), CPItems::createProps);
 		return blx;
 	}
-	static <T extends Block> DeferredHolder<Block,T> maindecoblock(String name, Supplier<T> bl) {
-		DeferredHolder<Block,T> blx = BLOCKS.register(name, bl);
-		CPItems.ITEMS.register(name, () -> new CPBlockItem(blx.get(), CPItems.createProps(), TabType.MAIN_AND_DECORATION));
+	static <T extends Block> DeferredHolder<Block,T> maindecoblock(String name,Properties p, Function<Properties,T> bl) {
+		DeferredHolder<Block,T> blx = BLOCKS.registerBlock(name, bl,()->p);
+		CPItems.ITEMS.registerItem(name, prop -> new CPBlockItem(blx.get(), prop, TabType.MAIN_AND_DECORATION), CPItems::createProps);
 		return blx;
 	}
 
 	// register any block to caupona registry with custom item factory
-	static <T extends Block> DeferredHolder<Block,T> baseblock(String name, Supplier<T> bl, Function<T, Item> toitem) {
-		DeferredHolder<Block,T> blx = BLOCKS.register(name, bl);
-		CPItems.ITEMS.register(name, () -> toitem.apply(blx.get()));
+	static <T extends Block> DeferredHolder<Block,T> baseblock(String name,Properties prop, Function<Properties,T> bl, BiFunction<T,Item.Properties, Item> toitem) {
+		DeferredHolder<Block,T> blx = BLOCKS.registerBlock(name, bl,()->prop);
+		CPItems.ITEMS.registerItem(name, p -> toitem.apply(blx.get(),p),CPItems::createProps);
 		return blx;
 	}
-
+	static <T extends Block> DeferredHolder<Block,T> baseblock(String name,Properties prop,Item.Properties iprop, Function<Properties,T> bl, BiFunction<T,Item.Properties, Item> toitem) {
+		DeferredHolder<Block,T> blx = BLOCKS.registerBlock(name, bl,()->prop);
+		CPItems.ITEMS.registerItem(name, p -> toitem.apply(blx.get(),p),()->iprop);
+		return blx;
+	}
 	// register basic block to caupona registry
 	static DeferredHolder<Block,Block> block(String name, Properties props,TabType tab) {
-		DeferredHolder<Block,Block> blx = BLOCKS.register(name, () -> new Block(props));
-		CPItems.ITEMS.register(name, () -> new CPBlockItem(blx.get(), CPItems.createProps(), tab));
+		DeferredHolder<Block,Block> blx = BLOCKS.registerBlock(name, prop -> new Block(prop),()->props);
+		CPItems.ITEMS.registerItem(name, prop -> new CPBlockItem(blx.get(), prop, tab), CPItems::createProps);
+
 		return blx;
 	}
 
-	// Make leaves block
-	private static LeavesBlock leaves(SoundType p_152615_, DeferredHolder<Block,Block> fruit) {
-		return new FruitsLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0.2F)
-				.randomTicks().sound(p_152615_).noOcclusion().isValidSpawn(CPBlocks::ocelotOrParrot)
-				.isSuffocating(CPBlocks::isntSolid).isViewBlocking(CPBlocks::isntSolid).ignitedByLava(), fruit);
-	}
 
-	// Make log block
-	private static RotatedPillarBlock log(DeferredHolder<Block,Block> st) {
-		if (st == null)
-			return new CPWoodRotatedPillarBlock(
-					BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava());
-		return new CPStripPillerBlock(st,
-				BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).ignitedByLava());
-	}
 
 	// Property functions
 	private static Properties getStoneProps() {

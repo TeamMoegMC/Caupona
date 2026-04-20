@@ -39,11 +39,11 @@ import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
 import com.teammoeg.caupona.api.events.EventResult;
 import com.teammoeg.caupona.api.events.FoodExchangeItemEvent;
 import com.teammoeg.caupona.components.ItemHoldedFluidData;
+import com.teammoeg.caupona.components.SauteedFoodInfo;
 import com.teammoeg.caupona.components.StewInfo;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -53,7 +53,6 @@ import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionContents;
@@ -67,147 +66,148 @@ import net.neoforged.neoforge.common.MutableDataComponentHolder;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
 public class Utils {
 
 	public static final Direction[] horizontals = new Direction[] { Direction.EAST, Direction.WEST, Direction.SOUTH,
-			Direction.NORTH };
-	public static final String FLUID_TAG_KEY="caupona:fluid";
-	/*public static final Codec<MobEffectInstance> MOB_EFFECT_CODEC=RecordCodecBuilder.create(u->u.group(
-		BuiltInRegistries.MOB_EFFECT.byNameCodec().fieldOf("effect").forGetter(o->o.getEffect()),
-		Codec.INT.fieldOf("time").forGetter(o->o.getDuration()),
-		Codec.INT.fieldOf("level").forGetter(o->o.getAmplifier())
-		).apply(u,MobEffectInstance::new));
-	public static final Codec<Pair<MobEffectInstance,Float>> MOB_EFFECT_FLOAT_CODEC=
-		RecordCodecBuilder.create(u->u.group(
-		BuiltInRegistries.MOB_EFFECT.byNameCodec().fieldOf("effect").forGetter(o->o.getFirst().getEffect()),
-		Codec.INT.fieldOf("time").forGetter(o->o.getFirst().getDuration()),
-		Codec.INT.fieldOf("level").forGetter(o->o.getFirst().getAmplifier()),
-		Codec.FLOAT.fieldOf("chance").forGetter(o->o.getSecond())
-		).apply(u,(a,b,c,d)->Pair.of(new MobEffectInstance(a,b,c), d)));*/
+		Direction.NORTH };
+	public static final String FLUID_TAG_KEY = "caupona:fluid";
+
+	/*
+	 * public static final Codec<MobEffectInstance>
+	 * MOB_EFFECT_CODEC=RecordCodecBuilder.create(u->u.group(
+	 * BuiltInRegistries.MOB_EFFECT.byNameCodec().fieldOf("effect").forGetter(o->o.
+	 * getEffect()), Codec.INT.fieldOf("time").forGetter(o->o.getDuration()),
+	 * Codec.INT.fieldOf("level").forGetter(o->o.getAmplifier())
+	 * ).apply(u,MobEffectInstance::new)); public static final
+	 * Codec<Pair<MobEffectInstance,Float>> MOB_EFFECT_FLOAT_CODEC=
+	 * RecordCodecBuilder.create(u->u.group(
+	 * BuiltInRegistries.MOB_EFFECT.byNameCodec().fieldOf("effect").forGetter(o->o.
+	 * getFirst().getEffect()),
+	 * Codec.INT.fieldOf("time").forGetter(o->o.getFirst().getDuration()),
+	 * Codec.INT.fieldOf("level").forGetter(o->o.getFirst().getAmplifier()),
+	 * Codec.FLOAT.fieldOf("chance").forGetter(o->o.getSecond())
+	 * ).apply(u,(a,b,c,d)->Pair.of(new MobEffectInstance(a,b,c), d)));
+	 */
 	private Utils() {
 	}
-	public static <K,V> Codec<Pair<K,V>> pairCodec(String nkey,Codec<K> key,String nval,Codec<V> val){
-		return RecordCodecBuilder.create(t->t.group(key.fieldOf(nkey).forGetter(Pair::getFirst), val.fieldOf(nval).forGetter(Pair::getSecond))
-			.apply(t,Pair::of));
-	} 
-	public static <K,V> Codec<Map<K,V>> mapCodec(Codec<K> keyCodec,Codec<V> valueCodec){
-		return Codec.compoundList(keyCodec, valueCodec).xmap(pl->pl.stream().collect(Collectors.toMap(Pair::getFirst,Pair::getSecond)),pl->pl.entrySet().stream().map(ent->Pair.of(ent.getKey(), ent.getValue())).toList()); 
+
+	public static <K, V> Codec<Pair<K, V>> pairCodec(String nkey, Codec<K> key, String nval, Codec<V> val) {
+		return RecordCodecBuilder.create(t -> t.group(key.fieldOf(nkey).forGetter(Pair::getFirst), val.fieldOf(nval).forGetter(Pair::getSecond))
+			.apply(t, Pair::of));
 	}
-	public static ContanerContainFoodEvent contain(ItemResource its2,FluidResource fs,int amount){
-		ContanerContainFoodEvent ev=new ContanerContainFoodEvent(its2,fs,amount,false);
+
+	public static <K, V> Codec<Map<K, V>> mapCodec(Codec<K> keyCodec, Codec<V> valueCodec) {
+		return Codec.compoundList(keyCodec, valueCodec).xmap(pl -> pl.stream().collect(Collectors.toMap(Pair::getFirst, Pair::getSecond)),
+			pl -> pl.entrySet().stream().map(ent -> Pair.of(ent.getKey(), ent.getValue())).toList());
+	}
+
+	public static ContanerContainFoodEvent contain(ItemResource its2, FluidResource fs, int amount) {
+		ContanerContainFoodEvent ev = new ContanerContainFoodEvent(its2, fs, amount, false);
 		NeoForge.EVENT_BUS.post(ev);
 		return ev;
 	}
-	public static ContanerContainFoodEvent containBlock(ItemResource its2,FluidResource fs,int amount){
-		ContanerContainFoodEvent ev=new ContanerContainFoodEvent(its2,fs,amount,true);
+
+	public static ContanerContainFoodEvent containBlock(ItemResource its2, FluidResource fs, int amount) {
+		ContanerContainFoodEvent ev = new ContanerContainFoodEvent(its2, fs, amount, true);
 		NeoForge.EVENT_BUS.post(ev);
 		return ev;
 	}
+
 	public static FluidStack getFluidStack(ItemStack stack) {
-		ItemHoldedFluidData si=stack.get(CPCapability.ITEM_FLUID);
-		if(si!=null) {
-			FluidResource fr=si.getFluidType();
-			if(!fr.isEmpty()) {
-				FluidStack fs= fr.toStack(250);
+		ItemHoldedFluidData si = stack.get(CPCapability.ITEM_FLUID);
+		if (si != null) {
+			FluidResource fr = si.getFluidType();
+			if (!fr.isEmpty()) {
+				FluidStack fs = fr.toStack(250);
 				fs.applyComponents(stack.getComponentsPatch());
 				fs.remove(CPCapability.ITEM_FLUID);
 				return fs;
 			}
 		}
-		return Optional.ofNullable(stack.getCapability(Capabilities.Fluid.ITEM,ItemAccess.forStack(stack))).map(t->{
-			
-			FluidResource fr=t.getResource(0);
-			if(!fr.isEmpty()) {
+		return Optional.ofNullable(stack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(stack))).map(t -> {
+
+			FluidResource fr = t.getResource(0);
+			if (!fr.isEmpty()) {
 				return fr.toStack(t.getAmountAsInt(0));
 			}
 			return FluidStack.EMPTY;
-			}).orElse(FluidStack.EMPTY);
+		}).orElse(FluidStack.EMPTY);
 	}
+
 	public static FluidResource getFluidType(ItemStack stack) {
-		ItemHoldedFluidData si=stack.get(CPCapability.ITEM_FLUID);
-		if(si!=null) {
+		ItemHoldedFluidData si = stack.get(CPCapability.ITEM_FLUID);
+		if (si != null) {
 			return si.getFluidType();
 		}
-		return Optional.ofNullable(stack.getCapability(Capabilities.Fluid.ITEM,ItemAccess.forStack(stack))).map(t->t.getResource(0)).orElse(FluidResource.EMPTY);
+		return Optional.ofNullable(stack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(stack))).map(t -> t.getResource(0)).orElse(FluidResource.EMPTY);
 	}
 	public static JsonElement toJson(Ingredient i) {
-		return Ingredient.CODEC.encodeStart(JsonOps.INSTANCE,i).result().orElse(JsonNull.INSTANCE);
+		return Ingredient.CODEC.encodeStart(JsonOps.INSTANCE, i).result().orElse(JsonNull.INSTANCE);
 	}
-	public static ItemStack extractOutput(IItemHandler inv,int count) {
-		ItemStack is=ItemStack.EMPTY;
-		for(int i=0;i<inv.getSlots();i++) {
-			is=inv.extractItem(i, count, false);
-			if(!is.isEmpty())break;
-		}
-		return is;
-	}
-	public static boolean isExtractAllowed(ItemStack is) {
-		FoodExchangeItemEvent ev=new FoodExchangeItemEvent.Pre(is);
-		NeoForge.EVENT_BUS.post(ev);
-		return ev.getResult()==EventResult.ALLOW;
-	}
-	public static boolean isExchangeAllowed(ItemStack or,ItemStack rs) {
-		FoodExchangeItemEvent ev=new FoodExchangeItemEvent.Post(or,rs);
-		NeoForge.EVENT_BUS.post(ev);
-		return ev.getResult()==EventResult.ALLOW;
-	}
-	public static ItemStack insertToOutput(ItemStackHandler inv, int slot, ItemStack in) {
-		ItemStack is = inv.getStackInSlot(slot);
-		if (is.isEmpty()) {
-			inv.setStackInSlot(slot, in.split(Math.min(inv.getSlotLimit(slot), in.getMaxStackSize())));
-		} else if (ItemStack.isSameItemSameComponents(in, is)) {
-			int limit = Math.min(inv.getSlotLimit(slot), is.getMaxStackSize());
-			limit -= is.getCount();
-			limit = Math.min(limit, in.getCount());
-			is.grow(limit);
-			in.shrink(limit);
-		}
-		return in;
-	}
-	public static void dropToWorld(Level level,ItemStack is,BlockPos pos) {
-		if (!is.isEmpty() && !level.isClientSide())
-        {
-            ItemEntity entityitem = new ItemEntity(level, pos.getX(), pos.getY() + 0.5, pos.getZ(),is);
-            entityitem.setPickUpDelay(40);
-            entityitem.setDeltaMovement(entityitem.getDeltaMovement().multiply(0, 1, 0));
 
-            level.addFreshEntity(entityitem);
-        }
+	public static boolean isExtractAllowed(ItemStack is) {
+		FoodExchangeItemEvent ev = new FoodExchangeItemEvent.Pre(is);
+		NeoForge.EVENT_BUS.post(ev);
+		return ev.getResult() == EventResult.ALLOW;
 	}
-	public static MutableComponent translate(String format,Object...objects) {
-		return translateWithFallback(format,null,objects);
+
+	public static boolean isExchangeAllowed(ItemStack or, ItemStack rs) {
+		FoodExchangeItemEvent ev = new FoodExchangeItemEvent.Post(or, rs);
+		NeoForge.EVENT_BUS.post(ev);
+		return ev.getResult() == EventResult.ALLOW;
 	}
+
+	public static void dropToWorld(Level level, ItemStack is, BlockPos pos, TransactionContext trans) {
+
+		if (!is.isEmpty() && !level.isClientSide()) {
+			WorldDropOperation wdo = new WorldDropOperation(level, pos);
+			wdo.updateSnapshots(trans);
+			wdo.addDrop(is);
+		}
+	}
+
+	public static MutableComponent translate(String format, Object... objects) {
+		return translateWithFallback(format, null, objects);
+	}
+
 	public static MutableComponent translate(String format) {
-		return translate(format,new Object[0]);
+		return translate(format, new Object[0]);
 	}
-	public static MutableComponent translateWithFallback(String format,String fallback,Object...objects) {
-		return MutableComponent.create(new TranslatableContents(format,fallback,objects));
+
+	public static MutableComponent translateWithFallback(String format, String fallback, Object... objects) {
+		return MutableComponent.create(new TranslatableContents(format, fallback, objects));
 	}
-	public static MutableComponent translateWithFallback(String format,String fallback) {
-		return translate(format,fallback,new Object[0]);
+
+	public static MutableComponent translateWithFallback(String format, String fallback) {
+		return translate(format, fallback, new Object[0]);
 	}
+
 	public static MutableComponent string(String content) {
 		return MutableComponent.create(PlainTextContents.create(content));
 	}
+
 	public static Identifier getRegistryName(Fluid f) {
 		return BuiltInRegistries.FLUID.getKey(f);
 	}
-	public static Identifier getRegistryName(DeferredHolder<?,?> r) {
+
+	public static Identifier getRegistryName(DeferredHolder<?, ?> r) {
 		return r.getId();
 	}
+
 	public static Identifier getRegistryName(Item i) {
 		return BuiltInRegistries.ITEM.getKey(i);
 	}
+
 	public static Identifier getRegistryName(ItemStack i) {
 		return getRegistryName(i.getItem());
 	}
+
 	public static Identifier getRegistryName(Block b) {
 		return BuiltInRegistries.BLOCK.getKey(b);
 	}
@@ -219,60 +219,84 @@ public class Utils {
 	public static Identifier getRegistryName(MobEffect effect) {
 		return BuiltInRegistries.MOB_EFFECT.getKey(effect);
 	}
-	public static Lazy<Item> itemSupplier(String name){
-		return Lazy.of(()->BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(CPMain.MODID,name)));
-		
+
+	public static Lazy<Item> itemSupplier(String name) {
+		return Lazy.of(() -> BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(CPMain.MODID, name)));
+
 	}
-	public static void addPotionTooltip(Collection<MobEffectInstance> list, Consumer<Component> lores, float durationFactor,Level pLevel) {
-		if(list.isEmpty())
+
+	public static void addPotionTooltip(Collection<MobEffectInstance> list, Consumer<Component> lores, float durationFactor, Level pLevel) {
+		if (list.isEmpty())
 			PotionContents.addPotionTooltip(list, lores, durationFactor, pLevel == null ? 20.0F : pLevel.tickRateManager().tickrate());
 	}
+
 	public static void writeItemFluid(ItemStack is, Fluid f) {
 		is.set(CPCapability.ITEM_FLUID, new ItemHoldedFluidData(FluidResource.of(f)));
 	}
+
 	public static StewInfo getOrCreateInfo(ItemStack stack) {
-		StewInfo si= stack.get(CPCapability.STEW_INFO);
-		if(si==null) {
-			FluidResource type=Utils.getFluidType(stack);
-			if(type.isEmpty())
+		StewInfo si = stack.get(CPCapability.STEW_INFO);
+		if (si == null) {
+			FluidResource type = Utils.getFluidType(stack);
+			if (type.isEmpty())
 				return new StewInfo();
 			else
 				return new StewInfo(type.getFluid());
 		}
 		return si;
 	}
-	public static StewInfo getOrCreateInfoForRead(FluidResource stack) {
-		StewInfo si= stack.get(CPCapability.STEW_INFO);
-		if(si==null) {
-			Fluid type=stack.getFluid();
-			if(type==Fluids.EMPTY)
-				return new StewInfo();
-			else
-				return new StewInfo(type);
-		}
-		return si;
-	}
-	public static StewInfo getOrCreateInfo(FluidResource stack) {
-		StewInfo si= stack.get(CPCapability.STEW_INFO);
-		if(si==null) {
-			Fluid type=stack.getFluid();
-			if(type==Fluids.EMPTY)
+	public static StewInfo getOrCreateInfo(FluidStack stack) {
+		StewInfo si = stack.get(CPCapability.STEW_INFO);
+		if (si == null) {
+			Fluid type = stack.getFluid();
+			if (type == Fluids.EMPTY)
 				return new StewInfo();
 			else
 				return new StewInfo(type);
 		}
 		return si.copy();
 	}
+	public static StewInfo getOrCreateInfoForRead(FluidResource stack) {
+		StewInfo si = stack.get(CPCapability.STEW_INFO);
+		if (si == null) {
+			Fluid type = stack.getFluid();
+			if (type == Fluids.EMPTY)
+				return new StewInfo();
+			else
+				return new StewInfo(type);
+		}
+		return si;
+	}
+
+	public static StewInfo getOrCreateInfo(FluidResource stack) {
+		StewInfo si = stack.get(CPCapability.STEW_INFO);
+		if (si == null) {
+			Fluid type = stack.getFluid();
+			if (type == Fluids.EMPTY)
+				return new StewInfo();
+			else
+				return new StewInfo(type);
+		}
+		return si.copy();
+	}
+
 	public static void setInfo(MutableDataComponentHolder out, StewInfo info) {
-		
+
 		out.set(CPCapability.STEW_INFO.get(), info.toImmutable());
 		out.set(DataComponents.CONSUMABLE, info.getConsumable().build());
 		out.set(DataComponents.FOOD, info.getFood().build());
-		
-		
+
 	}
+	public static void setInfo(MutableDataComponentHolder out, SauteedFoodInfo info) {
+
+		out.set(CPCapability.SAUTEED_INFO.get(), info);
+		out.set(DataComponents.CONSUMABLE, info.getConsumable().build());
+		out.set(DataComponents.FOOD, info.getFood().build());
+
+	}
+
 	@SuppressWarnings("unchecked")
-	public static <T> Optional<T> getInterface(MutableDataComponentHolder stack,Class<T> componentClass) {
-		return stack.getComponents().stream().map(t->t.value()).filter(componentClass::isInstance).map(t->(T)t).findAny();
+	public static <T> Optional<T> getInterface(MutableDataComponentHolder stack, Class<T> componentClass) {
+		return stack.getComponents().stream().map(t -> t.value()).filter(componentClass::isInstance).map(t -> (T) t).findAny();
 	}
 }

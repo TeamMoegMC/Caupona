@@ -24,7 +24,6 @@ package com.teammoeg.caupona.blocks.stove;
 import java.util.List;
 
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
-import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -53,8 +52,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 
@@ -77,7 +74,6 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntit
 	 * }
 	 */
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
 		return 1.0F;
 	}
@@ -108,9 +104,9 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntit
 		List<ItemStack> list=super.getDrops(p_state, p_params);
 		if (p_params.getParameter(LootContextParams.BLOCK_ENTITY) instanceof KitchenStoveBlockEntity stove) {
 			for (int i = 0; i < 6; i++) {
-				ItemStack is = stove.getItem(0);
+				ItemResource is = stove.getInv().getResource(0);
 				if (!is.isEmpty())
-					list.add(is);
+					list.add(is.toStack(stove.getInv().getAmountAsInt(0)));
 			}
 		}
 		return list;

@@ -26,7 +26,7 @@ import java.util.List;
 import org.jspecify.annotations.Nullable;
 
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
-import com.teammoeg.caupona.item.StewItem;
+import com.teammoeg.caupona.util.WorldDropOperation;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -48,9 +48,9 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 
@@ -61,7 +61,6 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 	static final VoxelShape shape = Block.box(2.8, 0, 2.8, 13.2, 5.2, 13.2);
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
 		return 1.0F;
 	}
@@ -80,7 +79,8 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 	protected List<ItemStack> getDrops(BlockState p_state, Builder p_params) {
 		List<ItemStack> li=super.getDrops(p_state, p_params);
 		if (p_params.getParameter(LootContextParams.BLOCK_ENTITY) instanceof BowlBlockEntity bowl) {
-			li.add(bowl.getInternal());
+			ItemResource ir=bowl.getInternal().getResource(0);
+			li.add(ir.toStack(bowl.getInternal().getAmountAsInt(0)));
 		}
 		return li;
 	}
@@ -93,23 +93,36 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 		InteractionResult p = super.useWithoutItem(state, worldIn, pos, player, hit);
 		if (p.consumesAction())
 			return p;
-		if (worldIn.getBlockEntity(pos) instanceof BowlBlockEntity bowl&&bowl.getInternal() != null && bowl.getInternal().getItem() instanceof StewItem
-				) {
-			@Nullable Consumable fp = bowl.getInternal().get(DataComponents.CONSUMABLE);
+		if (worldIn.getBlockEntity(pos) instanceof BowlBlockEntity bowl) {
+			ItemResource ir=bowl.getInternal().getResource(0);
+			ItemStack stack=ir.toStack();
+			@Nullable Consumable fp = ir.get(DataComponents.CONSUMABLE);
 			if(fp!=null) {
+				
 				if (bowl.isInfinite) {
-					if(fp.canConsume(player, bowl.getInternal())) {
-						fp.onConsume(worldIn, player, bowl.getInternal().copy());
+					if(fp.canConsume(player, stack)) {
+						fp.onConsume(worldIn, player, stack);
 						bowl.syncData();
 					}
 				} else {
-					if(fp.canConsume(player, bowl.getInternal())) {
-						ItemStack iout=fp.onConsume(worldIn, player, bowl.getInternal().copy());
-						bowl.setInternal(iout);
-						if(!bowl.getInternal().isEmpty()) {
-							bowl.syncData();
-						}else
-							worldIn.removeBlock(pos, false);
+					if(fp.canConsume(player, stack)) {
+						try(Transaction trans=Transaction.openRoot()){
+							if(bowl.getInternal().extract(ir, 1, trans)>0) {
+								ItemStack iout=fp.onConsume(worldIn, player, stack);
+								int count=iout.getCount();
+								if(!iout.isEmpty()) {
+									ItemResource toOut=bowl.getInternal().getResourceFrom(iout);
+									count-=bowl.getInternal().insert(toOut, count, trans);
+									if(count>0) {
+										WorldDropOperation drops=new WorldDropOperation(worldIn,pos);
+										drops.addDrops(toOut.toStack(count));
+										drops.updateSnapshots(trans);
+									}
+								}else
+									worldIn.removeBlock(pos, false);
+								trans.commit();
+							}
+						}
 					}
 				}
 			}
@@ -123,7 +136,11 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 		super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
 		if (pLevel.getBlockEntity(pPos) instanceof BowlBlockEntity bowl) {
 			bowl.setComponents(DataComponentMap.EMPTY);
-			bowl.setInternal(pStack.copyWithCount(1));
+			ItemResource ir=bowl.getInternal().getResourceFrom(pStack);
+			try(Transaction trans=Transaction.openRoot()){
+				bowl.getInternal().insert(0, ir, 1,trans);
+				trans.commit();
+			}
 		}
 	}
 	@Override
@@ -131,7 +148,7 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 		if (level.getBlockEntity(pos) instanceof BowlBlockEntity bowl) {
 			if (bowl.getInternal() == null)
 				return ItemStack.EMPTY;
-			return bowl.getInternal().copy();
+			return bowl.getInternal().getResource(0).toStack();
 		}
 		return super.getCloneItemStack(level, pos, state, includeData, player);
 	}
@@ -144,7 +161,7 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 
 	@Override
 	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos, Direction dir) {
-		if (pLevel.getBlockEntity(pPos) instanceof BowlBlockEntity bowl&&bowl.getInternal() != null && !bowl.getInternal().isEmpty() && bowl.getInternal().get(DataComponents.CONSUMABLE)!=null) {
+		if (pLevel.getBlockEntity(pPos) instanceof BowlBlockEntity bowl&&!bowl.getInternal().getResource(0).isEmpty() && bowl.getInternal().getResource(0).get(DataComponents.CONSUMABLE)!=null) {
 			return 15;
 		}
 		return 0;

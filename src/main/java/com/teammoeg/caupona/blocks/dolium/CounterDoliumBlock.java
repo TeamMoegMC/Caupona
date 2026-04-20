@@ -26,6 +26,7 @@ import java.util.List;
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.CPHorizontalEntityBlock;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -43,8 +44,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import net.neoforged.neoforge.transfer.item.ItemResource;
@@ -57,7 +56,6 @@ public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlo
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
 		return 1.0F;
 	}
@@ -115,9 +113,9 @@ public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlo
 		List<ItemStack> list=super.getDrops(p_state, p_params);
 		if (p_params.getParameter(LootContextParams.BLOCK_ENTITY) instanceof CounterDoliumBlockEntity dolium) {
 			for (int i = 0; i < 6; i++) {
-				ItemResource is = dolium.inv.getResource(i);
+				ItemResource is = dolium.getInternInv().getResource(i);
 				if (!is.isEmpty()) {
-					list.add(is.toStack(dolium.inv.getAmountAsInt(i)));
+					list.add(is.toStack(dolium.getInternInv().getAmountAsInt(i)));
 				}
 			}
 		}

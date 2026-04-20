@@ -21,7 +21,7 @@
 
 package com.teammoeg.caupona.blocks.pan;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nullable;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
@@ -38,13 +38,13 @@ import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
+import com.teammoeg.caupona.util.LimitedInterfaceStacksHandler;
+import com.teammoeg.caupona.util.RecipeHandleStatus;
+import com.teammoeg.caupona.util.RecipeHandler;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
@@ -61,29 +61,34 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.items.wrapper.RangedWrapper;
+import net.neoforged.neoforge.transfer.RangedResourceHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
 public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,IInfinitable,IFoodContainer {
-	//process
-	public int process;
-	public int processMax;
+
 	//work state
 	public boolean working = false;
 	public boolean operate = false;
 	public boolean rsstate = false;
 	
 	boolean isInfinite = false;
-	//output cache
-	boolean removesNBT;
-	public ItemStack preout = ItemStack.EMPTY;
 	public ItemStack sout = ItemStack.EMPTY;
 	public Identifier model;
+	public static final int ACCESSIBLE_SLOTS=12;
+	public RecipeHandler<SauteedRecipe> handler=new RecipeHandler<>(this::make);
 	//Capabilities
-	public ItemStacksResourceHandler inv = new ItemStacksResourceHandler(12) {
+	public ItemStacksResourceHandler internInv = new ItemStacksResourceHandler(ACCESSIBLE_SLOTS) {
+
+		@Override
+		protected void onContentsChanged(int index, ItemStack previousContents) {
+			syncData();
+			super.onContentsChanged(index, previousContents);
+		}
+	};
+	private LimitedInterfaceStacksHandler inv=new LimitedInterfaceStacksHandler(internInv) {
 		@Override
 		public boolean isValid(int slot, ItemResource stack) {
 			if (slot < 9)
@@ -97,60 +102,43 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		}
 
 		@Override
-		public int getCapacity(int slot,ItemResource ir) {
+		public long getCapacityAsLong(int slot,ItemResource ir) {
 			if (slot < 9)
 				return 1;
-			return super.getCapacity(slot, ir);
+			return super.getCapacityAsLong(slot, ir);
 		}
+
 	};
-	public IItemHandler bowl = new IItemHandler() {
+	public RangedResourceHandler<ItemResource> bowl = new RangedResourceHandler<>(inv,9,12) {
+		
 		@Override
-		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-			if (slot < 9 || slot==10)
-				return stack;
-			return inv.insertItem(slot, stack, simulate);
+		public int insert(int index, ItemResource resource, int amount, TransactionContext transaction) {
+			if(index==1)
+				return 0;
+			return super.insert(index, resource, amount, transaction);
 		}
 
 		@Override
-		public ItemStack extractItem(int slot, int amount, boolean simulate) {
-			if (slot == 9 || slot == 11)
-				return ItemStack.EMPTY;
-			if(slot<9&&inv.isItemValid(slot, inv.getStackInSlot(slot)))
-				return ItemStack.EMPTY;
-			ItemStack item=inv.extractItem(slot, amount, simulate);
-			if(slot==10&&!item.isEmpty()&&sout.isEmpty())
-				syncData();
-			return item;
+		public int extract(int index, ItemResource resource, int amount, TransactionContext transaction) {
+			if(index==1)
+				return super.extract(index, resource, amount, transaction);
+			return 0;
 		}
 
-		@Override
-		public int getSlots() {
-			return inv.getSlots();
-		}
-
-		@Override
-		public @NotNull ItemStack getStackInSlot(int slot) {
-			return inv.getStackInSlot(slot);
-		}
-
-		@Override
-		public int getSlotLimit(int slot) {
-			return inv.getSlotLimit(slot);
-		}
-
-		@Override
-		public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-			if(slot<9||slot==10)
-				return false;
-			return inv.isItemValid(slot, stack);
-		}
 	};
-	RangedWrapper ingredient = new RangedWrapper(inv, 0, 10) {
+	RangedResourceHandler<ItemResource> ingredient = new RangedResourceHandler<>(inv, 0, 10) {
 
 		@Override
-		public ItemStack extractItem(int slot, int amount, boolean simulate) {
-			return ItemStack.EMPTY;
+		public int extract(ItemResource resource, int amount, TransactionContext transaction) {
+			return 0;
 		}
+
+		@Override
+		public int extract(int index, ItemResource resource, int amount, TransactionContext transaction) {
+			return 0;
+		}
+
+		
 	};
 	public PanBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPBlockEntityTypes.PAN.get(), pWorldPosition, pBlockState);
@@ -174,15 +162,11 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		working = nbt.getBooleanOr("working",false);
 		operate = nbt.getBooleanOr("operate",false);
 		rsstate = nbt.getBooleanOr("rsstate",false);
-		process = nbt.getIntOr("process",0);
-		processMax = nbt.getIntOr("processMax",0);
 		model=nbt.getString("model").map(Identifier::parse).orElse(null);
 		if (!isClient) {
 			sout=nbt.read("sout", ItemStack.CODEC).orElse(ItemStack.EMPTY);
-			inv.deserialize(nbt.childOrEmpty("items"));
+			internInv.deserialize(nbt.childOrEmpty("items"));
 			isInfinite =nbt.getBooleanOr("inf",false);
-			removesNBT=nbt.getBooleanOr("removeNbt",false);
-			preout = nbt.read("result", ItemStack.CODEC).orElse(ItemStack.EMPTY);
 		}
 		
 
@@ -193,24 +177,20 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		nbt.putBoolean("working", working);
 		nbt.putBoolean("operate", operate);
 		nbt.putBoolean("rsstate", rsstate);
-		nbt.putInt("process", process);
-		nbt.putInt("processMax", processMax);
 		if(model!=null)
 		nbt.putString("model", model.toString());
 		if (!isClient) {
 			nbt.store("sout", ItemStack.CODEC, sout);
-			inv.serialize(nbt.child("items"));
+			internInv.serialize(nbt.child("items"));
 			nbt.putBoolean("inf",isInfinite);
-			nbt.putBoolean("removeNbt",removesNBT);
-			nbt.store("result", ItemStack.CODEC, preout);
 		}
 		
 		
 	}
 
-	private ItemStack tryAddSpice(ItemStack fs) {
-		ItemStack ospi = inv.getStackInSlot(11);
-		ItemStack spi=ospi;
+	private ItemStack tryAddSpice(ItemStack fs,TransactionContext trans) {
+		ItemResource ospi = internInv.getResource(11);
+		ItemStack spi=ospi.toStack();
 		SpiceRecipe spice = SpiceRecipe.find(spi);
 		if(this.getBlockState().is(CPBlocks.LEAD_PAN.get())) {
 			if(spice!=null&&spice.canReactLead) {
@@ -218,11 +198,20 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 				spice=SpiceRecipe.find(spi);
 			}
 		}
-		if (spice != null && SpiceRecipe.getMaxUse(ospi) >= fs.getCount()) {
-			if(CPCapability.FOOD_INFO.getCapability(fs, null) instanceof SauteedFoodInfo si) {
-				if (!isInfinite) 
-					inv.setStackInSlot(11, SpiceRecipe.handle(ospi, fs.getCount()));
-				si.addSpice(spice.effect, spi);
+		if (spice != null && SpiceRecipe.getMaxUse(spi) >= fs.getCount()) {
+			if(fs.get(CPCapability.SAUTEED_INFO.get()) instanceof SauteedFoodInfo si) {
+				if (!isInfinite) {
+					if(internInv.extract(11,ospi, 1, trans)==1) {
+						spi=SpiceRecipe.handle(spi, fs.getCount());
+						if(internInv.insert(11,internInv.getResourceFrom(spi), spi.getCount(), trans)==spi.getCount()) {
+							si=si.copy();
+							si.addSpice(spice.effect, ospi.getItem());
+							fs=fs.copy();
+							fs.set(CPCapability.SAUTEED_INFO.get(), si);
+							return fs;
+						}
+					}
+				}
 			}
 		}
 		return fs;
@@ -230,34 +219,36 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 
 	@Override
 	public void tick() {
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			working = false;
-			if (processMax > 0) {
-				if (level.getBlockEntity(worldPosition.below()) instanceof IStove stove) {
-					int rh =stove.requestHeat();
-					process += rh;
-					if (rh > 0) {
-						working = true;
-						this.syncData();
-					}
-					if (process >= processMax) {
-						process = 0;
-						processMax = 0;
-						doWork();
-						this.setChanged();
+			if (handler.shouldTick()) {
+				if (level.getCapability(CPCapability.HEAT_STOVE, worldPosition.below(), Direction.UP) instanceof IStove stove) {
+					if(!handler.isRecipeFinished()) {
+						try(Transaction trans=Transaction.openRoot()){
+							int rh =stove.requestHeat(2, trans);
+							if(handler.tickProcess(rh)) {
+								trans.commit();
+								working = true;
+								this.syncData();
+							}
+						}
 					}
 				} else
 					return;
 
 			} else if (!sout.isEmpty()) {
 				operate = false;
-				if (inv.getStackInSlot(10).isEmpty()) {
-					if(!isInfinite)
-						inv.setStackInSlot(10, tryAddSpice(sout.split(1)));
-					else
-						inv.setStackInSlot(10, tryAddSpice(sout.copyWithCount(1)));
+				try(Transaction trans=Transaction.openRoot()) {
+					ItemResource ir=internInv.getResourceFrom(tryAddSpice(sout.copyWithCount(1),trans));
+					if(internInv.insert(10,ir, 1, trans)==1) {
+						if(!isInfinite)
+							sout.shrink(1);
+						trans.commit();
+					}
+					
 					this.setChanged();
 					if(sout.isEmpty()) {
+						sout=ItemStack.EMPTY;
 						model=null;
 						this.syncData();
 					}
@@ -277,129 +268,116 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 			operate = false;
 			if (!(level.getBlockEntity(worldPosition.below()) instanceof IStove stove) || !stove.canEmitHeat())
 				return;
-			make();
+			make(null);
 		}
 	}
 
-	private void doWork() {
-		removesNBT=false;
-		sout = preout;
-		preout=ItemStack.EMPTY;
-	}
 
 	@SuppressWarnings("resource")
-	private void make() {
+	private RecipeHandleStatus make(@Nullable Identifier recipeId) {
 		//Do simulation requirement check
 		//Ensure everything cookable
-		int itms = 0;
-		for (int i = 0; i < 9; i++) {
-			ItemStack is = inv.getStackInSlot(i);
-			if (!is.isEmpty()) {
-				if (SauteedRecipe.isCookable(is))
-					itms++;
-				else
-					return;
-			}
-		}
-		if (itms <= 0)
-			return;
-		//ensure has oil
-		BlockPos oilProvidingPos=null;
-		for (Direction d : Utils.horizontals) {
-			BlockPos bp = this.getBlockPos().relative(d);
-			BlockState bs = this.getLevel().getBlockState(bp);
-			if (bs.is(CPBlocks.GRAVY_BOAT.get())) {
-				int oil = GravyBoatBlock.getOil(bs);
-				if (oil > 0) {
-					//
-					oilProvidingPos=bp;
-					break;
+		try(Transaction trans=Transaction.openRoot()){
+			ItemStacksResourceHandler tempInv = new ItemStacksResourceHandler(9);
+			int itms = 0;
+			for (int i = 0; i < 9; i++) {
+				ItemResource ir=internInv.getResource(i);
+				int extracted=internInv.extract(i, ir, 1, trans);
+				
+				if (extracted>0) {
+					ItemStack in=ir.toStack(extracted);
+					if (SauteedRecipe.isCookable(in)) {
+						ItemStack reminder=in.getCraftingRemainder().create();
+						if(internInv.insert(internInv.getResourceFrom(reminder), reminder.getCount(), trans)==reminder.getCount()) {
+							if(tempInv.insert(ir, 1, trans)==1) {
+								itms++;
+								continue;
+							}
+						}
+					}
+					return RecipeHandleStatus.FAILED;
 				}
 			}
-		}
-		if (oilProvidingPos==null)
-			return;
-		if (inv.getStackInSlot(9).isEmpty())return;
-		//Draw items
-		NonNullList<ItemStack> interninv = NonNullList.withSize(9, ItemStack.EMPTY);
-		for (int i = 0; i < 9; i++) {
-			ItemStack is = inv.getStackInSlot(i);
-			if (!is.isEmpty()) {
-				for (int j = 0; j < 9; j++) {
-					ItemStack ois = interninv.get(j);
-					if (ois.isEmpty()) {
-						interninv.set(j, is.copy());
-						break;
-					} else if (ItemStack.isSameItemSameComponents(ois, is)) {
-						ois.setCount(ois.getCount() + is.getCount());
+			if (itms <= 0)
+				return RecipeHandleStatus.FAILED;
+			//ensure has oil
+			BlockPos oilProvidingPos=null;
+			for (Direction d : Utils.horizontals) {
+				BlockPos bp = this.getBlockPos().relative(d);
+				BlockState bs = this.getLevel().getBlockState(bp);
+				if (bs.is(CPBlocks.GRAVY_BOAT.get())) {
+					int oil = GravyBoatBlock.getOil(bs);
+					if (oil > 0) {
+						oilProvidingPos=bp;
 						break;
 					}
 				}
-				//inv.setStackInSlot(i, is.getCraftingRemainingItem());
 			}
-		}
-		//Make Pending Context
-		int tpt = 0;
-		SauteedFoodInfo current = new SauteedFoodInfo();
-		for (int i = 0; i < 9; i++) {
-			ItemStack is = interninv.get(i);
-			if (is.isEmpty())
-				break;
-			current.addItem(is);
-			FoodValueRecipe fvr = FoodValueRecipe.recipes.get(is.getItem());
-			if (fvr != null)
-				tpt += fvr.processtimes.getOrDefault(is.getItem(), 0);
-		}
-		interninv.clear();
-		current.completeAll();
-		
-		PanPendingContext ctx = new PanPendingContext(current);
-		//Do recipe check
-		float tcount=0;
-		
-		Item preout=Items.AIR;
-		int processMax=0;
-		Identifier tmodel = null;
-		boolean removesNBT=false;
-		for (RecipeHolder<SauteedRecipe> cr : SauteedRecipe.sorted) {
-			if (cr.value().bowl.test(inv.getStackInSlot(9))&&cr.value().matches(ctx)) {
-				processMax = Math.max(cr.value().time, tpt);
-				preout = cr.value().output;
-				removesNBT=cr.value().removeNBT;
-				tcount=cr.value().count;
-				tmodel=cr.value().model;
-				break;
+			if (oilProvidingPos==null)
+				return RecipeHandleStatus.FAILED;
+			if (internInv.getResource(9).isEmpty())
+				return RecipeHandleStatus.FAILED;
+	
+			//Make Pending Context
+			int tpt = 0;
+			SauteedFoodInfo current = new SauteedFoodInfo();
+			for (int i = 0; i < 9; i++) {
+				ItemResource is = tempInv.getResource(i);
+				if (is.isEmpty())
+					break;
+				current.addItem(is.toStack(tempInv.getAmountAsInt(i)));
+				FoodValueRecipe fvr = FoodValueRecipe.recipes.get(is.getItem());
+				if (fvr != null)
+					tpt += fvr.processtimes.getOrDefault(is.getItem(), 0);
 			}
-		}
-		if(preout==Items.AIR)return;
-		if(tcount<=0)tcount=2f;
-		int cook = Mth.ceil(itms / tcount);
-		if (inv.getStackInSlot(9).getCount() < cook)
-			return;
-		
-		//Complete simulation check, Start taking effect
-		GravyBoatBlock.drawOil(getLevel(), oilProvidingPos, 1);
-		for (int i = 0; i < 9; i++) {
-			ItemStack is = inv.getStackInSlot(i);
-			if (!is.isEmpty()) {
-				inv.setStackInSlot(i, is.getCraftingRemainingItem());
+			current.completeAll();
+			
+			PanPendingContext ctx = new PanPendingContext(current);
+			//Do recipe check
+			float tcount=0;
+			
+			Item preout=Items.AIR;
+			Identifier tmodel = null;
+			boolean removesNBT=false;
+			ItemResource bowl=internInv.getResource(9);
+			RecipeHolder<SauteedRecipe> recipe=null;
+			for (RecipeHolder<SauteedRecipe> cr : SauteedRecipe.sorted) {
+				if (recipeId==null||(cr.id().identifier().equals(recipeId))&&cr.value().bowl.test(bowl.toStack())&&cr.value().matches(ctx)) {
+					tpt = Math.max(cr.value().time, tpt);
+					preout = cr.value().output;
+					removesNBT=cr.value().removeNBT;
+					tcount=cr.value().count;
+					tmodel=cr.value().model;
+					recipe=cr;
+					break;
+				}
 			}
+			if(preout==Items.AIR)
+				return RecipeHandleStatus.FAILED;
+			if(tcount<=0)tcount=2f;
+			int cook = Mth.ceil(itms / tcount);
+			if (internInv.getAmountAsInt(9) < cook)
+				return RecipeHandleStatus.FAILED;
+			if(recipeId!=null) {
+				//Complete simulation check, Start taking effect
+				GravyBoatBlock.drawOil(getLevel(), oilProvidingPos, 1);
+				current.setParts(cook);
+				current.recalculateHAS();
+				ItemStack sout=new ItemStack(preout,cook);
+				if(!removesNBT)
+					Utils.setInfo(sout,current);
+				this.sout=sout;
+				this.model=tmodel;
+				internInv.extract(9, bowl, cook, trans);
+				trans.commit();
+			}else {
+				tpt = Math.max(CPConfig.SERVER.fryTimeBase.get(), tpt);
+				if (this.getBlockState().is(CPBlocks.STONE_PAN.get()))
+					tpt *= 2;
+				handler.setRecipe(recipe, tpt);
+			}
+			return RecipeHandleStatus.SUCCEED;
 		}
-		this.processMax = process = 0;
-		tpt = Math.max(CPConfig.SERVER.fryTimeBase.get(), tpt);
-		current.setParts(cook);
-		current.recalculateHAS();
-		this.preout=new ItemStack(preout,cook);
-		this.preout.set(CPCapability.SAUTEED_INFO, current);
-		this.processMax=processMax;
-		this.removesNBT=removesNBT;
-		this.model=tmodel;
-		inv.getStackInSlot(9).shrink(cook);
-		if (this.getBlockState().is(CPBlocks.STONE_PAN.get()))
-			tpt *= 2;
-		processMax = tpt;
-		this.syncData();
-		return;
 	}
 
 	@Override
@@ -412,27 +390,39 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		return Utils.translate("container." + CPMain.MODID + ".pan.title");
 	}
 
-	public ItemStacksResourceHandler getInv() {
+	public LimitedInterfaceStacksHandler getInv() {
 		return inv;
 	}
-
+	public ItemStacksResourceHandler getInternInv() {
+		return internInv;
+	}
 	@Override
 	public boolean setInfinity() {
 		return isInfinite=!isInfinite;
 	}
 
-	@Override
-	public ItemStack getInternal(int num) {
-		ItemStack result=inv.extractItem(10, 1,true);
-		return result;
-	}
 
 	@Override
-	public void setInternal(int num, ItemStack is) {
-		inv.extractItem(10, 1, false);
-		is=inv.insertItem(9, is,false);
-		this.syncData();
-		Utils.dropToWorld(this.getLevel(), is, this.getBlockPos());
+	public ItemStack exchangeInternal(int num, ItemStack is,TransactionContext parent) {
+		ItemResource ir=internInv.getResource(10);
+		try(Transaction trans=Transaction.open(parent)){
+			ItemResource in =internInv.getResourceFrom(is);
+			int outCount=0;
+			int inStackCount=0;
+			if(!is.isEmpty()) {
+				inStackCount=is.getCount();
+				outCount=internInv.insert(9,in,inStackCount,trans);
+			}
+			if(outCount==inStackCount) {
+				int extracted=internInv.extract(10, ir, 1, trans);
+				trans.commit();
+				if(extracted==1) {
+					return ir.toStack(extracted);
+				}
+				return ItemStack.EMPTY;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -447,7 +437,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 
 	@Override
 	public Object getCapability(BlockCapability<?, Direction> type, Direction d) {
-		if(type==Capabilities.ItemHandler.BLOCK) {
+		if(type==Capabilities.Item.BLOCK) {
 			if(d==Direction.UP)
 				return ingredient;
 			return bowl;

@@ -21,40 +21,45 @@
 
 package com.teammoeg.caupona.blocks.pot;
 
+import java.util.List;
+
+import org.jspecify.annotations.Nullable;
+
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 import com.teammoeg.caupona.client.CPParticles;
-import com.teammoeg.caupona.util.Utils;
-
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.storage.loot.LootParams.Builder;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
-public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> implements LiquidBlockContainer {
+public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> {
 	public static final EnumProperty<Axis> FACING = BlockStateProperties.HORIZONTAL_AXIS;
 
 	public StewPot(Properties blockProps, DeferredHolder<BlockEntityType<?>,BlockEntityType<StewPotBlockEntity>> ste) {
@@ -69,50 +74,40 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 	}
 
 	@Override
-	public ItemInteractionResult useItemOn(ItemStack held,BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
+	public InteractionResult useItemOn(ItemStack held,BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
 			BlockHitResult hit) {
-		ItemInteractionResult p = super.useItemOn(held,state, worldIn, pos, player, handIn, hit);
+		InteractionResult p = super.useItemOn(held,state, worldIn, pos, player, handIn, hit);
 		if (p.consumesAction())
 			return p;
 		StewPotBlockEntity blockEntity = (StewPotBlockEntity) worldIn.getBlockEntity(pos);
 		if (blockEntity.canAddFluid()) {
 			if (held.isEmpty() && player.isShiftKeyDown()) {
-				blockEntity.getTank().setFluid(FluidStack.EMPTY);
-				blockEntity.syncData();
-				return ItemInteractionResult.SUCCESS;
-			}
-			FluidStack out=Utils.extractFluid(held);
-			if (!out.isEmpty()) {
-				if (blockEntity.tryAddFluid(out)) {
-					ItemStack ret = held.getCraftingRemainingItem();
-					held.shrink(1);
-					if (!player.addItem(ret))
-						player.drop(ret, false);
+				try(Transaction trans=Transaction.openRoot()){
+					blockEntity.getTank().extract(blockEntity.getTank().getResource(0), 1250,trans);
+					blockEntity.syncData();
 				}
-
-				return ItemInteractionResult.sidedSuccess(worldIn.isClientSide);
+				return InteractionResult.SUCCESS;
 			}
-			if (FluidUtil.interactWithFluidHandler(player, handIn, blockEntity.getTank()))
-				return ItemInteractionResult.SUCCESS;
+
+			try(Transaction trans=Transaction.openRoot()){
+				@Nullable ResourceHandler<FluidResource> cap=held.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forPlayerInteraction(player, handIn));
+				if(cap!=null) {
+					FluidResource fr=cap.getResource(0);
+					int amt=cap.extract(fr, cap.getAmountAsInt(0), trans);
+					if (blockEntity.tryAddFluid(fr,amt,trans)) {
+						trans.commit();
+						return InteractionResult.SUCCESS;
+					}
+				}
+			}
+			
+			if (FluidUtil.interactWithFluidHandler(player, handIn,pos, blockEntity.getTank()))
+				return InteractionResult.SUCCESS;
 
 		}
 		return p;
 	}
 
-	@Override
-	public boolean canPlaceLiquid(Player ps,BlockGetter w, BlockPos p, BlockState s, Fluid f) {
-		StewPotBlockEntity blockEntity = (StewPotBlockEntity) w.getBlockEntity(p);
-		return blockEntity.canAddFluid(new FluidStack(f, 1000));
-	}
-
-	@Override
-	public boolean placeLiquid(LevelAccessor w, BlockPos p, BlockState s, FluidState f) {
-		StewPotBlockEntity blockEntity = (StewPotBlockEntity) w.getBlockEntity(p);
-		if (blockEntity.tryAddFluid(new FluidStack(f.getType(), 1000))) {
-			return true;
-		}
-		return false;
-	}
 
 	@Override
 	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
@@ -127,23 +122,27 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 		}
 	}
 
+
 	@Override
-	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (worldIn.getBlockEntity(pos) instanceof StewPotBlockEntity pot && state.getBlock() != newState.getBlock()) {
+	protected List<ItemStack> getDrops(BlockState p_state, Builder p_params) {
+		List<ItemStack> list=super.getDrops(p_state, p_params);
+		if (p_params.getParameter(LootContextParams.BLOCK_ENTITY) instanceof StewPotBlockEntity pot) {
 			if (pot.proctype != 2)
 				for (int i = 0; i < 9; i++) {
-					ItemStack is = pot.getInv().getStackInSlot(i);
+					ItemResource is = pot.getInternInv().getResource(i);
 					if (!is.isEmpty())
-						super.popResource(worldIn, pos, is);
+						list.add(is.toStack(pot.getInternInv().getAmountAsInt(i)));
 				}
 			for (int i = 9; i < 12; i++) {
-				ItemStack is = pot.getInv().getStackInSlot(i);
+				ItemResource is = pot.getInternInv().getResource(i);
 				if (!is.isEmpty())
-					super.popResource(worldIn, pos, is);
+					list.add(is.toStack(pot.getInternInv().getAmountAsInt(i)));
 			}
 		}
-		super.onRemove(state, worldIn, pos, newState, isMoving);
+		return list;
 	}
+
+
 
 	@Override
 	protected void createBlockStateDefinition(
@@ -164,17 +163,17 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 	}
 
 	@Override
-	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
+	public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos, Direction dir) {
 		StewPotBlockEntity blockEntity = (StewPotBlockEntity) pLevel.getBlockEntity(pPos);
 		if (blockEntity.proctype == 0) {
 			int ret = 1;
 			for (int i = 0; i < 9; i++) {
-				ItemStack is = blockEntity.getInv().getStackInSlot(i);
+				ItemResource is = blockEntity.getInv().getResource(i);
 				if (!is.isEmpty())
 					ret++;
 
 			}
-			ret += blockEntity.getTank().getFluidAmount() / 250;
+			ret += blockEntity.getTank().getAmountAsInt(0) / 250;
 			return ret;
 		}
 		return 0;
@@ -186,10 +185,10 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> impleme
 		if (p.consumesAction())
 			return p;
 		StewPotBlockEntity blockEntity = (StewPotBlockEntity) level.getBlockEntity(pos);
-		if (blockEntity != null && !level.isClientSide&&(player.getAbilities().instabuild||!blockEntity.isInfinite)) {
+		if (blockEntity != null && !level.isClientSide()&&(player.getAbilities().instabuild||!blockEntity.isInfinite)) {
 			((ServerPlayer) player).openMenu( blockEntity, blockEntity.getBlockPos());
 		}
-		return InteractionResult.sidedSuccess(level.isClientSide);
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override

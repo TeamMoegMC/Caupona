@@ -22,7 +22,6 @@
 package com.teammoeg.caupona.blocks.foods;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
-import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.item.DishItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
@@ -33,9 +32,22 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
 public class DishBlockEntity extends CPBaseBlockEntity implements IInfinitable,IFoodContainer {
-	private ItemStack internal = ItemStack.EMPTY;
+	private ItemStacksResourceHandler internal=new ItemStacksResourceHandler(1) {
+
+		@Override
+		protected void onContentsChanged(int index, ItemStack previousContents) {
+			syncData();
+			super.onContentsChanged(index, previousContents);
+		}
+		
+		
+	};
 	boolean isInfinite = false;
 
 	public DishBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
@@ -49,14 +61,13 @@ public class DishBlockEntity extends CPBaseBlockEntity implements IInfinitable,I
 	@Override
 	public void readCustomNBT(ValueInput nbt, boolean isClient) {
 	
-		internal = nbt.read("bowl", ItemStack.CODEC).orElse(ItemStack.EMPTY);
+		internal.deserialize(nbt.childOrEmpty("bowl"));
 		isInfinite = nbt.getBooleanOr("inf",false);
 	}
 
 	@Override
 	public void writeCustomNBT(ValueOutput nbt, boolean isClient) {
-		if(!internal.isEmpty())
-			nbt.store("bowl", ItemStack.CODEC, internal);
+		internal.serialize(nbt.child("bowl"));
 		nbt.putBoolean("inf", isInfinite);
 	}
 
@@ -70,24 +81,6 @@ public class DishBlockEntity extends CPBaseBlockEntity implements IInfinitable,I
 		return isInfinite = !isInfinite;
 	}
 	@Override
-	public ItemStack getInternal(int num) {
-		return internal;
-	}
-
-	@Override
-	public void setInternal(int num, ItemStack is) {
-		if(!isInfinite) {
-			internal=is;
-			if(internal.is(Items.BOWL)) {
-				this.getLevel().setBlockAndUpdate(this.getBlockPos(), CPBlocks.DISH.get().defaultBlockState());
-			}else if(internal.getItem() instanceof DishItem dish){
-				this.getLevel().setBlockAndUpdate(this.getBlockPos(), dish.getBlock().defaultBlockState());
-			}
-			this.syncData();
-		}
-	}
-
-	@Override
 	public int getSlots() {
 		return 1;
 	}
@@ -97,16 +90,33 @@ public class DishBlockEntity extends CPBaseBlockEntity implements IInfinitable,I
 		return is.getItem() instanceof DishItem||is.is(Items.BOWL);
 	}
 
-	public ItemStack getInternal() {
-		return internal;
-	}
-
-	public void setInternal(ItemStack internal) {
-		this.internal = internal;
-		this.syncData();
-	}
 	@Override
 	public boolean isInfinite() {
 		return isInfinite;
+	}
+	@Override
+	public ItemStack exchangeInternal(int num, ItemStack is,TransactionContext parent) {
+		ItemResource ir=internal.getResource(0);
+		try(Transaction trans=Transaction.open(parent)){
+			ItemResource in =internal.getResourceFrom(is);
+			int inserted=0;
+			int inStackCount=0;
+			int extracted=internal.extract(0, ir, 1, trans);
+			if(!is.isEmpty()) {
+				inStackCount=is.getCount();
+				inserted=internal.insert(0,in,inStackCount,trans);
+			}
+			if(inserted==inStackCount) {
+				trans.commit();
+				if(extracted>0) {
+					return ir.toStack(extracted);
+				}
+				return ItemStack.EMPTY;
+			}
+		}
+		return null;
+	}
+	public ItemStacksResourceHandler getInternal() {
+		return internal;
 	}
 }

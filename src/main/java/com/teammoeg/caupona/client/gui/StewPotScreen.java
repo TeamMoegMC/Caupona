@@ -22,9 +22,7 @@
 package com.teammoeg.caupona.client.gui;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;

@@ -22,10 +22,10 @@
 package com.teammoeg.caupona.blocks.foods;
 
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
 public interface IFoodContainer {
-	ItemStack getInternal(int num);
-	void setInternal(int num,ItemStack is);
+	ItemStack exchangeInternal(int num,ItemStack is,TransactionContext trans);
 	int getSlots();
 	boolean accepts(int num,ItemStack is);
 }

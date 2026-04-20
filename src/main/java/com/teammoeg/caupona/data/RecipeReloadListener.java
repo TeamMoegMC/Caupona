@@ -27,6 +27,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -58,6 +59,7 @@ import com.teammoeg.caupona.util.ChancedEffect;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
@@ -77,30 +79,30 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 @EventBusSubscriber
-public class RecipeReloadListener implements ResourceManagerReloadListener {
+public class RecipeReloadListener{
 	ReloadableServerResources data;
 	public static final Logger logger = LogManager.getLogger(CPMain.MODNAME + " recipe generator");
 
 	public RecipeReloadListener(ReloadableServerResources dpr) {
 		data = dpr;
 	}
-
+/*
 	@Override
 	public void onResourceManagerReload(@Nonnull ResourceManager resourceManager) {
 		buildRecipeLists(data.getRecipeManager());
-	}
+	}*/
 
 	RecipeManager clientRecipeManager;
 
 	/**
 	 * @param event  
 	 */
-	@SubscribeEvent
+/*	@SubscribeEvent
 	public static void onTagsUpdated(TagsUpdatedEvent event) {
 		if (FoodValueRecipe.recipeset != null)
 			FoodValueRecipe.recipeset.forEach(FoodValueRecipe::clearCache);
 	}
-
+*/
 
 	static int generated_fv = 0;
 	
@@ -216,6 +218,7 @@ public class RecipeReloadListener implements ResourceManagerReloadListener {
 				.collect(Collectors.toSet());
 		DoliumRecipe.recipes = filterRecipes(recipes, DoliumRecipe.class, DoliumRecipe.TYPE)
 				.collect(Collectors.toList());
+		DoliumRecipe.recipesNames=DoliumRecipe.recipes.stream().collect(Collectors.toMap(t->t.id().identifier(), t->t));
 		DoliumRecipe.recipes
 				.sort(((Comparator<RecipeHolder<DoliumRecipe>>) (c1, c2) -> Integer.compare(c2.value().items.size(), c1.value().items.size()))
 						.thenComparing((c1, c2) -> Integer.compare(

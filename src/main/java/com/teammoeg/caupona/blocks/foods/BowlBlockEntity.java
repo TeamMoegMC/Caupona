@@ -32,13 +32,22 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
 public class BowlBlockEntity extends CPBaseBlockEntity implements IInfinitable,IFoodContainer {
-	private ItemStack internal=ItemStack.EMPTY;
-	public ItemStack getInternal() {
-		return internal;
-	}
+	private ItemStacksResourceHandler internal=new ItemStacksResourceHandler(1) {
 
+		@Override
+		protected void onContentsChanged(int index, ItemStack previousContents) {
+			syncData();
+			super.onContentsChanged(index, previousContents);
+		}
+		
+		
+	};
 	boolean isInfinite = false;
 
 	public BowlBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
@@ -52,14 +61,13 @@ public class BowlBlockEntity extends CPBaseBlockEntity implements IInfinitable,I
 	@Override
 	public void readCustomNBT(ValueInput nbt, boolean isClient) {
 	
-		internal = nbt.read("bowl", ItemStack.CODEC).orElse(ItemStack.EMPTY);
+		internal.deserialize(nbt.childOrEmpty("bowl"));;
 		isInfinite = nbt.getBooleanOr("inf",false);
 	}
 
 	@Override
 	public void writeCustomNBT(ValueOutput nbt, boolean isClient) {
-		if(!internal.isEmpty())
-			nbt.store("bowl", ItemStack.CODEC, internal);
+		internal.serialize(nbt.child("bowl"));
 		nbt.putBoolean("inf", isInfinite);
 	}
 
@@ -72,18 +80,7 @@ public class BowlBlockEntity extends CPBaseBlockEntity implements IInfinitable,I
 		return isInfinite = !isInfinite;
 	}
 
-	@Override
-	public ItemStack getInternal(int num) {
-		return internal;
-	}
 
-	@Override
-	public void setInternal(int num, ItemStack is) {
-		if(!isInfinite) {
-			internal=is;
-			this.syncData();
-		}
-	}
 
 	@Override
 	public int getSlots() {
@@ -95,12 +92,36 @@ public class BowlBlockEntity extends CPBaseBlockEntity implements IInfinitable,I
 		return is.getItem() instanceof StewItem||is.is(Items.BOWL);
 	}
 
-	public void setInternal(ItemStack internal) {
-		this.internal = internal;
-		this.syncData();
-	}
+
 	@Override
 	public boolean isInfinite() {
 		return isInfinite;
 	}
+
+	@Override
+	public ItemStack exchangeInternal(int num, ItemStack is,TransactionContext parent) {
+		ItemResource ir=internal.getResource(0);
+		try(Transaction trans=Transaction.open(parent)){
+			ItemResource in =internal.getResourceFrom(is);
+			int inserted=0;
+			int inStackCount=0;
+			int extracted=internal.extract(0, ir, 1, trans);
+			if(!is.isEmpty()) {
+				inStackCount=is.getCount();
+				inserted=internal.insert(0,in,inStackCount,trans);
+			}
+			if(inserted==inStackCount) {
+				trans.commit();
+				if(extracted>0) {
+					return ir.toStack(extracted);
+				}
+				return ItemStack.EMPTY;
+			}
+		}
+		return null;
+	}
+	public ItemStacksResourceHandler getInternal() {
+		return internal;
+	}
+
 }

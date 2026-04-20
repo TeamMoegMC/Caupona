@@ -42,10 +42,7 @@ import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay.ItemStackSlotDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplayContext;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class TBenchScreen extends AbstractContainerScreen<TBenchMenu> {
    private static final Identifier BG_LOCATION = Identifier.fromNamespaceAndPath(CPMain.MODID,"textures/gui/tessellation_workbench.png");
    private static final int RECIPES_COLUMNS = 4;

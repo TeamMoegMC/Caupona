@@ -219,7 +219,8 @@ public class PortableBrazierContainer extends AbstractContainerMenu implements I
 	public void tick(boolean isServer) {
 		if (isServer) {
 			if(handler.shouldTestRecipe()) {
-				handler.setRecipe(testRecipe());
+				RecipeHolder<AspicMeltingRecipe> rcp=testRecipe();
+				handler.setRecipe(rcp,rcp==null?0:rcp.value().getTime());
 			}
 			if (handler.tickProcess(1)) {
 			}

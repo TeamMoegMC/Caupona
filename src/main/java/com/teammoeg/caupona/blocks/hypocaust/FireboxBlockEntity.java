@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.CPTags.Blocks;
 import com.teammoeg.caupona.blocks.stove.IStove;
@@ -40,6 +41,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class FireboxBlockEntity extends BathHeatingBlockEntity {
 	LazyTickWorker process;
@@ -103,11 +105,14 @@ public class FireboxBlockEntity extends BathHeatingBlockEntity {
 	public void tick() {
 		if (this.level.isClientSide())
 			return;
-		if (level.getBlockEntity(worldPosition.below()) instanceof IStove stove) {
-			int nh = stove.requestHeat();
-			if (heat != nh) {
-				process.enqueue();
-				heat = nh;
+		if (level.getCapability(CPCapability.HEAT_STOVE,worldPosition.below(),Direction.UP) instanceof IStove stove) {
+			try(Transaction trans=Transaction.openRoot()){
+				int nh = stove.requestHeat(2, trans);
+				trans.commit();
+				if (heat != nh) {
+					process.enqueue();
+					heat = nh;
+				}
 			}
 		} else if (heat != 0) {
 			process.enqueue();

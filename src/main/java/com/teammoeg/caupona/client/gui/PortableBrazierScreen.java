@@ -21,7 +21,6 @@
 
 package com.teammoeg.caupona.client.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.container.PortableBrazierContainer;
 

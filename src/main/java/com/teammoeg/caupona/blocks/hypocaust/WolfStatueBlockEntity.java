@@ -22,17 +22,20 @@
 package com.teammoeg.caupona.blocks.hypocaust;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.LazyTickWorker;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class WolfStatueBlockEntity extends CPBaseBlockEntity {
 	boolean isVeryHot;
@@ -80,25 +83,28 @@ public class WolfStatueBlockEntity extends CPBaseBlockEntity {
 		if (this.level.isClientSide())
 			return;
 
-		if (level.getBlockEntity(this.getBlockPos().below()) instanceof IStove stove) {
+		if (level.getCapability(CPCapability.HEAT_STOVE,worldPosition.below(),Direction.UP) instanceof IStove stove) {
 			BlockState bs = this.getBlockState();
-			int nh =stove.requestHeat();
-			int bheat = bs.getValue(WolfStatueBlock.HEAT);
-			boolean flag = false;
-			bs = bs.setValue(WolfStatueBlock.HEAT, nh);
-			if (bheat != nh) {
-				flag = true;
+			try(Transaction trans=Transaction.openRoot()){
+				int nh =stove.requestHeat(2,trans);
+				trans.commit();
+				int bheat = bs.getValue(WolfStatueBlock.HEAT);
+				boolean flag = false;
+				bs = bs.setValue(WolfStatueBlock.HEAT, nh);
+				if (bheat != nh) {
+					flag = true;
+				}
+				if(!isVeryHot)
+					this.setChanged();
+				isVeryHot = nh > 0;
+				if (isVeryHot && bs.getValue(WolfStatueBlock.WATERLOGGED)) {
+					bs = bs.setValue(WolfStatueBlock.WATERLOGGED, false);
+					this.level.levelEvent(1501, worldPosition, 0);
+					flag = true;
+				}
+				if (flag)
+					this.getLevel().setBlockAndUpdate(this.getBlockPos(), bs);
 			}
-			if(!isVeryHot)
-				this.setChanged();
-			isVeryHot = nh > 0;
-			if (isVeryHot && bs.getValue(WolfStatueBlock.WATERLOGGED)) {
-				bs = bs.setValue(WolfStatueBlock.WATERLOGGED, false);
-				this.level.levelEvent(1501, worldPosition, 0);
-				flag = true;
-			}
-			if (flag)
-				this.getLevel().setBlockAndUpdate(this.getBlockPos(), bs);
 			return;
 		}
 		isVeryHot = false;

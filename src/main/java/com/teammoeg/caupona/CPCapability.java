@@ -21,6 +21,7 @@
 
 package com.teammoeg.caupona;
 
+import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.components.IFoodInfo;
 import com.teammoeg.caupona.components.ImmutableStewInfo;
 import com.teammoeg.caupona.components.ItemHoldedFluidData;
@@ -29,9 +30,11 @@ import com.teammoeg.caupona.components.SauteedFoodInfo;
 import com.teammoeg.caupona.components.StewInfo;
 import com.teammoeg.caupona.util.SerializeUtil;
 
+import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.ItemCapability;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -39,6 +42,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class CPCapability {
 	public static final ItemCapability<IFoodInfo, Void> FOOD_INFO=ItemCapability.createVoid(Identifier.fromNamespaceAndPath(CPMain.MODID,"food_info"), IFoodInfo.class);
+	public static final BlockCapability<IStove, Direction> HEAT_STOVE=BlockCapability.createSided(CPMain.rl("stove"), IStove.class);
 	public static final DeferredRegister<DataComponentType<?>> REGISTRY=DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, CPMain.MODID);
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<ImmutableStewInfo>> STEW_INFO=REGISTRY.register(
 		"stew_info",

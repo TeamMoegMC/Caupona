@@ -41,7 +41,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 
-public class AspicMeltingRecipe extends IDataRecipe implements TimedRecipe {
+public class AspicMeltingRecipe extends IDataRecipe{
 	public static List<RecipeHolder<AspicMeltingRecipe>> recipes;
 	public static DeferredHolder<RecipeType<?>,RecipeType<AspicMeltingRecipe>> TYPE;
 	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<AspicMeltingRecipe>> SERIALIZER;
@@ -95,9 +95,8 @@ public class AspicMeltingRecipe extends IDataRecipe implements TimedRecipe {
 	}
 */
 	public FluidStack handle(ItemStack s) {
-		StewInfo si=s.get(CPCapability.STEW_INFO);
 		FluidStack fs = new FluidStack(fluid, amount);
-		fs.set(CPCapability.STEW_INFO, si.toImmutable());
+		fs.applyComponents(s.getComponentsPatch());
 		return fs;
 	}
 
@@ -112,7 +111,6 @@ public class AspicMeltingRecipe extends IDataRecipe implements TimedRecipe {
 
 	}
 
-	@Override
 	public int getTime() {
 		return time;
 	}

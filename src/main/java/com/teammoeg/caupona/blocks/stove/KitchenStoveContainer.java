@@ -26,23 +26,21 @@ import com.teammoeg.caupona.container.CPBaseContainer;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 
 public class KitchenStoveContainer extends CPBaseContainer<KitchenStoveBlockEntity> {
 
 	public KitchenStoveContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
-		this(id, inv, (KitchenStoveBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()));
+		this(id, inv, (KitchenStoveBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()),new ItemStacksResourceHandler(1));
 	}
-
 	public KitchenStoveContainer(int id, Inventory inv, KitchenStoveBlockEntity blockEntity) {
+		this(id,inv,blockEntity,blockEntity.getInv());
+	}
+	public KitchenStoveContainer(int id, Inventory inv, KitchenStoveBlockEntity blockEntity,ItemStacksResourceHandler blockInv) {
 		super(CPGui.STOVE.get(),blockEntity,id,1);
-		this.addSlot(new Slot(blockEntity, 0, 80, 55) {
-			@Override
-			public boolean mayPlace(ItemStack stack) {
-				return stack.getBurnTime(null, null) > 0;
-			}
-		});
+		this.addSlot(new ResourceHandlerSlot(blockInv,blockInv::set, 0, 80, 55));
 		super.addPlayerInventory(inv,8,84,142);
 	}
 

@@ -47,6 +47,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe {
 	public StewCookingRecipe(List<IngredientCondition> allow, List<IngredientCondition> deny, int priority, int time, float density, List<StewBaseCondition> base, Fluid output, boolean removeNBT) {
@@ -72,7 +73,11 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 		return stack.is(Items.COOKABLE) || cookables.stream().anyMatch(e -> e.fits(s));
 		// return true;
 	}
-
+	public static boolean isCookable(ItemResource stack) {
+		FloatemTagStack s = new FloatemTagStack(stack);
+		return stack.is(Items.COOKABLE) || cookables.stream().anyMatch(e -> e.fits(s));
+		// return true;
+	}
 	@SuppressWarnings("deprecation")
 	public static boolean isBoilable(FluidStack f) {
 		Fluid fd = f.getFluid();

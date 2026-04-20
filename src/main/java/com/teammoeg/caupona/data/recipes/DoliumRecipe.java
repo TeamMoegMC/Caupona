@@ -24,8 +24,11 @@ package com.teammoeg.caupona.data.recipes;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+
+import javax.annotation.Nullable;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -40,6 +43,7 @@ import com.teammoeg.caupona.util.SizedOrCatalystIngredient;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -54,8 +58,9 @@ import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
-public class DoliumRecipe extends IDataRecipe implements TimedRecipe{
+public class DoliumRecipe extends IDataRecipe{
 	public static List<RecipeHolder<DoliumRecipe>> recipes;
+	public static Map<Identifier,RecipeHolder<DoliumRecipe>> recipesNames;
 	public static DeferredHolder<RecipeType<?>,RecipeType<DoliumRecipe>> TYPE;
 	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<DoliumRecipe>> SERIALIZER;
 
@@ -136,13 +141,19 @@ public class DoliumRecipe extends IDataRecipe implements TimedRecipe{
 		return recipes.stream().map(t->t.value()).map(t -> t.extra).filter(Objects::nonNull).anyMatch(t -> t.test(stack));
 	}
 
-	public static RecipeHolder<DoliumRecipe> testDolium(ResourceHandler<FluidResource> f, ResourceHandler<ItemResource> inv) {
+	public static RecipeHolder<DoliumRecipe> testDolium(ResourceHandler<FluidResource> f, ResourceHandler<ItemResource> inv,@Nullable Identifier id) {
 		ItemStack is0 = inv.getResource(0).toStack();
 		ItemStack is1 = inv.getResource(1).toStack();
 		ItemStack is2 = inv.getResource(2).toStack();
 		ItemStack cont = inv.getResource(4).toStack();
 		FluidStack fs=f.getResource(0).toStack(f.getAmountAsInt(0));
-		return recipes.stream().filter(t -> t.value().test(fs, cont, is0, is1, is2)).findFirst().orElse(null);
+		if(id!=null) {
+			RecipeHolder<DoliumRecipe> recipe=recipesNames.get(id);
+			if(recipe.value().test(fs, cont, is0,is1,is2))
+				return recipe;
+		}else
+			return recipes.stream().filter(t -> t.value().test(fs, cont, is0, is1, is2)).findFirst().orElse(null);
+		return null;
 	}
 
 	public boolean test(FluidStack f, ItemStack container, ItemStack... ss) {
@@ -282,7 +293,6 @@ public class DoliumRecipe extends IDataRecipe implements TimedRecipe{
 	}
 */
 
-	@Override
 	public int getTime() {
 		return time;
 	}

@@ -19,13 +19,10 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.resources.model.ResolvableModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public class MosaicModel implements ItemModel {
 	public static final MosaicModel INSTANCE=new MosaicModel();
@@ -49,7 +46,6 @@ public class MosaicModel implements ItemModel {
 		}
 
 	}
-    @OnlyIn(Dist.CLIENT)
     public record Unbaked() implements ItemModel.Unbaked {
         public static final MapCodec<Unbaked> MAP_CODEC = MapCodec.unit(new MosaicModel.Unbaked());
 

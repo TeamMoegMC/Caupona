@@ -25,6 +25,7 @@ import java.util.Iterator;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
+import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.CPTags;
 import com.teammoeg.caupona.CPTags.Blocks;
@@ -34,6 +35,7 @@ import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.LazyTickWorker;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -41,11 +43,32 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
-public class FumaroleVentBlockEntity extends CPBaseBlockEntity implements IStove {
+public class FumaroleVentBlockEntity extends CPBaseBlockEntity {
 	private final int heat;
 	LazyTickWorker update;
 	LazyTickWorker check;
+	public IStove stoveCapabilty=new IStove() {
+
+		@Override
+		public int requestHeat(int maxExtract, Transaction trans) {
+			if (getBlockState().getValue(FumaroleVentBlock.WATERLOGGED))
+				return 0;
+			return heat;
+		}
+
+		@Override
+		public boolean canEmitHeat() {
+			if (heat == 0)
+				return false;
+			if (getBlockState().getValue(FumaroleVentBlock.WATERLOGGED))
+				return false;
+			return getBlockState().getValue(FumaroleVentBlock.HEAT) != 0;
+		}
+		
+	};
 	public FumaroleVentBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(CPBlockEntityTypes.FUMAROLE.get(), pWorldPosition, pBlockState);
 		heat = CPConfig.SERVER.fumarolePower.get();
@@ -142,21 +165,12 @@ public class FumaroleVentBlockEntity extends CPBaseBlockEntity implements IStove
 		}
 		return true;
 	}
-
 	@Override
-	public int requestHeat() {
-		if (this.getBlockState().getValue(FumaroleVentBlock.WATERLOGGED))
-			return 0;
-		return heat;
+	public Object getCapability(BlockCapability<?, Direction> cap, Direction side) {
+		if (cap == CPCapability.HEAT_STOVE)
+			return this.stoveCapabilty;
+		return null;
 	}
 
-	@Override
-	public boolean canEmitHeat() {
-		if (heat == 0)
-			return false;
-		if (this.getBlockState().getValue(FumaroleVentBlock.WATERLOGGED))
-			return false;
-		return this.getBlockState().getValue(FumaroleVentBlock.HEAT) != 0;
-	}
 
 }

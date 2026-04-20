@@ -59,13 +59,13 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity, BowlRe
 		state.fluid=null;
 		if (bstate.getBlock() == CPBlocks.BOWL.get()) {
 			state.type = 1;
-		} else if (bstate.getBlock() == CPBlocks.LOAF_BOWL.get()) {
+		} else if (bstate.getBlock() == CPBlocks.LOAF_BOWL.getSecond().get()) {
 			state.type = 2;
 		} else
 			return;
-		if (blockEntity.getInternal() == null || !(blockEntity.getInternal().getItem() instanceof StewItem))
+		if (blockEntity.getInternal().getResource(0).isEmpty())
 			return;
-		state.fluid = Utils.getFluidStack(blockEntity.getInternal());
+		state.fluid = Utils.getFluidStack(blockEntity.getInternal().getResource(0).toStack());
 
 	}
 
