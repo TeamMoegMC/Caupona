@@ -42,7 +42,7 @@ public class ClientEvents {
 			//remove models/ and .json
 			String name=rl.getPath().substring(0,rl.getPath().lastIndexOf(".")).substring(7);
 			
-			ev.register(DynamicBlockModelReference.createKey(Identifier.fromNamespaceAndPath(rl.getNamespace(), name)).name(),SimpleUnbakedStandaloneModel.quadCollection(rl));
+			ev.register(DynamicBlockModelReference.createKey(Identifier.fromNamespaceAndPath(rl.getNamespace(), name)).name(),SimpleUnbakedStandaloneModel.quadCollection(CPMain.rl(name)));
 					
 					
 					

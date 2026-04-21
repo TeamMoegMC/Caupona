@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "caupona:calcite_lacunar_tile"
+      "model": "caupona:block/calcite_lacunar_tile"
     }
   }
 }

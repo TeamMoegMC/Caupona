@@ -30,6 +30,7 @@ import com.teammoeg.caupona.data.IDataRecipe;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -122,7 +123,10 @@ public class SpiceRecipe extends IDataRecipe {
 		int cdmg = spice.getDamageValue();
 		cdmg += cnt;
 		if (cdmg >= spice.getMaxDamage()) {
-			return spice.getCraftingRemainder().create();
+			ItemStackTemplate ist= spice.getCraftingRemainder();
+			if(ist!=null)
+				return ist.create();
+			return ItemStack.EMPTY;
 		}
 		spice.setDamageValue(cdmg);
 		return spice;

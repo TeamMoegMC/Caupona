@@ -41,6 +41,7 @@ import com.teammoeg.caupona.client.particle.SootParticle;
 import com.teammoeg.caupona.client.particle.SteamParticle;
 import com.teammoeg.caupona.client.renderer.BowlRenderer;
 import com.teammoeg.caupona.client.renderer.CounterDoliumRenderer;
+import com.teammoeg.caupona.client.renderer.KitchenStoveRenderer;
 import com.teammoeg.caupona.client.renderer.PanRenderer;
 import com.teammoeg.caupona.client.renderer.StewPotRenderer;
 import com.teammoeg.caupona.generated.CPStewTexture;
@@ -66,6 +67,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterFluidModelsEvent;
 import net.neoforged.neoforge.client.event.RegisterItemModelsEvent;
@@ -88,38 +90,31 @@ public class CPClientRegistry {
 	@SubscribeEvent
 	public static void onClientSetupEvent(FMLClientSetupEvent event) {
 		
-
-		/*
-		 * ItemBlockRenderTypes.setRenderLayer(CPBlocks.stew_pot, RenderType.cutout());
-		 * ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove1, RenderType.cutout());
-		 * ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove2, RenderType.cutout());
-		 * ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove3, RenderType.cutout());
-		 * ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove4, RenderType.cutout());
-		 * ItemBlockRenderTypes.setRenderLayer(CPBlocks.stove5, RenderType.cutout());
-		 * ItemBlockRenderTypes.setRenderLayer(CPBlocks.bowl, RenderType.cutout());
-		 * ItemBlockRenderTypes.setRenderLayer(CPBlocks.GRAVY_BOAT,
-		 * RenderType.translucent());
-		 */
-		BlockEntityRenderers.register(CPBlockEntityTypes.STEW_POT.get(), StewPotRenderer::new);
-		BlockEntityRenderers.register(CPBlockEntityTypes.BOWL.get(), BowlRenderer::new);
-		BlockEntityRenderers.register(CPBlockEntityTypes.SIGN.get(), StandingSignRenderer::new);
-		BlockEntityRenderers.register(CPBlockEntityTypes.HANGING_SIGN.get(), HangingSignRenderer::new);
-		BlockEntityRenderers.register(CPBlockEntityTypes.DOLIUM.get(), CounterDoliumRenderer::new);
-		BlockEntityRenderers.register(CPBlockEntityTypes.PAN.get(), PanRenderer::new);
-		//BlockEntityRenderers.register(CPBlockEntityTypes.BOWL.get(), LoafBowlRenderer::new);
 		
 		Sheets.addWoodType(CPBlocks.WALNUT);
-		EntityRenderers.register(CPEntityTypes.BOAT.get(), c -> new BoatRenderer(c, new ModelLayerLocation(CPMain.rl("boat/walnut"), "main")));
 
 	}
 	@SubscribeEvent
-	public static void onTooltipRegister(@SuppressWarnings("unused") AddAttributeTooltipsEvent event) {
+	public static void onRegisterRenderer(RegisterRenderers event) {
+		event.registerBlockEntityRenderer(CPBlockEntityTypes.STEW_POT.get(), StewPotRenderer::new);
+		event.registerBlockEntityRenderer(CPBlockEntityTypes.BOWL.get(), BowlRenderer::new);
+		event.registerBlockEntityRenderer(CPBlockEntityTypes.SIGN.get(), StandingSignRenderer::new);
+		event.registerBlockEntityRenderer(CPBlockEntityTypes.HANGING_SIGN.get(), HangingSignRenderer::new);
+		event.registerBlockEntityRenderer(CPBlockEntityTypes.DOLIUM.get(), CounterDoliumRenderer::new);
+		event.registerBlockEntityRenderer(CPBlockEntityTypes.PAN.get(), PanRenderer::new);
+		event.registerBlockEntityRenderer(CPBlockEntityTypes.STOVE_T1.get(), KitchenStoveRenderer::new);
+		event.registerBlockEntityRenderer(CPBlockEntityTypes.STOVE_T2.get(), KitchenStoveRenderer::new);
+		event.registerEntityRenderer(CPEntityTypes.BOAT.get(), c -> new BoatRenderer(c, new ModelLayerLocation(CPMain.rl("boat/walnut"), "main")));
+	}
+	
+	@SubscribeEvent
+	public static void onTooltipRegister(AddAttributeTooltipsEvent event) {
 		event.getStack().addToTooltip(CPCapability.SAUTEED_INFO, event.getContext(), event.getContext().tooltipDisplay(), event::addTooltipLines, event.getContext().flag());
 		event.getStack().addToTooltip(CPCapability.STEW_INFO, event.getContext(), event.getContext().tooltipDisplay(), event::addTooltipLines, event.getContext().flag());
 		event.getStack().addToTooltip(CPCapability.MOSAIC_DATA, event.getContext(), event.getContext().tooltipDisplay(), event::addTooltipLines, event.getContext().flag());
 	}
 	@SubscribeEvent
-	public static void registerParticleFactories(RegisterMenuScreensEvent event) {
+	public static void registerMenuScreens(RegisterMenuScreensEvent event) {
 		event.register(CPGui.STEWPOT.get(), StewPotScreen::new);
 		event.register(CPGui.STOVE.get(), KitchenStoveScreen::new);
 		event.register(CPGui.DOLIUM.get(), DoliumScreen::new);

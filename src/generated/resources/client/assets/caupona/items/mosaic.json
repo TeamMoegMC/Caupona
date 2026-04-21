@@ -1,6 +1,5 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "caupona:item/mosaic"
+    "type": "caupona:mosaic"
   }
 }

@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "caupona:stone_lacunar_tile"
+      "model": "caupona:block/stone_lacunar_tile"
     }
   }
 }

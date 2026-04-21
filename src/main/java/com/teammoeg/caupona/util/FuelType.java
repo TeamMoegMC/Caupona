@@ -32,13 +32,13 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 
-public record FuelType (TagKey<Item> it,String modelLayer,String cold_ash,String hot_ash){
+public record FuelType (TagKey<Item> it,Identifier modelLayer,Identifier cold_ash,Identifier hot_ash){
 	private static final Map<Identifier,FuelType> types=new HashMap<>();
-	public static final FuelType WOODS=register(new FuelType("fuel/woods","FirewoodFuel","ColdAsh","HotAsh"));
-	public static final FuelType CHARCOAL=register(new FuelType("fuel/charcoals","CharcoalFuel","ColdAsh","HotAsh"));
-	public static final FuelType FOSSIL=register(new FuelType("fuel/fossil","CharcoalFuel","ColdAsh","HotAsh"));
-	public static final FuelType LAVA=register(new FuelType("fuel/lava","LavaBucketFuel","ColdLavaFuel","LavaFuel"));
-	public static final FuelType OTHER=register(new FuelType("fuel/others",null,null,null));
+	public static final FuelType WOODS=register(new FuelType("fuel/woods","firewoods","cold_ash","hot_ash"));
+	public static final FuelType CHARCOAL=register(new FuelType("fuel/charcoals","charcoal","cold_ash","hot_ash"));
+	public static final FuelType FOSSIL=register(new FuelType("fuel/fossil","coal","cold_ash","hot_ash"));
+	public static final FuelType LAVA=register(new FuelType("fuel/lava","lava_bucket","cooled_lava","lava"));
+	public static final FuelType OTHER=register(new FuelType(ItemTags.create(CPMain.rl("fuel/others")),null,null,null));
 	
 
 
@@ -49,11 +49,11 @@ public record FuelType (TagKey<Item> it,String modelLayer,String cold_ash,String
 	}
 
 
-	public FuelType(String tagname,String modelLayer, String hot_ash, String cold_ash) {
-		this(Identifier.fromNamespaceAndPath(CPMain.MODID, tagname),modelLayer,hot_ash,cold_ash);
+	private FuelType(String tagname,String modelLayer, String hot_ash, String cold_ash) {
+		this(CPMain.rl(tagname),modelLayer,hot_ash,cold_ash);
 	}
-	public FuelType(Identifier tag,String modelLayer, String hot_ash, String cold_ash) {
-		this(ItemTags.create(tag),modelLayer,hot_ash,cold_ash);
+	private FuelType(Identifier tag,String modelLayer, String hot_ash, String cold_ash) {
+		this(ItemTags.create(tag),CPMain.rl("block/dynamic/kitchen_stove_fuels/kitchen_stove_"+modelLayer),CPMain.rl("block/dynamic/kitchen_stove_fuels/kitchen_stove_"+hot_ash),CPMain.rl("block/dynamic/kitchen_stove_fuels/kitchen_stove_"+cold_ash));
 	}
 
 	public static FuelType getType(ItemResource is) {
@@ -78,17 +78,17 @@ public record FuelType (TagKey<Item> it,String modelLayer,String cold_ash,String
 	}
 
 
-	public String modelLayer() {
+	public Identifier modelLayer() {
 		return modelLayer;
 	}
 
 
-	public String cold_ash() {
+	public Identifier cold_ash() {
 		return cold_ash;
 	}
 
 
-	public String hot_ash() {
+	public Identifier hot_ash() {
 		return hot_ash;
 	}
 }

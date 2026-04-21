@@ -63,38 +63,41 @@ public class CauponaApi {
 	@Deprecated
 	public static Optional<ItemStack> fillBowl(ResourceHandler<FluidResource> handler) {
 		FluidResource rs=handler.getResource(0);
+		if(!rs.isEmpty())
 			try(Transaction ctx=Transaction.openRoot()){
 				int stack = handler.extract(rs,250, ctx);
 				if (stack == 250) {
 					return fillBowl(rs.toStack(stack));
 				}
-			return Optional.empty();
 		}
+		return Optional.empty();
 	}
 	
 	public static Optional<ItemStack> fillBowl(ItemStack bowl,ResourceHandler<FluidResource> handler) {
 		FluidResource rs=handler.getResource(0);
-		try(Transaction ctx=Transaction.openRoot()){
-			int stack = handler.extract(rs,250, ctx);
-			if (stack == 250) {
-				ctx.commit();
-				return fillBowl(bowl,rs.toStack(stack));
+		if(!rs.isEmpty())
+			try(Transaction ctx=Transaction.openRoot()){
+				int stack = handler.extract(rs,250, ctx);
+				if (stack == 250) {
+					ctx.commit();
+					return fillBowl(bowl,rs.toStack(stack));
+				}
 			}
-		}
 		return Optional.empty();
 	}
 	
 	public static Optional<ItemStack> getFilledItemStack(ResourceHandler<FluidResource> handler,ItemStack in) {
 		FluidResource rs=handler.getResource(0);
-		try(Transaction ctx=Transaction.openRoot()){
-			int amt = handler.extract(rs,250, ctx);
-			ContanerContainFoodEvent ev=Utils.contain(ItemResource.of(in),rs,amt);
-			if (ev.isAllowed()) {
-				ctx.commit();
-				return Optional.of(ev.getOutput().toStack());
+		if(!rs.isEmpty())
+			try(Transaction ctx=Transaction.openRoot()){
+				int amt = handler.extract(rs,250, ctx);
+				ContanerContainFoodEvent ev=Utils.contain(ItemResource.of(in),rs,amt);
+				if (ev.isAllowed()) {
+					ctx.commit();
+					return Optional.of(ev.getOutput().toStack());
+				}
 			}
-			return Optional.empty();
-		}
+		return Optional.empty();
 	}
 	public static Optional<ItemStack> getFilledItemStack(FluidStack stack,ItemStack in) {
 		

@@ -45,6 +45,7 @@ import com.teammoeg.caupona.blocks.decoration.mosaic.MosaicMaterial;
 import com.teammoeg.caupona.blocks.decoration.mosaic.MosaicPattern;
 import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
 import com.teammoeg.caupona.blocks.plants.FruitBlock;
+import com.teammoeg.caupona.client.model.MosaicModel;
 import com.teammoeg.caupona.util.MaterialType;
 import com.teammoeg.caupona.util.Utils;
 
@@ -233,8 +234,7 @@ public class CPStatesProvider extends BlockModelGenerators {
 			// blockItemModel(wood+"_trapdoor","_top")
 
 		}
-		this.itemModelOutput.accept(CPBlocks.MOSAIC.get().asItem(),
-			new CuboidItemModelWrapper.Unbaked(CPMain.rl("item/mosaic"), Optional.empty(), List.of()));
+		this.itemModelOutput.accept(CPBlocks.MOSAIC.get().asItem(),MosaicModel.Unbaked.INSTANCE);
 
 		blockItemModel(Utils.getRegistryName(CPBlocks.STONE_PAN).getPath());
 		blockItemModel(Utils.getRegistryName(CPBlocks.COPPER_PAN).getPath());
@@ -398,10 +398,9 @@ public class CPStatesProvider extends BlockModelGenerators {
 
 	public void stove(Block block) {
 		this.blockStateOutput.accept(
-		horizontalMultipart(
+		
 			horizontalMultipart(this.getMultipartBuilder(block),
-				bmf(Utils.getRegistryName(block).getPath())),
-			bmf("kitchen_stove_fuel"), i -> i));
+				bmf(Utils.getRegistryName(block).getPath())));
 		blockItemModel(block, Utils.getRegistryName(block));
 
 	}
@@ -438,13 +437,12 @@ public class CPStatesProvider extends BlockModelGenerators {
 		return super.variant(bmfs(name));
 	}
 
-	public Variant bmfs(Identifier rl) {
-
-		return super.plainModel(rl);
+	public Variant bmfs(Identifier orl) {
+		return super.plainModel(orl);
 	}
 
 	protected void simpleBlockItem(Block b, Identifier model) {
-		this.blockStateOutput.accept(createSimpleBlock(b, bmf(model)));
+		this.blockStateOutput.accept(createSimpleBlock(b, bmf(model.withPrefix("block/"))));
 		blockItemModel(b, model);
 	}
 

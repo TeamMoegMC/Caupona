@@ -68,7 +68,7 @@ public class FluidRenderHelper {
 	public static void handleGuiTank(GuiGraphicsExtractor transform, ResourceHandler<FluidResource> tank, int x, int y, int w, int h) {
 		FluidStack fluid = tank.getResource(0).toStack(tank.getAmountAsInt(0));
 		if (fluid != null && fluid.getFluid() != null) {
-			int fluidHeight = (int) (h * (tank.getAmountAsInt(0) / (float) tank.getAmountAsLong(0)));
+			int fluidHeight = (int) (h * (tank.getAmountAsInt(0) / (float) tank.getCapacityAsInt(0,tank.getResource(0))));
 			FluidModel model = FluidRenderHelper.getFluidModel(fluid);
 			int color = FluidRenderHelper.getFluidColor(model, fluid);
 			TextureAtlasSprite sprite=model.stillMaterial().sprite();
@@ -79,9 +79,9 @@ public class FluidRenderHelper {
                     TextureSetup.singleTexture(texture, spriteTexture.getSampler()),
                     new Matrix3x2f(transform.pose()),
                     16,16,
-                    x,y,x+w,y+fluidHeight,
-                    0,1,
-                    0,1,
+                    x,y+h-fluidHeight,x+w,y+h,
+                    sprite.getU0(),sprite.getU1(),
+                    sprite.getV0(),sprite.getV1(),
                     color,
                     transform.peekScissorStack()
                 ));

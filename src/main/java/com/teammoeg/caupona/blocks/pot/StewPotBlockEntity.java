@@ -54,6 +54,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
@@ -155,22 +156,20 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 						int produce = Math.min(remainSpace / amr.value().amount, internInv.getAmountAsInt(9));
 						int toInsert=produce*fs.getAmount();
 						if (internInv.extract(9,container, produce, trans)==produce) {
-							ItemStack ret = aspicStack.getCraftingRemainder().create();
-							if(!ret.isEmpty()) {
-								int toReturn=ret.count()*produce;
-								if(internInv.insert(10,internInv.getResourceFrom(ret), toReturn, trans)==toReturn) {
-									if(tryAddFluid(fr,toInsert,amr.value().time, false,trans)) {
-										still.stop();
-										trans.commit();
-										return true;
+							if(tryAddFluid(fr,toInsert,amr.value().time, false,trans)) {
+								ItemStackTemplate ist=aspicStack.getCraftingRemainder();
+								if(ist!=null) {
+									ItemStack ret = ist.create();
+									int toReturn=ret.count()*produce;
+									if(internInv.insert(10,internInv.getResourceFrom(ret), toReturn, trans)!=toReturn) {
+										return false;
 									}
+									
 								}
-							}else {
-								if(tryAddFluid(fr,toInsert,amr.value().time, false,trans)) {
-									still.stop();
-									trans.commit();
-									return true;
-								}
+								still.stop();
+								trans.commit();
+								return true;
+								
 							}
 						}
 					}
@@ -417,7 +416,6 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 								return false;
 						} else if (StewCookingRecipe.isCookable(is)) {
 							ItemStack toput=is.toStack();
-							ItemStack reminder=toput.getCraftingRemainder().create();
 							for (RecipeHolder<DissolveRecipe> rs : DissolveRecipe.recipes) {
 								if (rs.value().item.test(toput)) {
 									tpt += rs.value().time;
@@ -428,8 +426,12 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 							if (fvr != null)
 								tpt += fvr.processtimes.getOrDefault(is.getItem(), 0);
 							currentInfo.addItem(toput, oparts);
-							if(internInv.insert(i, ItemResource.of(reminder), reminder.getCount(), trans)!=reminder.getCount())
-								return false;
+							ItemStackTemplate ist=toput.getCraftingRemainder();
+							if(ist!=null) {
+								ItemStack reminder=ist.create();
+								if(internInv.insert(i, ItemResource.of(reminder), reminder.getCount(), trans)!=reminder.getCount())
+									return false;
+							}
 						}else
 							return false;
 					}

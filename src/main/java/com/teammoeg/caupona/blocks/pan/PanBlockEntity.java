@@ -180,7 +180,8 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 		if(model!=null)
 		nbt.putString("model", model.toString());
 		if (!isClient) {
-			nbt.store("sout", ItemStack.CODEC, sout);
+			if(!sout.isEmpty())
+				nbt.store("sout", ItemStack.CODEC, sout);
 			internInv.serialize(nbt.child("items"));
 			nbt.putBoolean("inf",isInfinite);
 		}
@@ -224,14 +225,18 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 			if (handler.shouldTick()) {
 				if (level.getCapability(CPCapability.HEAT_STOVE, worldPosition.below(), Direction.UP) instanceof IStove stove) {
 					if(!handler.isRecipeFinished()) {
+						int rh =0;
 						try(Transaction trans=Transaction.openRoot()){
-							int rh =stove.requestHeat(2, trans);
-							if(handler.tickProcess(rh)) {
-								trans.commit();
-								working = true;
-								this.syncData();
-							}
+							rh=stove.requestHeat(2, trans);
+							trans.commit();
 						}
+							
+						if(handler.tickProcess(rh)) {
+							
+							working = true;
+							this.syncData();
+						}
+						
 					}
 				} else
 					return;
@@ -266,7 +271,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 
 		if (operate) {
 			operate = false;
-			if (!(level.getBlockEntity(worldPosition.below()) instanceof IStove stove) || !stove.canEmitHeat())
+			if (!(level.getCapability(CPCapability.HEAT_STOVE, worldPosition.below(), Direction.UP)  instanceof IStove stove) || !stove.canEmitHeat())
 				return;
 			make(null);
 		}
@@ -287,12 +292,17 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 				if (extracted>0) {
 					ItemStack in=ir.toStack(extracted);
 					if (SauteedRecipe.isCookable(in)) {
-						ItemStack reminder=in.getCraftingRemainder().create();
-						if(internInv.insert(internInv.getResourceFrom(reminder), reminder.getCount(), trans)==reminder.getCount()) {
-							if(tempInv.insert(ir, 1, trans)==1) {
-								itms++;
-								continue;
+						
+						if(tempInv.insert(ir, 1, trans)==1) {
+							ItemStackTemplate ist=in.getCraftingRemainder();
+							if(ist!=null) {
+								ItemStack reminder=ist.create();
+								if(internInv.insert(internInv.getResourceFrom(reminder), reminder.getCount(), trans)!=reminder.getCount()) {
+									return RecipeHandleStatus.FAILED;
+								}
 							}
+							itms++;
+							continue;
 						}
 					}
 					return RecipeHandleStatus.FAILED;
@@ -342,7 +352,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 			ItemResource bowl=internInv.getResource(9);
 			RecipeHolder<SauteedRecipe> recipe=null;
 			for (RecipeHolder<SauteedRecipe> cr : SauteedRecipe.sorted) {
-				if (recipeId==null||(cr.id().identifier().equals(recipeId))&&cr.value().bowl.test(bowl.toStack())&&cr.value().matches(ctx)) {
+				if ((recipeId==null||cr.id().identifier().equals(recipeId))&&cr.value().bowl.test(bowl.toStack())&&cr.value().matches(ctx)) {
 					tpt = Math.max(cr.value().time, tpt);
 					preout = cr.value().output;
 					removesNBT=cr.value().removeNBT;
@@ -371,6 +381,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 				this.model=tmodel;
 				internInv.extract(9, bowl, cook, trans);
 				trans.commit();
+				return RecipeHandleStatus.SUCCEED;
 			}else {
 				tpt = Math.max(CPConfig.SERVER.fryTimeBase.get(), tpt);
 				if (this.getBlockState().is(CPBlocks.STONE_PAN.get()))

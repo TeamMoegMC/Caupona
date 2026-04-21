@@ -1,5 +1,4 @@
 {
-	"parent": "minecraft:block/cube",
 	"textures": {
 		"particle": "caupona:block/walnut_planks"
 	}

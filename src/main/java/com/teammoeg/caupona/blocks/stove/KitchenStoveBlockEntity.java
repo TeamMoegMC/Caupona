@@ -48,6 +48,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -156,13 +157,6 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements MenuPr
 			chimneyTicks = nbt.getIntOr("chimneyTick",0);
 			isInfinite = nbt.getBooleanOr("inf",false);
 		}
-		refreshModel();
-	}
-	public void refreshModel() {
-		if(this.getLevel()!=null&&this.getLevel().isClientSide()) {
-			getLevel().getModelDataManager().requestRefresh(this);
-			getLevel().sendBlockUpdated(this.getBlockPos(), getBlockState(),getBlockState(),3);
-		}
 	}
 	@Override
 	public void writeCustomNBT(ValueOutput nbt, boolean isClient) {
@@ -180,15 +174,6 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements MenuPr
 		}
 	}
 
-	@Override
-	public ModelData getModelData() {
-		if(inventory_fuel==FuelType.OTHER&&current==FuelType.OTHER) {//no data
-			return ModelData.builder().with(DisplayGroupProperty.PROPERTY, ImmutableSet.of()).build();
-		}
-		String ash=this.getBlockState().getValue(BlockStateProperties.LIT)?current.hot_ash():current.cold_ash();
-		String model=inventory_fuel.modelLayer();
-		return ModelData.builder().with(DisplayGroupProperty.PROPERTY, ash==null?(model!=null?ImmutableSet.of(model):ImmutableSet.of()):(model!=null?ImmutableSet.of(model,ash):ImmutableSet.of(ash))).build();
-	}
 
 
 
@@ -212,15 +197,19 @@ public class KitchenStoveBlockEntity extends CPBaseBlockEntity implements MenuPr
 			return false;
 		}
 		current = FuelType.getType(infuel);
-		ItemStack remain=fuelStack.getCraftingRemainder().create();
+		ItemStackTemplate ist=fuelStack.getCraftingRemainder();
+		
 		int extracted=fuel.extract(infuel, 1, trans);
 		if(extracted>0) {
-			ItemResource todrop=fuel.getResourceFrom(remain);
-			int toreturn=extracted*remain.getCount();
-			toreturn-=fuel.insert(todrop, toreturn, trans);
-			if(toreturn>0){
-				drops.addDrop(todrop.toStack(toreturn));
-				drops.updateSnapshots(trans);
+			if(ist!=null) {
+				ItemStack remain=ist.create();
+				ItemResource todrop=fuel.getResourceFrom(remain);
+				int toreturn=extracted*remain.getCount();
+				toreturn-=fuel.insert(todrop, toreturn, trans);
+				if(toreturn>0){
+					drops.addDrop(todrop.toStack(toreturn));
+					drops.updateSnapshots(trans);
+				}
 			}
 			inventory_fuel=FuelType.getType(fuel.getResource(0));
 			float ftime = time * fuelMod / speed* extracted;
