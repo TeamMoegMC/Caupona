@@ -6,7 +6,7 @@
 		"0": "caupona:block/kitchen_stove_hot_ash",
 		"particle": "caupona:block/kitchen_stove_hot_ash"
 	},
-	"loader":"caupona:layered",
+	
 	"elements": [
 		{
 			"name": "ashB",

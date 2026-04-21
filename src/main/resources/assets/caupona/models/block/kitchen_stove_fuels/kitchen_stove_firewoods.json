@@ -6,7 +6,7 @@
 		"0": "caupona:block/kitchen_stove_firewoods",
 		"particle": "caupona:block/kitchen_stove_firewoods"
 	},
-	"loader":"caupona:layered",
+	
 	"elements": [
 		{
 			"name": "L1",

@@ -6,7 +6,7 @@
 		"0": "caupona:block/kitchen_stove_cooled_lava",
 		"particle": "caupona:block/kitchen_stove_cooled_lava"
 	},
-	"loader":"caupona:layered",
+	
 	"elements": [
 		{
 			"from": [2, 14, 2],

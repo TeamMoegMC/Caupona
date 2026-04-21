@@ -1,7 +1,0 @@
-{
-	"parent": "minecraft:block/cube",
-	"ambientocclusion": false,
-	"loader":"caupona:folder",
-	"folder":"caupona:block/kitchen_stove_fuels"
-	
-}

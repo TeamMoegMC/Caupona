@@ -6,7 +6,7 @@
 		"0": "minecraft:block/coal_block",
 		"particle": "minecraft:block/coal_block"
 	},
-	"loader":"caupona:layered",
+	
 	"elements": [
 		{
 			"name": "C1",

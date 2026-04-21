@@ -2,7 +2,7 @@
 	"parent": "minecraft:block/cube",
 	"ambientocclusion": false,
 	"credit": "Made with Blockbench",
-	"loader":"caupona:layered",
+	
 	"elements": [
 		{
 			"name": "servings3",

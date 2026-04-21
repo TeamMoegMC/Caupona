@@ -66,6 +66,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.ClientHooks;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterFluidModelsEvent;
 import net.neoforged.neoforge.client.event.RegisterItemModelsEvent;
@@ -77,13 +78,17 @@ import net.neoforged.neoforge.event.AddAttributeTooltipsEvent;
 @EventBusSubscriber(value = Dist.CLIENT, modid = CPMain.MODID)
 public class CPClientRegistry {
 	private static final Identifier STILL_WATER_TEXTURE = Identifier.withDefaultNamespace("block/water_still");
+	@SubscribeEvent
+	public static void onLayerRegistration(RegisterLayerDefinitions event) {
+		LayerDefinition layer = BoatModel.createBoatModel();
+		for (String wood : CPBlocks.woods)
+			event.registerLayerDefinition(
+				new ModelLayerLocation(Identifier.fromNamespaceAndPath(CPMain.MODID, "boat/" + wood), "main"), () -> layer);
+	}
 	@SuppressWarnings("unused")
 	@SubscribeEvent
 	public static void onClientSetupEvent(FMLClientSetupEvent event) {
-		LayerDefinition layer = BoatModel.createBoatModel();
-		for (String wood : CPBlocks.woods)
-			ClientHooks.registerLayerDefinition(
-				new ModelLayerLocation(Identifier.fromNamespaceAndPath(CPMain.MODID, "boat/" + wood), "main"), () -> layer);
+		
 
 		/*
 		 * ItemBlockRenderTypes.setRenderLayer(CPBlocks.stew_pot, RenderType.cutout());
