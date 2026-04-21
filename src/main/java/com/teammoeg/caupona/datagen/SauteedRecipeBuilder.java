@@ -29,7 +29,6 @@ import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
-import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;

@@ -65,7 +65,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterFluidModelsEvent;
@@ -113,7 +112,6 @@ public class CPClientRegistry {
 		EntityRenderers.register(CPEntityTypes.BOAT.get(), c -> new BoatRenderer(c, new ModelLayerLocation(CPMain.rl("boat/walnut"), "main")));
 
 	}
-	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public static void onTooltipRegister(@SuppressWarnings("unused") AddAttributeTooltipsEvent event) {
 		event.getStack().addToTooltip(CPCapability.SAUTEED_INFO, event.getContext(), event.getContext().tooltipDisplay(), event::addTooltipLines, event.getContext().flag());

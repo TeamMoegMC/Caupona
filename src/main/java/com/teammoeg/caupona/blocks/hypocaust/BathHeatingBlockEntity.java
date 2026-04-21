@@ -26,8 +26,6 @@ import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.LazyTickWorker;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;

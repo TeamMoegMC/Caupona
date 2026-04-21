@@ -34,9 +34,7 @@ import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.recipes.conditions.Conditions;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -44,7 +42,6 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.transfer.item.ItemResource;
 
 public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 

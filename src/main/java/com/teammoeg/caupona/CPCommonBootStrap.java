@@ -23,64 +23,29 @@ package com.teammoeg.caupona;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.mojang.datafixers.util.Pair;
-import com.teammoeg.caupona.api.CauponaApi;
-import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
-import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
-import com.teammoeg.caupona.blocks.foods.IFoodContainer;
-import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
-import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
-import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
-import com.teammoeg.caupona.entity.CPBoat;
 import com.teammoeg.caupona.item.SitulaItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.FluidItemWrapper;
 import com.teammoeg.caupona.util.ICreativeModeTabItem;
-import com.teammoeg.caupona.util.Utils;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.dispenser.BlockSource;
-import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
-import net.minecraft.core.dispenser.DispenseItemBehavior;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.ComposterBlock;
-import net.minecraft.world.level.block.DispenserBlock;
-import net.minecraft.world.level.block.FireBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.transfer.ResourceHandler;
-import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
-import net.neoforged.neoforge.transfer.access.ItemAccess;
-import net.neoforged.neoforge.transfer.fluid.FluidResource;
-import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import net.neoforged.neoforge.transfer.fluid.ItemAccessFluidHandler;
-import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 @EventBusSubscriber(modid = CPMain.MODID)
 public class CPCommonBootStrap {
@@ -97,19 +62,20 @@ public class CPCommonBootStrap {
 		helper.register(event);
 
 	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@SubscribeEvent
 	public static void onCapabilityInject(RegisterCapabilitiesEvent event) {
-		event.registerItem(Capabilities.Fluid.ITEM,(stack,o)->new ItemAccessFluidHandler(o,CPCapability.SIMPLE_FLUID.get(),SitulaItem.MAX_CAPACITY), CPItems.situla.get());
+		event.registerItem(Capabilities.Fluid.ITEM,(_,o)->new ItemAccessFluidHandler(o,CPCapability.SIMPLE_FLUID.get(),SitulaItem.MAX_CAPACITY), CPItems.situla.get());
 		//event.registerItem(Capabilities.FluidHandler.ITEM,(stack,o)->new FluidHandlerItemStack(CPCapability.SIMPLE_FLUID,stack,1250), CPItems.situla.get());
-		event.registerItem(CPCapability.FOOD_INFO,(stack,o)->stack.get(CPCapability.STEW_INFO.get()), CPItems.stews.toArray(Item[]::new));
-		event.registerItem(CPCapability.FOOD_INFO,(stack,o)->stack.get(CPCapability.SAUTEED_INFO.get()), CPItems.dish.toArray(Item[]::new));
+		event.registerItem(CPCapability.FOOD_INFO,(stack,_)->stack.get(CPCapability.STEW_INFO.get()), CPItems.stews.toArray(Item[]::new));
+		event.registerItem(CPCapability.FOOD_INFO,(stack,_)->stack.get(CPCapability.SAUTEED_INFO.get()), CPItems.dish.toArray(Item[]::new));
 		CPBlockEntityTypes.REGISTER.getEntries().stream().map(t->t.get()).forEach(be->{
 				event.registerBlockEntity(Capabilities.Item.BLOCK, (BlockEntityType<?>)be,
 					(block,ctx)->(block instanceof CPBaseBlockEntity)?(ResourceHandler)((CPBaseBlockEntity)block).getCapability(Capabilities.Item.BLOCK, ctx):null);
 				event.registerBlockEntity(Capabilities.Fluid.BLOCK, (BlockEntityType<?>)be,
 					(block,ctx)->(block instanceof CPBaseBlockEntity)?(ResourceHandler)((CPBaseBlockEntity)block).getCapability(Capabilities.Fluid.BLOCK, ctx):null);
 			});
-		event.registerItem(Capabilities.Fluid.ITEM,(stack,o)->new FluidItemWrapper(o), CPItems.stews.toArray(Item[]::new));
+		event.registerItem(Capabilities.Fluid.ITEM,(_,o)->new FluidItemWrapper(o), CPItems.stews.toArray(Item[]::new));
 	}
 
 	public static <R extends ItemLike,T extends R> DeferredHolder<R,T> asCompositable(DeferredHolder<R,T> obj, float val) {

@@ -3,6 +3,7 @@ package com.teammoeg.caupona.util;
 import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.components.StewInfo;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
+
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.transfer.ResourceHandler;

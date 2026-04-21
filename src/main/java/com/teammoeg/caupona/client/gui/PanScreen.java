@@ -65,12 +65,12 @@ public class PanScreen extends AbstractContainerScreen<PanContainer> {
 	public void init() {
 		super.init();
 		this.clearWidgets();
-		this.addRenderableWidget(btn1 = new ImageButton(Button.builder(start, btn -> {
+		this.addRenderableWidget(btn1 = new ImageButton(Button.builder(start, _ -> {
 			if (btn1.state == 0)
 				blockEntity.sendMessage((short) 0, 0);
 		}).pos(leftPos + 7, topPos + 48).size(20, 12), 176, 83, 256, 256, TEXTURE,
 				() -> (btn1.state == 0 ? Tooltip.create(start) : Tooltip.create(started))));
-		this.addRenderableWidget(btn2 = new ImageButton(Button.builder(rs, btn -> {
+		this.addRenderableWidget(btn2 = new ImageButton(Button.builder(rs, _ -> {
 			blockEntity.sendMessage((short) 1, btn2.state);
 		}).pos(leftPos + 7, topPos + 61).size(20, 20), 176, 107, 256, 256, TEXTURE,
 				() -> (btn2.state == 2 ? Tooltip.create(rs) : Tooltip.create(nors))));

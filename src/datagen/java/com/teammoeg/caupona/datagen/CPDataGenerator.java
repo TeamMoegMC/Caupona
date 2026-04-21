@@ -25,7 +25,6 @@ import java.util.concurrent.CompletableFuture;
 
 import com.teammoeg.caupona.CPMain;
 
-
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.registries.VanillaRegistries;
@@ -61,6 +60,7 @@ public class CPDataGenerator {
 	public static void gatherData(GatherDataEvent.Client event) {
 		System.out.println("Gather client data");
 		DataGenerator gen = event.getGenerator();
+		@SuppressWarnings("unused")
 		CompletableFuture<HolderLookup.Provider> completablefuture = CompletableFuture.supplyAsync(VanillaRegistries::createLookup, Util.backgroundExecutor());
 		gen.addProvider(true,new CPModelProvider(gen.getPackOutput(), CPMain.MODID,event.getResourceManager(PackType.CLIENT_RESOURCES)));
 		gen.addProvider(true,new CPBookGenerator(gen.getPackOutput(), event.getResourceManager(PackType.CLIENT_RESOURCES)));

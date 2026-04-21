@@ -40,7 +40,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 public class ChimneyPotBlock extends CPHorizontalEntityBlock<ChimneyPotBlockEntity> {
 
@@ -64,7 +63,7 @@ public class ChimneyPotBlock extends CPHorizontalEntityBlock<ChimneyPotBlockEnti
 			if (chimneyPot.countSoot > 0) {
 				if (!level.isClientSide()) {
 					stack.hurtAndBreak(1, player,hand==InteractionHand.MAIN_HAND?EquipmentSlot.MAINHAND:EquipmentSlot.OFFHAND);
-					ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(CPItems.soot.get(), chimneyPot.countSoot));
+					player.getInventory().placeItemBackInInventory(new ItemStack(CPItems.soot.get(), chimneyPot.countSoot));
 					chimneyPot.countSoot = 0;
 				}
 				return InteractionResult.SUCCESS;

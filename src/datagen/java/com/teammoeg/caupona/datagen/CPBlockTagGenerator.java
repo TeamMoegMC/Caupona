@@ -37,18 +37,17 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.TagAppender;
 import net.minecraft.data.tags.TagsProvider;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
+@SuppressWarnings("unused")
 public class CPBlockTagGenerator extends TagsProvider<Block> {
 
 	public CPBlockTagGenerator(DataGenerator dataGenerator, String modId,CompletableFuture<HolderLookup.Provider> provider) {
@@ -210,6 +209,7 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 		return Identifier.fromNamespaceAndPath("c", s);
 	}
 
+	@SuppressWarnings("unused")
 	private Identifier mcrl(String s) {
 		return Identifier.withDefaultNamespace(s);
 	}

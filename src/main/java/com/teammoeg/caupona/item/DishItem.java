@@ -25,6 +25,7 @@ import org.jspecify.annotations.Nullable;
 
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.blocks.foods.DishBlock;
+
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;

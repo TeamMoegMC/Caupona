@@ -21,12 +21,12 @@
 
 package com.teammoeg.caupona.blocks.decoration.mosaic;
 
-import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.components.MosaicData;
 import com.teammoeg.caupona.item.CPBlockItem;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.TabType;
+
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 

@@ -1,7 +1,5 @@
 package com.teammoeg.caupona.datagen;
 
-import java.util.stream.Stream;
-
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 

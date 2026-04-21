@@ -23,10 +23,10 @@ package com.teammoeg.caupona.datagen;
 
 import java.util.function.BiConsumer;
 
-import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.util.FoodMaterialInfo;
+
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ItemModelOutput;
 import net.minecraft.client.data.models.model.ItemModelUtils;

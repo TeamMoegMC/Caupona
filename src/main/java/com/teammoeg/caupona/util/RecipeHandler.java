@@ -23,8 +23,6 @@ package com.teammoeg.caupona.util;
 
 import java.util.Objects;
 
-import com.teammoeg.caupona.data.recipes.TimedRecipe;
-
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.crafting.Recipe;

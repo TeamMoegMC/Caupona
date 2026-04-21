@@ -37,7 +37,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
@@ -119,9 +118,9 @@ public class WolfStatueBlock extends CPHorizontalEntityBlock<WolfStatueBlockEnti
 
 	@Override
 	public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
-		if (pLevel.getBlockEntity(pPos) instanceof WolfStatueBlockEntity wst) {
+		if (pLevel.getBlockEntity(pPos) instanceof WolfStatueBlockEntity wst&&pLevel instanceof ServerLevel sl) {
 			if (wst.isVeryHot)
-				pEntity.hurt(pLevel.damageSources().hotFloor(), pState.getValue(HEAT));
+				pEntity.hurtServer(sl,pLevel.damageSources().hotFloor(), pState.getValue(HEAT));
 		}
 		super.stepOn(pLevel, pPos, pState, pEntity);
 	}

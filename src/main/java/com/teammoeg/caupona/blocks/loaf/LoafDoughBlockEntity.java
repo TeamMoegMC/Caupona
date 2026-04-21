@@ -29,8 +29,6 @@ import com.teammoeg.caupona.util.LazyTickWorker;
 import com.teammoeg.caupona.util.LoafHelper;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup.Provider;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;

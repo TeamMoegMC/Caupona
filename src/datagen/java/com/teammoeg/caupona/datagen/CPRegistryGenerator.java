@@ -33,8 +33,8 @@ import com.teammoeg.caupona.worldgen.BushStraightTrunkPlacer;
 import com.teammoeg.caupona.worldgen.LeavingLogReplacer;
 
 import net.minecraft.core.HolderGetter;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.RegistrySetBuilder.RegistryBootstrap;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -47,7 +47,6 @@ import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;

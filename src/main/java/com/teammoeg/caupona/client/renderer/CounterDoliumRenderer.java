@@ -24,31 +24,18 @@ package com.teammoeg.caupona.client.renderer;
 import org.jspecify.annotations.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
-import com.teammoeg.caupona.blocks.foods.BowlBlockEntity;
 import com.teammoeg.caupona.client.util.FluidRenderHelper;
-import com.teammoeg.caupona.item.StewItem;
-import com.teammoeg.caupona.util.Utils;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.neoforged.neoforge.fluids.FluidStack;
 
 public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumBlockEntity,CounterDoliumRenderState> {
 

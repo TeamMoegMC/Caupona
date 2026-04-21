@@ -1,4 +1,4 @@
-// 26.1.2	2026-04-21T17:52:23.1012072	Model Definitions - caupona
+// 26.1.2	2026-04-21T18:12:14.3013287	Model Definitions - caupona
 4d3a570f900e5811f8b87e2ff191148c0bfae9ec assets/caupona/blockstates/bowl.json
 1a777a653b7d023d0be36c4a3eb252b115294eee assets/caupona/blockstates/brick_kitchen_stove.json
 6f6a718d2c02a3c992388b1671f417e9130bc48e assets/caupona/blockstates/calcite_lacunar_tile.json
@@ -157,7 +157,7 @@ c77c6f78e095f277bf7c90d0640afa02ad3cecc0 assets/caupona/items/iron_skimmer.json
 993446005e563a7928249aa763127500c74b18d3 assets/caupona/items/lead_frying_pan.json
 36d3362f10f3ad6d95e1001b957eb4671c004809 assets/caupona/items/lead_ingot.json
 5c51c70637d1a4213581a0d420cd93b6558731e4 assets/caupona/items/lead_nugget.json
-03397a4144ad538fa252438e9fa18d7d0db8394a assets/caupona/items/lead_stew_pot.json
+1de02bcacfd5e7b910f986a7f12ea45bedd0c70d assets/caupona/items/lead_stew_pot.json
 a6d24cff3511cac9ece313e4bcf886b991249c7d assets/caupona/items/litharge_bloom.json
 b0e02f4cbd11ef615e5348da052a992c54bb0678 assets/caupona/items/litharge_cake.json
 75e620541e16c6ffe6825a6d0f45b2317bfefb6f assets/caupona/items/litharge_fumarole_boulder.json
@@ -178,7 +178,7 @@ c49cf50ec96020366db0410deb6376a6283c4130 assets/caupona/items/milk_based.json
 17f573b7830192cf1648bbbddedcfd25f55e8c6d assets/caupona/items/mixed_bricks_slab.json
 6b9758d3e983d1b02749458ae59e0670ae99765b assets/caupona/items/mixed_bricks_stairs.json
 bc043cb65db5464b58e1645852d07c3d10bd1340 assets/caupona/items/mixed_bricks_wall.json
-90290883b57bc27c6cb0d185ec4454367991fd38 assets/caupona/items/mosaic.json
+4683d49a2d32e47dff9b9a1a5ccbaeac3c99aab5 assets/caupona/items/mosaic.json
 56b83bd980a8f814037d8db0d2d64fd445854e7c assets/caupona/items/mud_chimney_flue.json
 77ca2eb3be36480012f9adcc4eec5fe20560c7bf assets/caupona/items/mud_chimney_pot.json
 e767d32e6aafb200a21bff104d5bcf4ab21b3fe9 assets/caupona/items/mud_counter.json

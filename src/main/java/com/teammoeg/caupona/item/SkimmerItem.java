@@ -21,9 +21,6 @@
 
 package com.teammoeg.caupona.item;
 
-import java.util.Map.Entry;
-import java.util.Optional;
-
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.components.StewInfo;
@@ -32,9 +29,6 @@ import com.teammoeg.caupona.util.TabType;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponentPatch;
-import net.minecraft.core.component.DataComponentPatch.Builder;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -43,7 +37,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;

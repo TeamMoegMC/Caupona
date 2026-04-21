@@ -403,7 +403,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				return false;// too much ingredients
 			int oparts = tank.getAmountAsInt(0) / 250;
 			int parts = oparts - 1;
-			int itms = 0;
+
 			//System.out.println("3");
 			int tpt = CPConfig.SERVER.potMixTimeBase.get();
 			for (int i = 0; i < 9; i++) {
@@ -430,7 +430,6 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 							currentInfo.addItem(toput, oparts);
 							if(internInv.insert(i, ItemResource.of(reminder), reminder.getCount(), trans)!=reminder.getCount())
 								return false;
-							itms++;
 						}else
 							return false;
 					}

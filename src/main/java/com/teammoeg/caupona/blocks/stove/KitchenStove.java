@@ -28,6 +28,7 @@ import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -136,8 +137,8 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntit
 
 	@Override
 	public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
-		if (pState.getValue(LIT)) {
-			pEntity.hurt(pLevel.damageSources().hotFloor(), 1);
+		if (pState.getValue(LIT)&&pLevel instanceof ServerLevel sl) {
+			pEntity.hurtServer(sl,pLevel.damageSources().hotFloor(), 1);
 		}
 		super.stepOn(pLevel, pPos, pState, pEntity);
 	}

@@ -24,7 +24,6 @@ package com.teammoeg.caupona.client;
 import com.teammoeg.caupona.util.INetworkContainer;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.LevelLoadingScreen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;

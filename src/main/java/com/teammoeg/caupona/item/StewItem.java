@@ -31,14 +31,10 @@ import com.teammoeg.caupona.components.ItemHoldedFluidData;
 import com.teammoeg.caupona.components.StewInfo;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
 
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.Consumable;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;

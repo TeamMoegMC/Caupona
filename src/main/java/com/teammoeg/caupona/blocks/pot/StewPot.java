@@ -27,6 +27,7 @@ import org.jspecify.annotations.Nullable;
 
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
 import com.teammoeg.caupona.client.CPParticles;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
