@@ -1,3 +1,4 @@
 {
-  "parent": "caupona:block/wolfberry_log"
+  "type":"minecraft:model",
+  "model": "caupona:block/wolfberry_log"
 }

@@ -1,3 +1,4 @@
 {
-  "parent": "caupona:block/walnut_slab"
+  "type":"minecraft:model",
+  "model": "caupona:block/walnut_slab"
 }

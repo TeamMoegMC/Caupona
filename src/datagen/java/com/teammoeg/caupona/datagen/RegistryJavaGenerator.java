@@ -30,15 +30,19 @@ import com.teammoeg.caupona.CPMain;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraft.server.packs.resources.ResourceManager;
 
 public class RegistryJavaGenerator extends FileGenerator {
-
-	public RegistryJavaGenerator(PackOutput output, ExistingFileHelper helper) {
-		super(PackType.SERVER_DATA, output, helper,"Caupona Registry Java");
+	ResourceManager resource;
+	public RegistryJavaGenerator(PackOutput output, ResourceManager helper) {
+		super(PackType.SERVER_DATA, output,"Caupona Registry Java");
+		resource=helper;
 	}
 	
-	
+	public boolean existsFile(Identifier id){
+		return resource.getResource(id).isPresent();
+		
+	}
 	@Override
 	protected void gather(FileStorage reciver) {
 		JavaFileOutput fo=this.createGeneratedJavaOutput("CPStewTexture");
@@ -50,7 +54,7 @@ public class RegistryJavaGenerator extends FileGenerator {
 		fo.defineBlock("static");
 		for(String sf:CPFluids.getSoupfluids()) {
 			Identifier image = Identifier.fromNamespaceAndPath(CPMain.MODID, "textures/block/soups/" + sf + ".png");
-			if (helper.exists(image, PackType.CLIENT_RESOURCES)) {
+			if (existsFile(image)) {
 				fo.line().call("texture.put")
 					.paramString(sf)
 					.paramCall("Identifier.fromNamespaceAndPath")

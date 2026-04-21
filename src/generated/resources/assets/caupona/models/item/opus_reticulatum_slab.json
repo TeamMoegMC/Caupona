@@ -1,3 +1,4 @@
 {
-  "parent": "caupona:block/opus_reticulatum_0_slab"
+  "type":"minecraft:model",
+  "model": "caupona:block/opus_reticulatum_0_slab"
 }

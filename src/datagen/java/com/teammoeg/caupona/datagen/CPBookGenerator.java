@@ -47,8 +47,8 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.Item;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class CPBookGenerator extends JsonGenerator {
 	private Map<String, JsonObject> langs = new HashMap<>();
@@ -80,17 +80,17 @@ public class CPBookGenerator extends JsonGenerator {
 	}
 
 
-
-	public CPBookGenerator(PackOutput output, ExistingFileHelper helper) {
-		super(PackType.CLIENT_RESOURCES,output, helper,"Caupona Patchouli");
+	ResourceManager helper;
+	public CPBookGenerator(PackOutput output, ResourceManager helper) {
+		super(PackType.CLIENT_RESOURCES,output,"Caupona Patchouli");
+		this.helper=helper;
 	}
 
 	String[] allangs = { "zh_cn", "en_us", "es_es", "ru_ru", "uk_ua" };
 
 	private void loadLang(String locale) {
 		try {
-			Resource rc = helper.getResource(Identifier.fromNamespaceAndPath(CPMain.MODID, "lang/" + locale + ".json"),
-					PackType.CLIENT_RESOURCES);
+			Resource rc = helper.getResourceOrThrow(Identifier.fromNamespaceAndPath(CPMain.MODID, "lang/" + locale + ".json"));
 			JsonObject jo = JsonParser.parseReader(new InputStreamReader(rc.open(), "UTF-8")).getAsJsonObject();
 			langs.put(locale, jo);
 
@@ -98,6 +98,10 @@ public class CPBookGenerator extends JsonGenerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public boolean existsFile(Identifier id){
+		return helper.getResource(id).isPresent();
+		
 	}
 	@Override
 	protected void gather(JsonStorage reciver) {
@@ -111,10 +115,10 @@ public class CPBookGenerator extends JsonGenerator {
 			loadLang(lang);
 
 		for (String s : CPItems.soups)
-			if (recipes.containsKey(s)&&helper.exists(PictureRL(recipes.get(s)),PackType.CLIENT_RESOURCES))
+			if (recipes.containsKey(s)&&existsFile(PictureRL(recipes.get(s))))
 				defaultPage(reciver, s,recipes.get(s));
 		for (String s : CPItems.dishes) {
-			if (frecipes.containsKey(s)&&helper.exists(PictureRL(frecipes.get(s)),PackType.CLIENT_RESOURCES))
+			if (frecipes.containsKey(s)&&existsFile(PictureRL(frecipes.get(s))))
 				defaultFryPage(reciver, s,frecipes.get(s));
 		}
 	}

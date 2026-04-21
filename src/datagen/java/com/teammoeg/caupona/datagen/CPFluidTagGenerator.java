@@ -33,6 +33,7 @@ import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.TagAppender;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
@@ -41,18 +42,17 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.NeoForgeMod;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 
-	public CPFluidTagGenerator(DataGenerator dataGenerator, String modId, ExistingFileHelper existingFileHelper,CompletableFuture<HolderLookup.Provider> provider) {
-		super(dataGenerator.getPackOutput(), Registries.FLUID, provider,modId,existingFileHelper);
+	public CPFluidTagGenerator(DataGenerator dataGenerator, String modId,CompletableFuture<HolderLookup.Provider> provider) {
+		super(dataGenerator.getPackOutput(), Registries.FLUID, provider,modId);
 	}
 
 	@Override
 	protected void addTags(Provider p) {
-		TagAppender<Fluid> stews=tag(CPTags.Fluids.STEWS);
+		TagAppender<ResourceKey<Fluid>, Fluid> stews=tag(CPTags.Fluids.STEWS);
 		tag(CPTags.Fluids.BOILABLE).add(BuiltInRegistries.FLUID.getResourceKey(Fluids.WATER).get()).add(NeoForgeMod.MILK.getKey())
 				.addTag(CPTags.Fluids.STEWS);
 		CPFluids.getAllKeys().forEach(stews::add);
@@ -62,17 +62,18 @@ public class CPFluidTagGenerator extends TagsProvider<Fluid> {
 		tag(Identifier.fromNamespaceAndPath("watersource", "drink")).add(ResourceKey.create(Registries.FLUID,mrl("nail_soup")));
 	}
 	private Fluid cp(String s) {
-		Fluid i = BuiltInRegistries.FLUID.get(mrl(s));
+		Fluid i = BuiltInRegistries.FLUID.getValue(mrl(s));
 		return i;// just going to cause trouble if not exists
 	}
-	private TagAppender<Fluid> tag(String s) {
+	private TagAppender<ResourceKey<Fluid>, Fluid> tag(String s) {
 		return this.tag(FluidTags.create(mrl(s)));
 	}
-
-	private TagAppender<Fluid> tag(Identifier s) {
-		return this.tag(FluidTags.create(s));
+	private TagAppender<ResourceKey<Fluid>, Fluid> tag(TagKey<Fluid> s) {
+		return TagAppender.forBuilder(super.getOrCreateRawBuilder(s)) ;
 	}
-
+	private TagAppender<ResourceKey<Fluid>, Fluid> tag(Identifier s) {
+		return tag(FluidTags.create(s)) ;
+	}
 	private Identifier rl(DeferredHolder<Fluid,Fluid> it) {
 		return it.getId();
 	}

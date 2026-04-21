@@ -1,3 +1,4 @@
 {
-  "parent": "caupona:block/quartz_column_plinth"
+  "type":"minecraft:model",
+  "model": "caupona:block/quartz_column_plinth"
 }

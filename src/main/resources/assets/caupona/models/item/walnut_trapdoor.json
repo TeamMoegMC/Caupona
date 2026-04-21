@@ -1,3 +1,4 @@
 {
-	"parent": "caupona:block/walnut_trapdoor_bottom"
+  "type":"minecraft:model",
+  "model": "caupona:block/walnut_trapdoor_bottom"
 }

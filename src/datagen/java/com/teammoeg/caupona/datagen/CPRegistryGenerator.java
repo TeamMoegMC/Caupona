@@ -33,6 +33,7 @@ import com.teammoeg.caupona.worldgen.BushStraightTrunkPlacer;
 import com.teammoeg.caupona.worldgen.LeavingLogReplacer;
 
 import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.RegistrySetBuilder.RegistryBootstrap;
@@ -46,11 +47,12 @@ import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.SimpleRandomFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
@@ -58,8 +60,11 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
+import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
+import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.placement.RandomOffsetPlacement;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 
@@ -86,9 +91,20 @@ public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
 		FeatureUtils.register(pContext,CPWorldGen.WALNUT,Feature.TREE,createStraightBlobTree(log("walnut"),leave("walnut"), 4, 2, 0, 2).ignoreVines().build());
 		FeatureUtils.register(pContext,CPWorldGen.FIG,Feature.TREE,createStraightBlobBush(log("fig"), leave("fig"), 4, 2, 0, 2).ignoreVines().build());
 		FeatureUtils.register(pContext,CPWorldGen.WOLFBERRY,Feature.TREE,createStraightBlobBush(log("wolfberry"),leave("wolfberry"), 4, 2, 0, 2).ignoreVines().build());
-		FeatureUtils.register(pContext,CPWorldGen.SILPHIUM, Feature.VEGETATION_PATCH,
-				new RandomPatchConfiguration(12,4,3,PlacementUtils.filtered(Feature.SIMPLE_BLOCK,new SimpleBlockConfiguration(BlockStateProvider.simple(CPBlocks.SILPHIUM.get())),BlockPredicate.ONLY_IN_AIR_PREDICATE)));
-	}
+		FeatureUtils.register(pContext,CPWorldGen.SILPHIUM, 
+            Feature.SIMPLE_RANDOM_SELECTOR,
+            new SimpleRandomFeatureConfiguration(
+                HolderSet.direct(
+                    PlacementUtils.inlinePlaced(
+                        Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(BlockStateProvider.simple(CPBlocks.SILPHIUM.get())),
+                        CountPlacement.of(12),
+                        RandomOffsetPlacement.ofTriangle(4, 3),
+                        BlockPredicateFilter.forPredicate(BlockPredicate.ONLY_IN_AIR_PREDICATE)
+                    )
+                )
+            ));
+    }
 	private static TreeConfiguration.TreeConfigurationBuilder createStraightBlobTree(Block log, Block leave, int height,
 			int randA, int randB, int foliage) {
 		return new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(log),
@@ -117,7 +133,7 @@ public class CPRegistryGenerator extends DatapackBuiltinEntriesProvider {
 		return block(type+"_log");
 	}
 	public static Block block(String type) {
-		return BuiltInRegistries.BLOCK.get(Identifier.fromNamespaceAndPath(CPMain.MODID,type));
+		return BuiltInRegistries.BLOCK.getValue(Identifier.fromNamespaceAndPath(CPMain.MODID,type));
 	}
 	@Override
 	public String getName() {

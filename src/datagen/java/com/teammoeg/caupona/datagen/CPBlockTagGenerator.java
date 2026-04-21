@@ -35,28 +35,30 @@ import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.TagAppender;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class CPBlockTagGenerator extends TagsProvider<Block> {
 
-	public CPBlockTagGenerator(DataGenerator dataGenerator, String modId, ExistingFileHelper existingFileHelper,CompletableFuture<HolderLookup.Provider> provider) {
-		super(dataGenerator.getPackOutput(), Registries.BLOCK,provider,modId, existingFileHelper);
+	public CPBlockTagGenerator(DataGenerator dataGenerator, String modId,CompletableFuture<HolderLookup.Provider> provider) {
+		super(dataGenerator.getPackOutput(), Registries.BLOCK,provider,modId);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void addTags(Provider pProvider) {
-		TagAppender<Block> pickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
+		TagAppender<ResourceKey<Block>, Block> pickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
 		adds(tag(CPTags.Blocks.STOVES),CPBlocks.stoves.stream().map(e->e.getKey()).toArray(ResourceKey[]::new));
 		adds(pickaxe,CPBlocks.stoves.stream().map(e->e.getKey()).toArray(ResourceKey[]::new));
 		adds(pickaxe,CPBlocks.STEW_POT.getKey(),CPBlocks.STEW_POT_LEAD.getKey(),CPBlocks.T_BENCH.getKey(),CPBlocks.MOSAIC.getKey());
@@ -164,23 +166,26 @@ public class CPBlockTagGenerator extends TagsProvider<Block> {
 	}
 	@SuppressWarnings("unchecked")
 	@SafeVarargs
-	private void adds(TagAppender<Block> ta,ResourceKey<? extends Block>... keys) {
+	private void adds(TagAppender<ResourceKey<Block>, Block> ta,ResourceKey<? extends Block>... keys) {
 		for(ResourceKey<? extends Block> blk:keys)
 		ta.add((ResourceKey<Block>) blk);
 	}
-	private TagAppender<Block> tag(String s) {
+	private TagAppender<ResourceKey<Block>, Block> tag(String s) {
 		return this.tag(BlockTags.create(mrl(s)));
 	}
-
+	private TagAppender<ResourceKey<Block>, Block> tag(TagKey<Block> s) {
+		return TagAppender.forBuilder(super.getOrCreateRawBuilder(s)) ;
+	}
+	private TagAppender<ResourceKey<Block>, Block> tag(Identifier s) {
+		return tag(BlockTags.create(s)) ;
+	}
 	private ResourceKey<Block> cp(String s) {
 		return ResourceKey.create(Registries.BLOCK,mrl(s));
 	}
 	private ResourceKey<Block> rk(Block  b) {
 		return BuiltInRegistries.BLOCK.getResourceKey(b).get();
 	}
-	private TagAppender<Block> tag(Identifier s) {
-		return this.tag(BlockTags.create(s));
-	}
+
 	private Identifier rl(DeferredHolder<Item,Item> it) {
 		return it.getId();
 	}

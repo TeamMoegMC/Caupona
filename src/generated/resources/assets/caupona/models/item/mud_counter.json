@@ -1,3 +1,4 @@
 {
-  "parent": "caupona:block/mud_counter"
+  "type":"minecraft:model",
+  "model": "caupona:block/mud_counter"
 }

@@ -1,3 +1,4 @@
 {
-  "parent": "caupona:block/pumice_0"
+  "type":"minecraft:model",
+  "model": "caupona:block/pumice_0"
 }

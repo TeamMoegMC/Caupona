@@ -1,3 +1,4 @@
 {
-  "parent": "caupona:block/brick_chimney_pot"
+  "type":"minecraft:model",
+  "model": "caupona:block/brick_chimney_pot"
 }

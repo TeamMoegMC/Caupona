@@ -1,3 +1,4 @@
 {
-  "parent": "caupona:block/brick_caliduct"
+  "type":"minecraft:model",
+  "model": "caupona:block/brick_caliduct"
 }

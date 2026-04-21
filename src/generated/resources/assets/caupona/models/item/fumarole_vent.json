@@ -1,3 +1,4 @@
 {
-  "parent": "caupona:block/fumarole_vent"
+  "type":"minecraft:model",
+  "model": "caupona:block/fumarole_vent"
 }

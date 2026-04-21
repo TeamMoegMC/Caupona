@@ -51,15 +51,18 @@ import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
@@ -68,26 +71,47 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.NeoForgeMod;
 
 public class CPRecipeProvider extends RecipeProvider {
+	public static class Runner extends RecipeProvider.Runner{
+		String modid;
+		public Runner(PackOutput packOutput, CompletableFuture<Provider> registries,String modid) {
+			super(packOutput, registries);
+			this.modid=modid;
+		}
+
+		@Override
+		public String getName() {
+			return modid;
+		}
+
+		@Override
+		protected RecipeProvider createRecipeProvider(Provider registries, RecipeOutput output) {
+			return new CPRecipeProvider(registries,output);
+		}
+		
+	}
 	private final HashMap<String, Integer> PATH_COUNT = new HashMap<>();
 
 	static final Fluid water = fluid(mrl("nail_soup")), milk = fluid(mrl("scalded_milk")), stock = fluid(mrl("stock"));
 	public static List<Pair<Identifier,IDataRecipe>> recipes = new ArrayList<>();
 
-	public CPRecipeProvider(DataGenerator generatorIn,CompletableFuture<HolderLookup.Provider> provider) {
-		super(generatorIn.getPackOutput(), provider);
+	public CPRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
+		super(registries, output);
 	}
 
 	@Override
-	protected void buildRecipes(RecipeOutput outx) {
+	protected void buildRecipes() {
+		RecipeOutput outx=this.output;
 		BiConsumer<Identifier,IDataRecipe> out = (r1,r2) -> {
-			outx.accept(r1,r2,null);
+			outx.accept(ResourceKey.create(Registries.RECIPE, r1),r2,null);
 		};
 		for (String s : CPFluids.getSoupfluids()) {
 			Identifier fs = mrl(s);
@@ -97,7 +121,7 @@ public class CPRecipeProvider extends RecipeProvider {
 		for (String s : CPItems.bread_bowls) {
 			Identifier fs = mrl(s);
 			Identifier is = mrl(s+"_loaf");
-			out.accept(rl("bowl/" + s+"_loaf"),new BowlContainingRecipe( item(is), fluid(fs),Ingredient.of(CPBlocks.LOAF_BOWL.get())));
+			out.accept(rl("bowl/" + s+"_loaf"),new BowlContainingRecipe( item(is), fluid(fs),Ingredient.of(CPBlocks.LOAF_BOWL.getFirst())));
 			
 		}
 		
@@ -122,18 +146,18 @@ public class CPRecipeProvider extends RecipeProvider {
 		out.accept(rl("food/allium"), new FoodValueRecipe(1, 0.2f, new ItemStack(Items.ALLIUM), Items.ALLIUM));
 		// System.out.println(CPBlocks.stove1.asItem());
 		// System.out.println(CPBlocks.stove1.asItem().getItemCategory());
-		ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,cpitem("mud_kitchen_stove")).define('D', Items.DIRT).define('S', Items.COBBLESTONE)
+		ShapedRecipeBuilder.shaped(registries.lookupOrThrow(Registries.ITEM),RecipeCategory.DECORATIONS,cpitem("mud_kitchen_stove")).define('D', Items.DIRT).define('S', Items.COBBLESTONE)
 				.pattern("DDD").pattern("SSS").pattern("S S").unlockedBy("has_cobblestone", has(Blocks.COBBLESTONE))
 				.save(outx);
 		// ShapedRecipeBuilder.shaped(CPBlocks.stove2).define('T',Items.BRICK_SLAB).define('B',Items.BRICKS).define('C',Items.CLAY).pattern("TTT").pattern("BCB").pattern("B
 		// B").unlockedBy("has_bricks", has(Blocks.BRICKS)).save(outx);
-		ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS,CPItems.clay_pot.get()).define('C', Items.CLAY_BALL).define('S', Items.STICK)
+		ShapedRecipeBuilder.shaped(registries.lookupOrThrow(Registries.ITEM),RecipeCategory.DECORATIONS,CPItems.clay_pot.get()).define('C', Items.CLAY_BALL).define('S', Items.STICK)
 				.pattern("CCC").pattern("CSC").pattern("CCC").unlockedBy("has_clay", has(Items.CLAY_BALL)).save(outx);
 		//ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_ingot"), 1).requires(Ingredient.of(rk(ftag("nuggets/lead"))), 9).unlockedBy("has_lead_nugget", has(cpitem("lead_nugget"))).save(outx,rl("lead_ingot_from_nugget"));
 		//ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_nugget"), 9).requires(Ingredient.of(rk(ftag("ingots/lead"))), 1).unlockedBy("has_lead_ingot", has(cpitem("lead_ingot"))).save(outx);
 		//ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_block"), 1).requires(Ingredient.of(rk(ftag("ingots/lead"))), 9).unlockedBy("has_lead_ingot", has(cpitem("lead_ingot"))).save(outx);
 		//ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,cpitem("lead_ingot"), 9).requires(Ingredient.of(rk(ftag("storage_blocks/lead"))), 9).unlockedBy("has_lead_ingot", has(cpitem("lead_block"))).save(outx,rl("lead_ingot_from_block"));
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(CPItems.clay_pot.get()),RecipeCategory.DECORATIONS, CPBlocks.STEW_POT.get(), 0.35f, 200)
+		SimpleCookingRecipeBuilder.smelting(Ingredient.of(CPItems.clay_pot.get()),RecipeCategory.DECORATIONS,CookingBookCategory.BLOCKS, CPBlocks.STEW_POT.get(), 0.35f, 200)
 				.unlockedBy("has_claypot", has(CPItems.clay_pot.get())).save(outx);
 		// ShapedRecipeBuilder.shapedRecipe(THPBlocks.stew_pot).key('B',Items.BRICK).key('C',Items.CLAY_BALL).patternLine("BCB").patternLine("B
 		// B").patternLine("BBB").unlockedBy("has_brick",
@@ -172,11 +196,11 @@ public class CPRecipeProvider extends RecipeProvider {
 			aspic(s, out);
 		}
 		aspicNoBase("stock",out);
-		spice(cpitem("garum_spice_jar"), MobEffects.JUMP, out);
-		spice(cpitem("sugar_spice_jar"), MobEffects.MOVEMENT_SPEED, out);
+		spice(cpitem("garum_spice_jar"), MobEffects.JUMP_BOOST, out);
+		spice(cpitem("sugar_spice_jar"), MobEffects.SPEED, out);
 		spice(cpitem("chives_spice_jar"), MobEffects.SLOW_FALLING, out);
 		spiceLead(cpitem("vinegar_spice_jar"), MobEffects.NIGHT_VISION, out);
-		spice(cpitem("asafoetida_spice_jar"), MobEffects.DAMAGE_RESISTANCE, out);
+		spice(cpitem("asafoetida_spice_jar"), MobEffects.RESISTANCE, out);
 		spice(cpitem("sapa_spice_jar"), CPMobEffects.HYPERACTIVE, out);
 		stewCooking(out);
 		frying(out);
@@ -235,7 +259,7 @@ public class CPRecipeProvider extends RecipeProvider {
 		fry("seared_fillet").med().require().mainly().of(FISH).and().then().finish(out,BOWL);
 		fry("seared_poultry").high().require().mainly().of(POULTRY).and().then().finish(out,BOWL);
 		fry("sauteed_hodgepodge").low().finish(out,BOWL);
-		BOWL=Ingredient.of(CPBlocks.LOAF_BOWL.get());
+		BOWL=Ingredient.of(CPBlocks.LOAF_BOWL.getFirst());
 		
 		fry("huevos_pericos","_loaf").high().require().mainly().of(EGGS).and().then().finish(out,BOWL);
 		fry("sauteed_beef","_loaf").high().require().mainly().of(ftag("raw_beef")).and().then().finish(out,BOWL);
@@ -334,15 +358,15 @@ public class CPRecipeProvider extends RecipeProvider {
 	}
 
 	private Fluid cpfluid(String name) {
-		return BuiltInRegistries.FLUID.get(Identifier.fromNamespaceAndPath(CPMain.MODID, name));
+		return BuiltInRegistries.FLUID.getValue(Identifier.fromNamespaceAndPath(CPMain.MODID, name));
 	}
 
 	private Item cpitem(String name) {
-		return BuiltInRegistries.ITEM.get(Identifier.fromNamespaceAndPath(CPMain.MODID, name));
+		return BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(CPMain.MODID, name));
 	}
 
 	private Item mitem(String name) {
-		return BuiltInRegistries.ITEM.get(Identifier.withDefaultNamespace(name));
+		return BuiltInRegistries.ITEM.getValue(Identifier.withDefaultNamespace(name));
 	}
 
 	private void simpleFood(BiConsumer<Identifier, IDataRecipe> out, int h, float s, Item i) {
@@ -362,11 +386,11 @@ public class CPRecipeProvider extends RecipeProvider {
 	}
 
 	private Item item(Identifier rl) {
-		return BuiltInRegistries.ITEM.get(rl);
+		return BuiltInRegistries.ITEM.getValue(rl);
 	}
 
 	private static Fluid fluid(Identifier rl) {
-		return BuiltInRegistries.FLUID.get(rl);
+		return BuiltInRegistries.FLUID.getValue(rl);
 	}
 
 	private static Identifier mrl(String s) {
@@ -395,6 +419,7 @@ public class CPRecipeProvider extends RecipeProvider {
 		PATH_COUNT.put(s, 1);
 		return Identifier.fromNamespaceAndPath(CPMain.MODID, s);
 	}
+
 
 
 }

@@ -36,21 +36,22 @@ import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.TagAppender;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 @SuppressWarnings("unused")
 public class CPItemTagGenerator extends TagsProvider<Item> {
 
-	public CPItemTagGenerator(DataGenerator dataGenerator, String modId, ExistingFileHelper existingFileHelper,CompletableFuture<HolderLookup.Provider> provider) {
-		super(dataGenerator.getPackOutput(), Registries.ITEM,provider, modId, existingFileHelper);
+	public CPItemTagGenerator(DataGenerator dataGenerator, String modId,CompletableFuture<HolderLookup.Provider> provider) {
+		super(dataGenerator.getPackOutput(), Registries.ITEM,provider, modId);
 	}
 
 	static final String fd = "farmersdelight";
@@ -181,19 +182,21 @@ public class CPItemTagGenerator extends TagsProvider<Item> {
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@SafeVarargs
-	private void adds(TagAppender<Item> ta,Item... keys) {
+	private void adds(TagAppender<ResourceKey<Item>, Item> ta,Item... keys) {
 		
 		ResourceKey[] rks=new ResourceKey[keys.length];
 		for(int i=0;i<rks.length;i++)
 			rks[i]=rk(keys[i]);
 		ta.add(rks);
 	}
-	private TagAppender<Item> tag(String s) {
+	private TagAppender<ResourceKey<Item>, Item> tag(String s) {
 		return this.tag(ItemTags.create(mrl(s)));
 	}
-
-	private TagAppender<Item> tag(Identifier s) {
-		return this.tag(ItemTags.create(s));
+	private TagAppender<ResourceKey<Item>, Item> tag(TagKey<Item> s) {
+		return TagAppender.forBuilder(super.getOrCreateRawBuilder(s)) ;
+	}
+	private TagAppender<ResourceKey<Item>, Item> tag(Identifier s) {
+		return tag(ItemTags.create(s)) ;
 	}
 	private ResourceKey<Item> rk(Item b) {
 		

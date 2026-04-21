@@ -25,16 +25,17 @@ import java.util.concurrent.CompletableFuture;
 
 import com.teammoeg.caupona.CPMain;
 
-import net.minecraft.Util;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.registries.VanillaRegistries;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.util.Util;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
-@EventBusSubscriber(modid = CPMain.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CPMain.MODID)
 public class CPDataGenerator {
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent event) {
@@ -43,21 +44,20 @@ public class CPDataGenerator {
 
 		
 		CompletableFuture<HolderLookup.Provider> completablefuture = CompletableFuture.supplyAsync(VanillaRegistries::createLookup, Util.backgroundExecutor());
-		gen.addProvider(true,new CPItemModelProvider(gen, CPMain.MODID, exHelper));
-		gen.addProvider(true,new CPRecipeProvider(gen,completablefuture));
-		gen.addProvider(true,new CPItemTagGenerator(gen, CPMain.MODID, exHelper,event.getLookupProvider()));
-		gen.addProvider(true,new CPBlockTagGenerator(gen, CPMain.MODID, exHelper,event.getLookupProvider()));
-		gen.addProvider(true,new CPFluidTagGenerator(gen, CPMain.MODID, exHelper,event.getLookupProvider()));
-		gen.addProvider(true,new CPGlobalLootModifiersGenerator(gen.getPackOutput(),completablefuture,exHelper,CPMain.MODNAME+" global_modifiers"));
+		gen.addProvider(true,new CPModelProvider(gen.getPackOutput(), CPMain.MODID,event.getResourceManager(PackType.CLIENT_RESOURCES)));
+		gen.addProvider(true,new CPRecipeProvider.Runner(gen.getPackOutput(),event.getLookupProvider(),CPMain.MODID));
+		gen.addProvider(true,new CPItemTagGenerator(gen, CPMain.MODID,event.getLookupProvider()));
+		gen.addProvider(true,new CPBlockTagGenerator(gen, CPMain.MODID,event.getLookupProvider()));
+		gen.addProvider(true,new CPFluidTagGenerator(gen, CPMain.MODID,event.getLookupProvider()));
+		gen.addProvider(true,new CPGlobalLootModifiersGenerator(gen.getPackOutput(),completablefuture,CPMain.MODNAME+" global_modifiers"));
 		gen.addProvider(true,new CPLootGenerator(gen,completablefuture));
-		gen.addProvider(true,new CPStatesProvider(gen, CPMain.MODID, exHelper));
-		gen.addProvider(true,new CPBookGenerator(gen.getPackOutput(), exHelper));
+		gen.addProvider(true,new CPBookGenerator(gen.getPackOutput(), event.getResourceManager(PackType.CLIENT_RESOURCES)));
 		/*gen.addProvider(true||true,new PackMetadataGenerator(gen.getPackOutput()).add(PackMetadataSection.TYPE,new PackMetadataSection(MutableComponent.create(new TranslatableContents("pack.caupona.title",CPMain.MODNAME+" Data",new Object[0])),
             DetectedVersion.BUILT_IN.getPackVersion(PackType.SERVER_DATA),
             Optional.of(new InclusiveRange<>(0, Integer.MAX_VALUE)))));*/
 		gen.addProvider(true,new CPRegistryGenerator(gen.getPackOutput(),completablefuture));
-		gen.addProvider(true,new FluidAnimationGenerator(gen.getPackOutput(),exHelper));
-		gen.addProvider(true, new RegistryJavaGenerator(gen.getPackOutput(),exHelper));
+		gen.addProvider(true,new FluidAnimationGenerator(gen.getPackOutput(),event.getResourceManager(PackType.CLIENT_RESOURCES)));
+		gen.addProvider(true, new RegistryJavaGenerator(gen.getPackOutput(),event.getResourceManager(PackType.CLIENT_RESOURCES)));
 		
 	}
 }

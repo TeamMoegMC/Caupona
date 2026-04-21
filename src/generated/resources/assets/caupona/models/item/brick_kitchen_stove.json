@@ -1,3 +1,4 @@
 {
-  "parent": "caupona:block/brick_kitchen_stove"
+  "type":"minecraft:model",
+  "model": "caupona:block/brick_kitchen_stove"
 }

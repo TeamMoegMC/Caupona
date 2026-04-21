@@ -32,14 +32,13 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
 import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 
 
 public class CPGlobalLootModifiersGenerator extends GlobalLootModifierProvider {
 
-	public CPGlobalLootModifiersGenerator(PackOutput output,CompletableFuture<HolderLookup.Provider> provider, ExistingFileHelper helper, String name) {
+	public CPGlobalLootModifiersGenerator(PackOutput output,CompletableFuture<HolderLookup.Provider> provider, String name) {
 		super(output,provider, CPMain.MODID);
 	}
 
@@ -61,7 +60,7 @@ public class CPGlobalLootModifiersGenerator extends GlobalLootModifierProvider {
 				BuiltInLootTables.UNDERWATER_RUIN_SMALL,
 				BuiltInLootTables.WOODLAND_MANSION
 				)) {
-			this.add(table.location().getPath(), AddPoolLootModifier.builder(CPLootGenerator.ASSES.location()).when(LootTableIdCondition.builder(table.location())).build());
+			this.add(table.identifier().getPath(), AddPoolLootModifier.builder(CPLootGenerator.ASSES.identifier()).when(LootTableIdCondition.builder(table.identifier())).build());
 		}
 	}
 }

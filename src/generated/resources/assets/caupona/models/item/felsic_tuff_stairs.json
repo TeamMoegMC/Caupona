@@ -1,3 +1,4 @@
 {
-  "parent": "caupona:block/felsic_tuff_stairs"
+  "type":"minecraft:model",
+  "model": "caupona:block/felsic_tuff_stairs"
 }

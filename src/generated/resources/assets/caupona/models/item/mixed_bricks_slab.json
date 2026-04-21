@@ -1,3 +1,4 @@
 {
-  "parent": "caupona:block/mixed_bricks_slab"
+  "type":"minecraft:model",
+  "model": "caupona:block/mixed_bricks_slab"
 }

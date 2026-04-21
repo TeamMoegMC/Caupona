@@ -34,8 +34,9 @@ public class CPDataMapProvider extends DataMapProvider {
 	}
 
 	@Override
-	protected void gather() {
-
+	protected void gather(Provider provider) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

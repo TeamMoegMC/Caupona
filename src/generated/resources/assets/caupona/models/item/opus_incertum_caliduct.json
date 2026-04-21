@@ -1,3 +1,4 @@
 {
-  "parent": "caupona:block/opus_incertum_caliduct"
+  "type":"minecraft:model",
+  "model": "caupona:block/opus_incertum_caliduct"
 }

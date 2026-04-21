@@ -1,3 +1,4 @@
 {
-  "parent": "caupona:block/stone_tuscan_column_capital"
+  "type":"minecraft:model",
+  "model": "caupona:block/stone_tuscan_column_capital"
 }

@@ -35,12 +35,13 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraft.server.packs.resources.ResourceManager;
 
 public class FluidAnimationGenerator extends JsonGenerator {
-
-	public FluidAnimationGenerator(PackOutput output, ExistingFileHelper helper) {
-		super(PackType.CLIENT_RESOURCES, output, helper,"Caupona Fluid Animation");
+	ResourceManager resource;
+	public FluidAnimationGenerator(PackOutput output, ResourceManager helper) {
+		super(PackType.CLIENT_RESOURCES, output,"Caupona Fluid Animation");
+		this.resource=helper;
 	}
 
 	@Override
@@ -54,10 +55,14 @@ public class FluidAnimationGenerator extends JsonGenerator {
 			genImage(image,2,reciver);
 		}*/
 	}
+	public boolean existsFile(Identifier id){
+		return resource.getResource(id).isPresent();
+		
+	}
 	protected void genImage(Identifier image,int ticks,JsonStorage reciver) {
 		try {
-			if (helper.exists(image, PackType.CLIENT_RESOURCES)) {
-				Resource rc = helper.getResource(image, PackType.CLIENT_RESOURCES);
+			if (existsFile(image)) {
+				Resource rc = resource.getResourceOrThrow(image);
 
 				BufferedImage bi = ImageIO.read(rc.open());
 				int num = bi.getHeight() / bi.getWidth();
