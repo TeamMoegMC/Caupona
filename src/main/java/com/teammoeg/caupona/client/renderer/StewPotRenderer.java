@@ -77,6 +77,8 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity,S
 				rr += (state.output.getAmount()-state.input.getAmount()) * ( state.process * 1f / state.processMax);
 			float yy = Math.min(1, rr / 1250) * .5f + .1875f;
 			poseStack.translate(0, yy, 0);
+			poseStack.mulPose(FluidRenderHelper.rotate90);
+
 			FluidModel inModel=FluidRenderHelper.getFluidModel(state.input);
 			int inColor = FluidRenderHelper.getFluidColor(inModel, state.input);
 			float alp = 1f;

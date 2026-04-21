@@ -75,7 +75,7 @@ public class FluidRenderHelper {
 			AbstractTexture spriteTexture = Minecraft.getInstance().getTextureManager().getTexture(sprite.atlasLocation());
 			GpuTextureView texture = spriteTexture.getTextureView();
 			transform.submitGuiElementRenderState(new TiledBlitRenderState(
-				RenderPipelines.GUI,
+				RenderPipelines.GUI_TEXTURED,
                     TextureSetup.singleTexture(texture, spriteTexture.getSampler()),
                     new Matrix3x2f(transform.pose()),
                     16,16,
