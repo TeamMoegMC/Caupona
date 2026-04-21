@@ -80,6 +80,7 @@ runs {
         // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
         modSource project.sourceSets.client
         modSource project.sourceSets.main
+        //jvmArguments '-Xdebug','-Xrunjdwp:transport=dt_socket,server=n,suspend=y,address=127.0.0.1:8098'
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
     }
 

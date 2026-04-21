@@ -6,8 +6,7 @@
   "refmap": "caupona.refmap.json",
   "mixins": [
 	"LivingEntityMixin",
-	"RecipeManagerMixin",
-	"ClientboundGameEventPacketMixin"
+	"RecipeManagerMixin"
   ],
   "client": ["SmokerBlockMixin"],
   "injectors": {

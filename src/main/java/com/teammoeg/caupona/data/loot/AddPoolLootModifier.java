@@ -23,6 +23,7 @@ package com.teammoeg.caupona.data.loot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -49,8 +50,8 @@ public class AddPoolLootModifier extends LootModifier{
 		.and(Codec.either(ResourceKey.codec(Registries.LOOT_TABLE), LootTable.DIRECT_CODEC).fieldOf("loot_table").forGetter(o->o.lootTable))
 		.apply(inst, AddPoolLootModifier::new));
 	Either<ResourceKey<LootTable>, LootTable> lootTable;
-	protected AddPoolLootModifier(LootItemCondition[] conditionsIn,Either<ResourceKey<LootTable>, LootTable> table) {
-		super(conditionsIn);
+	protected AddPoolLootModifier(LootItemCondition[] conditionsIn,Integer priority,Either<ResourceKey<LootTable>, LootTable> table) {
+		super(conditionsIn, priority);
 		this.lootTable=table;
 	}
 
@@ -76,6 +77,7 @@ public class AddPoolLootModifier extends LootModifier{
 	}
 	public static class Builder{
 		List<LootItemCondition> cond=new ArrayList<>();
+		int priority;
 		Identifier table;
 		Builder(Identifier table) {
 			super();
@@ -85,8 +87,12 @@ public class AddPoolLootModifier extends LootModifier{
 			cond.add(builder.build());
 			return this;
 		}
+		public Builder priority(int priority) {
+			this.priority=priority;
+			return this;
+		}
 		public AddPoolLootModifier build() {
-			return new AddPoolLootModifier(cond.toArray(LootItemCondition[]::new),Either.left(ResourceKey.create(Registries.LOOT_TABLE, table)));
+			return new AddPoolLootModifier(cond.toArray(LootItemCondition[]::new),priority,Either.left(ResourceKey.create(Registries.LOOT_TABLE, table)));
 		}
 	}
 }
