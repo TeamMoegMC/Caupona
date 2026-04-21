@@ -1,0 +1,11 @@
+{
+  "type": "caupona:add_table",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/stronghold_corridor"
+    }
+  ],
+  "loot_table": "caupona:asses",
+  "priority": 0
+}

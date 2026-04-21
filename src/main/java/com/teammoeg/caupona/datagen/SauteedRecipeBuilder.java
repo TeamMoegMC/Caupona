@@ -33,6 +33,7 @@ import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public class SauteedRecipeBuilder {
@@ -41,19 +42,21 @@ public class SauteedRecipeBuilder {
 	private List<IngredientCondition> deny = new ArrayList<>();
 	private int priority = 0;
 	private int time = 200;
-	private Item output;
+	private ItemStackTemplate output;
 	private Identifier id;
 	private boolean removeNBT=false;
 	private float per=2;
 	private Identifier model;
-	public SauteedRecipeBuilder(Identifier id, Item out,Identifier model) {
+	public SauteedRecipeBuilder(Identifier id, ItemStackTemplate out,Identifier model) {
 		output = out;
 		this.id = id;
 		this.model=model;
 	}
-
 	public static SauteedRecipeBuilder start(Identifier model, Item out) {
-		return new SauteedRecipeBuilder(Identifier.fromNamespaceAndPath(CPMain.MODID, "frying/" + Utils.getRegistryName(out).getPath()),
+		return start(model,new ItemStackTemplate(out));
+	}
+	public static SauteedRecipeBuilder start(Identifier model, ItemStackTemplate out) {
+		return new SauteedRecipeBuilder(Identifier.fromNamespaceAndPath(CPMain.MODID, "frying/" + out.item().getKey().identifier().getPath()),
 				out,model);
 	}
 

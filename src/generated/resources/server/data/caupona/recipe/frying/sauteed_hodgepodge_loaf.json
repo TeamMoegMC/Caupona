@@ -1,0 +1,14 @@
+{
+  "type": "caupona:frying",
+  "allow": [],
+  "bowl": "caupona:loaf_bowl",
+  "deny": [],
+  "ingredientPerDish": 2.0,
+  "model": "caupona:block/dynamic/sauteed_hodgepodge",
+  "output": {
+    "id": "caupona:sauteed_hodgepodge_loaf"
+  },
+  "priority": 0,
+  "removeNBT": false,
+  "time": 200
+}

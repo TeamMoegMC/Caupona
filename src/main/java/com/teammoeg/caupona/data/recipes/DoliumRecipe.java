@@ -45,6 +45,7 @@ import com.teammoeg.caupona.util.Utils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -80,16 +81,16 @@ public class DoliumRecipe extends IDataRecipe{
 	public SizedOrCatalystFluidIngredient fluid ;
 	public float density = 0;
 	public boolean keepInfo = false;
-	public ItemStack output;
+	public ItemStackTemplate output;
 	public int time;
 
 	public DoliumRecipe(Fluid base, Fluid fluid, int amount, float density,
-			boolean keep, ItemStack out, List<SizedOrCatalystIngredient> items, int time) {
+			boolean keep, ItemStackTemplate out, List<SizedOrCatalystIngredient> items, int time) {
 		this( base, fluid, amount, density, keep, out, items, null,time);
 	}
 
 	public DoliumRecipe(List<SizedOrCatalystIngredient> items, Optional<Ingredient> extra, Optional<Fluid> base, Optional<SizedOrCatalystFluidIngredient> fluid,
-			 float density, boolean keepInfo, ItemStack output,int time) {
+			 float density, boolean keepInfo, ItemStackTemplate output,int time) {
 		super();
 		this.items = items;
 		this.extra = extra.orElse(null);
@@ -102,7 +103,7 @@ public class DoliumRecipe extends IDataRecipe{
 	}
 
 	public DoliumRecipe(Fluid base, Fluid fluid, int amount, float density,
-			boolean keep, ItemStack out, Collection<SizedOrCatalystIngredient> items, Ingredient ext,int time) {
+			boolean keep, ItemStackTemplate out, Collection<SizedOrCatalystIngredient> items, Ingredient ext,int time) {
 		if (items != null)
 			this.items = new ArrayList<>(items);
 		else
@@ -125,7 +126,7 @@ public class DoliumRecipe extends IDataRecipe{
 					SizedOrCatalystFluidIngredient.NESTED_CODEC.optionalFieldOf("fluid").forGetter(o->Optional.ofNullable(o.fluid)),
 					Codec.FLOAT.fieldOf("density").forGetter(o->o.density),
 					Codec.BOOL.fieldOf("keepInfo").forGetter(o->o.keepInfo),
-					ItemStack.CODEC.fieldOf("output").forGetter(o->o.output),
+					ItemStackTemplate.CODEC.fieldOf("output").forGetter(o->o.output),
 					Codec.INT.optionalFieldOf("time", 1200).forGetter(o->o.time)
 					).apply(t, DoliumRecipe::new));
 
@@ -201,16 +202,16 @@ public class DoliumRecipe extends IDataRecipe{
 			int times = 1;
 			if (fluid.amount() > 0)
 				times = f.getAmountAsInt(0) / fluid.amount();
-			times=Math.min(times, (output.getCount()+inv.getAmountAsInt(outSlot))/inv.getCapacityAsInt(outSlot, ItemResource.of(output)));
+			times=Math.min(times, (output.count()+inv.getAmountAsInt(outSlot))/inv.getCapacityAsInt(outSlot, ItemResource.of(output)));
 			
-			ItemStack out = output.copy();
+			ItemStack out = output.create();
 			FluidResource fs=f.getResource(0);
 			if (keepInfo) {
 				StewInfo info = Utils.getOrCreateInfoForRead(fs);
 				Utils.setInfo(out, info);
 			}
 			if(f.extract(fs, times * fluid.amount(), child)==times * fluid.amount()) {
-				if(inv.insert(ItemResource.of(out), output.getCount() * times, child)==output.getCount() * times) {
+				if(inv.insert(ItemResource.of(out), output.count() * times, child)==output.count() * times) {
 					child.commit();
 					return RecipeHandleStatus.SUCCEED;
 				}else {
@@ -228,7 +229,7 @@ public class DoliumRecipe extends IDataRecipe{
 				times = Math.min(f.getAmountAsInt(0) / fluid.amount(), times);
 			if (extra != null)
 				times = Math.min(times, inv.getAmountAsInt(4));
-			times=Math.min(times, (output.getCount()+inv.getAmountAsInt(5))/inv.getCapacityAsInt(5, ItemResource.of(output)));
+			times=Math.min(times, (output.count()+inv.getAmountAsInt(5))/inv.getCapacityAsInt(5, ItemResource.of(output)));
 			for (SizedOrCatalystIngredient igd : items) {
 				if (igd.count() == 0)
 					continue;
@@ -249,14 +250,14 @@ public class DoliumRecipe extends IDataRecipe{
 					return RecipeHandleStatus.FAILED;
 			}
 			FluidResource fr=f.getResource(0);
-			ItemStack out = output.copy();
+			ItemStack out = output.create();
 			if (keepInfo) {
 				StewInfo info = Utils.getOrCreateInfoForRead(fr);
 				Utils.setInfo(out, info);
 			}
 			if (fluid!=null&&fluid.amount() > 0)
 				if(f.extract(fr, times * fluid.amount(), child)==times * fluid.amount()) {
-					if(inv.insert(5,ItemResource.of(out), output.getCount() * times, child)==output.getCount() * times) {
+					if(inv.insert(5,ItemResource.of(out), output.count() * times, child)==output.count() * times) {
 						child.commit();
 						return RecipeHandleStatus.SUCCEED;
 					}else {

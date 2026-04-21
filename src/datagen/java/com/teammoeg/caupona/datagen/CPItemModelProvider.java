@@ -23,16 +23,22 @@ package com.teammoeg.caupona.datagen;
 
 import java.util.function.BiConsumer;
 
+import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.util.FoodMaterialInfo;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ItemModelOutput;
+import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelInstance;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.renderer.item.ItemModel.Unbaked;
+import net.minecraft.client.renderer.item.properties.select.ComponentContents;
 import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
@@ -72,19 +78,19 @@ public class CPItemModelProvider extends ItemModelGenerators {
 		simpleTexture("water_or_stock_based", "bases/");
 		texture("book", "vade_mecum_for_innkeepers");
 		texture(CPItems.clay_pot.get(), "clay_stew_pot");
-		texture("culinary_heat_haze");
+		//texture("culinary_heat_haze");
 		texture("soot");
 		texture("portable_brazier");
 		texture("walnut_boat");
 		texture("chronoconis");
-		texture("silphium");
 		texture("situla");
 		texture("snail_block","snail_roe");
 		texture("redstone_ladle");
 		texture("bamboo_skimmer");
 		texture("iron_skimmer");
 		texture("scraps");
-		texture("walnut_hanging_sign");
+		texture("walnut_door");
+		texture("walnut_sign");
 		//itemModel(CPBlocks.SILPHIUM.get().asItem(),"silphium").transforms().transform(ItemDisplayContext.GUI).scale(0.5f).rotation(0, 45, 0).translation(0, -4, 0).end().end();
 		/*System.out.println(new File("").getAbsolutePath());
 		try {
@@ -110,27 +116,46 @@ public class CPItemModelProvider extends ItemModelGenerators {
 		for (String s : CPItems.dishes) {
 			simpleTexture(s, "sauteed_dishes/");
 			//simpleTexture(s+"_loaf", "bread_bowls/");
-		}/*
+		}
+		this.itemModelOutput.accept(CPItems.gravy_boat.get(),
+		ItemModelUtils.select(new ComponentContents<>(DataComponents.DAMAGE),plain("oil_bottle"),
+			ItemModelUtils.when(4, plain("walnut_oil_4")),
+			ItemModelUtils.when(3, plain("walnut_oil_3")),
+			ItemModelUtils.when(2, plain("walnut_oil_2")),
+			ItemModelUtils.when(1, plain("walnut_oil_1")),
+			ItemModelUtils.when(0, plain("walnut_oil_0"))));
+		/*
 		texture("gravy_boat", "walnut_oil_0").override().predicate(Identifier.withDefaultNamespace("damaged"), 1)
-				.predicate(Identifier.withDefaultNamespace("damage"), 0.2f).model(texture("walnut_oil_1")).end().override()
+				.predicate(Identifier.withDefaultNamespace("damage"), 0.2f).model(texture("")).end().override()
 				.predicate(Identifier.withDefaultNamespace("damaged"), 1).predicate(Identifier.withDefaultNamespace("damage"), 0.4f)
-				.model(texture("walnut_oil_2")).end().override().predicate(Identifier.withDefaultNamespace("damaged"), 1)
-				.predicate(Identifier.withDefaultNamespace("damage"), 0.6f).model(texture("walnut_oil_3")).end().override()
+				.model(texture("")).end().override().predicate(Identifier.withDefaultNamespace("damaged"), 1)
+				.predicate(Identifier.withDefaultNamespace("damage"), 0.6f).model(texture("")).end().override()
 				.predicate(Identifier.withDefaultNamespace("damaged"), 1).predicate(Identifier.withDefaultNamespace("damage"), 0.8f)
-				.model(texture("walnut_oil_4")).end().override().predicate(Identifier.withDefaultNamespace("damaged"), 1)
+				.model(texture("")).end().override().predicate(Identifier.withDefaultNamespace("damaged"), 1)
 				.predicate(Identifier.withDefaultNamespace("damage"), 1f).model(texture("oil_bottle")).end();*/
 	}
 
 	public void simpleTexture(String name, String par) {
-		ModelTemplates.FLAT_ITEM.create(CPMain.rl("item/" + name),new TextureMapping().put(TextureSlot.LAYER0, new Material(CPMain.rl("item/" + par + name),false)), this.modelOutput);
+		this.itemModelOutput.accept(BuiltInRegistries.ITEM.getValue(CPMain.rl(name)),
+		ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(CPMain.rl("item/" + name),new TextureMapping().put(TextureSlot.LAYER0, new Material(CPMain.rl("item/" + par + name),false)), this.modelOutput))
+		);
 
 	}
+	public Unbaked plain(String name) {
+		return plain(name,"");
+	}
+	public Unbaked plain(String name, String par) {
+		return ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(CPMain.rl("item/" + name),new TextureMapping().put(TextureSlot.LAYER0, new Material(CPMain.rl("item/" + par + name),false)), this.modelOutput))
+		;
 
+	}
 	public void texture(String name) {
 		texture(name, name);
 	}
 	public void texture(Item name, String par) {
-		createFlatItemModel(name,ModelTemplates.FLAT_ITEM);
+		this.itemModelOutput.accept(name,
+			ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(name), TextureMapping.layer0(new Material(Identifier.fromNamespaceAndPath(CPMain.MODID, "item/"+par))), this.modelOutput)
+				));
 	}
 	public void texture(String name, String par) {
 		texture(BuiltInRegistries.ITEM.getValue(CPMain.rl(name)),par);

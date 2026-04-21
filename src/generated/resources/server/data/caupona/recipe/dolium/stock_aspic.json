@@ -1,0 +1,14 @@
+{
+  "type": "caupona:dolium",
+  "density": 0.25,
+  "fluid": {
+    "amount": 250,
+    "ingredient": "caupona:stock"
+  },
+  "items": [],
+  "keepInfo": true,
+  "output": {
+    "id": "caupona:stock_aspic"
+  },
+  "time": 12000
+}

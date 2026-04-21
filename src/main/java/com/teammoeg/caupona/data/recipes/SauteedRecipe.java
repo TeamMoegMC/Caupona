@@ -38,6 +38,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -48,7 +49,7 @@ import net.neoforged.neoforge.transfer.item.ItemResource;
 public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 
 
-	public SauteedRecipe(List<IngredientCondition> allow, List<IngredientCondition> deny, int priority, int time, Item output, boolean removeNBT, float count, Ingredient bowl, Identifier model) {
+	public SauteedRecipe(List<IngredientCondition> allow, List<IngredientCondition> deny, int priority, int time, ItemStackTemplate output, boolean removeNBT, float count, Ingredient bowl, Identifier model) {
 		super();
 		this.allow = allow;
 		this.deny = deny;
@@ -93,7 +94,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 	List<IngredientCondition> deny;
 	int priority = 0;
 	public int time;
-	public Item output;
+	public ItemStackTemplate output;
 	public boolean removeNBT=false;
 	public float count=2f;
 	public Ingredient bowl;
@@ -104,7 +105,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 			Codec.list(Conditions.CODEC).optionalFieldOf("deny").forGetter(o->Optional.ofNullable(o.deny)),
 			Codec.INT.fieldOf("priority").forGetter(o->o.priority),
 			Codec.INT.fieldOf("time").forGetter(o->o.time),
-			BuiltInRegistries.ITEM.byNameCodec().fieldOf("output").forGetter(o->o.output),
+			ItemStackTemplate.CODEC.fieldOf("output").forGetter(o->o.output),
 			Codec.BOOL.fieldOf("removeNBT").forGetter(o->o.removeNBT),
 			Codec.FLOAT.fieldOf("ingredientPerDish").forGetter(o->o.count),
 			Ingredient.CODEC.fieldOf("bowl").forGetter(o->o.bowl),
@@ -122,7 +123,7 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 		count=data.readFloat();
 	}*/
 	public SauteedRecipe(Optional<List<IngredientCondition>> allow, Optional<List<IngredientCondition>> deny,
-			int priority, int time, Item output,boolean removeNBT,float count,Ingredient bowl,Identifier model) {
+			int priority, int time, ItemStackTemplate output,boolean removeNBT,float count,Ingredient bowl,Identifier model) {
 		this.allow = allow.orElse(null);
 		this.deny = deny.orElse(null);
 		this.priority = priority;

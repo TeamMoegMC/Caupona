@@ -1,0 +1,24 @@
+{
+  "type": "caupona:dolium",
+  "density": 0.0,
+  "fluid": {
+    "amount": 250,
+    "ingredient": "minecraft:lava"
+  },
+  "items": [
+    {
+      "count": 3,
+      "ingredient": "#minecraft:coals"
+    },
+    {
+      "count": 1,
+      "ingredient": "minecraft:slime_ball"
+    }
+  ],
+  "keepInfo": false,
+  "output": {
+    "count": 8,
+    "id": "caupona:vivid_charcoal"
+  },
+  "time": 6000
+}

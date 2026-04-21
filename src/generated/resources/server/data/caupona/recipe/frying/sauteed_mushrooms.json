@@ -1,0 +1,22 @@
+{
+  "type": "caupona:frying",
+  "allow": [
+    {
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:mushroom"
+      }
+    }
+  ],
+  "bowl": "minecraft:bowl",
+  "deny": [],
+  "ingredientPerDish": 2.0,
+  "model": "caupona:block/dynamic/sauteed_mushrooms",
+  "output": {
+    "id": "caupona:sauteed_mushrooms"
+  },
+  "priority": 128,
+  "removeNBT": false,
+  "time": 200
+}

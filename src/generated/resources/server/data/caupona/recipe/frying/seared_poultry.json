@@ -1,0 +1,22 @@
+{
+  "type": "caupona:frying",
+  "allow": [
+    {
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:meats/poultry"
+      }
+    }
+  ],
+  "bowl": "minecraft:bowl",
+  "deny": [],
+  "ingredientPerDish": 2.0,
+  "model": "caupona:block/dynamic/seared_poultry",
+  "output": {
+    "id": "caupona:seared_poultry"
+  },
+  "priority": 128,
+  "removeNBT": false,
+  "time": 200
+}

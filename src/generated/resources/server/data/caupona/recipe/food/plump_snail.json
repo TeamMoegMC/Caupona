@@ -1,0 +1,14 @@
+{
+  "type": "caupona:food",
+  "heal": 5,
+  "item": {
+    "id": "caupona:plump_snail"
+  },
+  "items": [
+    {
+      "item": "caupona:plump_snail",
+      "time": 0
+    }
+  ],
+  "sat": 8.0
+}

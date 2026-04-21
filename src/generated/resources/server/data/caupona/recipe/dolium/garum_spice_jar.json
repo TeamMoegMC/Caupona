@@ -1,0 +1,16 @@
+{
+  "type": "caupona:dolium",
+  "container": "minecraft:flower_pot",
+  "density": 0.0,
+  "items": [
+    {
+      "count": 4,
+      "ingredient": "#caupona:garum_fish"
+    }
+  ],
+  "keepInfo": false,
+  "output": {
+    "id": "caupona:garum_spice_jar"
+  },
+  "time": 6000
+}

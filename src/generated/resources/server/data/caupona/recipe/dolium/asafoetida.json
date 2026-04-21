@@ -1,0 +1,19 @@
+{
+  "type": "caupona:dolium",
+  "density": 0.0,
+  "items": [
+    {
+      "count": 1,
+      "ingredient": "caupona:silphium"
+    },
+    {
+      "count": 0,
+      "ingredient": "#minecraft:anvil"
+    }
+  ],
+  "keepInfo": false,
+  "output": {
+    "id": "caupona:asafoetida"
+  },
+  "time": 6000
+}

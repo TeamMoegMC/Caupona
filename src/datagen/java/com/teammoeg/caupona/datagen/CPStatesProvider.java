@@ -31,8 +31,12 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
+import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.mojang.math.Transformation;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.CPMain;
@@ -54,13 +58,17 @@ import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator.Empty;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
+import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelInstance;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplate;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.block.dispatch.Variant;
+import net.minecraft.client.renderer.block.dispatch.VariantMutator;
+import net.minecraft.client.renderer.item.CuboidItemModelWrapper;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -73,7 +81,9 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -85,82 +95,84 @@ import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType;
+
 public class CPStatesProvider extends BlockModelGenerators {
 	protected static final List<Vec3i> COLUMN_THREE = ImmutableList.of(BlockPos.ZERO, BlockPos.ZERO.above(),
 		BlockPos.ZERO.above(2));
 	protected static final Map<Identifier, String> generatedParticleTextures = new HashMap<>();
 	String modid;
 	ResourceManager input;
-	public CPStatesProvider(ResourceManager input,Consumer<BlockModelDefinitionGenerator> blockStateOutput, ItemModelOutput itemModelOutput, BiConsumer<Identifier, ModelInstance> modelOutput, String modid) {
+
+	public CPStatesProvider(ResourceManager input, Consumer<BlockModelDefinitionGenerator> blockStateOutput, ItemModelOutput itemModelOutput, BiConsumer<Identifier, ModelInstance> modelOutput,
+		String modid) {
 		super(blockStateOutput, itemModelOutput, modelOutput);
 		this.modid = modid;
-		this.input=input;
+		this.input = input;
 	}
 
 	@Override
-	protected void registerStatesAndModels() {
+	public void run() {
 		horizontalAxisBlock(CPBlocks.STEW_POT.get(), bmf("stew_pot"));
 		horizontalAxisBlock(CPBlocks.STEW_POT_LEAD.get(), bmf("lead_stew_pot"));
 		this.blockStateOutput.accept(horizontalMultipart(this.getMultipartBuilder(CPBlocks.T_BENCH.get()), bmf("tessellation_workbench")));
 		blockItemModel("tessellation_workbench");
 		CPBlocks.stoves.forEach(e -> stove(e.get()));
-		itemModels().basicItem(CPBlocks.STEW_POT.get().asItem());
-		itemModels().basicItem(CPBlocks.STEW_POT_LEAD.get().asItem());
+		blockItemModel(CPBlocks.STEW_POT.get(),CPBlocks.STEW_POT.getId());
+		blockItemModel(CPBlocks.STEW_POT_LEAD.get(),CPBlocks.STEW_POT_LEAD.getId());
 		this.blockStateOutput.accept(createSimpleBlock(CPBlocks.BOWL.get(), bmf("bowl_of_liquid")));
 		this.blockStateOutput.accept(this.horizontalMultipart(this.getMultipartBuilder(CPBlocks.KITCHEN_RAIL.get()), bmf("kitchen_rail")));
 		blockItemModel("kitchen_rail");
 		this.blockStateOutput.accept(createSimpleBlock(CPBlocks.SNAIL_BAIT.get(), createRotatedVariants(bmfs("snail_bait"))));
 		this.blockStateOutput.accept(
-		this.getVariantBuilder(CPBlocks.SNAIL.get()).with(PropertyDispatch.initial(FruitBlock.AGE)
-			.select(0, super.createRotatedVariants(bmfs("snail_stage_1")))
-			.select(1, super.createRotatedVariants(bmfs("snail_stage_2")))
-			.select(2, super.createRotatedVariants(bmfs("snail_stage_3")))
-			.select(3, super.createRotatedVariants(bmfs("snail_stage_4")))
-			.select(4, super.createRotatedVariants(bmfs("snail_stage_5")))
-			.select(5, super.createRotatedVariants(bmfs("snail_stage_5")))
-			.select(6, super.createRotatedVariants(bmfs("snail_stage_5")))
-			.select(7, super.createRotatedVariants(bmfs("snail_stage_5")))
-			));
+			this.getVariantBuilder(CPBlocks.SNAIL.get()).with(PropertyDispatch.initial(FruitBlock.AGE)
+				.select(0, super.createRotatedVariants(bmfs("snail_stage_1")))
+				.select(1, super.createRotatedVariants(bmfs("snail_stage_2")))
+				.select(2, super.createRotatedVariants(bmfs("snail_stage_3")))
+				.select(3, super.createRotatedVariants(bmfs("snail_stage_4")))
+				.select(4, super.createRotatedVariants(bmfs("snail_stage_5")))
+				.select(5, super.createRotatedVariants(bmfs("snail_stage_5")))
+				.select(6, super.createRotatedVariants(bmfs("snail_stage_5")))
+				.select(7, super.createRotatedVariants(bmfs("snail_stage_5")))));
 		this.blockStateOutput.accept(
-		this.getVariantBuilder(CPBlocks.LOAF_DOUGH.get())
-		.with(PropertyDispatch.initial(SlabBlock.TYPE)
-			.select(SlabType.TOP, bmf("loaf_dough_top"))
-			.select(SlabType.BOTTOM, bmf("loaf_dough_bottom"))
-			.select(SlabType.DOUBLE, bmf("loaf_dough_top_bottom"))
-			));
-		blockItemModel(CPBlocks.LOAF_DOUGH, bmf("loaf_dough"));
+			this.getVariantBuilder(CPBlocks.LOAF_DOUGH.get())
+				.with(PropertyDispatch.initial(SlabBlock.TYPE)
+					.select(SlabType.TOP, bmf("loaf_dough_top"))
+					.select(SlabType.BOTTOM, bmf("loaf_dough_bottom"))
+					.select(SlabType.DOUBLE, bmf("loaf_dough_top_bottom"))));
+		//blockItemModel(CPBlocks.LOAF_DOUGH.get(), CPMain.rl("loaf_dough"));
 		this.blockStateOutput.accept(
-		this.getVariantBuilder(CPBlocks.LOAF.get())
-		.with(PropertyDispatch.initial(SlabBlock.TYPE)
-			.select(SlabType.TOP, bmf("loaf_top"))
-			.select(SlabType.BOTTOM, bmf("loaf_bottom"))
-			.select(SlabType.DOUBLE, bmf("loaf_top_bottom"))
-			));
-		blockItemModel(CPBlocks.LOAF, bmf("loaf"));
-		TextureSlot[] slots= new TextureSlot[]{TextureSlot.create("0"),TextureSlot.create("1")};
-		ModelTemplate[] models=new ModelTemplate[] {
-			new ModelTemplate(Optional.of(Identifier.fromNamespaceAndPath(CPMain.MODID, "block/template_mosaic_tile_0" )),Optional.empty(),slots[0],TextureSlot.PARTICLE),
-			new ModelTemplate(Optional.of(Identifier.fromNamespaceAndPath(CPMain.MODID, "block/template_mosaic_tile_1" )),Optional.empty(),slots[1],TextureSlot.PARTICLE)
+			this.getVariantBuilder(CPBlocks.LOAF.get())
+				.with(PropertyDispatch.initial(SlabBlock.TYPE)
+					.select(SlabType.TOP, bmf("loaf_top"))
+					.select(SlabType.BOTTOM, bmf("loaf_bottom"))
+					.select(SlabType.DOUBLE, bmf("loaf_top_bottom"))));
+		//blockItemModel(CPBlocks.LOAF.get(), CPMain.rl("loaf"));
+		TextureSlot[] slots = new TextureSlot[] { TextureSlot.create("0"), TextureSlot.create("1") };
+		ModelTemplate[] models = new ModelTemplate[] {
+			new ModelTemplate(Optional.of(Identifier.fromNamespaceAndPath(CPMain.MODID, "block/template_mosaic_tile_0")), Optional.empty(), slots[0], TextureSlot.PARTICLE),
+			new ModelTemplate(Optional.of(Identifier.fromNamespaceAndPath(CPMain.MODID, "block/template_mosaic_tile_1")), Optional.empty(), slots[1], TextureSlot.PARTICLE)
 		};
 		MultiPartGenerator mosaic = this.getMultipartBuilder(CPBlocks.MOSAIC.get());
 		for (MosaicMaterial m : MosaicMaterial.values())
 			for (MosaicPattern p : MosaicPattern.values())
 				for (int i : new int[] { 0, 1 }) {
-					Material mat=new Material(Identifier.fromNamespaceAndPath(CPMain.MODID, "block/mosaic/components/mosaic_" + p + "_" + m.shortName + "_" + i));
-					TextureMapping tm=new TextureMapping().put(slots[i], mat)
-					.put(TextureSlot.PARTICLE, mat);
+					Material mat = new Material(Identifier.fromNamespaceAndPath(CPMain.MODID, "block/mosaic/components/mosaic_" + p + "_" + m.shortName + "_" + i));
+					TextureMapping tm = new TextureMapping().put(slots[i], mat)
+						.put(TextureSlot.PARTICLE, mat);
 					;
-					mosaic=this.horizontalMultipart(mosaic,bmf(models[i].create(Identifier.fromNamespaceAndPath(CPMain.MODID, "block/mosaic/mosaic_" + p + "_" + m.shortName + "_" + i), null, modelOutput)), b -> b.term(MosaicBlock.MATERIAL[i], m).term(MosaicBlock.PATTERN, p));
+					mosaic = this.horizontalMultipart(mosaic,
+						bmf(models[i].create(Identifier.fromNamespaceAndPath(CPMain.MODID, "block/mosaic/mosaic_" + p + "_" + m.shortName + "_" + i), tm, modelOutput)),
+						b -> b.term(MosaicBlock.MATERIAL[i], m).term(MosaicBlock.PATTERN, p));
 				}
 		this.blockStateOutput.accept(mosaic);
 
-		for(String s:CPItems.dishes) {
+		for (String s : CPItems.dishes) {
 			this.blockStateOutput.accept(this.getMultipartBuilder(cpblock(s))
-			.with(bmf("dish"))
-			.with(bmf("plate_dishes/"+s)));
-			this.blockStateOutput.accept(this.getMultipartBuilder(cpblock(s+"_loaf"))
-			.with(bmf("bread_bowl"))
-			.with(bmf("bread_bowl_dishes/"+s)));
+				.with(bmf("dish"))
+				.with(bmf("plate_dishes/" + s)));
+			this.blockStateOutput.accept(this.getMultipartBuilder(cpblock(s + "_loaf"))
+				.with(bmf("bread_bowl"))
+				.with(bmf("bread_bowl_dishes/" + s)));
 		}
 		// itemModels().getBuilder("mosaic").parent(new
 		// UncheckedModelFile(Identifier.fromNamespaceAndPath("builtin/entity")));
@@ -190,19 +202,14 @@ public class CPStatesProvider extends BlockModelGenerators {
 					"_column_plinth", "_ionic_column_capital", "_tuscan_column_capital",
 					"_acanthine_column_capital"))
 					blockItemModel(stone + type);
-				simpleBlockItem(cpblock(stone + "_lacunar_tile"), bmf(stone + "_lacunar_tile"));
-				itemModel(cpblock(stone + "_spoked_fence"), bmf(stone + "_spoked_fence_inventory"));
-				this.getMultipartBuilder(cpblock(stone + "_spoked_fence"))
-					.part().modelFile(bmf(stone + "_spoked_fence_side")).rotationY(270)
-					.addModel().condition(SpokedFenceBlock.WEST_WALL, true).end()
-					.part().modelFile(bmf(stone + "_spoked_fence_side")).rotationY(0)
-					.addModel().condition(SpokedFenceBlock.NORTH_WALL, true).end()
-					.part().modelFile(bmf(stone + "_spoked_fence_side")).rotationY(90)
-					.addModel().condition(SpokedFenceBlock.EAST_WALL, true).end()
-					.part().modelFile(bmf(stone + "_spoked_fence_side")).rotationY(180)
-					.addModel().condition(SpokedFenceBlock.SOUTH_WALL, true).end()
-					.part().modelFile(bmf(stone + "_spoked_fence_post"))
-					.addModel().end();
+				simpleBlockItem(cpblock(stone + "_lacunar_tile"), CPMain.rl(stone + "_lacunar_tile"));
+				blockItemModel(stone + "_spoked_fence", "_inventory");
+				this.blockStateOutput.accept(this.getMultipartBuilder(cpblock(stone + "_spoked_fence"))
+					.with(condition(SpokedFenceBlock.WEST_WALL, true), bmf(stone + "_spoked_fence_side").with(Y_ROT_270))
+					.with(condition(SpokedFenceBlock.NORTH_WALL, true), bmf(stone + "_spoked_fence_side"))
+					.with(condition(SpokedFenceBlock.EAST_WALL, true), bmf(stone + "_spoked_fence_side").with(Y_ROT_90))
+					.with(condition(SpokedFenceBlock.SOUTH_WALL, true), bmf(stone + "_spoked_fence_side").with(Y_ROT_180)));
+
 			}
 			if (rtype.isHypocaustMaterial()) {
 				blockItemModel(stone + "_hypocaust_firebox");
@@ -213,13 +220,14 @@ public class CPStatesProvider extends BlockModelGenerators {
 
 			}
 		}
-		MultiPartBlockStateBuilder boat = horizontalMultipart(this.getMultipartBuilder(CPBlocks.GRAVY_BOAT.get()),
+		MultiPartGenerator boat = horizontalMultipart(this.getMultipartBuilder(CPBlocks.GRAVY_BOAT.get()),
 			bmf("gravy_boat"));
 		int i = 0;
 		for (String s : ImmutableSet.of("_oil_0", "_oil_1", "_oil_2", "_oil_3", "_oil_4")) {
 			int j = i++;
-			boat = horizontalMultipart(boat, bmf("gravy_boat" + s), c -> c.condition(GravyBoatBlock.LEVEL, j));
+			boat = horizontalMultipart(boat, bmf("gravy_boat" + s), c -> c.term(GravyBoatBlock.LEVEL, j));
 		}
+		this.blockStateOutput.accept(boat);
 		for (String wood : CPBlocks.woods) {
 			for (String type : ImmutableSet.of(
 
@@ -227,16 +235,20 @@ public class CPStatesProvider extends BlockModelGenerators {
 				blockItemModel(wood + type);
 			blockItemModel(wood + "_fence", "_inventory");
 			blockItemModel(wood + "_button", "_inventory");
-			blockItemModelBuilder(wood + "_fruits", "_stage_3").transforms().transform(ItemDisplayContext.GUI).scale(1f)
-				.rotation(0, 0.1f, 0).translation(0, 0, 0).end().end();
+			this.itemModelOutput.accept(cpblock(wood + "_fruits").asItem(),
+				new CuboidItemModelWrapper.Unbaked(CPMain.rl("block/"+wood + "_fruits_stage_3"), Optional.of(
+					new Transformation(new Matrix4f().scale(1f).rotationY(Mth.DEG_TO_RAD * 0.1f).translation(0, 0, 0))), List.of()));
 
 			blockItemModel("stripped_" + wood + "_log");
 			blockItemModel("stripped_" + wood + "_wood");
-	        super.models().sign(wood+"_hanging_sign",modLoc("block/"+wood+"_planks"));
-	        super.models().sign(wood+"_wall_hanging_sign",modLoc("block/"+wood+"_planks"));
+			this.createHangingSign(cpblock(wood + "_planks"), cpblock(wood + "_hanging_sign"), cpblock(wood + "_wall_hanging_sign"));
+
 			// blockItemModel(wood+"_trapdoor","_top")
 
 		}
+		this.itemModelOutput.accept(CPBlocks.MOSAIC.get().asItem(),
+			new CuboidItemModelWrapper.Unbaked(CPMain.rl("item/mosaic"), Optional.empty(), List.of()));
+
 		blockItemModel(Utils.getRegistryName(CPBlocks.STONE_PAN).getPath());
 		blockItemModel(Utils.getRegistryName(CPBlocks.COPPER_PAN).getPath());
 		blockItemModel(Utils.getRegistryName(CPBlocks.IRON_PAN).getPath());
@@ -252,119 +264,174 @@ public class CPStatesProvider extends BlockModelGenerators {
 		blockItemModel("lead_block");
 		blockItemModel("snail_bait");
 		blockItemModel("snail_mucus");
-		simpleBlock(CPBlocks.SNAIL_MUCUS.get(), bmf("snail_mucus"));
-		simpleBlock(CPBlocks.LEAD_BLOCK.get(), bmf("lead_block"));
-		simpleBlock(CPBlocks.LOAF_BOWL.get(),bmf("bread_bowl"));
+		blockItemModel(CPBlocks.SILPHIUM.get(),CPMain.rl("silphium"));
+		blockItemModel("walnut_trapdoor","_bottom");
+		this.blockStateOutput.accept(createSimpleBlock(CPBlocks.SNAIL_MUCUS.get(), bmf("snail_mucus")));
+		this.blockStateOutput.accept(createSimpleBlock(CPBlocks.LEAD_BLOCK.get(), bmf("lead_block")));
+		this.blockStateOutput.accept(createSimpleBlock(CPBlocks.LOAF_BOWL.getSecond().get(), bmf("bread_bowl")));
 		// itemModels().getBuilder("snail_block").parent(bmf("snail_stage_5")).transforms().transform(ItemDisplayContext.GUI).scale(1.5f).rotation(0,
 		// 45, 180).translation(0, 4, 0).end().end();
 
 		for (String bush : ImmutableSet.of("wolfberry", "fig")) {
 			blockItemModel(bush + "_log");
-			blockItemModelBuilder(bush + "_fruits", "_stage_3").transforms().transform(ItemDisplayContext.GUI).scale(1f)
-				.rotation(0, 45, 0).translation(0, 1, 0).end().end();
+			this.itemModelOutput.accept(cpblock(bush + "_fruits").asItem(),
+				new CuboidItemModelWrapper.Unbaked(CPMain.rl("block/"+bush + "_fruits_stage_3"), Optional.of(
+					new Transformation(new Matrix4f().scale(1f).rotationY(Mth.DEG_TO_RAD * 45).translation(0, 1, 0))), List.of()));
+
 			blockItemModel(bush + "_leaves");
 		}
 
 	}
+
 	protected Empty getVariantBuilder(Block blk) {
 		return MultiVariantGenerator.dispatch(blk);
 	}
 
 	public void roadBlock(String name) {
-
-		itemModels().getBuilder(name + "_road_side").parent(bmf("roads/" + name + "_road_side"));
 		
-		itemModels().getBuilder(name + "_road").parent(bmf("roads/" + name + "_road"));
-		getVariantBuilder(cpblock(name + "_road_side")).forAllStates(state -> {
-			Direction facing = state.getValue(StairBlock.FACING);
-			StairsShape shape = state.getValue(StairBlock.SHAPE);
-			int yRot = (int) facing.getClockWise().toYRot(); // Stairs model is rotated 90 degrees
-																// clockwise for some reason
-			if (shape == StairsShape.INNER_LEFT || shape == StairsShape.OUTER_LEFT) {
-				yRot += 270; // Left facing stairs are rotated 90 degrees clockwise
-			}
-			yRot %= 360;
-			Builder<?> builder = null;
-			String ext = shape == StairsShape.STRAIGHT ? "_side"
-				: shape == StairsShape.INNER_LEFT || shape == StairsShape.INNER_RIGHT ? "_outer_corner"
-					: "_inner_corner";
-			int i = 0;
-			while (true) {
-				Identifier rl = Identifier.fromNamespaceAndPath(this.modid, "block/roads/" + name + "_road" + ext + "_" + i);
-				if (!existingFileHelper.exists(rl, MODEL))
+
+		
+		this.blockStateOutput.accept
+		(getVariantBuilder(cpblock(name + "_road_side")).with(PropertyDispatch.initial(StairBlock.FACING, StairBlock.SHAPE)
+			.generate((facing, shape) -> {
+				int yRot = (int) facing.getClockWise().toYRot(); // Stairs model is rotated 90 degrees
+				// clockwise for some reason
+				if (shape == StairsShape.INNER_LEFT || shape == StairsShape.OUTER_LEFT) {
+					yRot += 270; // Left facing stairs are rotated 90 degrees clockwise
+				}
+				while (yRot < 0)
+					yRot += 360;
+				yRot %= 360;
+				String ext = shape == StairsShape.STRAIGHT ? "_side"
+					: shape == StairsShape.INNER_LEFT || shape == StairsShape.INNER_RIGHT ? "_outer_corner"
+						: "_inner_corner";
+				int i = 0;
+				List<Variant> variants = new ArrayList<>();
+				while (true) {
+					Identifier rl = Identifier.fromNamespaceAndPath(this.modid, "block/roads/" + name + "_road" + ext + "_" + i);
+					if (!existsFile(rl))
+						break;
+					variants.add(bmfs(rl));
+					i++;
+				}
+				VariantMutator vm = null;
+
+				switch (yRot) {
+				case 90:
+					vm = Y_ROT_90;
 					break;
-				if (builder == null)
-					builder = ConfiguredModel.builder();
+				case 180:
+					vm = Y_ROT_90;
+					break;
+				case 270:
+					vm = Y_ROT_90;
+					break;
+				}
+				if (vm == null)
+					return variants(variants.toArray(Variant[]::new));
 				else
-					builder = builder.nextModel();
-				builder = builder.modelFile(new ModelFile.ExistingModelFile(rl, existingFileHelper)).rotationY(yRot);
-				i++;
-
-			}
-			return builder.build();
-
-		});
-		Builder<?> builder = null;
+					return variants(variants.toArray(Variant[]::new)).with(vm);
+			})));
+		List<Variant> list = new ArrayList<>();
 		int i = 0;
 		while (true) {
 			Identifier rl = Identifier.fromNamespaceAndPath(this.modid, "block/roads/" + name + "_road_" + i);
-			if (!existingFileHelper.exists(rl, MODEL))
+			if (!existsFile(rl))
 				break;
 			i++;
-			if (builder == null)
-				builder = ConfiguredModel.builder();
-			else
-				builder = builder.nextModel();
-			builder = builder.modelFile(new ModelFile.ExistingModelFile(rl, existingFileHelper));
+			list.add(bmfs(rl));
 		}
-		this.getVariantBuilder(cpblock(name + "_road")).partialState().addModels(builder.build());
+		blockItemModel(cpblock(name + "_road"), CPMain.rl("roads/" + name + "_road"));
+		
+		this.blockStateOutput.accept(createSimpleBlock(cpblock(name + "_road"), variants(list.toArray(Variant[]::new))));
+		blockItemModel(cpblock(name + "_road_side"),  CPMain.rl("roads/" + name + "_road_side"));
 	}
 
 	private Block cpblock(String name) {
-		return BuiltInRegistries.BLOCK.get(Identifier.fromNamespaceAndPath(this.modid, name));
+		return BuiltInRegistries.BLOCK.getValue(Identifier.fromNamespaceAndPath(this.modid, name));
 	}
 
 	protected void blockItemModel(String n) {
 		blockItemModel(n, "");
 	}
+	public void simpleTexture(String name, String par) {
+		this.itemModelOutput.accept(BuiltInRegistries.ITEM.getValue(CPMain.rl(name)),
+		ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(CPMain.rl("item/" + name),new TextureMapping().put(TextureSlot.LAYER0, new Material(CPMain.rl("item/" + par + name),false)), this.modelOutput))
+		);
+
+	}
+	public void simpleTexture(Item item) {
+		this.itemModelOutput.accept(item,
+		ItemModelUtils.plainModel(this.createFlatItemModel(item))
+		);
+	}
+	public void texture(String name) {
+		texture(name, name);
+	}
+	public void texture(Item name, String par) {
+		this.itemModelOutput.accept(name,
+			ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(name), TextureMapping.layer0(new Material(Identifier.fromNamespaceAndPath(CPMain.MODID, "item/"+par))), this.modelOutput)
+				));
+	}
+	public void texture(String name, String par) {
+		texture(BuiltInRegistries.ITEM.getValue(CPMain.rl(name)),par);
+	}
 
 	protected void blockItemModel(String n, String p) {
-		if (this.existingFileHelper.exists(Identifier.fromNamespaceAndPath(CPMain.MODID, "textures/item/" + n + p + ".png"),
-			PackType.CLIENT_RESOURCES)) {
-			itemModels().basicItem(Identifier.fromNamespaceAndPath(CPMain.MODID, n));
+		if (existsFile(Identifier.fromNamespaceAndPath(CPMain.MODID, "textures/item/" + n + p + ".png"))) {
+
+			texture(n, n + p);
 		} else {
-			itemModels().getBuilder(n).parent(bmf(n + p));
+			blockItemModel(cpblock(n), CPMain.rl(n + p));
 		}
 	}
 
-	protected void blockItemModel(Holder<Block> n, ModelFile p) {
+	protected void blockItemModel(Block n, Identifier p) {
+		Identifier blockModelId=p.withPrefix("block/");
+		String name=p.getPath();
+		if(existsFile(blockModelId)) {
 
-		itemModels().getBuilder(n.getRegisteredName()).parent(p);
-	}
+			this.itemModelOutput.accept(n.asItem(), ItemModelUtils.plainModel(blockModelId));
+		}else {
+			List<String> rn = Arrays.asList(name.split("_"));
+			for (int i = rn.size(); i >= 0; i--) {
+				List<String> rrn = new ArrayList<>(rn);
+				rrn.add(i, "0");
+				blockModelId = Identifier.fromNamespaceAndPath(this.modid, "block/" + String.join("_", rrn));
+				if (existsFile(blockModelId)) {
+					this.itemModelOutput.accept(n.asItem(), ItemModelUtils.plainModel(blockModelId));
+					return;
+				}
+			}
+			
 
-	protected ItemModelBuilder blockItemModelBuilder(String n, String p) {
-		return itemModels().getBuilder(n).parent(bmf(n + p));
+			throw new IllegalArgumentException("model does not exists: "+p);
+		}
 	}
 
 	public void stove(Block block) {
+		this.blockStateOutput.accept(
 		horizontalMultipart(
 			horizontalMultipart(this.getMultipartBuilder(block),
 				bmf(Utils.getRegistryName(block).getPath())),
-			bmf("kitchen_stove_fuel"), i -> i);
-		itemModel(block, bmf(Utils.getRegistryName(block).getPath()));
+			bmf("kitchen_stove_fuel"), i -> i));
+		blockItemModel(block, Utils.getRegistryName(block));
 
 	}
-	public boolean existsFile(Identifier id){
-		return input.getResource(id.withPrefix("models").withSuffix(".json")).isPresent();
-		
+
+	public boolean existsFile(Identifier id) {
+		return input.getResource(id.withPrefix("models/").withSuffix(".json")).isPresent();
+
 	}
+
 	public MultiVariant bmf(String name) {
 		return super.variant(bmfs(name));
 	}
+	
 	public Variant bmfs(String name) {
 		Identifier orl = Identifier.fromNamespaceAndPath(this.modid, "block/" + name);
 		Identifier rl = orl;
-		
+
 		if (!existsFile(rl)) {// not exists, let's guess
 			List<String> rn = Arrays.asList(name.split("_"));
 			for (int i = rn.size(); i >= 0; i--) {
@@ -376,34 +443,30 @@ public class CPStatesProvider extends BlockModelGenerators {
 			}
 
 		}
-		CPMain.logger.warn("Model file "+orl+" not exists, using unchecked");
+		CPMain.logger.warn("Model file " + orl + " not exists, using unchecked");
 		return super.plainModel(rl);
 	}
+
 	public MultiVariant bmf(Identifier name) {
 		return super.variant(bmfs(name));
 	}
+
 	public Variant bmfs(Identifier rl) {
 
 		return super.plainModel(rl);
 	}
-	public void simpleBlockItem(String name) {
-		simpleBlockItem(cpblock(name), bmf(name));
-	}
-	public void simpleBlockItem(Block b, ModelFile model) {
-		simpleBlockItem(b, new ConfiguredModel(model));
-	}
 
-	protected void simpleBlockItem(Block b, ConfiguredModel model) {
-		simpleBlock(b, model);
-		itemModel(b, model.model);
+	protected void simpleBlockItem(Block b, Identifier model) {
+		this.blockStateOutput.accept(createSimpleBlock(b, bmf(model)));
+		blockItemModel(b, model);
 	}
 
 	public void horizontalAxisBlock(Block block, MultiVariant mf) {
 
 		this.blockStateOutput
-        .accept(getVariantBuilder(block).with(PropertyDispatch.initial(BlockStateProperties.HORIZONTAL_AXIS)
-			.select(Axis.Z, mf)
-			.select(Axis.X, mf.with(Y_ROT_90))));
+			.accept(getVariantBuilder(block).with(PropertyDispatch.initial(BlockStateProperties.HORIZONTAL_AXIS)
+				.select(Axis.Z, mf)
+				.select(Axis.X, mf.with(Y_ROT_90))));
 
 	}
 
@@ -415,14 +478,12 @@ public class CPStatesProvider extends BlockModelGenerators {
 	public MultiPartGenerator horizontalMultipart(MultiPartGenerator generator, MultiVariant variant,
 		UnaryOperator<ConditionBuilder> act) {
 		forEachHorizontalDirection((direction, rotation) -> generator.with(act.apply(condition(BlockStateProperties.HORIZONTAL_FACING, direction)), variant.with(rotation)));
-		
+
 		return generator;
 	}
+
 	protected MultiPartGenerator getMultipartBuilder(Block block) {
 		return MultiPartGenerator.multiPart(block);
-	}
-	protected void itemModel(Block block, Model model) {
-		itemModels().getBuilder(Utils.getRegistryName(block).getPath()).parent(model);
 	}
 
 }

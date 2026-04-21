@@ -1,0 +1,22 @@
+{
+  "type": "caupona:frying",
+  "allow": [
+    {
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:vegetables/greens"
+      }
+    }
+  ],
+  "bowl": "minecraft:bowl",
+  "deny": [],
+  "ingredientPerDish": 2.0,
+  "model": "caupona:block/dynamic/sauteed_greens",
+  "output": {
+    "id": "caupona:sauteed_greens"
+  },
+  "priority": 128,
+  "removeNBT": false,
+  "time": 200
+}

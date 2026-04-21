@@ -1,0 +1,20 @@
+{
+  "type": "caupona:dolium",
+  "container": "minecraft:glass_bottle",
+  "density": 0.0,
+  "items": [
+    {
+      "count": 8,
+      "ingredient": "#caupona:walnut"
+    },
+    {
+      "count": 0,
+      "ingredient": "#minecraft:anvil"
+    }
+  ],
+  "keepInfo": false,
+  "output": {
+    "id": "caupona:gravy_boat"
+  },
+  "time": 6000
+}

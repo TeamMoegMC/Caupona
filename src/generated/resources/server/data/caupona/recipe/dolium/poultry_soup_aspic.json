@@ -1,0 +1,15 @@
+{
+  "type": "caupona:dolium",
+  "base": "caupona:stock",
+  "density": 0.25,
+  "fluid": {
+    "amount": 250,
+    "ingredient": "caupona:poultry_soup"
+  },
+  "items": [],
+  "keepInfo": true,
+  "output": {
+    "id": "caupona:poultry_soup_aspic"
+  },
+  "time": 12000
+}

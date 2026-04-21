@@ -202,10 +202,10 @@ public class CPBlocks {
 					Block.Properties.of().mapColor(MapColor.COLOR_ORANGE).sound(SoundType.STONE)
 							.requiresCorrectToolForDrops().strength(3.5f, 10).noOcclusion(),p -> new StewPot(p,CPBlockEntityTypes.STEW_POT));
 
-	public static final DeferredHolder<Block,BowlBlock> BOWL = foodblock("bowl",
-			Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
-					.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
-					.isViewBlocking(CPBlocks::isntSolid),p -> new BowlBlock(p, CPBlockEntityTypes.BOWL));
+	public static final DeferredHolder<Block,BowlBlock> BOWL = 
+		BLOCKS.registerBlock("bowl", p -> new BowlBlock(p, CPBlockEntityTypes.BOWL),()->Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
+			.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
+			.isViewBlocking(CPBlocks::isntSolid));
 	public static final Pair<DeferredItem<CPBlockItem>, DeferredHolder<Block, Block>> LOAF_BOWL = 
 		
 		loafblock("loaf_bowl",Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()

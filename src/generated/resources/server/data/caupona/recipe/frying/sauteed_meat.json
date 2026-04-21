@@ -1,0 +1,22 @@
+{
+  "type": "caupona:frying",
+  "allow": [
+    {
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:meats/meat"
+      }
+    }
+  ],
+  "bowl": "minecraft:bowl",
+  "deny": [],
+  "ingredientPerDish": 2.0,
+  "model": "caupona:block/dynamic/sauteed_meat",
+  "output": {
+    "id": "caupona:sauteed_meat"
+  },
+  "priority": 64,
+  "removeNBT": false,
+  "time": 200
+}

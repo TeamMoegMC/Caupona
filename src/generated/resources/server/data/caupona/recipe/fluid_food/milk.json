@@ -1,0 +1,10 @@
+{
+  "type": "caupona:fluid_food",
+  "fluid": "caupona:scalded_milk",
+  "heal": 0,
+  "item": {
+    "id": "minecraft:milk_bucket"
+  },
+  "parts": 4,
+  "sat": 1.0
+}

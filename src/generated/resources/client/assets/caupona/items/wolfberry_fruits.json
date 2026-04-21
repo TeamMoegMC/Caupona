@@ -1,0 +1,30 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "caupona:block/wolfberry_fruits_stage_3",
+    "transformation": {
+      "left_rotation": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "right_rotation": [
+        -0.0,
+        -0.0,
+        -0.0,
+        1.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "translation": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    }
+  }
+}

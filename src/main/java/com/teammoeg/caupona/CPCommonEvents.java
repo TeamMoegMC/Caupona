@@ -113,6 +113,7 @@ public class CPCommonEvents {
 	public static void onBlockClick(PlayerInteractEvent.RightClickBlock event) {
 		if(event.getLevel().isClientSide())return;//Workaround for https://github.com/TeamMoegMC/Caupona/issues/107
 		ItemStack is = event.getItemStack();
+		if(is.isEmpty())return;
 		Player playerIn = event.getEntity();
 		Level worldIn = event.getLevel();
 		BlockPos blockpos = event.getPos();

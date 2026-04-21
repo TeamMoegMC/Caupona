@@ -1,5 +1,5 @@
 {
-	"parent": "minecraft:builtin/entity",
+	"type": "caupona:mosaic",
 	"gui_light": "front",
 	"display": {
 		"gui": {

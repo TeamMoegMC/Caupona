@@ -1,0 +1,22 @@
+{
+  "type": "caupona:frying",
+  "allow": [
+    {
+      "type": "mainly",
+      "number": {
+        "type": "tag",
+        "tag": "caupona:seafood"
+      }
+    }
+  ],
+  "bowl": "minecraft:bowl",
+  "deny": [],
+  "ingredientPerDish": 2.0,
+  "model": "caupona:block/dynamic/sauteed_seafood",
+  "output": {
+    "id": "caupona:sauteed_seafood"
+  },
+  "priority": 64,
+  "removeNBT": false,
+  "time": 200
+}

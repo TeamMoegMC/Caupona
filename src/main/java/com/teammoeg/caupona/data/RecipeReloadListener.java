@@ -66,6 +66,7 @@ import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.crafting.Recipe;
@@ -147,7 +148,7 @@ public class RecipeReloadListener{
 			Consumable oc = iis.get(DataComponents.CONSUMABLE);
 			FoodValueRecipe ret = FoodValueRecipe.recipes.computeIfAbsent(i,
 					e -> new FoodValueRecipe(0,
-							0, iis, e));
+							0, ItemStackTemplate.fromNonEmptyStack(iis), e));
 			if (of != null && of.nutrition() > ret.heal) {
 				ret.heal = of.nutrition();
 				ret.sat = of.saturation();

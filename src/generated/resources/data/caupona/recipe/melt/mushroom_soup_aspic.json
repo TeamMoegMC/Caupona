@@ -1,9 +1,0 @@
-{
-  "type": "caupona:aspic_melt",
-  "amount": 250,
-  "aspic": {
-    "item": "caupona:mushroom_soup_aspic"
-  },
-  "fluid": "caupona:mushroom_soup",
-  "time": 100
-}

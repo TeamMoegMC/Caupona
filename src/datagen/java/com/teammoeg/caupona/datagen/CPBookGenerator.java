@@ -110,7 +110,7 @@ public class CPBookGenerator extends JsonGenerator {
 				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.getSecond().output).getPath(), e -> e));
 		frecipes= CPRecipeProvider.recipes.stream().filter(i -> i.getSecond() instanceof SauteedRecipe)
 			.map(e -> Pair.of(e.getFirst(),(SauteedRecipe) e.getSecond()))
-				.collect(Collectors.toMap(e -> Utils.getRegistryName(e.getSecond().output).getPath(), e -> e));
+				.collect(Collectors.toMap(e -> e.getSecond().output.item().getKey().identifier().getPath(), e -> e));
 		for (String lang : allangs)
 			loadLang(lang);
 

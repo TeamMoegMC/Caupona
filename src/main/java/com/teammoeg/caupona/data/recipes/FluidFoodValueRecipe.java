@@ -33,6 +33,7 @@ import com.teammoeg.caupona.util.ChancedEffect;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -57,7 +58,7 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 	public int heal;
 	public float sat;
 	public List<ChancedEffect> effects;
-	private ItemStack repersent=ItemStack.EMPTY;
+	private Optional<ItemStackTemplate> repersent=Optional.empty();
 	public int parts;
 	public Fluid f;
 	public static final MapCodec<FluidFoodValueRecipe> CODEC=
@@ -65,14 +66,14 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 			Codec.INT.fieldOf("heal").forGetter(o->o.heal),
 			Codec.FLOAT.fieldOf("sat").forGetter(o->o.sat),
 			Codec.list(ChancedEffect.CODEC).optionalFieldOf("effects").forGetter(o->Optional.ofNullable(o.effects)),
-			ItemStack.CODEC.optionalFieldOf("item").forGetter(o->o.repersent.isEmpty()?Optional.empty():Optional.of(o.repersent)),
+			ItemStackTemplate.CODEC.optionalFieldOf("item").forGetter(o->o.repersent),
 			Codec.INT.fieldOf("parts").forGetter(o->o.parts),
 			BuiltInRegistries.FLUID.byNameCodec().fieldOf("fluid").forGetter(o->o.f)
 				).apply(t, FluidFoodValueRecipe::new));
-	public FluidFoodValueRecipe(int heal, float sat, ItemStack repersent, int parts, Fluid f) {
+	public FluidFoodValueRecipe(int heal, float sat, ItemStackTemplate repersent, int parts, Fluid f) {
 		this.heal = heal;
 		this.sat = sat;
-		this.repersent = repersent;
+		this.repersent = Optional.ofNullable(repersent);
 		
 		this.parts = parts;
 		this.f = f;
@@ -87,12 +88,12 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 		repersent = SerializeUtil.readOptional(data, d -> ItemStack.of(d.readNbt())).orElse(null);
 	}
 */
-	public FluidFoodValueRecipe(int heal, float sat, Optional<List<ChancedEffect>> effects, Optional<ItemStack> repersent, int parts, Fluid f) {
+	public FluidFoodValueRecipe(int heal, float sat, Optional<List<ChancedEffect>> effects, Optional<ItemStackTemplate> repersent, int parts, Fluid f) {
 		super();
 		this.heal = heal;
 		this.sat = sat;
 		this.effects = effects.orElse(null);
-		this.repersent = repersent.orElse(ItemStack.EMPTY);
+		this.repersent = repersent;
 		this.parts = parts;
 		this.f = f;
 	}
@@ -114,10 +115,13 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 	}*/
 
 	public ItemStack getRepersent() {
-		return repersent;
+		return repersent.map(t->t.create()).orElse(ItemStack.EMPTY);
 	}
 
 	public void setRepersent(ItemStack repersent) {
-			this.repersent = repersent;
+		if (repersent != null)
+			this.repersent = Optional.of(ItemStackTemplate.fromNonEmptyStack(repersent));
+		else
+			this.repersent = Optional.empty();
 	}
 }

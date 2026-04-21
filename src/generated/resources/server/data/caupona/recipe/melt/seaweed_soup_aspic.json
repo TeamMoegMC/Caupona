@@ -1,0 +1,7 @@
+{
+  "type": "caupona:aspic_melt",
+  "amount": 250,
+  "aspic": "caupona:seaweed_soup_aspic",
+  "fluid": "caupona:seaweed_soup",
+  "time": 100
+}

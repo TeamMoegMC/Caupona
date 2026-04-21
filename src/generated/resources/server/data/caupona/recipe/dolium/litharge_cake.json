@@ -1,0 +1,19 @@
+{
+  "type": "caupona:dolium",
+  "density": 0.0,
+  "items": [
+    {
+      "count": 1,
+      "ingredient": "caupona:leaden_walnut"
+    },
+    {
+      "count": 0,
+      "ingredient": "#minecraft:anvil"
+    }
+  ],
+  "keepInfo": false,
+  "output": {
+    "id": "caupona:litharge_cake"
+  },
+  "time": 6000
+}

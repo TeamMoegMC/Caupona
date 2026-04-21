@@ -54,6 +54,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
@@ -336,7 +337,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 			//Do recipe check
 			float tcount=0;
 			
-			Item preout=Items.AIR;
+			ItemStackTemplate preout=null;
 			Identifier tmodel = null;
 			boolean removesNBT=false;
 			ItemResource bowl=internInv.getResource(9);
@@ -352,7 +353,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 					break;
 				}
 			}
-			if(preout==Items.AIR)
+			if(preout==null)
 				return RecipeHandleStatus.FAILED;
 			if(tcount<=0)tcount=2f;
 			int cook = Mth.ceil(itms / tcount);
@@ -363,7 +364,8 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 				GravyBoatBlock.drawOil(getLevel(), oilProvidingPos, 1);
 				current.setParts(cook);
 				current.recalculateHAS();
-				ItemStack sout=new ItemStack(preout,cook);
+				ItemStack sout=preout.create();
+				sout.setCount(sout.getCount()*cook);
 				if(!removesNBT)
 					Utils.setInfo(sout,current);
 				this.sout=sout;

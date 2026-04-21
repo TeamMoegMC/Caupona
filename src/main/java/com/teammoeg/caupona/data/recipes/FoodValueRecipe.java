@@ -44,6 +44,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -68,7 +69,7 @@ public class FoodValueRecipe extends IDataRecipe {
 	public float sat;
 	public List<ChancedEffect> effects;
 	public final Map<Item, Integer> processtimes;
-	private ItemStack repersent=ItemStack.EMPTY;
+	private Optional<ItemStackTemplate> repersent=Optional.empty();
 	public transient Set<Identifier> tags;
 	public static final MapCodec<FoodValueRecipe> CODEC=
 		RecordCodecBuilder.mapCodec(t->t.group(
@@ -77,9 +78,9 @@ public class FoodValueRecipe extends IDataRecipe {
 			
 			Codec.optionalField("effects",Codec.list(ChancedEffect.CODEC),false).forGetter(o->Optional.ofNullable(o.effects)),
 			Codec.list(Utils.pairCodec("item",BuiltInRegistries.ITEM.byNameCodec(), "time", Codec.INT)).fieldOf("items").forGetter(o->o.getProcessTime()),
-			ItemStack.CODEC.fieldOf("item").forGetter(o->o.repersent)
+			ItemStackTemplate.CODEC.optionalFieldOf("item").forGetter(o->o.repersent)
 				).apply(t, FoodValueRecipe::new));
-	public FoodValueRecipe(int heal, float sat,Optional<List<ChancedEffect>> effects, List<Pair<Item, Integer>> processtimes, ItemStack repersent) {
+	public FoodValueRecipe(int heal, float sat,Optional<List<ChancedEffect>> effects, List<Pair<Item, Integer>> processtimes, Optional<ItemStackTemplate> repersent) {
 		super();
 		this.heal = heal;
 		this.sat = sat;
@@ -93,11 +94,11 @@ public class FoodValueRecipe extends IDataRecipe {
 	public List<Pair<Item, Integer>> getProcessTime(){
 		return processtimes.entrySet().stream().map(t->Pair.of(t.getKey(),t.getValue())).toList();
 	}
-	public FoodValueRecipe(int heal, float sat, ItemStack rps, Item... types) {
+	public FoodValueRecipe(int heal, float sat, ItemStackTemplate rps, Item... types) {
 		this.heal = heal;
 		this.sat = sat;
 		processtimes = new LinkedHashMap<>();
-		repersent = rps;
+		repersent = Optional.ofNullable(rps);
 		for (Item i : types)
 			processtimes.put(i, 0);
 	}/*
@@ -141,14 +142,14 @@ public class FoodValueRecipe extends IDataRecipe {
 	}
 
 	public ItemStack getRepersent() {
-		return repersent;
+		return repersent.map(t->t.create()).orElse(ItemStack.EMPTY);
 	}
 
 	public void setRepersent(ItemStack repersent) {
 		if (repersent != null)
-			this.repersent = repersent.copy();
+			this.repersent = Optional.of(ItemStackTemplate.fromNonEmptyStack(repersent));
 		else
-			this.repersent = ItemStack.EMPTY;
+			this.repersent = Optional.empty();
 	}
 
 

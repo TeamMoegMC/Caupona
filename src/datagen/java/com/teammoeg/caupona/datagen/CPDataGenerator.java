@@ -38,26 +38,36 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 @EventBusSubscriber(modid = CPMain.MODID)
 public class CPDataGenerator {
 	@SubscribeEvent
-	public static void gatherData(GatherDataEvent event) {
-		System.out.println("Gather data");
+	public static void gatherData(GatherDataEvent.Server event) {
+		System.out.println("Gather server data");
 		DataGenerator gen = event.getGenerator();
 
 		
 		CompletableFuture<HolderLookup.Provider> completablefuture = CompletableFuture.supplyAsync(VanillaRegistries::createLookup, Util.backgroundExecutor());
-		gen.addProvider(true,new CPModelProvider(gen.getPackOutput(), CPMain.MODID,event.getResourceManager(PackType.CLIENT_RESOURCES)));
-		gen.addProvider(true,new CPRecipeProvider.Runner(gen.getPackOutput(),event.getLookupProvider(),CPMain.MODID));
 		gen.addProvider(true,new CPItemTagGenerator(gen, CPMain.MODID,event.getLookupProvider()));
 		gen.addProvider(true,new CPBlockTagGenerator(gen, CPMain.MODID,event.getLookupProvider()));
 		gen.addProvider(true,new CPFluidTagGenerator(gen, CPMain.MODID,event.getLookupProvider()));
 		gen.addProvider(true,new CPGlobalLootModifiersGenerator(gen.getPackOutput(),completablefuture,CPMain.MODNAME+" global_modifiers"));
 		gen.addProvider(true,new CPLootGenerator(gen,completablefuture));
-		gen.addProvider(true,new CPBookGenerator(gen.getPackOutput(), event.getResourceManager(PackType.CLIENT_RESOURCES)));
 		/*gen.addProvider(true||true,new PackMetadataGenerator(gen.getPackOutput()).add(PackMetadataSection.TYPE,new PackMetadataSection(MutableComponent.create(new TranslatableContents("pack.caupona.title",CPMain.MODNAME+" Data",new Object[0])),
             DetectedVersion.BUILT_IN.getPackVersion(PackType.SERVER_DATA),
             Optional.of(new InclusiveRange<>(0, Integer.MAX_VALUE)))));*/
 		gen.addProvider(true,new CPRegistryGenerator(gen.getPackOutput(),completablefuture));
-		gen.addProvider(true,new FluidAnimationGenerator(gen.getPackOutput(),event.getResourceManager(PackType.CLIENT_RESOURCES)));
 		gen.addProvider(true, new RegistryJavaGenerator(gen.getPackOutput(),event.getResourceManager(PackType.CLIENT_RESOURCES)));
+		gen.addProvider(true,new CPRecipeProvider.Runner(gen.getPackOutput(),event.getLookupProvider(),CPMain.MODID));
+		
+	}
+	@SubscribeEvent
+	public static void gatherData(GatherDataEvent.Client event) {
+		System.out.println("Gather client data");
+		DataGenerator gen = event.getGenerator();
+		CompletableFuture<HolderLookup.Provider> completablefuture = CompletableFuture.supplyAsync(VanillaRegistries::createLookup, Util.backgroundExecutor());
+		gen.addProvider(true,new CPModelProvider(gen.getPackOutput(), CPMain.MODID,event.getResourceManager(PackType.CLIENT_RESOURCES)));
+		gen.addProvider(true,new CPBookGenerator(gen.getPackOutput(), event.getResourceManager(PackType.CLIENT_RESOURCES)));
+		/*gen.addProvider(true||true,new PackMetadataGenerator(gen.getPackOutput()).add(PackMetadataSection.TYPE,new PackMetadataSection(MutableComponent.create(new TranslatableContents("pack.caupona.title",CPMain.MODNAME+" Data",new Object[0])),
+            DetectedVersion.BUILT_IN.getPackVersion(PackType.SERVER_DATA),
+            Optional.of(new InclusiveRange<>(0, Integer.MAX_VALUE)))));*/
+		gen.addProvider(true,new FluidAnimationGenerator(gen.getPackOutput(),event.getResourceManager(PackType.CLIENT_RESOURCES)));
 		
 	}
 }

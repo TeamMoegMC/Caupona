@@ -1,0 +1,10 @@
+{
+  "type": "caupona:spice",
+  "effect": {
+    "duration": 200,
+    "id": "minecraft:speed",
+    "show_icon": true
+  },
+  "reacts_lead": false,
+  "spice": "caupona:sugar_spice_jar"
+}

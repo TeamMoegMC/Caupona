@@ -39,7 +39,8 @@ sourceSets {
     		srcDir 'src/generated/java'
     	}
         resources {
-            srcDir 'src/generated/resources'
+            srcDir 'src/generated/resources/client'
+            srcDir 'src/generated/resources/server'
         }
     }
 	datagen {
@@ -104,7 +105,18 @@ runs {
         modSource project.sourceSets.datagen
         arguments.addAll '--mod', project.mod_id,
          '--all',
-         '--output', file('src/generated/resources/').getAbsolutePath(),
+         '--output', file('src/generated/resources/client').getAbsolutePath(),
+         '--existing', file('src/main/resources/').getAbsolutePath()
+    }
+    serverData {
+        // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
+        // workingDirectory project.file('run-data')
+		//modSource project.sourceSets.datagen
+        // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+        modSource project.sourceSets.datagen
+        arguments.addAll '--mod', project.mod_id,
+         '--all',
+         '--output', file('src/generated/resources/server').getAbsolutePath(),
          '--existing', file('src/main/resources/').getAbsolutePath()
     }
 }

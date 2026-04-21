@@ -1,0 +1,16 @@
+{
+  "type": "caupona:dolium",
+  "container": "minecraft:flower_pot",
+  "density": 0.0,
+  "items": [
+    {
+      "count": 16,
+      "ingredient": "#caupona:vinegar_fruits_small"
+    }
+  ],
+  "keepInfo": false,
+  "output": {
+    "id": "caupona:vinegar_spice_jar"
+  },
+  "time": 6000
+}

@@ -29,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -81,8 +82,8 @@ public final class SizedOrCatalystIngredient {
     /**
      * Helper method to create a simple sized ingredient that matches items in a tag.
      */
-    public static SizedOrCatalystIngredient of(TagKey<Item> tag, int count) {
-        return new SizedOrCatalystIngredient(BuiltInRegistries.ITEM.get(tag).map(Ingredient::of).orElseGet(()->Ingredient.of(Stream.empty())), count);
+    public static SizedOrCatalystIngredient of(HolderSet<Item> tag, int count) {
+        return new SizedOrCatalystIngredient(Ingredient.of(tag), count);
     }
 
     private final Ingredient ingredient;

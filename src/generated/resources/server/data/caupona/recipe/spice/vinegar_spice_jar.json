@@ -1,0 +1,10 @@
+{
+  "type": "caupona:spice",
+  "effect": {
+    "duration": 200,
+    "id": "minecraft:night_vision",
+    "show_icon": true
+  },
+  "reacts_lead": true,
+  "spice": "caupona:vinegar_spice_jar"
+}

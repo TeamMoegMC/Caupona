@@ -1,0 +1,14 @@
+{
+  "type": "caupona:food",
+  "heal": 1,
+  "item": {
+    "id": "minecraft:allium"
+  },
+  "items": [
+    {
+      "item": "minecraft:allium",
+      "time": 0
+    }
+  ],
+  "sat": 0.2
+}

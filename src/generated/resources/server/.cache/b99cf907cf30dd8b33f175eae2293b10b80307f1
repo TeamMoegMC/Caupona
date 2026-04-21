@@ -1,0 +1,9 @@
+// 26.1.2	2026-04-21T16:03:17.6565509	Caupona Registry Generator
+4178d8b685c4f28145f3cc9384a7a4f250501b5a data/caupona/worldgen/configured_feature/fig.json
+fce61d12ade04eabce69807a803a5639349d75fd data/caupona/worldgen/configured_feature/silphium.json
+a9dbf6b7ecaf872d69ac3cf51d4d9a82f99e0042 data/caupona/worldgen/configured_feature/walnut.json
+40db135b5da813cbe5795b06c42f47c539e5baca data/caupona/worldgen/configured_feature/wolfberry.json
+7b40f76bb04ef9238f43551d7c99f01dde03427f data/caupona/worldgen/placed_feature/patch_silphium.json
+ab47a136b8890006e4a2c6d2a7d48b79b857f1dc data/caupona/worldgen/placed_feature/trees_fig.json
+4a09b0a5a66f17c4b51347d812ae86bd0dfb41f6 data/caupona/worldgen/placed_feature/trees_walnut.json
+46874f091313fd5af77c52629f76c81e454594be data/caupona/worldgen/placed_feature/trees_wolfberry.json
