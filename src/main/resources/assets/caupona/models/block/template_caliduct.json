@@ -1,5 +1,5 @@
 {
-	"parent": "minecraft:block/cube",
+	"parent": "minecraft:block/block",
 	"credit": "Made with Blockbench",
 	"elements": [
 		{
@@ -188,24 +188,6 @@
 						13
 					],
 					"texture": "#caliduct"
-				},
-				"up": {
-					"uv": [
-						0,
-						0,
-						6,
-						6
-					],
-					"texture": "#missing"
-				},
-				"down": {
-					"uv": [
-						0,
-						0,
-						6,
-						6
-					],
-					"texture": "#missing"
 				}
 			}
 		}

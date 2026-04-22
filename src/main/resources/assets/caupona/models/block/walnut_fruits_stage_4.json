@@ -1,6 +1,6 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "minecraft:block/cube",
+	"parent": "minecraft:block/block",
 	"render_type": "cutout",
 	"textures": {
 		"1": "caupona:block/leaden_walnut_fruit",
