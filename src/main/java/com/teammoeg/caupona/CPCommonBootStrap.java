@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import com.mojang.datafixers.util.Pair;
+import com.teammoeg.caupona.blocks.foods.IFoodContainer;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.item.SitulaItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
@@ -77,7 +78,10 @@ public class CPCommonBootStrap {
 					(block,ctx)->(block instanceof CPBaseBlockEntity)?(ResourceHandler)((CPBaseBlockEntity)block).getCapability(Capabilities.Fluid.BLOCK, ctx):null);
 				event.registerBlockEntity(CPCapability.HEAT_STOVE, (BlockEntityType<?>)be,
 						(block,ctx)->(block instanceof CPBaseBlockEntity)?(IStove)((CPBaseBlockEntity)block).getCapability(CPCapability.HEAT_STOVE, ctx):null);
-			});
+				event.registerBlockEntity(CPCapability.FOOD_CONTAINER, (BlockEntityType<?>)be,
+					(block,ctx)->(block instanceof CPBaseBlockEntity)?(IFoodContainer)((CPBaseBlockEntity)block).getCapability(CPCapability.FOOD_CONTAINER, ctx):null);
+		
+		});
 		event.registerItem(Capabilities.Fluid.ITEM,(_,o)->new FluidItemWrapper(o), CPItems.stews.toArray(Item[]::new));
 	}
 

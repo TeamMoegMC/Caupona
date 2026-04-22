@@ -32,7 +32,7 @@ import net.minecraft.world.level.block.Block;
 public class CPBlockItem extends BlockItem implements ICreativeModeTabItem{
 	TabType tab;
 	public CPBlockItem(Block block, Item.Properties props,TabType tab) {
-		super(block, props);
+		super(block, props.useBlockDescriptionPrefix());
 		this.tab=tab;
 	}
 

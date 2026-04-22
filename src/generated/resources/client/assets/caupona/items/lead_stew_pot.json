@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "caupona:block/lead_stew_pot"
+    "model": "caupona:item/lead_stew_pot"
   }
 }

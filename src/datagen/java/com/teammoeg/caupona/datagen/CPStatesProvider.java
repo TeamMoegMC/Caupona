@@ -105,8 +105,8 @@ public class CPStatesProvider extends BlockModelGenerators {
 		this.blockStateOutput.accept(horizontalMultipart(this.getMultipartBuilder(CPBlocks.T_BENCH.get()), bmf("tessellation_workbench")));
 		blockItemModel("tessellation_workbench");
 		CPBlocks.stoves.forEach(e -> stove(e.get()));
-		blockItemModel(CPBlocks.STEW_POT.get(),CPBlocks.STEW_POT.getId());
-		blockItemModel(CPBlocks.STEW_POT_LEAD.get(),CPBlocks.STEW_POT_LEAD.getId());
+		blockItemModel(CPBlocks.STEW_POT.getId().getPath());
+		blockItemModel(CPBlocks.STEW_POT_LEAD.getId().getPath());
 		this.blockStateOutput.accept(createSimpleBlock(CPBlocks.BOWL.get(), bmf("bowl_of_liquid")));
 		this.blockStateOutput.accept(this.horizontalMultipart(this.getMultipartBuilder(CPBlocks.KITCHEN_RAIL.get()), bmf("kitchen_rail")));
 		blockItemModel("kitchen_rail");
@@ -296,7 +296,7 @@ public class CPStatesProvider extends BlockModelGenerators {
 				List<Variant> variants = new ArrayList<>();
 				while (true) {
 					Identifier rl = Identifier.fromNamespaceAndPath(this.modid, "block/roads/" + name + "_road" + ext + "_" + i);
-					if (!existsFile(rl))
+					if (!existsModel(rl))
 						break;
 					variants.add(bmfs(rl));
 					i++;
@@ -323,7 +323,7 @@ public class CPStatesProvider extends BlockModelGenerators {
 		int i = 0;
 		while (true) {
 			Identifier rl = Identifier.fromNamespaceAndPath(this.modid, "block/roads/" + name + "_road_" + i);
-			if (!existsFile(rl))
+			if (!existsModel(rl))
 				break;
 			i++;
 			list.add(bmfs(rl));
@@ -365,7 +365,7 @@ public class CPStatesProvider extends BlockModelGenerators {
 	}
 
 	protected void blockItemModel(String n, String p) {
-		if (existsFile(Identifier.fromNamespaceAndPath(CPMain.MODID, "textures/item/" + n + p + ".png"))) {
+		if (input.getResource(Identifier.fromNamespaceAndPath(CPMain.MODID, "textures/item/" + n + p + ".png")).isPresent()) {
 
 			texture(n, n + p);
 		} else {
@@ -376,7 +376,7 @@ public class CPStatesProvider extends BlockModelGenerators {
 	protected void blockItemModel(Block n, Identifier p) {
 		Identifier blockModelId=p.withPrefix("block/");
 		String name=p.getPath();
-		if(existsFile(blockModelId)) {
+		if(existsModel(blockModelId)) {
 
 			this.itemModelOutput.accept(n.asItem(), ItemModelUtils.plainModel(blockModelId));
 		}else {
@@ -385,7 +385,7 @@ public class CPStatesProvider extends BlockModelGenerators {
 				List<String> rrn = new ArrayList<>(rn);
 				rrn.add(i, "0");
 				blockModelId = Identifier.fromNamespaceAndPath(this.modid, "block/" + String.join("_", rrn));
-				if (existsFile(blockModelId)) {
+				if (existsModel(blockModelId)) {
 					this.itemModelOutput.accept(n.asItem(), ItemModelUtils.plainModel(blockModelId));
 					return;
 				}
@@ -405,7 +405,7 @@ public class CPStatesProvider extends BlockModelGenerators {
 
 	}
 
-	public boolean existsFile(Identifier id) {
+	public boolean existsModel(Identifier id) {
 		return input.getResource(id.withPrefix("models/").withSuffix(".json")).isPresent();
 
 	}
@@ -418,13 +418,13 @@ public class CPStatesProvider extends BlockModelGenerators {
 		Identifier orl = Identifier.fromNamespaceAndPath(this.modid, "block/" + name);
 		Identifier rl = orl;
 
-		if (!existsFile(rl)) {// not exists, let's guess
+		if (!existsModel(rl)) {// not exists, let's guess
 			List<String> rn = Arrays.asList(name.split("_"));
 			for (int i = rn.size(); i >= 0; i--) {
 				List<String> rrn = new ArrayList<>(rn);
 				rrn.add(i, "0");
 				rl = Identifier.fromNamespaceAndPath(this.modid, "block/" + String.join("_", rrn));
-				if (existsFile(rl))
+				if (existsModel(rl))
 					return super.plainModel(rl);
 			}
 

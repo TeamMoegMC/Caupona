@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "caupona:block/snail_bait"
+    "model": "caupona:item/snail_bait"
   }
 }

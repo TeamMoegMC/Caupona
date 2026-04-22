@@ -78,7 +78,7 @@ public class KitchenStoveRenderer implements BlockEntityRenderer<KitchenStoveBlo
 		else
 			state.ash=DynamicBlockModelReference.getModel(blockEntity.current.cold_ash());
 
-		state.dir=blockEntity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
+		state.dir=blockEntity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
 	}
 
 }

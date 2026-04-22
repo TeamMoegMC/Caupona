@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "caupona:block/stone_griddle"
+    "model": "caupona:item/stone_griddle"
   }
 }

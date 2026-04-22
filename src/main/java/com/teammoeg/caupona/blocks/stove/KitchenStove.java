@@ -122,7 +122,7 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntit
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(LIT, false).setValue(FACING,
-				context.getHorizontalDirection().getOpposite());
+				context.getHorizontalDirection());
 
 	}
 

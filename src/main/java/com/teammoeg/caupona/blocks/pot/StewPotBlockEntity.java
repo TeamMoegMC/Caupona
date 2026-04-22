@@ -328,7 +328,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 
 		if (operate&&proctype==0) {
 			operate = false;
-			if (!(level.getBlockEntity(worldPosition.below()) instanceof IStove stove) || !stove.canEmitHeat())
+			if (!(level.getCapability(CPCapability.HEAT_STOVE, worldPosition.below(), Direction.UP) instanceof IStove stove) || !stove.canEmitHeat())
 				return;
 			if (doBoil())
 				proctype = 1;
@@ -378,17 +378,6 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		return true;
 	}
 
-	private boolean adjustParts(int count,TransactionContext ctx) {
-		FluidResource orig=tank.getResource(0);
-		float oparts = tank.extract(orig, 1250, ctx) / 250f;
-		int parts = (int) (oparts + count);
-		StewInfo currentInfo=Utils.getOrCreateInfo(orig).copy();
-		currentInfo.adjustParts(oparts, parts);
-		FluidStack out=orig.toStack(parts*250);
-		Utils.setInfo(out, currentInfo);
-		FluidResource rslt=FluidResource.of(out);
-		return tank.insert(rslt, parts*250, ctx)==parts*250;
-	}
 
 	private boolean makeSoup() {
 		//System.out.println("1");
@@ -449,26 +438,17 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 			//System.out.println("7");
 			currentInfo.completeAll();
 			tpt = Math.max(CPConfig.SERVER.potCookTimeBase.get(), tpt);
-			output=originType.toStack(parts*250);
 			
-			Utils.setInfo(output, currentInfo);
 			
-			processMax = Math.max(decideSoup(), tpt);
+			processMax = Math.max(outputResult(originType.toStack(parts*250),currentInfo), tpt);
 			trans.commit();
 			return true;
 		}
 	}
 	
-	private int decideSoup() {
-		StewInfo currentInfo;
-		if(output==null) {
-			FluidResource fr=tank.getResource(0);
-			output=fr.toStack(tank.getAmountAsInt(0));
-			currentInfo=Utils.getOrCreateInfo(fr);
-		}else {
-			currentInfo=Utils.getOrCreateInfo(output);
-		}
-		Fluid become = output.getFluid();
+	private int outputResult(FluidStack original,StewInfo currentInfo) {
+
+		Fluid become = original.getFluid();
 		
 		StewPendingContext ctx = new StewPendingContext(currentInfo, become);
 		Fluid nextbase = become;
@@ -485,19 +465,20 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				else
 					nextbase = currentInfo.getBase();
 				become = cr.value().output;
-				FluidStack preout=new FluidStack(become,output.getAmount());
+				original=new FluidStack(become,original.getAmount());
 				if(!cr.value().removeNBT) {
 					currentInfo.setBase(nextbase);
-					preout.applyComponents(output.getComponentsPatch());
 					currentInfo.recalculateHAS();
-					Utils.setInfo(preout, currentInfo);
+					Utils.setInfo(original, currentInfo);
 				}
-				output=preout;
+				output=original;
 				
 				return cr.value().time;
 			}
 		}
-
+		currentInfo.recalculateHAS();
+		Utils.setInfo(original, currentInfo);
+		output=original;
 		return 0;
 	}
 
@@ -549,15 +530,17 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 			}
 	
 			if (currentInfo.merge(n, tank.getAmountAsInt(0) / 250f, amount / 250f)) {
-				if(this.adjustParts(amount / 250,trans)) {
-					int num = Math.max(decideSoup(), extraTime);
-					this.proctype = 3;
-					this.process = 0;
-					this.processMax = Math.max(pm, num);
-		
-					trans.commit();
-					return true;
-				}
+				int oamount = tank.getAmountAsInt(0);
+				int namount = oamount+amount;
+				currentInfo.adjustParts(oamount / 250,namount / 250);
+				int num = Math.max(outputResult(tank.getResource(0).toStack((namount / 250)*250),currentInfo), extraTime);
+				this.proctype = 3;
+				this.process = 0;
+				this.processMax = Math.max(pm, num);
+	
+				trans.commit();
+				return true;
+				
 			}
 	
 			return false;

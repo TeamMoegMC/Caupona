@@ -10,7 +10,7 @@ import net.minecraft.util.Util;
 
 public class RenderHelper {
 	
-	private static Function<Direction,Quaternionf> mem=Util.memoize(dir->new Quaternionf().rotationY(dir.toYRot()*Mth.DEG_TO_RAD));
+	private static Function<Direction,Quaternionf> mem=Util.memoize(dir->new Quaternionf().rotationY((180-dir.toYRot())*Mth.DEG_TO_RAD));
 	public static Quaternionf getRotation(Direction dir) {
 		return mem.apply(dir);
 		

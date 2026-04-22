@@ -36,7 +36,7 @@ import net.minecraft.world.level.block.Block;
 public class EdibleBlock extends CPBlockItem {
 
 	public EdibleBlock(Block block, Properties props) {
-		super(block, props,TabType.FOODS);
+		super(block, props.useItemDescriptionPrefix(),TabType.FOODS);
 	}
 
 

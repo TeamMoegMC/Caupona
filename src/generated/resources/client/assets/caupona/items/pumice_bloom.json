@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "caupona:block/pumice_bloom"
+    "model": "caupona:item/pumice_bloom"
   }
 }

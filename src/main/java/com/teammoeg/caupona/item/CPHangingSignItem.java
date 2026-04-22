@@ -31,7 +31,7 @@ import net.minecraft.world.level.block.Block;
 public class CPHangingSignItem extends HangingSignItem implements ICreativeModeTabItem {
 
 	public CPHangingSignItem(Block block, Block wallBlock, Properties properties, TabType tab) {
-		super(block, wallBlock, properties);
+		super(block, wallBlock, properties.useBlockDescriptionPrefix());
 		this.tab = tab;
 	}
 

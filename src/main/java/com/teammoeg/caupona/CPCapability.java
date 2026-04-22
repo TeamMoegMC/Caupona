@@ -21,6 +21,7 @@
 
 package com.teammoeg.caupona;
 
+import com.teammoeg.caupona.blocks.foods.IFoodContainer;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.components.IFoodInfo;
 import com.teammoeg.caupona.components.ImmutableStewInfo;
@@ -43,6 +44,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class CPCapability {
 	public static final ItemCapability<IFoodInfo, Void> FOOD_INFO=ItemCapability.createVoid(Identifier.fromNamespaceAndPath(CPMain.MODID,"food_info"), IFoodInfo.class);
 	public static final BlockCapability<IStove, Direction> HEAT_STOVE=BlockCapability.createSided(CPMain.rl("stove"), IStove.class);
+	public static final BlockCapability<IFoodContainer, Direction> FOOD_CONTAINER=BlockCapability.createSided(CPMain.rl("container"), IFoodContainer.class);
 	public static final DeferredRegister<DataComponentType<?>> REGISTRY=DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, CPMain.MODID);
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<ImmutableStewInfo>> STEW_INFO=REGISTRY.register(
 		"stew_info",
