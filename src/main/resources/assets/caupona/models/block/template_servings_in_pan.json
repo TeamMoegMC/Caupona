@@ -1,6 +1,6 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "minecraft:block/cube",
+	"parent": "minecraft:block/block",
 	"ambientocclusion": false,
 	
 	"elements": [

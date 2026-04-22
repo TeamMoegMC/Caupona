@@ -1,5 +1,5 @@
 {
-	"parent": "minecraft:block/cube",
+	"parent": "minecraft:block/block",
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "caupona:block/pumice_0",

@@ -1,5 +1,5 @@
 {
-	"parent": "minecraft:block/cube",
+	"parent": "minecraft:block/block",
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"texture_size": [64, 32],
