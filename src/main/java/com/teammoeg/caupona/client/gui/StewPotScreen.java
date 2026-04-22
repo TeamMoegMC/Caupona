@@ -28,8 +28,6 @@ import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.blocks.pot.StewPotContainer;
 import com.teammoeg.caupona.client.util.FluidRenderHelper;
-import com.teammoeg.caupona.components.StewInfo;
-import com.teammoeg.caupona.util.FloatemStack;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -96,23 +94,11 @@ public class StewPotScreen extends AbstractContainerScreen<StewPotContainer> {
 		btn1.state = getBlockEntity().proctype > 0 ? 1 : 0;
 		btn2.state = getBlockEntity().rsstate ? 1 : 2;
 		super.extractRenderState(transform, mouseX, mouseY, partial);
-		if (getBlockEntity().proctype < 2 && !getBlockEntity().getTank().getResource(0).isEmpty()) {
-			if (isMouseIn(mouseX, mouseY, 105, 20, 16, 46)) {
-				tooltip.add(getBlockEntity().getTank().getResource(0).getHoverName());
-				StewInfo si = Utils.getOrCreateInfoForRead(getBlockEntity().getTank().getResource(0));
-				FloatemStack fs = si.getStacks().stream()
-						.max((t1, t2) -> t1.getCount() > t2.getCount() ? 1 : (t1.getCount() == t2.getCount() ? 0 : -1))
-						.orElse(null);
-				if (fs != null)
-					tooltip.add(Utils.translate("tooltip.caupona.main_ingredient",
-							fs.getStack().getDisplayName()));
-				Utils.addPotionTooltip(si.getPotionEffects(), tooltip::add, 1,getBlockEntity().getLevel());
-			}
-			FluidRenderHelper.handleGuiTank(transform, getBlockEntity().getTank(), leftPos + 105, topPos + 20, 16, 46);
+		if (getBlockEntity().proctype < 2) {
+			FluidRenderHelper.handleGuiTank(transform, getBlockEntity().getTank(), leftPos + 105, topPos + 20, 16, 46,mouseX,mouseY,tooltip::add);
 		}
 		if (!tooltip.isEmpty()) {
-			tooltip.forEach(component->
-			transform.setTooltipForNextFrame(this.font, this.font.split(component, 115), mouseX, mouseY));
+			transform.setComponentTooltipForNextFrame(this.font, tooltip, mouseX, mouseY);
 		}
 
 	}

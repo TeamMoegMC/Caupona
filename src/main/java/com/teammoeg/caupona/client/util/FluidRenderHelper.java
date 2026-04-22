@@ -21,6 +21,8 @@
 
 package com.teammoeg.caupona.client.util;
 
+import java.util.function.Consumer;
+
 import org.joml.Matrix3x2f;
 import org.joml.Quaternionf;
 
@@ -28,6 +30,7 @@ import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.PoseStack.Pose;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -39,6 +42,12 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.gui.TiledBlitRenderState;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.component.TypedDataComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item.TooltipContext;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipProvider;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
@@ -65,9 +74,12 @@ public class FluidRenderHelper {
 		return Minecraft.getInstance().getModelManager().getFluidStateModelSet()
 			.get(stack.getFluid().defaultFluidState());
 	}
-	public static void handleGuiTank(GuiGraphicsExtractor transform, ResourceHandler<FluidResource> tank, int x, int y, int w, int h) {
-		FluidStack fluid = tank.getResource(0).toStack(tank.getAmountAsInt(0));
+	public static void handleGuiTank(GuiGraphicsExtractor transform, ResourceHandler<FluidResource> tank, int x, int y, int w, int h,int mouseX,int mouseY,Consumer<Component> tooltip) {
+		FluidResource fr=tank.getResource(0);
+		if(fr.isEmpty())return;
+		FluidStack fluid = fr.toStack(tank.getAmountAsInt(0));
 		if (fluid != null && fluid.getFluid() != null) {
+			
 			int fluidHeight = (int) (h * (tank.getAmountAsInt(0) / (float) tank.getCapacityAsInt(0,tank.getResource(0))));
 			FluidModel model = FluidRenderHelper.getFluidModel(fluid);
 			int color = FluidRenderHelper.getFluidColor(model, fluid);
@@ -85,6 +97,16 @@ public class FluidRenderHelper {
                     color,
                     transform.peekScissorStack()
                 ));
+			if (mouseX >= x && mouseY >= y && mouseX < x + w && mouseY < y + h) {
+				Player p=Minecraft.getInstance().player;
+				tooltip.accept(fluid.getHoverName());
+				for(TypedDataComponent<?> o:fluid.getComponents()) {
+					if(o.value() instanceof TooltipProvider tt) {
+						tt.addToTooltip(TooltipContext.of(p.level(), p), tooltip, TooltipFlag.NORMAL, fluid);
+					}
+				}
+				tooltip.accept(Utils.string(tank.getAmountAsInt(0)+"/"+tank.getCapacityAsInt(0, fr)));
+			}
 			
 		}
 	}

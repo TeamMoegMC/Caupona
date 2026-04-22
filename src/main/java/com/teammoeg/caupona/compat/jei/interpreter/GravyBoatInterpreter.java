@@ -19,32 +19,23 @@
  * along with Caupona. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.teammoeg.caupona.item;
+package com.teammoeg.caupona.compat.jei.interpreter;
 
-import com.teammoeg.caupona.util.CreativeTabItemHelper;
-import com.teammoeg.caupona.util.ICreativeModeTabItem;
-import com.teammoeg.caupona.util.TabType;
+import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
+import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
+import mezz.jei.api.ingredients.subtypes.UidContext;
+import net.minecraft.world.item.ItemStack;
 
-public class CPBlockItem extends BlockItem implements ICreativeModeTabItem{
-	public TabType tab;
-	public CPBlockItem(Block block, Item.Properties props,TabType tab) {
-		super(block, props.useBlockDescriptionPrefix());
-		this.tab=tab;
-	}
-	public CPBlockItem(Block block, Item.Properties props) {
-		super(block,props);
+public class GravyBoatInterpreter implements ISubtypeInterpreter<ItemStack> {
+	public static final GravyBoatInterpreter INSTANCE=new GravyBoatInterpreter();
+	private GravyBoatInterpreter() {
 	}
 
 	@Override
-	public void fillItemCategory(CreativeTabItemHelper helper) {
-		if(super.getBlock() instanceof ICreativeModeTabItem item) {
-			item.fillItemCategory(helper);
-		}else if(helper.isType(tab))
-			helper.accept(this);
+	public @Nullable Object getSubtypeData(ItemStack ingredient, UidContext context) {
+		return ingredient.getDamageValue();
 	}
+
 
 }

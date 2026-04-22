@@ -23,18 +23,13 @@ package com.teammoeg.caupona.item;
 
 import java.util.function.Supplier;
 
-import org.jspecify.annotations.Nullable;
-
 import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.components.ItemHoldedFluidData;
 import com.teammoeg.caupona.components.StewInfo;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
 
-import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemStackTemplate;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
@@ -52,10 +47,6 @@ public class StewItem extends EdibleBlock{
 			super.addCreativeHints(is);
 			helper.accept(is);
 		}
-	}
-	@Override
-	public @Nullable ItemStackTemplate getCraftingRemainder(ItemInstance instance) {
-		return new ItemStackTemplate(Items.BOWL);
 	}
 
 	Supplier<Fluid> fluid;

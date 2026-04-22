@@ -51,17 +51,13 @@ public class DoliumScreen extends AbstractContainerScreen<DoliumContainer> {
 	@Override
 	public void extractRenderState(GuiGraphicsExtractor transform, int mouseX, int mouseY, float partial) {
 		tooltip.clear();
-		if (!blockEntity.tank.getResource(0).isEmpty()) {
-			if (isMouseIn(mouseX, mouseY, 80, 27, 16, 46)) {
-				tooltip.add(blockEntity.tank.getResource(0).getHoverName());
-			}
-			FluidRenderHelper.handleGuiTank(transform, blockEntity.tank, leftPos + 80, topPos + 27, 16, 46);
-		}
+
+		FluidRenderHelper.handleGuiTank(transform, blockEntity.tank, leftPos + 80, topPos + 27, 16, 46,mouseX,mouseY,tooltip::add);
+		
 		super.extractRenderState(transform, mouseX, mouseY, partial);
 		
 		if (!tooltip.isEmpty()) {
-			tooltip.forEach(component->
-			transform.setTooltipForNextFrame(this.font, this.font.split(component, 115), mouseX, mouseY));
+			transform.setComponentTooltipForNextFrame(this.font, tooltip, mouseX, mouseY);
 		}
 
 	}
@@ -73,6 +69,7 @@ public class DoliumScreen extends AbstractContainerScreen<DoliumContainer> {
 
 	@Override
 	public void extractBackground(GuiGraphicsExtractor transform, int x, int y, float partial) {
+		super.extractBackground(transform, x, y, partial);
 		transform.blit(RenderPipelines.GUI_TEXTURED,TEXTURE,leftPos, topPos, 0, 0, imageWidth, imageHeight,256,256);
 		if (blockEntity.recipeHandler.getProcess() > 0) {
 			int w = Mth.ceil(12 * (1-blockEntity.recipeHandler.getProcess() / (float) blockEntity.recipeHandler.getProcessMax()));
@@ -82,5 +79,8 @@ public class DoliumScreen extends AbstractContainerScreen<DoliumContainer> {
 
 	public boolean isMouseIn(int mouseX, int mouseY, int x, int y, int w, int h) {
 		return mouseX >= leftPos + x && mouseY >= topPos + y && mouseX < leftPos + x + w && mouseY < topPos + y + h;
+	}
+	public CounterDoliumBlockEntity getBlockEntity() {
+		return blockEntity;
 	}
 }

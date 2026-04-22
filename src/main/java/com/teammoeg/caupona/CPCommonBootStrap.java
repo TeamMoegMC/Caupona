@@ -25,20 +25,42 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import org.jspecify.annotations.Nullable;
+
 import com.mojang.datafixers.util.Pair;
+import com.teammoeg.caupona.api.CauponaApi;
+import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
+import com.teammoeg.caupona.blocks.dolium.CounterDoliumBlockEntity;
 import com.teammoeg.caupona.blocks.foods.IFoodContainer;
+import com.teammoeg.caupona.blocks.pan.GravyBoatBlock;
+import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
+import com.teammoeg.caupona.blocks.pot.StewPotBlockEntity;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.item.SitulaItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
 import com.teammoeg.caupona.util.FluidItemWrapper;
 import com.teammoeg.caupona.util.ICreativeModeTabItem;
+import com.teammoeg.caupona.util.MutableStackItemAccess;
+import com.teammoeg.caupona.util.Utils;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.BlockSource;
+import net.minecraft.core.dispenser.BoatDispenseItemBehavior;
+import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ComposterBlock;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -47,7 +69,13 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import net.neoforged.neoforge.transfer.fluid.ItemAccessFluidHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 @EventBusSubscriber(modid = CPMain.MODID)
 public class CPCommonBootStrap {
@@ -99,10 +127,8 @@ public class CPCommonBootStrap {
 		compositables.forEach(p -> ComposterBlock.COMPOSTABLES.put(p.getFirst().get(), (float) p.getSecond()));
 	}
 
-	public static void registerDispensers() {/*
-		DispenserBlock.registerBehavior(Items.BOWL, new DefaultDispenseItemBehavior() {
-			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
-
+	public static void registerDispensers() {
+		DefaultDispenseItemBehavior BOWL_BEHAVIOUR=new DefaultDispenseItemBehavior() {
 			@SuppressWarnings("resource")
 			@Override
 			protected ItemStack execute(BlockSource bp, ItemStack is) {
@@ -112,88 +138,40 @@ public class CPCommonBootStrap {
 				FluidState fs = bp.level().getBlockState(front).getFluidState();
 				BlockEntity blockEntity = bp.level().getBlockEntity(front);
 				if (blockEntity != null) {
-					IFluidHandler ip=bp.level().getCapability(Capabilities.FluidHandler.BLOCK,front, d.getOpposite());
+					@Nullable ResourceHandler<FluidResource> ip=bp.level().getCapability(Capabilities.Fluid.BLOCK,front, d.getOpposite());
 					if (ip!=null) {
 						ItemStack ret = CauponaApi.fillBowl(is,ip).orElse(null);
 						if (ret != null) {
-							if (is.getCount() == 1)
-								return ret;
-							is.shrink(1);
-							if (!bp.blockEntity().insertItem(ret).isEmpty())
-								this.defaultBehaviour.dispense(bp, ret);
+							return consumeWithRemainder(bp,is, ret);
 						}
-					} else if (blockEntity instanceof PanBlockEntity pan) {
-						ItemStack out = pan.inv.getStackInSlot(10);
-						if (!out.isEmpty()) {
-							pan.inv.setStackInSlot(10, ItemStack.EMPTY);
-							if (!bp.blockEntity().insertItem(out).isEmpty())
-								this.defaultBehaviour.dispense(bp, out);
+					}
+					if (blockEntity instanceof IFoodContainer pan) {
+						ItemResource ir=ItemResource.of(is);
+						try(Transaction trans=Transaction.openRoot()){
+							ItemResource out=pan.exchangeInternal(ir, trans);
+							if (ir!=out) {
+								trans.commit();
+								return consumeWithRemainder(bp,is, out.toStack());
+							}
 						}
+						
 					}
 
 					return is;
 				} else if (!fs.isEmpty()) {
-					ItemStack ret = CauponaApi.fillBowl(is,new FluidStack(fs.getType(), 250)).orElse(null);
-					if (ret != null) {
-						if (is.getCount() == 1)
-							return ret;
-						is.shrink(1);
-						if (!bp.blockEntity().insertItem(ret).isEmpty())
-							this.defaultBehaviour.dispense(bp, ret);
+					ItemResource ir=ItemResource.of(is);
+					ContanerContainFoodEvent event=Utils.containBlock(ir, FluidResource.of(fs.getType()), 250);
+					if (event.isAllowed()) {
+						return consumeWithRemainder(bp,is, event.getOutput().toStack());
 					}
 					return is;
 				}
-				return this.defaultBehaviour.dispense(bp, is);
+				return super.execute(bp, is);
 			}
 
-		});
-		DispenserBlock.registerBehavior(CPBlocks.LOAF_BOWL.get().asItem(), new DefaultDispenseItemBehavior() {
-			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
-
-			@SuppressWarnings("resource")
-			@Override
-			protected ItemStack execute(BlockSource bp, ItemStack is) {
-
-				Direction d = bp.state().getValue(DispenserBlock.FACING);
-				BlockPos front = bp.pos().relative(d);
-				FluidState fs = bp.level().getBlockState(front).getFluidState();
-				BlockEntity blockEntity = bp.level().getBlockEntity(front);
-				if (blockEntity != null) {
-					IFluidHandler ip=bp.level().getCapability(Capabilities.FluidHandler.BLOCK,front, d.getOpposite());
-					if (ip!=null) {
-						ItemStack ret = CauponaApi.fillBowl(is,ip).orElse(null);
-						if (ret != null) {
-							if (is.getCount() == 1)
-								return ret;
-							is.shrink(1);
-							if (!bp.blockEntity().insertItem(ret).isEmpty())
-								this.defaultBehaviour.dispense(bp, ret);
-						}
-					} else if (blockEntity instanceof PanBlockEntity pan) {
-						ItemStack out = pan.inv.getStackInSlot(10);
-						if (!out.isEmpty()) {
-							pan.inv.setStackInSlot(10, ItemStack.EMPTY);
-							if (!bp.blockEntity().insertItem(out).isEmpty())
-								this.defaultBehaviour.dispense(bp, out);
-						}
-					}
-
-					return is;
-				} else if (!fs.isEmpty()) {
-					ItemStack ret = CauponaApi.fillBowl(is,new FluidStack(fs.getType(), 250)).orElse(null);
-					if (ret != null) {
-						if (is.getCount() == 1)
-							return ret;
-						is.shrink(1);
-						if (!bp.blockEntity().insertItem(ret).isEmpty())
-							this.defaultBehaviour.dispense(bp, ret);
-					}
-					return is;
-				}
-				return this.defaultBehaviour.dispense(bp, is);
-			}
-
-		});
+		};
+		DispenserBlock.registerBehavior(Items.BOWL, BOWL_BEHAVIOUR);
+		DispenserBlock.registerBehavior(CPBlocks.LOAF_BOWL.getFirst().asItem(),BOWL_BEHAVIOUR);
 		DispenserBlock.registerBehavior(CPItems.redstone_ladle.get(), new DefaultDispenseItemBehavior() {
 			@SuppressWarnings("resource")
 			@Override
@@ -203,127 +181,76 @@ public class CPCommonBootStrap {
 				BlockPos front = bp.pos().relative(d);
 				BlockPos back = bp.pos().relative(d.getOpposite());
 				Block src = bp.level().getBlockState(front).getBlock();
-				Optional<IFluidHandler> blockSource = FluidUtil.getFluidHandler(bp.level(), front,
-						d.getOpposite());
+				
+				@Nullable ResourceHandler<FluidResource> blockSource = bp.level().getCapability(Capabilities.Fluid.BLOCK, front,d.getOpposite());
+				@Nullable ResourceHandler<FluidResource> blockTarget = bp.level().getCapability(Capabilities.Fluid.BLOCK,back, d);
+				
 				BlockEntity besrc=bp.level().getBlockEntity(front);
-				BlockEntity blockTarget = bp.level().getBlockEntity(back);
-				if (blockTarget != null) {
-					@Nullable IFluidHandler iptar =bp.level().getCapability(Capabilities.FluidHandler.BLOCK,back, d);
-					if (iptar!=null) {
-						if (blockSource.isPresent()) {
-							FluidUtil.tryFluidTransfer(iptar, blockSource.orElse(null), 250, true);
-
-						} else if (src instanceof BucketPickup bpu) {
-							FluidUtil.tryFluidTransfer(iptar,
-									new BucketPickupHandlerWrapper(null,bpu, bp.level(), front), FluidType.BUCKET_VOLUME,
-									true);
-						}else if(besrc instanceof IFoodContainer cont) {
-							for(int i=0;i<cont.getSlots();i++) {
-								ItemStack its=cont.getInternal(i);
-								IFluidHandlerItem ifhi=FluidHandler.ITEM.getCapability(its, null);
-								if(ifhi!=null) {
-									FluidStack fs=ifhi.drain(1000, FluidAction.SIMULATE);
-									if(!fs.isEmpty()) {
-										if(iptar.fill(fs, FluidAction.SIMULATE)==fs.getAmount()) {
-											fs=ifhi.drain(1000, FluidAction.EXECUTE);
-											iptar.fill(fs, FluidAction.EXECUTE);
-											cont.setInternal(i,ifhi.getContainer());
-											break;
-										}
-									}
-								}
-
-							}
+				BlockEntity betar = bp.level().getBlockEntity(back);
+				try(Transaction trans=Transaction.openRoot()){
+					ItemResource origItem=ItemResource.of(Items.BOWL);
+					ItemResource currentItem=origItem;
+					boolean isFilled=false;
+					boolean succeed=false;
+					if(!isFilled&&besrc instanceof IFoodContainer cont) {
+						currentItem=cont.exchangeInternal(currentItem, trans);
+						if(origItem!=currentItem) {
+							isFilled=true;
 						}
-					}else if(blockTarget instanceof IFoodContainer contt) {
-
-						@Nullable IFluidHandler ipsrc = bp.level().getCapability(Capabilities.FluidHandler.BLOCK,front, d.getOpposite());
-						if(besrc instanceof IFoodContainer cont) {
-							outer:for(int i=0;i<cont.getSlots();i++) {
-								ItemStack its=cont.getInternal(i);
-
-								if(!its.isEmpty()&&Utils.isExtractAllowed(its)) {
-									for(int j=0;j<contt.getSlots();j++) {
-										ItemStack its2=contt.getInternal(j);
-										if(Utils.isExchangeAllowed(its, its2)&&cont.accepts(i, its2)&&contt.accepts(j, its)) {
-											cont.setInternal(i, its2);
-											contt.setInternal(j, its);
-											break outer;
-										}
-									}
-								}
-							}
-						}else if(ipsrc!=null){
-							IFluidHandler tank=ipsrc;
-
-							FluidStack fs=tank.drain(250, FluidAction.SIMULATE);
-							if(!fs.isEmpty()) {
-								for(int j=0;j<contt.getSlots();j++) {
-									ItemStack its2=contt.getInternal(j);
-									if(its2.getCount()==1) {
-										ContanerContainFoodEvent ev=Utils.contain(its2, fs,true);
-										if(ev.isAllowed()) {
-											if(contt.accepts(j, ev.out)) {
-												fs=tank.drain(ev.drainAmount, FluidAction.EXECUTE);
-												if(fs.getAmount()==ev.drainAmount) {
-													ev=Utils.contain(its2, fs,false);
-													contt.setInternal(j,ev.out);
-												}
-											}
-											break;
-										}
-									}
-								}
-							}
-						}
-
 					}
-
-					return is;
+					if(!isFilled&&blockSource!=null&&blockSource.getAmountAsInt(0)>=250) {
+						try(Transaction child=Transaction.open(trans)){
+							FluidResource type=blockSource.getResource(0);
+							int amt=blockSource.extract(type, 250, child);
+							if(amt==250) {
+								ContanerContainFoodEvent event=Utils.contain(currentItem, blockSource.getResource(0), amt);
+								if(event.isAllowed()) {
+									child.commit();
+									currentItem=event.getOutput();
+									isFilled=true;
+								}
+							}
+						}
+					}
+					System.out.println("isFilled: "+isFilled+",currentItem: "+currentItem);
+					if(isFilled&&!currentItem.isEmpty()) {
+						if(!succeed&&betar instanceof IFoodContainer cont) {
+							ItemResource out=cont.exchangeInternal(currentItem, trans);
+							System.out.println(out);
+							if(out!=currentItem) {
+								currentItem=out;
+								succeed=true;
+							}
+						}
+						if(!succeed&&blockTarget!=null) {
+							ItemStack currentStack=currentItem.toStack();
+							ItemAccess ia=new MutableStackItemAccess(currentStack);
+							@Nullable ResourceHandler<FluidResource> ip = currentStack.getCapability(Capabilities.Fluid.ITEM, ia);
+							if (ip!=null) {
+								try(Transaction ctx=Transaction.open(trans)){
+									int actual=ResourceHandlerUtil.move(ip,blockTarget, _->true, 1250, ctx);
+									System.out.println(actual);
+									if (actual>0) {
+										currentItem=ia.getResource();
+										succeed=true;
+										ctx.commit();
+									}
+								}
+								
+							}
+						}
+						System.out.println("isSucceed: "+succeed+",currentItem: "+currentItem);
+						if(succeed&&currentItem.is(Items.BOWL)) {
+							trans.commit();
+						}
+					}
 				}
 				return is;
 			}
 
 		});
-		DispenserBlock.registerBehavior(CPItems.walnut_boat.get(), new DefaultDispenseItemBehavior() {
-			private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
-
-			@Override
-			public ItemStack execute(BlockSource pSource, ItemStack pStack) {
-				Direction direction = pSource.state().getValue(DispenserBlock.FACING);
-				Level level = pSource.level();
-				double d0 = pSource.pos().getX() + direction.getStepX() * 1.125F;
-				double d1 = pSource.pos().getY() + direction.getStepY() * 1.125F;
-				double d2 = pSource.pos().getZ() + direction.getStepZ() * 1.125F;
-				BlockPos blockpos = pSource.pos().relative(direction);
-				double d3;
-				if (level.getFluidState(blockpos).is(FluidTags.WATER)) {
-					d3 = 1.0D;
-				} else {
-					if (!level.getBlockState(blockpos).isAir()
-							|| !level.getFluidState(blockpos.below()).is(FluidTags.WATER)) {
-						return this.defaultDispenseItemBehavior.dispense(pSource, pStack);
-					}
-
-					d3 = 0.0D;
-				}
-
-				CPBoat boat = new CPBoat(level, d0, d1 + d3, d2);
-				boat.setYRot(direction.toYRot());
-				level.addFreshEntity(boat);
-				pStack.shrink(1);
-				return pStack;
-			}
-
-			@Override
-			protected void playSound(BlockSource pSource) {
-				pSource.level().levelEvent(1000, pSource.pos(), 0);
-			}
-		});
+		DispenserBlock.registerBehavior(CPItems.walnut_boat.get(),new BoatDispenseItemBehavior(CPEntityTypes.BOAT.get()));
 		DispenserBlock.registerBehavior(CPItems.gravy_boat.get(), new DefaultDispenseItemBehavior() {
-			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
-
-			@SuppressWarnings("resource")
 			@Override
 			protected ItemStack execute(BlockSource bp, ItemStack is) {
 
@@ -336,91 +263,79 @@ public class CPCommonBootStrap {
 					bp.level().setBlockAndUpdate(front, bs.setValue(GravyBoatBlock.LEVEL, idmg));
 					return is;
 				}
-				return this.defaultBehaviour.dispense(bp, is);
+				return super.execute(bp, is);
 			}
 
 		});
-		DispenseItemBehavior idispenseitembehavior1 = new DefaultDispenseItemBehavior() {
-			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
-
+		DefaultDispenseItemBehavior milk = new DefaultDispenseItemBehavior() {
 			@Override
 			@SuppressWarnings("resource")
 			public ItemStack execute(BlockSource source, ItemStack stack) {
 
 				Direction d = source.state().getValue(DispenserBlock.FACING);
 				BlockPos front = source.pos().relative(d);
-				ItemAccess isr=ItemAccess.forStack(stack);
+				ItemAccess isr=new MutableStackItemAccess(stack);
 				@Nullable ResourceHandler<FluidResource> ip = source.level().getCapability(Capabilities.Fluid.BLOCK,front, d.getOpposite());
 				@Nullable ResourceHandler<FluidResource> ir = stack.getCapability(Capabilities.Fluid.ITEM,isr);
 				if (ip!=null&&ir!=null) {
 					try(Transaction ctx=Transaction.openRoot()){
-						int actual=ResourceHandlerUtil.move(ir, ip, t->true, 1250, ctx);
+						int actual=ResourceHandlerUtil.move(ir, ip, _->true, 1000, ctx);
 			
 						if (actual>0) {
-							stack.shrink(1);
+							ctx.commit();
+							return super.consumeWithRemainder(source, stack, isr.getResource().toStack());
 						}
-						return isr.getResource().toStack(isr.getAmount());
+						return stack;
 					}
 				}
 
-
-				return this.defaultBehaviour.dispense(source, stack);
+				return super.execute(source, stack);
 			}
 		};
-		DispenserBlock.registerBehavior(Items.MILK_BUCKET, idispenseitembehavior1);
-		DefaultDispenseItemBehavior ddib = new DefaultDispenseItemBehavior() {
-			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
-
+		DispenserBlock.registerBehavior(Items.MILK_BUCKET, milk);
+		DefaultDispenseItemBehavior bowlBehaviour = new DefaultDispenseItemBehavior() {
 			@SuppressWarnings("resource")
 			@Override
 			protected ItemStack execute(BlockSource source, ItemStack stack) {
-				ItemAccess isr=ItemAccess.forStack(stack);
+				ItemAccess isr=new MutableStackItemAccess(stack);
 				ResourceHandler<FluidResource> cap=Capabilities.Fluid.ITEM.getCapability(stack,isr);
-				FluidResource fs = cap.getResource(0);
-				int amt=cap.getAmountAsInt(0);
 				Direction d = source.state().getValue(DispenserBlock.FACING);
 				BlockPos front = source.pos().relative(d);
 				BlockEntity blockEntity = source.level().getBlockEntity(front);
 
-				if (!fs.isEmpty()) {
-					if (blockEntity instanceof StewPotBlockEntity pot) {
-						if (pot.tryAddFluid(fs.toStack(amt))) {
-							ItemStack ret=isr.getResource().toStack(isr.getAmount());
-							if (stack.getCount() == 1)
-								return ret;
-							stack.shrink(1);
-							if (!source.blockEntity().insertItem(ret).isEmpty())
-								this.defaultBehaviour.dispense(source, ret);
+				if (blockEntity instanceof IFoodContainer pot) {
+					ItemResource ir=ItemResource.of(stack);
+					try(Transaction trans=Transaction.openRoot()){
+						ItemResource out=pot.exchangeInternal(ir, trans);
+						if (ir!=out) {
+							trans.commit();
+							return consumeWithRemainder(source,stack, out.toStack());
 						}
-					} else if (blockEntity != null) {
-						@Nullable ResourceHandler<FluidResource> ip = source.level().getCapability(Capabilities.Fluid.BLOCK,front, d.getOpposite());
-						if (ip!=null) {
-							try(Transaction ctx=Transaction.openRoot()){
-								FluidResource fr=ip.getResource(0);
-								int actual=ip.insert(fr, amt, ctx);
-								if (amt == actual) {
-									ctx.commit();
-									ItemStack ret=isr.getResource().toStack(isr.getAmount());
-									if (stack.getCount() == 1)
-										return ret;
-									stack.shrink(1);
-									if (!source.blockEntity().insertItem(ret).isEmpty())
-										this.defaultBehaviour.dispense(source, ret);
-								}
+					}
+				}
+				if (blockEntity != null) {
+					@Nullable ResourceHandler<FluidResource> ip = source.level().getCapability(Capabilities.Fluid.BLOCK,front, d.getOpposite());
+					if (ip!=null) {
+						try(Transaction ctx=Transaction.openRoot()){
+							int actual=ResourceHandlerUtil.move(ip,cap, _->true, 250, ctx);
+				
+							if (actual>0) {
+								ctx.commit();
+								return super.consumeWithRemainder(source, stack, isr.getResource().toStack());
 							}
 						}
 					}
 					return stack;
 				}
-				return this.defaultBehaviour.dispense(source, stack);
+				
+				return super.execute(source, stack);
 			}
 
 		};
 		for (Item i : CPItems.stews) {
-			DispenserBlock.registerBehavior(i, ddib);
+			DispenserBlock.registerBehavior(i, bowlBehaviour);
 		}
 		DefaultDispenseItemBehavior spice = new DefaultDispenseItemBehavior() {
-			private final DefaultDispenseItemBehavior defaultBehaviour = new DefaultDispenseItemBehavior();
 
 			@SuppressWarnings("resource")
 			@Override
@@ -430,20 +345,23 @@ public class CPCommonBootStrap {
 				BlockEntity blockEntity = source.level().getBlockEntity(front);
 
 				if (blockEntity instanceof StewPotBlockEntity pot) {
-					ItemStack ospice = pot.getInv().getStackInSlot(11);
-					pot.getInv().setStackInSlot(11, stack);
-					return ospice;
+					ItemResource ospice = pot.getInternInv().getResource(11);
+					int num=pot.getInternInv().getAmountAsInt(11);
+					pot.getInternInv().set(11, ItemResource.of(stack), 1);
+					return super.consumeWithRemainder(source, stack, ospice.toStack(num));
 				} else if (blockEntity instanceof PanBlockEntity pan) {
-					ItemStack ospice = ((PanBlockEntity) blockEntity).getInv().getStackInSlot(11);
-					pan.getInv().setStackInSlot(11, stack);
-					return ospice;
+					ItemResource ospice = pan.getInternInv().getResource(11);
+					int num=pan.getInternInv().getAmountAsInt(11);
+					pan.getInternInv().set(11, ItemResource.of(stack),1);
+					return super.consumeWithRemainder(source, stack, ospice.toStack(num));
 				} else if (blockEntity instanceof CounterDoliumBlockEntity dolium) {
-					ItemStack ospice = dolium.getInv().getStackInSlot(3);
-					dolium.getInv().setStackInSlot(3, stack);
-					return ospice;
+					ItemResource ospice = dolium.getInternInv().getResource(3);
+					int num=dolium.getInternInv().getAmountAsInt(3);
+					dolium.getInternInv().set(3, ItemResource.of(stack),1);
+					return super.consumeWithRemainder(source, stack, ospice.toStack(num));
 				}
 
-				return this.defaultBehaviour.dispense(source, stack);
+				return super.execute(source, stack);
 			}
 
 		};
@@ -458,22 +376,22 @@ public class CPCommonBootStrap {
 				BlockEntity blockEntity = source.level().getBlockEntity(front);
 
 				if (blockEntity instanceof StewPotBlockEntity pot) {
-					ItemStack ospice = pot.getInv().getStackInSlot(11);
-					pot.getInv().setStackInSlot(11, ItemStack.EMPTY);
-					if (!source.blockEntity().insertItem(ospice).isEmpty())
-						this.defaultBehaviour.dispense(source, ospice);
+					ItemResource ospice = pot.getInternInv().getResource(11);
+					int num=pot.getInternInv().getAmountAsInt(11);
+					pot.getInternInv().set(11, ItemResource.EMPTY, 0);
+					this.addToInventoryOrDispense(source,ospice.toStack(num));
 					return stack;
 				} else if (blockEntity instanceof PanBlockEntity pan) {
-					ItemStack ospice = pan.getInv().getStackInSlot(11);
-					pan.getInv().setStackInSlot(11, ItemStack.EMPTY);
-					if (!source.blockEntity().insertItem(ospice).isEmpty())
-						this.defaultBehaviour.dispense(source, ospice);
+					ItemResource ospice = pan.getInternInv().getResource(11);
+					int num=pan.getInternInv().getAmountAsInt(11);
+					pan.getInternInv().set(11, ItemResource.EMPTY, 0);
+					this.addToInventoryOrDispense(source,ospice.toStack(num));
 					return stack;
 				} else if (blockEntity instanceof CounterDoliumBlockEntity dolium) {
-					ItemStack ospice = dolium.getInv().getStackInSlot(3);
-					dolium.getInv().setStackInSlot(3, ItemStack.EMPTY);
-					if (!source.blockEntity().insertItem(ospice).isEmpty())
-						this.defaultBehaviour.dispense(source, ospice);
+					ItemResource ospice = dolium.getInternInv().getResource(3);
+					int num=dolium.getInternInv().getAmountAsInt(3);
+					dolium.getInternInv().set(3, ItemResource.EMPTY, 0);
+					this.addToInventoryOrDispense(source,ospice.toStack(num));
 					return stack;
 				}
 
@@ -484,7 +402,7 @@ public class CPCommonBootStrap {
 		DispenserBlock.registerBehavior(Items.FLOWER_POT, pot);
 		for (DeferredHolder<Item,Item> i : CPItems.spicesItems) {
 			DispenserBlock.registerBehavior(i.get(), spice);
-		}*/
+		}
 	}
 
 }

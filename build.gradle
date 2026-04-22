@@ -168,10 +168,10 @@ dependencies {
 
 	//compileOnly fg.deobf("mezz.jei:jei-1.19.2-common-api:11.2.0.247")
 	//implementation "curse.maven:jei-238222:5665038"
-	//compileOnly("mezz.jei:jei-1.21-common-api:${jei_version}")
- 	//compileOnly("mezz.jei:jei-1.21-neoforge-api:${jei_version}")
+	compileOnly("mezz.jei:jei-26.1.2-common-api:${jei_version}")
+ 	compileOnly("mezz.jei:jei-26.1.2-neoforge-api:${jei_version}")
   	// at runtime, use the full JEI jar for NeoForge
-  	//runtimeOnly("mezz.jei:jei-1.21-neoforge:${jei_version}")
+  	runtimeOnly("mezz.jei:jei-26.1.2-neoforge:${jei_version}")
 	
 	//compileOnly "curse.maven:diet-443570:4813904"
 	//implementation fg.deobf("mezz.jei:jei-1.19.3-forge:12.3.0.21")

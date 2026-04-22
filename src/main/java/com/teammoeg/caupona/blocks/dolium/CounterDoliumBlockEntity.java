@@ -21,19 +21,25 @@
 
 package com.teammoeg.caupona.blocks.dolium;
 
+import org.jspecify.annotations.Nullable;
+
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
+import com.teammoeg.caupona.blocks.foods.IFoodContainer;
+import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
 import com.teammoeg.caupona.util.LazyTickWorker;
 import com.teammoeg.caupona.util.LimitedInterfaceStacksHandler;
+import com.teammoeg.caupona.util.MutableStackItemAccess;
 import com.teammoeg.caupona.util.RecipeHandleStatus;
 import com.teammoeg.caupona.util.RecipeHandler;
 import com.teammoeg.caupona.util.SpiceAddedResourceHandler;
+import com.teammoeg.caupona.util.TwoSlotItemAccess;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
@@ -52,6 +58,9 @@ import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.RangedResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
@@ -59,7 +68,7 @@ import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
-public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuProvider, IInfinitable {
+public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuProvider, IInfinitable, IFoodContainer {
 	public static final int ACCESSIBLE_SLOTS=6;
 	private ItemStacksResourceHandler internInv = new ItemStacksResourceHandler(ACCESSIBLE_SLOTS) {
 		@Override
@@ -188,6 +197,17 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 					}
 				}
 			}
+			try(Transaction trans=Transaction.openRoot()){
+				ItemStack containerStack=container.toStack();
+				@Nullable ResourceHandler<FluidResource> cap=containerStack.getCapability(Capabilities.Fluid.ITEM,new TwoSlotItemAccess(internInv, 4,5));
+				if(cap!=null) {
+					if (ResourceHandlerUtil.moveFirst(cap, tank, _->true, 1250, trans)!=null) {
+						trans.commit();
+						return true;
+					}
+				}
+			
+			}
 		}
 		return false;
 	}
@@ -264,6 +284,50 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 	@Override
 	public boolean isInfinite() {
 		return isInfinite;
+	}
+
+	@Override
+	public ItemResource exchangeInternal(int num, ItemResource is, TransactionContext parent) {
+		try(Transaction trans=Transaction.open(parent)){
+			ItemStack containerStack=is.toStack();
+			ItemAccess ia=new MutableStackItemAccess(containerStack);
+			@Nullable ResourceHandler<FluidResource> cap=containerStack.getCapability(Capabilities.Fluid.ITEM,ia);
+			if(cap!=null) {
+				if (ResourceHandlerUtil.moveFirst(cap, tank, _->true, 1250, trans)!=null) {
+					trans.commit();
+					return ia.getResource();
+				}
+			}
+		
+		}
+		try(Transaction trans=Transaction.open(parent)){
+			if(modtank.getAmountAsInt(0)>=250) {
+				FluidResource rs=modtank.getResource(0);
+				int fluidAmount=modtank.extract(rs, 250, trans);
+				if(fluidAmount>=250) {
+					ContanerContainFoodEvent result=Utils.contain(is,rs,fluidAmount);
+					if(result.isAllowed()) {
+						trans.commit();
+						ItemResource ir=result.getOutput();
+						return ir;
+					}
+				}
+			}
+		}
+		return is;
+	}
+	@Override
+	public int getSlots() {
+		return 1;
+	}
+	@Override
+	public boolean accepts(int num, ItemResource is) {
+		ItemStack it=is.toStack();
+		return BowlContainingRecipe.isBowl(it) || !Utils.getFluidType(it).isEmpty();
+	}
+
+	public ResourceHandler<FluidResource> getTank() {
+		return tank;
 	}
 
 }

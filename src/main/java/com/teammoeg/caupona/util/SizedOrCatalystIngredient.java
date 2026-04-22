@@ -117,8 +117,7 @@ public final class SizedOrCatalystIngredient {
     public ItemStack[] getItems() {
         if (cachedStacks == null) {
             cachedStacks = ingredient.getValues().stream()
-                    .flatMap(s -> s.unwrap().right().stream())
-                    .map(s -> new ItemStack(s,count>0?count:1))
+                    .map(s -> new ItemStack(s.value(),count>0?count:1))
                     .toArray(ItemStack[]::new);
         }
         return cachedStacks;

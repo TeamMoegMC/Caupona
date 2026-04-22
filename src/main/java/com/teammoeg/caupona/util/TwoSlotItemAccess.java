@@ -34,7 +34,7 @@ public class TwoSlotItemAccess implements ItemAccess {
 
 	@Override
 	public int extract(ItemResource resource, int amount, TransactionContext transaction) {
-		return handler.extract(outslot, resource, amount, transaction);
+		return handler.extract(inslot, resource, amount, transaction);
 	}
 
 }

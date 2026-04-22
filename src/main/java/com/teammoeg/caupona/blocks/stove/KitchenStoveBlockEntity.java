@@ -23,13 +23,11 @@ package com.teammoeg.caupona.blocks.stove;
 
 import java.util.Objects;
 
-import com.google.common.collect.ImmutableSet;
 import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.CPTags.Blocks;
 import com.teammoeg.caupona.client.CPParticles;
-import com.teammoeg.caupona.client.util.DisplayGroupProperty;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.ChimneyHelper;
 import com.teammoeg.caupona.util.FuelType;
@@ -52,12 +50,10 @@ import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.model.data.ModelData;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;

@@ -21,11 +21,14 @@
 
 package com.teammoeg.caupona.blocks.pot;
 
+import org.jspecify.annotations.Nullable;
+
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
+import com.teammoeg.caupona.blocks.foods.IFoodContainer;
 import com.teammoeg.caupona.blocks.stove.IStove;
 import com.teammoeg.caupona.components.StewInfo;
 import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
@@ -41,7 +44,9 @@ import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
 import com.teammoeg.caupona.util.LazyTickWorker;
 import com.teammoeg.caupona.util.LimitedInterfaceStacksHandler;
+import com.teammoeg.caupona.util.MutableStackItemAccess;
 import com.teammoeg.caupona.util.SpiceAddedResourceHandler;
+import com.teammoeg.caupona.util.TwoSlotItemAccess;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.BlockPos;
@@ -66,6 +71,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.RangedResourceHandler;
 import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
@@ -73,7 +79,7 @@ import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
-public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvider, IInfinitable {
+public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvider, IInfinitable,IFoodContainer {
 	private ItemStacksResourceHandler internInv = new ItemStacksResourceHandler(12) {
 
 		@Override
@@ -172,14 +178,26 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 								
 							}
 						}
+					}else {
+						ItemStack containerStack=container.toStack();
+						@Nullable ResourceHandler<FluidResource> cap=containerStack.getCapability(Capabilities.Fluid.ITEM,new TwoSlotItemAccess(internInv, 9,10));
+						if(cap!=null) {
+							FluidResource fr=cap.getResource(0);
+							int amt=cap.extract(fr, cap.getAmountAsInt(0), trans);
+							if (tryAddFluid(fr,amt,trans)) {
+								trans.commit();
+								return true;
+							}
+						}
+					
 					}
 				}
 			}
 			try(Transaction trans=Transaction.openRoot()){
-				if(tank.getAmountAsInt(0)>=250) {
-					FluidResource rs=tank.getResource(0);
+				if(modtank.getAmountAsInt(0)>=250) {
+					FluidResource rs=modtank.getResource(0);
 					int itemCount=internInv.extract(9, container, 1, trans);
-					int fluidAmount=tank.extract(rs, 250, trans);
+					int fluidAmount=modtank.extract(rs, 250, trans);
 					if(itemCount>0&&fluidAmount>=250) {
 						ContanerContainFoodEvent result=Utils.contain(container,rs,fluidAmount);
 						if(result.isAllowed()) {
@@ -627,7 +645,53 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 	public boolean isInfinite() {
 		return isInfinite;
 	}
-	public ResourceHandler<ItemResource> getInternInv() {
+	public ItemStacksResourceHandler getInternInv() {
 		return internInv;
+	}
+	@Override
+	public ItemResource exchangeInternal(int num, ItemResource is, TransactionContext parent) {
+		
+		ItemStack stack=is.toStack();
+		ItemAccess ia=new MutableStackItemAccess(stack);
+		@Nullable ResourceHandler<FluidResource> cap=stack.getCapability(Capabilities.Fluid.ITEM,ia);
+		if(cap!=null) {
+			try(Transaction trans=Transaction.open(parent)){
+				FluidResource fr=cap.getResource(0);
+				int amt=cap.extract(fr, cap.getAmountAsInt(0), trans);
+				if (tryAddFluid(fr,amt,trans)) {
+					trans.commit();
+					ItemResource ir=ia.getResource();
+					System.out.println(ir);
+					return ir;
+				}
+			}
+		}
+		
+		if(modtank.getAmountAsInt(0)>=250) {
+			try(Transaction trans=Transaction.open(parent)){
+				
+				FluidResource rs=modtank.getResource(0);
+				int fluidAmount=modtank.extract(rs, 250, trans);
+				if(fluidAmount>=250) {
+					ContanerContainFoodEvent result=Utils.contain(is,rs,fluidAmount);
+					if(result.isAllowed()) {
+						trans.commit();
+						ItemResource ir=result.getOutput();
+						return ir;
+					}
+					
+				}
+			}
+		}
+		return is;
+	}
+	@Override
+	public int getSlots() {
+		return 1;
+	}
+	@Override
+	public boolean accepts(int num, ItemResource is) {
+		ItemStack it=is.toStack();
+		return BowlContainingRecipe.isBowl(it) || !Utils.getFluidType(it).isEmpty();
 	}
 }

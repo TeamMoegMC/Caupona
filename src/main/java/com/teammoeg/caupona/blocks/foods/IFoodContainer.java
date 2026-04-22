@@ -21,11 +21,23 @@
 
 package com.teammoeg.caupona.blocks.foods;
 
-import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
 public interface IFoodContainer {
-	ItemStack exchangeInternal(int num,ItemStack is,TransactionContext trans);
+	ItemResource exchangeInternal(int num,ItemResource is,TransactionContext trans);
 	int getSlots();
-	boolean accepts(int num,ItemStack is);
+	boolean accepts(int num,ItemResource is);
+	default ItemResource exchangeInternal(ItemResource is,TransactionContext parent) {
+		for(int i=0;i<getSlots();i++) {
+			if(accepts(i,is)) {
+				ItemResource out=exchangeInternal(i,is,parent);
+				if(out!=is) {
+					return out;
+				}
+				
+			}
+		}
+		return is;
+	};
 }

@@ -54,7 +54,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -415,26 +414,23 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 
 
 	@Override
-	public ItemStack exchangeInternal(int num, ItemStack is,TransactionContext parent) {
+	public ItemResource exchangeInternal(int num, ItemResource is,TransactionContext parent) {
 		ItemResource ir=internInv.getResource(10);
 		try(Transaction trans=Transaction.open(parent)){
-			ItemResource in =internInv.getResourceFrom(is);
-			int outCount=0;
-			int inStackCount=0;
+			int outCount=1;
 			if(!is.isEmpty()) {
-				inStackCount=is.getCount();
-				outCount=internInv.insert(9,in,inStackCount,trans);
+				outCount=internInv.insert(9,is,1,trans);
 			}
-			if(outCount==inStackCount) {
+			if(outCount==1) {
 				int extracted=internInv.extract(10, ir, 1, trans);
 				trans.commit();
 				if(extracted==1) {
-					return ir.toStack(extracted);
+					return ir;
 				}
-				return ItemStack.EMPTY;
+				return ItemResource.EMPTY;
 			}
 		}
-		return null;
+		return is;
 	}
 
 	@Override
@@ -443,8 +439,8 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	}
 
 	@Override
-	public boolean accepts(int num, ItemStack is) {
-		return is.is(Items.BOWL);
+	public boolean accepts(int num, ItemResource is) {
+		return SauteedRecipe.isBowl(is.toStack());
 	}
 
 	@Override

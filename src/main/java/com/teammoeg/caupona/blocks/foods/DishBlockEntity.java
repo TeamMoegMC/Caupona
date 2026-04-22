@@ -22,13 +22,13 @@
 package com.teammoeg.caupona.blocks.foods;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.item.DishItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
 import com.teammoeg.caupona.util.IInfinitable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -86,8 +86,8 @@ public class DishBlockEntity extends CPBaseBlockEntity implements IInfinitable,I
 	}
 
 	@Override
-	public boolean accepts(int num, ItemStack is) {
-		return is.getItem() instanceof DishItem||is.is(Items.BOWL);
+	public boolean accepts(int num, ItemResource is) {
+		return is.getItem() instanceof DishItem||SauteedRecipe.isBowl(is.toStack());
 	}
 
 	@Override
@@ -95,26 +95,23 @@ public class DishBlockEntity extends CPBaseBlockEntity implements IInfinitable,I
 		return isInfinite;
 	}
 	@Override
-	public ItemStack exchangeInternal(int num, ItemStack is,TransactionContext parent) {
+	public ItemResource exchangeInternal(int num, ItemResource is,TransactionContext parent) {
 		ItemResource ir=internal.getResource(0);
 		try(Transaction trans=Transaction.open(parent)){
-			ItemResource in =internal.getResourceFrom(is);
-			int inserted=0;
-			int inStackCount=0;
+			int inserted=1;
 			int extracted=internal.extract(0, ir, 1, trans);
 			if(!is.isEmpty()) {
-				inStackCount=is.getCount();
-				inserted=internal.insert(0,in,inStackCount,trans);
+				inserted=internal.insert(0,is,1,trans);
 			}
-			if(inserted==inStackCount) {
+			if(inserted==1) {
 				trans.commit();
 				if(extracted>0) {
-					return ir.toStack(extracted);
+					return ir;
 				}
-				return ItemStack.EMPTY;
+				return ItemResource.EMPTY;
 			}
 		}
-		return null;
+		return is;
 	}
 	public ItemStacksResourceHandler getInternal() {
 		return internal;

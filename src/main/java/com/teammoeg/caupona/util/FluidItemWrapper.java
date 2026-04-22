@@ -3,6 +3,7 @@ package com.teammoeg.caupona.util;
 import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.components.ItemHoldedFluidData;
 
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.transfer.ItemAccessResourceHandler;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
@@ -32,8 +33,13 @@ public final class FluidItemWrapper extends ItemAccessResourceHandler<FluidResou
 
     @Override
     protected ItemResource update(ItemResource accessResource, int index, FluidResource newResource, int newAmount) {
+    	System.out.println("newAmount="+newAmount);
         if (newAmount == 0) {
-            return ItemResource.of(Items.BOWL);
+        	ItemStackTemplate template=accessResource.toStack().getCraftingRemainder();
+        	if(template!=null) {
+        		return ItemResource.of(template.create());
+        	}else
+        		return ItemResource.of(Items.BOWL);
         } else if (newAmount != 250) {
             return ItemResource.EMPTY;
         } else {

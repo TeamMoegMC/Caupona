@@ -32,7 +32,6 @@ import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.components.ItemHoldedFluidData;
 import com.teammoeg.caupona.data.IDataRecipe;
 
-import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -115,7 +114,11 @@ public class BowlContainingRecipe extends IDataRecipe {
 
 
 	public ItemResource handle(FluidResource f) {
-		return ItemResource.of(bowl, DataComponentPatch.builder().set(CPCapability.ITEM_FLUID.get(), new ItemHoldedFluidData(f)).build());
+		ItemStack is = new ItemStack(bowl);
+		
+		is.applyComponents(f.getComponentsPatch());
+		is.set(CPCapability.ITEM_FLUID, new ItemHoldedFluidData(f));
+		return ItemResource.of(is);
 
 	}
 
@@ -126,7 +129,7 @@ public class BowlContainingRecipe extends IDataRecipe {
 	public ItemStack handle(FluidStack stack) {
 		ItemStack is = new ItemStack(bowl);
 		
-		is.applyComponents(stack.getComponents());
+		is.applyComponents(stack.getComponentsPatch());
 		is.set(CPCapability.ITEM_FLUID, new ItemHoldedFluidData(FluidResource.of(stack)));
 		return is;
 	}

@@ -84,8 +84,7 @@ public class PanScreen extends AbstractContainerScreen<PanContainer> {
 		btn2.state = blockEntity.rsstate ? 1 : 2;
 		super.extractRenderState(transform, mouseX, mouseY, partial);
 		if (!tooltip.isEmpty()) {
-			tooltip.forEach(component->
-			transform.setTooltipForNextFrame(this.font, this.font.split(component, 115), mouseX, mouseY));
+			transform.setComponentTooltipForNextFrame(this.font, tooltip, mouseX, mouseY);
 		}
 
 	}

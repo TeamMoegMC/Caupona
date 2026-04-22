@@ -124,8 +124,7 @@ public final class SizedOrCatalystFluidIngredient {
      */
     public FluidStack[] getFluids() {
         if (cachedStacks == null) {
-            cachedStacks =ingredient.fluids().stream().flatMap(t->t.unwrap().right().stream())
-                    .map(s -> new FluidStack(s,amount>0?amount:1))
+            cachedStacks =ingredient.fluids().stream().map(t->new FluidStack(t.value(),amount>0?amount:1))
                     .toArray(FluidStack[]::new);
         }
         return cachedStacks;
