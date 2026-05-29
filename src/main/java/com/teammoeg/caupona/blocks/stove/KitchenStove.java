@@ -103,7 +103,7 @@ public class KitchenStove extends CPRegisteredEntityBlock<KitchenStoveBlockEntit
 	@Override
 	protected List<ItemStack> getDrops(BlockState p_state, Builder p_params) {
 		List<ItemStack> list=super.getDrops(p_state, p_params);
-		if (p_params.getParameter(LootContextParams.BLOCK_ENTITY) instanceof KitchenStoveBlockEntity stove) {
+		if (p_params.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof KitchenStoveBlockEntity stove) {
 			for (int i = 0; i < 6; i++) {
 				ItemResource is = stove.getInv().getResource(0);
 				if (!is.isEmpty())

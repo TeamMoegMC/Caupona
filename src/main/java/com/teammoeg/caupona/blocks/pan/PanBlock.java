@@ -74,7 +74,7 @@ public class PanBlock extends CPHorizontalEntityBlock<PanBlockEntity> {
 	@Override
 	protected List<ItemStack> getDrops(BlockState p_state, Builder p_params) {
 		List<ItemStack> list=super.getDrops(p_state, p_params);
-		if (p_params.getParameter(LootContextParams.BLOCK_ENTITY) instanceof PanBlockEntity pan) {
+		if (p_params.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof PanBlockEntity pan) {
 			for (int i = 0; i < 9; i++) {
 				ItemResource is = pan.getInternInv().getResource(i);;
 				if (!is.isEmpty()) {

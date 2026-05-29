@@ -111,7 +111,7 @@ public class CounterDoliumBlock extends CPHorizontalEntityBlock<CounterDoliumBlo
 	@Override
 	protected List<ItemStack> getDrops(BlockState p_state, Builder p_params) {
 		List<ItemStack> list=super.getDrops(p_state, p_params);
-		if (p_params.getParameter(LootContextParams.BLOCK_ENTITY) instanceof CounterDoliumBlockEntity dolium) {
+		if (p_params.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof CounterDoliumBlockEntity dolium) {
 			for (int i = 0; i < 6; i++) {
 				ItemResource is = dolium.getInternInv().getResource(i);
 				if (!is.isEmpty()) {

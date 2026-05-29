@@ -91,7 +91,7 @@ public class DishBlock extends CPRegisteredEntityBlock<DishBlockEntity> {
 	@Override
 	protected List<ItemStack> getDrops(BlockState p_state, Builder p_params) {
 		List<ItemStack> li=super.getDrops(p_state, p_params);
-		if (p_params.getParameter(LootContextParams.BLOCK_ENTITY) instanceof DishBlockEntity bowl) {
+		if (p_params.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof DishBlockEntity bowl) {
 			ItemResource ir=bowl.getInternal().getResource(0);
 			li.add(ir.toStack(bowl.getInternal().getAmountAsInt(0)));
 		}

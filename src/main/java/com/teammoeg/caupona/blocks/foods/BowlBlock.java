@@ -78,7 +78,7 @@ public class BowlBlock extends CPRegisteredEntityBlock<BowlBlockEntity> {
 	@Override
 	protected List<ItemStack> getDrops(BlockState p_state, Builder p_params) {
 		List<ItemStack> li=super.getDrops(p_state, p_params);
-		if (p_params.getParameter(LootContextParams.BLOCK_ENTITY) instanceof BowlBlockEntity bowl) {
+		if (p_params.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof BowlBlockEntity bowl) {
 			ItemResource ir=bowl.getInternal().getResource(0);
 			li.add(ir.toStack(bowl.getInternal().getAmountAsInt(0)));
 		}
