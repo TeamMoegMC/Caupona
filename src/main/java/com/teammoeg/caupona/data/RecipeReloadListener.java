@@ -178,23 +178,11 @@ public class RecipeReloadListener{
 						)
 				.collect(Collectors.toSet());
 
-		DissolveRecipe.recipes = filterRecipes(recipes, DissolveRecipe.class, DissolveRecipe.TYPE)
-				.collect(Collectors.toList());
-		FoodValueRecipe.recipes = filterRecipes(recipes, FoodValueRecipe.class, FoodValueRecipe.TYPE)
-				.flatMap(t -> t.value().processtimes.keySet().stream().map(i -> new Pair<>(i, t.value())))
-				.collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
+
+
 		FluidFoodValueRecipe.recipes = filterRecipes(recipes, FluidFoodValueRecipe.class, FluidFoodValueRecipe.TYPE)
 				.collect(Collectors.toMap(e -> e.value().f, UnaryOperator.identity()));
-		List<SmokingRecipe> irs = recipes.byType(RecipeType.SMOKING).stream().map(t->t.value()).toList();
-		Set<Item> is=new HashSet<>();
-		for (Item i : BuiltInRegistries.ITEM) {
-			ItemStack iis = new ItemStack(i);
-			if (FoodValueRecipe.recipes.containsKey(i))
-				continue;
-			if (DissolveRecipe.recipes.stream().anyMatch(e -> e.value().test(iis)))
-				continue;
-			addCookingTime(i, iis,is, irs, false);
-		}
+
 
 		logger.info("Recipes built");
 	}
@@ -208,9 +196,21 @@ public class RecipeReloadListener{
 		BowlContainingRecipe.recipes=new HashMap<>();
 		filterRecipes(recipes, BowlContainingRecipe.class, BowlContainingRecipe.TYPE)
 			.forEach(o->BowlContainingRecipe.recipes.computeIfAbsent(o.value().inBowl, _->new ArrayList<>()).add(o));
-
-
-
+		DissolveRecipe.recipes = filterRecipes(recipes, DissolveRecipe.class, DissolveRecipe.TYPE)
+				.collect(Collectors.toList());
+		FoodValueRecipe.recipes = filterRecipes(recipes, FoodValueRecipe.class, FoodValueRecipe.TYPE)
+				.flatMap(t -> t.value().processtimes.keySet().stream().map(i -> new Pair<>(i, t.value())))
+				.collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
+		List<SmokingRecipe> irs = recipes.byType(RecipeType.SMOKING).stream().map(t->t.value()).toList();
+		Set<Item> is=new HashSet<>();
+		for (Item i : BuiltInRegistries.ITEM) {
+			ItemStack iis = new ItemStack(i);
+			if (FoodValueRecipe.recipes.containsKey(i))
+				continue;
+			if (DissolveRecipe.recipes.stream().anyMatch(e -> e.value().test(iis)))
+				continue;
+			addCookingTime(i, iis,is, irs, false);
+		}
 		BoilingRecipe.recipes = filterRecipes(recipes, BoilingRecipe.class, BoilingRecipe.TYPE)
 				.collect(Collectors.toList());
 		BoilingRecipe.allBoilables=BoilingRecipe.recipes.stream().flatMap(t->
@@ -244,9 +244,8 @@ public class RecipeReloadListener{
 		sw.stop();
 		logger.info("Recipe indices built, cost {}", sw);
 	}
-	@SuppressWarnings("unchecked")
-	static <R extends Recipe<?>> Stream<RecipeHolder<R>> filterRecipes(RecipeMap recipes, Class<R> class1,
+	static <I extends RecipeInput,R extends Recipe<I>> Stream<RecipeHolder<R>> filterRecipes(RecipeMap recipes, Class<R> class1,
 			DeferredHolder<RecipeType<?>,RecipeType<R>> recipeType) {
-		return recipes.byType((RecipeType)recipeType.value()).stream().filter(class1::isInstance);
+		return recipes.byType(recipeType.value()).stream().filter(t->class1.isInstance(t.value()));
 	}
 }
