@@ -6,15 +6,9 @@
 		"P P"
 	],
 	"key": {
-		"S": {
-			"item": "minecraft:stick"
-		},
-		"I": {
-			"item": "minecraft:iron_bars"
-		},
-		"P": {
-			"tag": "minecraft:planks"
-		}
+		"S": "minecraft:stick",
+		"I": "minecraft:iron_bars",
+		"P": "#minecraft:planks"
 	},
 	"result": {
 		"id": "caupona:kitchen_rail",

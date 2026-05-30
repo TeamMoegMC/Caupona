@@ -31,6 +31,10 @@ import com.teammoeg.caupona.components.StewInfo;
 import com.teammoeg.caupona.data.IDataRecipe;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -51,6 +55,14 @@ public class AspicMeltingRecipe extends IDataRecipe{
 					BuiltInRegistries.FLUID.byNameCodec().fieldOf("fluid").forGetter(o->o.fluid),
 					Codec.INT.fieldOf("amount").forGetter(o->o.amount),
 					Codec.INT.fieldOf("time").forGetter(o->o.time)).apply(t, AspicMeltingRecipe::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf, AspicMeltingRecipe> STREAM_CODEC=StreamCodec.composite(
+			
+			Ingredient.CONTENTS_STREAM_CODEC,o->o.aspic,
+			ByteBufCodecs.registry(Registries.FLUID),o->o.fluid,
+			ByteBufCodecs.VAR_INT,o->o.amount,
+			ByteBufCodecs.VAR_INT,o->o.time,
+			AspicMeltingRecipe::new
+			);
 	@Override
 	public RecipeSerializer<AspicMeltingRecipe> getSerializer() {
 		return SERIALIZER.get();

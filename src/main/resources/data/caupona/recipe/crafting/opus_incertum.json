@@ -4,12 +4,8 @@
 		"TGT"
 	],
 	"key": {
-		"T": {
-			"item": "caupona:felsic_tuff"
-		},
-		"G": {
-			"tag": "caupona:mosaic_bases"
-		}
+		"T": "caupona:felsic_tuff",
+		"G": "#caupona:mosaic_bases"
 	},
 	"result": {
 		"id": "caupona:opus_incertum",

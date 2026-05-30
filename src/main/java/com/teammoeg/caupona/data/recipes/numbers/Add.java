@@ -34,6 +34,9 @@ import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
@@ -41,7 +44,10 @@ public class Add implements CookIngredients, ComplexCalculated {
 	List<CookIngredients> nums;
 	public static final MapCodec<Add> CODEC=
 		RecordCodecBuilder.mapCodec(t->t.group(Codec.list(Numbers.CODEC).fieldOf("types").forGetter(o->o.nums)).apply(t, Add::new));
-
+	public static final StreamCodec<RegistryFriendlyByteBuf,Add> STREAM_CODEC=StreamCodec.composite(
+			Numbers.STREAM_CODEC.apply(ByteBufCodecs.list()),t->t.nums,
+			Add::new
+			);
 	public Add() {
 		this(new ArrayList<>());
 	}

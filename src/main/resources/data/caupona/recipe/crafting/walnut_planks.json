@@ -4,9 +4,7 @@
 		"L"
 	],
 	"key": {
-		"L": {
-			"tag": "caupona:walnut_log"
-		}
+		"L": "#caupona:walnut_log"
 	},
 	"result": {
 		"id": "caupona:walnut_planks",

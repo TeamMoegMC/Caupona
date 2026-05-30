@@ -5,9 +5,7 @@
 		"AA"
 	],
 	"key": {
-		"A": {
-			"item": "caupona:asses"
-		}
+		"A": "caupona:asses"
 	},
 	"result": {
 		"id": "minecraft:raw_copper",

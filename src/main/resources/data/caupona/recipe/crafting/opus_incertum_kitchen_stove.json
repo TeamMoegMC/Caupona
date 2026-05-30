@@ -6,15 +6,9 @@
 		"B B"
 	],
 	"key": {
-		"S": {
-			"item": "caupona:opus_incertum_slab"
-		},
-		"B": {
-			"item": "caupona:opus_incertum"
-		},
-		"C": {
-			"item": "minecraft:clay"
-		}
+		"S": "caupona:opus_incertum_slab",
+		"B": "caupona:opus_incertum",
+		"C": "minecraft:clay"
 	},
 	"result": {
 		"id": "caupona:opus_incertum_kitchen_stove"

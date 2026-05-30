@@ -1,8 +1,6 @@
 {
 	"type": "smelting",
-	"ingredient": {
-		"item": "caupona:clay_portable_brazier"
-	},
+	"ingredient": "caupona:clay_portable_brazier",
 	"result": {
 		"id": "caupona:portable_brazier"
 	},

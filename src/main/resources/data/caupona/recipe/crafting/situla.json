@@ -6,12 +6,8 @@
 		"LIL"
 	],
 	"key": {
-		"I": {
-			"item": "minecraft:iron_ingot"
-		},
-		"L": {
-			"tag": "c:nuggets/lead"
-		}
+		"I": "minecraft:iron_ingot",
+		"L": "#c:nuggets/lead"
 	},
 	"result": {
 		"id": "caupona:situla"

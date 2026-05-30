@@ -65,7 +65,9 @@ import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeMap;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.crafting.SmokingRecipe;
@@ -163,11 +165,42 @@ public class RecipeReloadListener{
 
 	public static void buildRecipeLists(RecipeManager recipeManager) {
 
-		Collection<RecipeHolder<?>> recipes = recipeManager.getRecipes();
-		if (recipes.size() == 0)
-			return;
+		RecipeMap recipes = recipeManager.recipeMap();
 	
 		logger.info("Building recipes...");
+		
+		collectRecipeIndices(recipes);
+		CountingTags.tags = 
+				Stream.concat(
+					Stream.concat(filterRecipes(recipes, CountingTags.class, CountingTags.TYPE).flatMap(r -> r.value().tag.stream()),
+							StewCookingRecipe.sorted.stream().map(t->t.value()).flatMap(StewCookingRecipe::getTags)),
+							SauteedRecipe.sorted.stream().map(t->t.value()).flatMap(SauteedRecipe::getTags)
+						)
+				.collect(Collectors.toSet());
+
+		DissolveRecipe.recipes = filterRecipes(recipes, DissolveRecipe.class, DissolveRecipe.TYPE)
+				.collect(Collectors.toList());
+		FoodValueRecipe.recipes = filterRecipes(recipes, FoodValueRecipe.class, FoodValueRecipe.TYPE)
+				.flatMap(t -> t.value().processtimes.keySet().stream().map(i -> new Pair<>(i, t.value())))
+				.collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
+		FluidFoodValueRecipe.recipes = filterRecipes(recipes, FluidFoodValueRecipe.class, FluidFoodValueRecipe.TYPE)
+				.collect(Collectors.toMap(e -> e.value().f, UnaryOperator.identity()));
+		List<SmokingRecipe> irs = recipes.byType(RecipeType.SMOKING).stream().map(t->t.value()).toList();
+		Set<Item> is=new HashSet<>();
+		for (Item i : BuiltInRegistries.ITEM) {
+			ItemStack iis = new ItemStack(i);
+			if (FoodValueRecipe.recipes.containsKey(i))
+				continue;
+			if (DissolveRecipe.recipes.stream().anyMatch(e -> e.value().test(iis)))
+				continue;
+			addCookingTime(i, iis,is, irs, false);
+		}
+
+		logger.info("Recipes built");
+	}
+	public static void collectRecipeIndices(RecipeMap recipes) {
+
+		logger.info("Building recipe indices...");
 		Stopwatch sw = Stopwatch.createStarted();
 		Conditions.clearCache();
 		Numbers.clearCache();
@@ -176,39 +209,22 @@ public class RecipeReloadListener{
 		filterRecipes(recipes, BowlContainingRecipe.class, BowlContainingRecipe.TYPE)
 			.forEach(o->BowlContainingRecipe.recipes.computeIfAbsent(o.value().inBowl, _->new ArrayList<>()).add(o));
 
-		FoodValueRecipe.recipes = filterRecipes(recipes, FoodValueRecipe.class, FoodValueRecipe.TYPE)
-				.flatMap(t -> t.value().processtimes.keySet().stream().map(i -> new Pair<>(i, t.value())))
-				.collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
-		List<SmokingRecipe> irs = recipeManager.recipeMap().byType(RecipeType.SMOKING).stream().map(t->t.value()).toList();
 
-		DissolveRecipe.recipes = filterRecipes(recipes, DissolveRecipe.class, DissolveRecipe.TYPE)
-				.collect(Collectors.toList());
 
 		BoilingRecipe.recipes = filterRecipes(recipes, BoilingRecipe.class, BoilingRecipe.TYPE)
 				.collect(Collectors.toList());
 		BoilingRecipe.allBoilables=BoilingRecipe.recipes.stream().flatMap(t->
 		Stream.concat(t.value().before.fluids().stream().map(fs->fs.value()),Stream.of(t.value().after))).collect(Collectors.toSet());
-		FluidFoodValueRecipe.recipes = filterRecipes(recipes, FluidFoodValueRecipe.class, FluidFoodValueRecipe.TYPE)
-				.collect(Collectors.toMap(e -> e.value().f, UnaryOperator.identity()));
+		
 		StewCookingRecipe.sorted = filterRecipes(recipes, StewCookingRecipe.class, StewCookingRecipe.TYPE).collect(Collectors.toList());
 		StewCookingRecipe.sorted.sort((t2, t1) -> t1.value().getPriority() - t2.value().getPriority());
 		StewCookingRecipe.cookables = StewCookingRecipe.sorted.stream().map(t->t.value()).flatMap(StewCookingRecipe::getAllNumbers).collect(Collectors.toSet());
 		
-
-
-		// CountingTags.tags.forEach(System.out::println);
-
 		SauteedRecipe.sorted = filterRecipes(recipes, SauteedRecipe.class, SauteedRecipe.TYPE).collect(Collectors.toList());
 		SauteedRecipe.sorted.sort((t2, t1) -> t1.value().getPriority() - t2.value().getPriority());
 		SauteedRecipe.cookables = SauteedRecipe.sorted.stream().map(t->t.value()).flatMap(SauteedRecipe::getAllNumbers).collect(Collectors.toSet());
 		SauteedRecipe.bowls =SauteedRecipe.sorted.stream().map(t->t.value().bowl).collect(Collectors.toSet());
-		CountingTags.tags = 
-				Stream.concat(
-					Stream.concat(filterRecipes(recipes, CountingTags.class, CountingTags.TYPE).flatMap(r -> r.value().tag.stream()),
-							StewCookingRecipe.sorted.stream().map(t->t.value()).flatMap(StewCookingRecipe::getTags)),
-							SauteedRecipe.sorted.stream().map(t->t.value()).flatMap(SauteedRecipe::getTags)
-						)
-				.collect(Collectors.toSet());
+		
 		DoliumRecipe.recipes = filterRecipes(recipes, DoliumRecipe.class, DoliumRecipe.TYPE)
 				.collect(Collectors.toList());
 		DoliumRecipe.recipesNames=DoliumRecipe.recipes.stream().collect(Collectors.toMap(t->t.id().identifier(), t->t));
@@ -222,25 +238,15 @@ public class RecipeReloadListener{
 				.collect(Collectors.toList());
 
 		SpiceRecipe.recipes = filterRecipes(recipes, SpiceRecipe.class, SpiceRecipe.TYPE).map(t->t.value()).collect(Collectors.toList());
-		Set<Item> is=new HashSet<>();
-		for (Item i : BuiltInRegistries.ITEM) {
-			ItemStack iis = new ItemStack(i);
-			if (FoodValueRecipe.recipes.containsKey(i))
-				continue;
-			if (DissolveRecipe.recipes.stream().anyMatch(e -> e.value().test(iis)))
-				continue;
-			addCookingTime(i, iis,is, irs, false);
-		}
+		
 
-		FoodValueRecipe.recipeset = new HashSet<>(FoodValueRecipe.recipes.values());
 
 		sw.stop();
-		logger.info("Recipes built, cost {}", sw);
+		logger.info("Recipe indices built, cost {}", sw);
 	}
-
 	@SuppressWarnings("unchecked")
-	static <R extends Recipe<?>> Stream<RecipeHolder<R>> filterRecipes(Collection<RecipeHolder<?>> recipes, Class<R> class1,
+	static <R extends Recipe<?>> Stream<RecipeHolder<R>> filterRecipes(RecipeMap recipes, Class<R> class1,
 			DeferredHolder<RecipeType<?>,RecipeType<R>> recipeType) {
-		return recipes.stream().filter(iRecipe -> iRecipe.value().getType() == recipeType.get()).map(t->(RecipeHolder<R>)t);
+		return recipes.byType((RecipeType)recipeType.value()).stream().filter(class1::isInstance);
 	}
 }

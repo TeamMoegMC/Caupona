@@ -1,7 +1,7 @@
 {
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
-		{"item": "caupona:pumice_bloom"}
+		"caupona:pumice_bloom"
 	],
 	"result": {
 		"id": "caupona:pumice"

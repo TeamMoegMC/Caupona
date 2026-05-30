@@ -41,19 +41,19 @@ public class Conditions {
 	public static final Codec<IngredientCondition> CODEC=numbers.createCodec();
 	public static final StreamCodec<RegistryFriendlyByteBuf,IngredientCondition> STREAM_CODEC=numbers.createStreamCodec();
 	static {
-		register("half",Halfs.class, Halfs.CODEC);
-		register("mainly",Mainly.class, Mainly.CODEC);
-		register("contains",Must.class, Must.CODEC);
-		register("mainlyOf",MainlyOfType.class, MainlyOfType.CODEC);
-		register("only",Only.class, Only.CODEC);
+		register("half",Halfs.class, Halfs.CODEC, Halfs.STREAM_CODEC);
+		register("mainly",Mainly.class, Mainly.CODEC, Mainly.STREAM_CODEC);
+		register("contains",Must.class, Must.CODEC, Must.STREAM_CODEC);
+		register("mainlyOf",MainlyOfType.class, MainlyOfType.CODEC, MainlyOfType.STREAM_CODEC);
+		register("only",Only.class, Only.CODEC, Only.STREAM_CODEC);
 		
 	}
 	public static void register(String name, Deserializer<IngredientCondition> des) {
 		numbers.register(name, des);
 	}
 
-	public static <R extends IngredientCondition> void register(String name,Class<R> cls, MapCodec<R> rjson) {
-		numbers.register(name,cls, rjson, SerializeUtil.toStreamCodec(rjson));
+	public static <R extends IngredientCondition> void register(String name,Class<R> cls, MapCodec<R> rjson,StreamCodec<RegistryFriendlyByteBuf,R> rpacket) {
+		numbers.register(name,cls, rjson, rpacket);
 	}
 	
 /*

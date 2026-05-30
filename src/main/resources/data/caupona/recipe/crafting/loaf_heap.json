@@ -5,9 +5,7 @@
 		"LL"
 	],
 	"key": {
-		"L": {
-			"item": "caupona:loaf"
-		}
+		"L": "caupona:loaf"
 	},
 	"result": {
 		"id": "caupona:loaf_heap",

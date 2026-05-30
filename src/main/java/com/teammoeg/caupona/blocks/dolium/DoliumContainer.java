@@ -37,7 +37,7 @@ import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 public class DoliumContainer extends CPBaseContainer<CounterDoliumBlockEntity> {
 	//client only
 	public DoliumContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
-		this(id, inv, (CounterDoliumBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()),new LimitedInterfaceStacksHandler(new ItemStacksResourceHandler(CounterDoliumBlockEntity.ACCESSIBLE_SLOTS)));
+		this(id, inv, (CounterDoliumBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()));
 	}
 	//server only
 	public DoliumContainer(int id, Inventory inv, CounterDoliumBlockEntity blockEntity) {

@@ -1,8 +1,6 @@
 {
 	"type": "stonecutting",
-	"ingredient": {
-		"item": "caupona:mixed_bricks"
-	},
+	"ingredient": "caupona:mixed_bricks",
 	"result": {
 		"id": "caupona:mixed_bricks_stairs"
 	},

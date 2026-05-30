@@ -1,8 +1,6 @@
 {
 	"type": "stonecutting",
-	"ingredient": {
-		"item": "minecraft:terracotta"
-	},
+	"ingredient": "minecraft:terracotta",
 	"result": {
 		"id": "caupona:brick_tesserae"
 	},

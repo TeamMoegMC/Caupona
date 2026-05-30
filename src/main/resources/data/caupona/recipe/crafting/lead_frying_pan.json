@@ -5,12 +5,8 @@
 		"IPI"
 	],
 	"key": {
-		"I": {
-			"tag": "c:ingots/lead"
-		},
-		"P": {
-			"item": "caupona:copper_frying_pan"
-		}
+		"I": "#c:ingots/lead",
+		"P": "caupona:copper_frying_pan"
 	},
 	"result": {
 		"id": "caupona:lead_frying_pan"

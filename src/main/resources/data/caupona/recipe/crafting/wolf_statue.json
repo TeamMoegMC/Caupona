@@ -6,18 +6,10 @@
 		" C "
 	],
 	"key": {
-		"I": {
-			"item": "minecraft:copper_ingot"
-		},
-		"S": {
-			"item": "minecraft:soul_campfire"
-		},
-		"L": {
-			"item": "minecraft:lightning_rod"
-		},
-		"C": {
-			"item": "minecraft:cut_copper"
-		}
+		"I": "minecraft:copper_ingot",
+		"S": "minecraft:soul_campfire",
+		"L": "minecraft:lightning_rod",
+		"C": "minecraft:cut_copper"
 	},
 	"result": {
 		"id": "caupona:wolf_statue"

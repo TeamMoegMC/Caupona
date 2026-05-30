@@ -41,7 +41,7 @@ public class ClientDataMessage  implements CustomPacketPayload{
 	public static final StreamCodec<ByteBuf, ClientDataMessage> CODEC=StreamCodec.composite(
 		BlockPos.STREAM_CODEC,ClientDataMessage::getPos,
 		ByteBufCodecs.SHORT, ClientDataMessage::getType,
-		ByteBufCodecs.INT,ClientDataMessage::getMessage,
+		ByteBufCodecs.VAR_INT,ClientDataMessage::getMessage,
 		ClientDataMessage::new);
 		
 	public ClientDataMessage(BlockPos pos, short type, int message) {

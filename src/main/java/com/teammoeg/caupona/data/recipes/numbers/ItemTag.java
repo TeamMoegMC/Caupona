@@ -31,6 +31,9 @@ import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
@@ -38,6 +41,10 @@ import net.minecraft.world.item.ItemStack;
 public class ItemTag implements CookIngredients {
 	public static final MapCodec<ItemTag> CODEC=
 		RecordCodecBuilder.mapCodec(t->t.group(Identifier.CODEC.fieldOf("tag").forGetter(o->o.tag)).apply(t, ItemTag::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf,ItemTag> STREAM_CODEC=StreamCodec.composite(
+			Identifier.STREAM_CODEC,t->t.tag,
+			ItemTag::new
+			);
 	Identifier tag;
 	public ItemTag(Identifier tag) {
 		super();

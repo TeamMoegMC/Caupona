@@ -43,6 +43,10 @@ import com.teammoeg.caupona.util.SizedOrCatalystIngredient;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
@@ -83,7 +87,29 @@ public class DoliumRecipe extends IDataRecipe{
 	public boolean keepInfo = false;
 	public ItemStackTemplate output;
 	public int time;
-
+	public static final MapCodec<DoliumRecipe> CODEC=
+			RecordCodecBuilder.mapCodec(t->t.group(
+					Codec.list(SizedOrCatalystIngredient.NESTED_CODEC).fieldOf("items").forGetter(o->o.items),
+					Ingredient.CODEC.optionalFieldOf("container").forGetter(o->Optional.ofNullable(o.extra)),
+					BuiltInRegistries.FLUID.byNameCodec().optionalFieldOf("base").forGetter(o->Optional.ofNullable(o.base)),
+					SizedOrCatalystFluidIngredient.NESTED_CODEC.optionalFieldOf("fluid").forGetter(o->Optional.ofNullable(o.fluid)),
+					Codec.FLOAT.fieldOf("density").forGetter(o->o.density),
+					Codec.BOOL.fieldOf("keepInfo").forGetter(o->o.keepInfo),
+					ItemStackTemplate.CODEC.fieldOf("output").forGetter(o->o.output),
+					Codec.INT.optionalFieldOf("time", 1200).forGetter(o->o.time)
+					).apply(t, DoliumRecipe::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf, DoliumRecipe> STREAM_CODEC=StreamCodec.composite(
+			SizedOrCatalystIngredient.STREAM_CODEC.apply(ByteBufCodecs.list()),o->o.items,
+			Ingredient.OPTIONAL_CONTENTS_STREAM_CODEC,o->Optional.ofNullable(o.extra),
+			ByteBufCodecs.optional(ByteBufCodecs.registry(Registries.FLUID)),o->Optional.ofNullable(o.base),
+			ByteBufCodecs.optional(SizedOrCatalystFluidIngredient.STREAM_CODEC),o->Optional.ofNullable(o.fluid),
+			ByteBufCodecs.FLOAT,o->o.density,
+			ByteBufCodecs.BOOL,o->o.keepInfo,
+			ItemStackTemplate.STREAM_CODEC,o->o.output,
+			ByteBufCodecs.VAR_INT,o->o.time,
+			
+			DoliumRecipe::new
+			);
 	public DoliumRecipe(Fluid base, Fluid fluid, int amount, float density,
 			boolean keep, ItemStackTemplate out, List<SizedOrCatalystIngredient> items, int time) {
 		this( base, fluid, amount, density, keep, out, items, null,time);
@@ -118,17 +144,6 @@ public class DoliumRecipe extends IDataRecipe{
 		keepInfo = keep;
 		this.time=time;
 	}
-	public static final MapCodec<DoliumRecipe> CODEC=
-			RecordCodecBuilder.mapCodec(t->t.group(
-					Codec.list(SizedOrCatalystIngredient.NESTED_CODEC).fieldOf("items").forGetter(o->o.items),
-					Ingredient.CODEC.optionalFieldOf("container").forGetter(o->Optional.ofNullable(o.extra)),
-					BuiltInRegistries.FLUID.byNameCodec().optionalFieldOf("base").forGetter(o->Optional.ofNullable(o.base)),
-					SizedOrCatalystFluidIngredient.NESTED_CODEC.optionalFieldOf("fluid").forGetter(o->Optional.ofNullable(o.fluid)),
-					Codec.FLOAT.fieldOf("density").forGetter(o->o.density),
-					Codec.BOOL.fieldOf("keepInfo").forGetter(o->o.keepInfo),
-					ItemStackTemplate.CODEC.fieldOf("output").forGetter(o->o.output),
-					Codec.INT.optionalFieldOf("time", 1200).forGetter(o->o.time)
-					).apply(t, DoliumRecipe::new));
 
 	public static DoliumRecipe testPot(FluidStack fluidStack) {
 		return recipes.stream().map(t->t.value()).filter(t -> t.test(fluidStack, ItemStack.EMPTY)).findFirst().orElse(null);

@@ -27,9 +27,12 @@ import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+
 public class Mainly extends NumberedStewCondition {
 	public static final MapCodec<Mainly> CODEC=NumberedStewCondition.createCodec(Mainly::new);
-
+	public static final StreamCodec<RegistryFriendlyByteBuf, Mainly> STREAM_CODEC=NumberedStewCondition.createStreamCodec(Mainly::new);
 
 	public Mainly(CookIngredients number) {
 		super(number);

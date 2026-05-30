@@ -33,7 +33,7 @@ import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 public class KitchenStoveContainer extends CPBaseContainer<KitchenStoveBlockEntity> {
 
 	public KitchenStoveContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
-		this(id, inv, (KitchenStoveBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()),new ItemStacksResourceHandler(1));
+		this(id, inv, (KitchenStoveBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()));
 	}
 	public KitchenStoveContainer(int id, Inventory inv, KitchenStoveBlockEntity blockEntity) {
 		this(id,inv,blockEntity,blockEntity.getInv());

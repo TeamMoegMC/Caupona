@@ -2,17 +2,17 @@
 	"type": "caupona:dolium",
 	"items": [
 		{
-			"item": "minecraft:apple",
+			"ingredient": "minecraft:apple",
 			"count": 1
 		},
 		{
-			"item":"minecraft:dirt",
+			"ingredient":"minecraft:dirt",
 			"count": 2
 		}
 	],
 	"fluid": {
     	"amount": 1000,
-    	"fluid": "minecraft:water"
+    	"ingredient": "minecraft:water"
     },
 	"density": 0.0,
 	"keepInfo": false,

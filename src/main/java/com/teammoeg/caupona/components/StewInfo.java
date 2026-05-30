@@ -39,13 +39,16 @@ import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.util.ChancedEffect;
 import com.teammoeg.caupona.util.FloatemStack;
-import com.teammoeg.caupona.util.SerializeUtil;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -54,10 +57,10 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.FoodProperties.Builder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.TooltipContext;
-import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.TooltipProvider;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
@@ -76,8 +79,21 @@ public class StewInfo extends SpicedFoodInfo implements IFoodInfo,TooltipProvide
 		Codec.list(ChancedEffect.CODEC).fieldOf("feffects").forGetter(o->o.foodeffect),
 		Codec.INT.fieldOf("heal").forGetter(o->o.healing),
 		Codec.FLOAT.fieldOf("sat").forGetter(o->o.saturation),
-		SerializeUtil.idOrKey(BuiltInRegistries.FLUID).fieldOf("base").forGetter(o->o.base)
+		BuiltInRegistries.FLUID.byNameCodec().fieldOf("base").forGetter(o->o.base)
 		).apply(t, ImmutableStewInfo::new));
+
+	public static final StreamCodec<RegistryFriendlyByteBuf,ImmutableStewInfo> STREAM_CODEC=StreamCodec.composite(
+					ByteBufCodecs.optional(MobEffectInstance.STREAM_CODEC),o->Optional.ofNullable(o.spice),
+					ByteBufCodecs.BOOL,o->o.hasSpice,
+					ByteBufCodecs.optional(Identifier.STREAM_CODEC),o->Optional.ofNullable(o.spiceName),
+					FloatemStack.STREAM_CODEC.apply(ByteBufCodecs.list()),o->o.stacks,
+					ChancedEffect.STREAM_CODEC.apply(ByteBufCodecs.list()),o->o.effects,
+					ChancedEffect.STREAM_CODEC.apply(ByteBufCodecs.list()),o->o.foodeffect,
+					ByteBufCodecs.VAR_INT,o->o.healing,
+					ByteBufCodecs.FLOAT,o->o.saturation,
+					ByteBufCodecs.registry(Registries.FLUID),o->o.base,
+					ImmutableStewInfo::new
+					);
 	public static final Codec<StewInfo> COPY_ON_WRITE_CODEC=CODEC.xmap(t->t.copy(), t->t.toImmutable());
 	
 	

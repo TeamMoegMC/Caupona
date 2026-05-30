@@ -1,8 +1,6 @@
 {
 	"type": "stonecutting",
-	"ingredient": {
-		"item": "minecraft:quartz_block"
-	},
+	"ingredient": "minecraft:quartz_block",
 	"result": {
 		"id": "caupona:quartz_acanthine_column_capital"
 	},

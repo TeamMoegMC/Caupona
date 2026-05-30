@@ -6,12 +6,8 @@
 		"B B"
 	],
 	"key": {
-		"S": {
-			"item": "caupona:opus_latericium_slab"
-		},
-		"B": {
-			"item": "caupona:opus_latericium"
-		}
+		"S": "caupona:opus_latericium_slab",
+		"B": "caupona:opus_latericium"
 	},
 	"result": {
 		"id": "caupona:opus_latericium_chimney_pot"

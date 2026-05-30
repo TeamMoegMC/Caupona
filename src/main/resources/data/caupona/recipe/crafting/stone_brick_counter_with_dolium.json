@@ -6,18 +6,10 @@
 		"BTB"
 	],
 	"key": {
-		"S": {
-			"item": "minecraft:stone_slab"
-		},
-		"B": {
-			"item": "minecraft:stone_bricks"
-		},
-		"P": {
-			"item": "caupona:stew_pot"
-		},
-		"T": {
-			"item": "minecraft:terracotta"
-		}
+		"S": "minecraft:stone_slab",
+		"B": "minecraft:stone_bricks",
+		"P": "caupona:stew_pot",
+		"T": "minecraft:terracotta"
 	},
 	"result": {
 		"id": "caupona:stone_brick_counter_with_dolium"

@@ -6,18 +6,10 @@
 		"CTC"
 	],
 	"key": {
-		"D": {
-			"item": "minecraft:dirt"
-		},
-		"C": {
-			"item": "minecraft:cobblestone"
-		},
-		"P": {
-			"item": "caupona:stew_pot"
-		},
-		"T": {
-			"item": "minecraft:terracotta"
-		}
+		"D": "minecraft:dirt",
+		"C": "minecraft:cobblestone",
+		"P": "caupona:stew_pot",
+		"T": "minecraft:terracotta"
 	},
 	"result": {
 		"id": "caupona:mud_counter_with_dolium"

@@ -5,12 +5,8 @@
 		"BB"
 	],
 	"key": {
-		"S": {
-			"item": "caupona:opus_incertum_slab"
-		},
-		"B": {
-			"item": "caupona:opus_incertum"
-		}
+		"S": "caupona:opus_incertum_slab",
+		"B": "caupona:opus_incertum"
 	},
 	"result": {
 		"id": "caupona:opus_incertum_counter"

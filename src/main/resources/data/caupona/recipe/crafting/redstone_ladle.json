@@ -6,21 +6,11 @@
 		"RCR"
 	],
 	"key": {
-		"I": {
-			"tag": "c:ingots/lead"
-		},
-		"#": {
-			"item": "minecraft:chain"
-		},
-		"S": {
-			"item": "minecraft:wooden_shovel"
-		},
-		"R": {
-			"item": "minecraft:repeater"
-		},
-		"C": {
-			"item": "minecraft:comparator"
-		}
+		"I": "#c:ingots/lead",
+		"#": "minecraft:iron_chain",
+		"S": "minecraft:wooden_shovel",
+		"R": "minecraft:repeater",
+		"C": "minecraft:comparator"
 	},
 	"result": {
 		"id": "caupona:redstone_ladle"

@@ -32,6 +32,9 @@ import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.util.SerializeUtil;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -46,6 +49,12 @@ public class CountingTags extends IDataRecipe {
 			RecordCodecBuilder.mapCodec(t->t.group(
 					Codec.list(Identifier.CODEC).fieldOf("tags").forGetter(o->o.tag)
 					).apply(t, CountingTags::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf, CountingTags> STREAM_CODEC=StreamCodec.composite(
+			Identifier.STREAM_CODEC.apply(ByteBufCodecs.list()),o->o.tag,
+			
+			
+			CountingTags::new
+			);
 	@Override
 	public RecipeSerializer<CountingTags> getSerializer() {
 		return SERIALIZER.get();

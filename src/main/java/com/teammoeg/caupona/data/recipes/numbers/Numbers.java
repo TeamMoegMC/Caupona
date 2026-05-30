@@ -35,12 +35,12 @@ public class Numbers{
 	public static final Codec<CookIngredients> CODEC=numbers.createCodec();
 	public static final StreamCodec<RegistryFriendlyByteBuf, CookIngredients> STREAM_CODEC=numbers.createStreamCodec();
 	static {
-		register("add", Add.class, Add.CODEC);
-		register("ingredient", ItemIngredient.class, ItemIngredient.CODEC);
-		register("item", ItemType.class, ItemType.CODEC);
-		register("tag", ItemTag.class, ItemTag.CODEC);
-		register("nop", NopNumber.class, NopNumber.CODEC);
-		register("const", ConstNumber.class, ConstNumber.CODEC);
+		register("add", Add.class, Add.CODEC, Add.STREAM_CODEC);
+		register("ingredient", ItemIngredient.class, ItemIngredient.CODEC, ItemIngredient.STREAM_CODEC);
+		register("item", ItemType.class, ItemType.CODEC, ItemType.STREAM_CODEC);
+		register("tag", ItemTag.class, ItemTag.CODEC, ItemTag.STREAM_CODEC);
+		register("nop", NopNumber.class, NopNumber.CODEC, NopNumber.STREAM_CODEC);
+		register("const", ConstNumber.class, ConstNumber.CODEC, ConstNumber.STREAM_CODEC);
 	}
 	private Numbers(){
 		
@@ -48,9 +48,6 @@ public class Numbers{
 	public static <T extends CookIngredients> void register(String name,Class<T> cls, MapCodec<T> rjson,
 			StreamCodec<RegistryFriendlyByteBuf, T> rpacket) {
 		numbers.register(name, cls, rjson, rpacket);
-	}
-	public static <T extends CookIngredients> void register(String name,Class<T> cls, MapCodec<T> rjson) {
-		numbers.register(name, cls, rjson, SerializeUtil.toStreamCodec(rjson));
 	}
 //	public static CookIngredients of(FriendlyByteBuf buffer) {
 //		return numbers.of(buffer);

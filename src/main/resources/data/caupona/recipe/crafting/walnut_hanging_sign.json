@@ -6,12 +6,8 @@
 		"LLL"
 	],
 	"key": {
-		"C": {
-			"item": "minecraft:chain"
-		},
-		"L": {
-			"item": "caupona:stripped_walnut_log"
-		}
+		"C": "minecraft:iron_chain",
+		"L": "caupona:stripped_walnut_log"
 	},
 	"result": {
 		"id": "caupona:walnut_hanging_sign",

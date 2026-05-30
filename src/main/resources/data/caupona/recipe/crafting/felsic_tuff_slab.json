@@ -4,9 +4,7 @@
 		"BBB"
 	],
 	"key": {
-		"B": {
-			"item": "caupona:felsic_tuff"
-		}
+		"B": "caupona:felsic_tuff"
 	},
 	"result": {
 		"id": "caupona:felsic_tuff_slab",

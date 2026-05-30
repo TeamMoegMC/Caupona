@@ -1,8 +1,6 @@
 {
 	"type": "stonecutting",
-	"ingredient": {
-		"item": "caupona:opus_latericium"
-	},
+	"ingredient": "caupona:opus_latericium",
 	"result": {
 		"id": "caupona:opus_latericium_slab"
 	},

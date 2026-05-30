@@ -6,15 +6,9 @@
 		"CPC"
 	],
 	"key": {
-		"C": {
-			"item": "minecraft:clay_ball"
-		},
-		"S": {
-			"item": "minecraft:stick"
-		},
-		"P": {
-			"item": "minecraft:flower_pot"
-		}
+		"C": "minecraft:clay_ball",
+		"S": "minecraft:stick",
+		"P": "minecraft:flower_pot"
 	},
 	"result": {
 		"id": "caupona:clay_portable_brazier"

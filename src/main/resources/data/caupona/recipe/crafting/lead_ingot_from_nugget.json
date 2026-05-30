@@ -1,15 +1,15 @@
 {
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
-		{"item": "caupona:lead_nugget"},
-		{"tag": "c:nuggets/lead"},
-		{"tag": "c:nuggets/lead"},
-		{"tag": "c:nuggets/lead"},
-		{"tag": "c:nuggets/lead"},
-		{"tag": "c:nuggets/lead"},
-		{"tag": "c:nuggets/lead"},
-		{"tag": "c:nuggets/lead"},
-		{"tag": "c:nuggets/lead"}
+		"caupona:lead_nugget",
+		"#c:nuggets/lead",
+		"#c:nuggets/lead",
+		"#c:nuggets/lead",
+		"#c:nuggets/lead",
+		"#c:nuggets/lead",
+		"#c:nuggets/lead",
+		"#c:nuggets/lead",
+		"#c:nuggets/lead"
 	],
 	"result": {
 		"id": "caupona:lead_ingot"

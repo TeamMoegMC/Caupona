@@ -5,12 +5,8 @@
 		"IIS"
 	],
 	"key": {
-		"I": {
-			"item": "minecraft:copper_ingot"
-		},
-		"S": {
-			"item": "minecraft:stick"
-		}
+		"I": "minecraft:copper_ingot",
+		"S": "minecraft:stick"
 	},
 	"result": {
 		"id": "caupona:copper_frying_pan"

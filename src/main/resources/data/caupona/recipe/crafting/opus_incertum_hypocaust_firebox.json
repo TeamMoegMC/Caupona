@@ -6,15 +6,9 @@
 		"BIB"
 	],
 	"key": {
-		"S": {
-			"item": "caupona:opus_incertum_slab"
-		},
-		"B": {
-			"item": "caupona:opus_incertum"
-		},
-		"I": {
-			"item": "minecraft:copper_ingot"
-		}
+		"S": "caupona:opus_incertum_slab",
+		"B": "caupona:opus_incertum",
+		"I": "minecraft:copper_ingot"
 	},
 	"result": {
 		"id": "caupona:opus_incertum_hypocaust_firebox"

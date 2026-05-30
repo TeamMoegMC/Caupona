@@ -1,8 +1,6 @@
 {
 	"type": "stonecutting",
-	"ingredient": {
-		"item": "caupona:opus_incertum"
-	},
+	"ingredient": "caupona:opus_incertum",
 	"result": {
 		"id": "caupona:opus_incertum_stairs"
 	},

@@ -1,8 +1,6 @@
 {
 	"type": "stonecutting",
-	"ingredient": {
-		"item": "caupona:opus_reticulatum"
-	},
+	"ingredient": "caupona:opus_reticulatum",
 	"result": {
 		"id": "caupona:opus_reticulatum_wall"
 	},

@@ -31,12 +31,14 @@ import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.numbers.Numbers;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 
 public class MainlyOfType extends NumberedStewCondition {
 	private final Identifier type;
 	public static final MapCodec<MainlyOfType> CODEC=RecordCodecBuilder.mapCodec(t->t.group(Numbers.CODEC.fieldOf("number").forGetter(o->o.number),Identifier.CODEC.fieldOf("tag").forGetter(o->o.type)).apply(t, MainlyOfType::new));
-
+	public static final StreamCodec<RegistryFriendlyByteBuf, MainlyOfType> STREAM_CODEC=NumberedStewCondition.createStreamCodec(Identifier.STREAM_CODEC,t->t.type,MainlyOfType::new);
 	public MainlyOfType(CookIngredients obj, Identifier type) {
 		super(obj);
 		this.type = type;

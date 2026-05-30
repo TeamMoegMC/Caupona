@@ -2,29 +2,24 @@
 	"type": "caupona:dolium",
 	"items": [
 		{
-			"item": "minecraft:bread",
+			"ingredient": "minecraft:bread",
 			"count": 1
 		},
 		{
-			"item": "caupona:walnut",
+			"ingredient": "caupona:walnut",
 			"count": 2
 		},
 		{
-			"type": "neoforge:compound", 
-			"ingredients": [
-				{
-					"item": "minecraft:sugar"
-				},
-				{
-					"item": "minecraft:honeycomb"
-				}
+			"ingredient": [
+				"minecraft:sugar",
+				"minecraft:honeycomb"
 			],
 			"count": 2
 		}
 	],
 	"fluid": {
     	"amount": 500,
-    	"fluid": "caupona:bone_gelatin"
+    	"ingredient": "caupona:bone_gelatin"
     },
 	"density": 0.0,
 	"keepInfo": false,

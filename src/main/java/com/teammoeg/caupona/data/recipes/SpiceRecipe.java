@@ -22,12 +22,13 @@
 package com.teammoeg.caupona.data.recipes;
 
 import java.util.List;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.IDataRecipe;
-
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
@@ -60,6 +61,12 @@ public class SpiceRecipe extends IDataRecipe {
 					MobEffectInstance.CODEC.fieldOf("effect").forGetter(o->o.effect),
 					Codec.BOOL.fieldOf("reacts_lead").forGetter(o->o.canReactLead)
 					).apply(t, SpiceRecipe::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf,SpiceRecipe> STREAM_CODEC=StreamCodec.composite(
+			Ingredient.CONTENTS_STREAM_CODEC,o->o.spice,
+			MobEffectInstance.STREAM_CODEC,o->o.effect,
+			ByteBufCodecs.BOOL,o->o.canReactLead,
+			SpiceRecipe::new
+			);
 	/*public SpiceRecipe(JsonObject jo) {
 
 		spice = Ingredient.fromJson(jo.get("spice"),true);

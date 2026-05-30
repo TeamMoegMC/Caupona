@@ -6,9 +6,7 @@
 		"BBB"
 	],
 	"key": {
-		"B": {
-			"item": "caupona:opus_incertum"
-		}
+		"B": "caupona:opus_incertum"
 	},
 	"result": {
 		"id": "caupona:opus_incertum_stairs",

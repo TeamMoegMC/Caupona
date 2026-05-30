@@ -4,9 +4,7 @@
 		"BBB"
 	],
 	"key": {
-		"B": {
-			"item": "caupona:opus_latericium"
-		}
+		"B": "caupona:opus_latericium"
 	},
 	"result": {
 		"id": "caupona:opus_latericium_slab",

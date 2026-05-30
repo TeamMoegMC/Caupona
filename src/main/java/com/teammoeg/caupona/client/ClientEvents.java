@@ -24,6 +24,7 @@ package com.teammoeg.caupona.client;
 
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.client.util.DynamicBlockModelReference;
+import com.teammoeg.caupona.data.RecipeReloadListener;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
@@ -31,6 +32,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
 import net.neoforged.neoforge.client.model.standalone.SimpleUnbakedStandaloneModel;
 
 @EventBusSubscriber(modid = CPMain.MODID, value = Dist.CLIENT)
@@ -48,5 +50,7 @@ public class ClientEvents {
 					
 		});
 	}
-	
+	public static void onRecipeSynced(RecipesReceivedEvent ev) {
+		RecipeReloadListener.collectRecipeIndices(ev.getRecipeMap());
+	}
 }

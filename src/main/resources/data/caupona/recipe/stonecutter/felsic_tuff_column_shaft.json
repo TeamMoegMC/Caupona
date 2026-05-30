@@ -1,8 +1,6 @@
 {
 	"type": "stonecutting",
-	"ingredient": {
-		"item": "caupona:felsic_tuff"
-	},
+	"ingredient": "caupona:felsic_tuff",
 	"result": {
 		"id": "caupona:felsic_tuff_column_shaft"
 	},

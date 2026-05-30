@@ -5,12 +5,8 @@
 		"XXS"
 	],
 	"key": {
-		"X": {
-			"item": "minecraft:smooth_stone_slab"
-		},
-		"S": {
-			"item": "minecraft:stick"
-		}
+		"X": "minecraft:smooth_stone_slab",
+		"S": "minecraft:stick"
 	},
 	"result": {
 		"id": "caupona:stone_griddle"

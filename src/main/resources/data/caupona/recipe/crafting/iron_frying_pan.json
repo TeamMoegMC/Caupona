@@ -5,12 +5,8 @@
 		"IIS"
 	],
 	"key": {
-		"I": {
-			"item": "minecraft:iron_ingot"
-		},
-		"S": {
-			"item": "minecraft:stick"
-		}
+		"I": "minecraft:iron_ingot",
+		"S": "minecraft:stick"
 	},
 	"result": {
 		"id": "caupona:iron_frying_pan"

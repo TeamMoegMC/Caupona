@@ -26,10 +26,13 @@ import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+
 public class Must extends NumberedStewCondition {
 	public static final MapCodec<Must> CODEC=NumberedStewCondition.createCodec(Must::new);
 
-
+	public static final StreamCodec<RegistryFriendlyByteBuf, Must> STREAM_CODEC=NumberedStewCondition.createStreamCodec(Must::new);
 	public Must(CookIngredients number) {
 		super(number);
 	}

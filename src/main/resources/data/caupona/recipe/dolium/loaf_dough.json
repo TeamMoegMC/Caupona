@@ -2,13 +2,13 @@
 	"type": "caupona:dolium",
 	"items": [
 		{
-			"item": "minecraft:wheat",
+			"ingredient": "minecraft:wheat",
 			"count": 3
 		}
 	],
 	"fluid": {
     	"amount": 1000,
-    	"fluid": "minecraft:water"
+    	"ingredient": "minecraft:water"
     },
 	"density": 0.0,
 	"keepInfo": false,

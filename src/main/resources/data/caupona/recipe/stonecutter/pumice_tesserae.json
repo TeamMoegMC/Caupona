@@ -1,8 +1,6 @@
 {
 	"type": "stonecutting",
-	"ingredient": {
-		"item": "caupona:pumice"
-	},
+	"ingredient": "caupona:pumice",
 	"result": {
 		"id": "caupona:pumice_tesserae"
 	},

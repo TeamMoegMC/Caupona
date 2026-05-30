@@ -6,18 +6,10 @@
 		"BTB"
 	],
 	"key": {
-		"S": {
-			"item": "caupona:opus_latericium_slab"
-		},
-		"B": {
-			"item": "caupona:opus_latericium"
-		},
-		"P": {
-			"item": "caupona:stew_pot"
-		},
-		"T": {
-			"item": "minecraft:terracotta"
-		}
+		"S": "caupona:opus_latericium_slab",
+		"B": "caupona:opus_latericium",
+		"P": "caupona:stew_pot",
+		"T": "minecraft:terracotta"
 	},
 	"result": {
 		"id": "caupona:opus_latericium_counter_with_dolium"

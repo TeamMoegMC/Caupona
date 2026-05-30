@@ -26,17 +26,8 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 
-public class Deserializer<U> {
-	private int id;
-	public MapCodec<U> fromJson;
-	public StreamCodec<RegistryFriendlyByteBuf, U> fromPacket;
+public record Deserializer<U> (MapCodec<U> fromJson, StreamCodec<? super RegistryFriendlyByteBuf, U> fromPacket,int id){
 
-	public Deserializer(MapCodec<U> fromJson, StreamCodec<RegistryFriendlyByteBuf, U> fromPacket,int id) {
-		super();
-		this.fromJson = fromJson;
-		this.fromPacket = fromPacket;
-		this.id=id;
-	}
 
 	public U read(RegistryFriendlyByteBuf packet) {
 		return fromPacket.decode(packet);

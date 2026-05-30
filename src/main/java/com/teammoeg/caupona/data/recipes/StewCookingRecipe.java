@@ -39,6 +39,10 @@ import com.teammoeg.caupona.fluid.SoupFluid;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -113,6 +117,18 @@ public class StewCookingRecipe extends IDataRecipe implements IConditionalRecipe
 			BuiltInRegistries.FLUID.byNameCodec().fieldOf("output").forGetter(o->o.output),
 			Codec.BOOL.fieldOf("removeNBT").forGetter(o->o.removeNBT)
 				).apply(t, StewCookingRecipe::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf,StewCookingRecipe> STREAM_CODEC=StreamCodec.composite(
+			ByteBufCodecs.optional(Conditions.STREAM_CODEC.apply(ByteBufCodecs.list())),o->Optional.ofNullable(o.allow),
+			ByteBufCodecs.optional(Conditions.STREAM_CODEC.apply(ByteBufCodecs.list())),o->Optional.ofNullable(o.deny),
+			ByteBufCodecs.VAR_INT,o->o.priority,
+			ByteBufCodecs.VAR_INT,o->o.time,
+			ByteBufCodecs.FLOAT,o->o.density,
+			ByteBufCodecs.optional(BaseConditions.STREAM_CODEC.apply(ByteBufCodecs.list())),o->Optional.ofNullable(o.base),
+			ByteBufCodecs.registry(Registries.FLUID),o->o.output,
+			ByteBufCodecs.BOOL,o->o.removeNBT,
+			StewCookingRecipe::new
+			);
+			
 //	public StewCookingRecipe(FriendlyByteBuf data) {
 //		allow = SerializeUtil.readList(data, Conditions::of);
 //		deny = SerializeUtil.readList(data, Conditions::of);

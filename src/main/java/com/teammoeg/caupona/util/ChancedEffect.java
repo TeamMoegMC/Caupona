@@ -27,6 +27,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.component.Consumable;
@@ -34,9 +37,16 @@ import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 
 public class ChancedEffect implements Comparable<ChancedEffect>{
 	public final static Codec<ChancedEffect> CODEC=RecordCodecBuilder.create(t->t.group(
-		SerializeUtil.fromRFBBStreamCodec(MobEffectInstance.STREAM_CODEC,MobEffectInstance.CODEC).fieldOf("effect").forGetter(o->o.effect),
+			MobEffectInstance.CODEC.fieldOf("effect").forGetter(o->o.effect),
 		Codec.FLOAT.fieldOf("chance").forGetter(o->o.chance)
 		).apply(t, ChancedEffect::new));
+	public final static StreamCodec<RegistryFriendlyByteBuf,ChancedEffect> STREAM_CODEC=
+			StreamCodec.composite(
+					MobEffectInstance.STREAM_CODEC,o->o.effect,
+					ByteBufCodecs.FLOAT,o->o.chance,
+					ChancedEffect::new
+					);
+			
 	public MobEffectInstance effect;
 	public float chance;
 	public ChancedEffect(MobEffectInstance effect, float chance) {

@@ -36,15 +36,22 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.util.ChancedEffect;
+import com.teammoeg.caupona.util.SerializeUtil;
 import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -53,7 +60,6 @@ public class FoodValueRecipe extends IDataRecipe {
 	public static Map<Item, FoodValueRecipe> recipes;
 	public static DeferredHolder<RecipeType<?>,RecipeType<FoodValueRecipe>> TYPE;
 	public static DeferredHolder<RecipeSerializer<?>,RecipeSerializer<FoodValueRecipe>> SERIALIZER;
-	public static Set<FoodValueRecipe> recipeset;
 
 	@Override
 	public RecipeSerializer<FoodValueRecipe> getSerializer() {
@@ -80,6 +86,14 @@ public class FoodValueRecipe extends IDataRecipe {
 			Codec.list(Utils.pairCodec("item",BuiltInRegistries.ITEM.byNameCodec(), "time", Codec.INT)).fieldOf("items").forGetter(o->o.getProcessTime()),
 			ItemStackTemplate.CODEC.optionalFieldOf("item").forGetter(o->o.repersent)
 				).apply(t, FoodValueRecipe::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf, FoodValueRecipe> STREAM_CODEC=StreamCodec.composite(
+			ByteBufCodecs.VAR_INT,o->o.heal,
+			ByteBufCodecs.FLOAT,o->o.sat,
+			ByteBufCodecs.optional(ChancedEffect.STREAM_CODEC.apply(ByteBufCodecs.list())),o->Optional.ofNullable(o.effects),
+			SerializeUtil.pair(ByteBufCodecs.registry(Registries.ITEM), ByteBufCodecs.VAR_INT).apply(ByteBufCodecs.list()),o->o.getProcessTime(),
+			ByteBufCodecs.optional(ItemStackTemplate.STREAM_CODEC),o->o.repersent,
+			FoodValueRecipe::new
+			);
 	public FoodValueRecipe(int heal, float sat,Optional<List<ChancedEffect>> effects, List<Pair<Item, Integer>> processtimes, Optional<ItemStackTemplate> repersent) {
 		super();
 		this.heal = heal;

@@ -29,7 +29,6 @@ import com.teammoeg.caupona.components.ItemHoldedFluidData;
 import com.teammoeg.caupona.components.MosaicData;
 import com.teammoeg.caupona.components.SauteedFoodInfo;
 import com.teammoeg.caupona.components.StewInfo;
-import com.teammoeg.caupona.util.SerializeUtil;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentType;
@@ -48,10 +47,10 @@ public class CPCapability {
 	public static final DeferredRegister<DataComponentType<?>> REGISTRY=DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, CPMain.MODID);
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<ImmutableStewInfo>> STEW_INFO=REGISTRY.register(
 		"stew_info",
-		()->DataComponentType.<ImmutableStewInfo>builder().persistent(ImmutableStewInfo.CODEC).networkSynchronized(SerializeUtil.toStreamCodec(StewInfo.CODEC)).build());
+		()->DataComponentType.<ImmutableStewInfo>builder().persistent(StewInfo.CODEC).networkSynchronized(StewInfo.STREAM_CODEC).build());
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<SauteedFoodInfo>> SAUTEED_INFO=REGISTRY.register(
 		"sauteed_info",
-		()->DataComponentType.<SauteedFoodInfo>builder().persistent(SauteedFoodInfo.CODEC).networkSynchronized(SerializeUtil.toStreamCodec(SauteedFoodInfo.CODEC)).build());
+		()->DataComponentType.<SauteedFoodInfo>builder().persistent(SauteedFoodInfo.CODEC).networkSynchronized(SauteedFoodInfo.STREAM_CODEC).build());
 
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<SimpleFluidContent>> SIMPLE_FLUID=REGISTRY.register(
 		"fluid_data",

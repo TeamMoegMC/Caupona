@@ -1,8 +1,6 @@
 {
 	"type": "stonecutting",
-	"ingredient": {
-		"item": "minecraft:stone"
-	},
+	"ingredient": "minecraft:stone",
 	"result": {
 		"id": "caupona:stone_column_fluted_plinth"
 	},

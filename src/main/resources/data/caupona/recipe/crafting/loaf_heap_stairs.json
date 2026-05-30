@@ -6,9 +6,7 @@
 		"BBB"
 	],
 	"key": {
-		"B": {
-			"item": "caupona:loaf_heap"
-		}
+		"B": "caupona:loaf_heap"
 	},
 	"result": {
 		"id": "caupona:loaf_heap_stairs",

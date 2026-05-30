@@ -1,8 +1,6 @@
 {
 	"type": "stonecutting",
-	"ingredient": {
-		"item": "caupona:loaf_heap"
-	},
+	"ingredient": "caupona:loaf_heap",
 	"result": {
 		"id": "caupona:loaf_heap_stairs"
 	},

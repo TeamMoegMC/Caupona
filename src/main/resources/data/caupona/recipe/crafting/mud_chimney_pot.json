@@ -6,12 +6,8 @@
 		"C C"
 	],
 	"key": {
-		"D": {
-			"item": "minecraft:dirt"
-		},
-		"C": {
-			"item": "minecraft:cobblestone"
-		}
+		"D": "minecraft:dirt",
+		"C": "minecraft:cobblestone"
 	},
 	"result": {
 		"id": "caupona:mud_chimney_pot"

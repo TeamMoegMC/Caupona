@@ -33,6 +33,10 @@ import com.teammoeg.caupona.components.ItemHoldedFluidData;
 import com.teammoeg.caupona.data.IDataRecipe;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -90,6 +94,13 @@ public class BowlContainingRecipe extends IDataRecipe {
 					FluidIngredient.CODEC.fieldOf("fluid").forGetter(o->o.fluid),
 					Ingredient.CODEC.fieldOf("inType").forGetter(o->o.inBowl)
 					).apply(t, BowlContainingRecipe::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf, BowlContainingRecipe> STREAM_CODEC=StreamCodec.composite(
+			ByteBufCodecs.registry(Registries.ITEM),o->o.bowl,
+			FluidIngredient.STREAM_CODEC,o->o.fluid,
+			Ingredient.CONTENTS_STREAM_CODEC,o->o.inBowl,
+			
+			BowlContainingRecipe::new
+			);
 /*
 	public BowlContainingRecipe(FriendlyByteBuf pb) {
 		bowl = pb.readById(BuiltInRegistries.ITEM);

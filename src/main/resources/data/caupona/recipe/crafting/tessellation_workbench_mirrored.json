@@ -6,15 +6,9 @@
 		"C C"
 	],
 	"key": {
-		"C": {
-			"item": "minecraft:calcite"
-		},
-		"B": {
-			"item": "minecraft:writable_book"
-		},
-		"H": {
-			"item": "minecraft:chest"
-		}
+		"C": "minecraft:calcite",
+		"B": "minecraft:writable_book",
+		"H": "minecraft:chest"
 	},
 	"result": {
 		"id": "caupona:tessellation_workbench"

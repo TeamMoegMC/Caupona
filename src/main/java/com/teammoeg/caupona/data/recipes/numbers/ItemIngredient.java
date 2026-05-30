@@ -32,6 +32,9 @@ import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -40,6 +43,12 @@ public class ItemIngredient implements CookIngredients {
 	public static final MapCodec<ItemIngredient> CODEC=
 		RecordCodecBuilder.mapCodec(t->t.group(Ingredient.CODEC.fieldOf("ingredient").forGetter(o->o.i),
 			Codec.STRING.optionalFieldOf("translation").forGetter(o->Optional.ofNullable(o.translation))).apply(t, ItemIngredient::new));
+	
+	public static final StreamCodec<RegistryFriendlyByteBuf,ItemIngredient> STREAM_CODEC=StreamCodec.composite(
+			Ingredient.CONTENTS_STREAM_CODEC,t->t.i,
+			ByteBufCodecs.STRING_UTF8,t->t.translation,
+			ItemIngredient::new
+			);
 	Ingredient i;
 	String translation="";
 

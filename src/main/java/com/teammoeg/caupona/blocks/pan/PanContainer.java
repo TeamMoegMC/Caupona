@@ -39,7 +39,7 @@ import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 public class PanContainer extends CPBaseContainer<PanBlockEntity> {
 
 	public PanContainer(int id, Inventory inv, FriendlyByteBuf buffer) {
-		this(id, inv, (PanBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()),new ItemStacksResourceHandler(PanBlockEntity.ACCESSIBLE_SLOTS));
+		this(id, inv, (PanBlockEntity) inv.player.level().getBlockEntity(buffer.readBlockPos()));
 	}
 	public PanContainer(int id, Inventory inv, PanBlockEntity blockEntity,ItemStacksResourceHandler blockInv) {
 		this(id,inv,blockEntity,blockInv,blockInv::set);

@@ -32,12 +32,19 @@ import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 public class ConstNumber implements CookIngredients {
 	float n;
 	public static final MapCodec<ConstNumber> CODEC=RecordCodecBuilder.mapCodec(t->t.group(Codec.FLOAT.fieldOf("num").forGetter(o->o.n)).apply(t, ConstNumber::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf,ConstNumber> STREAM_CODEC=StreamCodec.composite(
+			ByteBufCodecs.FLOAT,t->t.n,
+			ConstNumber::new
+			);
 	public ConstNumber(JsonElement num) {
 		if (num.isJsonPrimitive())
 			n = num.getAsFloat();

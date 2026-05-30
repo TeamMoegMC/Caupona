@@ -2,13 +2,13 @@
 	"type": "caupona:dolium",
 	"items": [
 		{
-			"item": "caupona:soot",
+			"ingredient": "caupona:soot",
 			"count": 3
 		}
 	],
 	"fluid": {
     	"amount": 1000,
-    	"fluid": "caupona:bone_gelatin"
+    	"ingredient": "caupona:bone_gelatin"
     },
 	"density": 0.75,
 	"keepInfo": false,

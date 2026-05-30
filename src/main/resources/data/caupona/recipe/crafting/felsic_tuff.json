@@ -1,8 +1,8 @@
 {
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
-		{"item": "caupona:pumice"},
-		{"item": "minecraft:tuff"}
+		"caupona:pumice",
+		"minecraft:tuff"
 	],
 	"result": {
 		"id": "caupona:felsic_tuff",

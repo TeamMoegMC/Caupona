@@ -30,6 +30,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.data.IDataRecipe;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -51,6 +55,14 @@ public class BoilingRecipe extends IDataRecipe {
 					FluidIngredient.CODEC.fieldOf("from").forGetter(o->o.before),
 					BuiltInRegistries.FLUID.byNameCodec().fieldOf("to").forGetter(o->o.after),
 					Codec.INT.fieldOf("time").forGetter(o->o.time)).apply(t, BoilingRecipe::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf, BoilingRecipe> STREAM_CODEC=StreamCodec.composite(
+			
+			FluidIngredient.STREAM_CODEC,o->o.before,
+			ByteBufCodecs.registry(Registries.FLUID),o->o.after,
+			ByteBufCodecs.VAR_INT,o->o.time,
+			
+			BoilingRecipe::new
+			);
 	@Override
 	public RecipeSerializer<BoilingRecipe> getSerializer() {
 		return SERIALIZER.get();

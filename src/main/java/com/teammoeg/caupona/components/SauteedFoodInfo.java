@@ -38,7 +38,10 @@ import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -61,6 +64,16 @@ public class SauteedFoodInfo extends SpicedFoodInfo implements IFoodInfo,Tooltip
 			Codec.INT.fieldOf("heal").forGetter(i->i.healing),
 			Codec.FLOAT.fieldOf("sat").forGetter(i->i.saturation))
 		).apply(o, SauteedFoodInfo::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf,SauteedFoodInfo> STREAM_CODEC=StreamCodec.composite(
+			ByteBufCodecs.optional(MobEffectInstance.STREAM_CODEC),o->Optional.ofNullable(o.spice),
+			ByteBufCodecs.BOOL,o->o.hasSpice,
+			ByteBufCodecs.optional(Identifier.STREAM_CODEC),o->Optional.ofNullable(o.spiceName),
+			FloatemStack.STREAM_CODEC.apply(ByteBufCodecs.list()),o->o.stacks,
+			ChancedEffect.STREAM_CODEC.apply(ByteBufCodecs.list()),o->o.foodeffect,
+			ByteBufCodecs.VAR_INT,o->o.healing,
+			ByteBufCodecs.FLOAT,o->o.saturation,
+			SauteedFoodInfo::new
+			);
 	public List<FloatemStack> stacks;
 	public List<ChancedEffect> foodeffect = new ArrayList<>();
 	public int healing;

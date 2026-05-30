@@ -6,12 +6,8 @@
 		"III"
 	],
 	"key": {
-		"I": {
-			"tag": "c:ingots/lead"
-		},
-		"S": {
-			"item": "minecraft:stick"
-		}
+		"I": "#c:ingots/lead",
+		"S": "minecraft:stick"
 	},
 	"result": {
 		"id": "caupona:lead_stew_pot"

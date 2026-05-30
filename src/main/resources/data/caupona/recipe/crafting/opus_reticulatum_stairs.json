@@ -6,9 +6,7 @@
 		"BBB"
 	],
 	"key": {
-		"B": {
-			"item": "caupona:opus_reticulatum"
-		}
+		"B": "caupona:opus_reticulatum"
 	},
 	"result": {
 		"id": "caupona:opus_reticulatum_stairs",

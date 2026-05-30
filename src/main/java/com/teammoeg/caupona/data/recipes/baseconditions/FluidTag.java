@@ -28,6 +28,8 @@ import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
@@ -38,6 +40,7 @@ public class FluidTag implements StewBaseCondition {
 	public static final MapCodec<FluidTag> CODEC=RecordCodecBuilder
 		.mapCodec(c->c.group(Identifier.CODEC.fieldOf("tag").forGetter(t->t.f.location())
 		).apply(c, FluidTag::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf,FluidTag> STREAM_CODEC=Identifier.STREAM_CODEC.map(FluidTag::new, t->t.f.location()).cast();
 	/*public FluidTag(JsonObject jo) {
 		f = FluidTags.create(Identifier.parse(jo.get("tag").getAsString()));
 	}*/

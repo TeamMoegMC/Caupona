@@ -6,12 +6,8 @@
 		"B B"
 	],
 	"key": {
-		"S": {
-			"item": "minecraft:brick_slab"
-		},
-		"B": {
-			"item": "minecraft:bricks"
-		}
+		"S": "minecraft:brick_slab",
+		"B": "minecraft:bricks"
 	},
 	"result": {
 		"id": "caupona:brick_chimney_pot"

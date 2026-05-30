@@ -36,6 +36,8 @@ import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.util.SerializeUtil;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -47,20 +49,20 @@ public class CPRecipes {
 	public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister
 			.create(Registries.RECIPE_TYPE, CPMain.MODID);
 	static {
-		StewCookingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("cooking",() -> createSerializer(StewCookingRecipe.CODEC));
-		SauteedRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("frying",() -> createSerializer(SauteedRecipe.CODEC));
-		DoliumRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("dolium",() -> createSerializer(DoliumRecipe.CODEC));
-		BoilingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("boiling",() -> createSerializer(BoilingRecipe.CODEC));
-		BowlContainingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("bowl",() -> createSerializer(BowlContainingRecipe.CODEC));
-		DissolveRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("dissolve",() -> createSerializer(DissolveRecipe.CODEC));
-		CountingTags.SERIALIZER = RECIPE_SERIALIZERS.register("tags",() -> createSerializer(CountingTags.CODEC));
-		FoodValueRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("food",() -> createSerializer(FoodValueRecipe.CODEC));
-		FluidFoodValueRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("fluid_food",() -> createSerializer(FluidFoodValueRecipe.CODEC));
-		AspicMeltingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("aspic_melt",() -> createSerializer(AspicMeltingRecipe.CODEC));
-		SpiceRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("spice",() -> createSerializer(SpiceRecipe.CODEC));
+		StewCookingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("cooking",() -> createSerializer(StewCookingRecipe.CODEC,StewCookingRecipe.STREAM_CODEC));
+		SauteedRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("frying",() -> createSerializer(SauteedRecipe.CODEC,SauteedRecipe.STREAM_CODEC));
+		DoliumRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("dolium",() -> createSerializer(DoliumRecipe.CODEC,DoliumRecipe.STREAM_CODEC));
+		BoilingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("boiling",() -> createSerializer(BoilingRecipe.CODEC,BoilingRecipe.STREAM_CODEC));
+		BowlContainingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("bowl",() -> createSerializer(BowlContainingRecipe.CODEC,BowlContainingRecipe.STREAM_CODEC));
+		DissolveRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("dissolve",() -> createSerializer(DissolveRecipe.CODEC,DissolveRecipe.STREAM_CODEC));
+		CountingTags.SERIALIZER = RECIPE_SERIALIZERS.register("tags",() -> createSerializer(CountingTags.CODEC,CountingTags.STREAM_CODEC));
+		FoodValueRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("food",() -> createSerializer(FoodValueRecipe.CODEC,FoodValueRecipe.STREAM_CODEC));
+		FluidFoodValueRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("fluid_food",() -> createSerializer(FluidFoodValueRecipe.CODEC,FluidFoodValueRecipe.STREAM_CODEC));
+		AspicMeltingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("aspic_melt",() -> createSerializer(AspicMeltingRecipe.CODEC,AspicMeltingRecipe.STREAM_CODEC));
+		SpiceRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("spice",() -> createSerializer(SpiceRecipe.CODEC,SpiceRecipe.STREAM_CODEC));
 	}
-	public static <T extends Recipe<?>> RecipeSerializer<T> createSerializer(MapCodec<T> codec){
-		return new RecipeSerializer<>(codec,SerializeUtil.toStreamCodec(codec));
+	public static <T extends Recipe<?>> RecipeSerializer<T> createSerializer(MapCodec<T> codec,StreamCodec<RegistryFriendlyByteBuf, T> stream){
+		return new RecipeSerializer<>(codec,stream);
 	}
 	static {
 		StewCookingRecipe.TYPE = RECIPE_TYPES.register("stew",RecipeType::simple);

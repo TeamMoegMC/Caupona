@@ -1,9 +1,9 @@
 {
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
-		{"item": "minecraft:flower_pot"},
-		{"item": "minecraft:allium"},
-		{"item": "minecraft:allium"}
+		"minecraft:flower_pot",
+		"minecraft:allium",
+		"minecraft:allium"
 	],
 	"result": {
 		"id": "caupona:chives_spice_jar"

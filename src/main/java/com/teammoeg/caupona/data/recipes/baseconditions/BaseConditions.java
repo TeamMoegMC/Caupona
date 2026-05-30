@@ -37,16 +37,16 @@ public class BaseConditions {
 	public static final Codec<StewBaseCondition> CODEC=numbers.createCodec();
 	public static final StreamCodec<RegistryFriendlyByteBuf, StewBaseCondition> STREAM_CODEC=numbers.createStreamCodec();
 	static {
-		register("tag", FluidTag.class, FluidTag.CODEC);
-		register("fluid", FluidType.class, FluidType.CODEC);
-		register("fluid_type", FluidTypeType.class, FluidTypeType.CODEC);
+		register("tag", FluidTag.class, FluidTag.CODEC, FluidTag.STREAM_CODEC);
+		register("fluid", FluidType.class, FluidType.CODEC, FluidType.STREAM_CODEC);
+		register("fluid_type", FluidTypeType.class, FluidTypeType.CODEC, FluidTypeType.STREAM_CODEC);
 	}
 	public static void register(String name, Deserializer<StewBaseCondition> des) {
 		numbers.register(name, des);
 	}
 
-	public static <R extends StewBaseCondition> void register(String name,Class<R> cls, MapCodec<R> rjson) {
-		numbers.register(name, cls, rjson, SerializeUtil.toStreamCodec(rjson));
+	public static <R extends StewBaseCondition> void register(String name,Class<R> cls, MapCodec<R> rjson, StreamCodec<? super RegistryFriendlyByteBuf, R> stream) {
+		numbers.register(name, cls, rjson, stream);
 	}
 
 //	public static StewBaseCondition of(FriendlyByteBuf buffer) {

@@ -5,9 +5,7 @@
 		"LL"
 	],
 	"key": {
-		"L": {
-			"item": "caupona:walnut_log"
-		}
+		"L": "caupona:walnut_log"
 	},
 	"result": {
 		"id": "caupona:walnut_wood",

@@ -34,6 +34,9 @@ import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.recipes.conditions.Conditions;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
@@ -108,7 +111,18 @@ public class SauteedRecipe extends IDataRecipe implements IConditionalRecipe {
 			Ingredient.CODEC.fieldOf("bowl").forGetter(o->o.bowl),
 			Identifier.CODEC.fieldOf("model").forGetter(o->o.model)
 				).apply(t, SauteedRecipe::new));
-
+	public static final StreamCodec<RegistryFriendlyByteBuf,SauteedRecipe> STREAM_CODEC=StreamCodec.composite(
+			ByteBufCodecs.optional(Conditions.STREAM_CODEC.apply(ByteBufCodecs.list())),o->Optional.ofNullable(o.allow),
+			ByteBufCodecs.optional(Conditions.STREAM_CODEC.apply(ByteBufCodecs.list())),o->Optional.ofNullable(o.deny),
+			ByteBufCodecs.VAR_INT,o->o.priority,
+			ByteBufCodecs.VAR_INT,o->o.time,
+			ItemStackTemplate.STREAM_CODEC,o->o.output,
+			ByteBufCodecs.BOOL,o->o.removeNBT,
+			ByteBufCodecs.FLOAT,o->o.count,
+			Ingredient.CONTENTS_STREAM_CODEC,o->o.bowl,
+			Identifier.STREAM_CODEC,o->o.model,
+			SauteedRecipe::new
+			);
 /*
 	public SauteedRecipe(FriendlyByteBuf data) {
 		allow = SerializeUtil.readList(data, Conditions::of);

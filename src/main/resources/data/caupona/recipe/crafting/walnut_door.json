@@ -6,9 +6,7 @@
 		"PP"
 	],
 	"key": {
-		"P": {
-			"item": "caupona:walnut_planks"
-		}
+		"P": "caupona:walnut_planks"
 	},
 	"result": {
 		"id": "caupona:walnut_door",

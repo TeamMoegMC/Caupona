@@ -42,7 +42,7 @@ public class DataDeserializerRegistry<T> {
 		deserializers.put(name, des);
 	}
 	public synchronized <R extends T> void register(String name,Class<R> cls, MapCodec<R> rjson,
-			StreamCodec<RegistryFriendlyByteBuf, R> streamCodec) {
+			StreamCodec<? super RegistryFriendlyByteBuf, R> streamCodec) {
 		Deserializer<R> des=new Deserializer<>(rjson,streamCodec,byIdx.size());
 		register(name, des);
 		byIdx.add(des);
@@ -61,16 +61,16 @@ public class DataDeserializerRegistry<T> {
 		Deserializer<? extends T> des=getDeserializer(t);
 		if(des==null)
 			return null;
-		return des.fromJson;
+		return des.fromJson();
 	}
 	public byte getId(T t){
 		return (byte) deserializers.get(nameOfClass.get(t.getClass())).getId();
 	}
-	public StreamCodec<RegistryFriendlyByteBuf,? extends T> getStreamCodec(byte t) {
+	public StreamCodec<? super RegistryFriendlyByteBuf,? extends T> getStreamCodec(byte t) {
 		Deserializer<? extends T> des=byIdx.get(t);
 		if(des==null)
 			return null;
-		return des.fromPacket;
+		return des.fromPacket();
 	}
 	public Codec<T> createCodec(){
 		return Codec.STRING.dispatch("type", t->t==null?null:nameOfClass.get(t.getClass()), t->getCodec(t));

@@ -37,7 +37,10 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.TypedDataComponent;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -72,11 +75,16 @@ public class FloatemStack {
 	}
 
 	public float count;
-	public static final Codec<FloatemStack> CODEC=RecordCodecBuilder.create(o->o.group(SerializeUtil.fromRFBBStreamCodec(ItemStack.STREAM_CODEC,ItemStack.CODEC).fieldOf("item").forGetter(i->i.stack)
+	public static final Codec<FloatemStack> CODEC=RecordCodecBuilder.create(o->o.group(ItemStack.CODEC.fieldOf("item").forGetter(i->i.stack)
 		,Codec.FLOAT.fieldOf("count").forGetter(i->i.count))
 		.apply(o, FloatemStack::new)
 		
 		);
+	public static final StreamCodec<RegistryFriendlyByteBuf, FloatemStack> STREAM_CODEC=StreamCodec.composite(
+			ItemStack.STREAM_CODEC,i->i.stack,
+			ByteBufCodecs.FLOAT,i->i.count,
+			FloatemStack::new
+			);
 	public FloatemStack(ItemStack stack, float count) {
 		super();
 		this.stack = stack.copyWithCount(1);

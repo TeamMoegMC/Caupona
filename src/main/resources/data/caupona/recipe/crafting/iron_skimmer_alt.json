@@ -5,12 +5,8 @@
 		"S "
 	],
 	"key": {
-		"C": {
-			"item": "minecraft:chainmail_helmet"
-		},
-		"S": {
-			"item": "minecraft:stick"
-		}
+		"C": "minecraft:chainmail_helmet",
+		"S": "minecraft:stick"
 	},
 	"result": {
 		"id": "caupona:iron_skimmer"

@@ -6,12 +6,8 @@
 		"S  "
 	],
 	"key": {
-		"B": {
-			"item": "minecraft:bamboo"
-		},
-		"S": {
-			"item": "minecraft:stick"
-		}
+		"B": "minecraft:bamboo",
+		"S": "minecraft:stick"
 	},
 	"result": {
 		"id": "caupona:bamboo_skimmer"

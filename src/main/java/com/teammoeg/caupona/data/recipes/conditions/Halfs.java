@@ -26,9 +26,12 @@ import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+
 public class Halfs extends NumberedStewCondition {
 	public static final MapCodec<Halfs> CODEC=NumberedStewCondition.createCodec(Halfs::new);
-
+	public static final StreamCodec<RegistryFriendlyByteBuf, Halfs> STREAM_CODEC=NumberedStewCondition.createStreamCodec(Halfs::new);
 	public Halfs(CookIngredients number) {
 		super(number);
 	}

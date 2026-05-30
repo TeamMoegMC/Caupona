@@ -21,6 +21,7 @@
 
 package com.teammoeg.caupona.data.recipes.conditions;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -31,6 +32,8 @@ import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import com.teammoeg.caupona.data.recipes.numbers.Numbers;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 
 public abstract class NumberedStewCondition implements IngredientCondition {
@@ -38,6 +41,12 @@ public abstract class NumberedStewCondition implements IngredientCondition {
 
 	public static <T extends NumberedStewCondition> MapCodec<T> createCodec(Function<CookIngredients,T> factory) {
 		return RecordCodecBuilder.mapCodec(t->t.group(Numbers.CODEC.fieldOf("number").forGetter(o->o.number)).apply(t, factory));
+	}
+	public static <T extends NumberedStewCondition> StreamCodec<RegistryFriendlyByteBuf,T> createStreamCodec(Function<CookIngredients,T> factory) {
+		return StreamCodec.composite(Numbers.STREAM_CODEC,o->o.number, factory);
+	}
+	public static <T extends NumberedStewCondition,A> StreamCodec<RegistryFriendlyByteBuf,T> createStreamCodec(StreamCodec<? super RegistryFriendlyByteBuf,A> codec1,Function<T,A> func1,BiFunction<CookIngredients,A,T> factory) {
+		return StreamCodec.composite(Numbers.STREAM_CODEC,o->o.number,codec1,func1, factory);
 	}
 	public NumberedStewCondition(CookIngredients number) {
 		this.number = number;

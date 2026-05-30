@@ -21,7 +21,11 @@
 
 package com.teammoeg.caupona;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +34,13 @@ import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
 import com.teammoeg.caupona.api.events.EventResult;
 import com.teammoeg.caupona.api.events.FoodExchangeItemEvent;
 import com.teammoeg.caupona.components.StewInfo;
+import com.teammoeg.caupona.data.recipes.AspicMeltingRecipe;
+import com.teammoeg.caupona.data.recipes.BoilingRecipe;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
+import com.teammoeg.caupona.data.recipes.DoliumRecipe;
+import com.teammoeg.caupona.data.recipes.SauteedRecipe;
+import com.teammoeg.caupona.data.recipes.SpiceRecipe;
+import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.util.ITickableContainer;
 
 import net.minecraft.core.BlockPos;
@@ -50,6 +60,7 @@ import net.minecraft.world.phys.HitResult.Type;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
@@ -89,6 +100,19 @@ public class CPCommonEvents {
 			ev.setOutput(recipe.value().handle(ev.fs));
 		}
 	}
+	@SubscribeEvent
+	public static void addManualToPlayer(OnDatapackSyncEvent event) {
+		event.sendRecipes(BowlContainingRecipe.TYPE.get(),
+				BoilingRecipe.TYPE.get(),
+				StewCookingRecipe.TYPE.get(),
+				SauteedRecipe.TYPE.get(),
+				DoliumRecipe.TYPE.get(),
+				AspicMeltingRecipe.TYPE.get(),
+				SpiceRecipe.TYPE.get()
+				);
+
+	}
+	
 	@SubscribeEvent
 	public static void addManualToPlayer(PlayerEvent.PlayerLoggedInEvent event) {
 /*

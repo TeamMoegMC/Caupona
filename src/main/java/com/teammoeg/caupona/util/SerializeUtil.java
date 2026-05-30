@@ -31,9 +31,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import javax.annotation.Nullable;
-
-import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 
 import com.google.common.collect.Lists;
@@ -44,17 +41,13 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.JsonOps;
-import com.mojang.serialization.MapCodec;
 import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.util.RegistryAccessor.RegistryAccessorStack;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.DecoderException;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
@@ -228,6 +221,11 @@ public class SerializeUtil {
 		buffer.writeVarInt(elms.size());
 		elms.entrySet().forEach(e -> func.accept(e, buffer));
 	}
+	public static <B,T1,T2> StreamCodec<B,Pair<T1,T2>> pair(StreamCodec<? super B,T1> codec1,StreamCodec<? super B,T2> codec2){
+		return  StreamCodec.composite(codec1,Pair::getFirst,codec2,Pair::getSecond,Pair::of);
+		
+	}
+	/*
 	public static <F extends RegistryFriendlyByteBuf,V> StreamCodec<F,V> toStreamCodec(Codec<V> codec){
 		return StreamCodec.of((b,v)->{
 			writeCodec(b,codec,v);
@@ -323,5 +321,5 @@ public class SerializeUtil {
 			}
 		};
 		
-	}
+	}*/
 }

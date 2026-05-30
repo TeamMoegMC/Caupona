@@ -5,12 +5,8 @@
 		"BL"
 	],
 	"key": {
-		"L": {
-			"item": "caupona:lateres"
-		},
-		"B": {
-			"item": "minecraft:brick"
-		}
+		"L": "caupona:lateres",
+		"B": "minecraft:brick"
 	},
 	"result": {
 		"id": "caupona:mixed_bricks"

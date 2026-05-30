@@ -6,15 +6,9 @@
 		"BIB"
 	],
 	"key": {
-		"S": {
-			"item": "minecraft:brick_slab"
-		},
-		"B": {
-			"item": "minecraft:bricks"
-		},
-		"I": {
-			"item": "minecraft:copper_ingot"
-		}
+		"S": "minecraft:brick_slab",
+		"B": "minecraft:bricks",
+		"I": "minecraft:copper_ingot"
 	},
 	"result": {
 		"id": "caupona:brick_hypocaust_firebox"

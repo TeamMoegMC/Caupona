@@ -30,13 +30,18 @@ import com.teammoeg.caupona.data.recipes.CookIngredients;
 import com.teammoeg.caupona.data.recipes.IPendingContext;
 import com.teammoeg.caupona.util.FloatemTagStack;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 public class NopNumber implements CookIngredients {
 	public static final NopNumber INSTANCE = new NopNumber();
 	public static final MapCodec<NopNumber> CODEC=MapCodec.unit(INSTANCE);
+	public static final StreamCodec<RegistryFriendlyByteBuf,NopNumber> STREAM_CODEC=StreamCodec.unit(INSTANCE);
 	/**
 	 * @param elm
 	 */

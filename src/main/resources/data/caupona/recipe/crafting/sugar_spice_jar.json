@@ -1,11 +1,11 @@
 {
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
-		{"item": "minecraft:flower_pot"},
-		{"item": "minecraft:sugar"},
-		{"item": "minecraft:sugar"},
-		{"item": "minecraft:sugar"},
-		{"item": "minecraft:sugar"}
+		"minecraft:flower_pot",
+		"minecraft:sugar",
+		"minecraft:sugar",
+		"minecraft:sugar",
+		"minecraft:sugar"
 	],
 	"result": {
 		"id": "caupona:sugar_spice_jar"

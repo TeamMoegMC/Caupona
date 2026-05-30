@@ -27,6 +27,10 @@ import com.teammoeg.caupona.data.TranslationProvider;
 import com.teammoeg.caupona.data.recipes.StewBaseCondition;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.material.Fluid;
 
 public class FluidType implements StewBaseCondition {
@@ -34,6 +38,7 @@ public class FluidType implements StewBaseCondition {
 	public static final MapCodec<FluidType> CODEC=RecordCodecBuilder
 		.mapCodec(c->c.group(BuiltInRegistries.FLUID.byNameCodec().fieldOf("fluid").forGetter(t->t.of)
 		).apply(c, FluidType::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf,FluidType> STREAM_CODEC=ByteBufCodecs.registry(Registries.FLUID).map(FluidType::new, t->t.of).cast();
 	/*public FluidType(JsonObject jo) {
 		of = Identifier.parse(jo.get("fluid").getAsString());
 	}*/

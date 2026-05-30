@@ -6,12 +6,8 @@
 		" S "
 	],
 	"key": {
-		"P": {
-			"item": "caupona:walnut_planks"
-		},
-		"S": {
-			"item": "minecraft:stick"
-		}
+		"P": "caupona:walnut_planks",
+		"S": "minecraft:stick"
 	},
 	"result": {
 		"id": "caupona:walnut_sign",

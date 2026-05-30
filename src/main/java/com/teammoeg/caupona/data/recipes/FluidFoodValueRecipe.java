@@ -32,6 +32,10 @@ import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.util.ChancedEffect;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -70,6 +74,16 @@ public class FluidFoodValueRecipe extends IDataRecipe {
 			Codec.INT.fieldOf("parts").forGetter(o->o.parts),
 			BuiltInRegistries.FLUID.byNameCodec().fieldOf("fluid").forGetter(o->o.f)
 				).apply(t, FluidFoodValueRecipe::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf, FluidFoodValueRecipe> STREAM_CODEC=StreamCodec.composite(
+			ByteBufCodecs.VAR_INT,o->o.heal,
+			ByteBufCodecs.FLOAT,o->o.sat,
+			ByteBufCodecs.optional(ChancedEffect.STREAM_CODEC.apply(ByteBufCodecs.list())),o->Optional.ofNullable(o.effects),
+			ByteBufCodecs.optional(ItemStackTemplate.STREAM_CODEC),o->o.repersent,
+			ByteBufCodecs.VAR_INT,o->o.parts,
+			ByteBufCodecs.registry(Registries.FLUID),o->o.f,
+			
+			FluidFoodValueRecipe::new
+			);
 	public FluidFoodValueRecipe(int heal, float sat, ItemStackTemplate repersent, int parts, Fluid f) {
 		this.heal = heal;
 		this.sat = sat;

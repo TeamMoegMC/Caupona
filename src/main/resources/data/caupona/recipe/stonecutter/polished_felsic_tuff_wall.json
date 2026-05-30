@@ -1,8 +1,6 @@
 {
 	"type": "stonecutting",
-	"ingredient": {
-		"item": "caupona:polished_felsic_tuff"
-	},
+	"ingredient": "caupona:polished_felsic_tuff",
 	"result": {
 		"id": "caupona:polished_felsic_tuff_wall"
 	},

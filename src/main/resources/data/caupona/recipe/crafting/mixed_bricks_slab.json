@@ -4,9 +4,7 @@
 		"BBB"
 	],
 	"key": {
-		"B": {
-			"item": "caupona:mixed_bricks"
-		}
+		"B": "caupona:mixed_bricks"
 	},
 	"result": {
 		"id": "caupona:mixed_bricks_slab",
