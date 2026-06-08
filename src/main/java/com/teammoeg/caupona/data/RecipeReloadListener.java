@@ -22,7 +22,6 @@
 package com.teammoeg.caupona.data;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -170,13 +169,7 @@ public class RecipeReloadListener{
 		logger.info("Building recipes...");
 		
 		collectRecipeIndices(recipes);
-		CountingTags.tags = 
-				Stream.concat(
-					Stream.concat(filterRecipes(recipes, CountingTags.class, CountingTags.TYPE).flatMap(r -> r.value().tag.stream()),
-							StewCookingRecipe.sorted.stream().map(t->t.value()).flatMap(StewCookingRecipe::getTags)),
-							SauteedRecipe.sorted.stream().map(t->t.value()).flatMap(SauteedRecipe::getTags)
-						)
-				.collect(Collectors.toSet());
+
 
 
 
@@ -193,6 +186,13 @@ public class RecipeReloadListener{
 		Conditions.clearCache();
 		Numbers.clearCache();
 		BaseConditions.clearCache();
+		CountingTags.tags = 
+			Stream.concat(
+				Stream.concat(filterRecipes(recipes, CountingTags.class, CountingTags.TYPE).flatMap(r -> r.value().tag.stream()),
+						StewCookingRecipe.sorted.stream().map(t->t.value()).flatMap(StewCookingRecipe::getTags)),
+						SauteedRecipe.sorted.stream().map(t->t.value()).flatMap(SauteedRecipe::getTags)
+					)
+			.collect(Collectors.toSet());
 		BowlContainingRecipe.recipes=new HashMap<>();
 		filterRecipes(recipes, BowlContainingRecipe.class, BowlContainingRecipe.TYPE)
 			.forEach(o->BowlContainingRecipe.recipes.computeIfAbsent(o.value().inBowl, _->new ArrayList<>()).add(o));

@@ -1,4 +1,3 @@
-0.5.5
-"Final Release" for 1.21.1
+6.1
 Bugfix:
-  Fix pumice ghost.
+  Fix client crash when using pan
