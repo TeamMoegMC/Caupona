@@ -1,3 +1,4 @@
-6.1
+6.0.2
 Bugfix:
   Fix client crash when using pan
+  Add api for food containing

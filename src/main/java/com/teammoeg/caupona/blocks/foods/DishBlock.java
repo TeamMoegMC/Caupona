@@ -53,10 +53,11 @@ import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class DishBlock extends CPRegisteredEntityBlock<DishBlockEntity> {
-
-	public DishBlock(Properties blockProps) {
+	boolean loaf;
+	public DishBlock(Properties blockProps,boolean isLoaf) {
 		super(blockProps, CPBlockEntityTypes.DISH);
 		CPBlocks.dishes.add(this);
+		this.loaf=isLoaf;
 	}
 
 	@Override

@@ -661,7 +661,6 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				if (tryAddFluid(fr,amt,trans)) {
 					trans.commit();
 					ItemResource ir=ia.getResource();
-					System.out.println(ir);
 					return ir;
 				}
 			}
@@ -693,5 +692,12 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 	public boolean accepts(int num, ItemResource is) {
 		ItemStack it=is.toStack();
 		return BowlContainingRecipe.isBowl(it) || !Utils.getFluidType(it).isEmpty();
+	}
+	@Override
+	public ItemResource getValidContainer() {
+		ItemResource ir=internInv.getResource(9);
+		if(!ir.isEmpty())
+			return ir;
+		return ItemResource.of(Items.BOWL);
 	}
 }

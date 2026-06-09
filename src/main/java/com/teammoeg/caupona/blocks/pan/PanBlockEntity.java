@@ -54,6 +54,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -455,5 +456,13 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	@Override
 	public boolean isInfinite() {
 		return isInfinite;
+	}
+
+	@Override
+	public ItemResource getValidContainer() {
+		ItemResource ir=internInv.getResource(9);
+		if(!ir.isEmpty())
+			return ir;
+		return ItemResource.of(Items.BOWL);
 	}
 }

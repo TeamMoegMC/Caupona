@@ -22,6 +22,7 @@
 package com.teammoeg.caupona.blocks.foods;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.data.recipes.BowlContainingRecipe;
 import com.teammoeg.caupona.item.StewItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
@@ -29,6 +30,7 @@ import com.teammoeg.caupona.util.IInfinitable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -119,6 +121,11 @@ public class BowlBlockEntity extends CPBaseBlockEntity implements IInfinitable,I
 	}
 	public ItemStacksResourceHandler getInternal() {
 		return internal;
+	}
+
+	@Override
+	public ItemResource getValidContainer() {
+		return internal.getResource(0);
 	}
 
 }

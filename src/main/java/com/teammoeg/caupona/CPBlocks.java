@@ -187,7 +187,7 @@ public class CPBlocks {
 			Block.Properties.of().mapColor(MapColor.METAL).sound(SoundType.METAL).strength(3.5f, 10).noOcclusion(), PanBlock::new);
 	public static final DeferredHolder<Block,PanBlock> LEAD_PAN = mainblock("lead_frying_pan",
 			Block.Properties.of().mapColor(MapColor.METAL).sound(SoundType.METAL).strength(3.5f, 10).noOcclusion(), PanBlock::new);
-	public static final DeferredHolder<Block,DishBlock> DISH = BLOCKS.registerBlock("dish", DishBlock::new,
+	public static final DeferredHolder<Block,DishBlock> DISH = BLOCKS.registerBlock("dish",p->new DishBlock(p,false),
 			()->Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
 					.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 					.isViewBlocking(CPBlocks::isntSolid));
@@ -298,12 +298,12 @@ public class CPBlocks {
 					Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
 							.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 							.isViewBlocking(CPBlocks::isntSolid),CPItems.createSoupProps().get(),
-							DishBlock::new,DishItem::new);
+							p->new DishBlock(p,false),DishItem::new);
 			baseblock(s+"_loaf",
 					Block.Properties.of().sound(SoundType.WOOD).instabreak().noOcclusion()
 							.isRedstoneConductor(CPBlocks::isntSolid).isSuffocating(CPBlocks::isntSolid)
 							.isViewBlocking(CPBlocks::isntSolid),CPItems.createLoafSoupProps().get(),
-							DishBlock::new,LoafDishItem::new);
+							p->new DishBlock(p,true),LoafDishItem::new);
 		}
 	}
 	// Convenient block registry wrapper
