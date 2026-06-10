@@ -28,10 +28,12 @@ import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.components.ItemHoldedFluidData;
 import com.teammoeg.caupona.components.StewInfo;
 import com.teammoeg.caupona.util.CreativeTabItemHelper;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 
 public class StewItem extends EdibleBlock{
@@ -42,8 +44,10 @@ public class StewItem extends EdibleBlock{
 	public void fillItemCategory(CreativeTabItemHelper helper) {
 		if (helper.isFoodTab()) {
 			ItemStack is = new ItemStack(this);
-			is.set(CPCapability.STEW_INFO, new StewInfo(fluid.get()).toImmutable());
-			is.set(CPCapability.ITEM_FLUID, new ItemHoldedFluidData(FluidResource.of(fluid.get())));
+			FluidStack fs=new FluidStack(fluid.get(),250);
+			Utils.setInfo(fs, new StewInfo().toImmutable());
+			is.applyComponents(fs.getComponentsPatch());
+			is.set(CPCapability.ITEM_FLUID, new ItemHoldedFluidData(FluidResource.of(fs)));
 			super.addCreativeHints(is);
 			helper.accept(is);
 		}

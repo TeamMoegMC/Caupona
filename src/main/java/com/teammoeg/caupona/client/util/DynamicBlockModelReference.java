@@ -25,7 +25,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.QuadInstance;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.client.resources.model.geometry.QuadCollection;
 import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
@@ -52,6 +58,13 @@ public record DynamicBlockModelReference(StandaloneModelKey<QuadCollection> name
 	public QuadCollection get()
 	{
 		return Minecraft.getInstance().getModelManager().getStandaloneModel(name);
+	}
+	public void submit(SubmitNodeCollector submitNodeCollector,PoseStack poseStack,RenderType renderType,QuadInstance quadInstance) {
+		submitNodeCollector.submitCustomGeometry(poseStack, renderType, (pose,buffer)->{
+			for(BakedQuad quad:get().getAll()) {
+				buffer.putBakedQuad(pose, quad, quadInstance);
+			}
+		});
 	}
 
 }

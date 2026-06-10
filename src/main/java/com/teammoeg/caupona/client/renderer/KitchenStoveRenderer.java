@@ -35,12 +35,10 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer.CrumblingOverlay;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 
 public class KitchenStoveRenderer implements BlockEntityRenderer<KitchenStoveBlockEntity,KitchenStoveRenderState> {
-	private final QuadInstance quadInstance = new QuadInstance();
 	/**
 	 * @param rendererDispatcherIn  
 	 */
@@ -53,19 +51,15 @@ public class KitchenStoveRenderer implements BlockEntityRenderer<KitchenStoveBlo
 	@Override
 	public void submit(KitchenStoveRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
 		poseStack.rotateAround(RenderHelper.getRotation(state.dir), .5f, .5f, .5f);
+		final QuadInstance quadInstance = new QuadInstance();
+		quadInstance.setLightCoords(state.lightCoords);
 		if(state.stock!=null) {
-			submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.translucentMovingBlock(), (pose,buffer)->{
-				for(BakedQuad quad:state.stock.get().getAll()) {
-					buffer.putBakedQuad(pose, quad, quadInstance);
-				}
-			});
+			state.stock.submit(submitNodeCollector, poseStack, RenderTypes.translucentMovingBlock(), quadInstance);
+
 		}
 		if(state.ash!=null) {
-			submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.translucentMovingBlock(), (pose,buffer)->{
-				for(BakedQuad quad:state.ash.get().getAll()) {
-					buffer.putBakedQuad(pose, quad, quadInstance);
-				}
-			});
+			state.ash.submit(submitNodeCollector, poseStack, RenderTypes.translucentMovingBlock(), quadInstance);
+			
 		}
 	}
 	@Override

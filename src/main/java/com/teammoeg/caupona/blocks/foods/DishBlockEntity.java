@@ -118,7 +118,7 @@ public class DishBlockEntity extends CPBaseBlockEntity implements IInfinitable,I
 	}
 
 	@Override
-	public ItemResource getValidContainer() {
+	public ItemResource getValidContainer(int slot) {
 		return internal.getResource(0);
 		
 	}

@@ -39,16 +39,22 @@ import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
 import com.teammoeg.caupona.util.ITickableContainer;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.component.ConsumableListener;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.ClipContext.Fluid;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
@@ -206,15 +212,23 @@ public class CPCommonEvents {
 
 	@SubscribeEvent
 	public static void onItemUseFinish(LivingEntityUseItemEvent.Finish event) {
-		if (event.getEntity() != null && !event.getEntity().level().isClientSide()
-				&& event.getEntity() instanceof ServerPlayer sp) {
+		if (event.getEntity() != null
+				&& event.getEntity() instanceof ServerPlayer serverPlayer) {
 			ItemStack stack = event.getItem();
 			@Nullable ResourceHandler<FluidResource> cap = stack
-				.getCapability(Capabilities.Fluid.ITEM,ItemAccess.forPlayerInteraction(sp, event.getHand()));
+				.getCapability(Capabilities.Fluid.ITEM,ItemAccess.forPlayerInteraction(serverPlayer, event.getHand()));
 			if (cap!=null && stack.is(CPTags.Items.CONTAINER)) {
-				StewInfo si = cap.getResource(0).get(CPCapability.STEW_INFO);
-				if(si!=null)
-					CauponaApi.apply(event.getEntity().level(), event.getEntity(),si);
+				FluidResource fr=cap.getResource(0);
+				Consumable si = fr.get(DataComponents.CONSUMABLE);
+				if(si!=null) {
+					Level level=serverPlayer.level();
+			        RandomSource random = serverPlayer.getRandom();
+			        si.emitParticlesAndSounds(random, serverPlayer, stack, 4);
+			        fr.getAllOfType(ConsumableListener.class).forEach(component -> 
+			        component.onConsume(level, serverPlayer, stack, si));
+			        si.onConsumeEffects().forEach(action -> action.apply(level, stack, serverPlayer));
+			        serverPlayer.gameEvent(si.animation() == ItemUseAnimation.DRINK ? GameEvent.DRINK : GameEvent.EAT);
+				}
 			}
 		}
 	}

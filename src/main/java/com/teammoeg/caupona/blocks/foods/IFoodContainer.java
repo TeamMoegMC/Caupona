@@ -28,7 +28,7 @@ public interface IFoodContainer {
 	ItemResource exchangeInternal(int num,ItemResource is,TransactionContext trans);
 	int getSlots();
 	boolean accepts(int num,ItemResource is);
-	ItemResource getValidContainer();
+	ItemResource getValidContainer(int slot);
 	default ItemResource exchangeInternal(ItemResource is,TransactionContext parent) {
 		for(int i=0;i<getSlots();i++) {
 			if(accepts(i,is)) {

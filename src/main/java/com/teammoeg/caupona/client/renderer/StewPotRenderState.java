@@ -1,13 +1,14 @@
 package com.teammoeg.caupona.client.renderer;
 
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
-import net.neoforged.neoforge.fluids.FluidStack;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
 public class StewPotRenderState extends BlockEntityRenderState {
-	int process;
-	int processMax;
-	FluidStack input;
-	FluidStack output;
+	TextureAtlasSprite inModel;
+	TextureAtlasSprite outModel;
+	int inColor;
+	int outColor;
+	float level;
 	public StewPotRenderState() {
 	}
 

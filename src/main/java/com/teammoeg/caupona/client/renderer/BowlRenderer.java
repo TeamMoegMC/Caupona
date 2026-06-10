@@ -27,7 +27,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.foods.BowlBlockEntity;
 import com.teammoeg.caupona.client.util.FluidRenderHelper;
-import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.FluidModel;
@@ -36,9 +35,10 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 
 public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity, BowlRenderState> {
 	/**
@@ -52,7 +52,7 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity, BowlRe
 		BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
 		BlockState bstate = blockEntity.getBlockState();
 		state.type=0;
-		state.fluid=null;
+		state.sprite=null;
 		if (bstate.getBlock() == CPBlocks.BOWL.get()) {
 			state.type = 1;
 		} else if (bstate.getBlock() == CPBlocks.LOAF_BOWL.getSecond().get()) {
@@ -61,7 +61,10 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity, BowlRe
 			return;
 		if (blockEntity.getInternal().getResource(0).isEmpty())
 			return;
-		state.fluid = Utils.getFluidStack(blockEntity.getInternal().getResource(0).toStack());
+		FluidStack fluid = FluidUtil.getFirstStackContained(blockEntity.getInternal().getResource(0).toStack());
+		FluidModel model = FluidRenderHelper.getFluidModel(fluid);
+		state.color = FluidRenderHelper.getFluidColor(model, fluid);
+		state.sprite = model.stillMaterial().sprite();
 
 	}
 
@@ -70,17 +73,15 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity, BowlRe
 			CameraRenderState camera) {
 
 		poseStack.pushPose();
-		if (state.fluid != null && !state.fluid.isEmpty() && state.fluid.getFluid() != null) {
+		if (state.sprite != null) {
 			float y = state.type == 2 ? .3125f : .28125f;
 			float lowerXZ = .28125f;
 			float higherXZ = .4375f;
 			poseStack.translate(0, y, 0);
 			poseStack.mulPose(FluidRenderHelper.rotate90);
 
-			FluidModel model = FluidRenderHelper.getFluidModel(state.fluid);
-			int color = FluidRenderHelper.getFluidColor(model, state.fluid);
-			TextureAtlasSprite sprite = model.stillMaterial().sprite();
-			FluidRenderHelper.submitColoredTexturedRect(buffer, poseStack, sprite,lowerXZ,lowerXZ,higherXZ,higherXZ, color, state.lightCoords, OverlayTexture.NO_OVERLAY);
+			
+			FluidRenderHelper.submitColoredTexturedRect(buffer, poseStack, state.sprite,lowerXZ,lowerXZ,higherXZ,higherXZ, state.color, state.lightCoords, OverlayTexture.NO_OVERLAY);
 			
 
 		}

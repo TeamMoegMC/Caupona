@@ -27,7 +27,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.QuadInstance;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.pan.PanBlockEntity;
-import com.teammoeg.caupona.client.renderer.PanRenderState.LayerType;
 import com.teammoeg.caupona.client.util.DynamicBlockModelReference;
 
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -36,13 +35,23 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer.CrumblingOverlay;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 public class PanRenderer implements BlockEntityRenderer<PanBlockEntity,PanRenderState> {
-	private final QuadInstance quadInstance = new QuadInstance();
+	public static enum LayerType{
+		PAN(""),PLATE("");
+		final String pathSuffix;
+
+
+		private LayerType(String pathSuffix) {
+			this.pathSuffix = pathSuffix;
+		}
+		public String getPathSuffix() {
+			return pathSuffix;
+		}
+	}
 	/**
 	 * @param rendererDispatcherIn  
 	 */
@@ -57,25 +66,23 @@ public class PanRenderer implements BlockEntityRenderer<PanBlockEntity,PanRender
 		
 		if(state.model==null)
 			return;
-		DynamicBlockModelReference model=DynamicBlockModelReference.getModel(state.model);
-		submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.translucentMovingBlock(), (pose,buffer)->{
-			for(BakedQuad quad:model.get().getAll()) {
-				buffer.putBakedQuad(pose, quad, quadInstance);
-			}
-		});
+		QuadInstance quadInstance = new QuadInstance();
+		quadInstance.setLightCoords(state.lightCoords);
+		state.model.submit(submitNodeCollector, poseStack, RenderTypes.translucentMovingBlock(), quadInstance);
 	}
 	@Override
 	public void extractRenderState(PanBlockEntity blockEntity, PanRenderState state, float partialTicks, Vec3 cameraPosition, @Nullable CrumblingOverlay breakProgress) {
 		BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
 		BlockState bstate = blockEntity.getBlockState();
 		Block b = bstate.getBlock();
+		LayerType type;
 		if((b == CPBlocks.STONE_PAN.get()))
-			state.layer=LayerType.PLATE;
+			type=LayerType.PLATE;
 		else
-			state.layer=LayerType.PAN;
+			type=LayerType.PAN;
 		state.model=null;
 		if(blockEntity.model!=null)
-			state.model=blockEntity.model.withSuffix(state.layer.getPathSuffix());
+			state.model=DynamicBlockModelReference.getModel(blockEntity.model.withSuffix(type.getPathSuffix()));
 	}
 
 }

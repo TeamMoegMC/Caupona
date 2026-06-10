@@ -36,8 +36,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.CPMain;
 import com.teammoeg.caupona.api.events.ContanerContainFoodEvent;
-import com.teammoeg.caupona.api.events.EventResult;
-import com.teammoeg.caupona.api.events.FoodExchangeItemEvent;
 import com.teammoeg.caupona.components.ItemHoldedFluidData;
 import com.teammoeg.caupona.components.SauteedFoodInfo;
 import com.teammoeg.caupona.components.StewInfo;
@@ -119,27 +117,6 @@ public class Utils {
 		return ev;
 	}
 
-	public static FluidStack getFluidStack(ItemStack stack) {
-		ItemHoldedFluidData si = stack.get(CPCapability.ITEM_FLUID);
-		if (si != null) {
-			FluidResource fr = si.getFluidType();
-			if (!fr.isEmpty()) {
-				FluidStack fs = fr.toStack(250);
-				fs.applyComponents(stack.getComponentsPatch());
-				fs.remove(CPCapability.ITEM_FLUID);
-				return fs;
-			}
-		}
-		return Optional.ofNullable(stack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(stack))).map(t -> {
-
-			FluidResource fr = t.getResource(0);
-			if (!fr.isEmpty()) {
-				return fr.toStack(t.getAmountAsInt(0));
-			}
-			return FluidStack.EMPTY;
-		}).orElse(FluidStack.EMPTY);
-	}
-
 	public static FluidResource getFluidType(ItemStack stack) {
 		ItemHoldedFluidData si = stack.get(CPCapability.ITEM_FLUID);
 		if (si != null) {
@@ -149,18 +126,6 @@ public class Utils {
 	}
 	public static JsonElement toJson(Ingredient i) {
 		return Ingredient.CODEC.encodeStart(JsonOps.INSTANCE, i).result().orElse(JsonNull.INSTANCE);
-	}
-
-	public static boolean isExtractAllowed(ItemStack is) {
-		FoodExchangeItemEvent ev = new FoodExchangeItemEvent.Pre(is);
-		NeoForge.EVENT_BUS.post(ev);
-		return ev.getResult() == EventResult.ALLOW;
-	}
-
-	public static boolean isExchangeAllowed(ItemStack or, ItemStack rs) {
-		FoodExchangeItemEvent ev = new FoodExchangeItemEvent.Post(or, rs);
-		NeoForge.EVENT_BUS.post(ev);
-		return ev.getResult() == EventResult.ALLOW;
 	}
 
 	public static void dropToWorld(Level level, ItemStack is, BlockPos pos, TransactionContext trans) {
@@ -282,14 +247,14 @@ public class Utils {
 
 	public static void setInfo(MutableDataComponentHolder out, StewInfo info) {
 
-		out.set(CPCapability.STEW_INFO.get(), info.toImmutable());
+		out.set(CPCapability.STEW_INFO, info.toImmutable());
 		out.set(DataComponents.CONSUMABLE, info.getConsumable().build());
 		out.set(DataComponents.FOOD, info.getFood().build());
 
 	}
 	public static void setInfo(MutableDataComponentHolder out, SauteedFoodInfo info) {
 
-		out.set(CPCapability.SAUTEED_INFO.get(), info);
+		out.set(CPCapability.SAUTEED_INFO, info);
 		out.set(DataComponents.CONSUMABLE, info.getConsumable().build());
 		out.set(DataComponents.FOOD, info.getFood().build());
 

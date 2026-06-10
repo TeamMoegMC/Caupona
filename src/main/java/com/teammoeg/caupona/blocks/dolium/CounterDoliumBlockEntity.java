@@ -331,7 +331,7 @@ public class CounterDoliumBlockEntity extends CPBaseBlockEntity implements MenuP
 		return tank;
 	}
 	@Override
-	public ItemResource getValidContainer() {
+	public ItemResource getValidContainer(int slot) {
 		ItemResource ir=internInv.getResource(4);
 		if(!ir.isEmpty())
 			return ir;

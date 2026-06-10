@@ -34,8 +34,9 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 
 public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumBlockEntity,CounterDoliumRenderState> {
 
@@ -48,22 +49,13 @@ public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumB
 	@Override
 	public void submit(CounterDoliumRenderState state, PoseStack poseStack, SubmitNodeCollector buffer,
 			CameraRenderState camera) {
-		
-		poseStack.pushPose();
-		if (state.fs != null && !state.fs.isEmpty() && state.fs.getFluid() != null) {
-			float rr = (state.fs.getAmount() / 1250f) * 0.5f + 0.375f;
-			poseStack.translate(0, rr, 0);
+		if (state.sprite != null) {
+			poseStack.pushPose();
+			poseStack.translate(0, state.level, 0);
 			poseStack.mulPose(FluidRenderHelper.rotate90);
-
-			FluidModel model = FluidRenderHelper.getFluidModel(state.fs);
-			int color = FluidRenderHelper.getFluidColor(model, state.fs);
-			TextureAtlasSprite sprite = model.stillMaterial().sprite();
-			FluidRenderHelper.submitColoredTexturedRect(buffer, poseStack, sprite,.125f,.125f,.75f,.75f, color, state.lightCoords, OverlayTexture.NO_OVERLAY);
-			
-
+			FluidRenderHelper.submitColoredTexturedRect(buffer, poseStack, state.sprite,.125f,.125f,.75f,.75f, state.color, state.lightCoords, OverlayTexture.NO_OVERLAY);
+			poseStack.popPose();
 		}
-
-		poseStack.popPose();
 	}
 
 
@@ -76,11 +68,14 @@ public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumB
 	public void extractRenderState(CounterDoliumBlockEntity blockEntity, CounterDoliumRenderState state, float partialTicks,
 			Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
 		BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
-		state.fs=null;
-		if (blockEntity.tank.getResource(0).isEmpty())
+		state.sprite=null;
+		
+		FluidStack fs = FluidUtil.getStack(blockEntity.tank, 0);
+		if (fs.isEmpty())
 			return;
-		state.fs = blockEntity.tank.getResource(0).toStack(blockEntity.tank.getAmountAsInt(0));
-
-
+		FluidModel model = FluidRenderHelper.getFluidModel(fs);
+		state.color = FluidRenderHelper.getFluidColor(model, fs);
+		state.sprite = model.stillMaterial().sprite();
+		state.level = (fs.getAmount() / 1250f) * 0.5f + 0.375f;
 	}
 }

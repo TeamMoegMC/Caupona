@@ -47,7 +47,7 @@ public class CauponaApi {
 
 	private CauponaApi() {
 	}
-
+	@Deprecated
 	public static void apply(Level worldIn, LivingEntity entityLiving, IFoodInfo info) {
 		if (!worldIn.isClientSide()) {
 			RandomSource r = entityLiving.getRandom();

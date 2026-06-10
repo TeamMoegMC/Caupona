@@ -15,7 +15,10 @@ public class MutableStackItemAccess implements ItemAccess {
         wrapper = new ItemStacksResourceHandler(1);
         wrapper.set(0,ItemResource.of(stack),stack.count());
     }
-
+    public MutableStackItemAccess(ItemResource stack,int count) {
+        wrapper = new ItemStacksResourceHandler(1);
+        wrapper.set(0,stack,count);
+    }
     @Override
     public ItemResource getResource() {
         return wrapper.getResource(0);

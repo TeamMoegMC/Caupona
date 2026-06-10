@@ -50,6 +50,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class DishBlock extends CPRegisteredEntityBlock<DishBlockEntity> {
@@ -162,7 +163,7 @@ public class DishBlock extends CPRegisteredEntityBlock<DishBlockEntity> {
 		if (level.getBlockEntity(pos) instanceof DishBlockEntity bowl) {
 			if (bowl.getInternal() == null)
 				return ItemStack.EMPTY;
-			return bowl.getInternal().getResource(0).toStack();
+			return ItemUtil.getStack(bowl.getInternal(), 0);
 		}
 		return super.getCloneItemStack(level, pos, state, includeData, player);
 	}

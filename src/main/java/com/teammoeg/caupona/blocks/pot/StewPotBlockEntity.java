@@ -74,6 +74,7 @@ import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
@@ -127,7 +128,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		super(CPBlockEntityTypes.STEW_POT.get(), p, s);
 		still=new LazyTickWorker(()->{
 			if (inv.getResource(10).isEmpty()) {
-				FluidStack fs=tank.getResource(0).toStack(tank.getAmountAsInt(0));
+				FluidStack fs=FluidUtil.getStack(tank, 0);
 				DoliumRecipe recipe = DoliumRecipe.testPot(fs);
 				if (recipe != null) {
 					still.rewind(10);
@@ -279,7 +280,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				if (!tank.getResource(0).isEmpty() && !isInfinite) {
 					syncNeeded|=still.tick();
 					if(!still.isRunning()&&mayBeStill) {
-						DoliumRecipe rcp=DoliumRecipe.testPot(tank.getResource(0).toStack(tank.getAmountAsInt(0)));
+						DoliumRecipe rcp=DoliumRecipe.testPot(FluidUtil.getStack(tank, 0));
 						if(rcp!=null) {
 							still.start(rcp.time);
 						}else mayBeStill=false;
@@ -384,7 +385,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 	}
 
 	private boolean doBoil() {
-		FluidStack stack=this.tank.getResource(0).toStack(tank.getAmountAsInt(0));
+		FluidStack stack=FluidUtil.getStack(tank, 0);
 		RecipeHolder<BoilingRecipe> recipeh = BoilingRecipe.recipes.stream().filter(t->t.value().matches(stack)).findFirst().orElse(null);
 		if (recipeh == null)
 			return false;
@@ -483,7 +484,8 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 				else
 					nextbase = currentInfo.getBase();
 				become = cr.value().output;
-				original=new FluidStack(become,original.getAmount());
+				
+				original=original.transmuteCopy(become);
 				if(!cr.value().removeNBT) {
 					currentInfo.setBase(nextbase);
 					currentInfo.recalculateHAS();
@@ -694,7 +696,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		return BowlContainingRecipe.isBowl(it) || !Utils.getFluidType(it).isEmpty();
 	}
 	@Override
-	public ItemResource getValidContainer() {
+	public ItemResource getValidContainer(int slot) {
 		ItemResource ir=internInv.getResource(9);
 		if(!ir.isEmpty())
 			return ir;

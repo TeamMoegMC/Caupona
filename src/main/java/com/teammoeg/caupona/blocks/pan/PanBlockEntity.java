@@ -459,7 +459,7 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 	}
 
 	@Override
-	public ItemResource getValidContainer() {
+	public ItemResource getValidContainer(int slot) {
 		ItemResource ir=internInv.getResource(9);
 		if(!ir.isEmpty())
 			return ir;

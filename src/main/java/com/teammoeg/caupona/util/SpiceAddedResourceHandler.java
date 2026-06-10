@@ -4,8 +4,8 @@ import com.teammoeg.caupona.CPCapability;
 import com.teammoeg.caupona.components.StewInfo;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 
-import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.item.ItemResource;
@@ -103,8 +103,9 @@ public class SpiceAddedResourceHandler implements ResourceHandler<FluidResource>
 			if(recipe!=null) {
 				StewInfo sin=si.copy();
 				sin.addSpice(recipe.effect, spice.getItem());
-				return orig.withMergedPatch(DataComponentPatch.builder().set(CPCapability.STEW_INFO.get(),
-					sin.toImmutable()).build());
+				FluidStack out=orig.toStack(1000);
+				Utils.setInfo(out, sin);
+				return FluidResource.of(out);
 				
 			}
 		}

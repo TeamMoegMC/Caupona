@@ -36,7 +36,8 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 
 public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity,StewPotRenderState> {
 
@@ -57,46 +58,42 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity,S
 	@Override
 	public void extractRenderState(StewPotBlockEntity blockEntity, StewPotRenderState state, float partialTicks, Vec3 cameraPosition, @Nullable CrumblingOverlay breakProgress) {
 		BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
-		state.input=null;
-		state.output=null;
-		state.process=blockEntity.process;
-		state.processMax=blockEntity.processMax;
-		FluidResource cur=blockEntity.getTank().getResource(0);
-		if(!cur.isEmpty())
-			state.input=cur.toStack(blockEntity.getTank().getAmountAsInt(0));
-		state.output=blockEntity.output;
-		
+		state.inModel=null;
+		state.outModel=null;
+		FluidStack input=FluidUtil.getStack(blockEntity.getTank(), 0);
+		FluidStack output=blockEntity.output;
+		if (!input.isEmpty()) {
+			FluidModel inModel=FluidRenderHelper.getFluidModel(input);
+			state.inColor = FluidRenderHelper.getFluidColor(inModel, input);
+			state.inModel=inModel.stillMaterial().sprite();
+			state.level = input.getAmount();
+			if (output !=null)// just animate fluid modification
+				state.level += (output.getAmount()-input.getAmount()) * ( blockEntity.process * 1f / blockEntity.processMax);
+			state.level=Math.min(1, state.level / 1250) * .5f + .1875f;
+			if (output != null&&!output.isEmpty() && blockEntity.processMax > 0) {
+				FluidModel outModel=FluidRenderHelper.getFluidModel(output);
+				float proc = blockEntity.process * 1f / blockEntity.processMax;
+				state.outColor = ARGB.srgbLerp(proc, state.inColor, FluidRenderHelper.getFluidColor(outModel, output));
+				state.outColor = ARGB.color(ARGB.alphaFloat(state.outColor)*(proc), state.outColor);
+				state.inColor = ARGB.color(ARGB.alphaFloat(state.inColor)*(1 - proc), state.inColor);
+			}
+		}
 	}
 
 	@Override
 	public void submit(StewPotRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
 		poseStack.pushPose();
-		if (state.input!= null && !state.input.isEmpty() && state.input.getFluid() != null) {
-			float rr = state.input.getAmount();
-			if (state.output !=null)// just animate fluid modification
-				rr += (state.output.getAmount()-state.input.getAmount()) * ( state.process * 1f / state.processMax);
-			float yy = Math.min(1, rr / 1250) * .5f + .1875f;
-			poseStack.translate(0, yy, 0);
+		if (state.inModel != null) {
+			poseStack.translate(0, state.level, 0);
 			poseStack.mulPose(FluidRenderHelper.rotate90);
-
-			FluidModel inModel=FluidRenderHelper.getFluidModel(state.input);
-			int inColor = FluidRenderHelper.getFluidColor(inModel, state.input);
-			float alp = 1f;
-			if (state.output != null&&!state.output.isEmpty() && state.processMax > 0) {
-				FluidModel outModel=FluidRenderHelper.getFluidModel(state.output);
-				float proc = state.process * 1f / state.processMax;
-				int color =ARGB.srgbLerp(proc, inColor, FluidRenderHelper.getFluidColor(outModel, state.output));
-
-				alp = 1 - proc;
-			
-				FluidRenderHelper.submitColoredTexturedRect(submitNodeCollector, poseStack, outModel.stillMaterial().sprite(), .125f, .125f, .75f, .75f, ARGB.color(proc, color), state.lightCoords, OverlayTexture.NO_OVERLAY);
-
-
+			if (state.outModel != null) {
+				FluidRenderHelper.submitColoredTexturedRect(submitNodeCollector, poseStack, state.outModel,
+					.125f, .125f, .75f, .75f, 
+					state.outColor, state.lightCoords, OverlayTexture.NO_OVERLAY);
 			}
-			FluidRenderHelper.submitColoredTexturedRect(submitNodeCollector, poseStack, inModel.stillMaterial().sprite(),
-				.125f, .125f, .75f, .75f,
-				ARGB.color(alp, inColor), state.lightCoords, OverlayTexture.NO_OVERLAY);
-
+			FluidRenderHelper.submitColoredTexturedRect(submitNodeCollector, poseStack,  state.inModel,
+				.125f, .125f, .75f, .75f, 
+				state.inColor, state.lightCoords, OverlayTexture.NO_OVERLAY);
 
 		}
 
