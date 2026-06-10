@@ -49,7 +49,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.BoatDispenseItemBehavior;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -72,7 +71,6 @@ import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
-import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import net.neoforged.neoforge.transfer.fluid.ItemAccessFluidHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
@@ -180,7 +178,7 @@ public class CPCommonBootStrap {
 				Direction d = bp.state().getValue(DispenserBlock.FACING);
 				BlockPos front = bp.pos().relative(d);
 				BlockPos back = bp.pos().relative(d.getOpposite());
-				Block src = bp.level().getBlockState(front).getBlock();
+				//Block src = bp.level().getBlockState(front).getBlock();
 				
 				@Nullable ResourceHandler<FluidResource> blockSource = bp.level().getCapability(Capabilities.Fluid.BLOCK, front,d.getOpposite());
 				@Nullable ResourceHandler<FluidResource> blockTarget = bp.level().getCapability(Capabilities.Fluid.BLOCK,back, d);

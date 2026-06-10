@@ -31,7 +31,6 @@ import com.teammoeg.caupona.data.DataDeserializerRegistry;
 import com.teammoeg.caupona.data.Deserializer;
 import com.teammoeg.caupona.data.InvalidRecipeException;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
-import com.teammoeg.caupona.util.SerializeUtil;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;

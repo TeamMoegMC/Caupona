@@ -27,8 +27,6 @@ import com.teammoeg.caupona.data.recipes.IngredientCondition;
 
 import mezz.jei.api.helpers.IGuiHelper;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.Event;
 
 public class DrawCustomConditionEvent extends Event{
