@@ -75,12 +75,15 @@ public class FluidRenderHelper {
 			.get(stack.getFluid().defaultFluidState());
 	}
 	public static void handleGuiTank(GuiGraphicsExtractor transform, ResourceHandler<FluidResource> tank, int x, int y, int w, int h,int mouseX,int mouseY,Consumer<Component> tooltip) {
-		FluidResource fr=tank.getResource(0);
+		FluidRenderHelper.handleGuiTank(transform, tank, 0, x, y, w, h, mouseX, mouseY, tooltip);
+	}
+	public static void handleGuiTank(GuiGraphicsExtractor transform, ResourceHandler<FluidResource> tank,int index, int x, int y, int w, int h,int mouseX,int mouseY,Consumer<Component> tooltip) {
+		FluidResource fr=tank.getResource(index);
 		if(fr.isEmpty())return;
-		FluidStack fluid = fr.toStack(tank.getAmountAsInt(0));
+		FluidStack fluid = fr.toStack(tank.getAmountAsInt(index));
 		if (fluid != null && fluid.getFluid() != null) {
 			
-			int fluidHeight = (int) (h * (tank.getAmountAsInt(0) / (float) tank.getCapacityAsInt(0,tank.getResource(0))));
+			int fluidHeight = (int) (h * (tank.getAmountAsInt(index) / (float) tank.getCapacityAsInt(index,tank.getResource(index))));
 			FluidModel model = FluidRenderHelper.getFluidModel(fluid);
 			int color = FluidRenderHelper.getFluidColor(model, fluid);
 			TextureAtlasSprite sprite=model.stillMaterial().sprite();
@@ -105,7 +108,7 @@ public class FluidRenderHelper {
 						tt.addToTooltip(TooltipContext.of(p.level(), p), tooltip, TooltipFlag.NORMAL, fluid);
 					}
 				}
-				tooltip.accept(Utils.string(tank.getAmountAsInt(0)+"/"+tank.getCapacityAsInt(0, fr)));
+				tooltip.accept(Utils.string(tank.getAmountAsInt(index)+"/"+tank.getCapacityAsInt(index, fr)));
 			}
 			
 		}
