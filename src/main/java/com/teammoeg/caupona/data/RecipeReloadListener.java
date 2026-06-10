@@ -186,13 +186,7 @@ public class RecipeReloadListener{
 		Conditions.clearCache();
 		Numbers.clearCache();
 		BaseConditions.clearCache();
-		CountingTags.tags = 
-			Stream.concat(
-				Stream.concat(filterRecipes(recipes, CountingTags.class, CountingTags.TYPE).flatMap(r -> r.value().tag.stream()),
-						StewCookingRecipe.sorted.stream().map(t->t.value()).flatMap(StewCookingRecipe::getTags)),
-						SauteedRecipe.sorted.stream().map(t->t.value()).flatMap(SauteedRecipe::getTags)
-					)
-			.collect(Collectors.toSet());
+
 		BowlContainingRecipe.recipes=new HashMap<>();
 		filterRecipes(recipes, BowlContainingRecipe.class, BowlContainingRecipe.TYPE)
 			.forEach(o->BowlContainingRecipe.recipes.computeIfAbsent(o.value().inBowl, _->new ArrayList<>()).add(o));
@@ -238,7 +232,13 @@ public class RecipeReloadListener{
 				.collect(Collectors.toList());
 
 		SpiceRecipe.recipes = filterRecipes(recipes, SpiceRecipe.class, SpiceRecipe.TYPE).map(t->t.value()).collect(Collectors.toList());
-		
+		CountingTags.tags = 
+			Stream.concat(
+				Stream.concat(filterRecipes(recipes, CountingTags.class, CountingTags.TYPE).flatMap(r -> r.value().tag.stream()),
+						StewCookingRecipe.sorted.stream().map(t->t.value()).flatMap(StewCookingRecipe::getTags)),
+						SauteedRecipe.sorted.stream().map(t->t.value()).flatMap(SauteedRecipe::getTags)
+					)
+			.collect(Collectors.toSet());
 
 
 		sw.stop();
