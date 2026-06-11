@@ -41,7 +41,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class PanRenderer implements BlockEntityRenderer<PanBlockEntity,PanRenderState> {
 	public static enum LayerType{
-		PAN(""),PLATE("");
+		PAN("_pan"),PLATE("_plate");
 		final String pathSuffix;
 
 
@@ -81,8 +81,11 @@ public class PanRenderer implements BlockEntityRenderer<PanBlockEntity,PanRender
 		else
 			type=LayerType.PAN;
 		state.model=null;
-		if(blockEntity.model!=null)
+		if(blockEntity.model!=null) {
 			state.model=DynamicBlockModelReference.getModel(blockEntity.model.withSuffix(type.getPathSuffix()));
+			if(state.model==null)
+				state.model=DynamicBlockModelReference.getModel(blockEntity.model);
+		}
 	}
 
 }

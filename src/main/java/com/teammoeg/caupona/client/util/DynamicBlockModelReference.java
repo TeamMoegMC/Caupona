@@ -45,6 +45,7 @@ public record DynamicBlockModelReference(StandaloneModelKey<QuadCollection> name
 		this(new StandaloneModelKey<>(name::toString));
 	}
 	public synchronized static DynamicBlockModelReference createKey(Identifier name) {
+
 		return cache.computeIfAbsent(name, DynamicBlockModelReference::new);
 		
 	}
