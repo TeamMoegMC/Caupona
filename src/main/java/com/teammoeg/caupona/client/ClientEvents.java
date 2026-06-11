@@ -50,6 +50,7 @@ public class ClientEvents {
 					
 		});
 	}
+	@SubscribeEvent
 	public static void onRecipeSynced(RecipesReceivedEvent ev) {
 		RecipeReloadListener.collectRecipeIndices(ev.getRecipeMap());
 	}
