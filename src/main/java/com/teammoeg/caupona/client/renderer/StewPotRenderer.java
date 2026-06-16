@@ -73,9 +73,8 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity,S
 			if (output != null&&!output.isEmpty() && blockEntity.processMax > 0) {
 				FluidModel outModel=FluidRenderHelper.getFluidModel(output);
 				float proc = blockEntity.process * 1f / blockEntity.processMax;
-				state.outColor = ARGB.srgbLerp(proc, state.inColor, FluidRenderHelper.getFluidColor(outModel, output));
-				state.outColor = ARGB.color(ARGB.alphaFloat(state.outColor)*(proc), state.outColor);
-				state.inColor = ARGB.color(ARGB.alphaFloat(state.inColor)*(1 - proc), state.inColor);
+				state.outColor = ARGB.multiplyAlpha(FluidRenderHelper.getFluidColor(outModel, output), proc);
+				state.inColor = ARGB.multiplyAlpha(state.inColor, (1 - proc));
 			}
 		}
 	}
