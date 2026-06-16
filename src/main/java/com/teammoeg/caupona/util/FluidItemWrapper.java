@@ -33,7 +33,6 @@ public final class FluidItemWrapper extends ItemAccessResourceHandler<FluidResou
 
     @Override
     protected ItemResource update(ItemResource accessResource, int index, FluidResource newResource, int newAmount) {
-    	System.out.println("newAmount="+newAmount);
         if (newAmount == 0) {
         	ItemStackTemplate template=accessResource.toStack().getCraftingRemainder();
         	if(template!=null) {

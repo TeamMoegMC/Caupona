@@ -91,10 +91,12 @@ public class CauponaApi {
 		if(!rs.isEmpty())
 			try(Transaction ctx=Transaction.openRoot()){
 				int amt = handler.extract(rs,250, ctx);
-				ContanerContainFoodEvent ev=Utils.contain(ItemResource.of(in),rs,amt);
-				if (ev.isAllowed()) {
-					ctx.commit();
-					return Optional.of(ev.getOutput().toStack());
+				if(amt>0) {
+					ContanerContainFoodEvent ev=Utils.contain(ItemResource.of(in),rs,amt);
+					if (ev.isAllowed()) {
+						ctx.commit();
+						return Optional.of(ev.getOutput().toStack());
+					}
 				}
 			}
 		return Optional.empty();
