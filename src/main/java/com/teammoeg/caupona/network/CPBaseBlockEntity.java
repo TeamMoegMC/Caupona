@@ -45,11 +45,6 @@ public abstract class CPBaseBlockEntity extends BlockEntity {
 		super(pType, pWorldPosition, pBlockState);
 	}
 
-	public abstract void handleMessage(short type, int data);
-
-	public void sendMessage(short type, int data) {
-		PacketHandler.sendToServer(new ClientDataMessage(this.worldPosition, type, data));
-	}
 
 	public void syncData() {
 		if (this.level != null) {
@@ -86,7 +81,7 @@ public abstract class CPBaseBlockEntity extends BlockEntity {
 		super.loadAdditional(valueInput);
 
 	}
-
+	public abstract void handleMessage(short type, int data) ;
 	@Override
 	protected void saveAdditional(ValueOutput valueOutput) {
 		this.writeCustomNBT(valueOutput, false);

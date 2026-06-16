@@ -21,6 +21,10 @@
 
 package com.teammoeg.caupona.container;
 
+import com.teammoeg.caupona.network.CPBaseBlockEntity;
+import com.teammoeg.caupona.network.ClientDataMessage;
+import com.teammoeg.caupona.network.PacketHandler;
+
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -90,6 +94,16 @@ public abstract class CPBaseContainer<T extends BlockEntity> extends AbstractCon
 			slot.onTake(playerIn, slotStack);
 		}
 		return itemStack;
+	}
+
+	public void handleMessage(short type, int data) {
+		if(blockEntity instanceof CPBaseBlockEntity baseBE) {
+			baseBE.handleMessage(type, data);
+		}
+	};
+
+	public void sendMessage(short type, int data) {
+		PacketHandler.sendToServer(new ClientDataMessage(this.containerId, type, data));
 	}
 	@Override
 	public boolean stillValid(Player pPlayer) {

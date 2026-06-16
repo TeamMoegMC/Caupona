@@ -2,3 +2,4 @@
 Bugfix:
   Fix a crash when using empty mod container on stew pot
   Fix a fluid dupe
+  Improve data handling

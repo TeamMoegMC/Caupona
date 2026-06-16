@@ -38,6 +38,6 @@ public class PacketHandler {
 		PayloadRegistrar Ch=ev.registrar(CPMain.MODID);
 		Ch.playToServer(ClientDataMessage.path, ClientDataMessage.CODEC,ClientDataMessage::handle);
 		Ch.playToClient(ContainerDataMessage.type,ContainerDataMessage.CODEC,ContainerDataMessage::handle);
-		Ch.versioned("1");
+		Ch.versioned("2");
 	}
 }
