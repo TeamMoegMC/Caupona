@@ -95,6 +95,8 @@ public class CPCommonEvents {
 	}
 	@SubscribeEvent
 	public static void bowlContainerFood(ContanerContainFoodEvent ev) {
+		if(ev.drainAmount!=250)
+			return;
 		FluidStack testStack=ev.fs.toStack(ev.drainAmount);
 		RecipeHolder<BowlContainingRecipe> recipe = BowlContainingRecipe.getRecipes(ev.origin.toStack()).stream().filter(t->t.value().matches(testStack)).findFirst().orElse(null);
 		if (recipe != null) {
