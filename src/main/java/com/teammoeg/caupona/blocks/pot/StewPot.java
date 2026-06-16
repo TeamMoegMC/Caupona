@@ -83,21 +83,19 @@ public class StewPot extends CPRegisteredEntityBlock<StewPotBlockEntity> {
 		StewPotBlockEntity blockEntity = (StewPotBlockEntity) worldIn.getBlockEntity(pos);
 		if (blockEntity.canAddFluid()) {
 			if (held.isEmpty() && player.isShiftKeyDown()) {
-				try(Transaction trans=Transaction.openRoot()){
-					blockEntity.getTank().extract(blockEntity.getTank().getResource(0), 1250,trans);
-					blockEntity.syncData();
-				}
+				blockEntity.getTank().set(0, FluidResource.EMPTY, 0);
 				return InteractionResult.SUCCESS;
 			}
-
-			try(Transaction trans=Transaction.openRoot()){
-				@Nullable ResourceHandler<FluidResource> cap=held.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forPlayerInteraction(player, handIn));
-				if(cap!=null) {
-					FluidResource fr=cap.getResource(0);
-					int amt=cap.extract(fr, cap.getAmountAsInt(0), trans);
-					if (blockEntity.tryAddFluid(fr,amt,trans)) {
-						trans.commit();
-						return InteractionResult.SUCCESS;
+			@Nullable ResourceHandler<FluidResource> cap=held.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forPlayerInteraction(player, handIn));
+			if(cap!=null) {
+				FluidResource fr=cap.getResource(0);
+				if(!fr.isEmpty()) {
+					try(Transaction trans=Transaction.openRoot()){
+						int amt=cap.extract(fr, cap.getAmountAsInt(0), trans);
+						if (blockEntity.tryAddFluid(fr,amt,trans)) {
+							trans.commit();
+							return InteractionResult.SUCCESS;
+						}
 					}
 				}
 			}

@@ -1,3 +1,3 @@
-6.0.3
+6.0.6
 Bugfix:
-  Fix a client crash when using bucket 
+  Fix a crash when using empty mod container on stew pot

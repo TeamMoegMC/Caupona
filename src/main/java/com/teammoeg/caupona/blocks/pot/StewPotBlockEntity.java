@@ -214,7 +214,7 @@ public class StewPotBlockEntity extends CPBaseBlockEntity implements MenuProvide
 		}
 		return false;
 	}
-	public ResourceHandler<FluidResource> getTank() {
+	public FluidStacksResourceHandler getTank() {
 		return tank;
 	}
 
