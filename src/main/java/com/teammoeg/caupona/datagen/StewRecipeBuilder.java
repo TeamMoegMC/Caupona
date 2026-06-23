@@ -37,6 +37,7 @@ import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.material.Fluid;
 
 public class StewRecipeBuilder {
@@ -144,7 +145,7 @@ public class StewRecipeBuilder {
 		return new StewCookingRecipe( allow, deny, priority, time, density, base, output,removeNBT);
 	}
 
-	public StewCookingRecipe finish(BiConsumer<Identifier, IDataRecipe> out) {
+	public StewCookingRecipe finish(BiConsumer<Identifier, Recipe<?>> out) {
 		StewCookingRecipe r = end();
 		out.accept(id,r);
 		return r;

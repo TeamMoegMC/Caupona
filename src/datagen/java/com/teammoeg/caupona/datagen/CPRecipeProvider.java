@@ -46,6 +46,7 @@ import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
+import com.teammoeg.caupona.data.recipes.LoafBowlDigRecipe;
 import com.teammoeg.caupona.util.SizedOrCatalystIngredient;
 import com.teammoeg.caupona.util.Utils;
 
@@ -72,7 +73,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CookingBookCategory;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingRecipe.CraftingBookInfo;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.Recipe.CommonInfo;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -101,7 +106,7 @@ public class CPRecipeProvider extends RecipeProvider {
 	private final HashMap<String, Integer> PATH_COUNT = new HashMap<>();
 
 	static final Fluid water = fluid(mrl("nail_soup")), milk = fluid(mrl("scalded_milk")), stock = fluid(mrl("stock"));
-	public static List<Pair<Identifier,IDataRecipe>> recipes = new ArrayList<>();
+	public static List<Pair<Identifier,Recipe<?>>> recipes = new ArrayList<>();
 
 	public CPRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
 		super(registries, output);
@@ -116,9 +121,10 @@ public class CPRecipeProvider extends RecipeProvider {
 	@Override
 	protected void buildRecipes() {
 		RecipeOutput outx=this.output;
-		BiConsumer<Identifier,IDataRecipe> out = (r1,r2) -> {
+		BiConsumer<Identifier,Recipe<?>> out = (r1,r2) -> {
 			outx.accept(ResourceKey.create(Registries.RECIPE, r1),r2,null);
 		};
+		out.accept(rl("loaf_bowl"), new LoafBowlDigRecipe(new CommonInfo(true),new CraftingBookInfo(CraftingBookCategory.MISC,""),new ItemStackTemplate(CPBlocks.LOAF_BOWL.getFirst().get(),1),List.of(Ingredient.of(CPBlocks.LOAF.get()),Ingredient.of(registries.get(ItemTags.SHOVELS).get()))));
 		for (String s : CPFluids.getSoupfluids()) {
 			Identifier fs = mrl(s);
 			out.accept(rl("bowl/" + s),new BowlContainingRecipe( item(fs), fluid(fs),Ingredient.of(Items.BOWL)));
@@ -251,7 +257,7 @@ public class CPRecipeProvider extends RecipeProvider {
 		//SimpleCookingRecipeBuilder.smelting(Ingredient.of(cpitem("litharge_cake")),RecipeCategory.MISC,cpitem("lead_nugget"), 0.7f, 200).unlockedBy("has_litharge_cake", has(cpitem("litharge_cake"))).save(outx,Identifier.fromNamespaceAndPath(CPMain.MODID, "smelting/lead_nugget"));
 	}
 
-	private void frying(BiConsumer<Identifier, IDataRecipe> out) {
+	private void frying(BiConsumer<Identifier, Recipe<?>> out) {
 		out = out.andThen((r1,r2)->recipes.add(Pair.of(r1, r2)));
 		Ingredient BOWL=Ingredient.of(Items.BOWL);
 		fry("huevos_pericos").high().require().mainly().of(EGGS).and().then().finish(out,BOWL);
@@ -280,7 +286,7 @@ public class CPRecipeProvider extends RecipeProvider {
 		fry("sauteed_hodgepodge","_loaf").low().finish(out,BOWL);
 	}
 
-	private void stewCooking(BiConsumer<Identifier, IDataRecipe> out) {
+	private void stewCooking(BiConsumer<Identifier, Recipe<?>> out) {
 		out = out.andThen((r1,r2)->recipes.add(Pair.of(r1, r2)));
 		cook("acquacotta").high().base().tag(ANY_WATER).and().require().mainly().of(BAKED).and().then().finish(out);
 		cook("congee").med().base().tag(ANY_WATER).and().require().half().of(RICE).and().then().dense(0.25).finish(out);
@@ -341,24 +347,24 @@ public class CPRecipeProvider extends RecipeProvider {
 		//cook("scalded_milk").require().any().of(Ingredient.of(Items.ACACIA_BOAT),"Test").and().any().of(Ingredient.of(Items.ACACIA_BOAT),"item.caupona.any_based").and().then().dense(3).finish(out);
 	}
 
-	private void spice(Item spice, Holder<MobEffect> eff, BiConsumer<Identifier, IDataRecipe> out) {
+	private void spice(Item spice, Holder<MobEffect> eff, BiConsumer<Identifier, Recipe<?>> out) {
 		out.accept(Identifier.fromNamespaceAndPath(CPMain.MODID, "spice/" + Utils.getRegistryName(spice).getPath()),new SpiceRecipe(
 				Ingredient.of(spice), new MobEffectInstance(eff, 200)));
 
 	}
-	private void spiceLead(Item spice, Holder<MobEffect> eff, BiConsumer<Identifier, IDataRecipe> out) {
+	private void spiceLead(Item spice, Holder<MobEffect> eff, BiConsumer<Identifier, Recipe<?>> out) {
 		out.accept(Identifier.fromNamespaceAndPath(CPMain.MODID, "spice/" + Utils.getRegistryName(spice).getPath()),new SpiceRecipe(
 				Ingredient.of(spice), new MobEffectInstance(eff, 200),true));
 
 	}
-	private void aspic(String soup, BiConsumer<Identifier, IDataRecipe> out) {
+	private void aspic(String soup, BiConsumer<Identifier, Recipe<?>> out) {
 		out.accept(Identifier.fromNamespaceAndPath(CPMain.MODID, "dolium/" + soup + "_aspic"), 
 				new DoliumRecipe(stock,
 						cpfluid(soup), 250, 0.25F, true, new ItemStackTemplate(cpitem(soup + "_aspic")), null,12000));
 		out.accept(Identifier.fromNamespaceAndPath(CPMain.MODID, "melt/" + soup + "_aspic"),
 			new AspicMeltingRecipe(Ingredient.of(cpitem(soup + "_aspic")), cpfluid(soup)));
 	}
-	private void aspicNoBase(String soup, BiConsumer<Identifier, IDataRecipe> out) {
+	private void aspicNoBase(String soup, BiConsumer<Identifier, Recipe<?>> out) {
 		out.accept(Identifier.fromNamespaceAndPath(CPMain.MODID, "dolium/" + soup + "_aspic"), new DoliumRecipe(null,cpfluid(soup), 250, 0.25F, true, new ItemStackTemplate(cpitem(soup + "_aspic")), null,12000));
 		out.accept(Identifier.fromNamespaceAndPath(CPMain.MODID, "melt/" + soup + "_aspic"),new AspicMeltingRecipe(Ingredient.of(cpitem(soup + "_aspic")), cpfluid(soup)));
 	}
@@ -375,7 +381,7 @@ public class CPRecipeProvider extends RecipeProvider {
 		return BuiltInRegistries.ITEM.getValue(Identifier.withDefaultNamespace(name));
 	}
 
-	private void simpleFood(BiConsumer<Identifier, IDataRecipe> out, int h, float s, Item i) {
+	private void simpleFood(BiConsumer<Identifier, Recipe<?>> out, int h, float s, Item i) {
 		out.accept(rl("food/" + Utils.getRegistryName(i).getPath()), new FoodValueRecipe(h, s*h*2, new ItemStackTemplate(i), i));
 	}
 
