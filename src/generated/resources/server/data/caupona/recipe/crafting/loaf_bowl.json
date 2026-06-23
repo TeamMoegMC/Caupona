@@ -1,0 +1,11 @@
+{
+  "type": "caupona:loaf_dig",
+  "category": "misc",
+  "ingredients": [
+    "caupona:loaf",
+    "#minecraft:shovels"
+  ],
+  "result": {
+    "id": "caupona:loaf_bowl"
+  }
+}

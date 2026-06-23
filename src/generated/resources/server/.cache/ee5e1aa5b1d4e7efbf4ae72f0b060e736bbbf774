@@ -1,4 +1,4 @@
-// 26.1.2	2026-04-21T16:03:17.6395675	caupona
+// 26.1.2	2026-06-23T15:56:17.5838749	caupona
 ea15f80e85f870aba17341af8cf41bb8b76a860c data/caupona/advancement/recipes/decorations/clay_cistern.json
 acba31221439cbb1653fc7bd0659b4d5151761f7 data/caupona/advancement/recipes/decorations/mud_kitchen_stove.json
 2c54f5e02cd31fb140796fe88ab4914b813ce257 data/caupona/advancement/recipes/decorations/stew_pot.json
@@ -94,6 +94,7 @@ d586d2da44eaa7929fb760e327b4e6eb4054efc6 data/caupona/recipe/cooking/stock.json
 724f4f58eb054685bc05f2b38ef6ad13e6f5d4ea data/caupona/recipe/cooking/vegetable_chowder.json
 5f33f4ea0d60f294520f87ea9473daeee4cafbcf data/caupona/recipe/cooking/vegetable_soup.json
 50b92f99ff8e3f9f19e83820b5eac00a6f84c29f data/caupona/recipe/cooking/walnut_soup.json
+8ec897e16e83d780595afaf5a04b8b33a6044fc5 data/caupona/recipe/crafting/loaf_bowl.json
 40bdcdf18d79ce14f6d619339c4c9554533e6c0b data/caupona/recipe/dolium/asafoetida.json
 8c97ae71301fd5e235beaf76f1ac58859c78a71e data/caupona/recipe/dolium/bisque_aspic.json
 92b6e67dae057d45a1c27037e9a9c38ad791d303 data/caupona/recipe/dolium/borscht_aspic.json
