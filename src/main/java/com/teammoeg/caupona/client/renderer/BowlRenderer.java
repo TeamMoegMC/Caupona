@@ -72,21 +72,16 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity, BowlRe
 	public void submit(BowlRenderState state, PoseStack poseStack, SubmitNodeCollector buffer,
 			CameraRenderState camera) {
 
-		poseStack.pushPose();
 		if (state.sprite != null) {
 			float y = state.type == 2 ? .3125f : .28125f;
 			float lowerXZ = .28125f;
 			float higherXZ = .4375f;
-			poseStack.translate(0, y, 0);
-			poseStack.mulPose(FluidRenderHelper.rotate90);
 
 			
-			FluidRenderHelper.submitColoredTexturedRect(buffer, poseStack, state.sprite,lowerXZ,lowerXZ,higherXZ,higherXZ, state.color, state.lightCoords, OverlayTexture.NO_OVERLAY);
+			FluidRenderHelper.submitColoredTexturedRect(buffer, poseStack, state.sprite,lowerXZ,y,lowerXZ,higherXZ, 0, higherXZ, state.color, state.lightCoords, OverlayTexture.NO_OVERLAY);
 			
 
 		}
-
-		poseStack.popPose();
 	}
 
 	@Override

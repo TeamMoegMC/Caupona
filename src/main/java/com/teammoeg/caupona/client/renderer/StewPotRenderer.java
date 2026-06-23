@@ -81,22 +81,18 @@ public class StewPotRenderer implements BlockEntityRenderer<StewPotBlockEntity,S
 
 	@Override
 	public void submit(StewPotRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
-		poseStack.pushPose();
 		if (state.inModel != null) {
-			poseStack.translate(0, state.level, 0);
-			poseStack.mulPose(FluidRenderHelper.rotate90);
 			if (state.outModel != null) {
 				FluidRenderHelper.submitColoredTexturedRect(submitNodeCollector, poseStack, state.outModel,
-					.125f, .125f, .75f, .75f, 
+					.125f, state.level, .125f, .75f, 0, .75f,
 					state.outColor, state.lightCoords, OverlayTexture.NO_OVERLAY);
 			}
 			FluidRenderHelper.submitColoredTexturedRect(submitNodeCollector, poseStack,  state.inModel,
-				.125f, .125f, .75f, .75f, 
-				state.inColor, state.lightCoords, OverlayTexture.NO_OVERLAY);
+					.125f, state.level, .125f, .75f, 0, .75f, 
+					state.inColor, state.lightCoords, OverlayTexture.NO_OVERLAY);
 
 		}
 
-		poseStack.popPose();
 	}
 
 }
