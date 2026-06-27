@@ -1,4 +1,6 @@
-6.0.6
+6.1.0
 Bugfix:
   Improve data handling
   Fix dolium not working
+  Add recipe for bread bowl
+  Add aurei and denarii
