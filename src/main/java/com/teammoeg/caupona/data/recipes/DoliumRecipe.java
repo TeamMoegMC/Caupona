@@ -62,6 +62,7 @@ import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class DoliumRecipe extends IDataRecipe{
@@ -159,10 +160,10 @@ public class DoliumRecipe extends IDataRecipe{
 	}
 
 	public static RecipeHolder<DoliumRecipe> testDolium(ResourceHandler<FluidResource> f, ResourceHandler<ItemResource> inv,@Nullable Identifier id) {
-		ItemStack is0 = inv.getResource(0).toStack();
-		ItemStack is1 = inv.getResource(1).toStack();
-		ItemStack is2 = inv.getResource(2).toStack();
-		ItemStack cont = inv.getResource(4).toStack();
+		ItemStack is0 = ItemUtil.getStack(inv, 0);
+		ItemStack is1 = ItemUtil.getStack(inv, 1);
+		ItemStack is2 = ItemUtil.getStack(inv, 2);
+		ItemStack cont = ItemUtil.getStack(inv, 4);
 		FluidStack fs=FluidUtil.getStack(f, 0);
 		if(id!=null) {
 			RecipeHolder<DoliumRecipe> recipe=recipesNames.get(id);
