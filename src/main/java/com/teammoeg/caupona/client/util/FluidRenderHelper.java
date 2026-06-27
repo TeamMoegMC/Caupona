@@ -62,8 +62,8 @@ public class FluidRenderHelper {
 	private FluidRenderHelper() {
 	}
 
-
-	public static Quaternionf rotate90=new Quaternionf().rotateX((float) (Math.PI/2));
+	@Deprecated
+	public static final Quaternionf rotate90=new Quaternionf().rotateX((float) (Math.PI/2));
 	public static int getFluidColor(FluidModel model,FluidStack stack) {
 		int color = 0xffffffff;
 		if(model.fluidTintSource() != null)
@@ -113,25 +113,36 @@ public class FluidRenderHelper {
 			
 		}
 	}
-	public static void submitColoredTexturedRect(SubmitNodeCollector buffer,PoseStack poseStack,TextureAtlasSprite sprite,float x0,float z0,float x1,float z1,int color,int packedLight,int packedOverlay) {
+	public static void submitColoredTexturedRect(SubmitNodeCollector buffer,PoseStack poseStack,TextureAtlasSprite sprite, 
+		float x0,float y0, 
+		float w,float h, 
+		int color,int packedLight,int packedOverlay) {
+		submitColoredTexturedRect(buffer, poseStack, sprite, x0, y0, 0, w, h, 0, color, packedLight, packedOverlay);
+	}
+	public static void submitColoredTexturedRect(SubmitNodeCollector buffer, PoseStack poseStack, TextureAtlasSprite sprite, 
+		float x0,float y0,float z0,float w,float h,float d,int color, int packedLight, int packedOverlay) {
 		buffer.submitCustomGeometry(poseStack, RenderTypes.translucentMovingBlock(), (matrixStack, builder) -> {
-			FluidRenderHelper.drawTexturedColoredRect(builder, matrixStack, x0, z0, x1, z1,
+			FluidRenderHelper.drawTexturedColoredRect(builder, matrixStack, x0, y0, z0, w, h, d,
 					color,
 					sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), packedLight,
 					packedOverlay);
 		});
 	}
 
-	private static void buildVertex(VertexConsumer bu, Pose transform, int color,
-			float p1, float p2, float u0, float u1, int light, int overlay) {
-		bu.addVertex(transform, p1, p2, 0).setColor(color).setUv(u0, u1).setOverlay(overlay).setLight(light)
-				.setNormal(1f, 1f, 1f);
+	private static void buildVertex(VertexConsumer bu, Pose transform, 
+		int color,
+		float x, float y, float z, 
+		float u, float v, 
+		int light, int overlay) {
+		bu.addVertex(transform, x, y, z).setColor(color).setUv(u, v).setOverlay(overlay).setLight(light);
+				//.setNormal(1f, 1f, 1f);
 	}
 
-
-
-	public static void drawRepeatedSprite(VertexConsumer builder, Pose transform, float x, float y, float w,
-			float h, int iconWidth, int iconHeight, float uMin, float uMax, float vMin, float vMax, int color, int light, int overlay) {
+	public static void drawRepeatedSprite(VertexConsumer builder, Pose transform, 
+		float x, float y, float w, float h, 
+		int iconWidth, int iconHeight, 
+		float uMin, float uMax, float vMin, float vMax, 
+		int color, int light, int overlay) {
 		int iterMaxW = (int) (w / iconWidth);
 		int iterMaxH = (int) (h / iconHeight);
 		float leftoverW = w % iconWidth;
@@ -156,13 +167,22 @@ public class FluidRenderHelper {
 					(vMin + iconVDif * leftoverHf), light, overlay);
 		}
 	}
-
-	public static void drawTexturedColoredRect(VertexConsumer builder, Pose transform, float x, float y, float w,
-			float h, int color, float u0, float u1, float v0, float v1, int light,
-			int overlay) {
-		buildVertex(builder, transform, color, x, y + h, u0, v1, light, overlay);
-		buildVertex(builder, transform, color, x + w, y + h, u1, v1, light, overlay);
-		buildVertex(builder, transform, color, x + w, y, u1, v0, light, overlay);
-		buildVertex(builder, transform, color, x, y, u0, v0, light, overlay);
+	public static void drawTexturedColoredRect(VertexConsumer builder, Pose transform, 
+		float x, float y, float w, float h, 
+		int color, 
+		float u0, float u1, float v0, float v1, 
+		int light, int overlay) {
+		FluidRenderHelper.drawTexturedColoredRect(builder, transform, x, y, 0, w, h, 0, color, u0, u1, v0, v1, light, overlay);
+	}
+	public static void drawTexturedColoredRect(VertexConsumer builder, Pose transform, 
+		float x, float y, float z, 
+		float w,float h, float d, 
+		int color, 
+		float u0, float u1, float v0, float v1, 
+		int light, int overlay) {
+		buildVertex(builder, transform, color, x + w, y + h, z + d, u1, v1, light, overlay);
+		buildVertex(builder, transform, color, x + w, y    , z    , u1, v0, light, overlay);
+		buildVertex(builder, transform, color, x    , y    , z    , u0, v0, light, overlay);
+		buildVertex(builder, transform, color, x    , y + h, z + d, u0, v1, light, overlay);
 	}
 }

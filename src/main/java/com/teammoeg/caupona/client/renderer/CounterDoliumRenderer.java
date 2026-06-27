@@ -50,11 +50,7 @@ public class CounterDoliumRenderer implements BlockEntityRenderer<CounterDoliumB
 	public void submit(CounterDoliumRenderState state, PoseStack poseStack, SubmitNodeCollector buffer,
 			CameraRenderState camera) {
 		if (state.sprite != null) {
-			poseStack.pushPose();
-			poseStack.translate(0, state.level, 0);
-			poseStack.mulPose(FluidRenderHelper.rotate90);
-			FluidRenderHelper.submitColoredTexturedRect(buffer, poseStack, state.sprite,.125f,.125f,.75f,.75f, state.color, state.lightCoords, OverlayTexture.NO_OVERLAY);
-			poseStack.popPose();
+			FluidRenderHelper.submitColoredTexturedRect(buffer, poseStack, state.sprite,.125f,state.level,.125f,.75f, 0, .75f, state.color, state.lightCoords, OverlayTexture.NO_OVERLAY);
 		}
 	}
 

@@ -34,6 +34,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 
 public class SauteedRecipeBuilder {
 
@@ -107,7 +108,7 @@ public class SauteedRecipeBuilder {
 		return new SauteedRecipe(allow, deny, priority, time, output,removeNBT,per,bowl,model);
 	}
 
-	public SauteedRecipe finish(BiConsumer<Identifier, IDataRecipe> out,Ingredient bowl) {
+	public SauteedRecipe finish(BiConsumer<Identifier, Recipe<?>> out,Ingredient bowl) {
 		SauteedRecipe r = end(bowl);
 		out.accept(id,r);
 		return r;

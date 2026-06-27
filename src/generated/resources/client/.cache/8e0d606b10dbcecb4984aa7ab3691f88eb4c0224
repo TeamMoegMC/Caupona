@@ -1,4 +1,4 @@
-// 26.1.2	2026-04-22T10:03:35.6452492	Model Definitions - caupona
+// 26.1.2	2026-06-23T16:17:41.2989821	Model Definitions - caupona
 4d3a570f900e5811f8b87e2ff191148c0bfae9ec assets/caupona/blockstates/bowl.json
 afed0bef672f55638d08adbb30b68bc7ca147f6b assets/caupona/blockstates/brick_kitchen_stove.json
 595ba51dc996919868f029033c7b2a8e9878db1a assets/caupona/blockstates/calcite_lacunar_tile.json
@@ -61,6 +61,7 @@ a7af27eba6be333fadd2ea5a5c1c5d98931fd9b5 assets/caupona/items/any_based.json
 43477d7583c341e13ffc82cdfbfce63e9f0ae066 assets/caupona/items/asafoetida.json
 79ec4f607f2ce605cc7fcf3948131133165b1d24 assets/caupona/items/asafoetida_spice_jar.json
 50dcf50a29ed7c0d45e439719e4483338f8446df assets/caupona/items/asses.json
+c9741ca6e040db623566f14f5c76f24e009b0dab assets/caupona/items/aurei.json
 6e9ce8533e44fb27b90cb00be788101ac39ebe97 assets/caupona/items/bamboo_skimmer.json
 11569409f2b188f9ab45a7d0524719203020e219 assets/caupona/items/basalt_tesserae.json
 1ab0ac055887e91d2361b111b51a681181a61fe0 assets/caupona/items/bisque.json
@@ -98,6 +99,7 @@ f6308ed2bc53cfbe9ed30c4ae2f72fce36f659b9 assets/caupona/items/cream_of_meat_soup
 d753e60cc0a271ecde6177dc839b5085b18717e9 assets/caupona/items/cream_of_mushroom_soup.json
 b88a5f73c3eb8220730475e4d6a583ec29647b02 assets/caupona/items/crumb.json
 c058698da162e09564c290d8696783668d2d438a assets/caupona/items/custard.json
+0a540a07887c3594e83d2b035a58ccad445292c7 assets/caupona/items/denarii.json
 e51bed8ad162c3d78824df9a64dc4c13318c509d assets/caupona/items/dilute_soup.json
 bff4eb37ff84684308ebbcb50234dfc98f7bffeb assets/caupona/items/dilute_soup_aspic.json
 9e07dc433df3c2d42b29f5350cadb63871df6019 assets/caupona/items/egg_drop_soup.json
@@ -419,6 +421,7 @@ fc89339e11172a7e81f0535e5ec048b201d22432 assets/caupona/models/item/any_based.js
 92a67cbca0af85ffdc982aebf19ce90581e9a4c2 assets/caupona/models/item/asafoetida.json
 0ea05e3192924d5576de959d1dd2fdefa9a534c6 assets/caupona/models/item/asafoetida_spice_jar.json
 cab17a87decae27a4f299ed275f668ce71547fe5 assets/caupona/models/item/asses.json
+b5e8a856eefa9c72dd6b74dd1aeaa425efb20358 assets/caupona/models/item/aurei.json
 6d5492c44441bcbefea6e3de2d171812c5bece52 assets/caupona/models/item/bamboo_skimmer.json
 31372dd9ef5d751bcb6539afe433c621497d6c33 assets/caupona/models/item/basalt_tesserae.json
 785ac0fc607760192e414aa55359da54f9ae1d0c assets/caupona/models/item/bisque.json
@@ -440,6 +443,7 @@ c283d0a7f17aa3c748553b26a747c4ccacd02b34 assets/caupona/models/item/copper_fryin
 5b15cec6f69ca01520de4ebb60f154de96826088 assets/caupona/models/item/cream_of_mushroom_soup.json
 52b97241d321c05c485befd88afb56e93768a3bc assets/caupona/models/item/crumb.json
 b3200ddec7dffdc9891aeb1be229d917a8e75bf8 assets/caupona/models/item/custard.json
+b6a9602ed74e1a8a42d631c30df9109e7c92410c assets/caupona/models/item/denarii.json
 2e7cea94ce694734f40dee8e3578749fbd0fa011 assets/caupona/models/item/dilute_soup.json
 c2f8e688397fbd55f90418e27738028b9c172faa assets/caupona/models/item/dilute_soup_aspic.json
 5a4e6672353875f83231b23b44872b6257bac03c assets/caupona/models/item/egg_drop_soup.json

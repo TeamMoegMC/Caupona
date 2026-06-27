@@ -30,6 +30,7 @@ import com.teammoeg.caupona.data.recipes.DissolveRecipe;
 import com.teammoeg.caupona.data.recipes.DoliumRecipe;
 import com.teammoeg.caupona.data.recipes.FluidFoodValueRecipe;
 import com.teammoeg.caupona.data.recipes.FoodValueRecipe;
+import com.teammoeg.caupona.data.recipes.LoafBowlDigRecipe;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.data.recipes.SpiceRecipe;
 import com.teammoeg.caupona.data.recipes.StewCookingRecipe;
@@ -59,6 +60,7 @@ public class CPRecipes {
 		FluidFoodValueRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("fluid_food",() -> createSerializer(FluidFoodValueRecipe.CODEC,FluidFoodValueRecipe.STREAM_CODEC));
 		AspicMeltingRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("aspic_melt",() -> createSerializer(AspicMeltingRecipe.CODEC,AspicMeltingRecipe.STREAM_CODEC));
 		SpiceRecipe.SERIALIZER = RECIPE_SERIALIZERS.register("spice",() -> createSerializer(SpiceRecipe.CODEC,SpiceRecipe.STREAM_CODEC));
+		RECIPE_SERIALIZERS.register("loaf_dig", ()->LoafBowlDigRecipe.SERIALIZER);
 	}
 	public static <T extends Recipe<?>> RecipeSerializer<T> createSerializer(MapCodec<T> codec,StreamCodec<RegistryFriendlyByteBuf, T> stream){
 		return new RecipeSerializer<>(codec,stream);
