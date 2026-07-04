@@ -2,6 +2,11 @@
   "multipart": [
     {
       "apply": {
+        "model": "caupona:block/felsic_tuff_spoked_fence_post"
+      }
+    },
+    {
+      "apply": {
         "model": "caupona:block/felsic_tuff_spoked_fence_side",
         "y": 270
       },

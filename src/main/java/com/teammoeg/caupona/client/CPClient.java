@@ -26,7 +26,6 @@ import com.teammoeg.caupona.util.INetworkContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class CPClient {
 
@@ -40,9 +39,4 @@ public class CPClient {
 			container.handle(nbt);
 		}
 	}
-	@SuppressWarnings("resource")
-	public static void syncContainerInfo(BlockEntity be) {
-		
-	}
-	
 }

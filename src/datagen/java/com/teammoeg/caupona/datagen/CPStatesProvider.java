@@ -193,6 +193,7 @@ public class CPStatesProvider extends BlockModelGenerators {
 				simpleBlockItem(cpblock(stone + "_lacunar_tile"), CPMain.rl(stone + "_lacunar_tile"));
 				blockItemModel(stone + "_spoked_fence", "_inventory");
 				this.blockStateOutput.accept(this.getMultipartBuilder(cpblock(stone + "_spoked_fence"))
+					.with(bmf(stone + "_spoked_fence_post"))
 					.with(condition(SpokedFenceBlock.WEST_WALL, true), bmf(stone + "_spoked_fence_side").with(Y_ROT_270))
 					.with(condition(SpokedFenceBlock.NORTH_WALL, true), bmf(stone + "_spoked_fence_side"))
 					.with(condition(SpokedFenceBlock.EAST_WALL, true), bmf(stone + "_spoked_fence_side").with(Y_ROT_90))
@@ -308,10 +309,10 @@ public class CPStatesProvider extends BlockModelGenerators {
 					vm = Y_ROT_90;
 					break;
 				case 180:
-					vm = Y_ROT_90;
+					vm = Y_ROT_180;
 					break;
 				case 270:
-					vm = Y_ROT_90;
+					vm = Y_ROT_270;
 					break;
 				}
 				if (vm == null)

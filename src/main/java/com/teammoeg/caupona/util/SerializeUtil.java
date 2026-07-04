@@ -42,12 +42,8 @@ import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
-import com.teammoeg.caupona.CPConfig;
 import com.teammoeg.caupona.CPMain;
-import com.teammoeg.caupona.util.RegistryAccessor.RegistryAccessorStack;
-
 import io.netty.buffer.ByteBuf;
-import io.netty.handler.codec.DecoderException;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
@@ -177,37 +173,15 @@ public class SerializeUtil {
         return map;
     }
     public static <T> void writeCodec(RegistryFriendlyByteBuf pb, Codec<T> codec, T obj) {
-    	try (RegistryAccessorStack _=RegistryAccessor.provideRegistryAccess(pb)){
-	    	if(!CPConfig.COMMON.compressCodecs.get()) {
-	    		DataResult<Tag> out=codec.encodeStart(NbtOps.INSTANCE, obj);
-	    		Optional<Tag> ret=out.resultOrPartial(CPMain.logger::error);
-	    		pb.writeNbt(ret.get());
-	    		return;
-	    	}
-    		DataResult<Object> ob=codec.encodeStart(DataOps.COMPRESSED, obj);
-        	Optional<Object> ret=ob.resultOrPartial(CPMain.logger::error);
-	    	if(ret.isEmpty()) {
-	    		throw new DecoderException("Can not write Object "+obj+" with Codec "+codec);
-	    	}
-        	ObjectWriter.writeObject(pb,ret.get());
-    	}
+
+		DataResult<Tag> out=codec.encodeStart(NbtOps.INSTANCE, obj);
+		Optional<Tag> ret=out.resultOrPartial(CPMain.logger::error);
+		pb.writeNbt(ret.get());
     }
     public static <T> T readCodec(RegistryFriendlyByteBuf pb, Codec<T> codec) {
-    	try(RegistryAccessorStack _=RegistryAccessor.provideRegistryAccess(pb)){
-    		;
-	    	if(!CPConfig.COMMON.compressCodecs.get()) {
-	    		DataResult<Pair<T, Tag>> ob=codec.decode(NbtOps.INSTANCE,pb.readNbt());
-	    		Optional<Pair<T, Tag>> ret=ob.resultOrPartial(CPMain.logger::error);
-	    		return ret.get().getFirst();
-	    	}
-			Object res=ObjectWriter.readObject(pb);
-	    	DataResult<Pair<T, Object>> ob=codec.decode(DataOps.COMPRESSED,res);
-	    	Optional<Pair<T, Object>> ret=ob.resultOrPartial(CPMain.logger::error);
-	    	if(ret.isEmpty()) {
-	    		throw new DecoderException("Can not read Object "+res+" with Codec "+codec);
-	    	}
-	    	return ret.get().getFirst();
-    	}
+		DataResult<Pair<T, Tag>> ob=codec.decode(NbtOps.INSTANCE,pb.readNbt());
+		Optional<Pair<T, Tag>> ret=ob.resultOrPartial(CPMain.logger::error);
+		return ret.get().getFirst();
     }
 
 	public static <K, V> Map<K, V> readEntry(FriendlyByteBuf buffer, Map<K, V> map, BiConsumer<FriendlyByteBuf, BiConsumer<K, V>> reader) {

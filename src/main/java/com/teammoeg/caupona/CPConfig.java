@@ -48,34 +48,12 @@ public class CPConfig {
 	}
 
 	public static class Common {
-		//public ConfigValue<Integer> staticTime;
-		public ConfigValue<Double> roadSpeedAddtion;
-		public ConfigValue<Integer> loafCooking;
-		public ConfigValue<Integer> loafStacking;
-		public ConfigValue<Boolean> compressCodecs;
 		/**
 		 * @param builder
 		 */
 
 		Common(ModConfigSpec.Builder builder) {
-			builder.push("recipe");
-			/*staticTime = builder.comment("Ticks before do still recipe").defineInRange("StillRecipeTicks", 12000, 1,
-					Integer.MAX_VALUE);*/
-			loafCooking = builder.comment("Loaf dough cooking time").defineInRange("loafCookingTime",
-				1200, 1, Integer.MAX_VALUE);
-			loafStacking = builder.comment("Loaf dough maximum stacking height in blocks").defineInRange("maxLoafStackingHeight",
-				6, 1, Integer.MAX_VALUE);
-			builder.pop();
-			builder.push("road");
-			roadSpeedAddtion = builder.comment("Additional speed added per tick for roads").defineInRange("roadSpeedAddtion",2D,0D,10D);
-			builder.pop();
-			builder.push("misc");
-			compressCodecs = builder.comment("Compress output from codecs when sending by network to improve performance.")
-			.comment("May cause problems if some client install mods that may modify vanilla codecs but such mods are not present on server such as Sinytra.")
-			.comment("Installing such mods on both client and server is fine.")
-			.comment("If you meet network exception with some client-only mods, try turning off this")
-			.define("compressCodecOutput", true);
-			builder.pop();
+
 		}
 	}
 
@@ -109,7 +87,24 @@ public class CPConfig {
 		public ConfigValue<Double> leadenGenRate;
 
 		public ConfigValue<Boolean> addManual;
+
+		public ConfigValue<Integer> loafCooking;
+		public ConfigValue<Integer> loafStacking;
+		//public ConfigValue<Integer> staticTime;
+		public ConfigValue<Double> roadSpeedAddtion;
 		Server(ModConfigSpec.Builder builder) {
+			builder.push("recipe");
+			/*staticTime = builder.comment("Ticks before do still recipe").defineInRange("StillRecipeTicks", 12000, 1,
+					Integer.MAX_VALUE);*/
+			loafCooking = builder.comment("Loaf dough cooking time").defineInRange("loafCookingTime",
+				1200, 1, Integer.MAX_VALUE);
+			loafStacking = builder.comment("Loaf dough maximum stacking height in blocks").defineInRange("maxLoafStackingHeight",
+				6, 1, Integer.MAX_VALUE);
+			builder.pop();
+
+			builder.push("road");
+			roadSpeedAddtion = builder.comment("Additional speed added per tick for roads").defineInRange("roadSpeedAddtion",0.5D,0D,10D);
+			builder.pop();
 			builder.push("recipes");
 
 			potCookTimeBase = builder.comment("Stew pot cooking mininum time in ticks").defineInRange("potCookMinTicks",

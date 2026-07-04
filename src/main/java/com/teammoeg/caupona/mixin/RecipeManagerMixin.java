@@ -14,6 +14,10 @@ public class RecipeManagerMixin {
 
 	public RecipeManagerMixin() {
 	}
+	/**
+	 * @param set  
+	 * @param cbi 
+	 */
 	@Inject(at = @At(value = "TAIL", remap = true), method = "Lnet/minecraft/world/item/crafting/RecipeManager;finalizeRecipeLoading(Lnet/minecraft/world/flag/FeatureFlagSet;)V", remap = true, cancellable = true, require = 1, allow = 1)
 	public void finishReload(FeatureFlagSet set, CallbackInfo cbi) {
 		RecipeReloadListener.buildRecipeLists((RecipeManager)(Object)this);

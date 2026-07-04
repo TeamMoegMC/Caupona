@@ -53,7 +53,7 @@ public class CPRoadBlock extends Block {
 
 	@Override
 	public void stepOn(Level pLevel, BlockPos pos, BlockState pState, Entity entity) {
-		final double road=CPConfig.COMMON.roadSpeedAddtion.get();
+		final double road=CPConfig.SERVER.roadSpeedAddtion.get();
 		if(entity.getBlockY()==pos.getY()) {
 			if(entity.isSprinting()) {
 				float f = entity.getYRot() * ((float)Math.PI / 180F);

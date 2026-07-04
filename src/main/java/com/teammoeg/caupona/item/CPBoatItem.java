@@ -46,7 +46,7 @@ import net.minecraft.world.phys.Vec3;
 public class CPBoatItem extends CPItem {
 	private static final Predicate<Entity> ENTITY_PREDICATE = EntitySelector.NO_SPECTATORS.and(Entity::isPickable);
 
-	public CPBoatItem(String pType, Item.Properties pProperties) {
+	public CPBoatItem(Item.Properties pProperties) {
 		super(pProperties,TabType.MAIN_AND_TRANSPORTATION);
 	}
 

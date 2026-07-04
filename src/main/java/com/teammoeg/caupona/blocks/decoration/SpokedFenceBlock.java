@@ -75,9 +75,8 @@ public class SpokedFenceBlock extends Block implements SimpleWaterloggedBlock {
 	private static VoxelShape applyWallShape(VoxelShape pBaseShape, boolean pHeight, VoxelShape pTallShape) {
 		if (pHeight == true) {
 			return Shapes.or(pBaseShape, pTallShape);
-		} else {
-			return pBaseShape;
 		}
+		return pBaseShape;
 	}
 
 	private Map<BlockState, VoxelShape> makeShapes(float pWidth, float pDepth, float pWallPostHeight, float pWallMinY, float pWallTallHeight) {
@@ -85,11 +84,11 @@ public class SpokedFenceBlock extends Block implements SimpleWaterloggedBlock {
 		float f1 = 8.0F + pWidth;
 		float f2 = 8.0F - pDepth;
 		float f3 = 8.0F + pDepth;
-		VoxelShape voxelshape = Block.box((double) f, 0.0D, (double) f, (double) f1, (double) pWallPostHeight, (double) f1);
-		VoxelShape voxelshape5 = Block.box((double) f2, (double) pWallMinY, 0.0D, (double) f3, (double) pWallTallHeight, (double) f3);
-		VoxelShape voxelshape6 = Block.box((double) f2, (double) pWallMinY, (double) f2, (double) f3, (double) pWallTallHeight, 16.0D);
-		VoxelShape voxelshape7 = Block.box(0.0D, (double) pWallMinY, (double) f2, (double) f3, (double) pWallTallHeight, (double) f3);
-		VoxelShape voxelshape8 = Block.box((double) f2, (double) pWallMinY, (double) f2, 16.0D, (double) pWallTallHeight, (double) f3);
+		VoxelShape voxelshape = Block.box(f, 0.0D, f, f1, pWallPostHeight, f1);
+		VoxelShape voxelshape5 = Block.box(f2, pWallMinY, 0.0D, f3, pWallTallHeight, f3);
+		VoxelShape voxelshape6 = Block.box(f2, pWallMinY, f2, f3, pWallTallHeight, 16.0D);
+		VoxelShape voxelshape7 = Block.box(0.0D, pWallMinY, f2, f3, pWallTallHeight, f3);
+		VoxelShape voxelshape8 = Block.box(f2, pWallMinY, f2, 16.0D, pWallTallHeight, f3);
 		ImmutableMap.Builder<BlockState, VoxelShape> builder = ImmutableMap.builder();
 
 		for (Boolean wallside : EAST_WALL.getPossibleValues()) {
@@ -128,11 +127,12 @@ public class SpokedFenceBlock extends Block implements SimpleWaterloggedBlock {
 		return PathType.BLOCKED;
 	}
 
-	private boolean connectsTo(BlockState pState, boolean pSideSolid, Direction pDirection) {
+	private static boolean connectsTo(BlockState pState, boolean pSideSolid, Direction pDirection) {
 		Block block = pState.getBlock();
 		boolean flag = block instanceof FenceGateBlock && FenceGateBlock.connectsToDirection(pState, pDirection);
 		return pState.is(BlockTags.WALLS) || !isExceptionForConnection(pState) && pSideSolid || block instanceof IronBarsBlock || flag || block instanceof SpokedFenceBlock;
 	}
+	@SuppressWarnings("resource")
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext pContext) {
 		LevelReader levelreader = pContext.getLevel();
@@ -146,12 +146,12 @@ public class SpokedFenceBlock extends Block implements SimpleWaterloggedBlock {
 		BlockState blockstate1 = levelreader.getBlockState(blockpos2);
 		BlockState blockstate2 = levelreader.getBlockState(blockpos3);
 		BlockState blockstate3 = levelreader.getBlockState(blockpos4);
-		boolean flag = this.connectsTo(blockstate, blockstate.isFaceSturdy(levelreader, blockpos1, Direction.SOUTH), Direction.SOUTH);
-		boolean flag1 = this.connectsTo(blockstate1, blockstate1.isFaceSturdy(levelreader, blockpos2, Direction.WEST), Direction.WEST);
-		boolean flag2 = this.connectsTo(blockstate2, blockstate2.isFaceSturdy(levelreader, blockpos3, Direction.NORTH), Direction.NORTH);
-		boolean flag3 = this.connectsTo(blockstate3, blockstate3.isFaceSturdy(levelreader, blockpos4, Direction.EAST), Direction.EAST);
+		boolean flag = SpokedFenceBlock.connectsTo(blockstate, blockstate.isFaceSturdy(levelreader, blockpos1, Direction.SOUTH), Direction.SOUTH);
+		boolean flag1 = SpokedFenceBlock.connectsTo(blockstate1, blockstate1.isFaceSturdy(levelreader, blockpos2, Direction.WEST), Direction.WEST);
+		boolean flag2 = SpokedFenceBlock.connectsTo(blockstate2, blockstate2.isFaceSturdy(levelreader, blockpos3, Direction.NORTH), Direction.NORTH);
+		boolean flag3 = SpokedFenceBlock.connectsTo(blockstate3, blockstate3.isFaceSturdy(levelreader, blockpos4, Direction.EAST), Direction.EAST);
 		BlockState blockstate5 = this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
-		return this.updateShape(blockstate5, flag, flag1, flag2, flag3);
+		return SpokedFenceBlock.updateShape(blockstate5, flag, flag1, flag2, flag3);
 	}
 
 	/**
@@ -171,37 +171,36 @@ public class SpokedFenceBlock extends Block implements SimpleWaterloggedBlock {
 
 		if (pFacing == Direction.DOWN) {
 			return super.updateShape(pState,pLevel,ticks, pCurrentPos, pFacing,  pFacingPos, pFacingState, random);
-		} else {
-			return pFacing == Direction.UP ? this.topUpdate(pState) : this.sideUpdate(pLevel, pState, pFacingPos, pFacingState, pFacing);
-		}}
+		}
+		return pFacing == Direction.UP ? SpokedFenceBlock.topUpdate(pState) : SpokedFenceBlock.sideUpdate(pLevel, pState, pFacingPos, pFacingState, pFacing);}
 
 	private static boolean isConnected(BlockState pState, BooleanProperty pHeightProperty) {
 		return pState.getValue(pHeightProperty);
 	}
 
-	private BlockState topUpdate(BlockState pState) {
+	private static BlockState topUpdate(BlockState pState) {
 		boolean flag = isConnected(pState, NORTH_WALL);
 		boolean flag1 = isConnected(pState, EAST_WALL);
 		boolean flag2 = isConnected(pState, SOUTH_WALL);
 		boolean flag3 = isConnected(pState, WEST_WALL);
-		return this.updateShape(pState, flag, flag1, flag2, flag3);
+		return SpokedFenceBlock.updateShape(pState, flag, flag1, flag2, flag3);
 	}
 
-	private BlockState sideUpdate(LevelReader pLevel, BlockState pFirstState, BlockPos pSecondPos, BlockState pSecondState, Direction pDir) {
+	private static BlockState sideUpdate(LevelReader pLevel, BlockState pFirstState, BlockPos pSecondPos, BlockState pSecondState, Direction pDir) {
 		Direction direction = pDir.getOpposite();
-		boolean flag = pDir == Direction.NORTH ? this.connectsTo(pSecondState, pSecondState.isFaceSturdy(pLevel, pSecondPos, direction), direction) : isConnected(pFirstState, NORTH_WALL);
-		boolean flag1 = pDir == Direction.EAST ? this.connectsTo(pSecondState, pSecondState.isFaceSturdy(pLevel, pSecondPos, direction), direction) : isConnected(pFirstState, EAST_WALL);
-		boolean flag2 = pDir == Direction.SOUTH ? this.connectsTo(pSecondState, pSecondState.isFaceSturdy(pLevel, pSecondPos, direction), direction) : isConnected(pFirstState, SOUTH_WALL);
-		boolean flag3 = pDir == Direction.WEST ? this.connectsTo(pSecondState, pSecondState.isFaceSturdy(pLevel, pSecondPos, direction), direction) : isConnected(pFirstState, WEST_WALL);
-		return this.updateShape(pFirstState, flag, flag1, flag2, flag3);
+		boolean flag = pDir == Direction.NORTH ? SpokedFenceBlock.connectsTo(pSecondState, pSecondState.isFaceSturdy(pLevel, pSecondPos, direction), direction) : isConnected(pFirstState, NORTH_WALL);
+		boolean flag1 = pDir == Direction.EAST ? SpokedFenceBlock.connectsTo(pSecondState, pSecondState.isFaceSturdy(pLevel, pSecondPos, direction), direction) : isConnected(pFirstState, EAST_WALL);
+		boolean flag2 = pDir == Direction.SOUTH ? SpokedFenceBlock.connectsTo(pSecondState, pSecondState.isFaceSturdy(pLevel, pSecondPos, direction), direction) : isConnected(pFirstState, SOUTH_WALL);
+		boolean flag3 = pDir == Direction.WEST ? SpokedFenceBlock.connectsTo(pSecondState, pSecondState.isFaceSturdy(pLevel, pSecondPos, direction), direction) : isConnected(pFirstState, WEST_WALL);
+		return SpokedFenceBlock.updateShape(pFirstState, flag, flag1, flag2, flag3);
 	}
 
-	private BlockState updateShape(BlockState pState, boolean pNorthConnection, boolean pEastConnection, boolean pSouthConnection, boolean pWestConnection) {
-		BlockState blockstate = this.updateSides(pState, pNorthConnection, pEastConnection, pSouthConnection, pWestConnection);
+	private static BlockState updateShape(BlockState pState, boolean pNorthConnection, boolean pEastConnection, boolean pSouthConnection, boolean pWestConnection) {
+		BlockState blockstate = SpokedFenceBlock.updateSides(pState, pNorthConnection, pEastConnection, pSouthConnection, pWestConnection);
 		return blockstate;
 	}
 
-	private BlockState updateSides(BlockState pState, boolean pNorthConnection, boolean pEastConnection, boolean pSouthConnection, boolean pWestConnection) {
+	private static BlockState updateSides(BlockState pState, boolean pNorthConnection, boolean pEastConnection, boolean pSouthConnection, boolean pWestConnection) {
 		return pState.setValue(NORTH_WALL, pNorthConnection)
 			.setValue(EAST_WALL, pEastConnection)
 			.setValue(SOUTH_WALL, pSouthConnection)

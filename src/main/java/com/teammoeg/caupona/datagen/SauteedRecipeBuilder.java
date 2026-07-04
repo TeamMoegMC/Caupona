@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 import com.teammoeg.caupona.CPMain;
-import com.teammoeg.caupona.data.IDataRecipe;
 import com.teammoeg.caupona.data.recipes.IngredientCondition;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 

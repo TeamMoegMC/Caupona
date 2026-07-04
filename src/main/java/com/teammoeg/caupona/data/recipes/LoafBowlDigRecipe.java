@@ -73,7 +73,8 @@ public class LoafBowlDigRecipe extends ShapelessRecipe {
 		}
 		return nnl;
 	}
-    @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
 	public RecipeSerializer getSerializer() {
 		return SERIALIZER;
 	}

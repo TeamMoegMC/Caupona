@@ -110,7 +110,7 @@ public class CPRoadSideBlock extends CPRoadBlock {
 	@Override
 	public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos,
 			CollisionContext pContext) {
-		return BOTTOM_SHAPES[SHAPE_BY_STATE[this.getShapeIndex(pState)]];
+		return BOTTOM_SHAPES[SHAPE_BY_STATE[CPRoadSideBlock.getShapeIndex(pState)]];
 	}
 
 	private static final int[] SHAPE_BY_STATE = new int[] { 12, 5, 3, 10, 14, 13, 7, 11, 13, 7, 11, 14, 8, 4, 1, 2, 4,
@@ -120,7 +120,7 @@ public class CPRoadSideBlock extends CPRoadBlock {
 		return true;
 	}
 
-	private int getShapeIndex(BlockState pState) {
+	private static int getShapeIndex(BlockState pState) {
 		return pState.getValue(SHAPE).ordinal() * 4 + pState.getValue(FACING).get2DDataValue();
 	}
 	@Override

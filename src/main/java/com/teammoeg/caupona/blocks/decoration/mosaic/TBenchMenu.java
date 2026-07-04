@@ -230,6 +230,9 @@ public class TBenchMenu extends CPBaseContainer<BlockEntity> {
 
 	}
 
+	/**
+	 * @param pContainer  
+	 */
 	private void setupRecipeList(Container pContainer,ItemStack input0) {
 		this.recipes.clear();
 		this.selectedRecipeIndex.set(-1);

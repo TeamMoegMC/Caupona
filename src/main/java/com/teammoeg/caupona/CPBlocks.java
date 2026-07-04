@@ -496,14 +496,30 @@ public class CPBlocks {
 				.noOcclusion();
 	}
 
+	/**
+	 * @param state  
+	 * @param reader 
+	 * @param pos 
+	 */
 	private static boolean isntSolid(BlockState state, BlockGetter reader, BlockPos pos) {
 		return false;
 	}
 
+	/**
+	 * @param p_50779_  
+	 * @param p_50780_ 
+	 * @param p_50781_ 
+	 * @param p_50782_ 
+	 */
 	private static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
 		return (boolean) false;
 	}
 
+	/**
+	 * @param p_50822_  
+	 * @param p_50823_ 
+	 * @param p_50824_ 
+	 */
 	private static Boolean ocelotOrParrot(BlockState p_50822_, BlockGetter p_50823_, BlockPos p_50824_,
 			EntityType<?> p_50825_) {
 		return p_50825_ == EntityType.OCELOT || p_50825_ == EntityType.PARROT;

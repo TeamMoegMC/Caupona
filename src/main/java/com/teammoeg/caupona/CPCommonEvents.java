@@ -116,6 +116,9 @@ public class CPCommonEvents {
 
 	}
 	
+	/**
+	 * @param event  
+	 */
 	@SubscribeEvent
 	public static void addManualToPlayer(PlayerEvent.PlayerLoggedInEvent event) {
 /*

@@ -21,8 +21,6 @@
 
 package com.teammoeg.caupona.client;
 
-import com.teammoeg.caupona.blocks.stove.KitchenStoveBlockEntity;
-
 import net.minecraft.nbt.CompoundTag;
 
 public class ClientProxy {
@@ -35,8 +33,4 @@ public class ClientProxy {
 		CPClient.syncContainerInfo(data);
 	}
 
-	public static void updateModel(KitchenStoveBlockEntity kitchenStoveBlockEntity) {
-		
-		
-	}
 }

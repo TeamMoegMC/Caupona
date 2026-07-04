@@ -95,7 +95,7 @@ public class SpiceAddedResourceHandler implements ResourceHandler<FluidResource>
 		return handler.extract(index, resource, amount, transaction);
 		
 	}
-	private FluidResource asSpiced(FluidResource orig,ItemResource spice) {
+	private static FluidResource asSpiced(FluidResource orig,ItemResource spice) {
 		
 		StewInfo si=orig.get(CPCapability.STEW_INFO);
 		if(si!=null&&si.canAddSpice()) {

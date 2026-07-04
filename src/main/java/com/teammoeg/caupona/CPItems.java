@@ -142,7 +142,7 @@ public class CPItems {
 		}
 	}
 	public static DeferredHolder<Item,CPBlockItem> gravy_boat = ITEMS.registerItem("gravy_boat",p->new CPBlockItem(CPBlocks.GRAVY_BOAT.get(),p,TabType.FOODS),()-> createProps().durability(5).setNoCombineRepair());
-	public static DeferredHolder<Item,CPBoatItem> walnut_boat = ITEMS.registerItem("walnut_boat", p->new CPBoatItem("walnut", p),()->createProps());
+	public static DeferredHolder<Item,CPBoatItem> walnut_boat = ITEMS.registerItem("walnut_boat", p->new CPBoatItem(p),()->createProps());
 	public static DeferredHolder<Item,Chronoconis> chronoconis = ITEMS.registerItem("chronoconis",Chronoconis::new,()->createProps());
 	//public static Item haze = icon("culinary_heat_haze");
 	public static DeferredHolder<Item,Item> icon(String name){

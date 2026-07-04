@@ -71,6 +71,10 @@ public abstract class CPBaseBlockEntity extends BlockEntity {
 
 	public abstract void tick();
 
+	/**
+	 * @param type  
+	 * @param d 
+	 */
 	public Object getCapability(BlockCapability<?, Direction> type, Direction d) {
 		return null;
 	};
