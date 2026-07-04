@@ -1,6 +1,6 @@
-6.1.0
+6.1.1
 Bugfix:
-  Improve data handling
-  Fix dolium not working
-  Add recipe for bread bowl
-  Add aurei and denarii
+  Fix crash when using pan
+  Fix spoked fence and road side block model error
+  Reduce default speed for roads
+  Move all common config to server config
