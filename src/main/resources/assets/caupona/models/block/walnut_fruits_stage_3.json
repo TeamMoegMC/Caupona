@@ -1,5 +1,5 @@
 {
-	"parent": "minecraft:block/block",
+
 	"credit": "Made with Blockbench",
 	"textures": {
 		"1": "caupona:block/walnut_fruit",

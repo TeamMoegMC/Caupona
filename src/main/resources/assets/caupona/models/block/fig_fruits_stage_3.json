@@ -1,7 +1,6 @@
 {
 	"format_version": "1.21.11",
 	"credit": "Made with Blockbench",
-	"parent": "minecraft:block/block",
 	"render_type": "cutout",
 	"textures": {
 		"0": "caupona:block/fig_fruit_stage_3",

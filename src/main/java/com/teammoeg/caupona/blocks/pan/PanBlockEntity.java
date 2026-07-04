@@ -287,25 +287,27 @@ public class PanBlockEntity extends CPBaseBlockEntity implements MenuProvider,II
 			int itms = 0;
 			for (int i = 0; i < 9; i++) {
 				ItemResource ir=internInv.getResource(i);
-				int extracted=internInv.extract(i, ir, 1, trans);
-				
-				if (extracted>0) {
-					ItemStack in=ir.toStack(extracted);
-					if (SauteedRecipe.isCookable(in)) {
-						
-						if(tempInv.insert(ir, 1, trans)==1) {
-							ItemStackTemplate ist=in.getCraftingRemainder();
-							if(ist!=null) {
-								ItemStack reminder=ist.create();
-								if(internInv.insert(internInv.getResourceFrom(reminder), reminder.getCount(), trans)!=reminder.getCount()) {
-									return RecipeHandleStatus.FAILED;
+				if(!ir.isEmpty()) {
+					int extracted=internInv.extract(i, ir, 1, trans);
+					
+					if (extracted>0) {
+						ItemStack in=ir.toStack(extracted);
+						if (SauteedRecipe.isCookable(in)) {
+							
+							if(tempInv.insert(ir, 1, trans)==1) {
+								ItemStackTemplate ist=in.getCraftingRemainder();
+								if(ist!=null) {
+									ItemStack reminder=ist.create();
+									if(internInv.insert(internInv.getResourceFrom(reminder), reminder.getCount(), trans)!=reminder.getCount()) {
+										return RecipeHandleStatus.FAILED;
+									}
 								}
+								itms++;
+								continue;
 							}
-							itms++;
-							continue;
 						}
+						return RecipeHandleStatus.FAILED;
 					}
-					return RecipeHandleStatus.FAILED;
 				}
 			}
 			if (itms <= 0)

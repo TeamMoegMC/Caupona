@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "caupona:block/wolfberry_sapling"
+    "model": "caupona:item/wolfberry_sapling"
   }
 }

@@ -269,6 +269,10 @@ public class CPStatesProvider extends BlockModelGenerators {
 			blockItemModel(bush + "_leaves");
 		}
 
+		textureBlock("walnut_sapling");
+		textureBlock("fig_sapling");
+		textureBlock("wolfberry_sapling");
+
 	}
 
 	protected Empty getVariantBuilder(Block blk) {
@@ -363,6 +367,17 @@ public class CPStatesProvider extends BlockModelGenerators {
 	}
 	public void texture(String name, String par) {
 		texture(BuiltInRegistries.ITEM.getValue(CPMain.rl(name)),par);
+	}
+	public void textureBlock(String name) {
+		textureBlock(name, name);
+	}
+	public void textureBlock(String name, String par) {
+		textureBlock(BuiltInRegistries.ITEM.getValue(CPMain.rl(name)),par);
+	}
+	public void textureBlock(Item name, String par) {
+		this.itemModelOutput.accept(name,
+			ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(name), TextureMapping.layer0(new Material(Identifier.fromNamespaceAndPath(CPMain.MODID, "block/"+par))), this.modelOutput)
+				));
 	}
 
 	protected void blockItemModel(String n, String p) {
