@@ -1,4 +1,4 @@
-// 26.1.2	2026-07-04T23:39:55.2369827	Model Definitions - caupona
+// 26.1.2	2026-07-04T23:49:08.3229408	Model Definitions - caupona
 4d3a570f900e5811f8b87e2ff191148c0bfae9ec assets/caupona/blockstates/bowl.json
 afed0bef672f55638d08adbb30b68bc7ca147f6b assets/caupona/blockstates/brick_kitchen_stove.json
 595ba51dc996919868f029033c7b2a8e9878db1a assets/caupona/blockstates/calcite_lacunar_tile.json
@@ -451,7 +451,7 @@ e350de8fb07cd6cf5997c2a3d56be79a759f8357 assets/caupona/models/item/egg_drop_sou
 45a3ef88a2963abf6f3e5b6b750a7ceedc72b773 assets/caupona/models/item/egg_drop_soup_loaf.json
 85d74334d5e21a8a13d96ad1a6f55e74082de190 assets/caupona/models/item/egg_tongsui.json
 23ff86f48ee6c8c7a78b1d8702a8048b20fb6106 assets/caupona/models/item/fig.json
-a399187c435e6e61585ed3f6d9beb3d289e0e6ef assets/caupona/models/item/fig_sapling.json
+65c9c238351018823fabde36563f01c5a0cb2d20 assets/caupona/models/item/fig_sapling.json
 e5c7493340811e4b3f376de9153b5ae2d527efb5 assets/caupona/models/item/fish_chowder.json
 041e194f27ffaa8bc5b38341d0420f423e4a2c3b assets/caupona/models/item/fish_soup.json
 744dfcb6a249fb0b836da3cff52ccd95c29bd6aa assets/caupona/models/item/fish_soup_aspic.json
@@ -567,12 +567,12 @@ a13f3eb606ea31056377c82f57e47f4ac552926e assets/caupona/models/item/walnut_hangi
 769f6c7fbb3fe49f4047d8a9b5333ee5d839cf4a assets/caupona/models/item/walnut_oil_2.json
 61f7dcd6b61f614b34d1cdf6bb2ac212e5aea82b assets/caupona/models/item/walnut_oil_3.json
 64cbc8181712e46d8f1ce0770bb2fb0fdcc8aa00 assets/caupona/models/item/walnut_oil_4.json
-09bae39634bafcf75cd7d03db16034f61cd3af53 assets/caupona/models/item/walnut_sapling.json
+c6e627bc9be8524501607b7a941062abd1074d26 assets/caupona/models/item/walnut_sapling.json
 8d16b3fe22360721763a3d153af4ffda3ce77ab3 assets/caupona/models/item/walnut_sign.json
 7d5e1d2d7fae2675f476e371369b7bdf884cf80c assets/caupona/models/item/walnut_soup.json
 2fd5bfe168adbeac56e7b0fe9a679243858a992d assets/caupona/models/item/water.json
 c6be3297947fe7040a5ccf3a7eca262d944663c9 assets/caupona/models/item/water_or_stock_based.json
 61a3c38ed7962fc25236c82acff154eff39634c2 assets/caupona/models/item/wolfberries.json
-940541212668125d8435e22c548d843531e19d7c assets/caupona/models/item/wolfberry_sapling.json
+16cfd642cd961ce00940aaf7dcbb5d35cad5be05 assets/caupona/models/item/wolfberry_sapling.json
 5fc1e101a24bbe7916507d20d154059053ed6af4 assets/minecraft/items/air.json
 94dbf84d56ca7ff01b9c2df3397cf6e619dc58ff assets/minecraft/models/item/air.json
