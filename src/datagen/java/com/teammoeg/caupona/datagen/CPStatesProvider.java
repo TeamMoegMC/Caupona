@@ -218,9 +218,11 @@ public class CPStatesProvider extends BlockModelGenerators {
 		}
 		this.blockStateOutput.accept(boat);
 		for (String wood : CPBlocks.woods) {
+
+			this.registerSimpleTintedItemModel(cpblock(wood + "_leaves"), CPMain.rl("block/"+wood + "_leaves"), ItemModelUtils.constantTint(0x5bd449));
 			for (String type : ImmutableSet.of(
 
-				"_fence_gate", "_leaves", "_log", "_planks", "_pressure_plate", "_slab", "_stairs", "_wood"))
+				"_fence_gate", "_log", "_planks", "_pressure_plate", "_slab", "_stairs", "_wood"))
 				blockItemModel(wood + type);
 			blockItemModel(wood + "_fence", "_inventory");
 			blockItemModel(wood + "_button", "_inventory");
@@ -265,8 +267,7 @@ public class CPStatesProvider extends BlockModelGenerators {
 			this.itemModelOutput.accept(cpblock(bush + "_fruits").asItem(),
 				new CuboidItemModelWrapper.Unbaked(CPMain.rl("block/"+bush + "_fruits_stage_3"), Optional.of(
 					new Transformation(new Matrix4f().scale(1f).rotationY(Mth.DEG_TO_RAD * 45).translation(0, 1, 0))), List.of()));
-
-			blockItemModel(bush + "_leaves");
+			this.registerSimpleTintedItemModel(cpblock(bush + "_leaves"), CPMain.rl("block/"+bush + "_leaves"), ItemModelUtils.constantTint(0x5bd449));
 		}
 
 		textureBlock("walnut_sapling");

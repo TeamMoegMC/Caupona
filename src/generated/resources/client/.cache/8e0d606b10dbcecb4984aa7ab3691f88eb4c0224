@@ -1,4 +1,4 @@
-// 26.1.2	2026-07-04T23:49:08.3229408	Model Definitions - caupona
+// 26.1.2	2026-07-05T10:23:31.2618909	Model Definitions - caupona
 4d3a570f900e5811f8b87e2ff191148c0bfae9ec assets/caupona/blockstates/bowl.json
 afed0bef672f55638d08adbb30b68bc7ca147f6b assets/caupona/blockstates/brick_kitchen_stove.json
 595ba51dc996919868f029033c7b2a8e9878db1a assets/caupona/blockstates/calcite_lacunar_tile.json
@@ -127,7 +127,7 @@ da0e313af2e13a86ff89ba098f5aae049cceba80 assets/caupona/items/felsic_tuff_road_s
 54dacf0d0956606214e5aaf094866326ca4ee0e2 assets/caupona/items/felsic_tuff_wall.json
 03defb8f5e897667978249728d92c4f6b59eb91a assets/caupona/items/fig.json
 c60e330eb5da67a64d7183e35a8023273b99d636 assets/caupona/items/fig_fruits.json
-2b0c32a9f48d7765341c362e5e68eed2d43572dc assets/caupona/items/fig_leaves.json
+fc1c6a7e5782cb75df482900042aa9c3cbf73444 assets/caupona/items/fig_leaves.json
 29f26e79b8820f2eb2c3a4dde9c3ff07c91c88e2 assets/caupona/items/fig_log.json
 abdc8b31f3ff0b698e6888fdc3d5776037bd5952 assets/caupona/items/fig_sapling.json
 f742e25e8f1e902168c9fd78a06cbeadb63e8939 assets/caupona/items/fish_chowder.json
@@ -330,7 +330,7 @@ fbd4ad5b2532cb6b66c72b84ae6b3a142001993e assets/caupona/items/walnut_fence.json
 f98fc57042146d6d7f8696ff36048bae169d2125 assets/caupona/items/walnut_fence_gate.json
 fb42e823cb8f1dd7503320b49397b191f48b7dab assets/caupona/items/walnut_fruits.json
 e3e2b966ff979f41df381080f565d081162575ae assets/caupona/items/walnut_hanging_sign.json
-522974c6f4d8df629e7805898d05f208c99a5728 assets/caupona/items/walnut_leaves.json
+8239ff6ecd965893dbef50c40ce56a9e926d9a01 assets/caupona/items/walnut_leaves.json
 befb36166fd2422500185bc983f92036069f6858 assets/caupona/items/walnut_log.json
 5004d7e73f6638a72a135ac2cfbbfcb383071b6d assets/caupona/items/walnut_planks.json
 4b840634ae18687b2404174d292a131d8f63a0cc assets/caupona/items/walnut_pressure_plate.json
@@ -345,7 +345,7 @@ ba3fadab13a2f588862caa0b372d7ef1046be194 assets/caupona/items/water.json
 a23ab127fe2ee8640919a5af5e8cd9ef3a9efbcd assets/caupona/items/water_or_stock_based.json
 06d50f531a513fb6b863f067c2450904c0c861b5 assets/caupona/items/wolfberries.json
 1f9859e0771b1235e246e856c70ee394f8465071 assets/caupona/items/wolfberry_fruits.json
-a078c172873103eab7425465a6e0c59de7d72f1a assets/caupona/items/wolfberry_leaves.json
+f5582d6991bb3ed9f0332def660de0a1920d89fc assets/caupona/items/wolfberry_leaves.json
 3a44a0ec006d5c4e186703c0ae732378704b15f8 assets/caupona/items/wolfberry_log.json
 0fec45aa653ab24c9f38ed99e0e9ad20668576bf assets/caupona/items/wolfberry_sapling.json
 2e9892495fc03ce9fe02da783ade90fa62480300 assets/caupona/items/wolf_statue.json

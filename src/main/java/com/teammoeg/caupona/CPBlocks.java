@@ -210,14 +210,14 @@ public class CPBlocks {
 				.isViewBlocking(CPBlocks::isntSolid),p -> new BowlBlock(p,  CPBlockEntityTypes.BOWL));
 	public static final DeferredHolder<Block,MosaicBlock> MOSAIC = baseblock("mosaic",
 			getStoneProps(), MosaicBlock::new, MosaicItem::new);
-	public static final DeferredHolder<Block,SilphiumBlock> SILPHIUM = mainblock("silphium_block",
+	public static final DeferredHolder<Block,SilphiumBlock> SILPHIUM = decoblock("silphium_block",
 			BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).replaceable().noCollision()
 					.instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).ignitedByLava()
 					.pushReaction(PushReaction.DESTROY), SilphiumBlock::new);
-	public static final DeferredHolder<Block,Block> WALNUT_FRUIT = mainblock("walnut_fruits",
+	public static final DeferredHolder<Block,Block> WALNUT_FRUIT = decoblock("walnut_fruits",
 			BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollision().randomTicks().offsetType(OffsetType.XZ).instabreak().sound(SoundType.CROP).ignitedByLava(), WalnutFruitBlock::new);
 	public static final DeferredHolder<Block,Block> SNAIL_MUCUS=block("snail_mucus",
-			BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().instabreak().sound(SoundType.CROP).noOcclusion().isViewBlocking(CPBlocks::isntSolid),TabType.MAIN_AND_DECORATION);
+			BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().instabreak().sound(SoundType.CROP).noOcclusion().isViewBlocking(CPBlocks::isntSolid),TabType.DECORATION);
 
 	public static final DeferredHolder<Block,SnailBlock> SNAIL = baseblock("snail_block",
 			BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollision().randomTicks().offsetType(OffsetType.XZ).instabreak().sound(SoundType.CROP).isViewBlocking(CPBlocks::isntSolid), SnailBlock::new, (x,y)->new CPBlockItem(x,y,TabType.MAIN));
