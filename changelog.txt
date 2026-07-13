@@ -1,6 +1,4 @@
-6.1.1
+6.1.2
 Bugfix:
-  Fix crash when using pan
-  Fix spoked fence and road side block model error
-  Reduce default speed for roads
-  Move all common config to server config
+  Returns bowl when food eaten.
+  Fix creative model and tint.
