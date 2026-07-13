@@ -36,8 +36,8 @@ public class PacketHandler {
 	public static void registerPackets(RegisterPayloadHandlersEvent ev) {
 		
 		PayloadRegistrar Ch=ev.registrar(CPMain.MODID);
-		Ch.playToServer(ClientDataMessage.path, ClientDataMessage.CODEC,ClientDataMessage::handle);
-		Ch.playToClient(ContainerDataMessage.type,ContainerDataMessage.CODEC,ContainerDataMessage::handle);
+		Ch.playToServer(ClientDataMessage.TYPE, ClientDataMessage.CODEC,ClientDataMessage::handle);
+		Ch.playToClient(ContainerDataMessage.TYPE,ContainerDataMessage.CODEC,ContainerDataMessage::handle);
 		Ch.versioned("2");
 	}
 }

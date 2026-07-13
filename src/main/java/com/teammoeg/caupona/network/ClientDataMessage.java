@@ -33,7 +33,7 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record ClientDataMessage(int containerId,short btnId,int message)  implements CustomPacketPayload{
-	public static final Type<ClientDataMessage> path=new Type<>(Identifier.fromNamespaceAndPath(CPMain.MODID,"client_data"));
+	public static final Type<ClientDataMessage> TYPE=new Type<>(Identifier.fromNamespaceAndPath(CPMain.MODID,"client_data"));
 	public static final StreamCodec<ByteBuf, ClientDataMessage> CODEC=StreamCodec.composite(
 		ByteBufCodecs.VAR_INT,ClientDataMessage::containerId,
 		ByteBufCodecs.SHORT, ClientDataMessage::btnId,
@@ -49,12 +49,11 @@ public record ClientDataMessage(int containerId,short btnId,int message)  implem
 				menu.handleMessage(btnId(), message());
 			}
 		});
-		//context.get().setPacketHandled(true);
 	}
 
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
-		return path;
+		return TYPE;
 	}
 }
