@@ -28,6 +28,7 @@ import org.jspecify.annotations.Nullable;
 import com.teammoeg.caupona.CPBlockEntityTypes;
 import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.blocks.CPRegisteredEntityBlock;
+import com.teammoeg.caupona.util.Utils;
 import com.teammoeg.caupona.util.WorldDropOperation;
 
 import net.minecraft.core.BlockPos;
@@ -123,15 +124,15 @@ public class DishBlock extends CPRegisteredEntityBlock<DishBlockEntity> {
 					if(fp.canConsume(player, stack)) {
 						try(Transaction trans=Transaction.openRoot()){
 							if(bowl.getInternal().extract(ir, 1, trans)>0) {
-								ItemStack iout=fp.onConsume(worldIn, player, stack);
+								WorldDropOperation drops=new WorldDropOperation(worldIn,pos);
+								drops.updateSnapshots(trans);
+								ItemStack iout=Utils.getReminder(ir, fp.onConsume(worldIn, player, stack), 1, player.getAbilities().instabuild, drops::addDrop);
 								int count=iout.getCount();
 								if(!iout.isEmpty()) {
 									ItemResource toOut=bowl.getInternal().getResourceFrom(iout);
 									count-=bowl.getInternal().insert(toOut, count, trans);
 									if(count>0) {
-										WorldDropOperation drops=new WorldDropOperation(worldIn,pos);
 										drops.addDrops(toOut.toStack(count));
-										drops.updateSnapshots(trans);
 									}
 								}else
 									worldIn.removeBlock(pos, false);

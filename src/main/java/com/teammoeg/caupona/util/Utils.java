@@ -27,6 +27,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import org.jspecify.annotations.Nullable;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.mojang.datafixers.util.Pair;
@@ -54,6 +56,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.component.UseRemainder;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -259,7 +262,17 @@ public class Utils {
 		out.set(DataComponents.FOOD, info.getFood().build());
 
 	}
-
+	public static ItemStack getReminder(
+		ItemResource ir,
+		ItemStack usedStack,
+		int stackCountBeforeUsing,
+		boolean hasInfiniteMaterials,
+		UseRemainder.OnExtraCreatedRemainder onExtraCreatedRemainder) {
+		@Nullable UseRemainder reminder=ir.get(DataComponents.USE_REMAINDER);
+		if(reminder!=null)
+			return reminder.convertIntoRemainder(usedStack, stackCountBeforeUsing, hasInfiniteMaterials, onExtraCreatedRemainder);
+		return usedStack;
+	}
 	@SuppressWarnings("unchecked")
 	public static <T> Optional<T> getInterface(MutableDataComponentHolder stack, Class<T> componentClass) {
 		return stack.getComponents().stream().map(t -> t.value()).filter(componentClass::isInstance).map(t -> (T) t).findAny();

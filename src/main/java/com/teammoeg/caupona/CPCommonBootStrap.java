@@ -190,6 +190,9 @@ public class CPCommonBootStrap {
 					ItemResource currentItem=origItem;
 					boolean isFilled=false;
 					boolean succeed=false;
+					if(betar instanceof IFoodContainer cont) {
+						origItem=cont.getValidContainer(0);
+					}
 					if(!isFilled&&besrc instanceof IFoodContainer cont) {
 						currentItem=cont.exchangeInternal(currentItem, trans);
 						if(origItem!=currentItem) {
@@ -214,7 +217,6 @@ public class CPCommonBootStrap {
 					if(isFilled&&!currentItem.isEmpty()) {
 						if(!succeed&&betar instanceof IFoodContainer cont) {
 							ItemResource out=cont.exchangeInternal(currentItem, trans);
-							System.out.println(out);
 							if(out!=currentItem) {
 								currentItem=out;
 								succeed=true;
@@ -227,7 +229,6 @@ public class CPCommonBootStrap {
 							if (ip!=null) {
 								try(Transaction ctx=Transaction.open(trans)){
 									int actual=ResourceHandlerUtil.move(ip,blockTarget, _->true, 1250, ctx);
-									System.out.println(actual);
 									if (actual>0) {
 										currentItem=ia.getResource();
 										succeed=true;

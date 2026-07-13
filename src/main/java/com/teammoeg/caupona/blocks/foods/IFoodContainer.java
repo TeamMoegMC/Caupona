@@ -41,4 +41,12 @@ public interface IFoodContainer {
 		}
 		return is;
 	};
+	default ItemResource getValidContainer() {
+		for(int i=0;i<getSlots();i++) {
+			ItemResource out=getValidContainer(i);
+			if(!out.isEmpty())
+				return out;
+		}
+		return ItemResource.EMPTY;
+	};
 }
