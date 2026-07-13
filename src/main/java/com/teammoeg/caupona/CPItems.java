@@ -160,7 +160,7 @@ public class CPItems {
 
 
 	static Supplier<Properties> createSoupProps() {
-		return ()->new Item.Properties().craftRemainder(Items.BOWL).stacksTo(1);
+		return ()->new Item.Properties().craftRemainder(Items.BOWL).usingConvertsTo(Items.BOWL).stacksTo(1);
 	}
 	static Supplier<Properties> createLoafSoupProps() {
 		return ()->new Item.Properties().craftRemainder(new ItemStackTemplate(CPBlocks.LOAF_BOWL.getFirst()));

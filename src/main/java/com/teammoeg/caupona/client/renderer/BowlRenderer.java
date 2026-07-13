@@ -62,9 +62,11 @@ public class BowlRenderer implements BlockEntityRenderer<BowlBlockEntity, BowlRe
 		if (blockEntity.getInternal().getResource(0).isEmpty())
 			return;
 		FluidStack fluid = FluidUtil.getFirstStackContained(blockEntity.getInternal().getResource(0).toStack());
-		FluidModel model = FluidRenderHelper.getFluidModel(fluid);
-		state.color = FluidRenderHelper.getFluidColor(model, fluid);
-		state.sprite = model.stillMaterial().sprite();
+		if(!fluid.isEmpty()) {
+			FluidModel model = FluidRenderHelper.getFluidModel(fluid);
+			state.color = FluidRenderHelper.getFluidColor(model, fluid);
+			state.sprite = model.stillMaterial().sprite();
+		}
 
 	}
 

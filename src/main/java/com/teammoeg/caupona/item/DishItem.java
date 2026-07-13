@@ -25,6 +25,9 @@ import org.jspecify.annotations.Nullable;
 
 import com.teammoeg.caupona.CPItems;
 import com.teammoeg.caupona.blocks.foods.DishBlock;
+import com.teammoeg.caupona.components.SauteedFoodInfo;
+import com.teammoeg.caupona.util.CreativeTabItemHelper;
+import com.teammoeg.caupona.util.Utils;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemInstance;
@@ -40,7 +43,15 @@ public class DishItem extends EdibleBlock {
 		CPItems.dish.add(this);
 		bl = block;
 	}
-
+	@Override
+	public void fillItemCategory(CreativeTabItemHelper helper) {
+		if (helper.isFoodTab()) {
+			ItemStack is = new ItemStack(this);
+			Utils.setInfo(is, new SauteedFoodInfo());
+			super.addCreativeHints(is);
+			helper.accept(is);
+		}
+	}
 	@Override
 	public @Nullable ItemStackTemplate getCraftingRemainder(ItemInstance instance) {
 		return new ItemStackTemplate(Items.BOWL);

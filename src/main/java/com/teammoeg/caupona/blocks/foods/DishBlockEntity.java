@@ -22,6 +22,7 @@
 package com.teammoeg.caupona.blocks.foods;
 
 import com.teammoeg.caupona.CPBlockEntityTypes;
+import com.teammoeg.caupona.CPBlocks;
 import com.teammoeg.caupona.data.recipes.SauteedRecipe;
 import com.teammoeg.caupona.item.DishItem;
 import com.teammoeg.caupona.network.CPBaseBlockEntity;
@@ -29,6 +30,7 @@ import com.teammoeg.caupona.util.IInfinitable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -44,6 +46,11 @@ public class DishBlockEntity extends CPBaseBlockEntity implements IInfinitable,I
 		protected void onContentsChanged(int index, ItemStack previousContents) {
 			syncData();
 			super.onContentsChanged(index, previousContents);
+			if(this.getResource(0).is(Items.BOWL)) {
+				getLevel().setBlockAndUpdate(getBlockPos(), CPBlocks.DISH.get().defaultBlockState());
+			}else if(this.getResource(0).getItem() instanceof DishItem dish){
+				getLevel().setBlockAndUpdate(getBlockPos(), dish.getBlock().defaultBlockState());
+			}
 		}
 		
 		
