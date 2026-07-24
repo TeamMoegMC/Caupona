@@ -21,16 +21,22 @@
 
 package com.teammoeg.caupona.api.events;
 
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 
 public class ContanerContainFoodEvent extends Event implements ICancellableEvent{
+	@Deprecated
 	public final ItemResource origin;
 	private ItemResource out=ItemResource.EMPTY;
+	@Deprecated
 	public final FluidResource fs;
+	@Deprecated
 	public final int drainAmount;
+	@Deprecated
 	public final boolean isBlockAccess;
 
 	public ContanerContainFoodEvent(ItemResource origin, FluidResource fluidIn, int drainAmount, boolean isBlockAccess) {
@@ -43,8 +49,26 @@ public class ContanerContainFoodEvent extends Event implements ICancellableEvent
 	public void setOutput(ItemResource item) {
 		this.out=item;
 	}
+	public ItemStack createInputStack() {
+		return origin.toStack();
+	}
+	public ItemResource getInput() {
+		return origin;
+	}
 	public ItemResource getOutput() {
 		return out;
+	}
+	public FluidResource getInputFluid() {
+		return fs;
+	}
+	public FluidStack createStack() {
+		return fs.toStack(drainAmount);
+	}
+	public boolean isBlockAccess() {
+		return isBlockAccess;
+	}
+	public int getInputFluidAmount() {
+		return drainAmount;
 	}
 	public boolean isAllowed() {
 		return !out.isEmpty()&&!ICancellableEvent.super.isCanceled();

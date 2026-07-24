@@ -30,11 +30,11 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.neoforged.bus.api.Event;
 
 public class DrawCustomConditionEvent extends Event{
-	IGuiHelper guihelper;
-	List<IngredientCondition> conditions;
-	GuiGraphicsExtractor stack;
-	int xOffset;
-	int yOffset;
+	final IGuiHelper guihelper;
+	final List<IngredientCondition> conditions;
+	final GuiGraphicsExtractor stack;
+	final int xOffset;
+	final int yOffset;
 	EventResult result;
 	public DrawCustomConditionEvent(IGuiHelper guihelper, List<IngredientCondition> conditions, GuiGraphicsExtractor stack,
 			int xOffset, int yOffset) {
@@ -50,5 +50,20 @@ public class DrawCustomConditionEvent extends Event{
 	}
 	public void setResult(EventResult result) {
 		this.result = result;
+	}
+	public IGuiHelper getGuihelper() {
+		return guihelper;
+	}
+	public List<IngredientCondition> getConditions() {
+		return conditions;
+	}
+	public GuiGraphicsExtractor getStack() {
+		return stack;
+	}
+	public int getxOffset() {
+		return xOffset;
+	}
+	public int getyOffset() {
+		return yOffset;
 	}
 }

@@ -95,12 +95,12 @@ public class CPCommonEvents {
 	}
 	@SubscribeEvent
 	public static void bowlContainerFood(ContanerContainFoodEvent ev) {
-		if(ev.drainAmount!=250)
+		if(ev.getInputFluidAmount()!=250)
 			return;
-		FluidStack testStack=ev.fs.toStack(ev.drainAmount);
-		RecipeHolder<BowlContainingRecipe> recipe = BowlContainingRecipe.getRecipes(ev.origin.toStack()).stream().filter(t->t.value().matches(testStack)).findFirst().orElse(null);
+		FluidStack testStack=ev.createStack();
+		RecipeHolder<BowlContainingRecipe> recipe = BowlContainingRecipe.getRecipes(ev.createInputStack()).stream().filter(t->t.value().matches(testStack)).findFirst().orElse(null);
 		if (recipe != null) {
-			ev.setOutput(recipe.value().handle(ev.fs));
+			ev.setOutput(recipe.value().handle(ev.getInputFluid()));
 		}
 	}
 	@SubscribeEvent
