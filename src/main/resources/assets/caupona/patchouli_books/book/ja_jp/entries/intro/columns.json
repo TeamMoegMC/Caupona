@@ -1,0 +1,36 @@
+{
+	"name": "柱",
+	"icon": "caupona:calcite_ionic_column_capital",
+	"category": "caupona:intro",
+	"sortnum": 31,
+	"pages": [
+		{
+			"type": "text",
+			"text": "柱は、ギリシャ・ローマ建築において広く見られます。Cauponaでは、3つの複合柱式を4つの素材（クォーツ、方解石、石、フェルシックタフ）で提供しています。"
+		},
+		{
+			"type": "text",
+			"text": "柱は、柱頭、柱身、台座の3つの部分で構成されています。これらはストーンカッターでそれぞれの素材から作ることができます。特に、クォーツの柱はスムースクォーツブロックが必要です。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:calcite_ionic_column_capital",
+			"text": "イオニア式の柱は、特徴的な渦巻き状の柱頭と縦溝のある柱身を持ちます。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:calcite_tuscan_column_capital",
+			"text": "トスカナ式の柱は、柱頭に複雑な彫刻がなく、柱身にも縦溝がありません。そのため、見た目は比較的シンプルです。"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:calcite_acanthine_column_capital",
+			"text": "この柱式は実在せず、コリント式を原型としています。アカンサス柱は縦溝のある柱身と、葉のようなレリーフ模様の柱頭を持ちます。"
+		},
+		{
+			"type": "image",
+			"images": ["caupona:textures/gui/entries/columns.png"],
+			"text": "柱の例"
+		}
+	]
+}

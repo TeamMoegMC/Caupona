@@ -1,0 +1,16 @@
+{
+	"name": "JEI対応",
+	"icon": "caupona:chronoconis",
+	"category": "caupona:intro",
+	"sortnum": 102,
+	"pages": [
+		{
+			"type": "text",
+			"text": "このMODのすべてのレシピはJust Enough Items（JEI）で参照できます。そのため、この本にはすべてのレシピが掲載されていません。プレイヤーはJEIの使用を推奨します。"
+		},
+		{
+			"type": "text",
+			"text": "このMODのレシピタイプには次のものが含まれます：$(li)本書で説明されている調理レシピ;$()$(li)煮込み;$()$(li)アスピックとシチュー間の変換;$()$(li)休ませること、および$()$(li)容器間での液体の移し替え。$()"
+		}
+	]
+}

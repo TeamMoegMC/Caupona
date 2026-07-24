@@ -127,3 +127,6 @@ run/
 /.eclipse/
 >>>>>>> branch '1.20.1' of https://github.com/TeamMoegMC/Caupona.git
 /runs/
+
+# Python scripts
+/src/main/resources/assets/caupona/lang/sync_entries.py

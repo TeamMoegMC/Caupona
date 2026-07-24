@@ -1,0 +1,17 @@
+{
+  "name": "MOD連携",
+  "icon": "minecraft:grass_block",
+  "category": "caupona:intro",
+  "sortnum": 101,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Cauponaの食べ物の栄養値（満腹度、回復度など）は特別な方法で動的に変化します。そのため、一部の情報系MODでは正しく表示できない場合があります。そのようなMODを導入している場合はご注意ください。"
+    },
+    {
+      "type": "text",
+      "text": "スープや料理の栄養値は、すべての材料を1食分に換算した合計値です。",
+      "flag": "mod:diet"
+    }
+  ]
+}

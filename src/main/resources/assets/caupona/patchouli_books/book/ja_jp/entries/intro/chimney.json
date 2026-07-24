@@ -1,0 +1,36 @@
+{
+	"name": "煙突",
+	"icon": "caupona:brick_chimney_pot",
+	"category": "caupona:intro",
+	"sortnum": 8,
+	"pages": [
+		{
+			"type": "text",
+			"text": "煙突はキッチン設備の一種で、それぞれの構造は煙突フルーと煙突ポットで構成されています。他の設備と同様に、さまざまな$(l:intro/kitchen_materials)素材$(/l)のバリエーションがあります。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/brick_chimney_flue",
+			"text": "煙突フルーは煙突の長さを延長します。長いものと短いものがあります。"
+		},
+		{
+			"type": "crafting",
+			"recipe": "caupona:crafting/brick_chimney_pot",
+			"text": "煙突ポットは煙突構造の一番上に設置する必要があります。煙突フルーと同じ素材である必要はありません。"
+		},
+		{
+			"type": "text",
+			"text": "煙突構造は垂直方向にのみ延長でき、煙突と煙が出る場所の間に何もあってはいけません。"
+		},
+		{
+			"type": "image",
+			"images": ["caupona:textures/gui/entries/chimney.png"],
+			"title": "有効な煙突構造"
+		},
+		{
+			"type": "spotlight",
+			"item": "caupona:soot",
+			"text": "煙突ポットが使用されていると煤がたまり、煙突ポットでシャベルを使って集めることができます。染料のクラフトに役立ちます。"
+		}
+	]
+}
