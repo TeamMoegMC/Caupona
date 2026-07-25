@@ -143,7 +143,7 @@ public class SelfStackingBlock extends SlabBlock {
 	protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos currentPos, Direction facing, BlockPos facingPos, BlockState facingState,
 		RandomSource random) {
     	return facing.getAxis()!=Axis.Y||canSurvive(state,level,currentPos)
-            ? super.updateShape(facingState, level, ticks, currentPos, facing, facingPos, state, random)
+            ? state
             : Blocks.AIR.defaultBlockState();
     }
 

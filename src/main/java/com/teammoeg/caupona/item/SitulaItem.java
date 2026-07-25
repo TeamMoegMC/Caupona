@@ -44,6 +44,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -85,7 +86,7 @@ public class SitulaItem extends Item  implements ICreativeModeTabItem{
 			FluidState state = worldIn.getFluidState(blockpos);
 			BlockState blk=worldIn.getBlockState(blockpos);
 			
-			if(blk.getBlock() instanceof BucketPickup bucket) {
+			if(state.getType()!=Fluids.EMPTY&&blk.getBlock() instanceof BucketPickup bucket) {
 				try(Transaction trans=Transaction.openRoot()){
 					ResourceHandler<FluidResource> handler=cur.getCapability(Capabilities.Fluid.ITEM,ItemAccess.forPlayerInteraction(playerIn, pUsedHand));
 					if(handler!=null) {
