@@ -1,4 +1,7 @@
-6.1.2
+6.1.3
 Bugfix:
-  Returns bowl when food eaten.
-  Fix creative model and tint.
+  Fix a crash caused by loaf.
+  Fix a crash caused by situla when using on empty fluid block.
+  Fix situla tooltip.
+Improvements: 
+  Add ja_jp language (cr.Tomato_Min)
