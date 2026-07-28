@@ -21,7 +21,6 @@
 
 package com.teammoeg.caupona.client.util;
 
-import java.util.Arrays;
 import java.util.function.Consumer;
 
 import org.joml.Matrix3x2f;
@@ -192,15 +191,22 @@ public class FluidRenderHelper {
 		int light, int overlay) {
 		FluidRenderHelper.drawTexturedColoredRect(builder, transform, x, y, 0, w, h, 0, color, u0, u1, v0, v1, light, overlay);
 	}
+	private static final float[] UI_NORMAL=new float[] {0,0,1};
 	public static void drawTexturedColoredRect(VertexConsumer builder, Pose transform, 
 		float x, float y, float z, 
 		float w,float h, float d, 
 		int color, 
 		float u0, float u1, float v0, float v1, 
 		int light, int overlay) {
-		float[] normal=computeNormal(x + w, y + h, z + d,
-									  x + w, y    , z    ,
-									  x    , y    , z    );
+		
+		float[] normal;
+		if(d==0&&z==0&&w>0&&h>0) {
+			normal=UI_NORMAL;
+		}else {
+			normal=computeNormal(x + w, y + h, z + d,
+								 x + w, y    , z    ,
+								 x    , y    , z    );
+		}
 		buildVertex(builder, transform, color, x + w, y + h, z + d, u1, v1, normal[0], normal[1], normal[2], light, overlay);
 		buildVertex(builder, transform, color, x + w, y    , z    , u1, v0, normal[0], normal[1], normal[2], light, overlay);
 		buildVertex(builder, transform, color, x    , y    , z    , u0, v0, normal[0], normal[1], normal[2], light, overlay);

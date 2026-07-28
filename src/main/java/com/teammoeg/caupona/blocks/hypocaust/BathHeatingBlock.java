@@ -27,15 +27,31 @@ import com.teammoeg.caupona.client.CPParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public abstract class BathHeatingBlock<V extends BathHeatingBlockEntity> extends CPHorizontalEntityBlock<V> {
+	public static final VoxelShape SHAPE=Shapes.or(Block.box(0, 0, 0, 16, 3, 16), Block.box(0, 13, 0, 16, 16, 16), Block.box(1, 3, 1, 15, 13, 15));
+	@Override
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		return SHAPE;
+	}
 
+	@SuppressWarnings("deprecation")
 	public BathHeatingBlock(DeferredHolder<BlockEntityType<?>,BlockEntityType<V>> blockEntity, Properties p_54120_) {
 		super(blockEntity, p_54120_);
+	}
+
+	@Override
+	protected boolean propagatesSkylightDown(BlockState state) {
+		return true;
 	}
 
 	@Override
