@@ -21,6 +21,7 @@
 
 package com.teammoeg.caupona.client.util;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 import org.joml.Matrix3x2f;
@@ -132,12 +133,32 @@ public class FluidRenderHelper {
 	private static void buildVertex(VertexConsumer bu, Pose transform, 
 		int color,
 		float x, float y, float z, 
-		float u, float v, 
+		float u, float v, float nx,float ny,float nz,
 		int light, int overlay) {
-		bu.addVertex(transform, x, y, z).setColor(color).setUv(u, v).setOverlay(overlay).setLight(light);
-				//.setNormal(1f, 1f, 1f);
+		bu.addVertex(transform, x, y, z).setColor(color).setUv(u, v).setOverlay(overlay).setLight(light)
+				.setNormal(nx, ny, nz);
 	}
-
+    public static float[] computeNormal(
+    	float x1, float y1, float z1,
+    	float x2, float y2, float z2,
+    	float x3, float y3, float z3) {
+    	float v1x = x2 - x1;
+    	float v1y = y2 - y1;
+    	float v1z = z2 - z1;
+        
+    	float v2x = x3 - x1;
+        float v2y = y3 - y1;
+        float v2z = z3 - z1;
+        
+        float nx = v1y * v2z - v1z * v2y;
+        float ny = v1z * v2x - v1x * v2z;
+        float nz = v1x * v2y - v1y * v2x;
+        
+        return new float[]{nx, ny, -nz};
+    }
+    public static void main(String[] args) {
+    	System.out.println(Arrays.toString(computeNormal(1,0,1,1,0,0,0,0,0)));
+    }
 	public static void drawRepeatedSprite(VertexConsumer builder, Pose transform, 
 		float x, float y, float w, float h, 
 		int iconWidth, int iconHeight, 
@@ -180,9 +201,12 @@ public class FluidRenderHelper {
 		int color, 
 		float u0, float u1, float v0, float v1, 
 		int light, int overlay) {
-		buildVertex(builder, transform, color, x + w, y + h, z + d, u1, v1, light, overlay);
-		buildVertex(builder, transform, color, x + w, y    , z    , u1, v0, light, overlay);
-		buildVertex(builder, transform, color, x    , y    , z    , u0, v0, light, overlay);
-		buildVertex(builder, transform, color, x    , y + h, z + d, u0, v1, light, overlay);
+		float[] normal=computeNormal(x + w, y + h, z + d,
+									  x + w, y    , z    ,
+									  x    , y    , z    );
+		buildVertex(builder, transform, color, x + w, y + h, z + d, u1, v1, normal[0], normal[1], normal[2], light, overlay);
+		buildVertex(builder, transform, color, x + w, y    , z    , u1, v0, normal[0], normal[1], normal[2], light, overlay);
+		buildVertex(builder, transform, color, x    , y    , z    , u0, v0, normal[0], normal[1], normal[2], light, overlay);
+		buildVertex(builder, transform, color, x    , y + h, z + d, u0, v1, normal[0], normal[1], normal[2], light, overlay);
 	}
 }
