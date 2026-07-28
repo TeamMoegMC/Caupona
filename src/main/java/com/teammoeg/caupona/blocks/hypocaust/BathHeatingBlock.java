@@ -44,7 +44,6 @@ public abstract class BathHeatingBlock<V extends BathHeatingBlockEntity> extends
 		return SHAPE;
 	}
 
-	@SuppressWarnings("deprecation")
 	public BathHeatingBlock(DeferredHolder<BlockEntityType<?>,BlockEntityType<V>> blockEntity, Properties p_54120_) {
 		super(blockEntity, p_54120_);
 	}
