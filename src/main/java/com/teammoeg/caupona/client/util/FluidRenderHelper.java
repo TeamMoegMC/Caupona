@@ -156,9 +156,6 @@ public class FluidRenderHelper {
         
         return new float[]{nx, ny, -nz};
     }
-    public static void main(String[] args) {
-    	System.out.println(Arrays.toString(computeNormal(1,0,1,1,0,0,0,0,0)));
-    }
 	public static void drawRepeatedSprite(VertexConsumer builder, Pose transform, 
 		float x, float y, float w, float h, 
 		int iconWidth, int iconHeight, 
