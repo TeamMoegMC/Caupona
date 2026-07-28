@@ -35,6 +35,7 @@ import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.renderer.item.ClientItem;
 import net.minecraft.client.renderer.item.ItemModel.Unbaked;
 import net.minecraft.client.renderer.item.properties.select.ComponentContents;
 import net.minecraft.client.resources.model.sprite.Material;
@@ -91,6 +92,9 @@ public class CPItemModelProvider extends ItemModelGenerators {
 		texture("scraps");
 		texture("walnut_door");
 		texture("walnut_sign");
+		this.itemModelOutput.register(CPMain.rl("book"), new ClientItem(ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM
+				.create(CPMain.rl("item/"+"vade_mecum_for_innkeepers"), TextureMapping.layer0(new Material(
+						CPMain.rl("item/"+"vade_mecum_for_innkeepers"))), this.modelOutput)),ClientItem.Properties.DEFAULT));
 		//itemModel(CPBlocks.SILPHIUM.get().asItem(),"silphium").transforms().transform(ItemDisplayContext.GUI).scale(0.5f).rotation(0, 45, 0).translation(0, -4, 0).end().end();
 		/*System.out.println(new File("").getAbsolutePath());
 		try {

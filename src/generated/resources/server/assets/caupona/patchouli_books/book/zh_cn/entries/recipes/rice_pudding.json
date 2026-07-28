@@ -1,0 +1,14 @@
+{
+  "category": "caupona:cook_recipes",
+  "icon": "caupona:rice_pudding",
+  "name": "米布丁",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "base": "caupona:milk_based",
+      "img": "caupona:textures/gui/recipes/cooking/rice_pudding.png",
+      "recipe": "caupona:cooking/rice_pudding",
+      "result": "caupona:rice_pudding"
+    }
+  ]
+}

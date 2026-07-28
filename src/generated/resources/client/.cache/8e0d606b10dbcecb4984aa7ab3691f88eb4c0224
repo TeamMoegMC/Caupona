@@ -1,4 +1,4 @@
-// 26.1.2	2026-07-05T10:23:31.2618909	Model Definitions - caupona
+// 26.1.2	2026-07-29T00:55:17.5572264	Model Definitions - caupona
 4d3a570f900e5811f8b87e2ff191148c0bfae9ec assets/caupona/blockstates/bowl.json
 afed0bef672f55638d08adbb30b68bc7ca147f6b assets/caupona/blockstates/brick_kitchen_stove.json
 595ba51dc996919868f029033c7b2a8e9878db1a assets/caupona/blockstates/calcite_lacunar_tile.json
@@ -68,6 +68,7 @@ c9741ca6e040db623566f14f5c76f24e009b0dab assets/caupona/items/aurei.json
 0877f29455e2b967ecb35a942a0701b5468fc227 assets/caupona/items/bisque_aspic.json
 6dc3f308b356f25b4c3aa76217e02304100c72b7 assets/caupona/items/bisque_loaf.json
 52693c7483be01750900258b82757ce32e4e16b1 assets/caupona/items/bone_gelatin.json
+62848c62b26a45a922ca8ee342511412579f23a5 assets/caupona/items/book.json
 48b5e8b0d2d7e885e90e80e2e30e9252452e3b61 assets/caupona/items/borscht.json
 5ae76733aa78d66b6480692d1616c1be427dce0d assets/caupona/items/borscht_aspic.json
 a5895e00f9d38fff7cd6bbf0a46801be14b52184 assets/caupona/items/borscht_cream.json
@@ -552,6 +553,7 @@ ef7d2e974dd9625b943eff3b5ff810610e078480 assets/caupona/models/item/stock_loaf.j
 565c3ba7cea6aa63b26a0d3cb387672675b38757 assets/caupona/models/item/stracciatella_loaf.json
 09ee4397f7fb1eee9ba716d11a0ba6a6223a214f assets/caupona/models/item/sugar_spice_jar.json
 8c1e2a13adf4306f376f17fcc2695b1ae8439dcf assets/caupona/models/item/ukha.json
+94dbf84d56ca7ff01b9c2df3397cf6e619dc58ff assets/caupona/models/item/vade_mecum_for_innkeepers.json
 8cf86ee23cc8a3d9f7e139a51a380251176a5aaa assets/caupona/models/item/vegetable_chowder.json
 f68952e87738f886169980e90cdfe4a5e7b0158e assets/caupona/models/item/vegetable_soup.json
 e11f711d2475d50ba79ae9fc745c8862f82947b3 assets/caupona/models/item/vegetable_soup_aspic.json

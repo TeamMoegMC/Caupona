@@ -1,0 +1,14 @@
+{
+  "category": "caupona:cook_recipes",
+  "icon": "caupona:vegetable_soup",
+  "name": "Sopa de verduras",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "base": "caupona:water_or_stock_based",
+      "img": "caupona:textures/gui/recipes/cooking/vegetable_soup.png",
+      "recipe": "caupona:cooking/vegetable_soup",
+      "result": "caupona:vegetable_soup"
+    }
+  ]
+}

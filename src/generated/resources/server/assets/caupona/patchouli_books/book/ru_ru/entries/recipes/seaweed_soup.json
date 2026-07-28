@@ -1,0 +1,14 @@
+{
+  "category": "caupona:cook_recipes",
+  "icon": "caupona:seaweed_soup",
+  "name": "Суп из Водорослей",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "base": "caupona:water_or_stock_based",
+      "img": "caupona:textures/gui/recipes/cooking/seaweed_soup.png",
+      "recipe": "caupona:cooking/seaweed_soup",
+      "result": "caupona:seaweed_soup"
+    }
+  ]
+}

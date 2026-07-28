@@ -1,0 +1,14 @@
+{
+  "category": "caupona:cook_recipes",
+  "icon": "caupona:egg_drop_soup",
+  "name": "蛋花汤",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "base": "caupona:water_or_stock_based",
+      "img": "caupona:textures/gui/recipes/cooking/egg_drop_soup.png",
+      "recipe": "caupona:cooking/egg_drop_soup",
+      "result": "caupona:egg_drop_soup"
+    }
+  ]
+}

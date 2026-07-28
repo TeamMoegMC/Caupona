@@ -1,0 +1,14 @@
+{
+  "category": "caupona:cook_recipes",
+  "icon": "caupona:dilute_soup",
+  "name": "Розбавлений суп",
+  "pages": [
+    {
+      "type": "caupona:cookrecipe",
+      "base": "caupona:any_based",
+      "img": "caupona:textures/gui/recipes/cooking/dilute_soup.png",
+      "recipe": "caupona:cooking/dilute_soup",
+      "result": "caupona:dilute_soup"
+    }
+  ]
+}

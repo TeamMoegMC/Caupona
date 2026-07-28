@@ -192,8 +192,8 @@ dependencies {
 	//implementation fg.deobf("curse.maven:simple-farming-327554:3400041")
 
     //compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-81-FORGE:api")
-    //compileOnly "vazkii.patchouli:Patchouli:1.21.1-${patchouli_version}:api"
-    //runtimeOnly "vazkii.patchouli:Patchouli:${mc_version}-${patchouli_version}"
+    compileOnly "vazkii.patchouli:patchouli-neoforge:${patchouli_version}:api"
+    runtimeOnly "vazkii.patchouli:patchouli-neoforge:${patchouli_version}"
 	//compileOnly "me.shedaniel:RoughlyEnoughItems-neoforge:14.0.688"
 	//clientRuntimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:14.0.688"
     // FG5 requires 0.8.3

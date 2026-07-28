@@ -1,0 +1,14 @@
+{
+  "category": "caupona:sautee_recipes",
+  "icon": "caupona:seared_poultry",
+  "name": "Жареная Курица",
+  "pages": [
+    {
+      "type": "caupona:fryrecipe",
+      "base": "caupona:gravy_boat",
+      "img": "caupona:textures/gui/recipes/frying/seared_poultry.png",
+      "recipe": "caupona:frying/seared_poultry",
+      "result": "caupona:seared_poultry"
+    }
+  ]
+}

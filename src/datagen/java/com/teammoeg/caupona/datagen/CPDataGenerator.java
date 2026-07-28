@@ -54,6 +54,7 @@ public class CPDataGenerator {
 		gen.addProvider(true,new CPRegistryGenerator(gen.getPackOutput(),completablefuture));
 		gen.addProvider(true, new RegistryJavaGenerator(gen.getPackOutput(),event.getResourceManager(PackType.CLIENT_RESOURCES)));
 		gen.addProvider(true,new CPRecipeProvider.Runner(gen.getPackOutput(),event.getLookupProvider(),CPMain.MODID));
+		gen.addProvider(true,new CPBookGenerator(gen.getPackOutput(), event.getResourceManager(PackType.CLIENT_RESOURCES)));
 		
 	}
 	@SubscribeEvent
@@ -63,7 +64,7 @@ public class CPDataGenerator {
 		@SuppressWarnings("unused")
 		CompletableFuture<HolderLookup.Provider> completablefuture = CompletableFuture.supplyAsync(VanillaRegistries::createLookup, Util.backgroundExecutor());
 		gen.addProvider(true,new CPModelProvider(gen.getPackOutput(), CPMain.MODID,event.getResourceManager(PackType.CLIENT_RESOURCES)));
-		gen.addProvider(true,new CPBookGenerator(gen.getPackOutput(), event.getResourceManager(PackType.CLIENT_RESOURCES)));
+		
 		/*gen.addProvider(true||true,new PackMetadataGenerator(gen.getPackOutput()).add(PackMetadataSection.TYPE,new PackMetadataSection(MutableComponent.create(new TranslatableContents("pack.caupona.title",CPMain.MODNAME+" Data",new Object[0])),
             DetectedVersion.BUILT_IN.getPackVersion(PackType.SERVER_DATA),
             Optional.of(new InclusiveRange<>(0, Integer.MAX_VALUE)))));*/

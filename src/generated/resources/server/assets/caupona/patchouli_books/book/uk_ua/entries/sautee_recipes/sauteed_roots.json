@@ -1,0 +1,14 @@
+{
+  "category": "caupona:sautee_recipes",
+  "icon": "caupona:sauteed_roots",
+  "name": "Сотейовані корені",
+  "pages": [
+    {
+      "type": "caupona:fryrecipe",
+      "base": "caupona:gravy_boat",
+      "img": "caupona:textures/gui/recipes/frying/sauteed_roots.png",
+      "recipe": "caupona:frying/sauteed_roots",
+      "result": "caupona:sauteed_roots"
+    }
+  ]
+}

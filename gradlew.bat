@@ -65,6 +65,7 @@ echo location of your Java installation.
 goto fail
 
 :execute
+echo %JAVA_EXE%
 @rem Setup the command line
 
 set CLASSPATH=%APP_HOME%\gradle\wrapper\gradle-wrapper.jar
